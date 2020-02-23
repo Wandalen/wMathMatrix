@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wMathMatrix.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wMathMatrix.out.will.yml: &ref_0
+    hash: 859ba7aee9d63743c23ae87a5bdcd359
+    size: 40921
+  ../.ex.will.yml: &ref_1
     hash: eb5c1fd09ab21b5335bc958a2a34f292
     size: 2559
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 148750fb8fae096c53d58579ea4e3613
     size: 5244
 module:
@@ -28,11 +31,11 @@ module:
         computation.
       enabled: 1
       version: 0.4.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
         - math
         - matrix
@@ -40,11 +43,11 @@ module:
         - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@willbe.so>
         - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -173,15 +176,15 @@ module:
           - ../proto/dwtools/abase
           - ../proto/dwtools/amath
           - ../proto/dwtools/amath/l5.test
-          - ../proto/dwtools/amath/l5.test/Space.test.s
-          - ../proto/dwtools/amath/l5_space
-          - ../proto/dwtools/amath/l5_space/Include.s
-          - ../proto/dwtools/amath/l5_space/l1
-          - ../proto/dwtools/amath/l5_space/l1/Basic.s
-          - ../proto/dwtools/amath/l5_space/l3
-          - ../proto/dwtools/amath/l5_space/l3/FromVector.s
-          - ../proto/dwtools/amath/l5_space/l5
-          - ../proto/dwtools/amath/l5_space/l5/Methods.s
+          - ../proto/dwtools/amath/l5.test/Matrix.test.s
+          - ../proto/dwtools/amath/l5_matrix
+          - ../proto/dwtools/amath/l5_matrix/Include.s
+          - ../proto/dwtools/amath/l5_matrix/l1
+          - ../proto/dwtools/amath/l5_matrix/l1/Basic.s
+          - ../proto/dwtools/amath/l5_matrix/l3
+          - ../proto/dwtools/amath/l5_matrix/l3/RoutinesFromVector.s
+          - ../proto/dwtools/amath/l5_matrix/l5
+          - ../proto/dwtools/amath/l5_matrix/l5/Methods.s
           - ../proto/dwtools/amid
           - ../proto/dwtools/atop
     submodule:
@@ -732,6 +735,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          reflector: 'reflector::exported.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          reflector: 'reflector::exported.files.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -820,8 +841,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wMathMatrix.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wMathMatrix
@@ -841,13 +863,25 @@ module:
         computation.
       enabled: 1
       version: 0.4.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 8.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
+        - math
+        - matrix
+        - matrix math
+        - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@willbe.so>
+        - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1535,3 +1569,6 @@ module:
       ../.im.will.yml:
         hash: 148750fb8fae096c53d58579ea4e3613
         size: 5244
+      wMathMatrix.out.will.yml:
+        hash: 859ba7aee9d63743c23ae87a5bdcd359
+        size: 40921
