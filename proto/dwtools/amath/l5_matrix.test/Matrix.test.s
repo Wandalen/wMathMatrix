@@ -3450,23 +3450,23 @@ function makeSimilar( test )
 function from( test )
 {
 
-  test.case = '_bufferFrom from array'; /* */
+  test.case = '_BufferFrom from array'; /* */
 
   var expected = new F32x([ 1, 2, 3 ]);
-  var got = matrix._bufferFrom([ 1, 2, 3 ]);
+  var got = matrix._BufferFrom([ 1, 2, 3 ]);
   test.identical( got, expected );
 
-  test.case = '_bufferFrom from vector with Array'; /* */
+  test.case = '_BufferFrom from vector with Array'; /* */
 
   var v = vad.FromSubLongWithStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
   var expected = new F32x([ 1, 2, 3 ]);
-  var got = matrix._bufferFrom( v );
+  var got = matrix._BufferFrom( v );
   test.identical( got, expected );
 
-  test.case = '_bufferFrom from vector with F32x'; /* */
+  test.case = '_BufferFrom from vector with F32x'; /* */
 
   var v = vad.FromSubLongWithStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var got = matrix._bufferFrom( v );
+  var got = matrix._BufferFrom( v );
   test.is( got === v );
 
   test.case = 'fromScalarForReading scalar'; /* */

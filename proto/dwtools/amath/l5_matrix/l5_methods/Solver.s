@@ -3,7 +3,6 @@
 'use strict';
 
 let _ = _global_.wTools;
-let vector = _.vectorAdapter;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -18,7 +17,7 @@ let longSlice = Array.prototype.slice;
 let Parent = null;
 let Self = _.Matrix;
 
-_.assert( _.objectIs( vector ) );
+_.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --
@@ -60,8 +59,8 @@ function _triangulateGausian( o )
     let scaler1 = row1.eGet( r1 );
     if( o.normal )
     {
-      vector.divScalar( row1, scaler1 );
-      vector.divScalar( yrow1, scaler1 );
+      self.vectorAdapter.divScalar( row1, scaler1 );
+      self.vectorAdapter.divScalar( yrow1, scaler1 );
       scaler1 = 1;
     }
 
@@ -70,8 +69,8 @@ function _triangulateGausian( o )
       let row2 = self.rowVectorGet( r2 );
       let yrow2 = o.y.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      vector.subScaled( row2, row1, scaler );
-      vector.subScaled( yrow2, yrow1, scaler );
+      self.vectorAdapter.subScaled( row2, row1, scaler );
+      self.vectorAdapter.subScaled( yrow2, yrow1, scaler );
     }
 
     // logger.log( 'self', self );
@@ -87,7 +86,7 @@ function _triangulateGausian( o )
     let scaler1 = row1.eGet( r1 );
     if( o.normal )
     {
-      vector.divScalar( row1, scaler1 );
+      self.vectorAdapter.divScalar( row1, scaler1 );
       scaler1 = 1;
     }
 
@@ -95,7 +94,7 @@ function _triangulateGausian( o )
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      vector.subScaled( row2, row1, scaler );
+      self.vectorAdapter.subScaled( row2, row1, scaler );
     }
 
     // logger.log( 'self', self );
@@ -121,48 +120,6 @@ function triangulateGausian( y )
   let o = Object.create( null );
   o.y = y;
   return self._triangulateGausian( o );
-
-  // let self = this;
-  // let nrow = self.nrow;
-  // let ncol = Math.min( self.ncol, nrow );
-  //
-  // if( y !== undefined )
-  // y = Self.from( y );
-  //
-  // _.assert( arguments.length === 0 || arguments.length === 1 );
-  // _.assert( !y || y.dims[ 0 ] === self.dims[ 0 ] );
-  //
-  // if( y )
-  // for( let r1 = 0 ; r1 < ncol ; r1++ )
-  // {
-  //   let row1 = self.rowVectorGet( r1 );
-  //   let yrow1 = y.rowVectorGet( r1 );
-  //   let scaler1 = row1.eGet( r1 );
-  //
-  //   for( let r2 = r1+1 ; r2 < nrow ; r2++ )
-  //   {
-  //     let row2 = self.rowVectorGet( r2 );
-  //     let yrow2 = y.rowVectorGet( r2 );
-  //     let scaler = row2.eGet( r1 ) / scaler1;
-  //     vector.subScaled( row2, row1, scaler );
-  //     vector.subScaled( yrow2, yrow1, scaler );
-  //   }
-  //
-  // }
-  // else for( let r1 = 0 ; r1 < ncol ; r1++ )
-  // {
-  //   let row1 = self.rowVectorGet( r1 );
-  //
-  //   for( let r2 = r1+1 ; r2 < nrow ; r2++ )
-  //   {
-  //     let row2 = self.rowVectorGet( r2 );
-  //     let scaler = row2.eGet( r1 ) / row1.eGet( r1 );
-  //     vector.subScaled( row2, row1, scaler );
-  //   }
-  //
-  // }
-  //
-  // return self;
 }
 
 //
@@ -174,54 +131,6 @@ function triangulateGausianNormal( y )
   o.y = y;
   o.normal = 1;
   return self._triangulateGausian( o );
-
-  //
-
-  self = this;
-  let nrow = self.nrow;
-  let ncol = Math.min( self.ncol, nrow );
-
-  if( y !== undefined )
-  y = Self.from( y );
-
-  _.assert( arguments.length === 0 || arguments.length === 1 );
-  _.assert( !y || y.dims[ 0 ] === self.dims[ 0 ] );
-
-  if( y )
-  for( let r1 = 0 ; r1 < ncol ; r1++ )
-  {
-    let row1 = self.rowVectorGet( r1 );
-    let yrow1 = y.rowVectorGet( r1 );
-    let scaler1 = row1.eGet( r1 );
-    vector.divScalar( row1, scaler1 );
-    vector.divScalar( yrow1, scaler1 );
-
-    for( let r2 = r1+1 ; r2 < nrow ; r2++ )
-    {
-      let row2 = self.rowVectorGet( r2 );
-      let yrow2 = y.rowVectorGet( r2 );
-      let scaler = row2.eGet( r1 );
-      vector.subScaled( row2, row1, scaler );
-      vector.subScaled( yrow2, yrow1, scaler );
-    }
-
-  }
-  else for( let r1 = 0 ; r1 < ncol ; r1++ )
-  {
-    let row1 = self.rowVectorGet( r1 );
-    let scaler1 = row1.eGet( r1 );
-    vector.divScalar( row1, scaler1 );
-
-    for( let r2 = r1+1 ; r2 < nrow ; r2++ )
-    {
-      let row2 = self.rowVectorGet( r2 );
-      let scaler = row2.eGet( r1 );
-      vector.subScaled( row2, row1, scaler );
-    }
-
-  }
-
-  return self;
 }
 
 //
@@ -257,7 +166,7 @@ function triangulateLu()
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      vector.subScaled( row2.subarray( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.subarray( r1+1 ), row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -282,13 +191,13 @@ function triangulateLuNormal()
     let row1 = self.rowVectorGet( r1 );
     let scaler1 = row1.eGet( r1 );
     row1 = row1.subarray( r1+1 );
-    vector.divScalar( row1, scaler1 );
+    self.vectorAdapter.divScalar( row1, scaler1 );
 
     for( let r2 = r1+1 ; r2 < nrow ; r2++ )
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 );
-      vector.subScaled( row2.subarray( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.subarray( r1+1 ), row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -339,7 +248,7 @@ function triangulateLuPivoting( pivots )
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      vector.subScaled( row2.subarray( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.subarray( r1+1 ), row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -363,8 +272,8 @@ function _pivotRook( i, o )
   let col1 = self.colVectorGet( i ).subarray( i );
   let value = row1.eGet( 0 );
 
-  let maxr = vector.reduceToMaxAbs( row1 );
-  let maxc = vector.reduceToMaxAbs( col1 );
+  let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
+  let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
 
   if( maxr.value > maxc.value )
   {
@@ -400,8 +309,9 @@ function solve( x, m, y )
 
 //
 
-function _solveOptions( args )
+function _solve_pre( args )
 {
+  let self = this;
   let o = Object.create( null );
   o.x = args[ 0 ];
   o.m = args[ 1 ];
@@ -421,15 +331,15 @@ function _solveOptions( args )
   else
   {
     if( !_.matrixIs( o.x ) )
-    o.x = vector.From( o.x );
+    o.x = self.vectorAdapter.From( o.x );
     this.CopyTo( o.x, o.y );
   }
 
   if( !_.matrixIs( o.y ) )
-  o.y = vector.From( o.y );
+  o.y = self.vectorAdapter.From( o.y );
 
   if( !_.matrixIs( o.x ) )
-  o.x = vector.From( o.x );
+  o.x = self.vectorAdapter.From( o.x );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( this.ShapesAreSame( o.x , o.y ) );
@@ -442,7 +352,7 @@ function _solveOptions( args )
 
 function solveWithGausian()
 {
-  let o = this._solveOptions( arguments );
+  let o = this._solve_pre( arguments );
 
   o.m.triangulateGausian( o.x );
   this.solveTriangleUpper( o.x, o.m, o.x );
@@ -455,7 +365,7 @@ function solveWithGausian()
 
 function solveWithGausianPivoting()
 {
-  let o = this._solveOptions( arguments );
+  let o = this._solve_pre( arguments );
 
   let pivots = o.m.triangulateGausianPivoting( o.x );
   this.solveTriangleUpper( o.x, o.m, o.x );
@@ -468,6 +378,7 @@ function solveWithGausianPivoting()
 
 function _solveWithGaussJordan( o )
 {
+  let self = this;
 
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
@@ -498,10 +409,10 @@ function _solveWithGaussJordan( o )
     if( abs( scaler1 ) < this.accuracy )
     continue;
 
-    vector.mulScalar( row1, 1/scaler1 );
+    self.vectorAdapter.mulScalar( row1, 1/scaler1 );
 
     let xrow1 = o.x.rowVectorGet( r1 );
-    vector.mulScalar( xrow1, 1/scaler1 );
+    self.vectorAdapter.mulScalar( xrow1, 1/scaler1 );
 
     for( let r2 = 0 ; r2 < nrow ; r2++ )
     {
@@ -514,8 +425,8 @@ function _solveWithGaussJordan( o )
       let scaler2 = row2.eGet( r1 );
       let scaler = scaler2;
 
-      vector.subScaled( row2, row1, scaler );
-      vector.subScaled( xrow2, xrow1, scaler );
+      self.vectorAdapter.subScaled( row2, row1, scaler );
+      self.vectorAdapter.subScaled( xrow2, xrow1, scaler );
 
     }
 
@@ -539,7 +450,7 @@ function _solveWithGaussJordan( o )
 
 function solveWithGaussJordan()
 {
-  let o = this._solveOptions( arguments );
+  let o = this._solve_pre( arguments );
   return this._solveWithGaussJordan( o );
 }
 
@@ -547,7 +458,7 @@ function solveWithGaussJordan()
 
 function solveWithGaussJordanPivoting()
 {
-  let o = this._solveOptions( arguments );
+  let o = this._solve_pre( arguments );
   o.onPivot = this._pivotRook;
   o.pivotingBackward = 1;
   return this._solveWithGaussJordan( o );
@@ -572,8 +483,8 @@ function invertWithGaussJordan()
 
     let scaler1 = 1 / xrow1.eGet( r1 );
     xrow1.eSet( r1, 1 );
-    vector.mulScalar( row1, scaler1 );
-    vector.mulScalar( xrow1, scaler1 );
+    m.vectorAdapter.mulScalar( row1, scaler1 );
+    m.vectorAdapter.mulScalar( xrow1, scaler1 );
 
     for( let r2 = 0 ; r2 < nrow ; r2++ )
     {
@@ -586,8 +497,8 @@ function invertWithGaussJordan()
       let scaler2 = xrow2.eGet( r1 );
       xrow2.eSet( r1, 0 )
 
-      vector.subScaled( row2, row1, scaler2 );
-      vector.subScaled( xrow2, xrow1, scaler2 );
+      m.vectorAdapter.subScaled( row2, row1, scaler2 );
+      m.vectorAdapter.subScaled( xrow2, xrow1, scaler2 );
 
     }
 
@@ -603,7 +514,7 @@ function invertWithGaussJordan()
 function solveWithTriangles( x, m, y )
 {
 
-  let o = this._solveOptions( arguments );
+  let o = this._solve_pre( arguments );
   m.triangulateLuNormal();
 
   o.x = this.solveTriangleLower( o.x, o.m, o.y );
@@ -618,7 +529,7 @@ function solveWithTriangles( x, m, y )
 function solveWithTrianglesPivoting( x, m, y )
 {
 
-  let o = this._solveOptions( arguments );
+  let o = this._solve_pre( arguments );
   let pivots = m.triangulateLuPivoting();
 
   o.y = Self.VectorPivotForward( o.y, pivots[ 0 ] );
@@ -671,7 +582,7 @@ function _solveTriangleWithRoutine( args, onSolve )
 
   /* */
 
-  y = _.vectorAdapter.From( y );
+  y = this.vectorAdapter.From( y );
 
   if( x === null )
   {
@@ -679,7 +590,7 @@ function _solveTriangleWithRoutine( args, onSolve )
   }
   else
   {
-    x = _.vectorAdapter.From( x );
+    x = this.vectorAdapter.From( x );
     x.copy( y );
   }
 
@@ -694,6 +605,7 @@ function _solveTriangleWithRoutine( args, onSolve )
 
 function solveTriangleLower( x, m, y )
 {
+  let self = this;
 
   function handleSolve( x, m, y )
   {
@@ -704,20 +616,21 @@ function solveTriangleLower( x, m, y )
       let row = m.rowVectorGet( r1 );
       let scaler = row.eGet( r1 );
       row = row.subarray( 0, r1 );
-      let xval = ( x.eGet( r1 ) - _.vectorAdapter.dot( row, xu ) ) / scaler;
+      let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) ) / scaler;
       x.eSet( r1, xval );
     }
 
     return x;
   }
 
-  return this._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._solveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
 function solveTriangleLowerNormal( x, m, y )
 {
+  let self = this;
 
   function handleSolve( x, m, y )
   {
@@ -727,20 +640,21 @@ function solveTriangleLowerNormal( x, m, y )
       let xu = x.subarray( 0, r1 );
       let row = m.rowVectorGet( r1 );
       row = row.subarray( 0, r1 );
-      let xval = ( x.eGet( r1 ) - _.vectorAdapter.dot( row, xu ) );
+      let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) );
       x.eSet( r1, xval );
     }
 
     return x;
   }
 
-  return this._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._solveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
 function solveTriangleUpper( x, m, y )
 {
+  let self = this;
 
   function handleSolve( x, m, y )
   {
@@ -751,20 +665,21 @@ function solveTriangleUpper( x, m, y )
       let row = m.rowVectorGet( r1 );
       let scaler = row.eGet( r1 );
       row = row.subarray( r1+1, row.length );
-      let xval = ( x.eGet( r1 ) - _.vectorAdapter.dot( row, xu ) ) / scaler;
+      let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) ) / scaler;
       x.eSet( r1, xval );
     }
 
     return x;
   }
 
-  return this._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._solveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
 function solveTriangleUpperNormal( x, m, y )
 {
+  let self = this;
 
   function handleSolve( x, m, y )
   {
@@ -774,20 +689,21 @@ function solveTriangleUpperNormal( x, m, y )
       let xu = x.subarray( r1+1, x.length );
       let row = m.rowVectorGet( r1 );
       row = row.subarray( r1+1, row.length );
-      let xval = ( x.eGet( r1 ) - _.vectorAdapter.dot( row, xu ) );
+      let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) );
       x.eSet( r1, xval );
     }
 
     return x;
   }
 
-  return this._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._solveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
 function solveGeneral( o )
 {
+  let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( solveGeneral, o );
@@ -825,14 +741,14 @@ function solveGeneral( o )
   let optionsForMethod;
   if( o.pivoting )
   {
-    optionsForMethod = this._solveOptions([ o.x, o.m, o.y ]);
+    optionsForMethod = this._solve_pre([ o.x, o.m, o.y ]);
     optionsForMethod.onPivot = this._pivotRook;
     optionsForMethod.pivotingBackward = 0;
     o.x = result.base = this._solveWithGaussJordan( optionsForMethod );
   }
   else
   {
-    optionsForMethod = this._solveOptions([ o.x, o.m, o.y ]);
+    optionsForMethod = this._solve_pre([ o.x, o.m, o.y ]);
     o.x = result.base = this._solveWithGaussJordan( optionsForMethod );
   }
 
@@ -852,7 +768,7 @@ function solveGeneral( o )
         let termCol = result.kernel.colVectorGet( r );
         let srcCol = o.m.colVectorGet( r );
         termCol.copy( srcCol );
-        vector.mulScalar( termCol, -1 );
+        self.vectorAdapter.mulScalar( termCol, -1 );
         termCol.eSet( r, 1 );
         result.nkernel += 1;
       }
@@ -939,7 +855,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   solve,
 
-  _solveOptions,
+  _solve_pre,
 
   solveWithGausian,
   solveWithGausianPivoting,
@@ -973,7 +889,7 @@ zip
 // declare
 // --
 
-let Extend =
+let Extension =
 {
 
   // triangulator
@@ -993,7 +909,7 @@ let Extend =
 
   solve,
 
-  _solveOptions,
+  _solve_pre,
 
   solveWithGausian,
   solveWithGausianPivoting,
@@ -1024,6 +940,6 @@ let Extend =
 
 }
 
-_.classExtend( Self, Extend );
+_.classExtend( Self, Extension );
 
 })();

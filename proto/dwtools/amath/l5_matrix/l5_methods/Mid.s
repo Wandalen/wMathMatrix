@@ -3,7 +3,6 @@
 'use strict';
 
 let _ = _global_.wTools;
-let vector = _.vectorAdapter;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -18,7 +17,7 @@ let longSlice = Array.prototype.slice;
 let Parent = null;
 let Self = _.Matrix;
 
-_.assert( _.objectIs( vector ) );
+_.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --
@@ -171,7 +170,7 @@ let Statics = /* qqq : split static routines. ask how */
 // declare
 // --
 
-let Extend =
+let Extension =
 {
 
   // modeler
@@ -187,6 +186,6 @@ let Extend =
 
 }
 
-_.classExtend( Self, Extend );
+_.classExtend( Self, Extension );
 
 })();

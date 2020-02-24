@@ -5,8 +5,8 @@
 //
 
 let _ = _global_.wTools;
-let vector = _.vectorAdapter;
-let operations = vector.operations;
+// let vector = _.vectorAdapter;
+let operations = _.vectorAdapter.operations;
 
 let _abs = Math.abs;
 let _min = Math.min;
@@ -43,9 +43,6 @@ function declareElementsZipRoutine( routine, rname )
   if( routine.operation.takingArguments[ 0 ] === 1 )
   return;
 
-  // if( rname === 'allFinite' )
-  // debugger;
-
   let name = rname + 'Zip';
   Proto[ name ] = function()
   {
@@ -57,10 +54,9 @@ function declareElementsZipRoutine( routine, rname )
     let args = _.longSlice( arguments );
     args.unshift( routine2 );
 
-    debugger;
-    throw _.err( 'Not tested' );
+    _.assert( 0, 'not tested' );
 
-    self.elementsZip.apply( self, args ); xxx
+    self.elementsZip.apply( self, args );
 
     return self;
   }

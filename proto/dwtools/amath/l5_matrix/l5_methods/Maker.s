@@ -3,7 +3,6 @@
 'use strict';
 
 let _ = _global_.wTools;
-let vector = _.vectorAdapter;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -18,8 +17,34 @@ let longSlice = Array.prototype.slice;
 let Parent = null;
 let Self = _.Matrix;
 
-_.assert( _.objectIs( vector ) );
+_.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
+
+// --
+// details
+// --
+
+function _BufferFrom( src )
+{
+  let proto = this.Self.prototype;
+  let dst = src;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
+
+  if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
+  {
+    dst = this.long.longMake( src.length );
+    for( let i = 0 ; i < src.length ; i++ )
+    dst[ i ] = src.eGet( i );
+  }
+  else if( _.arrayIs( dst ) )
+  {
+    dst = proto.long.longFrom( dst );
+  }
+
+  return dst;
+}
 
 // --
 // make
@@ -79,7 +104,7 @@ function makeSquare( buffer )
   }
   else
   {
-    buffer = proto.constructor._bufferFrom( buffer );
+    buffer = proto.constructor._BufferFrom( buffer );
   }
 
   let result = new proto.constructor
@@ -119,7 +144,7 @@ function MakeSquare( buffer )
   }
   else
   {
-    buffer = proto.constructor._bufferFrom( buffer );
+    buffer = proto.constructor._BufferFrom( buffer );
   }
 
   let result = new proto.constructor
@@ -379,7 +404,7 @@ function makeLine( o )
   if( _.vectorAdapterIs( o.buffer ) )
   {
     length = o.buffer.length;
-    o.buffer = proto._bufferFrom( o.buffer );
+    o.buffer = proto._BufferFrom( o.buffer );
   }
 
   if( _.vectorAdapterIs( o.buffer ) )
@@ -404,7 +429,7 @@ function makeLine( o )
   else if( o.zeroing )
   o.buffer = this.long.longMakeZeroed( length )
   else
-  o.buffer = proto.constructor._bufferFrom( o.buffer );
+  o.buffer = proto.constructor._BufferFrom( o.buffer );
 
   /* dims */
 
@@ -526,7 +551,7 @@ function convertToClass( cls, src )
     else if( _.constructorIsVector( cls ) )
     {
       array = new src.buffer.constructor( atomsPerMatrix );
-      result = vector.FromLong( array );
+      result = self.vectorAdapter.FromLong( array );
     }
     else _.assert( 0, 'unknown class (-cls-)', cls.name );
 
@@ -538,7 +563,7 @@ function convertToClass( cls, src )
   {
 
     let atomsPerMatrix = src.length;
-    src = vector.From( src );
+    src = self.vectorAdapter.From( src );
 
     if( _.constructorIsMatrix( cls ) )
     {
@@ -561,7 +586,7 @@ function convertToClass( cls, src )
     else if( _.constructorIsVector( cls ) )
     {
       let array = new src._vectorBuffer.constructor( atomsPerMatrix );
-      result = vector.FromLong( array );
+      result = self.vectorAdapter.FromLong( array );
       for( let i = 0 ; i < src.length ; i += 1 )
       array[ i ] = src.eGet( i );
     }
@@ -734,7 +759,7 @@ function fromQuat( q )
 {
   let self = this;
 
-  q = _.vectorAdapter.From( q );
+  q = self.vectorAdapter.From( q );
   let x = q.eGet( 0 );
   let y = q.eGet( 1 );
   let z = q.eGet( 2 );
@@ -782,7 +807,7 @@ function fromQuatWithScale( q )
 {
   let self = this;
 
-  q = _.vectorAdapter.From( q );
+  q = self.vectorAdapter.From( q );
   let m = q.mag();
   let x = q.eGet( 0 ) / m;
   let y = q.eGet( 1 ) / m;
@@ -830,7 +855,7 @@ function fromQuatWithScale( q )
 function fromAxisAndAngle( axis, angle )
 {
   let self = this;
-  axis = _.vectorAdapter.From( axis );
+  axis = self.vectorAdapter.From( axis );
 
   // let m = axis.mag();
   // debugger;
@@ -888,10 +913,7 @@ function fromAxisAndAngle( axis, angle )
 function fromEuler( euler )
 {
   let self = this;
-  // let euler = _.vectorAdapter.From( euler );
 
-  // _.assert( self.dims[ 0 ] >= 3 );
-  // _.assert( self.dims[ 1 ] >= 3 );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   _.euler.toMatrix( euler, self );
@@ -904,7 +926,8 @@ function fromEuler( euler )
 function fromAxisAndAngleWithScale( axis, angle )
 {
   let self = this;
-  axis = _.vectorAdapter.From( axis );
+
+  axis = self.vectorAdapter.From( axis );
 
   let m = axis.mag();
   debugger;
@@ -1231,7 +1254,7 @@ let lookAt = ( function lookAt()
 function closest( insElement )
 {
   let self = this;
-  insElement = vector.FromLong( insElement );
+  insElement = self.vectorAdapter.FromLong( insElement );
   let result =
   {
     index : null,
@@ -1243,7 +1266,7 @@ function closest( insElement )
   for( let i = 0 ; i < self.length ; i += 1 )
   {
 
-    let d = vector.distanceSqr( insElement, self.eGet( i ) );
+    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
     if( d < result.distance )
     {
       result.distance = d;
@@ -1262,7 +1285,7 @@ function closest( insElement )
 function furthest( insElement )
 {
   let self = this;
-  insElement = vector.FromLong( insElement );
+  insElement = self.vectorAdapter.FromLong( insElement );
   let result =
   {
     index : null,
@@ -1274,7 +1297,7 @@ function furthest( insElement )
   for( let i = 0 ; i < self.length ; i += 1 )
   {
 
-    let d = vector.distanceSqr( insElement, self.eGet( i ) );
+    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
     if( d > result.distance )
     {
       result.distance = d;
@@ -1296,7 +1319,7 @@ function elementMean()
 
   let result = self.elementAdd();
 
-  vector.divScalar( result, self.length );
+  self.vectorAdapter.divScalar( result, self.length );
 
   return result;
 }
@@ -1429,6 +1452,10 @@ function determinant()
 let Statics = /* qqq : split static routines. ask how */
 {
 
+  /* details */
+
+  _BufferFrom,
+
   /* make */
 
   make,
@@ -1470,7 +1497,7 @@ zip
 // declare
 // --
 
-let Extend =
+let Extension =
 {
 
   // make
@@ -1524,7 +1551,7 @@ let Extend =
 
 }
 
-_.classExtend( Self, Extend );
+_.classExtend( Self, Extension );
 _.assert( Self.from === from );
 
 })();

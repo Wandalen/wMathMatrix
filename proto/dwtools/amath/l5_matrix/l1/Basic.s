@@ -2,7 +2,7 @@
 
 'use strict';
 
-/* xxx :
+/* zzz :
 
 - implement power
 - implement submatrix
@@ -20,11 +20,8 @@ let max = Math.max;
 let longSlice = Array.prototype.slice;
 let sqrt = Math.sqrt;
 let sqr = _.math.sqr;
-let vector = _.vectorAdapter;
-let accuracy = _.accuracy;
-let accuracySqr = _.accuracySqr;
 
-_.assert( _.objectIs( vector ), 'wMatrix requires vector module' );
+_.assert( _.objectIs( _.vectorAdapter ), 'wMatrix requires vector module' );
 _.assert( !!_.all );
 
 /**
@@ -366,9 +363,9 @@ function CopyTo( dst, src )
   if( !_.matrixIs( src ) )
   {
 
-    src = vector.From( src );
+    src = this.vectorAdapter.From( src );
     if( _.longIs( dst ) )
-    dst = vector.From( dst );
+    dst = this.vectorAdapter.From( dst );
 
     if( _.vectorAdapterIs( dst ) )
     for( let s = 0 ; s < src.length ; s += 1 )
@@ -423,7 +420,7 @@ function extractNormalized()
 
   self.atomEach( function( it )
   {
-    let i = self._flatAtomIndexFromIndexNd( it.indexNd, result.strides );
+    let i = self._FlatAtomIndexFromIndexNd( it.indexNd, result.strides );
     result.buffer[ i ] = it.atom;
   });
 
@@ -1261,7 +1258,7 @@ function expand( expand )
       if( it.indexNd[ i ] < 0 || it.indexNd[ i ] >= dims[ i ] )
       return;
     }
-    let indexFlat = Self._flatAtomIndexFromIndexNd( it.indexNd , strides );
+    let indexFlat = Self._FlatAtomIndexFromIndexNd( it.indexNd , strides );
     _.assert( indexFlat >= 0 );
     _.assert( indexFlat < buffer.length );
     buffer[ indexFlat ] = it.atom;
@@ -1329,14 +1326,14 @@ function flatAtomIndexFrom( indexNd )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = self._flatAtomIndexFromIndexNd( indexNd, self._stridesEffective );
+  let result = self._FlatAtomIndexFromIndexNd( indexNd, self._stridesEffective );
 
   return result + self.offset;
 }
 
 //
 
-function _flatAtomIndexFromIndexNd( indexNd, strides )
+function _FlatAtomIndexFromIndexNd( indexNd, strides )
 {
   let result = 0;
 
@@ -1604,30 +1601,6 @@ toStr.defaults.__proto__ = _.toStr.defaults;
 
 //
 
-function _bufferFrom( src )
-{
-  let proto = this.Self.prototype;
-  let dst = src;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
-
-  if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
-  {
-    dst = this.long.longMake( src.length );
-    for( let i = 0 ; i < src.length ; i++ )
-    dst[ i ] = src.eGet( i );
-  }
-  else if( _.arrayIs( dst ) )
-  {
-    dst = proto.long.longFrom( dst );
-  }
-
-  return dst;
-}
-
-//
-
 function bufferNormalize()
 {
   let self = this;
@@ -1789,486 +1762,6 @@ function atomEach( onAtom, args )
   return self;
 }
 
-//
-
-function atomWiseReduceWithFlatVector( onVector )
-{
-  let self = this;
-  let result;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( self.strideOfElement === self.atomsPerElement );
-
-  debugger;
-
-  result = onVector( self.asVector() );
-
-  return result;
-}
-
-//
-
-function atomWiseReduceWithAtomHandler( onBegin, onAtom, onEnd )
-{
-  let self = this;
-  let result;
-
-  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-  _.assert( self.dims.length === 2, 'not implemented' );
-
-  let op = onBegin
-  ({
-    args : [ self ],
-    container : self,
-    filter : null,
-  });
-
-  for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  for( let r = 0 ; r < self.atomsPerRow ; r++ )
-  {
-    op.key = [ c, r ];
-    op.element = self.atomGet([ c, r ]);
-    onAtom( op );
-  }
-
-  onEnd( op );
-
-  return op.result;
-}
-
-//
-
-function atomWiseWithAssign( onAtom, args )
-{
-  let self = this;
-  let result;
-
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( self.dims.length === 2, 'not implemented' );
-
-  let op = Object.create( null );
-  op.key = -1;
-  op.args = args;
-  op.dstContainer = self;
-  op.dstElement = null;
-  op.srcElement = null;
-  Object.preventExtensions( op );
-
-  for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  for( let r = 0 ; r < self.atomsPerRow ; r++ )
-  {
-    op.key = [ c, r ];
-    op.dstElement = self.atomGet( op.key );
-    onAtom.call( self, op );
-  }
-
-  return self;
-}
-
-//
-
-function AtomWiseHomogeneous( o )
-{
-  let proto = this;
-  let newDst = false;
-
-  _.routineOptions( AtomWiseHomogeneous, o );
-
-  if( o.dst !== undefined && o.dst !== _.nothing )
-  {
-    if( o.usingDstAsSrc )
-    o.args.unshift( o.dst );
-  }
-  else
-  {
-    o.dst = o.args[ 0 ]
-  }
-
-  /* preliminary analysis */
-
-  let dims = null;
-  for( let s = 0 ; s < o.args.length ; s++ )
-  {
-    let src = o.args[ s ];
-    if( src instanceof Self )
-    if( dims )
-    _.assert( _.longIdentical( src.dims, dims ) )
-    else
-    dims = src.dims;
-  }
-
-  _.assert( _.arrayIs( dims ) );
-
-  /* default handlers*/
-
-  let op;
-  if( !o.onVectorsBegin )
-  o.onVectorsBegin = function handleVectorsBeing()
-  {
-
-    debugger;
-
-    op = Object.create( null );
-    op.key = -1;
-    op.args = null;
-    op.dstContainer = null;
-    op.dstElement = null;
-    op.srcContainerIndex = -1;
-    op.srcContainer = null;
-    op.srcElement = null;
-    Object.preventExtensions( op );
-
-    return op;
-  }
-
-  if( o.onAtomsBegin )
-  debugger;
-  if( !o.onAtomsBegin )
-  o.onAtomsBegin = function handleAtomsBeing( op )
-  {
-  }
-
-  /* dst */
-
-  if( o.reducing )
-  {
-    _.assert( !o.usingDstAsSrc );
-    o.srcs = o.args.slice( 0 );
-    o.dst = null;
-  }
-  else if( _.nothingIs( o.dst ) )
-  {
-    o.srcs = o.args.slice( 1 );
-    o.dst = o.args[ 0 ];
-    /*o.dst = proto.makeZero( dims );*/
-    o.dst = o.args[ 0 ] = proto.Self.from( o.dst, dims );
-  }
-  else
-  {
-    o.srcs = o.args.slice( o.usingDstAsSrc ? 0 : 1 );
-  }
-
-  let fsrc = o.srcs[ 0 ];
-
-  /* srcs allocation */
-
-  for( let s = 0 ; s < o.srcs.length ; s++ )
-  {
-    let src = o.srcs[ s ] = proto.Self.from( o.srcs[ s ], dims );
-    _.assert( src instanceof Self );
-  }
-
-  /* verification */
-
-  _.assert( !proto.instanceIs() );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( o.dst instanceof Self || o.reducing );
-  _.assert( !o.dst || o.dst.dims.length === 2, 'not implemented' );
-  _.assert( !o.dst || _.longIdentical( o.dst.dims, dims ) )
-  _.assert( fsrc instanceof Self );
-  _.assert( fsrc.dims.length === 2, 'not implemented' );
-  _.assert( _.longIdentical( fsrc.dims, dims ) )
-
-  /* */
-
-  op = o.onVectorsBegin.call( o.dst, op );
-
-  op.args = o.args;
-  op.dstContainer = o.dst;
-  op.srcContainers = o.srcs;
-
-  _.assert( op.srcContainers.length > 0 );
-
-  /* */
-
-  let brk = 0;
-  for( let c = 0 ; c < fsrc.atomsPerCol ; c++ )
-  {
-
-    for( let r = 0 ; r < fsrc.atomsPerRow ; r++ )
-    {
-
-      op.key = [ c, r ];
-
-      op.dstElement = fsrc.atomGet( op.key );
-
-      o.onAtomsBegin( op );
-
-      _.assert( _.numberIs( op.dstElement ) );
-
-      if( op.srcContainers.length === 1 )
-      {
-        op.srcElement = fsrc.atomGet( op.key );
-        o.onAtom.call( o.dst, op );
-
-        if( o.onContinue )
-        if( o.onContinue( o ) === false )
-        brk = 1;
-
-      }
-      else for( let s = 1 ; s < op.srcContainers.length ; s++ )
-      {
-        op.srcElement = op.srcContainers[ s ].atomGet( op.key );
-        o.onAtom.call( o.dst, op );
-
-        if( o.onContinue )
-        if( o.onContinue( o ) === false )
-        {
-          brk = 1;
-          break;
-        }
-
-      }
-
-      if( !o.reducing )
-      op.dstContainer.atomSet( op.key, op.dstElement );
-
-      if( o.onAtomsEnd )
-      o.onAtomsEnd( op );
-
-      if( brk )
-      break;
-    }
-
-    if( brk )
-    break;
-  }
-
-  return o.onVectorsEnd.call( o.dst, op );
-}
-
-AtomWiseHomogeneous.defaults =
-{
-  onAtom : null,
-  onAtomsBegin : null,
-  onAtomsEnd : null,
-  onVectorsBegin : null,
-  onVectorsEnd : null,
-  onContinue : null,
-  args : null,
-  dst : _.nothing,
-  usingDstAsSrc : 0,
-  usingExtraSrcs : 0,
-  reducing : 0,
-}
-
-// }
-
-function atomWiseZip( onAtom, dst, srcs )
-{
-  let self = this;
-  let o =
-  {
-    onAtom,
-    dst,
-    dstContainer : self,
-    srcs,
-  }
-  return self.AtomWiseZip( o )
-}
-
-//
-
-function AtomWiseZip( o )
-{
-  let result;
-
-  _.routineOptions( AtomWiseZip, o )
-  _.assert( _.definedIs( o.dst ) );
-  _.assert( o.dstContainer instanceof Self );
-  _.assert( _.definedIs( o.srcs ) );
-  _.assert( _.routineIs( o.onAtom ) );
-
-  let self = o.dstContainer;
-
-  _.assert( self.dims.length === 2, 'not implemented' );
-
-  let op = Object.create( null );
-  op.key = -1;
-  op.args = [ dst, srcs ];
-  op.dstContainer = self;
-  op.dstElement = null;
-  op.srcContainers = srcs;
-  op.srcElements = [];
-  Object.preventExtensions( op );
-
-  /* */
-
-  for( let s = 0 ; s < srcs.length ; s++ )
-  {
-    let src = srcs[ s ];
-    _.assert( srcs[ s ] instanceof Self );
-  }
-
-  /* */
-
-  for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  for( let r = 0 ; r < self.atomsPerRow ; r++ )
-  {
-    op.key = [ c, r ];
-    op.dstElement = self.atomGet( op.key );
-
-    for( let s = 0 ; s < srcs.length ; s++ )
-    op.srcElements[ s ] = srcs[ s ].atomGet( op.key );
-
-    onAtom.call( self, op );
-  }
-
-  return self;
-}
-
-AtomWiseZip.defaults =
-{
-  onAtom : null,
-  dst : null,
-  dstContainer : null,
-  srcs : null,
-}
-
-//
-
-function elementEach( onElement )
-{
-  let self = this;
-  let args = _.longSlice( arguments, 1 );
-
-  debugger;
-  _.assert( 0, 'not tested' );
-
-  args.unshift( null );
-  args.unshift( null );
-
-  for( let i = 0 ; i < self.length ; i++ )
-  {
-    args[ 0 ] = self.eGet( i );
-    args[ 1 ] = i;
-    onElement.apply( self, args );
-  }
-
-  return self;
-}
-
-//
-
-function elementsZip( onEach, matrix )
-{
-  let self = this;
-  let args = _.longSlice( arguments, 2 );
-
-  args.unshift( null );
-  args.unshift( null );
-
-  throw _.err( 'Not tested' ); xxx
-
-  for( let i = 0 ; i < self.length ; i++ )
-  {
-    args[ 0 ] = self.eGet( i );
-    args[ 1 ] = matrix.eGet( i );
-    onEach.apply( self, args );
-  }
-
-  return self;
-}
-
-//
-
-function _lineEachCollecting( o ) /* xxx : move out? */
-{
-  let self = this;
-
-  _.assert( self.dims.length === 2 );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.longIs( o.args ) );
-  _.assert( o.length >= 0 );
-  _.assert( _.boolLike( o.returningNumber ) );
-
-  /* */
-
-  o.args = _.longSlice( o.args );
-
-  if( !o.args[ 0 ] )
-  {
-    if( o.returningNumber )
-    o.args[ 0 ] = new Array( o.length );
-    else
-    o.args[ 0 ] = [];
-  }
-
-  if( o.returningNumber )
-  if( !_.vectorAdapterIs( o.args[ 0 ] ) )
-  o.args[ 0 ] = vector.FromLong( o.args[ 0 ] );
-
-  let result = o.args[ 0 ];
-
-  /* */
-
-  if( o.returningNumber )
-  for( let i = 0 ; i < o.length ; i++ )
-  {
-    o.args[ 0 ] = self.lineVectorGet( o.lineOrder, i );
-    result.eSet( i, o.onEach.apply( self, o.args ) );
-  }
-  else
-  for( let i = 0 ; i < o.length ; i++ )
-  {
-    o.args[ 0 ] = self.lineVectorGet( o.lineOrder, i );
-    result[ i ] = o.onEach.apply( self, o.args );
-  }
-
-  /* */
-
-  return result;
-}
-
-_lineEachCollecting.defaults =
-{
-  onEach : null,
-  args : null,
-  length : null,
-  lineOrder : null,
-  returningNumber : null,
-}
-
-//
-
-function colEachCollecting( onEach , args , returningNumber )
-{
-  let self = this;
-
-  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-
-  let result = self._lineEachCollecting
-  ({
-    onEach,
-    args,
-    length : self.atomsPerRow,
-    lineOrder : 0,
-    returningNumber,
-  });
-
-  return result;
-}
-
-//
-
-function rowEachCollecting( onEach , args , returningNumber )
-{
-  let self = this;
-
-  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-
-  let result = self._lineEachCollecting
-  ({
-    onEach,
-    args,
-    length : self.atomsPerCol,
-    lineOrder : 1,
-    returningNumber,
-  });
-
-  return result;
-}
-
 // --
 // components accessor
 // --
@@ -2340,7 +1833,7 @@ function atomsGet( range )
 
   debugger;
 
-  let result = vector.FromSubLong
+  let result = self.vectorAdapter.FromSubLong
   (
     self.buffer,
     self.offset+range[ 0 ],
@@ -2363,7 +1856,7 @@ function asVector()
   _.assert( self.strideOfElement === self.atomsPerElement );
   _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
-  result = vector.FromSubLong
+  result = self.vectorAdapter.FromSubLong
   (
     self.buffer,
     self.occupiedRange[ 0 ],
@@ -2388,7 +1881,7 @@ function granuleGet( index )
   else
   atomsPerGranule = 1;
 
-  let result = vector.FromSubLong
+  let result = self.vectorAdapter.FromSubLong
   (
     this.buffer,
     this.offset + this.flatGranuleIndexFrom( index ),
@@ -2404,7 +1897,7 @@ function elementSlice( index )
 {
   let self = this;
   let result = self.eGet( index );
-  return _.vectorAdapter.slice( result );
+  return self.vectorAdapter.slice( result );
 }
 
 //
@@ -2421,7 +1914,7 @@ function elementsInRangeGet( range )
   _.assert( range[ 1 ] >= range[ 0 ] );
   _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
-  result = vector.FromSubLong
+  result = self.vectorAdapter.FromSubLong
   (
     self.buffer,
     self.offset+self.strideOfElement*range[ 0 ],
@@ -2441,7 +1934,7 @@ function eGet( index )
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = vector.FromSubLongWithStride
+  let result = this.vectorAdapter.FromSubLongWithStride
   (
     this.buffer,
     this.offset + index*this._stridesEffective[ this._stridesEffective.length-1 ],
@@ -2461,7 +1954,7 @@ function eSet( index, srcElement )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  vector.assign( selfElement, srcElement );
+  self.vectorAdapter.assign( selfElement, srcElement );
 
   return self;
 }
@@ -2482,7 +1975,7 @@ function elementsSwap( i1, i2 )
   let v1 = self.eGet( i1 );
   let v2 = self.eGet( i2 );
 
-  vector.swapVectors( v1, v2 );
+  self.vectorAdapter.swapVectors( v1, v2 );
 
   return self;
 }
@@ -2544,7 +2037,7 @@ function linesSwap( d, i1, i2 )
   let v1 = self.lineVectorGet( ad, i1 );
   let v2 = self.lineVectorGet( ad, i2 );
 
-  vector.swapVectors( v1, v2 );
+  self.vectorAdapter.swapVectors( v1, v2 );
 
   return self;
 }
@@ -2559,7 +2052,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
   _.assert( index < this.dims[ 1 ] );
 
   let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
-  let result = vector.FromSubLongWithStride
+  let result = this.vectorAdapter.FromSubLongWithStride
   (
     this.buffer,
     this.offset + rowIndex*this.strideOfRow + matrixOffset,
@@ -2580,7 +2073,7 @@ function rowVectorGet( index )
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = vector.FromSubLongWithStride
+  let result = this.vectorAdapter.FromSubLongWithStride
   (
     this.buffer,
     this.offset + index*this.strideOfRow,
@@ -2600,7 +2093,7 @@ function rowSet( rowIndex, srcRow )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  vector.assign( selfRow, srcRow );
+  self.vectorAdapter.assign( selfRow, srcRow );
 
   return self;
 }
@@ -2626,7 +2119,7 @@ function colVectorGet( index )
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = vector.FromSubLongWithStride
+  let result = this.vectorAdapter.FromSubLongWithStride
   (
     this.buffer,
     this.offset + index*this.strideOfCol,
@@ -2646,7 +2139,7 @@ function colSet( index, srcCol )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  vector.assign( selfCol, srcCol );
+  self.vectorAdapter.assign( selfCol, srcCol );
 
   return self;
 }
@@ -2737,7 +2230,7 @@ function _vectorPivotDimension( v, current, expected )
     continue;
     let p2 = current[ expected[ p1 ] ];
     _.longSwapElements( current, p1, p2 );
-    vector.swapAtoms( v, p1, p2 );
+    self.vectorAdapter.swapAtoms( v, p1, p2 );
   }
 
   _.assert( expected.length === v.length );
@@ -2756,7 +2249,7 @@ function VectorPivotForward( vector, pivot )
   return vector.pivotForward([ pivot, null ]);
 
   let original = vector;
-  vector = _.vectorAdapter.From( vector );
+  vector = this.vectorAdapter.From( vector );
   let current = _.longFromRange([ 0, vector.length ]);
   let expected = pivot;
   if( expected === null )
@@ -2777,7 +2270,7 @@ function VectorPivotBackward( vector, pivot )
   return vector.pivotBackward([ pivot, null ]);
 
   let original = vector;
-  vector = _.vectorAdapter.From( vector );
+  vector = this.vectorAdapter.From( vector );
   let current = pivot.slice();
   let expected = _.longFromRange([ 0, vector.length ]);
   if( current === null )
@@ -2879,17 +2372,9 @@ let Statics =
   StridesForDimensions,
   StridesRoll,
 
-  _flatAtomIndexFromIndexNd,
+  _FlatAtomIndexFromIndexNd,
 
-  _bufferFrom,
   Is,
-
-
-  /* iterator */
-
-  AtomWiseHomogeneous,
-  AtomWiseZip,
-
 
   /* pivot */
 
@@ -2897,11 +2382,10 @@ let Statics =
   VectorPivotForward,
   VectorPivotBackward,
 
-
   /* var */
 
-  accuracy,
-  accuracySqr,
+  // accuracy,
+  // accuracySqr,
   vectorAdapter : _.vectorAdapter,
 
 }
@@ -3086,7 +2570,7 @@ let Extension =
   /* etc */
 
   flatAtomIndexFrom,
-  _flatAtomIndexFromIndexNd,
+  _FlatAtomIndexFromIndexNd,
   flatGranuleIndexFrom,
 
   transpose,
@@ -3096,7 +2580,6 @@ let Extension =
 
   Is,
   toStr,
-  _bufferFrom,
 
   bufferNormalize,
   submatrix,
@@ -3105,19 +2588,6 @@ let Extension =
 
   atomWhile,
   atomEach,
-  atomWiseReduceWithFlatVector,
-  atomWiseReduceWithAtomHandler,
-  atomWiseWithAssign,
-  AtomWiseHomogeneous,
-  atomWiseZip,
-  AtomWiseZip,
-
-  elementEach,
-  elementsZip,
-
-  _lineEachCollecting,
-  rowEachCollecting,
-  colEachCollecting,
 
   /*
 
@@ -3228,7 +2698,7 @@ _.assert( Self.long === _.vectorAdapter.long );
 
 //
 
-// _.mapExtendConditional( _.field.mapper.srcOwnPrimitive, Self, Composes ); /* xxx qqq : required ??? */
+// _.mapExtendConditional( _.field.mapper.srcOwnPrimitive, Self, Composes ); /*  qqq : required ??? */
 // _.Matrix = _.Matrix = Self;
 
 })();

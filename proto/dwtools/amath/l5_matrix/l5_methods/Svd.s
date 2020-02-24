@@ -499,7 +499,7 @@ function svd( u, s, v )
 // relations
 // --
 
-let Extend =
+let Extension =
 {
 
   qrIteration,
@@ -512,6 +512,6 @@ let Extend =
 
 }
 
-_.classExtend( Self, Extend );
+_.classExtend( Self, Extension );
 
 })();

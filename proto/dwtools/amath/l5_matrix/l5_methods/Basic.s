@@ -3,7 +3,6 @@
 'use strict';
 
 let _ = _global_.wTools;
-let vector = _.vectorAdapter;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -13,12 +12,11 @@ let sin = Math.sin;
 let cos = Math.cos;
 let sqrt = Math.sqrt;
 let sqr = _.math.sqr;
-let longSlice = Array.prototype.slice;
 
 let Parent = null;
 let Self = _.Matrix;
 
-_.assert( _.objectIs( vector ) );
+_.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --
@@ -246,11 +244,11 @@ function mul( srcs )
 
 //
 
-function mul2Matrices_static( dst, src1, src2 )
+function Mul2Matrices( dst, src1, src2 )
 {
 
-  src1 = Self.fromForReading( src1 );
-  src2 = Self.fromForReading( src2 );
+  src1 = this.fromForReading( src1 );
+  src2 = this.fromForReading( src2 );
 
   if( dst === null )
   {
@@ -277,7 +275,7 @@ function mul2Matrices_static( dst, src1, src2 )
   {
     let row = src1.rowVectorGet( r );
     let col = src2.colVectorGet( c );
-    let dot = vector.dot( row, col );
+    let dot = this.vectorAdapter.dot( row, col );
     dst.atomSet( [ r, c ], dot );
   }
 
@@ -421,7 +419,7 @@ function diagonalSet( src )
   if( src instanceof Self )
   src = src.diagonalVectorGet();
 
-  src = vector.FromMaybeNumber( src, length );
+  src = self.vectorAdapter.FromMaybeNumber( src, length );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( self.dims.length === 2 );
@@ -446,7 +444,7 @@ function diagonalVectorGet()
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( self.dims.length === 2 );
 
-  let result = vector.FromSubLongWithStride( self.buffer, self.offset, length, strides[ 0 ] + strides[ 1 ] );
+  let result = self.vectorAdapter.FromSubLongWithStride( self.buffer, self.offset, length, strides[ 0 ] + strides[ 1 ] );
 
   return result;
 }
@@ -545,7 +543,7 @@ function triangleUpperSet( src )
 //
 //   _.assert( 0, 'deprecated' );
 //
-//   vector.matrixApplyTo( dstVector, self );
+//   self.vectorAdapter.matrixApplyTo( dstVector, self );
 //
 //   return self;
 // }
@@ -559,7 +557,7 @@ function triangleUpperSet( src )
 //   _.assert( arguments.length === 1 )
 //   _.assert( 0, 'not tested' );
 //
-//   vector.matrixHomogenousApply( dstVector, self );
+//   self.vectorAdapter.matrixHomogenousApply( dstVector, self );
 //
 //   return self;
 // }
@@ -571,7 +569,7 @@ function matrixApplyTo( dstVector )
   if( self.hasShape([ 3, 3 ]) )
   {
 
-    let dstVectorv = _.vectorAdapter.From( dstVector );
+    let dstVectorv = self.vectorAdapter.From( dstVector );
     let x = dstVectorv.eGet( 0 );
     let y = dstVectorv.eGet( 1 );
     let z = dstVectorv.eGet( 2 );
@@ -589,7 +587,7 @@ function matrixApplyTo( dstVector )
   else if( self.hasShape([ 2, 2 ]) )
   {
 
-    let dstVectorv = _.vectorAdapter.From( dstVector );
+    let dstVectorv = self.vectorAdapter.From( dstVector );
     let x = dstVectorv.eGet( 0 );
     let y = dstVectorv.eGet( 1 );
 
@@ -610,7 +608,7 @@ function matrixApplyTo( dstVector )
 function matrixHomogenousApply( dstVector )
 {
   let self = this;
-  let _dstVector = vector.From( dstVector );
+  let _dstVector = self.vectorAdapter.From( dstVector );
   let dstLength = dstVector.length;
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -652,7 +650,7 @@ function matrixDirectionsApply( dstVector )
   debugger;
 
   Self.mul( v, [ self.submatrix([ [ 0, v.length ], [ 0, v.length ] ]), v ] );
-  vector.normalize( v );
+  self.vectorAdapter.normalize( v );
 
   return dstVector;
 }
@@ -668,10 +666,10 @@ function positionGet()
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   // debugger;
-  result = vector.FromSubLong( result, 0, loe-1 );
+  result = self.vectorAdapter.FromSubLong( result, 0, loe-1 );
 
   //let result = self.elementsInRangeGet([ (l-1)*loe, l*loe ]);
-  //let result = vector.FromSubLong( this.buffer, 12, 3 );
+  //let result = self.vectorAdapter.FromSubLong( this.buffer, 12, 3 );
 
   return result;
 }
@@ -681,12 +679,12 @@ function positionGet()
 function positionSet( src )
 {
   let self = this;
-  src = vector.FromLong( src );
+  src = self.vectorAdapter.FromLong( src );
   let dst = this.positionGet();
 
   _.assert( src.length === dst.length );
 
-  vector.assign( dst, src );
+  self.vectorAdapter.assign( dst, src );
   return dst;
 }
 
@@ -737,14 +735,14 @@ function scaleGet( dst )
   if( dst )
   l = dst.length;
   else
-  dst = _.vectorAdapter.From( self.long.longMakeZeroed( self.length-1 ) );
+  dst = self.vectorAdapter.From( self.long.longMakeZeroed( self.length-1 ) );
 
-  let dstv = _.vectorAdapter.From( dst );
+  let dstv = self.vectorAdapter.From( dst );
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   for( let i = 0 ; i < l ; i += 1 )
-  dstv.eSet( i , vector.mag( vector.FromSubLong( this.buffer, loe*i, loe-1 ) ) );
+  dstv.eSet( i , self.vectorAdapter.mag( self.vectorAdapter.FromSubLong( this.buffer, loe*i, loe-1 ) ) );
 
   return dst;
 }
@@ -754,7 +752,7 @@ function scaleGet( dst )
 function scaleSet( src )
 {
   let self = this;
-  src = vector.FromLong( src );
+  src = self.vectorAdapter.FromLong( src );
   let l = self.length;
   let loe = self.atomsPerElement;
   let cur = this.scaleGet();
@@ -762,10 +760,10 @@ function scaleSet( src )
   _.assert( src.length === l-1 );
 
   for( let i = 0 ; i < l-1 ; i += 1 )
-  vector.mulScalar( self.eGet( i ), src.eGet( i ) / cur[ i ] );
+  self.vectorAdapter.mulScalar( self.eGet( i ), src.eGet( i ) / cur[ i ] );
 
   let lastElement = self.eGet( l-1 );
-  vector.mulScalar( lastElement, 1 / lastElement.eGet( loe-1 ) );
+  self.vectorAdapter.mulScalar( lastElement, 1 / lastElement.eGet( loe-1 ) );
 
 }
 
@@ -774,7 +772,7 @@ function scaleSet( src )
 function scaleAroundSet( scale, center )
 {
   let self = this;
-  scale = vector.FromLong( scale );
+  scale = self.vectorAdapter.FromLong( scale );
   let l = self.length;
   let loe = self.atomsPerElement;
   let cur = this.scaleGet();
@@ -782,20 +780,20 @@ function scaleAroundSet( scale, center )
   _.assert( scale.length === l-1 );
 
   for( let i = 0 ; i < l-1 ; i += 1 )
-  vector.mulScalar( self.eGet( i ), scale.eGet( i ) / cur[ i ] );
+  self.vectorAdapter.mulScalar( self.eGet( i ), scale.eGet( i ) / cur[ i ] );
 
   let lastElement = self.eGet( l-1 );
-  vector.mulScalar( lastElement, 1 / lastElement.eGet( loe-1 ) );
+  self.vectorAdapter.mulScalar( lastElement, 1 / lastElement.eGet( loe-1 ) );
 
   /* */
 
   debugger;
-  center = vector.FromLong( center );
-  let pos = vector.slice( scale );
-  pos = vector.FromLong( pos );
-  vector.mulScalar( pos, -1 );
-  vector.addScalar( pos, 1 );
-  vector.mulVectors( pos, center );
+  center = self.vectorAdapter.FromLong( center );
+  let pos = self.vectorAdapter.slice( scale );
+  pos = self.vectorAdapter.FromLong( pos );
+  self.vectorAdapter.mulScalar( pos, -1 );
+  self.vectorAdapter.addScalar( pos, 1 );
+  self.vectorAdapter.mulVectors( pos, center );
 
   self.positionSet( pos );
 
@@ -806,15 +804,15 @@ function scaleAroundSet( scale, center )
 function scaleApply( src )
 {
   let self = this;
-  src = vector.FromLong( src );
+  src = self.vectorAdapter.FromLong( src );
   let ape = self.atomsPerElement;
   let l = self.length;
 
   for( let i = 0 ; i < ape ; i += 1 )
   {
     let c = self.rowVectorGet( i );
-    c = vector.FromSubLong( c, 0, l-1 );
-    vector.mulVectors( c, src );
+    c = self.vectorAdapter.FromSubLong( c, 0, l-1 );
+    self.vectorAdapter.mulVectors( c, src );
   }
 
 }
@@ -826,7 +824,7 @@ function scaleApply( src )
 function closest( insElement )
 {
   let self = this;
-  insElement = vector.FromLong( insElement );
+  insElement = self.vectorAdapter.FromLong( insElement );
   let result =
   {
     index : null,
@@ -838,7 +836,7 @@ function closest( insElement )
   for( let i = 0 ; i < self.length ; i += 1 )
   {
 
-    let d = vector.distanceSqr( insElement, self.eGet( i ) );
+    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
     if( d < result.distance )
     {
       result.distance = d;
@@ -857,7 +855,7 @@ function closest( insElement )
 function furthest( insElement )
 {
   let self = this;
-  insElement = vector.FromLong( insElement );
+  insElement = self.vectorAdapter.FromLong( insElement );
   let result =
   {
     index : null,
@@ -869,7 +867,7 @@ function furthest( insElement )
   for( let i = 0 ; i < self.length ; i += 1 )
   {
 
-    let d = vector.distanceSqr( insElement, self.eGet( i ) );
+    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
     if( d > result.distance )
     {
       result.distance = d;
@@ -891,7 +889,7 @@ function elementMean()
 
   let result = self.elementAdd();
 
-  vector.divScalar( result, self.length );
+  self.vectorAdapter.divScalar( result, self.length );
 
   return result;
 }
@@ -1035,7 +1033,7 @@ let Statics = /* qqq : split static routines. ask how */
   /* mul */
 
   mul : mul_static,
-  mul2Matrices : mul2Matrices_static,
+  mul2Matrices : Mul2Matrices,
 
   /* var */
 
@@ -1054,7 +1052,7 @@ zip
 // declare
 // --
 
-let Extend =
+let Extension =
 {
 
   // borrow
@@ -1116,8 +1114,8 @@ let Extend =
 
 }
 
-_.classExtend( Self, Extend );
-_.assert( Self.mul2Matrices === mul2Matrices_static );
+_.classExtend( Self, Extension );
+_.assert( Self.mul2Matrices === Mul2Matrices );
 _.assert( Self.prototype.mul2Matrices === mul2Matrices );
 
 })();
