@@ -12,7 +12,7 @@ let pi = Math.PI;
 let sin = Math.sin;
 let cos = Math.cos;
 let sqrt = Math.sqrt;
-let sqr = _.sqr;
+let sqr = _.math.sqr;
 let longSlice = Array.prototype.slice;
 
 let Parent = null;
@@ -2876,7 +2876,7 @@ function formPerspective( fov, size, depth )
   _.assert( depth.length === 2 );
   _.assert( self.hasShape([ 4, 4 ]) );
 
-  fov = Math.tan( _.degToRad( fov * 0.5 ) );
+  fov = Math.tan( _.math.degToRad( fov * 0.5 ) );
 
   let ymin = - depth[ 0 ] * fov;
   let ymax = - ymin;
@@ -3187,7 +3187,7 @@ function determinant()
   if( l === 0 )
   return 0;
 
-  let iterations = _.factorial( l );
+  let iterations = _.math.factorial( l );
   let result = 0;
 
   _.assert( l === self.atomsPerElement );

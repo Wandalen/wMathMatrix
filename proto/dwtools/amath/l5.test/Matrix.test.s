@@ -26,8 +26,8 @@ var fvec = function( src ){ return _.vectorAdapter.FromLong( new F32x( src ) ) }
 var ivec = function( src ){ return _.vectorAdapter.FromLong( new I32x( src ) ) }
 var avector = _.avector;
 
-var sqr = _.sqr;
-var sqrt = _.sqrt;
+var sqr = _.math.sqr;
+var sqrt = _.math.sqrt;
 
 // --
 // context
