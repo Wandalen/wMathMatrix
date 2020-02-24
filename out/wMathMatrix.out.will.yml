@@ -183,10 +183,11 @@ module:
           - ../proto/dwtools/amath/l5_matrix/l3/RoutinesFromVector.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Basic.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Check.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Make.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Checker.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Iterator.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Maker.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Mid.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Solve.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Solver.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Svd.s
           - ../proto/dwtools/amath/l5_matrix.test
           - ../proto/dwtools/amath/l5_matrix.test/Matrix.test.s
