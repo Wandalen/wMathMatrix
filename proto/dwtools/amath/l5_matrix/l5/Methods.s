@@ -94,6 +94,53 @@ function makeSquare( buffer )
 
 //
 
+function MakeSquare( buffer )
+{
+  let proto = this.Self.prototype;
+
+  let length = buffer;
+  if( _.longIs( buffer ) )
+  length = Math.sqrt( buffer.length );
+
+  _.assert( !this.instanceIs() );
+  _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
+  _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
+  _.assert( _.intIs( length ), 'makeSquare expects square buffer' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  let dims = [ length, length ];
+  let atomsPerMatrix = this.AtomsPerMatrixForDimensions( dims );
+
+  let inputTransposing = atomsPerMatrix > 0 ? 1 : 0;
+  if( _.numberIs( buffer ) )
+  {
+    inputTransposing = 0;
+    buffer = this.long.longMake( atomsPerMatrix );
+  }
+  else
+  {
+    buffer = proto.constructor._bufferFrom( buffer );
+  }
+
+  let result = new proto.constructor
+  ({
+    buffer,
+    dims,
+    inputTransposing,
+  });
+
+  return result;
+}
+
+//
+
+function makeSquare_( buffer )
+{
+  return this.MakeSquare( buffer );
+}
+
+//
+
 function makeZero( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
@@ -3287,13 +3334,11 @@ let Statics = /* qqq : split static routines. ask how */
 
   solveGeneral,
 
-
   /* modeler */
 
   _linearModel,
   polynomExactFor,
   polynomClosestFor,
-
 
   /* var */
 
