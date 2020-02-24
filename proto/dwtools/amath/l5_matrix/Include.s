@@ -25,9 +25,18 @@ if( typeof module !== 'undefined' )
 
 if( typeof module !== 'undefined' )
 {
+
   require( './l1/Basic.s' );
+
   require( './l3/RoutinesFromVector.s' );
-  require( './l5/Methods.s' );
+
+  require( './l5_methods/Basic.s' );
+  require( './l5_methods/Check.s' );
+  require( './l5_methods/Make.s' );
+  require( './l5_methods/Mid.s' );
+  require( './l5_methods/Solve.s' );
+  require( './l5_methods/Svd.s' );
+
 }
 
 })();

@@ -16,7 +16,7 @@ let _sqrt = Math.sqrt;
 let _sqr = _.math.sqr;
 
 let Parent = null;
-let Self = _global_.wMatrix;
+let Self = _.Matrix;
 let Proto = Object.create( null );
 let Statics = Proto.Statics = Object.create( null );
 
@@ -332,7 +332,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
       args = _.longSlice( arguments, 0 );
     }
 
-    let result = self.Self.atomWiseHomogeneous /* xxx : rename */
+    let result = self.Self.AtomWiseHomogeneous
     ({
       onContinue : onContinue0,
       onVectorsBegin,

@@ -53,11 +53,34 @@ function makeWithOffset( o )
 }
 
 // --
-// inter
+// experiment
+// --
+
+function experiment( test )
+{
+  test.case = 'experiment';
+  test.identical( 1, 1 );
+
+  var m = matrix.makeSquare
+  ([
+    +3, +2, +10,
+    -3, -3, -14,
+    +3, +1, +3,
+  ]);
+
+}
+
+experiment.experimental = 1;
+
+// --
+// checker
 // --
 
 function matrixIs( test )
 {
+
+  /* */
+
   test.case = 'instance of _.Matrix';
   var src = new _.Matrix
   ({
@@ -70,6 +93,11 @@ function matrixIs( test )
   });
   var got = _.matrixIs( src );
   test.identical( got, true );
+  var got = _.Matrix.Is( src );
+  test.identical( got, true );
+
+  /* */
+
 }
 
 //
@@ -94,42 +122,522 @@ function constructorIsMatrix( test )
   test.identical( got, true );
 }
 
-//
-
-function vectorToMatrix( test )
+function isDiagonal( test )
 {
 
   /* */
 
-  test.case = 'vector to matrix'; /* */
-  var v = _.vectorAdapter.From([ 1, 2, 3 ]);
-  var got = v.to( _.Matrix );
-  var expected = _.Matrix.makeCol([ 1, 2, 3 ]);
-  test.identical( got, expected );
+  test.description = 'Matrix remains unchanged';
 
-  /* */
-
-}
-
-// --
-//
-// --
-
-function experiment( test )
-{
-  test.case = 'experiment';
-  test.identical( 1, 1 );
-
-  var m = matrix.makeSquare
+  var matrix =  _.Matrix.make( [ 4, 6 ] ).copy
   ([
-    +3, +2, +10,
-    -3, -3, -14,
-    +3, +1, +3,
+    0,   0,   0,   0, - 1,   1,
+    1, - 1,   0,   0,   0,   0,
+    0,   0,   1, - 1,   0,   0,
+    - 1,   0, - 1,   0,   0, - 1
   ]);
+  var expected = false;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  var oldMatrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  ([
+    0,   0,   0,   0, - 1,   1,
+    1, - 1,   0,   0,   0,   0,
+    0,   0,   1, - 1,   0,   0,
+    - 1,   0, - 1,   0,   0, - 1
+  ]);
+  test.identical( matrix, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - square';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - Upper Triangular';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - Lower Triangular';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix not square';
+
+  var matrix =  _.Matrix.make( [ 4, 2 ] ).copy
+  ([
+    0.5,  0,
+    1,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Diagonal';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Diagonal 6x6';
+
+  var matrix =  _.Matrix.make( [ 6, 6 ] ).copy
+  ([
+    0.5, 0, 0, 0, 0, 0,
+    0, - 1, 0, 0, 0, 0,
+    0,  0,  1, 0, 0, 0,
+    0,  0, -0, 2, 0, 0,
+    0,  0,  0, 0, 3, 0,
+    0,  0,  0, 0, 0, - 1
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Diagonal not square';
+
+  var matrix =  _.Matrix.make( [ 4, 3 ] ).copy
+  ([
+    0.5, 0, 0,
+    0, - 1, 0,
+    0,  0,  1,
+    0,  0, -0
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Zero matrix ';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isDiagonal( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var matrix =  'matrix';
+  test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
+  var matrix =  null;
+  test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
+  var matrix =  NaN;
+  test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
+  var matrix =  [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
+  var matrix =  _.vectorAdapter.From( [ 0, 0, 0 ] );
+  test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
 
 }
 
 //
+
+function isUpperTriangle( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+
+  var matrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  ([
+    0,   0,   0,   0, - 1,   1,
+    1, - 1,   0,   0,   0,   0,
+    0,   0,   1, - 1,   0,   0,
+    - 1,   0, - 1,   0,   0, - 1
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  var oldMatrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  ([
+    0,   0,   0,   0, - 1,   1,
+    1, - 1,   0,   0,   0,   0,
+    0,   0,   1, - 1,   0,   0,
+    - 1,   0, - 1,   0,   0, - 1
+  ]);
+  test.identical( matrix, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Not triangular - square';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - Lower Triangular';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix not square';
+
+  var matrix =  _.Matrix.make( [ 4, 2 ] ).copy
+  ([
+    0.5,  0,
+    1,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Diagonal';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular 6x6';
+
+  var matrix =  _.Matrix.make( [ 6, 6 ] ).copy
+  ([
+    0.5, 5, 8, 0, 3, -0.5,
+    0, - 1, 0, 8, 0, 2,
+    0,  0,  1, 0, 3, 2.2,
+    0,  0, -0, 2, 0, 0,
+    0,  0,  0, 0, 3, 7,
+    0,  0,  0, 0, 0, - 1
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular not square';
+
+  var matrix =  _.Matrix.make( [ 4, 3 ] ).copy
+  ([
+    0.5, 0, 0,
+    0, - 1, 0,
+    0,  0,  1,
+    0,  0, -0
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Zero matrix ';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isUpperTriangle( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var matrix = 'matrix';
+  test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
+  var matrix = NaN;
+  test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
+  var matrix = null;
+  test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
+  var matrix = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
+  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
+
+}
+
+//
+
+function isSymmetric( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  var oldMatrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( matrix, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Not Symmetric';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+
+  var matrix =  _.Matrix.make( [ 3, 4 ] ).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  var expected = false;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Diagonal';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Matrix Symmetric';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0.5, 5, 8, 0.1,
+    5, - 1, 2, 8,
+    8,  2,  1, 0,
+    0.1,  8, -0, 2
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  test.description = 'Zero matrix ';
+
+  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  var expected = true;
+
+  var gotBool = matrix.isSymmetric( );
+  test.identical( gotBool, expected );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var matrix = 'matrix';
+  test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
+  var matrix = NaN;
+  test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
+  var matrix = null;
+  test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
+  var matrix = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
+  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
+
+}
+
+// --
+//
+// --
 
 function env( test )
 {
@@ -4405,258 +4913,18 @@ function expand( test )
 
 //
 
-function _submatrix( o )
+function vectorToMatrix( test )
 {
 
-  var test = o.test;
-  var m;
-  function make()
-  {
+  /* */
 
-    var b = new F32x
-    ([
-      +1, +2, +3, +4,
-      +5, +6, +7, +8,
-      +9, +10, +11, +12,
-    ]);
-    if( !o.transposing )
-    b = new F32x
-    ([
-      +1, +5, +9,
-      +2, +6, +10,
-      +3, +7, +11,
-      +4, +8, +12,
-    ]);
+  test.case = 'vector to matrix'; /* */
+  var v = _.vectorAdapter.From([ 1, 2, 3 ]);
+  var got = v.to( _.Matrix );
+  var expected = _.Matrix.makeCol([ 1, 2, 3 ]);
+  test.identical( got, expected );
 
-    var m = makeWithOffset
-    ({
-      buffer : b,
-      dims : o.dims,
-      offset : o.offset,
-      inputTransposing : o.transposing,
-    })
-
-    return m;
-  }
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +5, +6, +7, +8,
-    +9, +10, +11, +12,
-  ]);
-
-  var m = make();
-  test.identical( m, expected )
-  test.identical( m.offset, o.offset );
-
-  test.case = 'simple submatrix'; /* */
-
-  var m = make();
-  var c1 = m.submatrix([ _.all, 0 ]);
-  var c2 = m.submatrix([ _.all, 3 ]);
-  var r1 = m.submatrix([ 0, _.all ]);
-  var r2 = m.submatrix([ 2, _.all ]);
-
-  var expected = matrix.makeCol([ 1, 5, 9 ]);
-  test.identical( c1, expected );
-
-  var expected = matrix.makeCol([ 4, 8, 12 ]);
-  test.identical( c2, expected );
-
-  var expected = matrix.makeRow([ 1, 2, 3, 4 ]);
-  test.identical( r1, expected );
-
-  var expected = matrix.makeRow([ 9, 10, 11, 12 ]);
-  test.identical( r2, expected );
-
-  test.case = 'modify submatrixs'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +11, +3, +4, +401,
-    +50, +6, +7, +800,
-    +93, +13, +14, +1203,
-  ]);
-
-  c1.mulScalar( 10 );
-  c2.mulScalar( 100 );
-  r1.addScalar( 1 );
-  r2.addScalar( 3 );
-
-  test.identical( m, expected );
-
-  test.case = 'submatrix several columns'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    +2, +3,
-    +6, +7,
-    +10, +11,
-  ]);
-
-  var sub = m.submatrix([ _.all, [ 1, 3 ] ]);
-  test.identical( sub, expected );
-
-    test.case = 'modify submatrixs'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +1, +20, +30, +4,
-    +5, +60, +70, +8,
-    +9, +100, +110, +12,
-  ]);
-
-  sub.mulScalar( 10 );
-  test.identical( m, expected );
-
-  test.case = 'submatrix several columns'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    +3, +4,
-    +7, +8,
-    +11, +12,
-  ]);
-
-  var sub = m.submatrix([ _.all, [ 2, 4 ] ]);
-  test.identical( sub, expected );
-
-    test.case = 'modify submatrixs'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +1, +2, +30, +40,
-    +5, +6, +70, +80,
-    +9, +10, +110, +120,
-  ]);
-
-  sub.mulScalar( 10 );
-  test.identical( m, expected );
-
-  test.case = 'submatrix several rows'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 2, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +5, +6, +7, +8,
-  ]);
-
-  var sub = m.submatrix([ [ 0, 2 ], _.all ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify submatrixs'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +10, +20, +30, +40,
-    +50, +60, +70, +80,
-    +9, +10, +11, +12,
-  ]);
-
-  sub.mulScalar( 10 );
-  test.identical( m, expected );
-
-  test.case = 'submatrix several rows'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 2, 4 ]).copy
-  ([
-    +5, +6, +7, +8,
-    +9, +10, +11, +12,
-  ]);
-
-  var sub = m.submatrix([ [ 1, 3 ], _.all ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify submatrix'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +50, +60, +70, +80,
-    +90, +100, +110, +120,
-  ]);
-
-  sub.mulScalar( 10 );
-  test.identical( m, expected );
-
-  test.case = 'complex submatrix'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 2, 2 ]).copy
-  ([
-    +1, +2,
-    +5, +6,
-  ]);
-
-  var sub = m.submatrix([ [ 0, 2 ], [ 0, 2 ] ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify complex submatrix'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +10, +20, +3, +4,
-    +50, +60, +7, +8,
-    +9, +10, +11, +12,
-  ]);
-
-  sub.mulScalar( 10 );
-  test.identical( m, expected );
-
-  test.case = 'complex submatrix'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 2, 2 ]).copy
-  ([
-    +7, +8,
-    +11, +12,
-  ]);
-
-  var sub = m.submatrix([ [ 2, 4 ], [ 1, 3 ] ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify complex submatrix'; /* */
-
-  var expected = matrix.make([ 3, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +5, +6, +70, +80,
-    +9, +10, +110, +120,
-  ]);
-
-  sub.mulScalar( 10 );
-  test.identical( m, expected );
-
-}
-
-//
-
-function submatrix( test )
-{
-
-  var o = Object.create( null );
-  o.test = test;
-
-  o.offset = 0;
-  o.transposing = 0;
-  this._submatrix( o )
-
-  o.offset = 0;
-  o.transposing = 1;
-  this._submatrix( o )
-
-  o.offset = 10;
-  o.transposing = 0;
-  this._submatrix( o )
-
-  o.offset = 10;
-  o.transposing = 1;
-  this._submatrix( o )
+  /* */
 
 }
 
@@ -6475,6 +6743,263 @@ function pivot( test )
   m.pivotBackward( pivots );
   test.identical( m, original );
   test.identical( pivots, pivotsExpected );
+
+}
+
+//
+
+function _submatrix( o )
+{
+
+  var test = o.test;
+  var m;
+  function make()
+  {
+
+    var b = new F32x
+    ([
+      +1, +2, +3, +4,
+      +5, +6, +7, +8,
+      +9, +10, +11, +12,
+    ]);
+    if( !o.transposing )
+    b = new F32x
+    ([
+      +1, +5, +9,
+      +2, +6, +10,
+      +3, +7, +11,
+      +4, +8, +12,
+    ]);
+
+    var m = makeWithOffset
+    ({
+      buffer : b,
+      dims : o.dims,
+      offset : o.offset,
+      inputTransposing : o.transposing,
+    })
+
+    return m;
+  }
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +1, +2, +3, +4,
+    +5, +6, +7, +8,
+    +9, +10, +11, +12,
+  ]);
+
+  var m = make();
+  test.identical( m, expected )
+  test.identical( m.offset, o.offset );
+
+  test.case = 'simple submatrix'; /* */
+
+  var m = make();
+  var c1 = m.submatrix([ _.all, 0 ]);
+  var c2 = m.submatrix([ _.all, 3 ]);
+  var r1 = m.submatrix([ 0, _.all ]);
+  var r2 = m.submatrix([ 2, _.all ]);
+
+  var expected = matrix.makeCol([ 1, 5, 9 ]);
+  test.identical( c1, expected );
+
+  var expected = matrix.makeCol([ 4, 8, 12 ]);
+  test.identical( c2, expected );
+
+  var expected = matrix.makeRow([ 1, 2, 3, 4 ]);
+  test.identical( r1, expected );
+
+  var expected = matrix.makeRow([ 9, 10, 11, 12 ]);
+  test.identical( r2, expected );
+
+  test.case = 'modify submatrixs'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +11, +3, +4, +401,
+    +50, +6, +7, +800,
+    +93, +13, +14, +1203,
+  ]);
+
+  c1.mulScalar( 10 );
+  c2.mulScalar( 100 );
+  r1.addScalar( 1 );
+  r2.addScalar( 3 );
+
+  test.identical( m, expected );
+
+  test.case = 'submatrix several columns'; /* */
+
+  var m = make();
+  var expected = matrix.make([ 3, 2 ]).copy
+  ([
+    +2, +3,
+    +6, +7,
+    +10, +11,
+  ]);
+
+  var sub = m.submatrix([ _.all, [ 1, 3 ] ]);
+  test.identical( sub, expected );
+
+    test.case = 'modify submatrixs'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +1, +20, +30, +4,
+    +5, +60, +70, +8,
+    +9, +100, +110, +12,
+  ]);
+
+  sub.mulScalar( 10 );
+  test.identical( m, expected );
+
+  test.case = 'submatrix several columns'; /* */
+
+  var m = make();
+  var expected = matrix.make([ 3, 2 ]).copy
+  ([
+    +3, +4,
+    +7, +8,
+    +11, +12,
+  ]);
+
+  var sub = m.submatrix([ _.all, [ 2, 4 ] ]);
+  test.identical( sub, expected );
+
+    test.case = 'modify submatrixs'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +1, +2, +30, +40,
+    +5, +6, +70, +80,
+    +9, +10, +110, +120,
+  ]);
+
+  sub.mulScalar( 10 );
+  test.identical( m, expected );
+
+  test.case = 'submatrix several rows'; /* */
+
+  var m = make();
+  var expected = matrix.make([ 2, 4 ]).copy
+  ([
+    +1, +2, +3, +4,
+    +5, +6, +7, +8,
+  ]);
+
+  var sub = m.submatrix([ [ 0, 2 ], _.all ]);
+  test.identical( sub, expected );
+
+  test.case = 'modify submatrixs'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +10, +20, +30, +40,
+    +50, +60, +70, +80,
+    +9, +10, +11, +12,
+  ]);
+
+  sub.mulScalar( 10 );
+  test.identical( m, expected );
+
+  test.case = 'submatrix several rows'; /* */
+
+  var m = make();
+  var expected = matrix.make([ 2, 4 ]).copy
+  ([
+    +5, +6, +7, +8,
+    +9, +10, +11, +12,
+  ]);
+
+  var sub = m.submatrix([ [ 1, 3 ], _.all ]);
+  test.identical( sub, expected );
+
+  test.case = 'modify submatrix'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +1, +2, +3, +4,
+    +50, +60, +70, +80,
+    +90, +100, +110, +120,
+  ]);
+
+  sub.mulScalar( 10 );
+  test.identical( m, expected );
+
+  test.case = 'complex submatrix'; /* */
+
+  var m = make();
+  var expected = matrix.make([ 2, 2 ]).copy
+  ([
+    +1, +2,
+    +5, +6,
+  ]);
+
+  var sub = m.submatrix([ [ 0, 2 ], [ 0, 2 ] ]);
+  test.identical( sub, expected );
+
+  test.case = 'modify complex submatrix'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +10, +20, +3, +4,
+    +50, +60, +7, +8,
+    +9, +10, +11, +12,
+  ]);
+
+  sub.mulScalar( 10 );
+  test.identical( m, expected );
+
+  test.case = 'complex submatrix'; /* */
+
+  var m = make();
+  var expected = matrix.make([ 2, 2 ]).copy
+  ([
+    +7, +8,
+    +11, +12,
+  ]);
+
+  var sub = m.submatrix([ [ 2, 4 ], [ 1, 3 ] ]);
+  test.identical( sub, expected );
+
+  test.case = 'modify complex submatrix'; /* */
+
+  var expected = matrix.make([ 3, 4 ]).copy
+  ([
+    +1, +2, +3, +4,
+    +5, +6, +70, +80,
+    +9, +10, +110, +120,
+  ]);
+
+  sub.mulScalar( 10 );
+  test.identical( m, expected );
+
+}
+
+//
+
+function submatrix( test )
+{
+
+  var o = Object.create( null );
+  o.test = test;
+
+  o.offset = 0;
+  o.transposing = 0;
+  this._submatrix( o )
+
+  o.offset = 0;
+  o.transposing = 1;
+  this._submatrix( o )
+
+  o.offset = 10;
+  o.transposing = 0;
+  this._submatrix( o )
+
+  o.offset = 10;
+  o.transposing = 1;
+  this._submatrix( o )
 
 }
 
@@ -9852,13 +10377,17 @@ var Self =
   tests :
   {
 
-    // inter
+    /* experiment */
+
+    experiment,
+
+    /* checker */
 
     matrixIs,
     constructorIsMatrix,
-    vectorToMatrix,
-
-    // experiment,
+    isDiagonal,
+    isUpperTriangle,
+    isSymmetric,
 
     /* maker */
 
@@ -9882,13 +10411,13 @@ var Self =
     stride,
     bufferNormalize,
     expand,
-
-    // // submatrix, /* not ready */
-
+    vectorToMatrix,
     accessors,
     partialAccessors,
     lineSwap,
     pivot,
+
+    // submatrix, /* xxx : not ready */
 
     /* etc */
 

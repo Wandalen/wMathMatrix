@@ -2,22 +2,7 @@
 
 'use strict';
 
-// if( typeof module !== 'undefined' )
-// {
-//
-//   let _ = require( '../../Tools.s' );
-//
-//   _.include( 'wMathScalar' );
-//   _.include( 'wMathVector' );
-//   _.include( 'wCopyable' );
-//   _.include( 'wEntityBasic' );
-//
-//   // require( '../l1/Scalar.s' );
-//   // require( '../l3_vector/Base.s' );
-//
-// }
-
-/*
+/* xxx :
 
 - implement power
 - implement submatrix
@@ -93,7 +78,6 @@ function init( o )
       if( o.atomsPerElement !== undefined )
       {
         _.assert( _.longIs( o.buffer ) );
-        // _.assert( !o.dims );
         if( !o.offset )
         o.offset = 0;
         if( !o.dims )
@@ -107,15 +91,6 @@ function init( o )
         _.assert( _.intIs( o.dims[ 1 ] ) );
         delete o.atomsPerElement;
       }
-
-      // if( o.dims === undefined && o.strides === undefined )
-      // if( _.longIs( o.buffer ) )
-      // {
-      //   if( !o.offset )
-      //   o.offset = 0;
-      //   o.dims = [ o.buffer.length-o.offset, 1 ];
-      //   // o.dims = [ 1, o.buffer.length-o.offset ];
-      // }
 
     }
 
@@ -137,9 +112,7 @@ function _traverseAct( it )
   if( it.resetting === undefined )
   it.resetting = 1;
 
-  // debugger;
   _.Copyable.prototype._traverseAct.pre.call( this, _traverseAct, [ it ] );
-  // _.Copyable.prototype._traverseActPre.call( this, it );
 
   if( !it.dst )
   {
@@ -152,7 +125,6 @@ function _traverseAct( it )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( it.resetting !== undefined );
   _.assert( !!it.dst );
-  // _.assert( it.dst._changeBegin );
 
   let dst = it.dst;
   let src = it.src;
@@ -272,8 +244,8 @@ function _traverseAct( it )
   return dst;
 }
 
+debugger;
 _traverseAct.iterationDefaults = Object.create( _._cloner.iterationDefaults );
-// _traverseAct.iterationDefaults.resetting = 0;
 _traverseAct.defaults = _.mapSupplementOwn( Object.create( _._cloner.defaults ), _traverseAct.iterationDefaults );
 
 //
@@ -858,24 +830,6 @@ function _bufferAssign( src )
   _.assert( _.longIs( src ) );
   _.assert( self.atomsPerMatrix === src.length, 'matrix', self.dims, 'should have', self.atomsPerMatrix, 'atoms, but got', src.length );
 
-  // /*
-  //  !!! maybe problem if stride is not regular
-  // */
-
-  // if( !( src instanceof Array ) && src.constructor !== self.buffer.constructor )
-  // {
-  //   self[ offsetSymbol ] = 0;
-  //   self[ bufferSymbol ] = self.array.makeSimilar( src, src.length );
-  // }
-
-  // let i = 0;
-  // for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  // for( let r = 0 ; r < self.atomsPerRow ; r++ )
-  // {
-  //   self.atomSet( [ c, r ], src[ i ] );
-  //   i += 1;
-  // }
-
   self.atomEach( function( it )
   {
     self.atomSet( it.indexNd, src[ it.indexFlatRowFirst ] );
@@ -997,20 +951,12 @@ function _adjustAct()
 
   _.assert( self.dims === null || _.longIs( self.dims ) );
 
-  // if( self.buffer && self.buffer.length === 0 && self.offset === 0 && self.inputTransposing === 0 )
-  // debugger;
-
   if( !self.dims )
   {
     if( self._dimsWas )
     {
-      // self[ dimsSymbol ] = self._dimsFromDimsWithoutLength( self.breadth, self.buffer, self.offset );
-
-      // _.assert( _.arrayIs( self.breadth ) );
       _.assert( _.arrayIs( self._dimsWas ) );
-      // _.assert( self._dimsWas.length === self.breadth.length+1 );
       _.assert( _.arrayIs( self._dimsWas ) );
-      // _.assert( _.arrayIs( self.breadth ) );
       _.assert( _.longIs( self.buffer ) );
       _.assert( self.offset >= 0 );
 
@@ -1057,9 +1003,6 @@ function _adjustAct()
 
   /* strides */
 
-  // if( self.buffer && self.buffer.length === 0 && self.offset === 0 && self.dims && self.dims[ 0 ] === 1 && self.dims[ 1 ] === 0 )
-  // debugger;
-
   if( !self._stridesEffective )
   {
 
@@ -1099,21 +1042,13 @@ function _adjustAct()
 
       occupiedRange[ 1 ] += last;
 
-      // occupiedRange[ 0 ] = min( occupiedRange[ 0 ], stride );
-      // occupiedRange[ 1 ] = max( occupiedRange[ 1 ], stride );
     }
 
   }
 
   occupiedRange[ 0 ] += offset;
   occupiedRange[ 1 ] += offset;
-
   occupiedRange[ 1 ] += 1;
-
-  // if( self.atomsPerMatrix > 0 )
-  // occupiedRange[ 1 ] = max( occupiedRange[ 1 ], 1 );
-
-  // console.log( 'occupiedRange', occupiedRange );
 
   self[ occupiedRangeSymbol ] = occupiedRange;
 
@@ -1135,7 +1070,6 @@ function _adjustVerify()
 
   _.assert( _.longIs( self.buffer ), 'matrix needs buffer' );
   _.assert( _.longIs( self.strides ) || self.strides === null );
-  // _.assert( _.longIs( self.strides ) || _.numberIs( self.strides ) || self.strides === null );
   _.assert( _.numberIs( self.offset ), 'matrix needs offset' );
 
 }
@@ -1182,28 +1116,6 @@ function _adjustValidate()
   _.assert( self.offset + ( self.dims[ d ]-1 )*self._stridesEffective[ d ] <= self.buffer.length, 'out of bound' );
 
 }
-
-//
-
-// function _dimsFromDimsWithoutLength( breadth, buffer, offset )
-// {
-//
-//   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-//   _.assert( _.arrayIs( breadth ) );
-//   _.assert( _.longIs( buffer ) );
-//   _.assert( offset >= 0 );
-//
-//   let ape = _.avector.reduceToProduct( breadth );
-//   let l = ( buffer.length - offset ) / ape;
-//   let dims = breadth.slice();
-//   dims.push( l );
-//
-//   _.assert( breadth.length === 1, 'not tested' );
-//   _.assert( l >= 0 );
-//   _.assert( _.intIs( l ) );
-//
-//   return dims;
-// }
 
 //
 
@@ -1263,14 +1175,10 @@ function _dimsSet( src )
 {
   let self = this;
 
-  // console.log( '_dimsSet' );
-
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( src )
   {
-    if( src[ 0 ] === Infinity )
-    debugger;
 
     _.assert( _.arrayIs( src ) );
     _.assert( src.length >= 2 );
@@ -1279,11 +1187,6 @@ function _dimsSet( src )
     _.assert( src[ src.length-1 ] >= 0 );
     self[ dimsSymbol ] = _.entityFreeze( src.slice() );
     self[ breadthSymbol ] = _.entityFreeze( src.slice( 0, src.length-1 ) );
-
-    // if( src[ 1 ] === Infinity )
-    // debugger;
-    // if( src[ 1 ] === Infinity )
-    // self[ stridesEffectiveSymbol ] = _.longAssign( _.longSlice( self[ stridesEffectiveSymbol ] ), 1, Infinity );
 
   }
   else
@@ -1308,22 +1211,14 @@ function _dimsSet( src )
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
-// function expand( left, right )
 function expand( expand )
 {
   let self = this;
-
-  // if( left === null )
-  // left = _.dup( 0, self.dims.length );
-  // if( right === null )
-  // right = _.dup( 0, self.dims.length );
 
   /* */
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( expand.length === self.dims.length );
-  // _.assert( left.length === self.dims.length );
-  // _.assert( right.length === self.dims.length );
 
   /* */
 
@@ -1513,31 +1408,12 @@ function transpose()
 
 //
 
-// function equalWith( ins, o )
-// {
-//   debugger; xxx
-//   let it = equalWith.lookContinue( equalWith, arguments );
-//   let result = this._equalAre( it );
-//   return result;
-//   // _entityEqualIteratorMake
-//
-//   // let self = this;
-//   // let o = _._entityEqualIteratorMake( o || Object.create( null ) );
-//   // _.assert( arguments.length <= 2 );
-//   // return self._equalAre( self, ins, o );
-// }
-//
-// _.routineExtend( equalWith, _._equal );
-
-//
-
 function _equalAre( it )
 {
 
   _.assert( arguments.length === 1, 'Expects exactly three arguments' );
   _.assert( _.routineIs( it.onNumbersAreEqual ) );
   _.assert( _.lookIterationIs( it ) );
-  // _.assert( _.isPrototypeOf( it.looker, it ) );
 
   it.continue = false;
 
@@ -1581,32 +1457,6 @@ function _equalAre( it )
 
 _.routineExtend( _equalAre, _._equal );
 
-//
-//
-// function identicalWith( src )
-// {
-//   let self = this;
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   if( !( src instanceof Self ) )
-//   return false;
-//
-//   if( self.length !== src.length )
-//   return false;
-//
-//   if( self.buffer.constructor !== src.buffer.constructor )
-//   return false;
-//
-//   debugger;
-//
-//   if( !_.longIdentical( self.breadth, src.breadth )  )
-//   return false;
-//
-//   debugger;
-//   return _.longIdentical( self.buffer, self.buffer );
-// }
-//
 //
 
 /**
@@ -1672,7 +1522,6 @@ function toStr( o )
       result += e.toFixed( o.precision );
     }
 
-    // if( c < atomsPerRow-1 )
     result += ', ';
 
   }
@@ -1762,13 +1611,6 @@ function _bufferFrom( src )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
-
-  // if( !_.constructorIsBuffer( proto.array.ArrayType ) )
-  // return dst;
-  //
-  // debugger;
-  // if( !_.constructorIsBuffer( proto.longDescriptor ) )
-  // return dst;
 
   if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
   {
@@ -2068,8 +1910,6 @@ function AtomWiseHomogeneous( o )
 
     op = Object.create( null );
     op.key = -1;
-    // op.args = [ o.dst, o.srcs ];
-    // op.dstContainer = o.dst;
     op.args = null;
     op.dstContainer = null;
     op.dstElement = null;
@@ -2086,15 +1926,10 @@ function AtomWiseHomogeneous( o )
   if( !o.onAtomsBegin )
   o.onAtomsBegin = function handleAtomsBeing( op )
   {
-
-    // debugger
-    // op.dstElement = 0;
-
   }
 
   /* dst */
 
-  // debugger;
   if( o.reducing )
   {
     _.assert( !o.usingDstAsSrc );
@@ -2106,7 +1941,7 @@ function AtomWiseHomogeneous( o )
     o.srcs = o.args.slice( 1 );
     o.dst = o.args[ 0 ];
     /*o.dst = proto.makeZero( dims );*/
-    o.dst = o.args[ 0 ] = wMatrix.from( o.dst, dims );
+    o.dst = o.args[ 0 ] = proto.Self.from( o.dst, dims );
   }
   else
   {
@@ -2119,7 +1954,7 @@ function AtomWiseHomogeneous( o )
 
   for( let s = 0 ; s < o.srcs.length ; s++ )
   {
-    let src = o.srcs[ s ] = wMatrix.from( o.srcs[ s ], dims );
+    let src = o.srcs[ s ] = proto.Self.from( o.srcs[ s ], dims );
     _.assert( src instanceof Self );
   }
 
@@ -2154,24 +1989,15 @@ function AtomWiseHomogeneous( o )
     {
 
       op.key = [ c, r ];
-      // op.dstElement = o.dst.atomGet( op.key );
 
-      // debugger;
       op.dstElement = fsrc.atomGet( op.key );
 
-      // if( o.onAtomsBegin )
       o.onAtomsBegin( op );
 
       _.assert( _.numberIs( op.dstElement ) );
 
-      // op.dstElement = op.dstContainer.atomGet( op.key );
-      // op.dstElement = op.srcContainers[ 0 ].atomGet( op.key );
-
       if( op.srcContainers.length === 1 )
       {
-        // debugger;
-        // op.srcContainerIndex = 0;
-        // op.srcContainer = op.dstContainer;
         op.srcElement = fsrc.atomGet( op.key );
         o.onAtom.call( o.dst, op );
 
@@ -2182,9 +2008,6 @@ function AtomWiseHomogeneous( o )
       }
       else for( let s = 1 ; s < op.srcContainers.length ; s++ )
       {
-        // debugger;
-        // op.srcContainerIndex = s;
-        // op.srcContainer = op.srcContainers[ s ];
         op.srcElement = op.srcContainers[ s ].atomGet( op.key );
         o.onAtom.call( o.dst, op );
 
@@ -2197,8 +2020,6 @@ function AtomWiseHomogeneous( o )
 
       }
 
-      // if( !o.reducing )
-      // debugger;
       if( !o.reducing )
       op.dstContainer.atomSet( op.key, op.dstElement );
 
@@ -2231,147 +2052,6 @@ AtomWiseHomogeneous.defaults =
   reducing : 0,
 }
 
-//
-
-// function AtomWiseHomogeneousZip( o )
-// {
-//   let proto = this;
-//   let newDst = false;
-//
-//   /* preliminary analysis */
-//
-//   let dims = null;
-//   for( let s = 0 ; s < o.srcs.length ; s++ )
-//   {
-//     let src = o.srcs[ s ];
-//     if( src instanceof Self )
-//     if( dims )
-//     _.assert( _.longIdentical( src.dims, dims ) )
-//     else
-//     dims = src.dims;
-//   }
-//
-//   /* allocation */
-//
-//   if( o.dst === null )
-//   {
-//     o.dst = proto.makeZero( dims );
-//     newDst = true;
-//   }
-//
-//   for( let s = 0 ; s < o.srcs.length ; s++ )
-//   {
-//     let src = o.srcs[ s ] = wMatrix.from( o.srcs[ s ], dims );
-//     _.assert( src instanceof Self );
-//   }
-//
-//   /* verification */
-//
-//   _.assertMapHasOnly( o, AtomWiseHomogeneousZip.defaults );
-//   _.assert( o.srcs[ 0 ] instanceof Self );
-//   _.assert( !proto.instanceIs() );
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.assert( o.dst.dims.length === 2, 'not implemented' );
-//   _.assert( _.longIdentical( o.dst.dims, dims ) )
-//
-//   /* */
-//
-//   // let op = o.onVectorsBegin();
-//   let op = Object.create( null );
-//   op.key = -1;
-//   op.args = [ o.dst, o.srcs ];
-//   op.dstContainer = o.dst;
-//   op.dstElement = null;
-//   op.srcContainerIndex = -1;
-//   op.srcContainer = null;
-//   op.srcElement = null;
-//   Object.preventExtensions( op );
-//
-//   if( o.onBegin )
-//   o.onBegin.call( o.dst, op );
-//
-//   /* */
-//
-//   for( let c = 0 ; c < o.dst.atomsPerCol ; c++ )
-//   for( let r = 0 ; r < o.dst.atomsPerRow ; r++ )
-//   {
-//     op.key = [ c, r ];
-//     op.dstElement = o.dst.atomGet( op.key );
-//
-//     if( o.onAtomsBegin )
-//     o.onAtomsBegin( op );
-//
-//     op.srcContainerIndex = 0;
-//     op.srcContainer = o.srcs[ 0 ];
-//     op.dstElement = op.srcContainer.atomGet( op.key );
-//
-//     for( let s = 1 ; s < o.srcs.length ; s++ )
-//     {
-//       op.srcContainerIndex = s;
-//       op.srcContainer = o.srcs[ s ];
-//       op.srcElement = op.srcContainer.atomGet( op.key );
-//       o.onAtom.call( o.dst, op );
-//     }
-//
-//     if( o.onAtomsEnd )
-//     o.onAtomsEnd( op );
-//
-//   }
-//
-//   return o.dst;
-// }
-//
-// AtomWiseHomogeneousZip.defaults =
-// {
-//   onAtom : null,
-//   onAtomsBegin : null,
-//   onAtomsEnd : null,
-//   dst : null,
-//   srcs : null,
-// }
-
-//
-
-// function atomWiseZip( onAtom, dst, srcs )
-// {
-//   let self = this;
-//   let result;
-
-//   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-//   _.assert( self.dims.length === 2, 'not implemented' );
-
-//   let op = Object.create( null );
-//   op.key = -1;
-//   op.args = [ dst, srcs ];
-//   op.dstContainer = self;
-//   op.dstElement = null;
-//   op.srcContainers = srcs;
-//   op.srcElements = [];
-//   Object.preventExtensions( op );
-
-//   /* */
-
-//   for( let s = 0 ; s < srcs.length ; s++ )
-//   {
-//     let src = srcs[ s ];
-//     _.assert( srcs[ s ] instanceof Self );
-//   }
-
-//   /* */
-
-//   for( let c = 0 ; c < self.atomsPerCol ; c++ )
-//   for( let r = 0 ; r < self.atomsPerRow ; r++ )
-//   {
-//     op.key = [ c, r ];
-//     op.dstElement = self.atomGet( op.key );
-
-//     for( let s = 0 ; s < srcs.length ; s++ )
-//     op.srcElements[ s ] = srcs[ s ].atomGet( op.key );
-
-//     onAtom.call( self, op );
-//   }
-
-//   return self;
 // }
 
 function atomWiseZip( onAtom, dst, srcs )
@@ -2401,7 +2081,6 @@ function AtomWiseZip( o )
 
   let self = o.dstContainer;
 
-  // _.assert( arguments.length === 3, 'Expects exactly three arguments' );
   _.assert( self.dims.length === 2, 'not implemented' );
 
   let op = Object.create( null );
@@ -2496,15 +2175,12 @@ function elementsZip( onEach, matrix )
 function _lineEachCollecting( o ) /* xxx : move out? */
 {
   let self = this;
-  // let returningRow = o.onEach.returningSelf !== false || o.onEach.returningNew !== false;
-  // let returningNumber = o.onEach.returningNumber === true;
 
   _.assert( self.dims.length === 2 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( o.args ) );
   _.assert( o.length >= 0 );
   _.assert( _.boolLike( o.returningNumber ) );
-  // _.assert( _.boolIs( o.onEach.returningSelf ) && _.boolIs( o.onEach.returningNew ) && _.boolIs( o.onEach.returningNumber ) )
 
   /* */
 
@@ -2513,8 +2189,6 @@ function _lineEachCollecting( o ) /* xxx : move out? */
   if( !o.args[ 0 ] )
   {
     if( o.returningNumber )
-    // o.args[ 0 ] = vector.Make/*makeArrayOfLength*/( o.length ); xxx
-    // o.args[ 0 ] = vector.From( self.long.longMake( self.buffer, o.length ) );
     o.args[ 0 ] = new Array( o.length );
     else
     o.args[ 0 ] = [];
@@ -2594,45 +2268,6 @@ function rowEachCollecting( onEach , args , returningNumber )
 
   return result;
 }
-
-//
-
-// function _reduceToScalar( o )
-// {
-//   let self = this;
-//   let onVector = o.onVector;
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.routineOptions( _reduceToScalar, o );
-//   _.assert( self.dims === 2, 'not implemented' );
-//
-//   /* */
-//
-//   debugger;
-//   let atomsPerRow = self.atomsPerRow;
-//   let rvector = _.vectorAdapter.zeroes( atomsPerRow );
-//   for( let i = 0 ; i < atomsPerCol ; i++ )
-//   {
-//     debugger;
-//     let e = onVector.call( self.colVectorGet( i ) );
-//     _.assert( _.numberIs( e ) );
-//     rvector.eset( i, e );
-//     debugger;
-//   }
-//
-//   debugger;
-//   let result = onVector.call( rvector );
-//
-//   /* */
-//
-//   debugger;
-//   return result;
-// }
-//
-// _lineEachCollecting.defaults =
-// {
-//   onVector : null,
-// }
 
 // --
 // components accessor
@@ -2784,24 +2419,8 @@ function elementsInRangeGet( range )
   _.assert( self.breadth.length === 1 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( range[ 1 ] >= range[ 0 ] );
-
   _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
-  // _.assert( self.strideOfElement === self.atomsPerElement || self.strideOfElement === 0 );
 
-  debugger;
-
-  if( self.strideOfElement !== self.atomsPerElement )
-  debugger;
-
-  // if( self.strideOfElement === 0 )
-  // result = vector.FromSubLongWithStride
-  // (
-  //   self.buffer,
-  //   self.offset+self.strideOfElement*range[ 0 ],
-  //   self.atomsPerElement*( range[ 1 ]-range[ 0 ] ),
-  //   0
-  // );
-  // else
   result = vector.FromSubLong
   (
     self.buffer,
@@ -2947,14 +2566,6 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
     this.atomsPerRow,
     this.strideInRow
   );
-
-  // let result = vector.FromSubLongWithStride
-  // (
-  //   this.buffer,
-  //   this.offset + rowIndex*this._stridesEffective[ 0 ] + matrixOffset,
-  //   this.dims[ 1 ],
-  //   this._stridesEffective[ 1 ]
-  // );
 
   return result;
 }
@@ -3213,8 +2824,6 @@ let Composes =
   growingDimension : 1,
   inputTransposing : null,
 
-  // strides : null,
-
 }
 
 //
@@ -3237,12 +2846,6 @@ let Restricts =
 
   _dimsWas : null,
   _changing : [ 1 ],
-
-  // buffer : null,
-
-  // strides : null,
-  // offset : 0,
-  // breadth : null,
 
 }
 
@@ -3285,7 +2888,6 @@ let Statics =
   /* iterator */
 
   AtomWiseHomogeneous,
-  // AtomWiseHomogeneousZip,
   AtomWiseZip,
 
 
@@ -3298,13 +2900,9 @@ let Statics =
 
   /* var */
 
-  // array : _.LongDescriptors.Float32,
-  // withDefaultLong : _.LongDescriptors, /* xxx */
   accuracy,
   accuracySqr,
-
   vectorAdapter : _.vectorAdapter,
-  // long : _.vectorAdapter.long, /* xxx */
 
 }
 
@@ -3385,9 +2983,6 @@ let Accessors =
   strides : 'strides',
   dims : 'dims',
   breadth : 'breadth',
-
-  // vector : { readOnly : 1, getter : _.vectorAdapter },
-  // long : { readOnly : 1, getter : _.vectorAdapter.long },
 
 }
 
@@ -3514,8 +3109,8 @@ let Extension =
   atomWiseReduceWithAtomHandler,
   atomWiseWithAssign,
   AtomWiseHomogeneous,
-  // AtomWiseHomogeneousZip,
   atomWiseZip,
+  AtomWiseZip,
 
   elementEach,
   elementsZip,
@@ -3596,31 +3191,35 @@ _.classDeclare
 
 _.Copyable.mixin( Self );
 
+Object.defineProperty( Self, 'accuracy', {
+  get : function() { return this.vectorAdapter.accuracy },
+});
+
+Object.defineProperty( Self, 'accuracySqr', {
+  get : function() { return this.vectorAdapter.accuracySqr },
+});
+
+Object.defineProperty( Self.prototype, 'accuracy', {
+  get : function() { return this.vectorAdapter.accuracy },
+});
+
+Object.defineProperty( Self.prototype, 'accuracySqr', {
+  get : function() { return this.vectorAdapter.accuracySqr },
+});
+
+_.Matrix = Self;
+
 //
 
-// debugger;
 _.assert( !!_.vectorAdapter );
 _.assert( !!_.vectorAdapter.long );
-// _.assert( Self.long === _.vectorAdapter.long );
-// debugger;
 
-// _.assert( _.objectIs( Self.prototype.array ) );
-// _.assert( _.objectIs( Self.prototype.withDefaultLong ) );
 _.assert( _.objectIs( _.withDefaultLong ) );
 _.assert( _.objectIs( _.withDefaultLong.Fx ) );
-// debugger;
-// _.assert( _.objectIs( _.longDescriptor.F32 ) );
-// _.assert( _.routineIs( _.longDescriptor.F32.Make/*makeArrayOfLength*/ ) );
-// debugger;
 
-//
-
-// _.accessor.forbid( Self.prototype, Forbids );
 _.accessor.readOnly( Self.prototype, ReadOnlyAccessors );
-
 _.accessor.readOnly( Self, { long : { getter : _longGet, setter : false } } );
 _.accessor.readOnly( Self.prototype, { long : { getter : _longGet, setter : false } } );
-// _.accessor.declare( Self.prototype, Accessors );
 
 _.assert( Self.prototype.vectorAdapter.long === Self.vectorAdapter.long );
 _.assert( Self.long === Self.vectorAdapter.long );
@@ -3629,15 +3228,7 @@ _.assert( Self.long === _.vectorAdapter.long );
 
 //
 
-_.mapExtendConditional( _.field.mapper.srcOwnPrimitive, Self, Composes ); /* xxx : required ??? */
-_global_.wMatrix = _.Matrix = Self;
-
-//
-
-// if( typeof module !== 'undefined' )
-// {
-//   require( './l3/FromVector.s' );
-//   require( './l3/Methods.s' );
-// }
+// _.mapExtendConditional( _.field.mapper.srcOwnPrimitive, Self, Composes ); /* xxx qqq : required ??? */
+// _.Matrix = _.Matrix = Self;
 
 })();
