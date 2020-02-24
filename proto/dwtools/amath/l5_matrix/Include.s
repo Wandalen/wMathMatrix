@@ -7,10 +7,6 @@
   @module Tools/math/Matrix
 */
 
-/**
- * @file wMatrix.s.
- */
-
 if( typeof module !== 'undefined' )
 {
 
