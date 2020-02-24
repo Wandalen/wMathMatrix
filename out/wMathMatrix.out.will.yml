@@ -175,16 +175,22 @@ module:
           - ../proto/dwtools/Tools.s
           - ../proto/dwtools/abase
           - ../proto/dwtools/amath
-          - ../proto/dwtools/amath/l5.test
-          - ../proto/dwtools/amath/l5.test/Matrix.test.s
           - ../proto/dwtools/amath/l5_matrix
           - ../proto/dwtools/amath/l5_matrix/Include.s
           - ../proto/dwtools/amath/l5_matrix/l1
           - ../proto/dwtools/amath/l5_matrix/l1/Basic.s
           - ../proto/dwtools/amath/l5_matrix/l3
           - ../proto/dwtools/amath/l5_matrix/l3/RoutinesFromVector.s
-          - ../proto/dwtools/amath/l5_matrix/l5
-          - ../proto/dwtools/amath/l5_matrix/l5/Methods.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Basic.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Check.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Make.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Mid.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Solve.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Svd.s
+          - ../proto/dwtools/amath/l5_matrix.test
+          - ../proto/dwtools/amath/l5_matrix.test/Matrix.test.s
+          - ../proto/dwtools/amath/l5_matrix.test/Svd.test.s
           - ../proto/dwtools/amid
           - ../proto/dwtools/atop
     submodule:
