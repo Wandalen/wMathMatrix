@@ -180,7 +180,6 @@ function _traverseAct( it )
     }
     else if( src.buffer && !dst.buffer )
     {
-      debugger;
       dst.buffer = self.long.longMakeUndefined( src.buffer , src.atomsPerMatrix );
       dst.offset = 0;
       dst.strides = null;

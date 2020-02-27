@@ -160,13 +160,13 @@ function triangulateLu()
   {
     let row1 = self.rowVectorGet( r1 );
     let scaler1 = row1.eGet( r1 );
-    row1 = row1.subarray( r1+1 );
+    row1 = row1.review( r1+1 );
 
     for( let r2 = r1+1 ; r2 < nrow ; r2++ )
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      self.vectorAdapter.subScaled( row2.subarray( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -190,14 +190,14 @@ function triangulateLuNormal()
   {
     let row1 = self.rowVectorGet( r1 );
     let scaler1 = row1.eGet( r1 );
-    row1 = row1.subarray( r1+1 );
+    row1 = row1.review( r1+1 );
     self.vectorAdapter.divScalar( row1, scaler1 );
 
     for( let r2 = r1+1 ; r2 < nrow ; r2++ )
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 );
-      self.vectorAdapter.subScaled( row2.subarray( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -242,13 +242,13 @@ function triangulateLuPivoting( pivots )
 
     let row1 = self.rowVectorGet( r1 );
     let scaler1 = row1.eGet( r1 );
-    row1 = row1.subarray( r1+1 );
+    row1 = row1.review( r1+1 );
 
     for( let r2 = r1+1 ; r2 < nrow ; r2++ )
     {
       let row2 = self.rowVectorGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      self.vectorAdapter.subScaled( row2.subarray( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -268,8 +268,8 @@ function _pivotRook( i, o )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( o.pivots )
 
-  let row1 = self.rowVectorGet( i ).subarray( i );
-  let col1 = self.colVectorGet( i ).subarray( i );
+  let row1 = self.rowVectorGet( i ).review( i );
+  let col1 = self.colVectorGet( i ).review( i );
   let value = row1.eGet( 0 );
 
   let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
@@ -478,8 +478,8 @@ function invertWithGaussJordan()
   for( let r1 = 0 ; r1 < nrow ; r1++ )
   {
 
-    let row1 = m.rowVectorGet( r1 ).subarray( r1+1 );
-    let xrow1 = m.rowVectorGet( r1 ).subarray( 0, r1+1 );
+    let row1 = m.rowVectorGet( r1 ).review( r1+1 );
+    let xrow1 = m.rowVectorGet( r1 ).review([ 0, r1 ]);
 
     let scaler1 = 1 / xrow1.eGet( r1 );
     xrow1.eSet( r1, 1 );
@@ -492,8 +492,8 @@ function invertWithGaussJordan()
       if( r1 === r2 )
       continue;
 
-      let row2 = m.rowVectorGet( r2 ).subarray( r1+1 );
-      let xrow2 = m.rowVectorGet( r2 ).subarray( 0, r1+1 );
+      let row2 = m.rowVectorGet( r2 ).review( r1+1 );
+      let xrow2 = m.rowVectorGet( r2 ).review([ 0, r1 ]);
       let scaler2 = xrow2.eGet( r1 );
       xrow2.eSet( r1, 0 )
 
@@ -612,10 +612,10 @@ function solveTriangleLower( x, m, y )
 
     for( let r1 = 0 ; r1 < y.length ; r1++ )
     {
-      let xu = x.subarray( 0, r1 );
+      let xu = x.review([ 0, r1-1 ]);
       let row = m.rowVectorGet( r1 );
       let scaler = row.eGet( r1 );
-      row = row.subarray( 0, r1 );
+      row = row.review([ 0, r1-1 ]);
       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) ) / scaler;
       x.eSet( r1, xval );
     }
@@ -637,9 +637,9 @@ function solveTriangleLowerNormal( x, m, y )
 
     for( let r1 = 0 ; r1 < y.length ; r1++ )
     {
-      let xu = x.subarray( 0, r1 );
+      let xu = x.review([ 0, r1-1 ]);
       let row = m.rowVectorGet( r1 );
-      row = row.subarray( 0, r1 );
+      row = row.review([ 0, r1-1 ]);
       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) );
       x.eSet( r1, xval );
     }
@@ -655,16 +655,17 @@ function solveTriangleLowerNormal( x, m, y )
 function solveTriangleUpper( x, m, y )
 {
   let self = this;
+  return self._solveTriangleWithRoutine( arguments, handleSolve );
 
   function handleSolve( x, m, y )
   {
 
     for( let r1 = y.length-1 ; r1 >= 0 ; r1-- )
     {
-      let xu = x.subarray( r1+1, x.length );
+      let xu = x.review([ r1+1, x.length-1 ]);
       let row = m.rowVectorGet( r1 );
       let scaler = row.eGet( r1 );
-      row = row.subarray( r1+1, row.length );
+      row = row.review([ r1+1, row.length-1 ]);
       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) ) / scaler;
       x.eSet( r1, xval );
     }
@@ -672,7 +673,6 @@ function solveTriangleUpper( x, m, y )
     return x;
   }
 
-  return self._solveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
@@ -686,9 +686,9 @@ function solveTriangleUpperNormal( x, m, y )
 
     for( let r1 = y.length-1 ; r1 >= 0 ; r1-- )
     {
-      let xu = x.subarray( r1+1, x.length );
+      let xu = x.review([ r1+1, x.length-1 ]);
       let row = m.rowVectorGet( r1 );
-      row = row.subarray( r1+1, row.length );
+      row = row.review([ r1+1, row.length-1 ]);
       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) );
       x.eSet( r1, xval );
     }
