@@ -419,7 +419,7 @@ function diagonalSet( src )
   if( src instanceof Self )
   src = src.diagonalVectorGet();
 
-  src = self.vectorAdapter.FromMaybeNumber( src, length );
+  src = self.vectorAdapter.fromMaybeNumber( src, length );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( self.dims.length === 2 );
@@ -444,7 +444,7 @@ function diagonalVectorGet()
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( self.dims.length === 2 );
 
-  let result = self.vectorAdapter.FromSubLongWithStride( self.buffer, self.offset, length, strides[ 0 ] + strides[ 1 ] );
+  let result = self.vectorAdapter.fromLongLrangeAndStride( self.buffer, self.offset, length, strides[ 0 ] + strides[ 1 ] );
 
   return result;
 }
@@ -569,7 +569,7 @@ function matrixApplyTo( dstVector )
   if( self.hasShape([ 3, 3 ]) )
   {
 
-    let dstVectorv = self.vectorAdapter.From( dstVector );
+    let dstVectorv = self.vectorAdapter.from( dstVector );
     let x = dstVectorv.eGet( 0 );
     let y = dstVectorv.eGet( 1 );
     let z = dstVectorv.eGet( 2 );
@@ -587,7 +587,7 @@ function matrixApplyTo( dstVector )
   else if( self.hasShape([ 2, 2 ]) )
   {
 
-    let dstVectorv = self.vectorAdapter.From( dstVector );
+    let dstVectorv = self.vectorAdapter.from( dstVector );
     let x = dstVectorv.eGet( 0 );
     let y = dstVectorv.eGet( 1 );
 
@@ -608,7 +608,7 @@ function matrixApplyTo( dstVector )
 function matrixHomogenousApply( dstVector )
 {
   let self = this;
-  let _dstVector = self.vectorAdapter.From( dstVector );
+  let _dstVector = self.vectorAdapter.from( dstVector );
   let dstLength = dstVector.length;
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -666,10 +666,10 @@ function positionGet()
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   // debugger;
-  result = self.vectorAdapter.FromSubLong( result, 0, loe-1 );
+  result = self.vectorAdapter.fromLongLrange( result, 0, loe-1 );
 
   //let result = self.elementsInRangeGet([ (l-1)*loe, l*loe ]);
-  //let result = self.vectorAdapter.FromSubLong( this.buffer, 12, 3 );
+  //let result = self.vectorAdapter.fromLongLrange( this.buffer, 12, 3 );
 
   return result;
 }
@@ -679,7 +679,7 @@ function positionGet()
 function positionSet( src )
 {
   let self = this;
-  src = self.vectorAdapter.FromLong( src );
+  src = self.vectorAdapter.fromLong( src );
   let dst = this.positionGet();
 
   _.assert( src.length === dst.length );
@@ -735,14 +735,14 @@ function scaleGet( dst )
   if( dst )
   l = dst.length;
   else
-  dst = self.vectorAdapter.From( self.long.longMakeZeroed( self.length-1 ) );
+  dst = self.vectorAdapter.from( self.long.longMakeZeroed( self.length-1 ) );
 
-  let dstv = self.vectorAdapter.From( dst );
+  let dstv = self.vectorAdapter.from( dst );
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   for( let i = 0 ; i < l ; i += 1 )
-  dstv.eSet( i , self.vectorAdapter.mag( self.vectorAdapter.FromSubLong( this.buffer, loe*i, loe-1 ) ) );
+  dstv.eSet( i , self.vectorAdapter.mag( self.vectorAdapter.fromLongLrange( this.buffer, loe*i, loe-1 ) ) );
 
   return dst;
 }
@@ -752,7 +752,7 @@ function scaleGet( dst )
 function scaleSet( src )
 {
   let self = this;
-  src = self.vectorAdapter.FromLong( src );
+  src = self.vectorAdapter.fromLong( src );
   let l = self.length;
   let loe = self.atomsPerElement;
   let cur = this.scaleGet();
@@ -772,7 +772,7 @@ function scaleSet( src )
 function scaleAroundSet( scale, center )
 {
   let self = this;
-  scale = self.vectorAdapter.FromLong( scale );
+  scale = self.vectorAdapter.fromLong( scale );
   let l = self.length;
   let loe = self.atomsPerElement;
   let cur = this.scaleGet();
@@ -788,9 +788,9 @@ function scaleAroundSet( scale, center )
   /* */
 
   debugger;
-  center = self.vectorAdapter.FromLong( center );
+  center = self.vectorAdapter.fromLong( center );
   let pos = self.vectorAdapter.slice( scale );
-  pos = self.vectorAdapter.FromLong( pos );
+  pos = self.vectorAdapter.fromLong( pos );
   self.vectorAdapter.mulScalar( pos, -1 );
   self.vectorAdapter.addScalar( pos, 1 );
   self.vectorAdapter.mulVectors( pos, center );
@@ -804,14 +804,14 @@ function scaleAroundSet( scale, center )
 function scaleApply( src )
 {
   let self = this;
-  src = self.vectorAdapter.FromLong( src );
+  src = self.vectorAdapter.fromLong( src );
   let ape = self.atomsPerElement;
   let l = self.length;
 
   for( let i = 0 ; i < ape ; i += 1 )
   {
     let c = self.rowVectorGet( i );
-    c = self.vectorAdapter.FromSubLong( c, 0, l-1 );
+    c = self.vectorAdapter.fromLongLrange( c, 0, l-1 );
     self.vectorAdapter.mulVectors( c, src );
   }
 
@@ -824,7 +824,7 @@ function scaleApply( src )
 function closest( insElement )
 {
   let self = this;
-  insElement = self.vectorAdapter.FromLong( insElement );
+  insElement = self.vectorAdapter.fromLong( insElement );
   let result =
   {
     index : null,
@@ -855,7 +855,7 @@ function closest( insElement )
 function furthest( insElement )
 {
   let self = this;
-  insElement = self.vectorAdapter.FromLong( insElement );
+  insElement = self.vectorAdapter.fromLong( insElement );
   let result =
   {
     index : null,

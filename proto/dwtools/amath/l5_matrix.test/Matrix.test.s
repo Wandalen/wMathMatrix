@@ -21,9 +21,9 @@ if( typeof module !== 'undefined' )
 var _ = _global_.wTools.withDefaultLong.Fx;
 var matrix = _.Matrix;
 var vad = _.vectorAdapter;
-var vec = _.vectorAdapter.FromLong;
-var fvec = function( src ){ return _.vectorAdapter.FromLong( new F32x( src ) ) }
-var ivec = function( src ){ return _.vectorAdapter.FromLong( new I32x( src ) ) }
+var vec = _.vectorAdapter.fromLong;
+var fvec = function( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
+var ivec = function( src ){ return _.vectorAdapter.fromLong( new I32x( src ) ) }
 var avector = _.avector;
 
 var sqr = _.math.sqr;
@@ -293,7 +293,7 @@ function isDiagonal( test )
   test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
   var matrix =  [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
-  var matrix =  _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix =  _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.isDiagonal( matrix ));
 
 }
@@ -471,7 +471,7 @@ function isUpperTriangle( test )
   test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
   var matrix = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
-  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.isUpperTriangle( ));
 
 }
@@ -630,7 +630,7 @@ function isSymmetric( test )
   test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
   var matrix = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
-  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.isSymmetric( ));
 
 }
@@ -2827,7 +2827,7 @@ function makeLine( test )
 
   test.case = 'make col from vector with Array'; /* */
 
-  var v = vad.FromSubLongWithStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
   var m = matrix.makeCol( v );
 
   checkCol( m );
@@ -2854,7 +2854,7 @@ function makeLine( test )
 
   test.case = 'make col from vector with F32x'; /* */
 
-  var v = vad.FromSubLongWithStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
   var m = matrix.makeCol( v );
 
   logger.log( 'm\n' + _.toStr( m ) );
@@ -2946,7 +2946,7 @@ function makeLine( test )
 
   test.case = 'make col zeroed from vector'; /* */
 
-  var v = vad.FromSubLongWithStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
   var m = matrix.makeColZeroed( v );
 
   checkCol( m );
@@ -3070,7 +3070,7 @@ function makeLine( test )
 
   test.case = 'make row from vector with Array'; /* */
 
-  var v = vad.FromSubLongWithStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
   var m = matrix.makeRow( v );
 
   checkRow( m );
@@ -3097,7 +3097,7 @@ function makeLine( test )
 
   test.case = 'make row from vector with F32x'; /* */
 
-  var v = vad.FromSubLongWithStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
   var m = matrix.makeRow( v );
 
   logger.log( 'm\n' + _.toStr( m ) );
@@ -3187,7 +3187,7 @@ function makeLine( test )
 
   test.case = 'make row zeroed from vector'; /* */
 
-  var v = vad.FromSubLongWithStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
   var m = matrix.makeRowZeroed( v );
 
   checkRow( m );
@@ -3366,24 +3366,24 @@ function _makeSimilar( test, o )
 
   test.case = o.name + ' . from vector'; //
 
-  var src = vad.From( o.arrayMake([ 1, 2, 3 ]) );
+  var src = vad.from( o.arrayMake([ 1, 2, 3 ]) );
   var got = matrix.makeSimilar( src );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , src.length );
 
-  var src = vad.FromSubLongWithStride( o.arrayMake([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 1 );
+  var src = vad.fromLongLrangeAndStride( o.arrayMake([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 1 );
   var got = matrix.makeSimilar( src );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , src.length );
 
   test.case = o.name + ' . from vector with dims'; //
 
-  var src = vad.From( o.arrayMake([ 1, 2, 3 ]) );
+  var src = vad.from( o.arrayMake([ 1, 2, 3 ]) );
   var got = matrix.makeSimilar( src, [ 5, 1 ] );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , 5 );
 
-  var src = vad.FromSubLongWithStride( o.arrayMake([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 1 );
+  var src = vad.fromLongLrangeAndStride( o.arrayMake([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 1 );
   var got = matrix.makeSimilar( src, [ 5, 1 ] );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , 5 );
@@ -3458,14 +3458,14 @@ function from( test )
 
   test.case = '_BufferFrom from vector with Array'; /* */
 
-  var v = vad.FromSubLongWithStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
   var expected = new F32x([ 1, 2, 3 ]);
   var got = matrix._BufferFrom( v );
   test.identical( got, expected );
 
   test.case = '_BufferFrom from vector with F32x'; /* */
 
-  var v = vad.FromSubLongWithStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
+  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
   var got = matrix._BufferFrom( v );
   test.is( got === v );
 
@@ -3875,8 +3875,8 @@ function _convertToClass( test, o )
 
   var src = matrix.makeCol( 3 );
   src.buffer = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.convertToClass( vad.FromLong( o.arrayMake([]) ).constructor, src );
-  var expected = vad.FromLong( o.arrayMake([ 1, 2, 3 ]) );
+  var got = matrix.convertToClass( vad.fromLong( o.arrayMake([]) ).constructor, src );
+  var expected = vad.fromLong( o.arrayMake([ 1, 2, 3 ]) );
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'matrix to array with class'; //
@@ -4919,7 +4919,7 @@ function vectorToMatrix( test )
   /* */
 
   test.case = 'vector to matrix'; /* */
-  var v = _.vectorAdapter.From([ 1, 2, 3 ]);
+  var v = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = v.to( _.Matrix );
   var expected = _.Matrix.makeCol([ 1, 2, 3 ]);
   test.identical( got, expected );
@@ -7044,7 +7044,7 @@ function addAtomWise( test )
       4,
     ]);
 
-    v1 = vad.FromLong([ 9, 8 ]);
+    v1 = vad.fromLong([ 9, 8 ]);
     a1 = [ 6, 5 ];
 
   }
@@ -7246,7 +7246,7 @@ function subAtomWise( test )
       4,
     ]);
 
-    v1 = vad.FromLong([ 9, 8 ]);
+    v1 = vad.fromLong([ 9, 8 ]);
     a1 = [ 6, 5 ];
 
   }
@@ -8394,7 +8394,7 @@ function furthestClosest( test )
 
 //
 
-function matrxHomogenousApply( test )
+function matrixHomogenousApply( test )
 {
 
   test.case = 'matrixHomogenousApply 2d'; /* */
@@ -10429,7 +10429,7 @@ var Self =
     colRowWiseOperations,
     mul,
     furthestClosest,
-    matrxHomogenousApply,
+    matrixHomogenousApply,
 
     determinant,
     triangulate,

@@ -34,7 +34,7 @@ _.assert( _.routineIs( Self ),'wMatrix is not defined, please include wMatrix.s 
   * @param { r } - The destination R matrix.
   *
   * @example
-  * // returns self.vectorAdapter.From( [ 4, -2, -2 ] );
+  * // returns self.vectorAdapter.from( [ 4, -2, -2 ] );
   * var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
   * ([
   *   1,  -3,  3,
@@ -90,7 +90,7 @@ function qrIteration( q, r )
     r.copy( rInt );
   }
 
-  let eigenValues = self.vectorAdapter.toArray( a.diagonalVectorGet() );
+  let eigenValues = self.vectorAdapter.toLong( a.diagonalVectorGet() );
   eigenValues.sort( ( a, b ) => b - a );
 
   logger.log( 'EI',eigenValues)
@@ -178,13 +178,13 @@ function qrDecompositionGS( q, r )
   for( let i = 0; i < cols; i++ )
   {
     let col = matrix.colVectorGet( i );
-    let sum = self.vectorAdapter.From( self.long.longMakeZeroed( rows ) );
+    let sum = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
     for( let j = 0; j < i ; j ++ )
     {
-      let dot = self.vectorAdapter.dot( col, self.vectorAdapter.From( qInt.colVectorGet( j ) ) );
+      let dot = self.vectorAdapter.dot( col, self.vectorAdapter.from( qInt.colVectorGet( j ) ) );
       debugger;
 
-      self.vectorAdapter.addVectors( sum, self.vectorAdapter.mulScalar( self.vectorAdapter.From( qInt.colVectorGet( j ) ).clone(), - dot ) );
+      self.vectorAdapter.addVectors( sum, self.vectorAdapter.mulScalar( self.vectorAdapter.from( qInt.colVectorGet( j ) ).clone(), - dot ) );
     }
     let e = self.vectorAdapter.normalize( self.vectorAdapter.addVectors( col.clone(), sum ) );
     qInt.colSet( i, e );
@@ -257,7 +257,7 @@ function qrDecompositionHh( q, r )
 
   for( let j = 0; j < cols; j++ )
   {
-    let u = self.vectorAdapter.From( self.long.longMakeZeroed( rows ) );
+    let u = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
     let e = identity.clone().colVectorGet( j );
     let col = matrix.clone().colVectorGet( j );
 
@@ -329,8 +329,8 @@ function qrDecompositionHh( q, r )
   *   6, 6, 6
   * ]);
   *
-  * var v1 =  self.vectorAdapter.From( [ 0, 1, 2 ] );
-  * var v2 =  self.vectorAdapter.From( [ 3, 3, 3 ] );
+  * var v1 =  self.vectorAdapter.from( [ 0, 1, 2 ] );
+  * var v2 =  self.vectorAdapter.from( [ 3, 3, 3 ] );
   * matrix.fromVectors( v1, v2 );
   *
   * @function fromVectors

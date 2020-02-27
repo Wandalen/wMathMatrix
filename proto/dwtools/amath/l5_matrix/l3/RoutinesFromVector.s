@@ -269,8 +269,17 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
   if( dop.kind === 'reducing' )
   return;
 
-  if( _.longIdentical( dop.input, [ 'vw|s', 's' ] ) )
+  if( !dop.onAtom )
   return;
+
+  // if( _.longIdentical( dop.input, [ 'vw|s', 's' ] ) )
+  // return;
+
+  if( dop.input === 'vw|s s' )
+  {
+    debugger;
+    return;
+  }
 
   let routineName = name + 'AtomWise';
   let onAtom0 = dop.onAtom[ 0 ];

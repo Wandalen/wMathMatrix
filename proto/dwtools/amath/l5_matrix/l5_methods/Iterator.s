@@ -426,7 +426,7 @@ function _lineEachCollecting( o ) /* xxx : move out? */
 
   if( o.returningNumber )
   if( !_.vectorAdapterIs( o.args[ 0 ] ) )
-  o.args[ 0 ] = self.vectorAdapter.FromLong( o.args[ 0 ] );
+  o.args[ 0 ] = self.vectorAdapter.fromLong( o.args[ 0 ] );
 
   let result = o.args[ 0 ];
 

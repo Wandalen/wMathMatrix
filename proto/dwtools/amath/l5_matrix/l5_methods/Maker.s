@@ -551,7 +551,7 @@ function convertToClass( cls, src )
     else if( _.constructorIsVector( cls ) )
     {
       array = new src.buffer.constructor( atomsPerMatrix );
-      result = self.vectorAdapter.FromLong( array );
+      result = self.vectorAdapter.fromLong( array );
     }
     else _.assert( 0, 'unknown class (-cls-)', cls.name );
 
@@ -563,7 +563,7 @@ function convertToClass( cls, src )
   {
 
     let atomsPerMatrix = src.length;
-    src = self.vectorAdapter.From( src );
+    src = self.vectorAdapter.from( src );
 
     if( _.constructorIsMatrix( cls ) )
     {
@@ -586,7 +586,7 @@ function convertToClass( cls, src )
     else if( _.constructorIsVector( cls ) )
     {
       let array = new src._vectorBuffer.constructor( atomsPerMatrix );
-      result = self.vectorAdapter.FromLong( array );
+      result = self.vectorAdapter.fromLong( array );
       for( let i = 0 ; i < src.length ; i += 1 )
       array[ i ] = src.eGet( i );
     }
@@ -759,7 +759,7 @@ function fromQuat( q )
 {
   let self = this;
 
-  q = self.vectorAdapter.From( q );
+  q = self.vectorAdapter.from( q );
   let x = q.eGet( 0 );
   let y = q.eGet( 1 );
   let z = q.eGet( 2 );
@@ -807,7 +807,7 @@ function fromQuatWithScale( q )
 {
   let self = this;
 
-  q = self.vectorAdapter.From( q );
+  q = self.vectorAdapter.from( q );
   let m = q.mag();
   let x = q.eGet( 0 ) / m;
   let y = q.eGet( 1 ) / m;
@@ -855,7 +855,7 @@ function fromQuatWithScale( q )
 function fromAxisAndAngle( axis, angle )
 {
   let self = this;
-  axis = self.vectorAdapter.From( axis );
+  axis = self.vectorAdapter.from( axis );
 
   // let m = axis.mag();
   // debugger;
@@ -927,7 +927,7 @@ function fromAxisAndAngleWithScale( axis, angle )
 {
   let self = this;
 
-  axis = self.vectorAdapter.From( axis );
+  axis = self.vectorAdapter.from( axis );
 
   let m = axis.mag();
   debugger;
@@ -1254,7 +1254,7 @@ let lookAt = ( function lookAt()
 function closest( insElement )
 {
   let self = this;
-  insElement = self.vectorAdapter.FromLong( insElement );
+  insElement = self.vectorAdapter.fromLong( insElement );
   let result =
   {
     index : null,
@@ -1285,7 +1285,7 @@ function closest( insElement )
 function furthest( insElement )
 {
   let self = this;
-  insElement = self.vectorAdapter.FromLong( insElement );
+  insElement = self.vectorAdapter.fromLong( insElement );
   let result =
   {
     index : null,
@@ -1539,6 +1539,9 @@ let Extension =
   fromEuler,
 
   // projector
+
+  normalProjectionMatrixMake,
+  normalProjectionMatrixGet,
 
   formPerspective, /* qqq : static */
   formFrustum, /* qqq : static */

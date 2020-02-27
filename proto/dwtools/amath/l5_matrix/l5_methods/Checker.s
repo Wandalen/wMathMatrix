@@ -66,7 +66,7 @@ function isDiagonal()
   {
     for( let j = 0; j < cols; j++ )
     {
-      debugger;
+      // debugger;
       if( j !== i && self.atomGet( [ i, j ]) !== 0 )
       return false
     }

@@ -17,9 +17,9 @@ if( typeof module !== 'undefined' )
 
 var _ = _global_.wTools.withDefaultLong.Fx;
 var vectorAdapter = _.vectorAdapter;
-var vec = _.vectorAdapter.FromArray;
-var fvec = function( src ){ return _.vectorAdapter.FromArray( new Fx( src ) ) }
-var ivec = function( src ){ return _.vectorAdapter.FromArray( new Ix( src ) ) }
+var vec = _.vectorAdapter.fromLong;
+var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
+var ivec = function( src ){ return _.vectorAdapter.fromLong( new Ix( src ) ) }
 var avector = _.avector;
 var sqr = _.sqr;
 var sqrt = _.sqrt;
@@ -40,7 +40,7 @@ function qrIteration( test )
     1, 2,
     2, 1,
   ]);
-  var expected = _.vectorAdapter.From( [ 3, -1 ]);
+  var expected = _.vectorAdapter.from( [ 3, -1 ]);
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -62,7 +62,7 @@ function qrIteration( test )
     3, - 5,  3,
     6, - 6,  4
   ]);
-  var expected = _.vectorAdapter.From( [ 4, -2, -2 ] );
+  var expected = _.vectorAdapter.from( [ 4, -2, -2 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -77,7 +77,7 @@ function qrIteration( test )
     -4,  11, -2,
     2,   -2,  8
   ]);
-  var expected = _.vectorAdapter.From( [ 17, 8, 7 ] );
+  var expected = _.vectorAdapter.from( [ 17, 8, 7 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -91,7 +91,7 @@ function qrIteration( test )
     8,  7,
     1,  2
   ]);
-  var expected = _.vectorAdapter.From( [ 9, 1 ] );
+  var expected = _.vectorAdapter.from( [ 9, 1 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -107,7 +107,7 @@ function qrIteration( test )
     4, 6, 13, 20,
     10, 12, 19, 21
   ]);
-  var expected = _.vectorAdapter.From( [ 52.01152, 21.52969, -3.60211, -13.93910 ] );
+  var expected = _.vectorAdapter.from( [ 52.01152, 21.52969, -3.60211, -13.93910 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -123,7 +123,7 @@ function qrIteration( test )
     1/3, 2/3, 1, 0.75,
     0.25, 0.5, 0.75, 1
   ]);
-  var expected = _.vectorAdapter.From( [ 2.5362, 0.8482, 0.4078, 0.2078 ] );
+  var expected = _.vectorAdapter.from( [ 2.5362, 0.8482, 0.4078, 0.2078 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -140,7 +140,7 @@ function qrIteration( test )
     8, 0, 20, 21, 3,
     0, 0, 0, 3, 9
   ]);
-  var expected = _.vectorAdapter.From( [ 43.943070, 29.437279, 9.139799, -0.380354, -17.139794 ] );
+  var expected = _.vectorAdapter.from( [ 43.943070, 29.437279, 9.139799, -0.380354, -17.139794 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -156,7 +156,7 @@ function qrIteration( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  var expected = _.vectorAdapter.From( [ 2, 1, 0.5, -1 ] );
+  var expected = _.vectorAdapter.from( [ 2, 1, 0.5, -1 ] );
 
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
@@ -173,7 +173,7 @@ function qrIteration( test )
   ]);
   var q = _.Matrix.make( [ 3, 3 ] );
   var r = _.Matrix.make( [ 3, 3 ] );
-  var expected = _.vectorAdapter.From( [ 4, -2, -2 ] );
+  var expected = _.vectorAdapter.from( [ 4, -2, -2 ] );
 
   var gotValues = matrix.qrIteration( q, r );
   test.equivalent( gotValues, expected );
@@ -207,7 +207,7 @@ function qrIteration( test )
   test.shouldThrowErrorSync( () => matrix.qrIteration( ));
   var matrix = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.qrIteration( ));
-  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.qrIteration( ));
 
 }
@@ -369,7 +369,7 @@ function qrDecomposition( test )
   var matrix = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.qrDecompositionGS( q, r ));
   test.shouldThrowErrorSync( () => matrix.qrDecompositionHh( q, r ));
-  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.qrDecompositionGS( q, r ));
   test.shouldThrowErrorSync( () => matrix.qrDecompositionHh( q, r ));
 
@@ -389,22 +389,22 @@ function fromVectors( test )
 
   test.description = 'Vectors remains unchanged';
 
-  var v1 = _.vectorAdapter.From( [ 0, 1, 2 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 3, 3 ] );
+  var v1 = _.vectorAdapter.from( [ 0, 1, 2 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 3, 3 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var oldV1 =  _.vectorAdapter.From( [ 0, 1, 2 ] );
+  var oldV1 =  _.vectorAdapter.from( [ 0, 1, 2 ] );
   test.equivalent( v1, oldV1 );
-  var oldV2 =  _.vectorAdapter.From( [ 3, 3, 3 ] );
+  var oldV2 =  _.vectorAdapter.from( [ 3, 3, 3 ] );
   test.equivalent( v2, oldV2 );
 
   /* */
 
   test.description = '1x1 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 2 ] );
-  var v2 = _.vectorAdapter.From( [ 3 ] );
+  var v1 = _.vectorAdapter.from( [ 2 ] );
+  var v2 = _.vectorAdapter.from( [ 3 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
@@ -419,8 +419,8 @@ function fromVectors( test )
 
   test.description = '2x1 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 2, 2 ] );
-  var v2 = _.vectorAdapter.From( [ 3 ] );
+  var v1 = _.vectorAdapter.from( [ 2, 2 ] );
+  var v2 = _.vectorAdapter.from( [ 3 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
@@ -436,8 +436,8 @@ function fromVectors( test )
 
   test.description = '1x2 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 2 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 3 ] );
+  var v1 = _.vectorAdapter.from( [ 2 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 3 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
@@ -452,8 +452,8 @@ function fromVectors( test )
 
   test.description = '2x2 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 1, 2 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 4 ] );
+  var v1 = _.vectorAdapter.from( [ 1, 2 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 4 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
@@ -469,8 +469,8 @@ function fromVectors( test )
 
   test.description = '3x2 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 1, 2, 3 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 4 ] );
+  var v1 = _.vectorAdapter.from( [ 1, 2, 3 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 4 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
@@ -487,8 +487,8 @@ function fromVectors( test )
 
   test.description = '2x3 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 1, 2 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 4, 5 ] );
+  var v1 = _.vectorAdapter.from( [ 1, 2 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 4, 5 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
@@ -504,8 +504,8 @@ function fromVectors( test )
 
   test.description = '3x3 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 1, 2, 3 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 4, 5 ] );
+  var v1 = _.vectorAdapter.from( [ 1, 2, 3 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 4, 5 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
   var expected =  _.Matrix.make( [ 3, 3 ] ).copy
@@ -521,8 +521,8 @@ function fromVectors( test )
 
   test.description = '4x4 matrix';
 
-  var v1 = _.vectorAdapter.From( [ 1, 2, 3, 4 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 4, 5, 6 ] );
+  var v1 = _.vectorAdapter.from( [ 1, 2, 3, 4 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 4, 5, 6 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
   var expected =  _.Matrix.make( [ 4, 4 ] ).copy
@@ -540,8 +540,8 @@ function fromVectors( test )
   if( !Config.debug )
   return;
 
-  var v1 = _.vectorAdapter.From( [ 1, 2, 3, 4 ] );
-  var v2 = _.vectorAdapter.From( [ 3, 4, 5, 6 ] );
+  var v1 = _.vectorAdapter.from( [ 1, 2, 3, 4 ] );
+  var v2 = _.vectorAdapter.from( [ 3, 4, 5, 6 ] );
 
   var matrix = 'matrix';
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, v2 ) );
@@ -551,7 +551,7 @@ function fromVectors( test )
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, v2 ) );
   var matrix = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, v2 ) );
-  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, v2 ) );
   var matrix = _.Matrix.make( [ 2, 2 ] );
   test.shouldThrowErrorSync( () => matrix.fromVectors( 'v1', v2 ) );
@@ -1004,7 +1004,7 @@ function svd( test )
   test.shouldThrowErrorSync( () => matrix.svd( u, s, v ));
   var matrix = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => matrix.svd( u, s, v ));
-  var matrix = _.vectorAdapter.From( [ 0, 0, 0 ] );
+  var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.svd( u, s, v ));
 
 }

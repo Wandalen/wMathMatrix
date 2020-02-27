@@ -241,8 +241,7 @@ function _traverseAct( it )
   return dst;
 }
 
-debugger;
-_traverseAct.iterationDefaults = Object.create( _._cloner.iterationDefaults );
+_traverseAct.iterationDefaults = Object.create( _._cloner.iterationDefaults ); /* xxx */
 _traverseAct.defaults = _.mapSupplementOwn( Object.create( _._cloner.defaults ), _traverseAct.iterationDefaults );
 
 //
@@ -363,9 +362,9 @@ function CopyTo( dst, src )
   if( !_.matrixIs( src ) )
   {
 
-    src = this.vectorAdapter.From( src );
+    src = this.vectorAdapter.from( src );
     if( _.longIs( dst ) )
-    dst = this.vectorAdapter.From( dst );
+    dst = this.vectorAdapter.from( dst );
 
     if( _.vectorAdapterIs( dst ) )
     for( let s = 0 ; s < src.length ; s += 1 )
@@ -1833,7 +1832,7 @@ function atomsGet( range )
 
   debugger;
 
-  let result = self.vectorAdapter.FromSubLong
+  let result = self.vectorAdapter.fromLongLrange
   (
     self.buffer,
     self.offset+range[ 0 ],
@@ -1856,7 +1855,7 @@ function asVector()
   _.assert( self.strideOfElement === self.atomsPerElement );
   _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
-  result = self.vectorAdapter.FromSubLong
+  result = self.vectorAdapter.fromLongLrange
   (
     self.buffer,
     self.occupiedRange[ 0 ],
@@ -1881,7 +1880,7 @@ function granuleGet( index )
   else
   atomsPerGranule = 1;
 
-  let result = self.vectorAdapter.FromSubLong
+  let result = self.vectorAdapter.fromLongLrange
   (
     this.buffer,
     this.offset + this.flatGranuleIndexFrom( index ),
@@ -1914,7 +1913,7 @@ function elementsInRangeGet( range )
   _.assert( range[ 1 ] >= range[ 0 ] );
   _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
-  result = self.vectorAdapter.FromSubLong
+  result = self.vectorAdapter.fromLongLrange
   (
     self.buffer,
     self.offset+self.strideOfElement*range[ 0 ],
@@ -1934,7 +1933,7 @@ function eGet( index )
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = this.vectorAdapter.FromSubLongWithStride
+  let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
     this.offset + index*this._stridesEffective[ this._stridesEffective.length-1 ],
@@ -2052,7 +2051,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
   _.assert( index < this.dims[ 1 ] );
 
   let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
-  let result = this.vectorAdapter.FromSubLongWithStride
+  let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
     this.offset + rowIndex*this.strideOfRow + matrixOffset,
@@ -2073,7 +2072,7 @@ function rowVectorGet( index )
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = this.vectorAdapter.FromSubLongWithStride
+  let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
     this.offset + index*this.strideOfRow,
@@ -2119,7 +2118,7 @@ function colVectorGet( index )
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = this.vectorAdapter.FromSubLongWithStride
+  let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
     this.offset + index*this.strideOfCol,
@@ -2249,7 +2248,7 @@ function VectorPivotForward( vector, pivot )
   return vector.pivotForward([ pivot, null ]);
 
   let original = vector;
-  vector = this.vectorAdapter.From( vector );
+  vector = this.vectorAdapter.from( vector );
   let current = _.longFromRange([ 0, vector.length ]);
   let expected = pivot;
   if( expected === null )
@@ -2270,7 +2269,7 @@ function VectorPivotBackward( vector, pivot )
   return vector.pivotBackward([ pivot, null ]);
 
   let original = vector;
-  vector = this.vectorAdapter.From( vector );
+  vector = this.vectorAdapter.from( vector );
   let current = pivot.slice();
   let expected = _.longFromRange([ 0, vector.length ]);
   if( current === null )

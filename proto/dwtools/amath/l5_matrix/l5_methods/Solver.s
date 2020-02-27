@@ -331,15 +331,15 @@ function _solve_pre( args )
   else
   {
     if( !_.matrixIs( o.x ) )
-    o.x = self.vectorAdapter.From( o.x );
+    o.x = self.vectorAdapter.from( o.x );
     this.CopyTo( o.x, o.y );
   }
 
   if( !_.matrixIs( o.y ) )
-  o.y = self.vectorAdapter.From( o.y );
+  o.y = self.vectorAdapter.from( o.y );
 
   if( !_.matrixIs( o.x ) )
-  o.x = self.vectorAdapter.From( o.x );
+  o.x = self.vectorAdapter.from( o.x );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( this.ShapesAreSame( o.x , o.y ) );
@@ -582,7 +582,7 @@ function _solveTriangleWithRoutine( args, onSolve )
 
   /* */
 
-  y = this.vectorAdapter.From( y );
+  y = this.vectorAdapter.from( y );
 
   if( x === null )
   {
@@ -590,7 +590,7 @@ function _solveTriangleWithRoutine( args, onSolve )
   }
   else
   {
-    x = this.vectorAdapter.From( x );
+    x = this.vectorAdapter.from( x );
     x.copy( y );
   }
 
