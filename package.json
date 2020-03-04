@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "wTesting": "alpha",
-    "wmathmatrix" : "file:."
+    "wmathmatrix": "file:."
   },
   "keywords": [
     "wTools",
