@@ -21,8 +21,8 @@ var vec = _.vectorAdapter.fromLong;
 var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
 var ivec = function( src ){ return _.vectorAdapter.fromLong( new Ix( src ) ) }
 var avector = _.avector;
-var sqr = _.sqr;
-var sqrt = _.sqrt;
+var sqr = _.math.sqr;
+var sqrt = _.math.sqrt;
 
 // --
 //

@@ -3,7 +3,7 @@
 'use strict';
 
 let _ = _global_.wTools;
-let abs = Math.abs;
+let abs = Math.abs; /* xxx */
 let min = Math.min;
 let max = Math.max;
 let pow = Math.pow;
@@ -11,7 +11,7 @@ let pi = Math.PI;
 let sin = Math.sin;
 let cos = Math.cos;
 let sqrt = Math.sqrt;
-let sqr = _.sqr;
+let sqr = _.math.sqr;
 let longSlice = Array.prototype.slice;
 
 let Parent = null;
