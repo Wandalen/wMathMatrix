@@ -760,10 +760,10 @@ function scaleSet( src )
   _.assert( src.length === l-1 );
 
   for( let i = 0 ; i < l-1 ; i += 1 )
-  self.vectorAdapter.mulScalar( self.eGet( i ), src.eGet( i ) / cur[ i ] );
+  self.vectorAdapter.mul( self.eGet( i ), src.eGet( i ) / cur[ i ] );
 
   let lastElement = self.eGet( l-1 );
-  self.vectorAdapter.mulScalar( lastElement, 1 / lastElement.eGet( loe-1 ) );
+  self.vectorAdapter.mul( lastElement, 1 / lastElement.eGet( loe-1 ) );
 
 }
 
@@ -780,10 +780,10 @@ function scaleAroundSet( scale, center )
   _.assert( scale.length === l-1 );
 
   for( let i = 0 ; i < l-1 ; i += 1 )
-  self.vectorAdapter.mulScalar( self.eGet( i ), scale.eGet( i ) / cur[ i ] );
+  self.vectorAdapter.mul( self.eGet( i ), scale.eGet( i ) / cur[ i ] );
 
   let lastElement = self.eGet( l-1 );
-  self.vectorAdapter.mulScalar( lastElement, 1 / lastElement.eGet( loe-1 ) );
+  self.vectorAdapter.mul( lastElement, 1 / lastElement.eGet( loe-1 ) );
 
   /* */
 
@@ -791,9 +791,12 @@ function scaleAroundSet( scale, center )
   center = self.vectorAdapter.fromLong( center );
   let pos = self.vectorAdapter.slice( scale );
   pos = self.vectorAdapter.fromLong( pos );
-  self.vectorAdapter.mulScalar( pos, -1 );
-  self.vectorAdapter.addScalar( pos, 1 );
-  self.vectorAdapter.mulVectors( pos, center );
+  self.vectorAdapter.mul( pos, -1 );
+  self.vectorAdapter.add( pos, 1 );
+  self.vectorAdapter.mul( pos, center );
+  // self.vectorAdapter.mulScalar( pos, -1 );
+  // self.vectorAdapter.addScalar( pos, 1 );
+  // self.vectorAdapter.mulVectors( pos, center );
 
   self.positionSet( pos );
 
@@ -812,7 +815,8 @@ function scaleApply( src )
   {
     let c = self.rowVectorGet( i );
     c = self.vectorAdapter.fromLongLrange( c, 0, l-1 );
-    self.vectorAdapter.mulVectors( c, src );
+    self.vectorAdapter.mul( c, src );
+    // self.vectorAdapter.mulVectors( c, src );
   }
 
 }
@@ -889,7 +893,7 @@ function elementMean()
 
   let result = self.elementAdd();
 
-  self.vectorAdapter.divScalar( result, self.length );
+  self.vectorAdapter.div( result, self.length );
 
   return result;
 }

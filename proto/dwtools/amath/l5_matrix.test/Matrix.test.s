@@ -6822,10 +6822,15 @@ function _submatrix( o )
     +93, +13, +14, +1203,
   ]);
 
-  c1.mulScalar( 10 );
-  c2.mulScalar( 100 );
-  r1.addScalar( 1 );
-  r2.addScalar( 3 );
+  c1.mul( 10 );
+  c2.mul( 100 );
+  r1.add( 1 );
+  r2.add( 3 );
+
+  // c1.mulScalar( 10 );
+  // c2.mulScalar( 100 );
+  // r1.addScalar( 1 );
+  // r2.addScalar( 3 );
 
   test.identical( m, expected );
 
@@ -6851,7 +6856,7 @@ function _submatrix( o )
     +9, +100, +110, +12,
   ]);
 
-  sub.mulScalar( 10 );
+  sub.mul( 10 );
   test.identical( m, expected );
 
   test.case = 'submatrix several columns'; /* */
@@ -6876,7 +6881,7 @@ function _submatrix( o )
     +9, +10, +110, +120,
   ]);
 
-  sub.mulScalar( 10 );
+  sub.mul( 10 );
   test.identical( m, expected );
 
   test.case = 'submatrix several rows'; /* */
@@ -6900,7 +6905,7 @@ function _submatrix( o )
     +9, +10, +11, +12,
   ]);
 
-  sub.mulScalar( 10 );
+  sub.mul( 10 );
   test.identical( m, expected );
 
   test.case = 'submatrix several rows'; /* */
@@ -6924,7 +6929,7 @@ function _submatrix( o )
     +90, +100, +110, +120,
   ]);
 
-  sub.mulScalar( 10 );
+  sub.mul( 10 );
   test.identical( m, expected );
 
   test.case = 'complex submatrix'; /* */
@@ -6948,7 +6953,7 @@ function _submatrix( o )
     +9, +10, +11, +12,
   ]);
 
-  sub.mulScalar( 10 );
+  sub.mul( 10 );
   test.identical( m, expected );
 
   test.case = 'complex submatrix'; /* */
@@ -6972,7 +6977,7 @@ function _submatrix( o )
     +9, +10, +110, +120,
   ]);
 
-  sub.mulScalar( 10 );
+  sub.mul( 10 );
   test.identical( m, expected );
 
 }
@@ -7411,112 +7416,113 @@ function subAtomWise( test )
 
 //
 
-function homogeneousWithScalarRoutines( test )
-{
-
-  function make()
-  {
-    var m = matrix.make([ 3, 2 ]).copy
-    ([
-      +1, +2,
-      +3, +4,
-      +5, +6,
-    ]);
-    return m;
-  }
-
-  test.case = 'assignScalar'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    +5, +5,
-    +5, +5,
-    +5, +5,
-  ]);
-
-  m.assignScalar( 5 );
-  test.identical( m, expected );
-
-  test.case = 'addScalar'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    +6, +7,
-    +8, +9,
-    +10, +11,
-  ]);
-
-  m.addScalar( 5 );
-  test.identical( m, expected );
-
-  test.case = 'subScalar'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    -4, -3,
-    -2, -1,
-    +0, +1,
-  ]);
-
-  m.subScalar( 5 );
-  test.identical( m, expected );
-
-  test.case = 'mulScalar'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    +5, +10,
-    +15, +20,
-    +25, +30,
-  ]);
-
-  m.mulScalar( 5 );
-  test.identical( m, expected );
-
-  test.case = 'divScalar'; /* */
-
-  var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
-  ([
-    +1/5, +2/5,
-    +3/5, +4/5,
-    +5/5, +6/5,
-  ]);
-
-  m.divScalar( 5 );
-  test.identical( m, expected );
-
-  test.case = 'bad arguments'; /* */
-
-  function shouldThrowErrorOfAnyKind( name )
-  {
-
-    test.shouldThrowErrorSync( () => make()[ name ]() );
-    test.shouldThrowErrorSync( () => make()[ name ]( '1' ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( undefined ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( 1, 3 ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( '1', '3' ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( [], [] ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( [], 1, 3 ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( [], 1, undefined ) );
-    test.shouldThrowErrorSync( () => make()[ name ]( [], undefined ) );
-
-  }
-
-  if( Config.debug )
-  {
-    shouldThrowErrorOfAnyKind( 'assignScalar' );
-    shouldThrowErrorOfAnyKind( 'addScalar' );
-    shouldThrowErrorOfAnyKind( 'subScalar' );
-    shouldThrowErrorOfAnyKind( 'mulScalar' );
-    shouldThrowErrorOfAnyKind( 'divScalar' );
-  }
-
-}
+// function homogeneousWithScalarRoutines( test )
+// {
+//
+//   function make()
+//   {
+//     var m = matrix.make([ 3, 2 ]).copy
+//     ([
+//       +1, +2,
+//       +3, +4,
+//       +5, +6,
+//     ]);
+//     return m;
+//   }
+//
+//   test.case = 'assignScalar'; /* */
+//
+//   var m = make();
+//   var expected = matrix.make([ 3, 2 ]).copy
+//   ([
+//     +5, +5,
+//     +5, +5,
+//     +5, +5,
+//   ]);
+//
+//   // m.assignScalar( 5 );
+//   m.assign( 5 );
+//   test.identical( m, expected );
+//
+//   test.case = 'addScalar'; /* */
+//
+//   var m = make();
+//   var expected = matrix.make([ 3, 2 ]).copy
+//   ([
+//     +6, +7,
+//     +8, +9,
+//     +10, +11,
+//   ]);
+//
+//   m.addScalar( 5 );
+//   test.identical( m, expected );
+//
+//   test.case = 'subScalar'; /* */
+//
+//   var m = make();
+//   var expected = matrix.make([ 3, 2 ]).copy
+//   ([
+//     -4, -3,
+//     -2, -1,
+//     +0, +1,
+//   ]);
+//
+//   m.subScalar( 5 );
+//   test.identical( m, expected );
+//
+//   test.case = 'mulScalar'; /* */
+//
+//   var m = make();
+//   var expected = matrix.make([ 3, 2 ]).copy
+//   ([
+//     +5, +10,
+//     +15, +20,
+//     +25, +30,
+//   ]);
+//
+//   m.mulScalar( 5 );
+//   test.identical( m, expected );
+//
+//   test.case = 'divScalar'; /* */
+//
+//   var m = make();
+//   var expected = matrix.make([ 3, 2 ]).copy
+//   ([
+//     +1/5, +2/5,
+//     +3/5, +4/5,
+//     +5/5, +6/5,
+//   ]);
+//
+//   m.divScalar( 5 );
+//   test.identical( m, expected );
+//
+//   test.case = 'bad arguments'; /* */
+//
+//   function shouldThrowErrorOfAnyKind( name )
+//   {
+//
+//     test.shouldThrowErrorSync( () => make()[ name ]() );
+//     test.shouldThrowErrorSync( () => make()[ name ]( '1' ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( undefined ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( 1, 3 ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( '1', '3' ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( [], [] ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( [], 1, 3 ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( [], 1, undefined ) );
+//     test.shouldThrowErrorSync( () => make()[ name ]( [], undefined ) );
+//
+//   }
+//
+//   // if( Config.debug )
+//   // {
+//   //   shouldThrowErrorOfAnyKind( 'assignScalar' );
+//   //   shouldThrowErrorOfAnyKind( 'addScalar' );
+//   //   shouldThrowErrorOfAnyKind( 'subScalar' );
+//   //   shouldThrowErrorOfAnyKind( 'mulScalar' );
+//   //   shouldThrowErrorOfAnyKind( 'divScalar' );
+//   // }
+//
+// }
 
 //
 
@@ -10424,7 +10430,7 @@ var Self =
     addAtomWise,
     subAtomWise,
 
-    homogeneousWithScalarRoutines,
+    // homogeneousWithScalarRoutines,
 
     colRowWiseOperations,
     mul,

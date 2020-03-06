@@ -468,7 +468,7 @@ _.assert( _.routineIs( Self.prototype.allFiniteAtomWise ) );
 _.assert( _.routineIs( Self.prototype.reduceToMaxValueColWise ) );
 _.assert( _.routineIs( Self.prototype.reduceToMaxValueRowWise ) );
 _.assert( _.routineIs( Self.prototype.addAtomWise ) );
-_.assert( _.routineIs( Self.prototype.addScalar ) );
+// _.assert( _.routineIs( Self.prototype.addScalar ) );
 _.assert( _.routineIs( Self.addAtomWise ) );
 
 _.assert( !Self.prototype.isValidZip );
