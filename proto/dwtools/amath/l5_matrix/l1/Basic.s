@@ -2492,27 +2492,27 @@ let Extension =
 
   /* size in bytes */
 
-  '_sizeGet' : _sizeGet,
+  _sizeGet,
 
-  '_sizeOfElementGet' : _sizeOfElementGet,
-  '_sizeOfElementStrideGet' : _sizeOfElementStrideGet,
+  _sizeOfElementGet,
+  _sizeOfElementStrideGet,
 
-  '_sizeOfColGet' : _sizeOfColGet,
-  '_sizeOfColStrideGet' : _sizeOfColStrideGet,
+  _sizeOfColGet,
+  _sizeOfColStrideGet,
 
-  '_sizeOfRowGet' : _sizeOfRowGet,
-  '_sizeOfRowStrideGet' : _sizeOfRowStrideGet,
+  _sizeOfRowGet,
+  _sizeOfRowStrideGet,
 
-  '_sizeOfAtomGet' : _sizeOfAtomGet,
+  _sizeOfAtomGet,
 
   /* size in atoms */
 
-  '_atomsPerElementGet' : _atomsPerElementGet, /* cached */
-  '_atomsPerColGet' : _atomsPerColGet,
-  '_atomsPerRowGet' : _atomsPerRowGet,
-  '_nrowGet' : _nrowGet,
-  '_ncolGet' : _ncolGet,
-  '_atomsPerMatrixGet' : _atomsPerMatrixGet,
+  _atomsPerElementGet, /* cached */
+  _atomsPerColGet,
+  _atomsPerRowGet,
+  _nrowGet,
+  _ncolGet,
+  _atomsPerMatrixGet,
 
   AtomsPerMatrixForDimensions,
   NrowOf,
@@ -2520,25 +2520,25 @@ let Extension =
 
   /* stride */
 
-  '_lengthGet' : _lengthGet, /* cached */
-  '_occupiedRangeGet' : _occupiedRangeGet, /* cached */
+  _lengthGet, /* cached */
+  _occupiedRangeGet, /* cached */
 
-  '_stridesEffectiveGet' : _stridesEffectiveGet, /* cached */
-  '_stridesSet' : _stridesSet, /* cached */
+  _stridesEffectiveGet, /* cached */
+  _stridesSet, /* cached */
 
-  '_strideOfElementGet' : _strideOfElementGet,
-  '_strideOfColGet' : _strideOfColGet,
-  '_strideInColGet' : _strideInColGet,
-  '_strideOfRowGet' : _strideOfRowGet,
-  '_strideInRowGet' : _strideInRowGet,
+  _strideOfElementGet,
+  _strideOfColGet,
+  _strideInColGet,
+  _strideOfRowGet,
+  _strideInRowGet,
 
   StridesForDimensions,
   StridesRoll,
 
   /* buffer */
 
-  '_bufferSet' : _bufferSet, /* cached */
-  '_offsetSet' : _offsetSet, /* cached */
+  _bufferSet, /* cached */
+  _offsetSet, /* cached */
 
   _bufferAssign,
   bufferCopyTo,
@@ -2555,9 +2555,9 @@ let Extension =
   _adjustVerify,
   _adjustValidate,
 
-  '_breadthGet' : _breadthGet, /* cached */
-  '_breadthSet' : _breadthSet,
-  '_dimsSet' : _dimsSet, /* cached */
+  _breadthGet, /* cached */
+  _breadthSet,
+  _dimsSet, /* cached */
 
   expand,
 
