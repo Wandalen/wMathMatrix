@@ -3,7 +3,7 @@
 'use strict';
 
 let _ = _global_.wTools;
-let abs = Math.abs;
+let abs = Math.abs; /* xxx */
 let min = Math.min;
 let max = Math.max;
 let pow = Math.pow;
@@ -11,14 +11,14 @@ let pi = Math.PI;
 let sin = Math.sin;
 let cos = Math.cos;
 let sqrt = Math.sqrt;
-let sqr = _.sqr;
+let sqr = _.math.sqr;
 let longSlice = Array.prototype.slice;
 
 let Parent = null;
 let Self = _.Matrix;
 
 _.assert( _.objectIs( _.vectorAdapter ) );
-_.assert( _.routineIs( Self ),'wMatrix is not defined, please include wMatrix.s first' );
+_.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --
 //
@@ -93,7 +93,7 @@ function qrIteration( q, r )
   let eigenValues = self.vectorAdapter.toLong( a.diagonalVectorGet() );
   eigenValues.sort( ( a, b ) => b - a );
 
-  logger.log( 'EI',eigenValues)
+  logger.log( 'EI', eigenValues)
   for( let i = 0; i < eigenValues.length; i++ )
   {
     let newValue = eigenValues[ i ];
@@ -184,9 +184,9 @@ function qrDecompositionGS( q, r )
       let dot = self.vectorAdapter.dot( col, self.vectorAdapter.from( qInt.colVectorGet( j ) ) );
       debugger;
 
-      self.vectorAdapter.addVectors( sum, self.vectorAdapter.mulScalar( self.vectorAdapter.from( qInt.colVectorGet( j ) ).clone(), - dot ) );
+      self.vectorAdapter.add( sum, self.vectorAdapter.mul( self.vectorAdapter.from( qInt.colVectorGet( j ) ).clone(), - dot ) );
     }
-    let e = self.vectorAdapter.normalize( self.vectorAdapter.addVectors( col.clone(), sum ) );
+    let e = self.vectorAdapter.normalize( self.vectorAdapter.add( col.clone(), sum ) );
     qInt.colSet( i, e );
   }
 
@@ -277,12 +277,12 @@ function qrDecompositionHh( q, r )
       c = -1;
     }
 
-    u = self.vectorAdapter.addVectors( col, e.mulScalar( c*col.mag() ) ).normalize();
+    u = self.vectorAdapter.add( col, e.mul( c*col.mag() ) ).normalize();
 
     debugger;
     let m = _.Matrix.make( [ rows, cols ] ).fromVectors( u, u );
     let mi = identity.clone();
-    let h = mi.addAtomWise( m.mulScalar( - 2 ) );
+    let h = mi.addAtomWise( m.mul( - 2 ) );
     q.mulLeft( h );
 
     matrix = _.Matrix.mul2Matrices( null, h, matrix );
@@ -439,14 +439,14 @@ function svd( u, s, v )
       if( eigenValues.eGet( i ) >= 0 )
       {
         u.colSet( i, q.colVectorGet( i ) );
-        s.colSet( i, identity.colVectorGet( i ).mulScalar( eigenValues.eGet( i ) ) );
+        s.colSet( i, identity.colVectorGet( i ).mul( eigenValues.eGet( i ) ) );
         v.colSet( i, q.colVectorGet( i ) );
       }
       else if( eigenValues.eGet( i ) < 0 )
       {
-        u.colSet( i, q.colVectorGet( i ).mulScalar( - 1 ) );
-        s.colSet( i, identity.colVectorGet( i ).mulScalar( - eigenValues.eGet( i ) ) );
-        v.colSet( i, q.colVectorGet( i ).mulScalar( - 1 ) );
+        u.colSet( i, q.colVectorGet( i ).mul( - 1 ) );
+        s.colSet( i, identity.colVectorGet( i ).mul( - eigenValues.eGet( i ) ) );
+        v.colSet( i, q.colVectorGet( i ).mul( - 1 ) );
       }
     }
   }
@@ -481,7 +481,7 @@ function svd( u, s, v )
         let m1 = _.Matrix.make( [ col.length, 1 ] ).copy( col );
         let m2 = _.Matrix.mul2Matrices( null, self.clone().transpose(), m1 );
 
-        v.colSet( i, m2.colVectorGet( 0 ).mulScalar( 1 / eigenV.eGet( i ) ).normalize() );
+        v.colSet( i, m2.colVectorGet( 0 ).mul( 1 / eigenV.eGet( i ) ).normalize() );
       }
     }
 

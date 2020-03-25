@@ -1212,7 +1212,9 @@ let lookAt = ( function lookAt()
     let self = this;
     let te = this.buffer;
 
-    _.avector.subVectors( z, eye, target ).normalize();
+    debugger;
+    _.avector.sub( z, eye, target ).normalize();
+    // _.avector.subVectors( z, eye, target ).normalize();
 
     if ( _.avector.mag( z ) === 0 )
     {
@@ -1234,7 +1236,7 @@ let lookAt = ( function lookAt()
 
     }
 
-    _.avector.mulScalar( x, 1 / xmag );
+    _.avector.mul( x, 1 / xmag );
 
     _.avector._cross3( y, z, x );
 
@@ -1319,7 +1321,7 @@ function elementMean()
 
   let result = self.elementAdd();
 
-  self.vectorAdapter.divScalar( result, self.length );
+  self.vectorAdapter.div( result, self.length );
 
   return result;
 }

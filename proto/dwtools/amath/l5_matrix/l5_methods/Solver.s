@@ -59,8 +59,8 @@ function _triangulateGausian( o )
     let scaler1 = row1.eGet( r1 );
     if( o.normal )
     {
-      self.vectorAdapter.divScalar( row1, scaler1 );
-      self.vectorAdapter.divScalar( yrow1, scaler1 );
+      self.vectorAdapter.div( row1, scaler1 );
+      self.vectorAdapter.div( yrow1, scaler1 );
       scaler1 = 1;
     }
 
@@ -86,7 +86,7 @@ function _triangulateGausian( o )
     let scaler1 = row1.eGet( r1 );
     if( o.normal )
     {
-      self.vectorAdapter.divScalar( row1, scaler1 );
+      self.vectorAdapter.div( row1, scaler1 );
       scaler1 = 1;
     }
 
@@ -191,7 +191,7 @@ function triangulateLuNormal()
     let row1 = self.rowVectorGet( r1 );
     let scaler1 = row1.eGet( r1 );
     row1 = row1.review( r1+1 );
-    self.vectorAdapter.divScalar( row1, scaler1 );
+    self.vectorAdapter.div( row1, scaler1 );
 
     for( let r2 = r1+1 ; r2 < nrow ; r2++ )
     {
@@ -409,10 +409,10 @@ function _solveWithGaussJordan( o )
     if( abs( scaler1 ) < this.accuracy )
     continue;
 
-    self.vectorAdapter.mulScalar( row1, 1/scaler1 );
+    self.vectorAdapter.mul( row1, 1/scaler1 );
 
     let xrow1 = o.x.rowVectorGet( r1 );
-    self.vectorAdapter.mulScalar( xrow1, 1/scaler1 );
+    self.vectorAdapter.mul( xrow1, 1/scaler1 );
 
     for( let r2 = 0 ; r2 < nrow ; r2++ )
     {
@@ -483,8 +483,8 @@ function invertWithGaussJordan()
 
     let scaler1 = 1 / xrow1.eGet( r1 );
     xrow1.eSet( r1, 1 );
-    m.vectorAdapter.mulScalar( row1, scaler1 );
-    m.vectorAdapter.mulScalar( xrow1, scaler1 );
+    m.vectorAdapter.mul( row1, scaler1 );
+    m.vectorAdapter.mul( xrow1, scaler1 );
 
     for( let r2 = 0 ; r2 < nrow ; r2++ )
     {
@@ -768,7 +768,7 @@ function solveGeneral( o )
         let termCol = result.kernel.colVectorGet( r );
         let srcCol = o.m.colVectorGet( r );
         termCol.copy( srcCol );
-        self.vectorAdapter.mulScalar( termCol, -1 );
+        self.vectorAdapter.mul( termCol, -1 );
         termCol.eSet( r, 1 );
         result.nkernel += 1;
       }
