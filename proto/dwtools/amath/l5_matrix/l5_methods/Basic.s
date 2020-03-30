@@ -231,6 +231,42 @@ function mul_static( dst, srcs )
 }
 
 //
+  /**
+   * The routine mul() returns multiplies values of provided matrix {-srcs-}.
+   *
+   * @param { matrix } srcs - provided matrices.
+   *
+   * @example
+   * var buffer = new I32x
+   * ([
+   *  +2, +2, -2,
+   *  -2, -3, +4,
+   *  +4, +3, -2,
+   * ]);
+   *
+   * var m = new matrix
+   * ({
+   * buffer,
+   * dims : [ 3, 3 ],
+   * inputTransposing : 1,
+   * });
+   *
+   * var got = matrix.mul( m, [ m, m ] );
+   * console.log( got.buffer );
+   * // log
+   * new I32x
+   * [ -8, -8, +8,
+   *  +18, +17, -16,
+   *  -6, -7, +8,
+   * ];
+   *
+   *
+   * @returns { matrix } - Returns new Matrix instance with multiplies values of buffer.
+   * @function mul
+   * @throws { Error } If (arguments.length) is more than 1.
+   * @throws { Error } If {-src-} is not array.
+   * @memberof wmathmatrix
+   */
 
 function mul( srcs )
 {
