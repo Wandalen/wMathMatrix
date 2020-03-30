@@ -459,6 +459,31 @@ function mulRight( src )
 // partial accessors
 // --
 
+  /**
+   * The method zero() returns instance of Matrix, values filled with zeros,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.zero();
+   * logger.log( got );
+   * // log
+   *   +0, +0, +0,
+   *   +0, +0, +0
+   *   +0, +0, +0,
+   *
+   * @returns { Matrix } - Returns new instance of Matrix.
+   * @method zero
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
+
 function zero()
 {
   let self = this;
