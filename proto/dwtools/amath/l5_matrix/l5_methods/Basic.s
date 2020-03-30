@@ -261,7 +261,7 @@ function mul_static( dst, srcs )
    * ];
    *
    *
-   * @returns { matrix } - Returns new Matrix instance with multiplies values of buffer.
+   * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
    * @function mul
    * @throws { Error } If (arguments.length) is more than 1.
    * @throws { Error } If {-src-} is not array.
