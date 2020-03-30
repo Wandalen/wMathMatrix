@@ -509,6 +509,41 @@ function identify()
 }
 
 //
+  /**
+   * The method diagonalSet() returns an instance of Matrix with diagonal values {-src-} matrix,
+   * takes destination matrix from context.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +4, +5, +4
+   *   +3, +2, +1,
+   * ]);
+   *
+   * var got = matrix.diagonalSet( src );
+   * logger.log( got );
+   * // log
+   * +1, +2, +3,
+   * +4, +5, +2,
+   * +0, +0, +1,
+   *
+   * @returns { Matrix } - Returns instance of Matrix.
+   * @method diagonalSet
+   * @throws { Error } If (arguments.length) is more the one.
+   * @throws { Error } If (src.length) is not same length destination matrix.
+   * @throws { Error } If matrix dimension length is more than two.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function diagonalSet( src )
 {
