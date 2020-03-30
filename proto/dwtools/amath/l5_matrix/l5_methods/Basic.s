@@ -19,7 +19,9 @@ let Self = _.Matrix;
 _.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
-//
+// --
+// borrow
+// --
 
   /**
    * The method is a temporary cache for matrix,

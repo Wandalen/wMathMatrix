@@ -12,4 +12,5 @@ var matrix3x3 = _.Matrix.make( [ 3, 3 ] ).copy
 ]);
 
 var determinant = matrix3x3.determinant();
-console.log( 'determinant of matrix\n' + determinant);// log "24"
+console.log( 'determinant of matrix\n' + determinant);
+/* log: "24" */
