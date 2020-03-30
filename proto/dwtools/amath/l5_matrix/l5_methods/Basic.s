@@ -368,6 +368,44 @@ function mul2Matrices( src1, src2 )
 }
 
 //
+  /**
+   * The method matrix.mulLeft() multiplies values of provided matrices and returns left matrix with these values.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +4, +1, +2,
+   *   +0, +0, +1,
+   * ]);
+   *
+   * var got = matrix.mulLeft( src );
+   * logger.log( matrix );
+   * // log
+   *   +9, +4, +10,
+   *   +16, +4, +13
+   *   +0, +0, +6,
+   *
+   * logger.log( src );
+   * // log
+   *   +1, +2, +3,
+   *   +4, +1, +2,
+   *   +0, +0, +1,
+   *
+   * @returns { Matrix } - Returns an instance of Matrix.
+   * @method mulLeft
+   * @throws { Error } If (arguments.length) is more than 1.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function mulLeft( src )
 {
