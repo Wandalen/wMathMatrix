@@ -533,6 +533,27 @@ function diagonalSet( src )
 }
 
 //
+  /**
+   * The method diagonalVectorGet() returns an instance of VectorAdapter filled by values,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.diagonalVectorGet();
+   * logger.log( got );
+   * // log 3.000 0.000 6.000
+   *
+   * @returns { VectorAdapter } - Returns instance of VectorAdapter.
+   * @method diagonalVectorGet
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function diagonalVectorGet()
 {
@@ -999,7 +1020,7 @@ function elementMean()
 
 //
   /**
-   * The method minmaxColWise() compares columns values of matrix and returns min and max instances of buffers with this values,
+   * The method minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
    * takes source from context.
    *
    * @example
@@ -1045,7 +1066,7 @@ function minmaxColWise()
 
 //
   /**
-   * The method minmaxRowWise() compares rows values of matrix and returns min and max instances of buffers with this values,
+   * The method minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
    * takes source from context.
    *
    * @example
@@ -1091,7 +1112,7 @@ function minmaxRowWise()
 
 //
   /**
-   * The method this returns determinant value of provided matrix,
+   * This method returns a determinant value of the provided matrix,
    * takes source from context.
    *
    * @example
@@ -1106,7 +1127,7 @@ function minmaxRowWise()
    * logger.log( got );
    * // log 24
    *
-   * @returns { Number } - Returns determinant value of provided matrix.
+   * @returns { Number } - Returns a determinant value of the provided matrix.
    * @method determinant
    * @throws { Error } If (arguments.length) exist.
    * @memberof module:Tools/math/Matrix.wMatrix#
