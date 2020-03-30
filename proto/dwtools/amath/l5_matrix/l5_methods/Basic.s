@@ -368,6 +368,44 @@ function mul2Matrices( src1, src2 )
 }
 
 //
+  /**
+   * The method matrix.mulLeft() multiplies values of provided matrices and returns left matrix with these values.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +4, +1, +2,
+   *   +0, +0, +1,
+   * ]);
+   *
+   * var got = matrix.mulLeft( src );
+   * logger.log( matrix );
+   * // log
+   *   +9, +4, +10,
+   *   +16, +4, +13
+   *   +0, +0, +6,
+   *
+   * logger.log( src );
+   * // log
+   *   +1, +2, +3,
+   *   +4, +1, +2,
+   *   +0, +0, +1,
+   *
+   * @returns { Matrix } - Returns an instance of Matrix.
+   * @method mulLeft
+   * @throws { Error } If (arguments.length) is more than 1.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function mulLeft( src )
 {
@@ -383,6 +421,44 @@ function mulLeft( src )
 }
 
 //
+  /**
+   * The method matrix.mulRight() multiplies values of provided matrices and returns right matrix with these values.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +4, +1, +2,
+   *   +0, +0, +1,
+   * ]);
+   *
+   * var got = matrix.mulRight( src );
+   * logger.log( matrix );
+   * // log
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   *
+   * logger.log( src );
+   * // log
+   *   +9, +4, +10,
+   *   +16, +4, +13
+   *   +0, +0, +6,
+   *
+   * @returns { Matrix } - Returns an instance of Matrix.
+   * @method mulRight
+   * @throws { Error } If (arguments.length) is more than 1.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function mulRight( src )
 {
@@ -459,6 +535,31 @@ function mulRight( src )
 // partial accessors
 // --
 
+  /**
+   * The method matrix.zero() returns instance of Matrix, values filled with zeros,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.zero();
+   * logger.log( got );
+   * // log
+   *   +0, +0, +0,
+   *   +0, +0, +0
+   *   +0, +0, +0,
+   *
+   * @returns { Matrix } - Returns new instance of Matrix.
+   * @method zero
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
+
 function zero()
 {
   let self = this;
@@ -484,6 +585,41 @@ function identify()
 }
 
 //
+  /**
+   * The method matrix.diagonalSet() returns an instance of Matrix with diagonal values {-src-} matrix,
+   * takes destination matrix from context.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +4, +5, +4
+   *   +3, +2, +1,
+   * ]);
+   *
+   * var got = matrix.diagonalSet( src );
+   * logger.log( got );
+   * // log
+   * +1, +2, +3,
+   * +4, +5, +2,
+   * +0, +0, +1,
+   *
+   * @returns { Matrix } - Returns instance of Matrix.
+   * @method diagonalSet
+   * @throws { Error } If (arguments.length) is more the one.
+   * @throws { Error } If (src.length) is not same length destination matrix.
+   * @throws { Error } If matrix dimension length is more than two.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function diagonalSet( src )
 {
@@ -508,6 +644,27 @@ function diagonalSet( src )
 }
 
 //
+  /**
+   * The method matrix.diagonalVectorGet() returns an instance of VectorAdapter filled by values,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.diagonalVectorGet();
+   * logger.log( got );
+   * // log 3.000 0.000 6.000
+   *
+   * @returns { VectorAdapter } - Returns instance of VectorAdapter.
+   * @method diagonalVectorGet
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function diagonalVectorGet()
 {
@@ -973,6 +1130,31 @@ function elementMean()
 }
 
 //
+  /**
+   * The method matrix.minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.minmaxColWise();
+   * console.log( got );
+   * // log
+   * {
+   *   min: Float32Array [ 0, 0, 3 ],
+   *   max: Float32Array [ 1, 4, 6 ]
+   * }
+   *
+   * @returns { TypedArrays } - Returns two instances of F32x buffers.
+   * @method minmaxColWise
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function minmaxColWise()
 {
@@ -994,6 +1176,31 @@ function minmaxColWise()
 }
 
 //
+  /**
+   * The method matrix.minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.minmaxRowWise();
+   * console.log( got );
+   * // log
+   * {
+   *   min: Float32Array [ 1, 0, 0 ],
+   *   max: Float32Array [ 3, 5, 6 ]
+   * }
+   *
+   * @returns { TypedArrays } - Returns two instances of F32x buffers.
+   * @method minmaxRowWise
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function minmaxRowWise()
 {
@@ -1015,6 +1222,27 @@ function minmaxRowWise()
 }
 
 //
+  /**
+   * This method returns a determinant value of the provided matrix,
+   * takes source from context.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.determinant();
+   * logger.log( got );
+   * // log 24
+   *
+   * @returns { Number } - Returns a determinant value of the provided matrix.
+   * @method determinant
+   * @throws { Error } If (arguments.length) exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function determinant()
 {
