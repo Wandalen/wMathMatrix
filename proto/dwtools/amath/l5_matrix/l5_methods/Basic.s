@@ -234,7 +234,7 @@ function mul_static( dst, srcs )
   /**
    * The routine mul() returns multiplies values of provided matrix {-srcs-}.
    *
-   * @param { matrix } srcs - provided matrices.
+   * @param { Matrix } srcs - provided matrices.
    *
    * @example
    * var buffer = new I32x
