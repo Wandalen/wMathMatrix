@@ -383,6 +383,44 @@ function mulLeft( src )
 }
 
 //
+  /**
+   * The method matrix.mulRight() multiplies values of provided matrices and returns right matrix with these values.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +4, +1, +2,
+   *   +0, +0, +1,
+   * ]);
+   *
+   * var got = matrix.mulRight( src );
+   * logger.log( matrix );
+   * // log
+   *   +1, +2, +3,
+   *   +0, +4, +5
+   *   +0, +0, +6,
+   *
+   * logger.log( src );
+   * // log
+   *   +9, +4, +10,
+   *   +16, +4, +13
+   *   +0, +0, +6,
+   *
+   * @returns { Matrix } - Returns an instance of Matrix.
+   * @method mulRight
+   * @throws { Error } If (arguments.length) is more than 1.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function mulRight( src )
 {
@@ -460,7 +498,7 @@ function mulRight( src )
 // --
 
   /**
-   * The method zero() returns instance of Matrix, values filled with zeros,
+   * The method matrix.zero() returns instance of Matrix, values filled with zeros,
    * takes source from context.
    *
    * @example
@@ -510,7 +548,7 @@ function identify()
 
 //
   /**
-   * The method diagonalSet() returns an instance of Matrix with diagonal values {-src-} matrix,
+   * The method matrix.diagonalSet() returns an instance of Matrix with diagonal values {-src-} matrix,
    * takes destination matrix from context.
    *
    * @param { Matrix } - src - an instance of Matrix.
@@ -569,7 +607,7 @@ function diagonalSet( src )
 
 //
   /**
-   * The method diagonalVectorGet() returns an instance of VectorAdapter filled by values,
+   * The method matrix.diagonalVectorGet() returns an instance of VectorAdapter filled by values,
    * takes source from context.
    *
    * @example
@@ -1055,7 +1093,7 @@ function elementMean()
 
 //
   /**
-   * The method minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
+   * The method matrix.minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
    * takes source from context.
    *
    * @example
@@ -1101,7 +1139,7 @@ function minmaxColWise()
 
 //
   /**
-   * The method minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
+   * The method matrix.minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
    * takes source from context.
    *
    * @example
