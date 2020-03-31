@@ -1525,16 +1525,15 @@ function scaleApply( src )
  *   0, 0, 6,
  * ]);
  *
- * var dst = _.vectorAdapter.fromLong( [ 2, 2, 1 ] );
+ * var insElement = _.vectorAdapter.fromLong( [ 2, 2, 1 ] );
  *
- * var got = matrix.closest( src );
+ * var got = matrix.closest( insElement );
  * logger.log( got )
  * // log
  * {
  *  index: 1,
  *  distance: 2.23606797749979
  * }
- *
  *
  * @returns { Map } - Returns index and distance of the closest element.
  * @method closest
@@ -1572,6 +1571,35 @@ function closest( insElement )
 }
 
 //
+
+/**
+ * The method matrix.furthest() returns the furthest element to provided element.
+ *
+ * @param { VectorAdapter } - insElement - provided element, instance of VectorAdapter.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * ([
+ *   3, 2, 3,
+ *   4, 0, 2,
+ *   0, 0, 6,
+ * ]);
+ *
+ * var insElement = _.vectorAdapter.fromLong( [ 2, 2, 1 ] );
+ *
+ * var got = matrix.furthest( insElement );
+ * logger.log( got )
+ * // log
+ * {
+ *  index: 2,
+ *  distance: 5.0990195135927845
+ * }
+ *
+ * @returns { Map } - Returns index and distance of the furthest element.
+ * @method furthest
+ * @throws { Error } If (arguments.length) is more than one.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function furthest( insElement )
 {
