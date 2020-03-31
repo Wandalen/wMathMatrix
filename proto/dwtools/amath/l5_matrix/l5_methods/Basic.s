@@ -1021,6 +1021,34 @@ function matrixHomogenousApply( dstVector )
 
 //
 
+/**
+ * The method matrix.matrixDirectionsApply() applies the directions of matrix to provided vector {-dstVector-}, returns the instance of VectorAdapter,
+ * takes source from context.
+ *
+ * @param { VectorAdapter } - dstVector - destination instance of VectorAdapter.
+ *
+ * @example
+ * var matrix = _.Matrix.make([ 3, 3 ]).copy
+ * ([
+ *   4, 0, 1,
+ *   0, 5, 2,
+ *   0, 0, 1,
+ * ]);
+ *
+ * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ *
+ * var got = matrix.matrixDirectionsApply( dstVector );
+ * logger.log
+ * // log
+ *  [ 1, 2 ]
+ *
+ * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
+ * @method matrixDirectionsApply
+ * @throws { Error } If (arguments.length) is more the one.
+ * @throws { Error } If {-dstVector-} is not an instande of VectorAdapter.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function matrixDirectionsApply( dstVector )
 {
   let self = this;
