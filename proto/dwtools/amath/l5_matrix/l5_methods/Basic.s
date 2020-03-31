@@ -953,6 +953,32 @@ function matrixApplyTo( dstVector )
 }
 
 //
+  /**
+   * The method matrix.matrixHomogenousApply() apply the homogenous matrix to provided vector {-dstVector-}, returns the instance of VectorAdapter,
+   * takes source from context.
+   *
+   * @param { VectorAdapter } - dstVector - destination instance of VectorAdapter.
+   *
+   * @example
+   * var matrix = _.Matrix.make([ 3, 3 ]).copy
+   * ([
+   *   4, 0, 1,
+   *   0, 5, 2,
+   *   0, 0, 1,
+   * ]);
+   *
+   * var dstVector = [ 0, 0 ];
+   *
+   * var got = matrix.matrixHomogenousApply( dstVector );
+   * logger.log
+   * // log
+   *  [ 1, 2 ]
+   *
+   * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
+   * @method matrixHomogenousApply
+   * @throws { Error } If (arguments.length) is more the one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function matrixHomogenousApply( dstVector )
 {
@@ -963,7 +989,7 @@ function matrixHomogenousApply( dstVector )
   let nrow = self.nrow;
   let result = new Array( nrow );
 
-  _.assert( arguments.length === 1 )
+  _.assert( arguments.length === 1 );
   _.assert( dstLength === ncol-1 );
 
   result[ dstLength ] = 0;
