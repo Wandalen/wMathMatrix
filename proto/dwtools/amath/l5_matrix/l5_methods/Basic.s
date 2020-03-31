@@ -115,6 +115,19 @@ function _tempBorrow( src, dims, index )
 
 //
 
+/**
+ * This is a specialized method for executing tempBorrow,
+ * for passing [ 0 ] index.
+ *
+ * @param { Matrix } Matrix - instance of matrix.
+ *
+ * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
+ * @method tempBorrow1
+ * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If {-src-} is not instance of Matrix.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function tempBorrow1( src )
 {
 
@@ -133,6 +146,19 @@ function tempBorrow1( src )
 
 //
 
+/**
+ * This is a specialized method for executing tempBorrow,
+ * for passing [ 1 ] index.
+ *
+ * @param { Matrix } Matrix - instance of matrix.
+ *
+ * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
+ * @method tempBorrow1
+ * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If {-src-} is not instance of Matrix.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function tempBorrow2( src )
 {
 
@@ -150,6 +176,19 @@ function tempBorrow2( src )
 }
 
 //
+
+/**
+ * This is a specialized method for executing tempBorrow,
+ * for passing [ 2 ] index.
+ *
+ * @param { Matrix } Matrix - instance of matrix.
+ *
+ * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
+ * @method tempBorrow1
+ * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If {-src-} is not instance of Matrix.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function tempBorrow3( src )
 {
@@ -1045,7 +1084,7 @@ function matrixHomogenousApply( dstVector )
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixDirectionsApply
  * @throws { Error } If (arguments.length) is more the one.
- * @throws { Error } If {-dstVector-} is not an instande of VectorAdapter.
+ * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
