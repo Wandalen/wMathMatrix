@@ -175,7 +175,7 @@ function tempBorrow3( src )
    * The method matrix.pow is short-cut matrixPow returns an instance of Matrix with exponentiation values provided matrix,
    * takes destination matrix from context.
    *
-   * @param { Exponent } - exponent - number or string.
+   * @param { Number|String } - exponent - number or string.
    *
    * @example
    * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
@@ -1019,7 +1019,7 @@ function matrixDirectionsApply( dstVector )
   let ncol = self.ncol;
   let nrow = self.nrow;
 
-  _.assert( arguments.length === 1 )
+  _.assert( arguments.length === 1 );
   _.assert( dstLength === ncol-1 );
 
   debugger;
@@ -1145,24 +1145,42 @@ function scaleMagGet( dst )
 }
 
 //
-//   /**
-//    * The method matrix.scaleGet() returns scale specified by the matrix.
-//    *
-//    * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
-//    *
-//    * @ex
-//    * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
-//    * ([
-//    *   +6, +4, +6,
-//    *   +8, +0, +4
-//    *   +0, +0, +12,
-//    * ]);
-//    *
-//    * @returns { Matrix } - Returns scale specified by the matrix.
-//    * @method scaleGet
-//    * @throws { Error } If (arguments.length) is more than one.
-//    * @memberof module:Tools/math/Matrix.wMatrix#
-//    */
+  /**
+   * The method matrix.scaleGet() returns scale specified by the matrix.
+   *
+   * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+   *
+   * @example
+   * var buffer = new I32x
+   * ([
+   *   +2, +2, +2,
+   *   +2, +3, +4,
+   *   +4, +3, -2,
+   * ]);
+   *
+   * var matrix = new _.Matrix
+   * ({
+   *   buffer,
+   *   dims : [ 3, 3 ],
+   *   inputTransposing : 1,
+   * });
+   *
+   * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+   *
+   * var got = matrix.scaleGet( dst );
+   * logger.log
+   * // log
+   *  4.000 4.000
+   *  +6, +4, +4,
+   *  +8, +0, +4,
+   *  +0, +0, +12,
+   *  2.828, 3.606
+   *
+   * @returns { Matrix } - Returns scale specified by the matrix.
+   * @method scaleGet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
   function scaleGet( dst )
 {
