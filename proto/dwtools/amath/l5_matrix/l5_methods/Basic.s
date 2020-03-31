@@ -1115,6 +1115,42 @@ function positionSet( src )
 }
 
 //
+  /**
+   * The method matrix.scaleMaxGet() returns maximum value of scale specified by the matrix.
+   *
+   * @param { VectorAdapter } - dst - an instance of VectorAdapter.
+   *
+   * @example
+   * var buffer = new I32x
+   * ([
+   *   +2, +2, +2,
+   *   +2, +3, +4,
+   *   +4, +3, -2,
+   * ]);
+   *
+   * var matrix = new _.Matrix
+   * ({
+       buffer,
+       dims : [ 3, 3 ],
+       inputTransposing : 1,
+   * });
+   *
+   * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+   *
+   * var got = matrix.scaleMaxGet( dst )
+   * logger.log
+   * // log
+   *   4.000 4.000
+   *  +6, +4, +4,
+   *  +8, +0, +4,
+   *  +0, +0, +12,
+   *   3.605551275463989
+   *
+   * @returns { Matrix } - Returns maximum value of scale specified by the matrix.
+   * @method scaleMaxGet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function scaleMaxGet( dst )
 {
