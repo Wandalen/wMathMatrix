@@ -385,6 +385,75 @@ function mul( srcs )
 
 //
 
+/**
+ * The Mul2Matrices() is part of mul2Matrices method, returns multiplies values of provided matrix {-src1-}, {-src2-} to
+ * destination matrix {-dst-}.
+ *
+ * @param { Matrix } dst - destination matrix.
+ * @param { Matrix } src1 - provided matrix.
+ * @param { Matrix } src2 - provided matrix.
+ *
+ * @example
+ * var buffer1 = new I32x
+ * ([
+ *   +2, +2, +2,
+ *   +2, +3, +4,
+ *   +4, +3, -2,
+ * ]);
+ * var src1 = new _.Matrix
+ * ({
+ *   buffer: buffer1,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var buffer2 = new I32x
+ * ([
+ *   3, 2, 3,
+ *   4, 0, 2,
+ *   0, 0, 6,
+ * ]);
+ *
+ * var src2 = new _.Matrix
+ * ({
+ *   buffer : buffer2,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var buffer3 = new I32x
+ * ([
+ *   0, 0, 0,
+ *   0, 0, 0,
+ *   0, 0, 0,
+ * ]);
+ *
+ * var dst = new _.Matrix
+ * ({
+ *   buffer: buffer3,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = res.mul2Matrices( dst, src1, src2 )
+ * logger.log( got ) // got === dst
+ * //log
+ *  +14, +4, +22,
+ *  +18, +4, +36,
+ *  +24, +8, +6,
+ *
+ * @returns { Matrix } - Returns {-dst-} instance with multiplies values of provided matrices.
+ * @method Mul2Matrices
+ * @throws { Error } If (arguments.length) is not 3.
+ * @throws { Error } If {-dst-} is not instance of Matrix.
+ * @throws { Error } If {-src1-} is not instance of Matrix.
+ * @throws { Error } If {-src2-} is not instance of Matrix.
+ * @throws { Error } If {-src1-} and {-src2-} length is not 2.
+ * @throws { Error } If {-dst-} is {-src1-}.
+ * @throws { Error } If {-dst-} is {-src2-}.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function Mul2Matrices( dst, src1, src2 )
 {
 
