@@ -958,6 +958,32 @@ function triangleUpperSet( src )
 //   return self;
 // }
 
+/**
+ * The method matrix.matrixApplyTo() applies the provided matrix to destination vector {-dstVector-}, returns the changed instance of Matrix,
+ * takes source from context.
+ *
+ * @param { VectorAdapter } - dstVector - an instance of VectorAdapter.
+ *
+ * @example
+ * var matrix = _.Matrix.make([ 3, 3 ]).copy
+ * ([
+ *   4, 0, 1,
+ *   0, 5, 2,
+ *   0, 0, 1,
+ * ]);
+ *
+ * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ *
+ * var got = matrix.matrixApplyTo( dstVector );
+ * logger.log( got );
+ * // log
+ *
+ * @returns { Matrix } - Returns the changed instance of Matrix.
+ * @method matrixApplyTo
+ * @throws { Error } If (arguments.length) is more the one.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function matrixApplyTo( dstVector )
 {
   let self = this;
