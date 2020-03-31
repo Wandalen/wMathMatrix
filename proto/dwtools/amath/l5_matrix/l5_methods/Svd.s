@@ -46,7 +46,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * @returns { Array } Returns a vector with the values of the diagonal of R.
   * @function qrIteration
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof wTools.wMatrix
+  * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
 function qrIteration( q, r )
@@ -154,7 +154,7 @@ function qrIteration( q, r )
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
-  * @memberof wTools.wMatrix
+  * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
 function qrDecompositionGS( q, r )
@@ -234,7 +234,7 @@ function qrDecompositionGS( q, r )
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
-  * @memberof wTools.wMatrix
+  * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
 function qrDecompositionHh( q, r )
@@ -337,7 +337,7 @@ function qrDecompositionHh( q, r )
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
-  * @memberof wTools.wMatrix
+  * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
 function fromVectors( v1, v2 ) /* xxx : remove? */
@@ -401,7 +401,7 @@ function fromVectors( v1, v2 ) /* xxx : remove? */
   * @function svd
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( arguments.length ) is not three.
-  * @memberof wTools.wMatrix
+  * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
 function svd( u, s, v )
