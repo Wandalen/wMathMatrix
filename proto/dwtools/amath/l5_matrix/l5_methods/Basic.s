@@ -171,6 +171,33 @@ function tempBorrow3( src )
 // mul
 // --
 
+  /**
+   * The method matrix.pow is short-cut matrixPow returns an instance of Matrix with exponentiation values provided matrix,
+   * takes destination matrix from context.
+   *
+   * @param { Number|String } - exponent - number or string.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.pow( 2 );
+   * logger.log( got );
+   * // log
+   * +17, +6, +31,
+   * +12, +8, +24,
+   * +0, +0, +36,
+   *
+   * @returns { Matrix } - Returns instance of Matrix.
+   * @method pow
+   * @throws { Error } If provided source is not instance of Matrix.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
+
 function matrixPow( exponent )
 {
 
@@ -572,6 +599,29 @@ function zero()
 }
 
 //
+  /**
+   * The method matrix.identity() returns an instance of an identity matrix, based on dimension provided matrix( takes from context ).
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.identity();
+   * logger.log( got );
+   * // log
+   *   +1, +0, +0,
+   *   +0, +1, +0,
+   *   +0, +0, +1,
+   *
+   * @returns { Matrix } - Returns instance of Matrix.
+   * @method identity
+   * @throws { Error } If arguments exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function identify()
 {
@@ -681,6 +731,40 @@ function diagonalVectorGet()
 }
 
 //
+  /**
+   * The method matrix.triangleLowerSet() returns the instance of Matrix based on a source (takes from context)
+   * with values of the lower left triangle {-src-} matrix.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5,
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +0, +0,
+   *   +1, +1, +0,
+   *   +1, +1, +1,
+   * ]);
+   *
+   * var got = matrix.triangleLowerSet( src );
+   * logger.log( got );
+   * // log
+   *   +1, +2, +3,
+   *   +1, +4, +5,
+   *   +1, +1, +6,
+   *
+   * @returns { Matrix } - Returns an instance of Matrix.
+   * @method triangleLowerSet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @throws { Error } If matrix dimension length is more than two.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function triangleLowerSet( src )
 {
@@ -723,6 +807,40 @@ function triangleLowerSet( src )
 }
 
 //
+  /**
+   * The method matrix.triangleUpperSet() returns the instance of Matrix based on a source (takes from context)
+   * with values of the upper right triangle {-src-} matrix.
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5,
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +0, +0,
+   *   +1, +1, +0,
+   *   +1, +1, +1,
+   * ]);
+   *
+   * var got = matrix.triangleUpperSet( src );
+   * logger.log( got );
+   * // log
+   *  +1, +0, +0,
+   *  +0, +4, +0,
+   *  +0, +0, +6,
+   *
+   * @returns { Matrix } - Returns an instance of Matrix.
+   * @method triangleUpperSet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @throws { Error } If matrix dimension length is more than two.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function triangleUpperSet( src )
 {
@@ -835,6 +953,32 @@ function matrixApplyTo( dstVector )
 }
 
 //
+  /**
+   * The method matrix.matrixHomogenousApply() apply the homogenous matrix to provided vector {-dstVector-}, returns the instance of VectorAdapter,
+   * takes source from context.
+   *
+   * @param { VectorAdapter } - dstVector - destination instance of VectorAdapter.
+   *
+   * @example
+   * var matrix = _.Matrix.make([ 3, 3 ]).copy
+   * ([
+   *   4, 0, 1,
+   *   0, 5, 2,
+   *   0, 0, 1,
+   * ]);
+   *
+   * var dstVector = [ 0, 0 ];
+   *
+   * var got = matrix.matrixHomogenousApply( dstVector );
+   * logger.log
+   * // log
+   *  [ 1, 2 ]
+   *
+   * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
+   * @method matrixHomogenousApply
+   * @throws { Error } If (arguments.length) is more the one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function matrixHomogenousApply( dstVector )
 {
@@ -845,7 +989,7 @@ function matrixHomogenousApply( dstVector )
   let nrow = self.nrow;
   let result = new Array( nrow );
 
-  _.assert( arguments.length === 1 )
+  _.assert( arguments.length === 1 );
   _.assert( dstLength === ncol-1 );
 
   result[ dstLength ] = 0;
@@ -875,7 +1019,7 @@ function matrixDirectionsApply( dstVector )
   let ncol = self.ncol;
   let nrow = self.nrow;
 
-  _.assert( arguments.length === 1 )
+  _.assert( arguments.length === 1 );
   _.assert( dstLength === ncol-1 );
 
   debugger;
@@ -886,6 +1030,33 @@ function matrixDirectionsApply( dstVector )
   return dstVector;
 }
 //
+  /**
+   * The method matrix.positionGet() Returns offset or position specified by the matrix, takes source from context.
+   *
+   * @example
+   * var buffer = new I32x
+   * ([
+   *   +2, +2, +2,
+   *   +2, +3, +4,
+   *   +4, +3, -2,
+   * ]);
+   *
+   * var matrix = new _.Matrix
+   * ({
+   *  buffer,
+   *  dims : [ 3, 3 ],
+   *  inputTransposing : 1,
+   * });
+   *
+   * var got = matrix.positionGet();
+   * logger.log
+   * // log 2.000 4.000
+   *
+   * @returns { VectorAdapter } - Returns offset or position specified by the matrix.
+   * @method positionGet
+   * @throws { Error } If argument exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function positionGet()
 {
@@ -906,6 +1077,30 @@ function positionGet()
 }
 
 //
+  /**
+   * The method matrix.positionSet() sets and return position {-src-} specified by the matrix.
+   *
+   * @param { Long } - src - an instance of Long.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +6, +4, +6,
+   *   +8, +0, +4
+   *   +0, +0, +12,
+   * ]);
+   *
+   * var src = [ 4, 4 ];
+   *
+   * var got = matrix.positionSet( src );
+   * logger.log
+   * // log 4.000, 4.000
+   *
+   * @returns { VectorAdapter } - Returns position specified by the matrix.
+   * @method scaleGet
+   * @throws { Error } If {-src-} and destination matrix length is not same.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function positionSet( src )
 {
@@ -950,8 +1145,44 @@ function scaleMagGet( dst )
 }
 
 //
+  /**
+   * The method matrix.scaleGet() returns scale specified by the matrix.
+   *
+   * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+   *
+   * @example
+   * var buffer = new I32x
+   * ([
+   *   +2, +2, +2,
+   *   +2, +3, +4,
+   *   +4, +3, -2,
+   * ]);
+   *
+   * var matrix = new _.Matrix
+   * ({
+   *   buffer,
+   *   dims : [ 3, 3 ],
+   *   inputTransposing : 1,
+   * });
+   *
+   * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+   *
+   * var got = matrix.scaleGet( dst );
+   * logger.log
+   * // log
+   *  4.000 4.000
+   *  +6, +4, +4,
+   *  +8, +0, +4,
+   *  +0, +0, +12,
+   *  2.828, 3.606
+   *
+   * @returns { Matrix } - Returns scale specified by the matrix.
+   * @method scaleGet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
-function scaleGet( dst )
+  function scaleGet( dst )
 {
   let self = this;
   let l = self.length-1;
@@ -979,6 +1210,33 @@ function scaleGet( dst )
 }
 
 //
+  /**
+   * The method matrix.scaleSet() returns scaled instance of Matrix, takes source from context.
+   *
+   * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   3, 2, 3,
+   *   4, 0, 2,
+   *   0, 0, 6,
+   * ]);
+   *
+   * var src = [ 2 ];
+   *
+   * var got = matrix.scaleSet( src );
+   * logger.log
+   * // log
+   *  +6, +4, +6,
+   *  +8, +0, +4
+   *  +0, +0, +12,
+   *
+   * @returns { Matrix } - Returns scaled instance of Matrix.
+   * @method scaleSet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function scaleSet( src )
 {
