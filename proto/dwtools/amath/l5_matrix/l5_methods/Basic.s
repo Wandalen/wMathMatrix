@@ -1004,6 +1004,33 @@ function matrixDirectionsApply( dstVector )
   return dstVector;
 }
 //
+  /**
+   * The method matrix.positionGet() Returns offset or position specified by the matrix, takes source from context.
+   *
+   * @example
+   * var buffer = new I32x
+   * ([
+   *   +2, +2, +2,
+   *   +2, +3, +4,
+   *   +4, +3, -2,
+   * ]);
+   *
+   * var matrix = new _.Matrix
+   * ({
+   *  buffer,
+   *  dims : [ 3, 3 ],
+   *  inputTransposing : 1,
+   * });
+   *
+   * var got = matrix.positionGet();
+   * logger.log
+   * // log 2.000 4.000
+   *
+   * @returns { VectorAdapter } - Returns offset or position specified by the matrix.
+   * @method positionGet
+   * @throws { Error } If argument exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function positionGet()
 {
@@ -1068,8 +1095,26 @@ function scaleMagGet( dst )
 }
 
 //
+//   /**
+//    * The method matrix.scaleGet() returns scale specified by the matrix.
+//    *
+//    * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+//    *
+//    * @ex
+//    * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+//    * ([
+//    *   +6, +4, +6,
+//    *   +8, +0, +4
+//    *   +0, +0, +12,
+//    * ]);
+//    *
+//    * @returns { Matrix } - Returns scale specified by the matrix.
+//    * @method scaleGet
+//    * @throws { Error } If (arguments.length) is more than one.
+//    * @memberof module:Tools/math/Matrix.wMatrix#
+//    */
 
-function scaleGet( dst )
+  function scaleGet( dst )
 {
   let self = this;
   let l = self.length-1;
