@@ -1701,6 +1701,28 @@ function furthest( insElement )
 
 //
 
+/**
+ * The method matrix.elementMean() returns medium element values of provided matrix,
+ * takes source from context.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * ([
+ *   3, 2, 3,
+ *   4, 0, 2,
+ *   0, 0, 6,
+ * ]);
+ *
+ * var got = matrix.elementMean( );
+ * logger.log( got )
+ * // log 2.333, 0.666, 3.666
+ *
+ * @returns { Number } - Returns medium element values of provided matrix.
+ * @method elementMean
+ * @throws { Error } If argument exist.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function elementMean()
 {
   let self = this;
