@@ -1051,6 +1051,30 @@ function positionGet()
 }
 
 //
+  /**
+   * The method matrix.positionSet() sets and return position {-src-} specified by the matrix.
+   *
+   * @param { Long } - src - an instance of Long.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +6, +4, +6,
+   *   +8, +0, +4
+   *   +0, +0, +12,
+   * ]);
+   *
+   * var src = [ 4, 4 ];
+   *
+   * var got = matrix.positionSet( src );
+   * logger.log
+   * // log 4.000, 4.000
+   *
+   * @returns { VectorAdapter } - Returns position specified by the matrix.
+   * @method scaleGet
+   * @throws { Error } If {-src-} and destination matrix length is not same.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function positionSet( src )
 {
