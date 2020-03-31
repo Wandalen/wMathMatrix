@@ -723,6 +723,42 @@ function triangleLowerSet( src )
 }
 
 //
+  /**
+   * The method matrix.triangleUpperSet() returns the new instance of Matrix based on a source (takes from context)
+   * with values of the upper right triangle {-src-} matrix.
+   *
+   *
+   * @param { Matrix } - src - an instance of Matrix.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +2, +3,
+   *   +0, +4, +5,
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var src = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +1, +0, +0,
+   *   +1, +1, +0,
+   *   +1, +1, +1,
+   * ]);
+   *
+   * var got = matrix.triangleUpperSet( src );
+   * console.log( got );
+   * // log
+   *  +1, +0, +0,
+   *  +0, +4, +0,
+   *  +0, +0, +6,
+   *
+   * @returns { Matrix } - Returns the new instance of Matrix.
+   * @method triangleUpperSet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @throws { Error } If matrix dimension length is more than two.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
+
 
 function triangleUpperSet( src )
 {
