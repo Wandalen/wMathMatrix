@@ -1212,6 +1212,38 @@ function scaleMeanGet( dst )
 
 //
 
+/**
+ * The method matrix.scaleMagGet() returns magnitude of scale specified by the matrix.
+ *
+ * @param { VectorAdapter } - dst - an instance of VectorAdapter.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   +2, +2, +2,
+ *   +2, +3, +4,
+ *   +4, +3, -2,
+ * ]);
+ *
+ * var matrix = new _.Matrix
+ * ({
+   buffer,
+   dims : [ 3, 3 ],
+   inputTransposing : 1,
+ * });
+ *
+ * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ *
+ * var got = matrix.scaleMagGet( dst )
+ * logger.log( got )
+ * // log 4.58257569495584
+ *
+ * @returns { Number } - Returns magnitude of scale specified by the matrix.
+ * @method scaleMagGet
+ * @throws { Error } If (arguments.length) is more than one.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function scaleMagGet( dst )
 {
   let self = this;
