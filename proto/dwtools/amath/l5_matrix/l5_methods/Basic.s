@@ -171,6 +171,33 @@ function tempBorrow3( src )
 // mul
 // --
 
+  /**
+   * The method matrix.pow is short-cut matrixPow returns an instance of Matrix with exponentiation values provided matrix,
+   * takes destination matrix from context.
+   *
+   * @param { Exponent } - exponent - number or string.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.pow( 2 );
+   * logger.log( got );
+   * // log
+   * +17, +6, +31,
+   * +12, +8, +24,
+   * +0, +0, +36,
+   *
+   * @returns { Matrix } - Returns instance of Matrix.
+   * @method pow
+   * @throws { Error } If provided source is not instance of Matrix.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
+
 function matrixPow( exponent )
 {
 
