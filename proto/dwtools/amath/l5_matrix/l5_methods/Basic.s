@@ -295,6 +295,7 @@ function mul_static( dst, srcs )
 }
 
 //
+
 /**
  * The method matrix.mull() returns multiplies values of provided matrix {-srcs-}.
  *
@@ -395,6 +396,7 @@ function mul2Matrices( src1, src2 )
 }
 
 //
+
 /**
  * The method matrix.mulLeft() multiplies values of provided matrices and returns left matrix with these values.
  *
@@ -448,6 +450,7 @@ function mulLeft( src )
 }
 
 //
+
 /**
  * The method matrix.mulRight() multiplies values of provided matrices and returns right matrix with these values.
  *
@@ -599,6 +602,7 @@ function zero()
 }
 
 //
+
 /**
  * The method matrix.identity() returns an instance of an identity matrix, based on dimension provided matrix( takes from context ).
  *
@@ -635,6 +639,7 @@ function identify()
 }
 
 //
+
 /**
  * The method matrix.diagonalSet() returns an instance of Matrix with diagonal values {-src-} matrix,
  * takes destination matrix from context.
@@ -694,6 +699,7 @@ function diagonalSet( src )
 }
 
 //
+
 /**
  * The method matrix.diagonalVectorGet() returns an instance of VectorAdapter filled by values,
  * takes source from context.
@@ -731,6 +737,7 @@ function diagonalVectorGet()
 }
 
 //
+
 /**
  * The method matrix.triangleLowerSet() returns the instance of Matrix based on a source (takes from context)
  * with values of the lower left triangle {-src-} matrix.
@@ -807,6 +814,7 @@ function triangleLowerSet( src )
 }
 
 //
+
 /**
  * The method matrix.triangleUpperSet() returns the instance of Matrix based on a source (takes from context)
  * with values of the upper right triangle {-src-} matrix.
@@ -953,6 +961,7 @@ function matrixApplyTo( dstVector )
 }
 
 //
+
 /**
  * The method matrix.matrixHomogenousApply() apply the homogenous matrix to provided vector {-dstVector-}, returns the instance of VectorAdapter,
  * takes source from context.
@@ -1031,6 +1040,7 @@ function matrixDirectionsApply( dstVector )
 }
 
 //
+
 /**
  * The method matrix.positionGet() Returns offset or position specified by the matrix, takes source from context.
  *
@@ -1078,6 +1088,7 @@ function positionGet()
 }
 
 //
+
 /**
  * The method matrix.positionSet() sets and return position {-src-} specified by the matrix.
  *
@@ -1116,6 +1127,7 @@ function positionSet( src )
 }
 
 //
+
 /**
  * The method matrix.scaleMaxGet() returns maximum value of scale specified by the matrix.
  *
@@ -1157,6 +1169,7 @@ function scaleMaxGet( dst )
 }
 
 //
+
 /**
  * The method matrix.scaleMeanGet() returns medium value of scale specified by the matrix.
  *
@@ -1208,6 +1221,7 @@ function scaleMagGet( dst )
 }
 
 //
+
 /**
  * The method matrix.scaleGet() returns scale specified by the matrix.
  *
@@ -1268,6 +1282,7 @@ function scaleMagGet( dst )
 }
 
 //
+
 /**
  * The method matrix.scaleSet() returns scaled instance of Matrix, takes source from context.
  *
@@ -1446,6 +1461,7 @@ function elementMean()
 }
 
 //
+
 /**
  * The method matrix.minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
  * takes source from context.
@@ -1492,6 +1508,7 @@ function minmaxColWise()
 }
 
 //
+
 /**
  * The method matrix.minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
  * takes source from context.
@@ -1538,6 +1555,7 @@ function minmaxRowWise()
 }
 
 //
+
 /**
  * This method returns a determinant value of the provided matrix,
  * takes source from context.
