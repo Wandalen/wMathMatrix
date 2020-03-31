@@ -610,7 +610,7 @@ function zero()
    *   +0, +0, +6,
    * ]);
    *
-   * var got = matrix.identity( src );
+   * var got = matrix.identity();
    * logger.log( got );
    * // log
    *   +1, +0, +0,
@@ -1097,6 +1097,33 @@ function scaleGet( dst )
 }
 
 //
+  /**
+   * The method matrix.scaleSet() returns scaled instance of Matrix, takes source from context.
+   *
+   * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   3, 2, 3,
+   *   4, 0, 2,
+   *   0, 0, 6,
+   * ]);
+   *
+   * var src = [ 2 ];
+   *
+   * var got = matrix.scaleSet( src );
+   * logger.log
+   * // log
+   *  +6, +4, +6,
+   *  +8, +0, +4
+   *  +0, +0, +12,
+   *
+   * @returns { Matrix } - Returns scaled instance of Matrix.
+   * @method scaleSet
+   * @throws { Error } If (arguments.length) is more than one.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function scaleSet( src )
 {
