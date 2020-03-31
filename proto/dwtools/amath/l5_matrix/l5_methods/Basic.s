@@ -398,7 +398,7 @@ function zero()
 
 //
 
-function identify()
+function identity()
 {
   let self = this;
 
@@ -1078,7 +1078,7 @@ let Extension =
   // partial accessors
 
   zero,
-  identify,
+  identity,
   diagonalSet,
   diagonalVectorGet,
   triangleLowerSet,
