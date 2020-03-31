@@ -599,6 +599,29 @@ function zero()
 }
 
 //
+  /**
+   * The method matrix.identity() returns an instance of an identity matrix, based on dimension provided matrix( takes from context ).
+   *
+   * @example
+   * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+   * ([
+   *   +3, +2, +3,
+   *   +4, +0, +2
+   *   +0, +0, +6,
+   * ]);
+   *
+   * var got = matrix.identity( src );
+   * logger.log( got );
+   * // log
+   *   +1, +0, +0,
+   *   +0, +1, +0,
+   *   +0, +0, +1,
+   *
+   * @returns { Matrix } - Returns instance of Matrix.
+   * @method identity
+   * @throws { Error } If arguments exist.
+   * @memberof module:Tools/math/Matrix.wMatrix#
+   */
 
 function identify()
 {
