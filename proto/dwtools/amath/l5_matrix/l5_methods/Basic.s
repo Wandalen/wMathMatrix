@@ -1467,16 +1467,16 @@ function scaleMagGet( dst )
  *   0, 0, 6,
  * ]);
  *
- * var src = [ 2 ];
+ * var src = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleSet( src );
  * logger.log( got )
  * // log
- *  +6, +4, +6,
- *  +8, +0, +4
- *  +0, +0, +12,
+ *  +0, +0, +0,
+ *  +0, +0, +0
+ *  +0, +0, +0,
  *
- * @param { Array|VectorAdapter } dst - array or the instance of VectorAdapter.
+ * @param { VectorAdapter } dst - the instance of VectorAdapter.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleSet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1521,7 +1521,7 @@ function scaleSet( src )
  * });
  *
  * var scale = _.vectorAdapter.fromLong( [ 0, 0 ] );
- * var center = _.vectorAdapter.fromLong( [ 2, 3] );
+ * var center = _.vectorAdapter.fromLong( [ 2, 3 ] );
  *
  * var got = matrix.scaleAroundSet( src );
  * logger.log( got )
@@ -1572,6 +1572,39 @@ function scaleAroundSet( scale, center )
 }
 
 //
+
+/**
+ * The method matrix.scaleApply() returns scaled matrix instance of provided vector {-src-}, takes source from context.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ * var matrix = new _.Matrix
+ * ({
+ *   buffer,
+ *    dims : [ 3, 3 ],
+ *    inputTransposing : 1,
+ * });
+ *
+ * var src = _.vectorAdapter.fromLong( [ 2, 3 ] );
+ *
+ * var got = matrix.scaleApply( src );
+ * logger.log( got )
+ * // log
+ *  +2, +6, +0,
+ *  +0, +12, +1
+ *  +2, +0, +0,
+ *
+ * @param { VectorAdapter } src - the instance of VectorAdapter.
+ * @returns { Matrix } - Returns scaled instance of Matrix.
+ * @method scaleApply
+ * @throws { Error } If (arguments.length) is more than two.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function scaleApply( src )
 {
