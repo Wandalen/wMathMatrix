@@ -737,6 +737,27 @@ function convertToClass( cls, src )
 
 //
 
+/**
+ * The method fromVectorAdapter() converts provided vector {-src-} and return the new instance of Matrix.
+ *
+ * @example
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
+ * var got = new _.Matrix.fromVectorAdapter( src );
+ * logger.log( got )
+ * //log
+ *   +1,
+ *   +2,
+ *   +3,
+ *   +4,
+ *
+ * @param { VectorAdapter } src - an instance of VectorAdapter.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromVectorAdapter
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-src-} is an instance of VectorAdapter.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function fromVectorAdapter( src )
 {
   let result;
