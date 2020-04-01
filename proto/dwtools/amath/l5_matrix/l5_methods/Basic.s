@@ -225,7 +225,7 @@ function tempBorrow3( src )
  * +12, +8, +24,
  * +0, +0, +36,
  *
- * @param { Number|String } - exponent - number or string.
+ * @param { Number|String } exponent - number or string.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method pow
  * @throws { Error } If provided source is not instance of Matrix.
@@ -528,7 +528,7 @@ function mul2Matrices( src1, src2 )
  *   +4, +1, +2,
  *   +0, +0, +1,
  *
- * @param { Matrix } - src - an instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method mulLeft
  * @throws { Error } If (arguments.length) is more than 1.
@@ -581,7 +581,7 @@ function mulLeft( src )
  *   +16, +4, +13
  *   +0, +0, +6,
  *
- * @param { Matrix } - src - an instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method mulRight
  * @throws { Error } If (arguments.length) is more than 1.
@@ -682,7 +682,7 @@ function mulRight( src )
  *   +0, +0, +0
  *   +0, +0, +0,
  *
- * @returns { Matrix } - Returns new instance of Matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix.
  * @method zero
  * @throws { Error } If (arguments.length) exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
@@ -764,7 +764,7 @@ function identify()
  * +4, +5, +2,
  * +0, +0, +1,
  *
- * @param { Matrix } - src - an instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method diagonalSet
  * @throws { Error } If (arguments.length) is more the one.
@@ -861,7 +861,7 @@ function diagonalVectorGet()
  *   +1, +4, +5,
  *   +1, +1, +6,
  *
- * @param { Matrix } - src - an instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleLowerSet
  * @throws { Error } If (arguments.length) is more than one.
@@ -937,7 +937,7 @@ function triangleLowerSet( src )
  *  +0, +4, +0,
  *  +0, +0, +6,
  *
- * @param { Matrix } - src - an instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleUpperSet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1032,7 +1032,7 @@ function triangleUpperSet( src )
  * logger.log( got );
  * // log
  *
- * @param { VectorAdapter } - dstVector - an instance of VectorAdapter.
+ * @param { VectorAdapter } dstVector - an instance of VectorAdapter.
  * @returns { Matrix } - Returns the changed instance of Matrix.
  * @method matrixApplyTo
  * @throws { Error } If (arguments.length) is more the one.
@@ -1101,7 +1101,7 @@ function matrixApplyTo( dstVector )
  * // log
  *  [ 1, 2 ]
  *
- * @param { VectorAdapter } - dstVector - destination instance of VectorAdapter.
+ * @param { VectorAdapter } dstVector - destination instance of VectorAdapter.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixHomogenousApply
  * @throws { Error } If (arguments.length) is more the one.
@@ -1159,7 +1159,7 @@ function matrixHomogenousApply( dstVector )
  * // log
  *  [ 1, 2 ]
  *
- * @param { VectorAdapter } - dstVector - destination instance of VectorAdapter.
+ * @param { VectorAdapter } dstVector - destination instance of VectorAdapter.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixDirectionsApply
  * @throws { Error } If (arguments.length) is more the one.
@@ -1252,7 +1252,7 @@ function positionGet()
  * logger.log( got );
  * // log 4.000, 4.000
  *
- * @param { Long } - src - an instance of Long.
+ * @param { Long } src - an instance of Long.
  * @returns { VectorAdapter } - Returns position specified by the matrix.
  * @method positionSet
  * @throws { Error } If {-src-} and destination matrix length is not same.
@@ -1297,7 +1297,7 @@ function positionSet( src )
  * logger.log( got )
  * // log 3.605551275463989
  *
- * @param { VectorAdapter } - dst - an instance of VectorAdapter.
+ * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns maximum value of scale specified by the matrix.
  * @method scaleMaxGet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1338,7 +1338,7 @@ function scaleMaxGet( dst )
  * logger.log( got )
  * // log 3.2169892001050897
  *
- * @param { VectorAdapter } - dst - an instance of VectorAdapter.
+ * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns medium value of scale specified by the matrix.
  * @method scaleMeanGet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1379,7 +1379,7 @@ function scaleMeanGet( dst )
  * logger.log( got )
  * // log 4.58257569495584
  *
- * @param { VectorAdapter } - dst - an instance of VectorAdapter.
+ * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns magnitude of scale specified by the matrix.
  * @method scaleMagGet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1420,7 +1420,7 @@ function scaleMagGet( dst )
  * logger.log( got );
  * // log 2.828, 3.606
  *
- * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+ * @param { Array|VectorAdapter } dst - array or the instance of VectorAdapter.
  * @returns { Number } - Returns scale specified by the matrix.
  * @method scaleGet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1476,7 +1476,7 @@ function scaleMagGet( dst )
  *  +8, +0, +4
  *  +0, +0, +12,
  *
- * @param { Array|VectorAdapter } - dst - array or the instance of VectorAdapter.
+ * @param { Array|VectorAdapter } dst - array or the instance of VectorAdapter.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleSet
  * @throws { Error } If (arguments.length) is more than one.
@@ -1580,7 +1580,7 @@ function scaleApply( src )
  *  distance: 2.23606797749979
  * }
  *
- * @param { VectorAdapter } - insElement - provided element, instance of VectorAdapter.
+ * @param { VectorAdapter } insElement - provided element, instance of VectorAdapter.
  * @returns { Map } - Returns index and distance of the closest element.
  * @method closest
  * @throws { Error } If (arguments.length) is more than one.
@@ -1639,7 +1639,7 @@ function closest( insElement )
  *  distance: 5.0990195135927845
  * }
  *
- * @param { VectorAdapter } - insElement - provided element, instance of VectorAdapter.
+ * @param { VectorAdapter } insElement - provided element, instance of VectorAdapter.
  * @returns { Map } - Returns index and distance of the furthest element.
  * @method furthest
  * @throws { Error } If (arguments.length) is more than one.
