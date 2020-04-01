@@ -956,6 +956,39 @@ function fromForReading( src, dims )
 }
 
 //
+  
+/**
+ * The method fromTransformations() converts from provided params {-position-}, {-quaternion-}, {-scale-},
+ * return the new instance of Matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * ([
+ *   +1, +2, +3, +1,
+ *   +0, +4, +5, +1,
+ *   +0, +0, +6, +1,
+ *   +0, +0, +6, +1,
+ * ]);
+ *
+ * var position = [ 1, 2, 3 ];
+ * var quaternion = [ 0, 0, 0, 1 ];
+ * var scale = [ 1, 1, 1 ];
+ * var got = matrix.fromTransformations( position, quaternion, scale );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0, +1,
+ *   +0, +1, +0, +2,
+ *   +0, +0, +1, +3,
+ *   +0, +0, +0, +1,
+ *
+ * @param { Array } position - array.
+ * @param { Array } quaternion - array.
+ * @param { Array } scale - array.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromTransformations
+ * @throws { Error } If (arguments.length) is not 3.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function fromTransformations( position, quaternion, scale )
 {
