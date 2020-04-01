@@ -115,7 +115,7 @@ function make( dims )
  *   +0, +0, +0,
  *   +0, +0, +0,
  *
- * @param { Array|TypedArray } buffer - source data.
+ * @param { Long|Number } buffer - source data.
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
  * @method makeSquare
  * @throws { Error } If (arguments.length) is not 1.
@@ -209,6 +209,26 @@ function makeSquare_( buffer )
 }
 
 //
+
+/**
+ * The method matrix.makeZero(), returns the new instance of Matrix filled by zero.
+ *
+ * @example
+ * var dims = 3;
+ * var got = new _.Matrix.makeZero( dims );
+ * logger.log( got )
+ * //log
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *
+ * @param { Long|Number } dims - provided dimension instance of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
+ * @method makeZero
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-dims-} is not array or typed array.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function makeZero( dims )
 {
