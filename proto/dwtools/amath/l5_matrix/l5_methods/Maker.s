@@ -103,6 +103,26 @@ function make( dims )
 
 //
 
+/**
+ * The method matrix.makeSquare(), returns the new instance of square Matrix, with provided data.
+ *
+ * @example
+ * var buffer = [ 1, 2, 3 ]
+ * var got = new _.Matrix.makeSquare( buffer );
+ * logger.log( got )
+ * //log
+ *   +1, +2, +3,
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *
+ * @param { Array|TypedArray } buffer - source data.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
+ * @method makeSquare
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-buffer-} is not array or typed array.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function makeSquare( buffer )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
