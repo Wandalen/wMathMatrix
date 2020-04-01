@@ -1082,6 +1082,36 @@ function fromQuat( q )
 
 //
 
+/**
+ * The method matrix.fromQuatWithScale() converts from provided param {-quaternion-} with scale,
+ * return the new instance of Matrix, take the source from context.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * ([
+ *   +1, +2, +3, +1,
+ *   +0, +4, +5, +1,
+ *   +0, +0, +6, +1,
+ *   +0, +0, +6, +1,
+ * ]);
+ *
+ * var quaternion = [ 0, 2, 1, 1 ];
+ * var got = matrix.fromQuatWithScale( quaternion );
+ * logger.log( got )
+ * //log
+ *   -1.633, -0.816, 1.633, 0.000,
+ *   0.816, 1.633, 1.633, 0.000,
+ *   -1.633, 1.633, -0.816, 0.000,
+ *   0.000, 0.000, 0.000, 1.000,
+ *
+ * @param { Array } quaternion - array.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromQuatWithScale
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If quaternion length is not 4.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function fromQuatWithScale( q )
 {
   let self = this;
