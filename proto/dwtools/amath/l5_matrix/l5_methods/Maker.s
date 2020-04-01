@@ -104,7 +104,7 @@ function make( dims )
 //
 
 /**
- * The method matrix.makeSquare(), returns the new instance of square Matrix, with provided data.
+ * The method makeSquare(), returns the new instance of square Matrix, with provided data.
  *
  * @example
  * var buffer = [ 1, 2, 3 ]
@@ -119,7 +119,7 @@ function make( dims )
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
  * @method makeSquare
  * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If {-buffer-} is not array or typed array.
+ * @throws { Error } If {-buffer-} is not array or number.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -211,7 +211,7 @@ function makeSquare_( buffer )
 //
 
 /**
- * The method matrix.makeZero(), returns the new instance of Matrix filled by zero.
+ * The method makeZero(), returns the new instance of Matrix filled by zero.
  *
  * @example
  * var dims = 3;
@@ -226,7 +226,7 @@ function makeSquare_( buffer )
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
  * @method makeZero
  * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If {-dims-} is not array or typed array.
+ * @throws { Error } If {-dims-} is not array or number.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -258,6 +258,26 @@ function makeZero( dims )
 }
 
 //
+
+/**
+ * The method makeIdentity(), returns the new instance of identity Matrix.
+ *
+ * @example
+ * var dims = 3;
+ * var got = new _.Matrix.makeIdentity( dims );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0,
+ *   +0, +1, +0,
+ *   +0, +0, +1,
+ *
+ * @param { Long|Number } dims - provided dimension instance of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
+ * @method makeIdentity
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-dims-} is not array or number.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function makeIdentity( dims )
 {
