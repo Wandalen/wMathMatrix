@@ -858,6 +858,42 @@ function fromScalarForReading( scalar, dims )
 
 //
 
+/**
+ * The method from() converts from provided source {-src-} and return the new instance of Matrix.
+ * If method executes without the source - return instance of matrix, filled by zero with dimension {-dims-}.
+ *
+ * @example
+ * var dims = [ 3, 3 ];
+ * var got = new _.Matrix.from( dims );
+ * logger.log( got )
+ * //log
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *
+ * @example
+ * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * ([
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ * ]);
+ * var dims = [ 3, 3 ];
+ * var got = new _.Matrix.from( src, dims );
+ * logger.log( got )
+ * //log
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ *
+ * @param { Null|Number|Matrix|VectorAdapter } src - number, instance of Matrix, VectorAdapter.
+ * @param { Array } dims - array, dimension of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method from
+ * @throws { Error } If (arguments.length) is not 1 or 2.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function from( src, dims )
 {
   let result;
