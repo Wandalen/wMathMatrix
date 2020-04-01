@@ -791,6 +791,28 @@ function fromVectorAdapter( src )
 
 //
 
+/**
+ * The method fromScalar() converts {-scalar-} and return the new instance of Matrix.
+ *
+ * @example
+ * var scalar = 2;
+ * var dims = [ 3, 3 ];
+ * var got = _.Matrix.fromScalar( scalar, dims ) )
+ * logger.log( got )
+ * //log
+ *   +2, +2, +2,
+ *   +2, +2, +2,
+ *   +2, +2, +2,
+ *
+ * @param { Number } scalar - number.
+ * @param { Array } dims - array, dimension of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromScalar
+ * @throws { Error } If (arguments.length) is not 2.
+ * @throws { Error } If {-dims-} is not array.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function fromScalar( scalar, dims )
 {
 
