@@ -358,6 +358,26 @@ function makeIdentity4( src )
 
 //
 
+/**
+ * The method makeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
+ *
+ * @example
+ * var diagonal = [ 1, 2, 3];
+ * var got = new _.Matrix.makeDiagonal( diagonal );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0,
+ *   +0, +2, +0,
+ *   +0, +0, +3,
+ *
+ * @param { Array } diagonal - array.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
+ * @method makeDiagonal
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-dims-} is not array or number.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function makeDiagonal( diagonal )
 {
 
