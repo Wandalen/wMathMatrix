@@ -50,6 +50,30 @@ function _BufferFrom( src )
 // make
 // --
 
+/**
+ * The sub-method make(), returns the new instance of Matrix, with provided dimensions {-dims-}.
+ *
+ * @example
+ * var got = new _.Matrix.make( [ 3, 3] ).copy
+ * ([
+ *   +2, +2, +2,
+ *   +2, +3, +4,
+ *   +4, +3, -2,
+ * ]);
+ * logger.log( got )
+ * //log
+ *   +2, +2, +2,
+ *   +2, +3, +4,
+ *   +4, +3, -2,
+ *
+ * @param { Array|Number } dims - dimension of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
+ * @method make
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-dims-} is not array or number.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function make( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
