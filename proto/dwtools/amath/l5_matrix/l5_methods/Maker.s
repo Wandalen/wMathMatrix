@@ -374,7 +374,7 @@ function makeIdentity4( src )
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
  * @method makeDiagonal
  * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If {-dims-} is not array or number.
+ * @throws { Error } If {-diagonal-} is not array.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -406,6 +406,40 @@ function makeDiagonal( diagonal )
 }
 
 //
+
+/**
+ * The method makeSimilar() makes and returns the similar instance of Matrix {-m-}.
+ * If method executes with single argument, dimension takes from the source.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ *
+ * var m = new _.Matrix
+ * ({
+ * buffer,
+ * dims : [ 3, 3 ],
+ * inputTransposing : 1,
+ * });
+ *
+ * var got = new _.Matrix.makeSimilar( m );
+ * logger.log( got )
+ * //log
+ *   +1, +2, +0,
+ *   +0, +4, +1,
+ *   +1, +0, +0,
+ *
+ * @param { Matrix } m - an instance of Matrix.
+ * @param { Array } m - dimension array.
+ * @returns { Matrix } - Returns the instance of Matrix.
+ * @method makeSimilar
+ * @throws { Error } If {-m-} is not instance of Matrix.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function makeSimilar( m , dims )
 {
