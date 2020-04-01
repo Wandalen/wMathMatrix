@@ -1503,6 +1503,41 @@ function scaleSet( src )
 
 //
 
+/**
+ * The method matrix.scaleAroundSet() returns scaled matrix instance of around provided vector {-center-}, takes source from context.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ * var matrix = new _.Matrix
+ * ({
+ *   buffer,
+ *    dims : [ 3, 3 ],
+ *    inputTransposing : 1,
+ * });
+ *
+ * var scale = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ * var center = _.vectorAdapter.fromLong( [ 2, 3] );
+ *
+ * var got = matrix.scaleAroundSet( src );
+ * logger.log( got )
+ * // log
+ *  +0, +0, +2,
+ *  +0, +0, +3
+ *  +0, +0, +0,
+ *
+ * @param { VectorAdapter } scale - the instance of VectorAdapter.
+ * @param { VectorAdapter } center - the instance of VectorAdapter.
+ * @returns { Matrix } - Returns scaled instance of Matrix.
+ * @method scaleAroundSet
+ * @throws { Error } If (arguments.length) is more than two.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function scaleAroundSet( scale, center )
 {
   let self = this;
