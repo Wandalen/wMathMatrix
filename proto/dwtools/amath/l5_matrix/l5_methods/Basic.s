@@ -864,7 +864,7 @@ function diagonalVectorGet()
  * @param { Matrix } src - An instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleLowerSet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If count of arguments more than one.
  * @throws { Error } If matrix dimension length is more than two.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -940,7 +940,7 @@ function triangleLowerSet( src )
  * @param { Matrix } src - An instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleUpperSet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If count of arguments more than one.
  * @throws { Error } If matrix dimension length is more than two.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -1300,7 +1300,7 @@ function positionSet( src )
  * @param { VectorAdapter } dst - An instance of VectorAdapter.
  * @returns { Number } - Returns maximum value of scale specified by the matrix.
  * @method scaleMaxGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If count of arguments more than one.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1341,7 +1341,7 @@ function scaleMaxGet( dst )
  * @param { VectorAdapter } dst - An instance of VectorAdapter.
  * @returns { Number } - Returns medium value of scale specified by the matrix.
  * @method scaleMeanGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If count of arguments more than one.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1382,7 +1382,8 @@ function scaleMeanGet( dst )
  * @param { VectorAdapter } dst - An instance of VectorAdapter.
  * @returns { Number } - Returns magnitude of scale specified by the matrix.
  * @method scaleMagGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If count of arguments more than one.
+ * @throws { Error } If { VectorAdapter } dst - An instance of VectorAdapter
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1423,7 +1424,8 @@ function scaleMagGet( dst )
  * @param { Array|VectorAdapter } dst - Array or the instance of VectorAdapter.
  * @returns { Number } - Returns scale specified by the matrix.
  * @method scaleGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If count of arguments more than one.
+ * @throws { Error } If {-dst-} is not an Array or the instance of VectorAdapter.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1479,8 +1481,8 @@ function scaleMagGet( dst )
  * @param { VectorAdapter } dst - The instance of VectorAdapter.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleSet
- * @throws { Error } If (arguments.length) is more than one.
- * @throws { Error } If context source is not instance of Matrix.
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-dst-} is not instance of VectorAdapter.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1535,10 +1537,9 @@ function scaleSet( src )
  * @param { VectorAdapter|Long } center - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleAroundSet
- * @throws { Error } If (arguments.length) is more than two.
+ * @throws { Error } If count of arguments is more than two.
  * @throws { Error } If {-center-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If {-scale-} is not an instance of VectorAdapter or Long.
- * @throws { Error } If context source is not instance of Matrix.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1599,15 +1600,13 @@ function scaleAroundSet( scale, center )
  * var got = matrix.scaleApply( src );
  * logger.log( got )
  * // log
- *  +2, +6, +0,
- *  +0, +12, +1
- *  +2, +0, +0,
+ * undefined
  *
  * @param { VectorAdapter|Long } src - The instance of VectorAdapter or Long.
  * @returns { Undefined } - Returns not a value, change source vector {-src-}.
  * @method scaleApply
- * @throws { Error } If (arguments.length) is not one.
- * @throws { Error } If context source is not instance of Matrix.
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-src-} is not an instance of VectorAdapter or Long.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1656,8 +1655,8 @@ function scaleApply( src )
  * @param { VectorAdapter } insElement - Provided element, instance of VectorAdapter.
  * @returns { Map } - Returns index and distance of the closest element.
  * @method closest
- * @throws { Error } If (arguments.length) is not one.
- * @throws { Error } If context source is not instance of Matrix.
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-insElement-} is not an instance of VectorAdapter.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1716,8 +1715,8 @@ function closest( insElement )
  * @param { VectorAdapter } insElement - Provided element, instance of VectorAdapter.
  * @returns { Map } - Returns index and distance of the furthest element.
  * @method furthest
- * @throws { Error } If (arguments.length) is not one.
- * @throws { Error } If context source is not instance of Matrix.
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-insElement-} is not an instance of VectorAdapter.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1809,7 +1808,7 @@ function elementMean()
  *
  * @returns { TypedArrays } - Returns two instances of F32x buffers.
  * @method minmaxColWise
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If argument exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
    */
 
@@ -1856,7 +1855,7 @@ function minmaxColWise()
  *
  * @returns { TypedArrays } - Returns two instances of F32x buffers.
  * @method minmaxRowWise
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If argument exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1899,7 +1898,7 @@ function minmaxRowWise()
  *
  * @returns { Number } - Returns a determinant value of the provided matrix.
  * @method determinant
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If argument exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 

@@ -64,10 +64,10 @@ function _BufferFrom( src )
  * //log
  *  Float32Array [ 2, 2, 4, 2, 3, 3, 2, 4, -2 ]
  *
- * @param { Array|Number } dims - Dimension of matrix.
+ * @param { Array|Number } dims - Array or number, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
  * @method make
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If count of arguments more than one.
  * @throws { Error } If {-dims-} is not array or number.
  * @throws { Error } If {-dims-} array length is not 2.
  * @throws { Error } If {-dims-} number is not single.
@@ -229,10 +229,9 @@ function makeSquare_( buffer )
  *   +0, +0, +0,
  *   +0, +0, +0,
  *
- * @param { Long|Number } dims - Provided dimension instance of matrix.
+ * @param { Long|Number } dims - Long or number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
  * @method makeZero
- * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-dims-} is not array or number.
  * @throws { Error } If {-dims-} array length is not 2.
  * @throws { Error } If {-dims-} is not single number.
@@ -281,10 +280,10 @@ function makeZero( dims )
  *   +0, +1, +0,
  *   +0, +0, +1,
  *
- * @param { Long|Number } dims - Provided dimension instance of matrix.
+ * @param { Long|Number } dims - Long or number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
  * @method makeIdentity
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If count of arguments less or more than one.
  * @throws { Error } If {-dims-} is not array or number.
  * @throws { Error } If {-dims-} array length is not 2.
  * @throws { Error } If {-dims-} is not single number.
@@ -382,12 +381,11 @@ function makeIdentity4( src )
  *   +0, +2, +0,
  *   +0, +0, +3,
  *
- * @param { Array } diagonal - Array.
+ * @param { Array } diagonal - Array, source data.
  * @returns { Matrix } - Returns the new instance of Matrix with provided diagonal.
  * @method makeDiagonal
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If count of arguments less or more than one.
  * @throws { Error } If {-diagonal-} is not array.
- * @throws { Error } If method called without Matrix constructor.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -453,7 +451,7 @@ function makeDiagonal( diagonal )
  * @throws { Error } If {-m-} is not an instance of Matrix.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} array length is not 2.
- * @throws { Error } If (arguments.length) is more than 2.
+ * @throws { Error } If count of arguments more than 2.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -634,7 +632,6 @@ makeLine.defaults =
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
- *
  * var got = _.Matrix.makeCol( buffer );
  * logger.log( got )
  * //log
@@ -643,7 +640,8 @@ makeLine.defaults =
  *   +0,
  *
  * @example
- * var got = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * var got = _.Matrix.makeCol( buffer );
  * logger.log( got )
  * //log
  *   -2.000,
@@ -651,11 +649,11 @@ makeLine.defaults =
  *   -0.250,
 
  *
- * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, dimension and provided values.
+ * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
  * @returns { Matrix } - Returns the new instance of Matrix by provided column.
  * @method makeCol
- * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If method called without matrix constructor.
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, array or number.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -683,6 +681,37 @@ function makeColZeroed( buffer )
 
 //
 
+/**
+ * The method makeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
+ * If argument {-buffer-} is number - return filled zero's row.
+ *
+ * @example
+ * var got = _.Matrix.makeRow( 3 );
+ * logger.log( got )
+ * //log +0, +0, +0,
+ *
+ * @example
+ * var buffer = new I32x( [ 1, 2, 0 ] );
+ * var got = _.Matrix.makeRow( buffer );
+ * logger.log( got )
+ * //log
+ *    +1, +2, +0,
+ *
+ * @example
+ * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * var got = _.Matrix.makeRow( buffer );
+ * logger.log( got )
+ * //log
+ *   -2.000, 0.000, -0.250,
+ *
+ * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided row.
+ * @method makeRow
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-buffer-} is not instance of VectorAdapter, array or number.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function makeRow( buffer )
 {
   return this.makeLine
@@ -694,6 +723,30 @@ function makeRow( buffer )
 }
 
 //
+
+/**
+ * The method makeRowZeroed() makes row from provided buffer {-buffer-} filled by zero.
+ *
+ * @example
+ * var buffer = new I32x( [ 1, 2, 0 ] );
+ *
+ * var got = _.Matrix.makeRowZeroed( buffer );
+ * logger.log( got )
+ * //log
+ *   +0, +0, +0,
+ *
+ * @example
+ * var got = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * logger.log( got )
+ * //log 0.000, 0.000, 0.000,
+ *
+ * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, dimension and provided values.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided column.
+ * @method makeRowZeroed
+ * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, array or number.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function makeRowZeroed( buffer )
 {
@@ -808,10 +861,9 @@ function convertToClass( cls, src )
  * @param { VectorAdapter|Long } src - An instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromVectorAdapter
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If count of arguments less or more than one.
  * @throws { Error } If {-src-} is not an instance of VectorAdapter.
  * @throws { Error } If {-src-} is not a Long.
- * @throws { Error } If method called without matrix constructor.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -865,10 +917,9 @@ function fromVectorAdapter( src )
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromScalar
- * @throws { Error } If (arguments.length) is not 2.
+ * @throws { Error } If count of arguments less or more than 2.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} array length is not 2.
- * @throws { Error } If method called without matrix constructor.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -949,10 +1000,9 @@ function fromScalarForReading( scalar, dims )
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method from
- * @throws { Error } If (arguments.length) is not 1 or 2.
+ * @throws { Error } If count of arguments is not 1 or 2.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} array length is not 2.
- * @throws { Error } If method called without matrix constructor.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1048,9 +1098,8 @@ function fromForReading( src, dims )
  * @param { VectorAdapter|Long } scale - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromTransformations
- * @throws { Error } If (arguments.length) is not 3.
+ * @throws { Error } If count of arguments less or more than 3.
  * @throws { Error } If {-quaternion-} length is not 4.
- * @throws { Error } If method called without matrix constructor.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1094,10 +1143,9 @@ function fromTransformations( position, quaternion, scale )
  * @param { VectorAdapter|Long } quaternion - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromQuat
- * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If count of arguments less or more than one.
  * @throws { Error } If (atomsPerElement) of source matrix length if less than 3.
  * @throws { Error } If {-quaternion-} length is not 4.
- * @throws { Error } If source matrix length if less than 3.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1174,10 +1222,9 @@ function fromQuat( q )
  * @param { VectorAdapter|Long } q - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromQuatWithScale
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If count of arguments less or more than one.
  * @throws { Error } If (atomsPerElement) of source matrix length if less than 3.
  * @throws { Error } If {-q-} length is not 4.
- * @throws { Error } If source matrix length is less than 3.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
