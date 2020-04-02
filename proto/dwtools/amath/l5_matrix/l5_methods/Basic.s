@@ -1530,10 +1530,12 @@ function scaleSet( src )
  *  +0, +0, +3
  *  +0, +0, +0,
  *
- * @param { VectorAdapter } scale - the instance of VectorAdapter.
- * @param { VectorAdapter } center - the instance of VectorAdapter.
+ * @param { VectorAdapter|Long } scale - the instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } center - the instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleAroundSet
+ * @throws { Error } If {-center-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If {-scale-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is more than two.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -1574,7 +1576,7 @@ function scaleAroundSet( scale, center )
 //
 
 /**
- * The method matrix.scaleApply() returns scaled matrix instance of provided vector {-src-}, takes source from context.
+ * The method matrix.scaleApply() changes source vector {-src-}, takes source from context.
  *
  * @example
  * var buffer = new I32x
@@ -1586,8 +1588,8 @@ function scaleAroundSet( scale, center )
  * var matrix = new _.Matrix
  * ({
  *   buffer,
- *    dims : [ 3, 3 ],
- *    inputTransposing : 1,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
  * var src = _.vectorAdapter.fromLong( [ 2, 3 ] );
@@ -1600,9 +1602,9 @@ function scaleAroundSet( scale, center )
  *  +2, +0, +0,
  *
  * @param { VectorAdapter } src - the instance of VectorAdapter.
- * @returns { Matrix } - Returns scaled instance of Matrix.
+ * @returns { Undefined } - Returns not a value, change source vector {-src-}.
  * @method scaleApply
- * @throws { Error } If (arguments.length) is more than two.
+ * @throws { Error } If (arguments.length) is not one.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
