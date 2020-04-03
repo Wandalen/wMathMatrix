@@ -26,3 +26,10 @@
     Як динамічно змінювати матриці з одиничного буферу.
 </details>
 
+<details>
+  <summary><a href="./tutorial/MatrixCreation.md">
+    Створення матриці
+  </a></summary>
+    Описуються способи створення матриці.
+</details>
+
