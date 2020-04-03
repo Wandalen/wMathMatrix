@@ -656,7 +656,6 @@ makeLine.defaults =
  *   -2.000,
  *    0.000,
  *   -0.250,
-
  *
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
  * @returns { Matrix } - Returns the new instance of Matrix by provided column.
