@@ -67,10 +67,12 @@ function _BufferFrom( src )
  * @param { Array|Number } dims - Array or number, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
  * @method make
- * @throws { Error } If count of arguments more than one.
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not array or number.
  * @throws { Error } If {-dims-} array length is not 2.
  * @throws { Error } If {-dims-} number is not single.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -123,10 +125,11 @@ function make( dims )
  * @param { Long|Number } buffer - Source data.
  * @returns { Matrix } - Returns the new instance of Matrix by provided data.
  * @method makeSquare
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-buffer-} is not array or number.
  * @throws { Error } If {-buffer-} is not square buffer.
- * @throws { Error } If method called without matrix constructor.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -232,10 +235,12 @@ function makeSquare_( buffer )
  * @param { Long|Number } dims - Long or number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
  * @method makeZero
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not array or number.
  * @throws { Error } If {-dims-} array length is not 2.
  * @throws { Error } If {-dims-} is not single number.
- * @throws { Error } If method called without matrix constructor.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -283,10 +288,12 @@ function makeZero( dims )
  * @param { Long|Number } dims - Long or number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
  * @method makeIdentity
- * @throws { Error } If count of arguments less or more than one.
- * @throws { Error } If {-dims-} is not array or number.
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @throws { Error } If {-dims-} is not Long or Number.
  * @throws { Error } If {-dims-} array length is not 2.
  * @throws { Error } If {-dims-} is not single number.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -384,8 +391,10 @@ function makeIdentity4( src )
  * @param { Array } diagonal - Array, source data.
  * @returns { Matrix } - Returns the new instance of Matrix with provided diagonal.
  * @method makeDiagonal
- * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-diagonal-} is not array.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -451,7 +460,7 @@ function makeDiagonal( diagonal )
  * @throws { Error } If {-m-} is not an instance of Matrix.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} array length is not 2.
- * @throws { Error } If count of arguments more than 2.
+ * @throws { Error } If (arguments.length) is more than 2.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -652,8 +661,8 @@ makeLine.defaults =
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
  * @returns { Matrix } - Returns the new instance of Matrix by provided column.
  * @method makeCol
- * @throws { Error } If count of arguments less or more than one.
- * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, array or number.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -707,8 +716,8 @@ function makeColZeroed( buffer )
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
  * @returns { Matrix } - Returns the new instance of Matrix by provided row.
  * @method makeRow
- * @throws { Error } If count of arguments less or more than one.
- * @throws { Error } If {-buffer-} is not instance of VectorAdapter, array or number.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -743,7 +752,7 @@ function makeRow( buffer )
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, dimension and provided values.
  * @returns { Matrix } - Returns the new instance of Matrix by provided column.
  * @method makeRowZeroed
- * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, array or number.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -861,9 +870,10 @@ function convertToClass( cls, src )
  * @param { VectorAdapter|Long } src - An instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromVectorAdapter
- * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-src-} is not an instance of VectorAdapter.
  * @throws { Error } If {-src-} is not a Long.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -917,9 +927,10 @@ function fromVectorAdapter( src )
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromScalar
- * @throws { Error } If count of arguments less or more than 2.
+ * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} array length is not 2.
+ * @throws { Error } If (arguments.length) is more than 2.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1000,9 +1011,10 @@ function fromScalarForReading( scalar, dims )
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method from
- * @throws { Error } If count of arguments is not 1 or 2.
+ * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} array length is not 2.
+ * @throws { Error } If (arguments.length) is not 1 or 2.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1098,8 +1110,9 @@ function fromForReading( src, dims )
  * @param { VectorAdapter|Long } scale - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromTransformations
- * @throws { Error } If count of arguments less or more than 3.
+ * @throws { Error } If method called by not an instance of matrix constructor.
  * @throws { Error } If {-quaternion-} length is not 4.
+ * @throws { Error } If (arguments.length) is not 3.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1143,9 +1156,9 @@ function fromTransformations( position, quaternion, scale )
  * @param { VectorAdapter|Long } quaternion - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromQuat
- * @throws { Error } If count of arguments less or more than one.
- * @throws { Error } If (atomsPerElement) of source matrix length if less than 3.
+ * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
  * @throws { Error } If {-quaternion-} length is not 4.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1222,9 +1235,9 @@ function fromQuat( q )
  * @param { VectorAdapter|Long } q - The instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromQuatWithScale
- * @throws { Error } If count of arguments less or more than one.
- * @throws { Error } If (atomsPerElement) of source matrix length if less than 3.
+ * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
  * @throws { Error } If {-q-} length is not 4.
+ * @throws { Error } If count of arguments less or more than one.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1678,199 +1691,199 @@ let lookAt = ( function lookAt()
 // reducer
 // --
 
-function closest( insElement )
-{
-  let self = this;
-  insElement = self.vectorAdapter.fromLong( insElement );
-  let result =
-  {
-    index : null,
-    distance : +Infinity,
-  }
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  for( let i = 0 ; i < self.length ; i += 1 )
-  {
-
-    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
-    if( d < result.distance )
-    {
-      result.distance = d;
-      result.index = i;
-    }
-
-  }
-
-  result.distance = sqrt( result.distance );
-
-  return result;
-}
-
+// function closest( insElement )
+// {
+//   let self = this;
+//   insElement = self.vectorAdapter.fromLong( insElement );
+//   let result =
+//   {
+//     index : null,
+//     distance : +Infinity,
+//   }
 //
-
-function furthest( insElement )
-{
-  let self = this;
-  insElement = self.vectorAdapter.fromLong( insElement );
-  let result =
-  {
-    index : null,
-    distance : -Infinity,
-  }
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  for( let i = 0 ; i < self.length ; i += 1 )
-  {
-
-    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
-    if( d > result.distance )
-    {
-      result.distance = d;
-      result.index = i;
-    }
-
-  }
-
-  result.distance = sqrt( result.distance );
-
-  return result;
-}
-
+//   _.assert( arguments.length === 1, 'Expects single argument' );
 //
-
-function elementMean()
-{
-  let self = this;
-
-  let result = self.elementAdd();
-
-  self.vectorAdapter.div( result, self.length );
-
-  return result;
-}
-
+//   for( let i = 0 ; i < self.length ; i += 1 )
+//   {
 //
-
-function minmaxColWise()
-{
-  let self = this;
-
-  let minmax = self.distributionRangeSummaryValueColWise();
-  let result = Object.create( null );
-
-  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-
-  for( let i = 0 ; i < minmax.length ; i += 1 )
-  {
-    result.min[ i ] = minmax[ i ][ 0 ];
-    result.max[ i ] = minmax[ i ][ 1 ];
-  }
-
-  return result;
-}
-
+//     let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
+//     if( d < result.distance )
+//     {
+//       result.distance = d;
+//       result.index = i;
+//     }
 //
-
-function minmaxRowWise()
-{
-  let self = this;
-
-  let minmax = self.distributionRangeSummaryValueRowWise();
-  let result = Object.create( null );
-
-  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-
-  for( let i = 0 ; i < minmax.length ; i += 1 )
-  {
-    result.min[ i ] = minmax[ i ][ 0 ];
-    result.max[ i ] = minmax[ i ][ 1 ];
-  }
-
-  return result;
-}
-
+//   }
 //
-
-function determinant()
-{
-  let self = this;
-  let l = self.length;
-
-  if( l === 0 )
-  return 0;
-
-  let iterations = _.math.factorial( l );
-  let result = 0;
-
-  _.assert( l === self.atomsPerElement );
-
-  /* */
-
-  let sign = 1;
-  let index = [];
-  for( let i = 0 ; i < l ; i += 1 )
-  index[ i ] = i;
-
-  /* */
-
-  function add()
-  {
-    let r = 1;
-    for( let i = 0 ; i < l ; i += 1 )
-    r *= self.atomGet([ index[ i ], i ]);
-    r *= sign;
-    // console.log( index );
-    // console.log( r );
-    result += r;
-    return r;
-  }
-
-  /* */
-
-  function swap( a, b )
-  {
-    let v = index[ a ];
-    index[ a ] = index[ b ];
-    index[ b ] = v;
-    sign *= -1;
-  }
-
-  /* */
-
-  let i = 0;
-  while( i < iterations )
-  {
-
-    for( let s = 0 ; s < l-1 ; s++ )
-    {
-      let r = add();
-      //console.log( 'add', i, index, r );
-      swap( s, l-1 );
-      i += 1;
-    }
-
-  }
-
-  /* */
-
-  // 00
-  // 01
-  //
-  // 012
-  // 021
-  // 102
-  // 120
-  // 201
-  // 210
-
-  // console.log( 'determinant', result );
-
-  return result;
-}
+//   result.distance = sqrt( result.distance );
+//
+//   return result;
+// }
+//
+// //
+//
+// function furthest( insElement )
+// {
+//   let self = this;
+//   insElement = self.vectorAdapter.fromLong( insElement );
+//   let result =
+//   {
+//     index : null,
+//     distance : -Infinity,
+//   }
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   for( let i = 0 ; i < self.length ; i += 1 )
+//   {
+//
+//     let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
+//     if( d > result.distance )
+//     {
+//       result.distance = d;
+//       result.index = i;
+//     }
+//
+//   }
+//
+//   result.distance = sqrt( result.distance );
+//
+//   return result;
+// }
+//
+// //
+//
+// function elementMean()
+// {
+//   let self = this;
+//
+//   let result = self.elementAdd();
+//
+//   self.vectorAdapter.div( result, self.length );
+//
+//   return result;
+// }
+//
+// //
+//
+// function minmaxColWise()
+// {
+//   let self = this;
+//
+//   let minmax = self.distributionRangeSummaryValueColWise();
+//   let result = Object.create( null );
+//
+//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
+//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+//
+//   for( let i = 0 ; i < minmax.length ; i += 1 )
+//   {
+//     result.min[ i ] = minmax[ i ][ 0 ];
+//     result.max[ i ] = minmax[ i ][ 1 ];
+//   }
+//
+//   return result;
+// }
+//
+// //
+//
+// function minmaxRowWise()
+// {
+//   let self = this;
+//
+//   let minmax = self.distributionRangeSummaryValueRowWise();
+//   let result = Object.create( null );
+//
+//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
+//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+//
+//   for( let i = 0 ; i < minmax.length ; i += 1 )
+//   {
+//     result.min[ i ] = minmax[ i ][ 0 ];
+//     result.max[ i ] = minmax[ i ][ 1 ];
+//   }
+//
+//   return result;
+// }
+//
+// //
+//
+// function determinant()
+// {
+//   let self = this;
+//   let l = self.length;
+//
+//   if( l === 0 )
+//   return 0;
+//
+//   let iterations = _.math.factorial( l );
+//   let result = 0;
+//
+//   _.assert( l === self.atomsPerElement );
+//
+//   /* */
+//
+//   let sign = 1;
+//   let index = [];
+//   for( let i = 0 ; i < l ; i += 1 )
+//   index[ i ] = i;
+//
+//   /* */
+//
+//   function add()
+//   {
+//     let r = 1;
+//     for( let i = 0 ; i < l ; i += 1 )
+//     r *= self.atomGet([ index[ i ], i ]);
+//     r *= sign;
+//     // console.log( index );
+//     // console.log( r );
+//     result += r;
+//     return r;
+//   }
+//
+//   /* */
+//
+//   function swap( a, b )
+//   {
+//     let v = index[ a ];
+//     index[ a ] = index[ b ];
+//     index[ b ] = v;
+//     sign *= -1;
+//   }
+//
+//   /* */
+//
+//   let i = 0;
+//   while( i < iterations )
+//   {
+//
+//     for( let s = 0 ; s < l-1 ; s++ )
+//     {
+//       let r = add();
+//       //console.log( 'add', i, index, r );
+//       swap( s, l-1 );
+//       i += 1;
+//     }
+//
+//   }
+//
+//   /* */
+//
+//   // 00
+//   // 01
+//   //
+//   // 012
+//   // 021
+//   // 102
+//   // 120
+//   // 201
+//   // 210
+//
+//   // console.log( 'determinant', result );
+//
+//   return result;
+// }
 
 // --
 // relations
