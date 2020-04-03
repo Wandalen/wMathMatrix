@@ -30,16 +30,14 @@ var matrix = _.Matrix.make( [ 3, 3 ] ).copy
   4, 5, 6,
   7, 8, -9
 ]);
-matrix.strides = [ 3, 2 ];
-var got = matrix.rowVectorGet( 0 );
-console.log( got );
-/* log
-VectorAdapterFromLongShrinkedWithStrideNumberShrinkView {
-  _vectorBuffer: Float32Array [ 1, 4, 7, 2, 5, 8, 3, 6, -9 ],
-  length: 3,
-  offset: 0,
-  stride: 2
-} */
+matrix.strides = [ 1, 3 ];
+console.log( matrix.rowVectorGet( 0 ).toStr() );
+/* log : "1.000, 2.000, 3.000" */
+console.log( matrix.rowVectorGet( 1 ).toStr() );
+/* log : "4.000, 5.000, 6.000" */
+console.log( matrix.rowVectorGet( 2 ).toStr() );
+/* log : "7.000, 8.000, -9.000" */
+
 
 var matrix = _.Matrix
 ({
