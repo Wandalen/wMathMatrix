@@ -38,41 +38,6 @@ console.log( matrix.rowVectorGet( 1 ).toStr() );
 console.log( matrix.rowVectorGet( 2 ).toStr() );
 /* log : "7.000, 8.000, -9.000" */
 
-
-var matrix = _.Matrix
-({
-  dims : [ 3, 3 ],
-  strides : [ 3, 2 ],
-  buffer : [ 1, 2, 3, 4, 5, 6, 7 ],
-});
-var got = matrix.rowVectorGet( 0 );
-console.log( got );
-/* log
-VectorAdapterFromLongShrinkedWithStrideNumberShrinkView {
-  _vectorBuffer: Float32Array [ 1, 4, 7, 2, 5, 8, 3, 6, -9 ],
-  length: 3,
-  offset: 0,
-  stride: 2
-} */
-
-/* */
-
-var matrix = _.Matrix.make( [ 3, 3 ] ).copy
-([
-  1, 2, 3,
-  4, 5, 6,
-  7, 8, -9
-]);
-matrix.dims = [ 3, 2 ];
-var got = matrix.rowVectorGet( 0 );
-console.log( got );
-/* log
-VectorAdapterFromLongShrinked {
-  _vectorBuffer: Float32Array [ 1, 4, 7, 2, 5, 8, 3, 6, -9 ],
-  length: 3,
-  offset: 0,
-} */
-
 /* */
 
 var matrixA = _.Matrix.make( [ 2, 2 ] ).copy( [ 3, -2, 2, 3 ] );
