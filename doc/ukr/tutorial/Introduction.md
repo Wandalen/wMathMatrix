@@ -57,17 +57,6 @@ console.log( matrix.rowVectorGet( 2 ).toStr() );
 /* log : "7.000, 8.000, -9.000" */
 ```
 
-Для реалізації такої матриці можна використати буфер на 2 елементи менше.
-
-```js
-var matrix = _.Matrix
-({
-  dims : [ 3, 3 ],
-  strides : [ 3, 2 ],
-  buffer : [ 1, 2, 3, 4, 5, 6, 7 ],
-});
-```
-
 ### Транспонування матриці
 
 Для транспонування матриці достатньо змінити другий елемент опції `strides` на значення `1`. Це дозволить інтерпретувати стовпчики матриці як рядки.
@@ -79,7 +68,7 @@ var matrix = _.Matrix.make( [ 3, 3 ] ).copy
   4, 5, 6,
   7, 8, -9
 ]);
-matrix.dims = [ 3, 2 ];
+matrix.strides = [ 3, 1 ];
 console.log( matrix.rowVectorGet( 0 ).toStr() );
 /* log "1.000, 4.000, 7.000" */
 console.log( matrix.rowVectorGet( 1 ).toStr() );
