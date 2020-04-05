@@ -1368,84 +1368,84 @@ function minmaxRowWise()
   return result;
 }
 
+// //
 //
-
-function determinant()
-{
-  let self = this;
-  let l = self.length;
-
-  if( l === 0 )
-  return 0;
-
-  let iterations = _.math.factorial( l );
-  let result = 0;
-
-  _.assert( l === self.atomsPerElement );
-
-  /* */
-
-  let sign = 1;
-  let index = [];
-  for( let i = 0 ; i < l ; i += 1 )
-  index[ i ] = i;
-
-  /* */
-
-  function add()
-  {
-    let r = 1;
-    for( let i = 0 ; i < l ; i += 1 )
-    r *= self.atomGet([ index[ i ], i ]);
-    r *= sign;
-    // console.log( index );
-    // console.log( r );
-    result += r;
-    return r;
-  }
-
-  /* */
-
-  function swap( a, b )
-  {
-    let v = index[ a ];
-    index[ a ] = index[ b ];
-    index[ b ] = v;
-    sign *= -1;
-  }
-
-  /* */
-
-  let i = 0;
-  while( i < iterations )
-  {
-
-    for( let s = 0 ; s < l-1 ; s++ )
-    {
-      let r = add();
-      //console.log( 'add', i, index, r );
-      swap( s, l-1 );
-      i += 1;
-    }
-
-  }
-
-  /* */
-
-  // 00
-  // 01
-  //
-  // 012
-  // 021
-  // 102
-  // 120
-  // 201
-  // 210
-
-  // console.log( 'determinant', result );
-
-  return result;
-}
+// function determinant()
+// {
+//   let self = this;
+//   let l = self.length;
+//
+//   if( l === 0 )
+//   return 0;
+//
+//   let iterations = _.math.factorial( l );
+//   let result = 0;
+//
+//   _.assert( l === self.atomsPerElement );
+//
+//   /* */
+//
+//   let sign = 1;
+//   let index = [];
+//   for( let i = 0 ; i < l ; i += 1 )
+//   index[ i ] = i;
+//
+//   /* */
+//
+//   function add()
+//   {
+//     let r = 1;
+//     for( let i = 0 ; i < l ; i += 1 )
+//     r *= self.atomGet([ index[ i ], i ]);
+//     r *= sign;
+//     // console.log( index );
+//     // console.log( r );
+//     result += r;
+//     return r;
+//   }
+//
+//   /* */
+//
+//   function swap( a, b )
+//   {
+//     let v = index[ a ];
+//     index[ a ] = index[ b ];
+//     index[ b ] = v;
+//     sign *= -1;
+//   }
+//
+//   /* */
+//
+//   let i = 0;
+//   while( i < iterations )
+//   {
+//
+//     for( let s = 0 ; s < l-1 ; s++ )
+//     {
+//       let r = add();
+//       //console.log( 'add', i, index, r );
+//       swap( s, l-1 );
+//       i += 1;
+//     }
+//
+//   }
+//
+//   /* */
+//
+//   // 00
+//   // 01
+//   //
+//   // 012
+//   // 021
+//   // 102
+//   // 120
+//   // 201
+//   // 210
+//
+//   // console.log( 'determinant', result );
+//
+//   return result;
+// }
 
 // --
 // relations
