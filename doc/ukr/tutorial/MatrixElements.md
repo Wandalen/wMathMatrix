@@ -53,13 +53,13 @@ console.log( 'first row : ', row );
 ```js
 var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
 var el = matrix.atomGet( [ 0, 1 ] );
-console.log( 'second element of first row : ', el.toStr() );
-/* log : second element of first row : 2.000 */
+console.log( 'second element of first row : ', el );
+/* log : second element of first row : 2 */
 
 matrix.atomSet( [ 0, 1 ], 5 );
 var el = matrix.atomGet( [ 0, 1 ] );
-console.log( 'second element of first row : ', el.toStr() );
-/* log : second element of first row : 5.000 */
+console.log( 'second element of first row : ', el );
+/* log : second element of first row : 5 */
 ```
 
 ### Елемент в рядку матриці
@@ -131,12 +131,12 @@ var matrix = _.Matrix
   strides : [ 1, 5 ],
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
 });
-console.log( 'matrix : ', a.toStr() );
+console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +6, +7,
 */
 matrix.atomFlatSet( 6, 0 );
-console.log( 'matrix : ', a.toStr() );
+console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +6, +0,
 */
