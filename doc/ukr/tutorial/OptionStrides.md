@@ -68,3 +68,4 @@ console.log( 'second row : ', matrix.rowVectorGet( 1 ).toStr() );
 /* log : second row : 4.000, 8.000 */
 ```
 
+[Повернутись до змісту](../README.md#Туторіали)
