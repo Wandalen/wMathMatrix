@@ -48,8 +48,8 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  *  0, 0, 0, 0,
  * ];
  *
- * @param { Matrix } Matrix - Instance of matrix.
- * @param { Array } dims - Size of provided matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
+ * @param { Array } dims - size of provided matrix.
  * @param { Number } index - Number of method, which will be called.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method _tempBorrow
@@ -118,7 +118,7 @@ function _tempBorrow( src, dims, index )
  * This is a specialized method for executing tempBorrow,
  * for passing [ 0 ] index.
  *
- * @param { Matrix } Matrix - An instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method tempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
@@ -148,7 +148,7 @@ function tempBorrow1( src )
  * This is a specialized method for executing tempBorrow,
  * for passing [ 1 ] index.
  *
- * @param { Matrix } Matrix - An instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method tempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
@@ -178,7 +178,7 @@ function tempBorrow2( src )
  * This is a specialized method for executing tempBorrow,
  * for passing [ 2 ] index.
  *
- * @param { Matrix } Matrix - An instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method tempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
@@ -225,7 +225,7 @@ function tempBorrow3( src )
  * +12, +8, +24,
  * +0, +0, +36,
  *
- * @param { Number|String } exponent - Number or string.
+ * @param { Number|String } exponent - Number or String.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method pow
  * @throws { Error } If method called by not an instance of matrix constructor.
@@ -359,7 +359,7 @@ function mul_static( dst, srcs )
  *  -6, -7, +8,
  * ];
  *
- * @param { Matrix } srcs - Provided matrices.
+ * @param { Matrix } srcs - provide multiplication values.
  * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
  * @method mul
  * @throws { Error } If (arguments.length) is not 1.
@@ -392,7 +392,7 @@ function mul( srcs )
  * ]);
  * var src1 = new _.Matrix
  * ({
- *   buffer: buffer1,
+ *   buffer : buffer1,
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
@@ -420,7 +420,7 @@ function mul( srcs )
  *
  * var dst = new _.Matrix
  * ({
- *   buffer: buffer3,
+ *   buffer : buffer3,
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
@@ -432,18 +432,18 @@ function mul( srcs )
  *  +18, +4, +36,
  *  +24, +8, +6,
  *
- * @param { Matrix } dst - Destination matrix.
- * @param { Matrix } src1 - Provided matrix.
- * @param { Matrix } src2 - Provided matrix.
- * @returns { Matrix } - Returns {-dst-} instance with multiplies values of provided matrices.
+ * @param { Matrix } dst - destination instance of Matrix.
+ * @param { Matrix } src1 - provided instance of Matrix.
+ * @param { Matrix } src2 - provided instance of Matrix.
+ * @returns { Matrix } - Returns instance with multiplies values of provided matrices.
  * @method Mul2Matrices
  * @throws { Error } If (arguments.length) is not 3.
  * @throws { Error } If {-dst-} is not instance of Matrix.
  * @throws { Error } If {-src1-} is not instance of Matrix.
  * @throws { Error } If {-src2-} is not instance of Matrix.
- * @throws { Error } If {-src1-} and {-src2-} length is not 2.
- * @throws { Error } If {-dst-} is {-src1-}.
- * @throws { Error } If {-dst-} is {-src2-}.
+ * @throws { Error } If {-src1.dims-} and {-src2.dims-} length is not 2.
+ * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
+ * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
  * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (src2.dims[ 0 ]).
  * @throws { Error } If (src1.dims[ 0 ]) index is not equal of index (dst.dims[ 0 ]).
  * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (dst.dims[ 1 ]).
@@ -532,7 +532,7 @@ function mul2Matrices( src1, src2 )
  *   +4, +1, +2,
  *   +0, +0, +1,
  *
- * @param { Matrix } src - An instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method mulLeft
  * @throws { Error } If {-src-} is not an instance of Matrix.
@@ -586,7 +586,7 @@ function mulLeft( src )
  *   +16, +4, +13
  *   +0, +0, +6,
  *
- * @param { Matrix } src - An instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method mulRight
  * @throws { Error } If {-src-} is not an instance of Matrix.
@@ -770,7 +770,7 @@ function identify()
  * +4, +5, +2,
  * +0, +0, +1,
  *
- * @param { Matrix } src - An instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method diagonalSet
  * @throws { Error } If (arguments.length) is not 1.
@@ -868,7 +868,7 @@ function diagonalVectorGet()
  *   +1, +4, +5,
  *   +1, +1, +6,
  *
- * @param { Matrix } src - An instance of Matrix.
+ * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleLowerSet
  * @throws { Error } If {-src-} is not 1.
@@ -947,7 +947,7 @@ function triangleLowerSet( src )
  *  +0, +4, +0,
  *  +0, +0, +6,
  *
- * @param { Matrix|Number } src - An instance of Matrix or Number.
+ * @param { Matrix|Number } src - an instance of Matrix or Number.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleUpperSet
  * @throws { Error } If (arguments.length) is not 1.
@@ -1050,7 +1050,7 @@ function triangleUpperSet( src )
  * // log [ 0, 2, 3, 4 ]
  *
  *
- * @param { VectorAdapter|Long } dstVector - An instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } dstVector - an instance of VectorAdapter or Long.
  * @returns { Matrix|VectorAdapter } - Returns the changed instance of Matrix or VectorAdapter.
  * @method matrixApplyTo
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
@@ -1137,7 +1137,7 @@ function matrixApplyTo( dstVector )
  * // log
  *  1.000, 2.000, 1.000
  *
- * @param { VectorAdapter|Long } dstVector - Destination instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } dstVector - destination instance of VectorAdapter or Long.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixHomogenousApply
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
@@ -1197,7 +1197,7 @@ function matrixHomogenousApply( dstVector )
  * // log
  *  [ 1, 2 ]
  *
- * @param { VectorAdapter } dstVector - Destination instance of VectorAdapter.
+ * @param { VectorAdapter } dstVector - destination instance of VectorAdapter.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixDirectionsApply
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
@@ -1291,7 +1291,7 @@ function positionGet()
  * logger.log( got );
  * // log 4.000, 4.000
  *
- * @param { Long } src - An instance of Long.
+ * @param { Long|VectorAdapter } src - an instance of Long or VectorAdapter.
  * @returns { VectorAdapter } - Returns position specified by the matrix.
  * @method positionSet
  * @throws { Error } If {-src-} and destination matrix length is not same.
@@ -1336,10 +1336,10 @@ function positionSet( src )
  * logger.log( got )
  * // log 3.605551275463989
  *
- * @param { VectorAdapter } dst - An instance of VectorAdapter.
+ * @param { Array|VectorAdapter } dst - Array or an instance of VectorAdapter.
  * @returns { Number } - Returns maximum value of scale specified by the matrix.
  * @method scaleMaxGet
- * @throws { Error } If {-dst-} is not an instance of VectorAdapter.
+ * @throws { Error } If {-dst-} is not an instance of VectorAdapter or Array.
  * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -1367,9 +1367,9 @@ function scaleMaxGet( dst )
  *
  * var matrix = new _.Matrix
  * ({
-     buffer,
-     dims : [ 3, 3 ],
-     inputTransposing : 1,
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
@@ -1378,7 +1378,7 @@ function scaleMaxGet( dst )
  * logger.log( got )
  * // log 3.2169892001050897
  *
- * @param { VectorAdapter } dst - An instance of VectorAdapter.
+ * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns medium value of scale specified by the matrix.
  * @method scaleMeanGet
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter.
@@ -1409,9 +1409,9 @@ function scaleMeanGet( dst )
  *
  * var matrix = new _.Matrix
  * ({
-   buffer,
-   dims : [ 3, 3 ],
-   inputTransposing : 1,
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
@@ -1420,7 +1420,7 @@ function scaleMeanGet( dst )
  * logger.log( got )
  * // log 4.58257569495584
  *
- * @param { VectorAdapter } dst - An instance of VectorAdapter.
+ * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns magnitude of scale specified by the matrix.
  * @method scaleMagGet
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter
@@ -1516,14 +1516,15 @@ function scaleMagGet( dst )
  * logger.log( got )
  * // log
  *  +0, +0, +0,
- *  +0, +0, +0
+ *  +0, +0, +0,
  *  +0, +0, +0,
  *
- * @param { VectorAdapter } dst - The instance of VectorAdapter.
+ * @param { VectorAdapter|Long } src - the instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleSet
- * @throws { Error } If {-dst-} is not an instance of VectorAdapter.
+ * @throws { Error } If {-src-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If (src.length) is not equal (self.length) decrementing by 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1560,8 +1561,8 @@ function scaleSet( src )
  * var matrix = new _.Matrix
  * ({
  *   buffer,
- *    dims : [ 3, 3 ],
- *    inputTransposing : 1,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
  * var scale = _.vectorAdapter.fromLong( [ 0, 0 ] );
@@ -1571,16 +1572,16 @@ function scaleSet( src )
  * logger.log( got )
  * // log
  *  +0, +0, +2,
- *  +0, +0, +3
+ *  +0, +0, +3,
  *  +0, +0, +0,
  *
- * @param { VectorAdapter|Long } scale - The instance of VectorAdapter or Long.
- * @param { VectorAdapter|Long } center - The instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } scale - the instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } center - the instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleAroundSet
  * @throws { Error } If {-center-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If {-scale-} is not an instance of VectorAdapter or Long.
- * @throws { Error } If count of arguments is more than two.
+ * @throws { Error } If (scale.length) is not equal (self.length) decrementing by 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1643,7 +1644,7 @@ function scaleAroundSet( scale, center )
  * // log
  * undefined
  *
- * @param { VectorAdapter|Long } src - The instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } src - the instance of VectorAdapter or Long.
  * @returns { Undefined } - Returns not a value, change source vector {-src-}.
  * @method scaleApply
  * @throws { Error } If {-src-} is not an instance of VectorAdapter or Long.
@@ -1693,10 +1694,10 @@ function scaleApply( src )
  *  distance: 2.23606797749979
  * }
  *
- * @param { VectorAdapter } insElement - Provided element, instance of VectorAdapter.
+ * @param { VectorAdapter|Long } insElement - provided element, an instance of VectorAdapter or Long.
  * @returns { Map } - Returns index and distance of the closest element.
  * @method closest
- * @throws { Error } If {-insElement-} is not an instance of VectorAdapter.
+ * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -1753,10 +1754,10 @@ function closest( insElement )
  *  distance: 5.0990195135927845
  * }
  *
- * @param { VectorAdapter } insElement - Provided element, instance of VectorAdapter.
+ * @param { VectorAdapter|Long } insElement - provided element, an instance of VectorAdapter or Long.
  * @returns { Map } - Returns index and distance of the furthest element.
  * @method furthest
- * @throws { Error } If {-insElement-} is not an instance of VectorAdapter.
+ * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
