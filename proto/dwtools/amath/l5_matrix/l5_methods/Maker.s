@@ -658,7 +658,7 @@ makeLine.defaults =
  *   -0.250,
  *
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
- * @returns { Matrix } - Returns the new instance of Matrix by provided column.
+ * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
  * @method makeCol
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
@@ -713,7 +713,7 @@ function makeColZeroed( buffer )
  *   -2.000, 0.000, -0.250,
  *
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, provided values.
- * @returns { Matrix } - Returns the new instance of Matrix by provided row.
+ * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided row.
  * @method makeRow
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
@@ -733,7 +733,7 @@ function makeRow( buffer )
 //
 
 /**
- * The method makeRowZeroed() makes row from provided buffer {-buffer-} filled by zero.
+ * The method makeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
@@ -749,7 +749,7 @@ function makeRow( buffer )
  * //log 0.000, 0.000, 0.000,
  *
  * @param { VectorAdapter|Array|Number } buffer - The instance of VectorAdapter, array or number, dimension and provided values.
- * @returns { Matrix } - Returns the new instance of Matrix by provided column.
+ * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
  * @method makeRowZeroed
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, array or number.

@@ -444,6 +444,9 @@ function mul( srcs )
  * @throws { Error } If {-src1-} and {-src2-} length is not 2.
  * @throws { Error } If {-dst-} is {-src1-}.
  * @throws { Error } If {-dst-} is {-src2-}.
+ * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (src2.dims[ 0 ]).
+ * @throws { Error } If (src1.dims[ 0 ]) index is not equal of index (dst.dims[ 0 ]).
+ * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (dst.dims[ 1 ]).
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -950,6 +953,8 @@ function triangleLowerSet( src )
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-src-} is not an instance of Matrix or Number.
  * @throws { Error } If matrix dimension length is more than two.
+ * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less index called matrix instance (self.dims[ 1 ]).
+ * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less min decrementing values of [ 1 ] and [ 0 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1027,21 +1032,26 @@ function triangleUpperSet( src )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 3, 3 ]).copy
- * ([
- *   4, 0, 1,
- *   0, 5, 2,
- *   0, 0, 1,
- * ]);
+ * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
  *
- * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ * var dstVector = [ 1, 2, 3, 4 ];
  *
- * var got = matrix.matrixApplyTo( dstVector );
+ * var got = matrix.matrixApplyTo( dstVector);
  * logger.log( got );
- * // log
+ * // log [ 0, 2, 3, 4 ]
  *
- * @param { VectorAdapter } dstVector - An instance of VectorAdapter.
- * @returns { Matrix } - Returns the changed instance of Matrix.
+ * @example
+ * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
+ *
+ * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
+ *
+ * var got = matrix.matrixApplyTo( dstVector);
+ * logger.log( got );
+ * // log [ 0, 2, 3, 4 ]
+ *
+ *
+ * @param { VectorAdapter|Long } dstVector - An instance of VectorAdapter or Long.
+ * @returns { Matrix|VectorAdapter } - Returns the changed instance of Matrix or VectorAdapter.
  * @method matrixApplyTo
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
  * @throws { Error } If (arguments.length) is not 1.
@@ -1096,21 +1106,38 @@ function matrixApplyTo( dstVector )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 3, 3 ]).copy
+ * var matrix = _.Matrix.make([ 4, 4 ]).copy
  * ([
- *   4, 0, 1,
- *   0, 5, 2,
- *   0, 0, 1,
+ *   1, 0, 0, 0,
+ *   0, 1, 0, 0,
+ *   0, 0, 1, 0,
+ *   0, 0, 1, 0,
  * ]);
  *
- * var dstVector = [ 0, 0 ];
+ * var dstVector = [ 1, 2, 1 ];
  *
  * var got = matrix.matrixHomogenousApply( dstVector );
  * logger.log( got );
  * // log
- *  [ 1, 2 ]
+ *  [ 1, 2, 1 ]
  *
- * @param { VectorAdapter } dstVector - Destination instance of VectorAdapter.
+ * @example
+ * var matrix = _.Matrix.make([ 4, 4 ]).copy
+ * ([
+ *   1, 0, 0, 0,
+ *   0, 1, 0, 0,
+ *   0, 0, 1, 0,
+ *   0, 0, 1, 0,
+ * ]);
+ *
+ * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 1 ];
+ *
+ * var got = matrix.matrixHomogenousApply( dstVector );
+ * logger.log( got );
+ * // log
+ *  1.000, 2.000, 1.000
+ *
+ * @param { VectorAdapter|Long } dstVector - Destination instance of VectorAdapter or Long.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixHomogenousApply
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
