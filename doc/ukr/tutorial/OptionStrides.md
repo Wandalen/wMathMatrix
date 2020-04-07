@@ -12,10 +12,10 @@ var matrix = _.Matrix
   strides : [ 2, 1 ]
 });
 
-console.log( 'first row : ', matrix.rowVectorGet( 0 ).toStr() );
-/* log : first row : 1.000, 2.000 */
-console.log( 'second row : ', matrix.rowVectorGet( 1 ).toStr() );
-/* log : second row : 3.000, 4.000 */
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +2,
+                  +3, +4,
+*/
 ```
 
 ### Вибір елементів з кроком
@@ -28,10 +28,10 @@ var matrix = _.Matrix
   strides : [ 4, 2 ]
 });
 
-console.log( 'first row : ', matrix.rowVectorGet( 0 ).toStr() );
-/* log : first row : 1.000, 3.000 */
-console.log( 'second row : ', matrix.rowVectorGet( 1 ).toStr() );
-/* log : second row : 5.000, 7.000 */
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +3,
+                  +5, +7,
+*/
 ```
 
 ### Транспонована матриця з кроком
@@ -41,13 +41,26 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 2, 2 ],
+  strides : [ 4, 2 ]
+});
+
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +3,
+                  +5, +7,
+*/
+
+var matrixTransposed = _.Matrix
+({
+  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  dims : [ 2, 2 ],
   strides : [ 2, 4 ]
 });
 
-console.log( 'first row : ', matrix.rowVectorGet( 0 ).toStr() );
-/* log : first row : 1.000, 5.000 */
-console.log( 'second row : ', matrix.rowVectorGet( 1 ).toStr() );
-/* log : second row : 3.000, 7.000 */
+
+console.log( 'transposed matrix : ', matrix.toStr() );
+/* log : transposed matrix : +1, +5,
+                             +3, +7,
+*/
 ```
 
 ### Зміна опції `strides`
@@ -60,10 +73,10 @@ var matrix = _.Matrix
   strides : [ 3, 4 ]
 });
 
-console.log( 'first row : ', matrix.rowVectorGet( 0 ).toStr() );
-/* log : first row : 1.000, 5.000 */
-console.log( 'second row : ', matrix.rowVectorGet( 1 ).toStr() );
-/* log : second row : 4.000, 8.000 */
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +5,
+                  +4, +8,
+*/
 ```
 
 [Повернутись до змісту](../README.md#Туторіали)
