@@ -295,14 +295,14 @@ function copy( src )
 
 //
 
-function copyResetting( src )
-{
-  let self = this;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  return self._copy( src, 1 );
-}
+// function copyResetting( src )
+// {
+//   let self = this;
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   return self._copy( src, 1 );
+// }
 
 //
 
@@ -1519,7 +1519,8 @@ function expand( expand )
 
   /* copy */
 
-  self.copyResetting
+  // self.copyResetting
+  self.copy
   ({
     inputTransposing : 0,
     offset : 0,
@@ -2993,7 +2994,7 @@ let Extension =
   _traverseAct,
   _copy,
   copy,
-  copyResetting,
+  // copyResetting,
 
   copyFromScalar,
   copyFromBuffer,
