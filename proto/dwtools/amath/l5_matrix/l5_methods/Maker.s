@@ -70,7 +70,8 @@ function _BufferFrom( src )
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Array or Number.
  * @throws { Error } If (arguments.length) is not 1.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function make( dims )
@@ -126,7 +127,8 @@ function make( dims )
  * @throws { Error } If {-buffer-} is not array or number.
  * @throws { Error } If {-buffer-} is not square buffer.
  * @throws { Error } If (arguments.length) is not 1.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeSquare( buffer )
@@ -235,7 +237,8 @@ function makeSquare_( buffer )
  * @throws { Error } If {-dims-} is not Long or Number.
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If (arguments.length) is not 1.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeZero( dims )
@@ -284,7 +287,8 @@ function makeZero( dims )
  * @method makeIdentity
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Long or Number.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeIdentity( dims )
@@ -384,7 +388,8 @@ function makeIdentity4( src )
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-diagonal-} is not array.
  * @throws { Error } If (arguments.length) is not 1.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeDiagonal( diagonal )
@@ -450,7 +455,8 @@ function makeDiagonal( diagonal )
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If method called without arguments.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeSimilar( m , dims )
@@ -650,7 +656,8 @@ makeLine.defaults =
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
  * @method makeCol
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, BufferTyped, Array or Number.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeCol( buffer )
@@ -704,7 +711,8 @@ function makeColZeroed( buffer )
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided row.
  * @method makeRow
  * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeRow( buffer )
@@ -739,7 +747,8 @@ function makeRow( buffer )
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
  * @method makeRowZeroed
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function makeRowZeroed( buffer )
@@ -859,7 +868,8 @@ function convertToClass( cls, src )
  * @throws { Error } If {-src-} is not an instance of VectorAdapter.
  * @throws { Error } If {-src-} is not a Long.
  * @throws { Error } If (arguments.length) is not 1.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function fromVectorAdapter( src )
@@ -916,7 +926,8 @@ function fromVectorAdapter( src )
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If (arguments.length) is not 2.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function fromScalar( scalar, dims )
@@ -1000,7 +1011,8 @@ function fromScalarForReading( scalar, dims )
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If (arguments.length) is not 1 or 2.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function from( src, dims )
@@ -1098,7 +1110,8 @@ function fromForReading( src, dims )
  * @throws { Error } If method called by not an instance of matrix constructor.
  * @throws { Error } If {-quaternion-} length is not 4.
  * @throws { Error } If (arguments.length) is not 3.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function fromTransformations( position, quaternion, scale )
@@ -1145,7 +1158,8 @@ function fromTransformations( position, quaternion, scale )
  * @throws { Error } If (self.length) of source matrix is less than 3.
  * @throws { Error } If {-quaternion-} length is not 4.
  * @throws { Error } If (arguments.length) is not 1.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function fromQuat( q )
@@ -1224,7 +1238,8 @@ function fromQuat( q )
  * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
  * @throws { Error } If {-q-} length is not 4.
  * @throws { Error } If count of arguments less or more than one.
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @module Tools/math/Matrix
  */
 
 function fromQuatWithScale( q )
