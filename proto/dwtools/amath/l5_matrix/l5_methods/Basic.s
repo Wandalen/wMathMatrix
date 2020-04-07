@@ -48,9 +48,9 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  *  0, 0, 0, 0,
  * ];
  *
- * @param { Matrix } Matrix - instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @param { Array } dims - size of provided matrix.
- * @param { Number } index - number of method, which will be called.
+ * @param { Number } index - Number of method, which will be called.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method _tempBorrow
  * @throws { Error } If (arguments.length) is not 3.
@@ -118,7 +118,7 @@ function _tempBorrow( src, dims, index )
  * This is a specialized method for executing tempBorrow,
  * for passing [ 0 ] index.
  *
- * @param { Matrix } Matrix - instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method tempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
@@ -148,7 +148,7 @@ function tempBorrow1( src )
  * This is a specialized method for executing tempBorrow,
  * for passing [ 1 ] index.
  *
- * @param { Matrix } Matrix - instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method tempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
@@ -178,7 +178,7 @@ function tempBorrow2( src )
  * This is a specialized method for executing tempBorrow,
  * for passing [ 2 ] index.
  *
- * @param { Matrix } Matrix - instance of matrix.
+ * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
  * @method tempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
@@ -225,10 +225,11 @@ function tempBorrow3( src )
  * +12, +8, +24,
  * +0, +0, +36,
  *
- * @param { Number|String } exponent - number or string.
+ * @param { Number|String } exponent - Number or String.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method pow
- * @throws { Error } If provided source is not instance of Matrix.
+ * @throws { Error } If method called by not an instance of matrix constructor.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -358,10 +359,10 @@ function mul_static( dst, srcs )
  *  -6, -7, +8,
  * ];
  *
- * @param { Matrix } srcs - provided matrices.
+ * @param { Matrix } srcs - provide multiplication values.
  * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
  * @method mul
- * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-srcs-} is not array.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
@@ -391,7 +392,7 @@ function mul( srcs )
  * ]);
  * var src1 = new _.Matrix
  * ({
- *   buffer: buffer1,
+ *   buffer : buffer1,
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
@@ -419,7 +420,7 @@ function mul( srcs )
  *
  * var dst = new _.Matrix
  * ({
- *   buffer: buffer3,
+ *   buffer : buffer3,
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
@@ -431,18 +432,21 @@ function mul( srcs )
  *  +18, +4, +36,
  *  +24, +8, +6,
  *
- * @param { Matrix } dst - destination matrix.
- * @param { Matrix } src1 - provided matrix.
- * @param { Matrix } src2 - provided matrix.
- * @returns { Matrix } - Returns {-dst-} instance with multiplies values of provided matrices.
+ * @param { Matrix } dst - destination instance of Matrix.
+ * @param { Matrix } src1 - provided instance of Matrix.
+ * @param { Matrix } src2 - provided instance of Matrix.
+ * @returns { Matrix } - Returns instance with multiplies values of provided matrices.
  * @method Mul2Matrices
  * @throws { Error } If (arguments.length) is not 3.
  * @throws { Error } If {-dst-} is not instance of Matrix.
  * @throws { Error } If {-src1-} is not instance of Matrix.
  * @throws { Error } If {-src2-} is not instance of Matrix.
- * @throws { Error } If {-src1-} and {-src2-} length is not 2.
- * @throws { Error } If {-dst-} is {-src1-}.
- * @throws { Error } If {-dst-} is {-src2-}.
+ * @throws { Error } If {-src1.dims-} and {-src2.dims-} length is not 2.
+ * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
+ * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
+ * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (src2.dims[ 0 ]).
+ * @throws { Error } If (src1.dims[ 0 ]) index is not equal of index (dst.dims[ 0 ]).
+ * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (dst.dims[ 1 ]).
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -531,7 +535,8 @@ function mul2Matrices( src1, src2 )
  * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method mulLeft
- * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If {-src-} is not an instance of Matrix.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -584,7 +589,8 @@ function mulLeft( src )
  * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method mulRight
- * @throws { Error } If (arguments.length) is more than 1.
+ * @throws { Error } If {-src-} is not an instance of Matrix.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -767,9 +773,9 @@ function identity()
  * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method diagonalSet
- * @throws { Error } If (arguments.length) is more the one.
+ * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If (src.length) is not same length destination matrix.
- * @throws { Error } If matrix dimension length is more than two.
+ * @throws { Error } If (self.dims.length) dimension length of called matrix is not 2.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -815,7 +821,8 @@ function diagonalSet( src )
  *
  * @returns { VectorAdapter } - Returns instance of VectorAdapter.
  * @method diagonalVectorGet
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If arguments exist.
+ * @throws { Error } If (self.dims.length) dimension length of called matrix is not 2.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -864,8 +871,11 @@ function diagonalVectorGet()
  * @param { Matrix } src - an instance of Matrix.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleLowerSet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-src-} is not 1.
+ * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If matrix dimension length is more than two.
+ * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less index called matrix instance (self.dims[ 0 ]).
+ * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less min decrementing values of [ 0 ] and [ 1 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -937,11 +947,14 @@ function triangleLowerSet( src )
  *  +0, +4, +0,
  *  +0, +0, +6,
  *
- * @param { Matrix } src - an instance of Matrix.
+ * @param { Matrix|Number } src - an instance of Matrix or Number.
  * @returns { Matrix } - Returns an instance of Matrix.
  * @method triangleUpperSet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-src-} is not an instance of Matrix or Number.
  * @throws { Error } If matrix dimension length is more than two.
+ * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less index called matrix instance (self.dims[ 1 ]).
+ * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less min decrementing values of [ 1 ] and [ 0 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1019,23 +1032,29 @@ function triangleUpperSet( src )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 3, 3 ]).copy
- * ([
- *   4, 0, 1,
- *   0, 5, 2,
- *   0, 0, 1,
- * ]);
+ * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
  *
- * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ * var dstVector = [ 1, 2, 3, 4 ];
  *
- * var got = matrix.matrixApplyTo( dstVector );
+ * var got = matrix.matrixApplyTo( dstVector);
  * logger.log( got );
- * // log
+ * // log [ 0, 2, 3, 4 ]
  *
- * @param { VectorAdapter } dstVector - an instance of VectorAdapter.
- * @returns { Matrix } - Returns the changed instance of Matrix.
+ * @example
+ * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
+ *
+ * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
+ *
+ * var got = matrix.matrixApplyTo( dstVector);
+ * logger.log( got );
+ * // log [ 0, 2, 3, 4 ]
+ *
+ *
+ * @param { VectorAdapter|Long } dstVector - an instance of VectorAdapter or Long.
+ * @returns { Matrix|VectorAdapter } - Returns the changed instance of Matrix or VectorAdapter.
  * @method matrixApplyTo
- * @throws { Error } If (arguments.length) is more the one.
+ * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1087,24 +1106,43 @@ function matrixApplyTo( dstVector )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 3, 3 ]).copy
+ * var matrix = _.Matrix.make([ 4, 4 ]).copy
  * ([
- *   4, 0, 1,
- *   0, 5, 2,
- *   0, 0, 1,
+ *   1, 0, 0, 0,
+ *   0, 1, 0, 0,
+ *   0, 0, 1, 0,
+ *   0, 0, 1, 0,
  * ]);
  *
- * var dstVector = [ 0, 0 ];
+ * var dstVector = [ 1, 2, 1 ];
  *
  * var got = matrix.matrixHomogenousApply( dstVector );
  * logger.log( got );
  * // log
- *  [ 1, 2 ]
+ *  [ 1, 2, 1 ]
  *
- * @param { VectorAdapter } dstVector - destination instance of VectorAdapter.
+ * @example
+ * var matrix = _.Matrix.make([ 4, 4 ]).copy
+ * ([
+ *   1, 0, 0, 0,
+ *   0, 1, 0, 0,
+ *   0, 0, 1, 0,
+ *   0, 0, 1, 0,
+ * ]);
+ *
+ * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 1 ];
+ *
+ * var got = matrix.matrixHomogenousApply( dstVector );
+ * logger.log( got );
+ * // log
+ *  1.000, 2.000, 1.000
+ *
+ * @param { VectorAdapter|Long } dstVector - destination instance of VectorAdapter or Long.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixHomogenousApply
- * @throws { Error } If (arguments.length) is more the one.
+ * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If dst.length is not equal to number of columns of matrix decremented by 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1162,8 +1200,9 @@ function matrixHomogenousApply( dstVector )
  * @param { VectorAdapter } dstVector - destination instance of VectorAdapter.
  * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
  * @method matrixDirectionsApply
- * @throws { Error } If (arguments.length) is more the one.
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If dst.length is not equal to number of columns of matrix decremented by 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1252,7 +1291,7 @@ function positionGet()
  * logger.log( got );
  * // log 4.000, 4.000
  *
- * @param { Long } src - an instance of Long.
+ * @param { Long|VectorAdapter } src - an instance of Long or VectorAdapter.
  * @returns { VectorAdapter } - Returns position specified by the matrix.
  * @method positionSet
  * @throws { Error } If {-src-} and destination matrix length is not same.
@@ -1297,10 +1336,11 @@ function positionSet( src )
  * logger.log( got )
  * // log 3.605551275463989
  *
- * @param { VectorAdapter } dst - an instance of VectorAdapter.
+ * @param { Array|VectorAdapter } dst - Array or an instance of VectorAdapter.
  * @returns { Number } - Returns maximum value of scale specified by the matrix.
  * @method scaleMaxGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-dst-} is not an instance of VectorAdapter or Array.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1327,9 +1367,9 @@ function scaleMaxGet( dst )
  *
  * var matrix = new _.Matrix
  * ({
-     buffer,
-     dims : [ 3, 3 ],
-     inputTransposing : 1,
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
@@ -1341,7 +1381,8 @@ function scaleMaxGet( dst )
  * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns medium value of scale specified by the matrix.
  * @method scaleMeanGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-dst-} is not an instance of VectorAdapter.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1368,9 +1409,9 @@ function scaleMeanGet( dst )
  *
  * var matrix = new _.Matrix
  * ({
-   buffer,
-   dims : [ 3, 3 ],
-   inputTransposing : 1,
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
@@ -1382,7 +1423,8 @@ function scaleMeanGet( dst )
  * @param { VectorAdapter } dst - an instance of VectorAdapter.
  * @returns { Number } - Returns magnitude of scale specified by the matrix.
  * @method scaleMagGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-dst-} is not an instance of VectorAdapter
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1420,10 +1462,11 @@ function scaleMagGet( dst )
  * logger.log( got );
  * // log 2.828, 3.606
  *
- * @param { Array|VectorAdapter } dst - array or the instance of VectorAdapter.
+ * @param { Array|VectorAdapter } dst - Array or the instance of VectorAdapter.
  * @returns { Number } - Returns scale specified by the matrix.
  * @method scaleGet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-dst-} is not an Array or the instance of VectorAdapter.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1467,19 +1510,21 @@ function scaleMagGet( dst )
  *   0, 0, 6,
  * ]);
  *
- * var src = [ 2 ];
+ * var src = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleSet( src );
  * logger.log( got )
  * // log
- *  +6, +4, +6,
- *  +8, +0, +4
- *  +0, +0, +12,
+ *  +0, +0, +0,
+ *  +0, +0, +0,
+ *  +0, +0, +0,
  *
- * @param { Array|VectorAdapter } dst - array or the instance of VectorAdapter.
+ * @param { VectorAdapter|Long } src - the instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns scaled instance of Matrix.
  * @method scaleSet
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-src-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If (src.length) is not equal (self.length) decrementing by 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1502,6 +1547,43 @@ function scaleSet( src )
 }
 
 //
+
+/**
+ * The method matrix.scaleAroundSet() returns scaled matrix instance of around provided vector {-center-}, takes source from context.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ * var matrix = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var scale = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ * var center = _.vectorAdapter.fromLong( [ 2, 3 ] );
+ *
+ * var got = matrix.scaleAroundSet( src );
+ * logger.log( got )
+ * // log
+ *  +0, +0, +2,
+ *  +0, +0, +3,
+ *  +0, +0, +0,
+ *
+ * @param { VectorAdapter|Long } scale - the instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } center - the instance of VectorAdapter or Long.
+ * @returns { Matrix } - Returns scaled instance of Matrix.
+ * @method scaleAroundSet
+ * @throws { Error } If {-center-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If {-scale-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If (scale.length) is not equal (self.length) decrementing by 1.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
 
 function scaleAroundSet( scale, center )
 {
@@ -1538,6 +1620,38 @@ function scaleAroundSet( scale, center )
 
 //
 
+/**
+ * The method matrix.scaleApply() changes source vector {-src-}, takes source from context.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ * var matrix = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var src = _.vectorAdapter.fromLong( [ 2, 3 ] );
+ *
+ * var got = matrix.scaleApply( src );
+ * logger.log( got )
+ * // log
+ * undefined
+ *
+ * @param { VectorAdapter|Long } src - the instance of VectorAdapter or Long.
+ * @returns { Undefined } - Returns not a value, change source vector {-src-}.
+ * @method scaleApply
+ * @throws { Error } If {-src-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @memberof module:Tools/math/Matrix.wMatrix#
+ */
+
 function scaleApply( src )
 {
   let self = this;
@@ -1560,7 +1674,7 @@ function scaleApply( src )
 // --
 
 /**
- * The method matrix.closest() returns the closest element to provided element.
+ * The method matrix.closest() returns the closest element to provided element {-insElement-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
@@ -1580,10 +1694,11 @@ function scaleApply( src )
  *  distance: 2.23606797749979
  * }
  *
- * @param { VectorAdapter } insElement - provided element, instance of VectorAdapter.
+ * @param { VectorAdapter|Long } insElement - provided element, an instance of VectorAdapter or Long.
  * @returns { Map } - Returns index and distance of the closest element.
  * @method closest
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1619,7 +1734,7 @@ function closest( insElement )
 //
 
 /**
- * The method matrix.furthest() returns the furthest element to provided element.
+ * The method matrix.furthest() returns the furthest element to provided element {-insElement-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
@@ -1639,10 +1754,11 @@ function closest( insElement )
  *  distance: 5.0990195135927845
  * }
  *
- * @param { VectorAdapter } insElement - provided element, instance of VectorAdapter.
+ * @param { VectorAdapter|Long } insElement - provided element, an instance of VectorAdapter or Long.
  * @returns { Map } - Returns index and distance of the furthest element.
  * @method furthest
- * @throws { Error } If (arguments.length) is more than one.
+ * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
+ * @throws { Error } If (arguments.length) is not 1.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1734,7 +1850,7 @@ function elementMean()
  *
  * @returns { TypedArrays } - Returns two instances of F32x buffers.
  * @method minmaxColWise
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If argument exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
    */
 
@@ -1781,7 +1897,7 @@ function minmaxColWise()
  *
  * @returns { TypedArrays } - Returns two instances of F32x buffers.
  * @method minmaxRowWise
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If argument exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
@@ -1824,7 +1940,7 @@ function minmaxRowWise()
  *
  * @returns { Number } - Returns a determinant value of the provided matrix.
  * @method determinant
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If argument exist.
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
