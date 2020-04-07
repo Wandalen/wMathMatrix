@@ -401,7 +401,8 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   * @function svd
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( arguments.length ) is not three.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @namespeac ...
+  * @module ...
   */
 
 function svd( u, s, v )
