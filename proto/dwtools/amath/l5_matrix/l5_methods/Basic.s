@@ -57,6 +57,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @throws { Error } If {-dims-} is not array.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -125,6 +126,7 @@ function _tempBorrow( src, dims, index )
  * @throws { Error } If (arguments.length) is more than 1.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -156,6 +158,7 @@ function tempBorrow1( src )
  * @throws { Error } If (arguments.length) is more than 1.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -187,6 +190,7 @@ function tempBorrow2( src )
  * @throws { Error } If (arguments.length) is more than 1.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -235,6 +239,7 @@ function tempBorrow3( src )
  * @throws { Error } If method called by not an instance of matrix constructor.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -370,6 +375,7 @@ function mul_static( dst, srcs )
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If {-srcs-} is not array.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -454,6 +460,7 @@ function mul( srcs )
  * @throws { Error } If (src1.dims[ 0 ]) index is not equal of index (dst.dims[ 0 ]).
  * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (dst.dims[ 1 ]).
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -545,6 +552,7 @@ function mul2Matrices( src1, src2 )
  * @throws { Error } If {-src-} is not an instance of Matrix.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -600,6 +608,7 @@ function mulLeft( src )
  * @throws { Error } If {-src-} is not an instance of Matrix.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -701,6 +710,7 @@ function mulRight( src )
  * @method zero
  * @throws { Error } If (arguments.length) exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -739,6 +749,7 @@ function zero()
  * @method identity
  * @throws { Error } If arguments exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -788,6 +799,7 @@ function identity()
  * @throws { Error } If (src.length) is not same length destination matrix.
  * @throws { Error } If (self.dims.length) dimension length of called matrix is not 2.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -836,6 +848,7 @@ function diagonalSet( src )
  * @throws { Error } If arguments exist.
  * @throws { Error } If (self.dims.length) dimension length of called matrix is not 2.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -890,6 +903,7 @@ function diagonalVectorGet()
  * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less index called matrix instance (self.dims[ 0 ]).
  * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less min decrementing values of [ 0 ] and [ 1 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -970,6 +984,7 @@ function triangleLowerSet( src )
  * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less index called matrix instance (self.dims[ 1 ]).
  * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less min decrementing values of [ 1 ] and [ 0 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1071,6 +1086,7 @@ function triangleUpperSet( src )
  * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1160,6 +1176,7 @@ function matrixApplyTo( dstVector )
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If dst.length is not equal to number of columns of matrix decremented by 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1221,6 +1238,7 @@ function matrixHomogenousApply( dstVector )
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If dst.length is not equal to number of columns of matrix decremented by 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1270,6 +1288,7 @@ function matrixDirectionsApply( dstVector )
  * @method positionGet
  * @throws { Error } If argument exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1315,6 +1334,7 @@ function positionGet()
  * @method positionSet
  * @throws { Error } If {-src-} and destination matrix length is not same.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1362,6 +1382,7 @@ function positionSet( src )
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter or Array.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1405,6 +1426,7 @@ function scaleMaxGet( dst )
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1448,6 +1470,7 @@ function scaleMeanGet( dst )
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1491,6 +1514,7 @@ function scaleMagGet( dst )
  * @throws { Error } If {-dst-} is not an Array or the instance of VectorAdapter.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1550,6 +1574,7 @@ function scaleMagGet( dst )
  * @throws { Error } If (arguments.length) is not 1.
  * @throws { Error } If (src.length) is not equal (self.length) decrementing by 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1608,6 +1633,7 @@ function scaleSet( src )
  * @throws { Error } If {-scale-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (scale.length) is not equal (self.length) decrementing by 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1676,6 +1702,7 @@ function scaleAroundSet( scale, center )
  * @throws { Error } If {-src-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1727,6 +1754,7 @@ function scaleApply( src )
  * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1788,6 +1816,7 @@ function closest( insElement )
  * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1842,6 +1871,7 @@ function furthest( insElement )
  * @method elementMean
  * @throws { Error } If argument exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1882,6 +1912,7 @@ function elementMean()
  * @method minmaxColWise
  * @throws { Error } If argument exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
    */
 
@@ -1930,6 +1961,7 @@ function minmaxColWise()
  * @method minmaxRowWise
  * @throws { Error } If argument exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1974,6 +2006,7 @@ function minmaxRowWise()
  * @method determinant
  * @throws { Error } If argument exist.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
