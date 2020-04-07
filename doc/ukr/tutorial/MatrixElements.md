@@ -44,9 +44,7 @@ console.log( 'first row : ', row );
 /* log : first row : 5.000, 5.000 */
 ```
 
-### Як отримати або встановити значення елемента
-
-### Елемент в матриці
+### Як отримати або встановити значення елемента матриці
 
 Для доступу до елемента за індексами рядка і колонки використовуються методи `atomGet` i `atomSet`.
 
@@ -62,16 +60,20 @@ console.log( 'second element of first row : ', el );
 /* log : second element of first row : 5 */
 ```
 
-### Елемент в рядку матриці
+### Як отримати або встановити значення елемента рядка матриці
 
-Значення елемента матриці визначається через метод `eGet`, його можна застосувати до окремого рядка.
+За замовчуванням метод `eGet` застосовується до окремого рядка.
 
 ```js
 var matrixRow = _.Matrix.makeRow( [ 1, 2, 3, 4 ] );
 var el = matrixRow.eGet( 1 );
 console.log( 'second element of matrixRow : ', el.toStr() );
 /* log : second element of matrixRow : 2.000 */
+```
 
+Щоб вибрати окремий елемент матиці потрібно попередньо обрати потрібний рядок.
+
+```js
 var matrixSquare = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
 var el = matrixSquare.eGet( 1 );
 console.log( 'second row of matrixSquare : ', el.toStr() );
@@ -89,15 +91,21 @@ matrixSquare.eSet( 1, 5 );
 var row = matrixSquare.eGet( 1 );
 console.log( 'second row of matrixSquare : ', row );
 /* log : second row of matrixSquare : 5.000, 5.000 */
+```
+
+Для встановлення значення окремому елементу небхідно попередньо обрати рядок.
+
+```js
+var matrixSquare = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
 matrixSquare.rowVectorGet( 0 ).eSet( 1, 4 );
 var separateEl = matrixSquare.rowVectorGet( 0 ).eGet( 1 );
 console.log( 'second element of first row : ', separateEl.toStr() );
 /* log : second element of first row : 4.000 */
 ```
 
-### Елемент буфера матриці
+### Як отримати або встановити значення елемента буфера матриці
 
-Модуль дозволяє працювати безпосередньо з буфером матриці з допомогою методів `atomFlatGet` i `atomFlatSet`. Доступні елементи лежать в ренжі між початком буферу і індексом останнього елемента створеної матриці.
+Модуль дозволяє працювати безпосередньо з буфером матриці з допомогою методів `atomFlatGet` i `atomFlatSet`. Доступні елементи лежать в ренжі між початком буферу і індексом останнього елемента створеної матриці та не залежать від кроку матриці ( `strides` ).
 
 ```js
 var matrix = _.matrix
@@ -106,17 +114,20 @@ var matrix = _.matrix
   strides : [ 1, 2 ],
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
 });
-var row = matrix.rowVectorGet( 0 );
-console.log( 'first row : ', row.toStr() );
-/* log : first row : 1.000, 2.000 */
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +2,
+                  +3, +4,
+*/
 var el = matrix.atomFlatGet( 2 );
 console.log( 'second element of buffer : ', el );
 /* log : second element of buffer : 3 */
 
 matrix.strides = [ 3, 4 ];
 var row = matrix.rowVectorGet( 0 );
-console.log( 'first row : ', row.toStr() );
-/* log : first row : 1.000, 4.000 */
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +5,
+                  +4, +9,
+*/
 var el = matrix.atomFlatGet( 2 );
 console.log( 'second element of buffer : ', el );
 /* log : second element of buffer : 3 */
