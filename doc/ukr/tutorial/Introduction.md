@@ -124,8 +124,13 @@ console.log( 'matrix : ', matrix.toStr() );
                   +5, +7,
 */
 
-matrix.strides = [ 2, 4 ];
-console.log( 'first row : ', matrix.rowVectorGet( 0 ).toStr() );
+var matrixTransposed = _.Matrix
+({
+  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  dims : [ 2, 2 ],
+  strides : [ 2, 4 ]
+});
+console.log( 'transposed matrix : ', matrixTransposed.toStr() );
 /* log : transposed matrix : +1, +5,
                              +3, +7,
 */

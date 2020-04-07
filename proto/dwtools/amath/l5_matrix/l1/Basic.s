@@ -2634,7 +2634,7 @@ function elementsInRangeGet( range )
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If dims.length is not equal to two.
- * @throws { Error } If dims.length is not equal to two.
+ * @throws { Error } If {-index-} is out of matrix.length.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
