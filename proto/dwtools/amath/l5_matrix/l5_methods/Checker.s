@@ -49,7 +49,8 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * @returns { Boolean } Returns true if the matrix is diagonal and false if not.
   * @function isDiagonal
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @namespace wTools.Matrix
+  * @module Tools/math/Matrix
   */
 
 function isDiagonal()
@@ -102,7 +103,8 @@ function isDiagonal()
   * @returns { Boolean } Returns true if the matrix is upper triangular and false if not.
   * @function isUpperTriangle
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @namespace wTools.Matrix
+  * @module Tools/math/Matrix
   */
 
 function isUpperTriangle( accuracy )
@@ -164,7 +166,8 @@ function isUpperTriangle( accuracy )
   * @returns { Boolean } Returns true if the matrix is symmetric and false if not.
   * @function isSymmetric
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @namespace wTools.Matrix
+  * @module Tools/math/Matrix
   */
 
 function isSymmetric( accuracy )
