@@ -50,6 +50,31 @@ function _BufferFrom( src )
 // make
 // --
 
+/**
+ * The sub-method make(), returns the new instance of Matrix, with provided dimensions {-dims-}.
+ *
+ * @example
+ * var got = new _.Matrix.make( [ 3, 3 ] ).copy
+ * ([
+ *   +2, +2, +2,
+ *   +2, +3, +4,
+ *   +4, +3, -2,
+ * ]);
+ * console.log( got.buffer )
+ * //log
+ *  Float32Array [ 2, 2, 4, 2, 3, 3, 2, 4, -2 ]
+ *
+ * @param { Array|Number } dims - Array or Number, dimension of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
+ * @method make
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @throws { Error } If {-dims-} is not Array or Number.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function make( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
@@ -78,6 +103,35 @@ function make( dims )
 }
 
 //
+
+/**
+ * The method makeSquare(), returns the new instance of square Matrix, with provided data {-buffer-}.
+ *
+ * @example
+ * var buffer =
+ * [
+ *  1, 3, 5,
+ *  2, 4, 6,
+ *  3, 6, 8,
+ * ];
+ * var got = _.Matrix.makeSquare( buffer );
+ * logger.log( got )
+ * //log
+ *   +1, +3, +5,
+ *   +2, +4, +6,
+ *   +3, +6, +8,
+ *
+ * @param { Long|Number } buffer - source data.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided data.
+ * @method makeSquare
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @throws { Error } If {-buffer-} is not array or number.
+ * @throws { Error } If {-buffer-} is not square buffer.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function makeSquare( buffer )
 {
@@ -166,6 +220,30 @@ function makeSquare_( buffer )
 
 //
 
+/**
+ * The method makeZero(), returns the new instance of Matrix filled by zero.
+ *
+ * @example
+ * var dims = 3;
+ * var got = new _.Matrix.makeZero( dims );
+ * logger.log( got )
+ * //log
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *
+ * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
+ * @method makeZero
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @throws { Error } If {-dims-} is not Long or Number.
+ * @throws { Error } If {-dims-} length is not 2.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function makeZero( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
@@ -194,6 +272,28 @@ function makeZero( dims )
 }
 
 //
+
+/**
+ * The method makeIdentity(), returns the new instance of identity Matrix with dimension {-dims-}.
+ *
+ * @example
+ * var dims = 3;
+ * var got = new _.Matrix.makeIdentity( dims );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0,
+ *   +0, +1, +0,
+ *   +0, +0, +1,
+ *
+ * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
+ * @method makeIdentity
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @throws { Error } If {-dims-} is not Long or Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function makeIdentity( dims )
 {
@@ -274,6 +374,29 @@ function makeIdentity4( src )
 
 //
 
+/**
+ * The method makeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
+ *
+ * @example
+ * var diagonal = [ 1, 2, 3 ];
+ * var got = new _.Matrix.makeDiagonal( diagonal );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0,
+ *   +0, +2, +0,
+ *   +0, +0, +3,
+ *
+ * @param { Array } diagonal - Array, source data.
+ * @returns { Matrix } - Returns the new instance of Matrix with provided diagonal.
+ * @method makeDiagonal
+ * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @throws { Error } If {-diagonal-} is not array.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function makeDiagonal( diagonal )
 {
 
@@ -302,6 +425,45 @@ function makeDiagonal( diagonal )
 }
 
 //
+
+/**
+ * The method makeSimilar() makes and returns the similar instance of Matrix {-m-}.
+ * If method executes with single argument, dimension takes from the source.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ *
+ * var m = new _.Matrix
+ * ({
+ * buffer,
+ * dims : [ 3, 3 ],
+ * inputTransposing : 1,
+ * });
+ *
+ * var got = new _.Matrix.makeSimilar( m );
+ * logger.log( got )
+ * //log
+ *   +1, +2, +0,
+ *   +0, +4, +1,
+ *   +1, +0, +0,
+ *
+ * @param { Matrix } m - provided instance of Matrix.
+ * @param { Array } dims - provided dimension of matrix instance.
+ * @returns { Matrix } - Returns the instance of Matrix.
+ * @method makeSimilar
+ * @throws { Error } If {-m-} is not an instance of Matrix.
+ * @throws { Error } If {-dims-} is not array.
+ * @throws { Error } If {-dims-} length is not 2.
+ * @throws { Error } If method called without arguments.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function makeSimilar( m , dims )
 {
@@ -466,6 +628,45 @@ makeLine.defaults =
 
 //
 
+/**
+ * The method makeCol() makes the new instance of Matrix with single column from provided buffer {-buffer-}.
+ * If argument {-buffer-} is number - returns filled zero's column.
+ *
+ * @example
+ * var got = _.Matrix.makeCol( 3 );
+ * logger.log( got )
+ * //log
+ *   +0,
+ *   +0,
+ *   +0,
+ *
+ * @example
+ * var buffer = new I32x( [ 1, 2, 0 ] );
+ * var got = _.Matrix.makeCol( buffer );
+ * logger.log( got )
+ * //log
+ *   +1,
+ *   +2,
+ *   +0,
+ *
+ * @example
+ * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * var got = _.Matrix.makeCol( buffer );
+ * logger.log( got )
+ * //log
+ *   -2.000,
+ *    0.000,
+ *   -0.250,
+ *
+ * @param { VectorAdapter|BufferTyped|Array|Number } buffer - the instance of VectorAdapter, BufferTyped, Array or Number, provided values.
+ * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
+ * @method makeCol
+ * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, BufferTyped, Array or Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function makeCol( buffer )
 {
   return this.makeLine
@@ -490,6 +691,38 @@ function makeColZeroed( buffer )
 
 //
 
+/**
+ * The method makeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
+ * If argument {-buffer-} is number - return filled zero's row.
+ *
+ * @example
+ * var got = _.Matrix.makeRow( 3 );
+ * logger.log( got )
+ * //log +0, +0, +0,
+ *
+ * @example
+ * var buffer = new I32x( [ 1, 2, 0 ] );
+ * var got = _.Matrix.makeRow( buffer );
+ * logger.log( got )
+ * //log
+ *    +1, +2, +0,
+ *
+ * @example
+ * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * var got = _.Matrix.makeRow( buffer );
+ * logger.log( got )
+ * //log
+ *   -2.000, 0.000, -0.250,
+ *
+ * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, array or number, provided values.
+ * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided row.
+ * @method makeRow
+ * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function makeRow( buffer )
 {
   return this.makeLine
@@ -501,6 +734,31 @@ function makeRow( buffer )
 }
 
 //
+
+/**
+ * The method makeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
+ *
+ * @example
+ * var buffer = new I32x( [ 1, 2, 0 ] );
+ *
+ * var got = _.Matrix.makeRowZeroed( buffer );
+ * logger.log( got )
+ * //log
+ *   +0, +0, +0,
+ *
+ * @example
+ * var got = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * logger.log( got )
+ * //log 0.000, 0.000, 0.000,
+ *
+ * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, Array or Number, dimension and provided values.
+ * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
+ * @method makeRowZeroed
+ * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function makeRowZeroed( buffer )
 {
@@ -599,6 +857,31 @@ function convertToClass( cls, src )
 
 //
 
+/**
+ * The method fromVectorAdapter() converts provided vector {-src-} and return the new instance of Matrix.
+ *
+ * @example
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
+ * var got = new _.Matrix.fromVectorAdapter( src );
+ * logger.log( got )
+ * //log
+ *   +1,
+ *   +2,
+ *   +3,
+ *   +4,
+ *
+ * @param { VectorAdapter|Long } src - an instance of VectorAdapter or Long.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromVectorAdapter
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If {-src-} is not an instance of VectorAdapter.
+ * @throws { Error } If {-src-} is not a Long.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function fromVectorAdapter( src )
 {
   let result;
@@ -631,6 +914,32 @@ function fromVectorAdapter( src )
 }
 
 //
+
+/**
+ * The method fromScalar() return the new instance of Matrix filled by scalar value {-scalar-}.
+ *
+ * @example
+ * var scalar = 2;
+ * var dims = [ 3, 3 ];
+ * var got = _.Matrix.fromScalar( scalar, dims )
+ * logger.log( got )
+ * //log
+ *   +2, +2, +2,
+ *   +2, +2, +2,
+ *   +2, +2, +2,
+ *
+ * @param { Number } scalar - Number.
+ * @param { Array } dims - Array, dimension of matrix.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromScalar
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If {-dims-} is not array.
+ * @throws { Error } If {-dims-} length is not 2.
+ * @throws { Error } If (arguments.length) is not 2.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function fromScalar( scalar, dims )
 {
@@ -676,6 +985,47 @@ function fromScalarForReading( scalar, dims )
 }
 
 //
+
+/**
+ * The method from() converts provided instance of Matrix or VectorAdapter {-src-} to instance of Matrix.
+ * If provided and returned argument are same type - method returns original argument, in another case - returns the new instance.
+ * If method executes without the source {-src-} - return instance of matrix, filled by zero with dimension {-dims-}.
+ *
+ * @example
+ * var dims = [ 3, 3 ];
+ * var got = new _.Matrix.from( dims );
+ * logger.log( got )
+ * //log
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *   +0, +0, +0,
+ *
+ * @example
+ * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * ([
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ * ]);
+ * var dims = [ 3, 3 ];
+ * var got = new _.Matrix.from( src, dims );
+ * logger.log( got )
+ * //log
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ *
+ * @param { Matrix|VectorAdapter|Number|Null } src - instance of Matrix, VectorAdapter or Number.
+ * @param { Array } dims - Array, dimension of matrix.
+ * @returns { Matrix } - Returns the instance of Matrix.
+ * @method from
+ * @throws { Error } If method called by the instance of matrix constructor.
+ * @throws { Error } If {-dims-} is not array.
+ * @throws { Error } If (arguments.length) is not 1 or 2.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function from( src, dims )
 {
@@ -740,6 +1090,43 @@ function fromForReading( src, dims )
 
 //
 
+/**
+ * The method matrix.fromTransformations() converts provided position {-position-}, quaternion {-quaternion-}, scale {-scale-} values
+ * to the new instance of Matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * ([
+ *   +1, +2, +3, +1,
+ *   +0, +4, +5, +1,
+ *   +0, +0, +6, +1,
+ *   +0, +0, +6, +1,
+ * ]);
+ *
+ * var position = [ 1, 2, 3 ];
+ * var quaternion = [ 0, 0, 0, 1 ];
+ * var scale = [ 1, 1, 1 ];
+ * var got = matrix.fromTransformations( position, quaternion, scale );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0, +1,
+ *   +0, +1, +0, +2,
+ *   +0, +0, +1, +3,
+ *   +0, +0, +0, +1,
+ *
+ * @param { VectorAdapter|Long } position - the instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } quaternion - the instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } scale - the instance of VectorAdapter or Long.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromTransformations
+ * @throws { Error } If method called by not an instance of matrix constructor.
+ * @throws { Error } If {-quaternion-} length is not 4.
+ * @throws { Error } If (arguments.length) is not 3.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function fromTransformations( position, quaternion, scale )
 {
   let self = this;
@@ -754,6 +1141,40 @@ function fromTransformations( position, quaternion, scale )
 }
 
 //
+
+/**
+ * The method matrix.fromQuat() converts quaternion values {-quaternion-},
+ * to the new instance of Matrix, take the source from context.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * ([
+ *   +1, +2, +3, +1,
+ *   +0, +4, +5, +1,
+ *   +0, +0, +6, +1,
+ *   +0, +0, +6, +1,
+ * ]);
+ *
+ * var quaternion = [ 0, 0, 0, 1 ];
+ * var got = matrix.fromQuat( quaternion );
+ * logger.log( got )
+ * //log
+ *   +1, +0, +0, +0,
+ *   +0, +1, +0, +0,
+ *   +0, +0, +1, +0,
+ *   +0, +0, +0, +1,
+ *
+ * @param { VectorAdapter|Long } quaternion - the instance of VectorAdapter or Long.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromQuat
+ * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
+ * @throws { Error } If (self.length) of source matrix is less than 3.
+ * @throws { Error } If {-quaternion-} length is not 4.
+ * @throws { Error } If (arguments.length) is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function fromQuat( q )
 {
@@ -802,6 +1223,39 @@ function fromQuat( q )
 }
 
 //
+
+/**
+ * The method matrix.fromQuatWithScale() converts quaternion values {-q-} with scale,
+ * to the new instance of Matrix, take the source from context.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * ([
+ *   +1, +2, +3, +1,
+ *   +0, +4, +5, +1,
+ *   +0, +0, +6, +1,
+ *   +0, +0, +6, +1,
+ * ]);
+ *
+ * var quaternion = [ 0, 2, 1, 1 ];
+ * var got = matrix.fromQuatWithScale( quaternion );
+ * logger.log( got )
+ * //log
+ *   -1.633, -0.816, 1.633, 0.000,
+ *   0.816, 1.633, 1.633, 0.000,
+ *   -1.633, 1.633, -0.816, 0.000,
+ *   0.000, 0.000, 0.000, 1.000,
+ *
+ * @param { VectorAdapter|Long } q - the instance of VectorAdapter or Long.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @method fromQuatWithScale
+ * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
+ * @throws { Error } If {-q-} length is not 4.
+ * @throws { Error } If count of arguments less or more than one.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function fromQuatWithScale( q )
 {
@@ -1253,100 +1707,122 @@ let lookAt = ( function lookAt()
 // reducer
 // --
 
-function closest( insElement )
-{
-  let self = this;
-  insElement = self.vectorAdapter.fromLong( insElement );
-  let result =
-  {
-    index : null,
-    distance : +Infinity,
-  }
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  for( let i = 0 ; i < self.length ; i += 1 )
-  {
-
-    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
-    if( d < result.distance )
-    {
-      result.distance = d;
-      result.index = i;
-    }
-
-  }
-
-  result.distance = sqrt( result.distance );
-
-  return result;
-}
-
+// function closest( insElement )
+// {
+//   let self = this;
+//   insElement = self.vectorAdapter.fromLong( insElement );
+//   let result =
+//   {
+//     index : null,
+//     distance : +Infinity,
+//   }
 //
-
-function furthest( insElement )
-{
-  let self = this;
-  insElement = self.vectorAdapter.fromLong( insElement );
-  let result =
-  {
-    index : null,
-    distance : -Infinity,
-  }
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  for( let i = 0 ; i < self.length ; i += 1 )
-  {
-
-    let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
-    if( d > result.distance )
-    {
-      result.distance = d;
-      result.index = i;
-    }
-
-  }
-
-  result.distance = sqrt( result.distance );
-
-  return result;
-}
-
+//   _.assert( arguments.length === 1, 'Expects single argument' );
 //
-
-function elementMean()
-{
-  let self = this;
-
-  let result = self.elementAdd();
-
-  self.vectorAdapter.div( result, self.length );
-
-  return result;
-}
-
+//   for( let i = 0 ; i < self.length ; i += 1 )
+//   {
 //
-
-function minmaxColWise()
-{
-  let self = this;
-
-  let minmax = self.distributionRangeSummaryValueColWise();
-  let result = Object.create( null );
-
-  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-
-  for( let i = 0 ; i < minmax.length ; i += 1 )
-  {
-    result.min[ i ] = minmax[ i ][ 0 ];
-    result.max[ i ] = minmax[ i ][ 1 ];
-  }
-
-  return result;
-}
-
+//     let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
+//     if( d < result.distance )
+//     {
+//       result.distance = d;
+//       result.index = i;
+//     }
+//
+//   }
+//
+//   result.distance = sqrt( result.distance );
+//
+//   return result;
+// }
+//
+// //
+//
+// function furthest( insElement )
+// {
+//   let self = this;
+//   insElement = self.vectorAdapter.fromLong( insElement );
+//   let result =
+//   {
+//     index : null,
+//     distance : -Infinity,
+//   }
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   for( let i = 0 ; i < self.length ; i += 1 )
+//   {
+//
+//     let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
+//     if( d > result.distance )
+//     {
+//       result.distance = d;
+//       result.index = i;
+//     }
+//
+//   }
+//
+//   result.distance = sqrt( result.distance );
+//
+//   return result;
+// }
+//
+// //
+//
+// function elementMean()
+// {
+//   let self = this;
+//
+//   let result = self.elementAdd();
+//
+//   self.vectorAdapter.div( result, self.length );
+//
+//   return result;
+// }
+//
+// //
+//
+// function minmaxColWise()
+// {
+//   let self = this;
+//
+//   let minmax = self.distributionRangeSummaryValueColWise();
+//   let result = Object.create( null );
+//
+//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
+//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+//
+//   for( let i = 0 ; i < minmax.length ; i += 1 )
+//   {
+//     result.min[ i ] = minmax[ i ][ 0 ];
+//     result.max[ i ] = minmax[ i ][ 1 ];
+//   }
+//
+//   return result;
+// }
+//
+// //
+//
+// function minmaxRowWise()
+// {
+//   let self = this;
+//
+//   let minmax = self.distributionRangeSummaryValueRowWise();
+//   let result = Object.create( null );
+//
+//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
+//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+//
+//   for( let i = 0 ; i < minmax.length ; i += 1 )
+//   {
+//     result.min[ i ] = minmax[ i ][ 0 ];
+//     result.max[ i ] = minmax[ i ][ 1 ];
+//   }
+//
+//   return result;
+// }
+//
+// //
 //
 
 function minmaxRowWise()

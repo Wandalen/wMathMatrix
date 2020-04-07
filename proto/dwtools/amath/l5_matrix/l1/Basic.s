@@ -27,6 +27,7 @@ _.assert( !!_.all );
 /**
  * @classdesc Multidimensional structure which in the most trivial case is Matrix of scalars. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. VectorAdapter is a reference, it does not contain data but only refer on actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container, you may use it to continuously store huge an array of arrays or for matrix computation.
  * @class wMatrix
+ * @namespace wTools
  * @memberof module:Tools/math/Matrix
  */
 
@@ -261,11 +262,26 @@ function _copy( src, resetting )
 //
 
 /**
- * @summary Copy scalars from array `src` into inner matrix.
- * @description Also accepts `src` as scalar, in this case it fills matrix with value of scalar.
- * @param {Array|Number} src Array of scalars or single scalar.
+ * Routine copy() copies scalars from buffer {-src-} into inner matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * // log : +0, +0,
+ * //       +0, +0,
+ * matrix.copy( [ 1, 2, 3, 4 ] );
+ * console.log( matrix.toStr() );
+ * // log : +1, +2,
+ * //       +3, +4,
+ *
+ * @param { Long|Number } src - A Long or single scalar.
+ * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
  * @function copy
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-src-} is not a Long, not a Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function copy( src )
@@ -291,10 +307,26 @@ function copy( src )
 //
 
 /**
- * @summary Fills inner matrix with value of scalar `src`.
- * @param {Number} src Scalar.
+ * Routine copyFromScalar() applies scalar {-src-} to each element of inner matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * // log : +0, +0,
+ * //       +0, +0,
+ * matrix.copyFromScalar( 5 );
+ * console.log( matrix.toStr() );
+ * // log : +5, +5,
+ * //       +5, +5,
+ *
+ * @param { Number } src - Scalar to fill the matrix.
+ * @returns { Matrix } - Returns original instance of Matrix filled by scalar values.
  * @function copyFromScalar
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-src-} is not a Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function copyFromScalar( src )
@@ -312,10 +344,26 @@ function copyFromScalar( src )
 //
 
 /**
- * @summary Copy scalars from array `src` into inner matrix.
- * @param {Array} src Array with scarals.
- * @function copyFromScalar
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * Routine copyFromBuffer() copies scalars from buffer {-src-} into inner matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * // log : +0, +0,
+ * //       +0, +0,
+ * matrix.copyFromBuffer( [ 1, 2, 3, 4 ] );
+ * console.log( matrix.toStr() );
+ * // log : +1, +2,
+ * //       +3, +4,
+ *
+ * @param { Long } src - A Long for assigning to the matrix.
+ * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
+ * @function copyFromBuffer
+ * @throws { Error } If arguments.length is less then one.
+ * @throws { Error } If {-src-} is not a Long.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function copyFromBuffer( src )
@@ -326,6 +374,29 @@ function copyFromBuffer( src )
 }
 
 //
+
+/**
+ * Routine clone() makes copy of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * // log : +1, +1,
+ * //       +2, +2,
+ * var copy = matrix.clone();
+ * console.log( copy.toStr() );
+ * // log : +1, +2,
+ * //       +3, +4,
+ * console.log( matrix === copy );
+ * // log : false
+ *
+ * @returns { Matrix } - Returns copy of the Matrix.
+ * @function clone
+ * @throws { Error } If arguments is passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function clone()
 {
@@ -342,6 +413,31 @@ function clone()
 }
 
 //
+
+/**
+ * Routine CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * var copy = _.Matrix.CopyTo( matrix, [ 1, 2, 3, 4 ] );
+ * console.log( copy.toStr() );
+ * // log : +1, +2,
+ * //       +3, +4,
+ * console.log( matrix === copy );
+ * // log : true
+ *
+ * @param { Long|VectorAdapter|Matrix } dst - Destination container.
+ * @param { Long|VectorAdapter|Matrix } src - Source container.
+ * @returns { Long|VectorAdapter|Matrix } - Returns original instance of destination container filled by values of source container.
+ * @function CopyTo
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If {-dst-} and {-src-} have different dimensions.
+ * @throws { Error } If routine is called by instance of Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function CopyTo( dst, src )
 {
@@ -404,6 +500,28 @@ function CopyTo( dst, src )
 }
 
 //
+
+/**
+ * Routine extractNormalized() extracts data from the Matrix instance and saves it in new map.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var extract = matrix.extractNormalized();
+ * console.log( extract );
+ * // log : {
+ * //         buffer : [ 1, 1, 2, 2 ],
+ * //         offset : 0,
+ * //         strides : 1, 2,
+ * //        }
+ *
+ * @returns { Map } - Returns map with matrix data.
+ * @function extractNormalized
+ * @throws { Error } If arguments is passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 
 function extractNormalized()
 {
@@ -563,12 +681,24 @@ function _atomsPerMatrixGet()
 
 //
 
+
 /**
- * @summary Returns number of atoms per matrix for provided dimensions array `dims`.
- * @param {Array} dims Dimensions array.
+ * Routine AtomsPerMatrixForDimensions() calculates quantity of atoms in matrix with defined dimensions.
+ *
+ * @example
+ * var atoms = _.Matrix.AtomsPerMatrixForDimensions( [ 2, 2 ] );
+ * console.log( atoms );
+ * // log : 4
+ *
+ * @param { Array } dims - An array with matrix dimensions.
+ * @returns { Number } - Returns quantity of atoms in matrix with defined dimensions.
  * @function AtomsPerMatrixForDimensions
- * @memberof module:Tools/math/Matrix.wMatrix
- * @static
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-dims-} is not an Array.
+ * @throws { Error } If routine is called by instance of Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function AtomsPerMatrixForDimensions( dims )
@@ -591,28 +721,49 @@ function AtomsPerMatrixForDimensions( dims )
 //
 
 /**
- * @summary Returns number of rows in provided matrix `src`.
- * @param {Object} src Instance of wMatrix.
+ * Routine NrowOf() returns number of rows in source Matrix {-src-}.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 3, 5 ] );
+ * var rows = _.Matrix.NrowOf( matrix );
+ * console.log( rows );
+ * // log : 3
+ *
+ * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @returns { Number } - Returns quantity of rows in source matrix.
  * @function NrowOf
- * @memberof module:Tools/math/Matrix.wMatrix
- * @static
+ * @throws { Error } If {-src-} is not a Matrix, not a Long.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function NrowOf( src )
 {
   if( src instanceof Self )
   return src.dims[ 0 ];
-  _.assert( src.length >= 0 );
+  _.assert( src.length );
   return src.length;
 }
 
 //
 
 /**
- * @summary Returns number of columns in provided matrix `src`.
- * @param {Object} src Instance of wMatrix.
+ * Routine NcolOf() returns number of columns in source Matrix {-src-}.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 3, 5 ] );
+ * var cols = _.Matrix.NcolOf( matrix );
+ * console.log( cols );
+ * // log : 5
+ *
+ * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @returns { Number } - Returns quantity of columns in source matrix.
  * @function NcolOf
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function NcolOf( src )
@@ -626,10 +777,21 @@ function NcolOf( src )
 //
 
 /**
- * @summary Returns dimensions array for provided matrix `src`.
- * @param {Object} src Instance of wMatrix.
+ * Routine DimsOf() returns dimentions of source Matrix {-src-}.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 3, 5 ] );
+ * var dims = _.Matrix.DimsOf( matrix );
+ * console.log( dims );
+ * // log : [ 3, 5 ]
+ *
+ * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @returns { Array } - Returns dimensions in source matrix.
  * @function DimsOf
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function DimsOf( src )
@@ -720,6 +882,27 @@ function _strideInRowGet()
 
 //
 
+/**
+ * Routine StridesForDimensions() calculates strides for each dimension taking into account transposing value.
+ *
+ * @example
+ * var strides = _.Matrix.StridesForDimensions( [ 2, 2 ], true );
+ * console.log( strides );
+ * // log : [ 2, 1 ]
+ *
+ * @param { Array } dims - Dimensions of a matrix.
+ * @param { BoolLike } transposing - Options defines transposing of the matrix.
+ * @returns { Array } - Returns strides for each dimension of the matrix.
+ * @function StridesForDimensions
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If {-dims-} is not an Array.
+ * @throws { Error } If {-transposing-} is not BoolLike.
+ * @throws { Error } If elements of {-dims-} is negative number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function StridesForDimensions( dims, transposing )
 {
 
@@ -761,6 +944,23 @@ function StridesForDimensions( dims, transposing )
 }
 
 //
+
+/**
+ * Routine StridesRoll() calculates strides offset for each dimension.
+ *
+ * @example
+ * var strides = _.Matrix.StridesRoll( [ 2, 2 ] );
+ * console.log( strides );
+ * // log : [ 4, 2 ]
+ *
+ * @param { Array } strides - Strides of a matrix.
+ * @returns { Array } - Returns strides for each dimension of the matrix.
+ * @function StridesRoll
+ * @throws { Error } If arguments.length is not equal to one.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function StridesRoll( strides )
 {
@@ -835,6 +1035,31 @@ function _bufferAssign( src )
 }
 
 //
+
+/**
+ * Routine bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var dst = [ 0, 0, 0, 0 ];
+ * var got = matrix.bufferCopyTo( dst );
+ * console.log( got );
+ * // log : [ 1, 1, 2, 2 ]
+ * console.log( got === dst );
+ * // log : true
+ *
+ * @param { Long } dst - Destination buffer.
+ * @returns { Long } - Returns destination buffer filled by values of matrix buffer.
+ * If {-dst-} is undefined, then routine returns copy of matrix buffer.
+ * @function bufferCopyTo
+ * @throws { Error } If arguments.length is more then one.
+ * @throws { Error } If {-dst-} is not a Long.
+ * @throws { Error } If number of elements in matrix is not equal to dst.length.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 
 function bufferCopyTo( dst )
 {
@@ -1200,10 +1425,40 @@ function _dimsSet( src )
 //
 
 /**
- * @summary Expands current matrix to size.
- * @param {Array} expand New dimensions of the matrix.
+ * Routine expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * // log : +1, +1,
+ * //       +2, +2,
+ * var expanded = matrix.expand( [ 1, 0 ] );
+ * console.log( expanded );
+ * // log : +0, +0,
+ * //       +1, +1,
+ * //       +2, +2,
+ * //       +0, +0,
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * console.log( matrix.toStr() );
+ * // log : +1, +1,
+ * //       +2, +2,
+ * var expanded = matrix.expand( [ [ 1, 0 ], [ 1, 0 ] ] );
+ * console.log( expanded );
+ * // log : +0, +0, +0,
+ * //       +0, +1, +1,
+ * //       +0, +2, +2,
+ *
+ * @param { Long } expand - The quantity of appended and prepended lines in each dimension.
+ * @returns { Matrix } - Returns original expanded matrix.
  * @function expand
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If expand.length is not equal to quantity of dimensions.
+ * @throws { Error } If elements of {-expand-} is bigger then equivalent dimension length.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function expand( expand )
@@ -1279,6 +1534,26 @@ function expand( expand )
 
 //
 
+/**
+ * Routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
+ *
+ * @example
+ * var matrix1 = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix2 = _.Matrix.make( [ 2, 2 ] );
+ * var got = _.Matrix.ShapesAreSame( matrix1, matrix2 );
+ * console.log( got );
+ * // log : true
+ *
+ * @param { Matrix|VectorAdapter|Long } ins1 - The source matrix.
+ * @param { Matrix|VectorAdapter|Long } ins2 - The source matrix.
+ * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
+ * @function ShapesAreSame
+ * @throws { Error } If routine is called by instance of Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function ShapesAreSame( ins1, ins2 )
 {
   _.assert( !_.instanceIs( this ) );
@@ -1290,6 +1565,25 @@ function ShapesAreSame( ins1, ins2 )
 }
 
 //
+
+/**
+ * Routine hasShape() compares dimensions of instance with dimensions of source container {-src-}.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var got = matrix.hasShape( [ 2, 2 ] );
+ * console.log( got );
+ * // log : true
+ *
+ * @param { Array|Matrix } src - The container with dimensions.
+ * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
+ * @function hasShape
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-src-} is not an Array, not a Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function hasShape( src )
 {
@@ -1308,6 +1602,23 @@ function hasShape( src )
 
 //
 
+/**
+ * Routine isSquare() checks the equality of matrix dimensions.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 1, 2 ] );
+ * var got = matrix.isSquare();
+ * console.log( got );
+ * // log : false
+ *
+ * @returns { Boolean } - Returns value whether is the instance square matrix.
+ * @function isSquare
+ * @throws { Error } If argument is provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function isSquare()
 {
   let self = this;
@@ -1318,6 +1629,25 @@ function isSquare()
 // --
 // etc
 // --
+
+/**
+ * Routine flatAtomIndexFrom() finds the index of element in the matrix buffer.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var got = matrix.flatAtomIndexFrom( [ 1, 1 ] );
+ * console.log( got );
+ * // log : 4
+ *
+ * @param { Array } indexNd - The position of element.
+ * @returns { Boolean } - Returns flat index of element.
+ * @function flatAtomIndexFrom
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-src-} is not an Array.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function flatAtomIndexFrom( indexNd )
 {
@@ -1459,7 +1789,9 @@ _.routineExtend( _equalAre, _._equal );
  * @summary Checks if provided argument is a instance of wMatrix.
  * @param {} src Entity to check.
  * @function is
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function Is( src )
@@ -1478,7 +1810,9 @@ function Is( src )
  * @param {Number} o.precision=3 Precision of scalar values
  * @param {Boolean} o.usingSign=1 Prepend sign to scalar values
  * @function toStr
- * @memberof module:Tools/math/Matrix.wMatrix#
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
  */
 
 function toStr( o )

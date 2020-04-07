@@ -27,8 +27,6 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 /**
   * Check if a matrix is diagonal.
   *
-  * @param { this } - The source matrix.
-  *
   * @example
   * // returns true;
   * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
@@ -46,10 +44,13 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * ]);
   * matrix.isDiagonal( );
   *
+  * @param { this } - The source matrix.
   * @returns { Boolean } Returns true if the matrix is diagonal and false if not.
   * @function isDiagonal
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @class Matrix
+  * @namespace wTools
+  * @module Tools/math/Matrix
   */
 
 function isDiagonal()
@@ -80,8 +81,6 @@ function isDiagonal()
 /**
   * Check if a matrix is upper triangular
   *
-  * @param { this } - The source matrix.
-  *
   * @example
   * // returns true;
   * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
@@ -99,10 +98,13 @@ function isDiagonal()
   * ]);
   * matrix.isUpperTriangle( );
   *
+  * @param { this } - The source matrix.
   * @returns { Boolean } Returns true if the matrix is upper triangular and false if not.
   * @function isUpperTriangle
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @class Matrix
+  * @namespace wTools
+  * @module Tools/math/Matrix
   */
 
 function isUpperTriangle( accuracy )
@@ -142,8 +144,6 @@ function isUpperTriangle( accuracy )
 /**
   * Check if a matrix is symmetric.
   *
-  * @param { this } - The source matrix.
-  *
   * @example
   * // returns true;
   * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
@@ -161,10 +161,13 @@ function isUpperTriangle( accuracy )
   * ]);
   * matrix.isSymmetric( );
   *
+  * @param { this } - The source matrix.
   * @returns { Boolean } Returns true if the matrix is symmetric and false if not.
   * @function isSymmetric
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @memberof module:Tools/math/Matrix.wMatrix#
+  * @class Matrix
+  * @namespace wTools
+  * @module Tools/math/Matrix
   */
 
 function isSymmetric( accuracy )
