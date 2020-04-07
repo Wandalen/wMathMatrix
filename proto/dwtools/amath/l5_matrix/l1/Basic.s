@@ -2536,7 +2536,7 @@ function granuleGet( index )
 
 /**
  * Routine elementSlice() makes new vector from default matrix element.
- * For regular 2D matrices it is row, for 3D matrices it is matrice.
+ * For regular 2D matrices it is row, for 3D matrices it is matrix.
  *
  * @example
  * var matrix = _.matrix
@@ -2616,6 +2616,29 @@ function elementsInRangeGet( range )
 }
 
 //
+
+/**
+ * Routine eGet() extracts default matrix element from matrix.
+ * For row matrices it is separate elements, for regular 2D matrices it is row,
+ * for 3D matrices it is matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 3, 3 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.eGet( 1 );
+ * console.log( got.toStr() );
+ * // log : 4.000, 5.000, 6.000
+ *
+ * @param { Number } index - Index of element.
+ * @returns { VectorAdapter } - Returns the vector with default matrix element.
+ * @function eGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-index-} is not a Number.
+ * @throws { Error } If dims.length is not equal to two.
+ * @throws { Error } If dims.length is not equal to two.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function eGet( index )
 {
