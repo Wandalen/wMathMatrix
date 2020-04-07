@@ -1864,9 +1864,9 @@ function Is( src )
  * // log : +1, +1,\n+2, +2,
  *
  * @param { Map } o - Options map.
- * @param { String } o.tab - String inserted before each new line
- * @param { Number } o.precision -  Precision of scalar values
- * @param { Boolean } o.usingSign - Prepend sign to scalar values
+ * @param { String } o.tab - String inserted before each new line.
+ * @param { Number } o.precision -  Precision of scalar values.
+ * @param { Boolean } o.usingSign - Prepend sign to scalar values.
  * @returns { String } - Returns formatted string that represents matrix of scalars.
  * @function toStr
  * @throws { Error } If options map {-o-} has unknown options.
@@ -2046,6 +2046,28 @@ function bufferNormalize()
 
 //
 
+/**
+ * Routine submatrix() creates new instance of Matrix from part of original matrix.
+ * The buffer of new instance is the same container as original matrix buffer.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
+ * console.log( got.toStr() );
+ * // log : +1, +2,
+ * //       +4, +5,
+ *
+ * @param { Array } submatrix - Array with pairs of ranges.
+ * @returns { Matrix } - Returns new instance of Matrix with part of original matrix.
+ * @function submatrix
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-submatrix-} is not an Array.
+ * @throws { Error } If submatrix.length is not equal to numbers of dimensions.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function submatrix( submatrix )
 {
   let self = this;
@@ -2105,6 +2127,30 @@ function submatrix( submatrix )
 // iterator
 // --
 
+/**
+ * Routine atomWhile() applies callback {-o.onAtom-} to each element of current matrix
+ * while callback returns defined value.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.atomWhile( ( e ) => Math.pow( e, 2 ) );
+ * console.log( got );
+ * // log : 81
+ *
+ * @param { Map|Function } o - Options map of callback.
+ * @param { Function } o.onAtom - Callback.
+ * Callback {-o.onAtom-} applies four arguments : element of matrix, position `indexNd`,
+ * flat index `indexFlat`, options map {-o-}.
+ * @returns { * } - Returns the result of callback.
+ * @function atomWhile
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-o-} is not a Map, not a Function.
+ * @throws { Error } If options map {-o-} has unknown options.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function atomWhile( o )
 {
   let self = this;
@@ -2141,6 +2187,31 @@ atomWhile.defaults =
 }
 
 //
+
+/**
+ * Routine atomEach() applies callback {-onAtom-} to each element of current matrix.
+ * The callback {-onAtom-} applies option map with next fields : `indexNd`, `indexFlat`,
+ * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var storage = [];
+ * matrix.atomEach( ( e ) => { storage.push(  Math.pow( e.atom, 2 ) ) } );
+ * console.log( storage );
+ * // log : [ 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
+ *
+ * @param { Function } onAtom - Callback.
+ * @param { Array } args - Array for callback.
+ * @returns { Matrix } - Returns the original matrix.
+ * @function atomEach
+ * @throws { Error } If arguments.length is more then two.
+ * @throws { Error } If number of dimensions of matrix is more then two.
+ * @throws { Error } If {-args-} is not an Array.
+ * @throws { Error } If {-onAtom-} accepts less or more then one argument.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function atomEach( onAtom, args )
 {
@@ -2184,6 +2255,27 @@ function atomEach( onAtom, args )
 // --
 // components accessor
 // --
+
+/**
+ * Routine atomFlatGet() returns value of element by its flat index.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.atomFlatGet( 3 );
+ * console.log( got );
+ * // log : 4
+ *
+ * @param { Number } index - Index of matrix element.
+ * @returns { Number } - Returns the element of matrix by its flat index.
+ * @function atomFlatGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-index-} is not a Number.
+ * @throws { Error } If {-index-} is out of range of matrix buffer.
+ * @throws { Error } If {-index-} is out of range defined by indexes of matrix element.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function atomFlatGet( index )
 {
