@@ -123,11 +123,20 @@ var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
 
 var matrix1 = _.Matrix.fromVectorAdapter( vector );
 console.log( 'matrix1 : ', a.toStr() );
-/* log : matrix1 : +1, \n+3, \n+5, */
+/* log : matrix1 : +1,
+                   +3,
+                   +5,
+*/
 
 var matrix2 = _.Matrix.fromVectorAdapter( array );
 console.log( 'matrix2 : ', a.toStr() );
-/* log : matrix2 : +1, \n+2, \n+3, \n+4, \n+5, \n+6, */
+/* log : matrix2 : +1,
+                   +2,
+                   +3,
+                   +4,
+                   +5,
+                   +6,
+*/
 ```
 
 ### Рутина `fromScalar`
