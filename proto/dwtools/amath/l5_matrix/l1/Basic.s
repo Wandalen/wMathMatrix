@@ -278,7 +278,7 @@ function _copy( src, resetting )
  * @function copy
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Long, not a Number.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -322,7 +322,7 @@ function copyResetting( src )
  * @function copyFromScalar
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Number.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -358,7 +358,7 @@ function copyFromScalar( src )
  * @function copyFromBuffer
  * @throws { Error } If arguments.length is less then one.
  * @throws { Error } If {-src-} is not a Long.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -389,7 +389,7 @@ function copyFromBuffer( src )
  * @returns { Matrix } - Returns copy of the Matrix.
  * @function clone
  * @throws { Error } If arguments is passed.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -429,7 +429,7 @@ function clone()
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-dst-} and {-src-} have different dimensions.
  * @throws { Error } If routine is called by instance of Matrix.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -511,7 +511,7 @@ function CopyTo( dst, src )
  * @returns { Map } - Returns map with matrix data.
  * @function extractNormalized
  * @throws { Error } If arguments is passed.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -689,7 +689,7 @@ function _atomsPerMatrixGet()
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If routine is called by instance of Matrix.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -725,7 +725,7 @@ function AtomsPerMatrixForDimensions( dims )
  * @returns { Number } - Returns quantity of rows in source matrix.
  * @function NrowOf
  * @throws { Error } If {-src-} is not a Matrix, not a Long.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -752,7 +752,7 @@ function NrowOf( src )
  * @returns { Number } - Returns quantity of columns in source matrix.
  * @function NcolOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -779,7 +779,7 @@ function NcolOf( src )
  * @returns { Array } - Returns dimensions in source matrix.
  * @function DimsOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -887,7 +887,7 @@ function _strideInRowGet()
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If {-transposing-} is not BoolLike.
  * @throws { Error } If elements of {-dims-} is negative number.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -945,7 +945,7 @@ function StridesForDimensions( dims, transposing )
  * @returns { Array } - Returns strides for each dimension of the matrix.
  * @function StridesRoll
  * @throws { Error } If arguments.length is not equal to one.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -1042,7 +1042,7 @@ function _bufferAssign( src )
  * @throws { Error } If arguments.length is more then one.
  * @throws { Error } If {-dst-} is not a Long.
  * @throws { Error } If number of elements in matrix is not equal to dst.length.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -1442,7 +1442,7 @@ function _dimsSet( src )
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If expand.length is not equal to quantity of dimensions.
  * @throws { Error } If elements of {-expand-} is bigger then equivalent dimension length.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -1533,10 +1533,9 @@ function expand( expand )
  * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
  * @function ShapesAreSame
  * @throws { Error } If routine is called by instance of Matrix.
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
-
 
 function ShapesAreSame( ins1, ins2 )
 {
@@ -1549,6 +1548,24 @@ function ShapesAreSame( ins1, ins2 )
 }
 
 //
+
+/**
+ * Routine hasShape() compares dimensions of instance with dimensions of source container {-src-}.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix2 = _.Matrix.make( [ 2, 2 ] );
+ * var got = _.Matrix.ShapesAreSame( matrix1, matrix2 );
+ * console.log( got );
+ * // log : true
+ *
+ * @param { Matrix|VectorAdapter|Long } src - The container with dimensions.
+ * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
+ * @function hasShape
+ * @throws { Error } If routine is called by instance of Matrix.
+ * @class Matrix
+ * @module Tools/math/Matrix
+ */
 
 function hasShape( src )
 {
@@ -1718,7 +1735,7 @@ _.routineExtend( _equalAre, _._equal );
  * @summary Checks if provided argument is a instance of wMatrix.
  * @param {} src Entity to check.
  * @function is
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 
@@ -1738,7 +1755,7 @@ function Is( src )
  * @param {Number} o.precision=3 Precision of scalar values
  * @param {Boolean} o.usingSign=1 Prepend sign to scalar values
  * @function toStr
- * @namespace wTools.Matrix
+ * @class Matrix
  * @module Tools/math/Matrix
  */
 

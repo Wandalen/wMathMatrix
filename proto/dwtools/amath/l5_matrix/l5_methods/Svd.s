@@ -29,10 +29,6 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * and the values of its diagonal are the eigenvalues of M, and Q is orthogonal and its columns are
   * the eigenvectors of M. Returns the eigenvalues of M. Matrix stays unchanged.
   *
-  * @param { this } - The source matrix.
-  * @param { q } - The destination Q matrix.
-  * @param { r } - The destination R matrix.
-  *
   * @example
   * // returns self.vectorAdapter.from( [ 4, -2, -2 ] );
   * var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
@@ -43,10 +39,13 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * ]);
   * matrix._qrIteration( q, r );
   *
+  * @param { this } - The source matrix.
+  * @param { q } - The destination Q matrix.
+  * @param { r } - The destination R matrix.
   * @returns { Array } Returns a vector with the values of the diagonal of R.
   * @function _qrIteration
   * @throws { Error } An Error if ( this ) is not a matrix.
-  * @namespace wTools.Matrix
+  * @class Matrix
   * @module Tools/math/Matrix
   */
 
@@ -125,10 +124,6 @@ function _qrIteration( q, r )
   * Perform the QR Gram-Schmidt decomposition of a M matrix into a Q and a R matrices, where M = Q*R, R is
   * upper triangular, and Q is orthogonal. Matrix stays unchanged.
   *
-  * @param { this } - The source matrix.
-  * @param { q } - The destination Q matrix.
-  * @param { r } - The destination R matrix.
-  *
   * @example
   * // returns Q = _.Matrix.make( [ 3, 3 ] ).copy
   * ([
@@ -151,11 +146,14 @@ function _qrIteration( q, r )
   * ]);
   * matrix._qrDecompositionGS( q, r );
   *
+  * @param { this } - The source matrix.
+  * @param { q } - The destination Q matrix.
+  * @param { r } - The destination R matrix.
   * @function _qrDecompositionGS
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
-  * @namespace wTools.Matrix
+  * @class Matrix
   * @module Tools/math/Matrix
   */
 
@@ -206,10 +204,6 @@ function _qrDecompositionGS( q, r )
   * Perform the QR Householder decomposition of a M matrix into a Q and a R matrices, where M = Q*R, R is
   * upper triangular, and Q is orthogonal. Matrix stays unchanged.
   *
-  * @param { this } - The source matrix.
-  * @param { q } - The destination Q matrix.
-  * @param { r } - The destination R matrix.
-  *
   * @example
   * // returns Q = _.Matrix.make( [ 3, 3 ] ).copy
   * ([
@@ -232,11 +226,14 @@ function _qrDecompositionGS( q, r )
   * ]);
   * matrix._qrDecompositionHh( q, r );
   *
+  * @param { this } - The source matrix.
+  * @param { q } - The destination Q matrix.
+  * @param { r } - The destination R matrix.
   * @function _qrDecompositionHh
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
-  * @namespace wTools.Matrix
+  * @class Matrix
   * @module Tools/math/Matrix
   */
 
@@ -321,9 +318,6 @@ function _qrDecompositionHh( q, r )
 /**
   * Create a matrix out of a two vectors multiplication. Vectors stay unchanged.
   *
-  * @param { v1 } - The first source vector.
-  * @param { v2 } - The second source vector.
-  *
   * @example
   * // returns M = _.Matrix.make( [ 3, 3 ] ).copy
   * ([
@@ -336,11 +330,13 @@ function _qrDecompositionHh( q, r )
   * var v2 =  self.vectorAdapter.from( [ 3, 3, 3 ] );
   * matrix.fromVectors_( v1, v2 );
   *
+  * @param { v1 } - The first source vector.
+  * @param { v2 } - The second source vector.
   * @function fromVectors_
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
-  * @namespace wTools.Matrix
+  * @class Matrix
   * @module Tools/math/Matrix
   */
 
@@ -372,11 +368,6 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   * and the values of its diagonal are the eigenvalues of M, and U and V is orthogonal.
   * Matrix stays unchanged.
   *
-  * @param { this } - The source matrix.
-  * @param { u } - The destination U matrix.
-  * @param { s } - The destination S matrix.
-  * @param { v } - The destination V matrix.
-  *
   * @example
   * // returns:
   * var u =  _.Matrix.make( [ 2, 2 ] ).copy
@@ -402,10 +393,14 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   * ]);
   * matrix.svd( u, s, v );
   *
+  * @param { this } - The source matrix.
+  * @param { u } - The destination U matrix.
+  * @param { s } - The destination S matrix.
+  * @param { v } - The destination V matrix.
   * @function svd
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( arguments.length ) is not three.
-  * @namespace wTools.Matrix
+  * @class Matrix
   * @module Tools/math/Matrix
   */
 
