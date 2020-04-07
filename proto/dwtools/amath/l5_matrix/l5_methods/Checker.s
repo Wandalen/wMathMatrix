@@ -49,6 +49,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * @function isDiagonal
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
@@ -102,6 +103,7 @@ function isDiagonal()
   * @function isUpperTriangle
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
@@ -164,6 +166,7 @@ function isUpperTriangle( accuracy )
   * @function isSymmetric
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 

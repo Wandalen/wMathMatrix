@@ -27,6 +27,7 @@ _.assert( !!_.all );
 /**
  * @classdesc Multidimensional structure which in the most trivial case is Matrix of scalars. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. VectorAdapter is a reference, it does not contain data but only refer on actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container, you may use it to continuously store huge an array of arrays or for matrix computation.
  * @class wMatrix
+ * @namespace wTools
  * @memberof module:Tools/math/Matrix
  */
 
@@ -279,6 +280,7 @@ function _copy( src, resetting )
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Long, not a Number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -323,6 +325,7 @@ function copyResetting( src )
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -359,6 +362,7 @@ function copyFromScalar( src )
  * @throws { Error } If arguments.length is less then one.
  * @throws { Error } If {-src-} is not a Long.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -390,6 +394,7 @@ function copyFromBuffer( src )
  * @function clone
  * @throws { Error } If arguments is passed.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -430,6 +435,7 @@ function clone()
  * @throws { Error } If {-dst-} and {-src-} have different dimensions.
  * @throws { Error } If routine is called by instance of Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -512,6 +518,7 @@ function CopyTo( dst, src )
  * @function extractNormalized
  * @throws { Error } If arguments is passed.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -690,6 +697,7 @@ function _atomsPerMatrixGet()
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If routine is called by instance of Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -726,6 +734,7 @@ function AtomsPerMatrixForDimensions( dims )
  * @function NrowOf
  * @throws { Error } If {-src-} is not a Matrix, not a Long.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -753,6 +762,7 @@ function NrowOf( src )
  * @function NcolOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -780,6 +790,7 @@ function NcolOf( src )
  * @function DimsOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -888,6 +899,7 @@ function _strideInRowGet()
  * @throws { Error } If {-transposing-} is not BoolLike.
  * @throws { Error } If elements of {-dims-} is negative number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -946,6 +958,7 @@ function StridesForDimensions( dims, transposing )
  * @function StridesRoll
  * @throws { Error } If arguments.length is not equal to one.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1043,6 +1056,7 @@ function _bufferAssign( src )
  * @throws { Error } If {-dst-} is not a Long.
  * @throws { Error } If number of elements in matrix is not equal to dst.length.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1443,6 +1457,7 @@ function _dimsSet( src )
  * @throws { Error } If expand.length is not equal to quantity of dimensions.
  * @throws { Error } If elements of {-expand-} is bigger then equivalent dimension length.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1534,6 +1549,7 @@ function expand( expand )
  * @function ShapesAreSame
  * @throws { Error } If routine is called by instance of Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1554,16 +1570,17 @@ function ShapesAreSame( ins1, ins2 )
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
- * var matrix2 = _.Matrix.make( [ 2, 2 ] );
- * var got = _.Matrix.ShapesAreSame( matrix1, matrix2 );
+ * var got = matrix.hasShape( [ 2, 2 ] );
  * console.log( got );
  * // log : true
  *
- * @param { Matrix|VectorAdapter|Long } src - The container with dimensions.
+ * @param { Array|Matrix } src - The container with dimensions.
  * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
  * @function hasShape
- * @throws { Error } If routine is called by instance of Matrix.
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-src-} is not an Array, not a Matrix.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1584,6 +1601,23 @@ function hasShape( src )
 
 //
 
+/**
+ * Routine isSquare() checks the equality of matrix dimensions.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 1, 2 ] );
+ * var got = matrix.isSquare();
+ * console.log( got );
+ * // log : false
+ *
+ * @returns { Boolean } - Returns value whether is the instance square matrix.
+ * @function isSquare
+ * @throws { Error } If argument is provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function isSquare()
 {
   let self = this;
@@ -1594,6 +1628,25 @@ function isSquare()
 // --
 // etc
 // --
+
+/**
+ * Routine flatAtomIndexFrom() finds the index of element in the matrix buffer.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var got = matrix.flatAtomIndexFrom( [ 1, 1 ] );
+ * console.log( got );
+ * // log : 4
+ *
+ * @param { Array } indexNd - The position of element.
+ * @returns { Boolean } - Returns flat index of element.
+ * @function flatAtomIndexFrom
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-src-} is not an Array.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function flatAtomIndexFrom( indexNd )
 {
@@ -1736,6 +1789,7 @@ _.routineExtend( _equalAre, _._equal );
  * @param {} src Entity to check.
  * @function is
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1756,6 +1810,7 @@ function Is( src )
  * @param {Boolean} o.usingSign=1 Prepend sign to scalar values
  * @function toStr
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 

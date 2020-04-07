@@ -71,6 +71,7 @@ function _BufferFrom( src )
  * @throws { Error } If {-dims-} is not Array or Number.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -128,6 +129,7 @@ function make( dims )
  * @throws { Error } If {-buffer-} is not square buffer.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -238,6 +240,7 @@ function makeSquare_( buffer )
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -288,6 +291,7 @@ function makeZero( dims )
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Long or Number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -389,6 +393,7 @@ function makeIdentity4( src )
  * @throws { Error } If {-diagonal-} is not array.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -456,6 +461,7 @@ function makeDiagonal( diagonal )
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If method called without arguments.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -657,6 +663,7 @@ makeLine.defaults =
  * @method makeCol
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, BufferTyped, Array or Number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -712,6 +719,7 @@ function makeColZeroed( buffer )
  * @method makeRow
  * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -748,6 +756,7 @@ function makeRow( buffer )
  * @method makeRowZeroed
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -869,6 +878,7 @@ function convertToClass( cls, src )
  * @throws { Error } If {-src-} is not a Long.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -927,6 +937,7 @@ function fromVectorAdapter( src )
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If (arguments.length) is not 2.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1012,6 +1023,7 @@ function fromScalarForReading( scalar, dims )
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If (arguments.length) is not 1 or 2.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1111,6 +1123,7 @@ function fromForReading( src, dims )
  * @throws { Error } If {-quaternion-} length is not 4.
  * @throws { Error } If (arguments.length) is not 3.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1159,6 +1172,7 @@ function fromTransformations( position, quaternion, scale )
  * @throws { Error } If {-quaternion-} length is not 4.
  * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 
@@ -1239,6 +1253,7 @@ function fromQuat( q )
  * @throws { Error } If {-q-} length is not 4.
  * @throws { Error } If count of arguments less or more than one.
  * @class Matrix
+ * @namespace wTools
  * @module Tools/math/Matrix
  */
 

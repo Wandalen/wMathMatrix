@@ -46,6 +46,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * @function _qrIteration
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
@@ -154,6 +155,7 @@ function _qrIteration( q, r )
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
@@ -234,6 +236,7 @@ function _qrDecompositionGS( q, r )
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
@@ -337,6 +340,7 @@ function _qrDecompositionHh( q, r )
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
@@ -401,6 +405,7 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( arguments.length ) is not three.
   * @class Matrix
+  * @namespace wTools
   * @module Tools/math/Matrix
   */
 
