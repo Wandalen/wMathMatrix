@@ -2258,7 +2258,7 @@ function atomEach( onAtom, args )
 // --
 
 /**
- * Routine atomFlatGet() returns value of element by its flat index.
+ * Routine atomFlatGet() returns value of element by using its flat index.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2267,7 +2267,7 @@ function atomEach( onAtom, args )
  * // log : 4
  *
  * @param { Number } index - Index of matrix element.
- * @returns { Number } - Returns the element of matrix by its flat index.
+ * @returns { Number } - Returns the element of matrix by using its flat index.
  * @function atomFlatGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
@@ -2291,6 +2291,30 @@ function atomFlatGet( index )
 
 //
 
+/**
+ * Routine atomFlatSet() sets value of element of matrix buffer by using its flat index.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.atomFlatSet( 3, 1 );
+ * console.log( got.toStr() );
+ * // log : +1, +2, +3,
+ * //       +1, +5, +6,
+ * //       +7, +8, +9,
+ *
+ * @param { Number } index - Index of matrix element.
+ * @param { Number } value - The value of element.
+ * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
+ * @function atomFlatSet
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If {-index-} is not a Number.
+ * @throws { Error } If {-index-} is out of range of matrix buffer.
+ * @throws { Error } If {-index-} is out of range defined by indexes of matrix element.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function atomFlatSet( index, value )
 {
   let i = this.offset+index;
@@ -2303,6 +2327,28 @@ function atomFlatSet( index, value )
 }
 
 //
+
+/**
+ * Routine atomGet() returns value of element using its position in matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.atomGet( [ 1, 1 ] );
+ * console.log( got );
+ * // log : 5
+ *
+ * @param { Array } index - Position of matrix element.
+ * @returns { Number } - Returns the element of matrix using its position.
+ * @function atomGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-index-} is not an Array.
+ * @throws { Error } If {-index-} is out of range of matrix buffer.
+ * @throws { Error } If {-index-} is out of range defined by indexes of matrix element.
+ * @throws { Error } If any of {-index-} elements is bigger then equivalent dimension value.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function atomGet( index )
 {
@@ -2318,6 +2364,31 @@ function atomGet( index )
 
 //
 
+/**
+ * Routine atomSet() sets value of matrix element using its position.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.atomSet( [ 1, 1 ], 1 );
+ * console.log( got.toStr() );
+ * // log : +1, +2, +3,
+ * //       +4, +1, +6,
+ * //       +7, +8, +9,
+ *
+ * @param { Number } index - Position of matrix element.
+ * @param { Number } value - The value of element.
+ * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
+ * @function atomSet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-index-} is not an Array.
+ * @throws { Error } If {-index-} is out of range of matrix buffer.
+ * @throws { Error } If {-index-} is out of range defined by indexes of matrix element.
+ * @throws { Error } If any of {-index-} elements is bigger then equivalent dimension value.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function atomSet( index, value )
 {
   let i = this.flatAtomIndexFrom( index );
@@ -2332,6 +2403,28 @@ function atomSet( index, value )
 }
 
 //
+
+/**
+ * Routine atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.atomsGet( [ 2, 5 ] );
+ * console.log( got.toStr() );
+ * // log : 3.000, 4.000, 5.000
+ *
+ * @param { Long } range - Range of elements.
+ * @returns { VectorAdapter } - Returns the vector from matrix buffer.
+ * @function atomsGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-range-} is not a Long.
+ * @throws { Error } If range.length is not equal to two.
+ * @throws { Error } If instance of matrix is not a row matrix.
+ * @throws { Error } If first element of range is bigger then the second.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function atomsGet( range )
 {
@@ -2359,13 +2452,37 @@ function atomsGet( range )
 
 //
 
+/**
+ * Routine asVector() extracts part of original buffer between first element of matrix and the
+ * last element of the matrix.
+ *
+ * @example
+ * var matrix = _.matrix
+ * ({
+ *   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+ *   dims : [ 2, 2 ],
+ *   strides : [ 2, 3 ],
+ * });
+ * var got = matrix.asVector();
+ * console.log( got.toStr() );
+ * // log : 1.000, 2.000, 3.000, 4.000, 5.000, 6.000
+ *
+ * @returns { VectorAdapter } - Returns the vector from matrix buffer.
+ * @function asVector
+ * @throws { Error } If argument is provided.
+ * @throws { Error } If strides of element is not equal to scalars per element.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function asVector()
 {
   let self = this
   let result = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( self.strideOfElement === self.atomsPerElement );
+  // _.assert( self.strideOfElement === self.atomsPerElement ); /* Dmytro : it is duplicated below */
   _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
   result = self.vectorAdapter.fromLongLrange
@@ -2379,6 +2496,18 @@ function asVector()
 }
 
 //
+
+/**
+ * Routine granuleGet() returns vector extracted from original buffer.
+ *
+ * @param { Array } index - Position of element.
+ * @returns { VectorAdapter } - Returns the vector from matrix buffer.
+ * @function granuleGet
+ * @throws { Error } If {-index-} is not an Array.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function granuleGet( index )
 {
@@ -2405,6 +2534,31 @@ function granuleGet( index )
 
 //
 
+/**
+ * Routine elementSlice() makes new vector from default matrix element.
+ * For regular 2D matrices it is row, for 3D matrices it is matrice.
+ *
+ * @example
+ * var matrix = _.matrix
+ * ({
+ *   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+ *   dims : [ 2, 2 ],
+ *   strides : [ 2, 3 ],
+ * });
+ * var got = matrix.elementSlice( 1 );
+ * console.log( got.toStr() );
+ * // log : 3.000, 6.000
+ *
+ * @param { Number } - Index of element.
+ * @returns { VectorAdapter } - Returns the vector with default matrix element.
+ * @function elementSlice
+ * @throws { Error } If {-index-} is not a Number.
+ * @throws { Error } If {-index-} is out of matrix length.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function elementSlice( index )
 {
   let self = this;
@@ -2413,6 +2567,31 @@ function elementSlice( index )
 }
 
 //
+
+/**
+ * Routine elementsInRangeGet() extracts vector of elements from original buffer.
+ * Vector starts from element of matrix defined by first element of range an has length
+ * defined by delta between ranges elements.
+ *
+ * @example
+ * var matrix = _.Matrix.make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.elementsInRangeGet( [ 2, 5 ] );
+ * console.log( got.toStr() );
+ * // log : 3.000, 4.000, 5.000
+ *
+ * @param { Long } range - Range of elements.
+ * @returns { VectorAdapter } - Returns the vector from matrix buffer.
+ * @function elementsInRangeGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-range-} is not a Long.
+ * @throws { Error } If range.length is not equal to two.
+ * @throws { Error } If instance of matrix is not a row matrix.
+ * @throws { Error } If first element of range is bigger then the second.
+ * @throws { Error } If strides of element is not equal to scalars per element.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function elementsInRangeGet( range )
 {
