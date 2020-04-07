@@ -81,6 +81,7 @@ function matrixIs( test )
 
   /* */
 
+  debugger;
   test.case = 'instance of _.Matrix';
   var src = new _.Matrix
   ({
@@ -5751,7 +5752,7 @@ function partialAccessors( test )
     test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalSet( matrix.makeIdentity( 2 ) ) );
   }
 
-  test.case = 'identify 3x2'; /* */
+  test.case = 'identity 3x2'; /* */
 
   var m = matrix.makeZero([ 3, 2 ]);
 
@@ -5762,10 +5763,10 @@ function partialAccessors( test )
     0, 0,
   ]);
 
-  m.identify();
+  m.identity();
   test.identical( m, expected );
 
-  test.case = 'identify 2x3'; /* */
+  test.case = 'identity 2x3'; /* */
 
   var m = matrix.makeZero([ 2, 3 ]);
 
@@ -5775,29 +5776,29 @@ function partialAccessors( test )
     0, 1, 0,
   ]);
 
-  m.identify();
+  m.identity();
   test.identical( m, expected );
 
-  test.case = 'identify 0x0'; /* */
+  test.case = 'identity 0x0'; /* */
 
   var m = matrix.makeZero([ 0, 3 ]);
-  var r = m.identify();
+  var r = m.identity();
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
   var m = matrix.makeZero([ 3, 0 ]);
-  var r = m.identify();
+  var r = m.identity();
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m._stridesEffective, [ 1, 3 ] );
   test.is( m === r );
 
-  test.case = 'identify bad arguments'; /* */
+  test.case = 'identity bad arguments'; /* */
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).identify( 1 ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).identify( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).identity( 1 ) );
+    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).identity( [ 1, 1 ] ) );
   }
 
   test.case = 'triangleLowerSet 3x4'; /* */
@@ -6258,7 +6259,7 @@ function partialAccessors( test )
   if( Config.debug )
   {
     shouldThrowErrorOfAnyKind( 'zero' );
-    shouldThrowErrorOfAnyKind( 'identify' );
+    shouldThrowErrorOfAnyKind( 'identity' );
     shouldThrowErrorOfAnyKind( 'diagonalSet' );
     shouldThrowErrorOfAnyKind( 'triangleLowerSet' );
     shouldThrowErrorOfAnyKind( 'triangleUpperSet' );

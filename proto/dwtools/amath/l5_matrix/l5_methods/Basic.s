@@ -731,7 +731,7 @@ function zero()
  * @memberof module:Tools/math/Matrix.wMatrix#
  */
 
-function identify()
+function identity()
 {
   let self = this;
 
@@ -2080,7 +2080,7 @@ let Extension =
   // partial accessors
 
   zero,
-  identify,
+  identity,
   diagonalSet,
   diagonalVectorGet,
   triangleLowerSet,

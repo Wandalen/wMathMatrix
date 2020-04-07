@@ -41,15 +41,15 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   *   3, - 5,  3,
   *   6, - 6,  4
   * ]);
-  * matrix.qrIteration( q, r );
+  * matrix._qrIteration( q, r );
   *
   * @returns { Array } Returns a vector with the values of the diagonal of R.
-  * @function qrIteration
+  * @function _qrIteration
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
-function qrIteration( q, r )
+function _qrIteration( q, r )
 {
   let self = this;
   _.assert( _.Matrix.Is( self ) );
@@ -73,7 +73,7 @@ function qrIteration( q, r )
   {
     var qInt = _.Matrix.makeIdentity([ rows, cols ]);
     var rInt = _.Matrix.makeIdentity([ rows, cols ]);
-    a.qrDecompositionHh( qInt, rInt );
+    a._qrDecompositionHh( qInt, rInt );
     // Calculate transformation matrix
     q.mulLeft( qInt );
 
@@ -148,16 +148,16 @@ function qrIteration( q, r )
   *   6, 167, -68,
   *   -4, -24, -41,
   * ]);
-  * matrix.qrDecompositionGS( q, r );
+  * matrix._qrDecompositionGS( q, r );
   *
-  * @function qrDecompositionGS
+  * @function _qrDecompositionGS
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
   * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
-function qrDecompositionGS( q, r )
+function _qrDecompositionGS( q, r )
 {
   let self = this;
 
@@ -228,16 +228,16 @@ function qrDecompositionGS( q, r )
   *   6, 167, -68,
   *   -4, -24, -41,
   * ]);
-  * matrix.qrDecompositionHh( q, r );
+  * matrix._qrDecompositionHh( q, r );
   *
-  * @function qrDecompositionHh
+  * @function _qrDecompositionHh
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
   * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
-function qrDecompositionHh( q, r )
+function _qrDecompositionHh( q, r )
 {
   let self = this;
 
@@ -280,7 +280,7 @@ function qrDecompositionHh( q, r )
     u = self.vectorAdapter.add( col, e.mul( c*col.mag() ) ).normalize();
 
     debugger;
-    let m = _.Matrix.make( [ rows, cols ] ).fromVectors( u, u );
+    let m = _.Matrix.make( [ rows, cols ] ).fromVectors_( u, u );
     let mi = identity.clone();
     let h = mi.addAtomWise( m.mul( - 2 ) );
     q.mulLeft( h );
@@ -331,16 +331,16 @@ function qrDecompositionHh( q, r )
   *
   * var v1 =  self.vectorAdapter.from( [ 0, 1, 2 ] );
   * var v2 =  self.vectorAdapter.from( [ 3, 3, 3 ] );
-  * matrix.fromVectors( v1, v2 );
+  * matrix.fromVectors_( v1, v2 );
   *
-  * @function fromVectors
+  * @function fromVectors_
   * @throws { Error } An Error if ( this ) is not a matrix.
   * @throws { Error } An Error if ( q ) is not a matrix.
   * @throws { Error } An Error if ( r ) is not a matrix.
   * @memberof module:Tools/math/Matrix.wMatrix#
   */
 
-function fromVectors( v1, v2 ) /* xxx : remove? */
+function fromVectors_( v1, v2 ) /* xxx : remove? */
 {
 
   debugger;
@@ -431,7 +431,7 @@ function svd( u, s, v )
     let q =  _.Matrix.make( [ cols, rows ] );
     let r =  _.Matrix.make( [ cols, rows ] );
     let identity = _.Matrix.makeIdentity( [ cols, rows ] );
-    self.qrIteration( q, r );
+    self._qrIteration( q, r );
 
     let eigenValues = r.diagonalVectorGet();
     for( let i = 0; i < cols; i++ )
@@ -456,7 +456,7 @@ function svd( u, s, v )
     let qAAT = _.Matrix.make( [ rows, rows ] );
     let rAAT = _.Matrix.make( [ rows, rows ] );
 
-    aaT.qrIteration( qAAT, rAAT );
+    aaT._qrIteration( qAAT, rAAT );
     let sd = _.Matrix.mul2Matrices( null, rAAT, qAAT.clone().transpose() )
 
     u.copy( qAAT );
@@ -465,7 +465,7 @@ function svd( u, s, v )
     let qATA = _.Matrix.make( [ cols, cols ] );
     let rATA = _.Matrix.make( [ cols, cols ] );
 
-    aTa.qrIteration( qATA, rATA );
+    aTa._qrIteration( qATA, rATA );
 
     let sd1 = _.Matrix.mul2Matrices( null, rATA, qATA.clone().transpose() )
 
@@ -502,11 +502,11 @@ function svd( u, s, v )
 let Extension =
 {
 
-  qrIteration,
-  qrDecompositionGS,
-  qrDecompositionHh,
+  _qrIteration,
+  _qrDecompositionGS,
+  _qrDecompositionHh,
 
-  fromVectors,
+  fromVectors_,
 
   svd,
 

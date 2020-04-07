@@ -1794,6 +1794,28 @@ let lookAt = ( function lookAt()
 //
 // //
 //
+
+function minmaxRowWise()
+{
+  let self = this;
+
+  let minmax = self.distributionRangeSummaryValueRowWise();
+  let result = Object.create( null );
+
+  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
+  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+
+  for( let i = 0 ; i < minmax.length ; i += 1 )
+  {
+    result.min[ i ] = minmax[ i ][ 0 ];
+    result.max[ i ] = minmax[ i ][ 1 ];
+  }
+
+  return result;
+}
+
+// //
+//
 // function determinant()
 // {
 //   let self = this;
