@@ -950,8 +950,6 @@ function FromScalar( scalar, dims )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.numberIs( scalar );
 
-  debugger;
-
   let result = new this.Self
   ({
     buffer : this.long.longFrom( _.dup( scalar, this.AtomsPerMatrixForDimensions( dims ) ) ),

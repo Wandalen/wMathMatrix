@@ -249,7 +249,7 @@ function matrixPow( exponent )
 
   let t = this.TempBorrow( this );
 
-  // self.mul(  );
+  _.assert( 0, 'not implemented' );
 
 }
 
@@ -317,6 +317,9 @@ function Mul( dst, srcs )
   for( let s = 0 ; s < srcs.length ; s++ )
   {
 
+    if( _.numberIs( srcs[ s ] ) )
+    srcs[ s ] = this.FromScalar( srcs[ s ], dst.dims );
+    else
     srcs[ s ] = this.From( srcs[ s ] );
 
     if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
@@ -413,6 +416,9 @@ function Mul( dst, srcs )
 function mul( srcs )
 {
   let dst = this;
+
+  if( !_.arrayIs( srcs ) )
+  srcs = [ dst, srcs ]
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayIs( srcs ) );
@@ -613,6 +619,7 @@ function mulLeft( src )
   let dst = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
+  // _.assert( 0, 'not tested' );
 
   dst.mul([ dst, src ])
 
@@ -661,6 +668,7 @@ function mulRight( src )
   let dst = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
+  // _.assert( 0, 'not tested' );
 
   dst.mul([ src, dst ]);
 
