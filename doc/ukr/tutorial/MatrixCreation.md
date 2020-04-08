@@ -153,18 +153,21 @@ console.log( 'matrix : ', a.toStr() );
 */
 ```
 
-<!--
-
-Інтерпретатор не бачить рутину fromTransformations, потрібно дивитись що не так.
 ### Рутина `fromTransformations`
 
-Створює матрицю заданого розміру та заповнює її переданим значенням.
+Змінює значення матричі через трансформацію з квантеріоном.
 
 ```js
-var matrix = _.Matrix.fromTransformations( 5, [ 2, 2 ] );
-console.log( 'matrix : ', a.toStr() );
-/* log : matrix : +5, +5,
-                  +5, +5
+var matrix = _.Matrix.make( [ 4, 4 ] );
+var position = [ 1, 2, 3 ];
+var quaternion = [ 0, 0, 0, 1 ];
+var scale = [ 1, 1, 1 ];
+matrix.fromTransformations( position, quaternion, scale );
+console.log( 'matrix : ' : matrix.toStr() );
+/* log : matrix : +1, +0, +0, +1,
+                  +0, +1, +0, +2,
+                  +0, +0, +1, +3,
+                  +0, +0, +0, +1,
 */
 ```
 
