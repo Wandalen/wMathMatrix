@@ -51,10 +51,10 @@ function _BufferFrom( src )
 // --
 
 /**
- * The sub-method make(), returns the new instance of Matrix, with provided dimensions {-dims-}.
+ * Static routine Make(), returns the new instance of Matrix, with provided dimensions {-dims-}.
  *
  * @example
- * var got = new _.Matrix.make( [ 3, 3 ] ).copy
+ * var got = new _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +2, +2, +2,
  *   +2, +3, +4,
@@ -66,22 +66,23 @@ function _BufferFrom( src )
  *
  * @param { Array|Number } dims - Array or Number, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
- * @method make
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Array or Number.
  * @throws { Error } If (arguments.length) is not 1.
+ * @static
+ * @function Make
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function make( dims )
+function Make( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
   _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
-  _.assert( arguments.length === 1, 'make expects single argument array (-dims-)' );
+  _.assert( arguments.length === 1, 'Expects single argument array (-dims-)' );
 
   if( _.numberIs( dims ) )
   dims = [ dims, dims ];
@@ -105,7 +106,7 @@ function make( dims )
 //
 
 /**
- * The method makeSquare(), returns the new instance of square Matrix, with provided data {-buffer-}.
+ * The method MakeSquare(), returns the new instance of square Matrix, with provided data {-buffer-}.
  *
  * @example
  * var buffer =
@@ -114,7 +115,7 @@ function make( dims )
  *  2, 4, 6,
  *  3, 6, 8,
  * ];
- * var got = _.Matrix.makeSquare( buffer );
+ * var got = _.Matrix.MakeSquare( buffer );
  * logger.log( got )
  * //log
  *   +1, +3, +5,
@@ -123,7 +124,7 @@ function make( dims )
  *
  * @param { Long|Number } buffer - source data.
  * @returns { Matrix } - Returns the new instance of Matrix by provided data.
- * @method makeSquare
+ * @method MakeSquare
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-buffer-} is not array or number.
  * @throws { Error } If {-buffer-} is not square buffer.
@@ -133,7 +134,7 @@ function make( dims )
  * @module Tools/math/Matrix
  */
 
-function makeSquare( buffer )
+function MakeSquare( buffer )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
@@ -144,7 +145,7 @@ function makeSquare( buffer )
   _.assert( !this.instanceIs() );
   _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
-  _.assert( _.intIs( length ), 'makeSquare expects square buffer' );
+  _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   let dims = [ length, length ];
@@ -184,7 +185,7 @@ function MakeSquare( buffer )
   _.assert( !this.instanceIs() );
   _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
-  _.assert( _.intIs( length ), 'makeSquare expects square buffer' );
+  _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   let dims = [ length, length ];
@@ -211,21 +212,21 @@ function MakeSquare( buffer )
   return result;
 }
 
+// //
 //
-
-function makeSquare_( buffer )
-{
-  return this.MakeSquare( buffer );
-}
+// function MakeSquare_( buffer )
+// {
+//   return this.MakeSquare( buffer );
+// }
 
 //
 
 /**
- * The method makeZero(), returns the new instance of Matrix filled by zero.
+ * The method MakeZero(), returns the new instance of Matrix filled by zero.
  *
  * @example
  * var dims = 3;
- * var got = new _.Matrix.makeZero( dims );
+ * var got = new _.Matrix.MakeZero( dims );
  * logger.log( got )
  * //log
  *   +0, +0, +0,
@@ -234,7 +235,7 @@ function makeSquare_( buffer )
  *
  * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
- * @method makeZero
+ * @method MakeZero
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Long or Number.
  * @throws { Error } If {-dims-} length is not 2.
@@ -244,7 +245,7 @@ function makeSquare_( buffer )
  * @module Tools/math/Matrix
  */
 
-function makeZero( dims )
+function MakeZero( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
@@ -274,11 +275,11 @@ function makeZero( dims )
 //
 
 /**
- * The method makeIdentity(), returns the new instance of identity Matrix with dimension {-dims-}.
+ * The method MakeIdentity(), returns the new instance of identity Matrix with dimension {-dims-}.
  *
  * @example
  * var dims = 3;
- * var got = new _.Matrix.makeIdentity( dims );
+ * var got = new _.Matrix.MakeIdentity( dims );
  * logger.log( got )
  * //log
  *   +1, +0, +0,
@@ -287,7 +288,7 @@ function makeZero( dims )
  *
  * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
- * @method makeIdentity
+ * @method MakeIdentity
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Long or Number.
  * @class Matrix
@@ -295,7 +296,7 @@ function makeZero( dims )
  * @module Tools/math/Matrix
  */
 
-function makeIdentity( dims )
+function MakeIdentity( dims )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
@@ -326,13 +327,13 @@ function makeIdentity( dims )
 
 //
 
-function makeIdentity2( src )
+function MakeIdentity2( src )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  let result = proto.makeIdentity( 2 );
+  let result = proto.MakeIdentity( 2 );
 
   if( src )
   result.copy( src );
@@ -342,13 +343,13 @@ function makeIdentity2( src )
 
 //
 
-function makeIdentity3( src )
+function MakeIdentity3( src )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
 _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  let result = proto.makeIdentity( 3 );
+  let result = proto.MakeIdentity( 3 );
 
   if( src )
   result.copy( src );
@@ -358,13 +359,13 @@ _.assert( arguments.length === 0 || arguments.length === 1 );
 
 //
 
-function makeIdentity4( src )
+function MakeIdentity4( src )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  let result = proto.makeIdentity( 4 );
+  let result = proto.MakeIdentity( 4 );
 
   if( src )
   result.copy( src );
@@ -375,11 +376,11 @@ function makeIdentity4( src )
 //
 
 /**
- * The method makeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
+ * The method MakeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
  *
  * @example
  * var diagonal = [ 1, 2, 3 ];
- * var got = new _.Matrix.makeDiagonal( diagonal );
+ * var got = new _.Matrix.MakeDiagonal( diagonal );
  * logger.log( got )
  * //log
  *   +1, +0, +0,
@@ -388,7 +389,7 @@ function makeIdentity4( src )
  *
  * @param { Array } diagonal - Array, source data.
  * @returns { Matrix } - Returns the new instance of Matrix with provided diagonal.
- * @method makeDiagonal
+ * @method MakeDiagonal
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-diagonal-} is not array.
  * @throws { Error } If (arguments.length) is not 1.
@@ -397,7 +398,7 @@ function makeIdentity4( src )
  * @module Tools/math/Matrix
  */
 
-function makeDiagonal( diagonal )
+function MakeDiagonal( diagonal )
 {
 
   _.assert( !this.instanceIs() );
@@ -427,7 +428,7 @@ function makeDiagonal( diagonal )
 //
 
 /**
- * The method makeSimilar() makes and returns the similar instance of Matrix {-m-}.
+ * The method MakeSimilar() makes and returns the similar instance of Matrix {-m-}.
  * If method executes with single argument, dimension takes from the source.
  *
  * @example
@@ -445,7 +446,7 @@ function makeDiagonal( diagonal )
  * inputTransposing : 1,
  * });
  *
- * var got = new _.Matrix.makeSimilar( m );
+ * var got = new _.Matrix.MakeSimilar( m );
  * logger.log( got )
  * //log
  *   +1, +2, +0,
@@ -455,7 +456,7 @@ function makeDiagonal( diagonal )
  * @param { Matrix } m - provided instance of Matrix.
  * @param { Array } dims - provided dimension of matrix instance.
  * @returns { Matrix } - Returns the instance of Matrix.
- * @method makeSimilar
+ * @method MakeSimilar
  * @throws { Error } If {-m-} is not an instance of Matrix.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} length is not 2.
@@ -465,7 +466,7 @@ function makeDiagonal( diagonal )
  * @module Tools/math/Matrix
  */
 
-function makeSimilar( m , dims )
+function MakeSimilar( m , dims )
 {
   let proto = this;
   let result;
@@ -473,7 +474,7 @@ function makeSimilar( m , dims )
   if( proto.instanceIs() )
   {
     _.assert( arguments.length === 0 || arguments.length === 1 );
-    return proto.Self.makeSimilar( proto , arguments[ 0 ] );
+    return proto.Self.MakeSimilar( proto , arguments[ 0 ] );
   }
 
   if( dims === undefined )
@@ -512,7 +513,7 @@ function makeSimilar( m , dims )
   {
 
     _.assert( dims[ 1 ] === 1 );
-    result = m.makeSimilar( dims[ 0 ] );
+    result = m.MakeSimilar( dims[ 0 ] );
 
   }
   else _.assert( 0, 'unexpected type of container', _.strType( m ) );
@@ -522,7 +523,7 @@ function makeSimilar( m , dims )
 
 //
 
-function makeLine( o )
+function MakeLine( o )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
   let strides = null;
@@ -533,7 +534,7 @@ function makeLine( o )
   _.assert( !this.instanceIs() );
   _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.routineOptions( makeLine, o );
+  _.routineOptions( MakeLine, o );
 
   /* */
 
@@ -619,7 +620,7 @@ function makeLine( o )
   return result;
 }
 
-makeLine.defaults =
+MakeLine.defaults =
 {
   buffer : null,
   dimension : -1,
@@ -629,11 +630,11 @@ makeLine.defaults =
 //
 
 /**
- * The method makeCol() makes the new instance of Matrix with single column from provided buffer {-buffer-}.
+ * The method MakeCol() makes the new instance of Matrix with single column from provided buffer {-buffer-}.
  * If argument {-buffer-} is number - returns filled zero's column.
  *
  * @example
- * var got = _.Matrix.makeCol( 3 );
+ * var got = _.Matrix.MakeCol( 3 );
  * logger.log( got )
  * //log
  *   +0,
@@ -642,7 +643,7 @@ makeLine.defaults =
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
- * var got = _.Matrix.makeCol( buffer );
+ * var got = _.Matrix.MakeCol( buffer );
  * logger.log( got )
  * //log
  *   +1,
@@ -651,7 +652,7 @@ makeLine.defaults =
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
- * var got = _.Matrix.makeCol( buffer );
+ * var got = _.Matrix.MakeCol( buffer );
  * logger.log( got )
  * //log
  *   -2.000,
@@ -660,16 +661,16 @@ makeLine.defaults =
  *
  * @param { VectorAdapter|BufferTyped|Array|Number } buffer - the instance of VectorAdapter, BufferTyped, Array or Number, provided values.
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
- * @method makeCol
+ * @method MakeCol
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, BufferTyped, Array or Number.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function makeCol( buffer )
+function MakeCol( buffer )
 {
-  return this.makeLine
+  return this.MakeLine
   ({
     buffer,
     zeroing : 0,
@@ -679,9 +680,9 @@ function makeCol( buffer )
 
 //
 
-function makeColZeroed( buffer )
+function MakeColZeroed( buffer )
 {
-  return this.makeLine
+  return this.MakeLine
   ({
     buffer,
     zeroing : 1,
@@ -692,40 +693,40 @@ function makeColZeroed( buffer )
 //
 
 /**
- * The method makeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
+ * The method MakeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
  * If argument {-buffer-} is number - return filled zero's row.
  *
  * @example
- * var got = _.Matrix.makeRow( 3 );
+ * var got = _.Matrix.MakeRow( 3 );
  * logger.log( got )
  * //log +0, +0, +0,
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
- * var got = _.Matrix.makeRow( buffer );
+ * var got = _.Matrix.MakeRow( buffer );
  * logger.log( got )
  * //log
  *    +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
- * var got = _.Matrix.makeRow( buffer );
+ * var got = _.Matrix.MakeRow( buffer );
  * logger.log( got )
  * //log
  *   -2.000, 0.000, -0.250,
  *
  * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, array or number, provided values.
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided row.
- * @method makeRow
+ * @method MakeRow
  * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function makeRow( buffer )
+function MakeRow( buffer )
 {
-  return this.makeLine
+  return this.MakeLine
   ({
     buffer,
     zeroing : 0,
@@ -736,12 +737,12 @@ function makeRow( buffer )
 //
 
 /**
- * The method makeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
+ * The method MakeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
  *
- * var got = _.Matrix.makeRowZeroed( buffer );
+ * var got = _.Matrix.MakeRowZeroed( buffer );
  * logger.log( got )
  * //log
  *   +0, +0, +0,
@@ -753,16 +754,16 @@ function makeRow( buffer )
  *
  * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, Array or Number, dimension and provided values.
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
- * @method makeRowZeroed
+ * @method MakeRowZeroed
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function makeRowZeroed( buffer )
+function MakeRowZeroed( buffer )
 {
-  return this.makeLine
+  return this.MakeLine
   ({
     buffer,
     zeroing : 1,
@@ -774,7 +775,7 @@ function makeRowZeroed( buffer )
 // converter
 // --
 
-function convertToClass( cls, src )
+function ConvertToClass( cls, src )
 {
   let self = this;
 
@@ -858,11 +859,11 @@ function convertToClass( cls, src )
 //
 
 /**
- * The method fromVectorAdapter() converts provided vector {-src-} and return the new instance of Matrix.
+ * The method FromVector() converts provided vector {-src-} and return the new instance of Matrix.
  *
  * @example
  * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
- * var got = new _.Matrix.fromVectorAdapter( src );
+ * var got = new _.Matrix.FromVector( src );
  * logger.log( got )
  * //log
  *   +1,
@@ -872,7 +873,7 @@ function convertToClass( cls, src )
  *
  * @param { VectorAdapter|Long } src - an instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
- * @method fromVectorAdapter
+ * @method FromVector
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-src-} is not an instance of VectorAdapter.
  * @throws { Error } If {-src-} is not a Long.
@@ -882,7 +883,7 @@ function convertToClass( cls, src )
  * @module Tools/math/Matrix
  */
 
-function fromVectorAdapter( src )
+function FromVector( src )
 {
   let result;
 
@@ -899,7 +900,7 @@ function fromVectorAdapter( src )
       inputTransposing : 0,
     });
   }
-  else if( _.arrayIs( src ) )
+  else if( _.longIs( src ) )
   {
     result = new this.Self
     ({
@@ -916,12 +917,12 @@ function fromVectorAdapter( src )
 //
 
 /**
- * The method fromScalar() return the new instance of Matrix filled by scalar value {-scalar-}.
+ * The method FromScalar() return the new instance of Matrix filled by scalar value {-scalar-}.
  *
  * @example
  * var scalar = 2;
  * var dims = [ 3, 3 ];
- * var got = _.Matrix.fromScalar( scalar, dims )
+ * var got = _.Matrix.FromScalar( scalar, dims )
  * logger.log( got )
  * //log
  *   +2, +2, +2,
@@ -931,7 +932,7 @@ function fromVectorAdapter( src )
  * @param { Number } scalar - Number.
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix.
- * @method fromScalar
+ * @method FromScalar
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} length is not 2.
@@ -941,7 +942,7 @@ function fromVectorAdapter( src )
  * @module Tools/math/Matrix
  */
 
-function fromScalar( scalar, dims )
+function FromScalar( scalar, dims )
 {
 
   _.assert( !this.instanceIs() );
@@ -963,7 +964,7 @@ function fromScalar( scalar, dims )
 
 //
 
-function fromScalarForReading( scalar, dims )
+function FromScalarForReading( scalar, dims )
 {
 
   _.assert( !this.instanceIs() );
@@ -987,13 +988,13 @@ function fromScalarForReading( scalar, dims )
 //
 
 /**
- * The method from() converts provided instance of Matrix or VectorAdapter {-src-} to instance of Matrix.
+ * The method From() converts provided instance of Matrix or VectorAdapter {-src-} to instance of Matrix.
  * If provided and returned argument are same type - method returns original argument, in another case - returns the new instance.
  * If method executes without the source {-src-} - return instance of matrix, filled by zero with dimension {-dims-}.
  *
  * @example
  * var dims = [ 3, 3 ];
- * var got = new _.Matrix.from( dims );
+ * var got = new _.Matrix.From( dims );
  * logger.log( got )
  * //log
  *   +0, +0, +0,
@@ -1001,14 +1002,14 @@ function fromScalarForReading( scalar, dims )
  *   +0, +0, +0,
  *
  * @example
- * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5,
  *   +0, +0, +6,
  * ]);
  * var dims = [ 3, 3 ];
- * var got = new _.Matrix.from( src, dims );
+ * var got = new _.Matrix.From( src, dims );
  * logger.log( got )
  * //log
  *   +1, +2, +3,
@@ -1018,7 +1019,7 @@ function fromScalarForReading( scalar, dims )
  * @param { Matrix|VectorAdapter|Number|Null } src - instance of Matrix, VectorAdapter or Number.
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the instance of Matrix.
- * @method from
+ * @method From
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If (arguments.length) is not 1 or 2.
@@ -1027,7 +1028,7 @@ function fromScalarForReading( scalar, dims )
  * @module Tools/math/Matrix
  */
 
-function from( src, dims )
+function From( src, dims )
 {
   let result;
 
@@ -1038,7 +1039,7 @@ function from( src, dims )
   if( src === null )
   {
     _.assert( _.arrayIs( dims ) );
-    result = this.makeZero( dims );
+    result = this.MakeZero( dims );
   }
   else if( src instanceof Self )
   {
@@ -1047,11 +1048,11 @@ function from( src, dims )
   else if( _.numberIs( src ) )
   {
     _.assert( _.arrayIs( dims ) );
-    result = this.fromScalar( src, dims );
+    result = this.FromScalar( src, dims );
   }
   else
   {
-    result = this.fromVectorAdapter( src );
+    result = this.FromVector( src );
   }
 
   _.assert( !dims || result.hasShape( dims ) );
@@ -1061,7 +1062,7 @@ function from( src, dims )
 
 //
 
-function fromForReading( src, dims )
+function FromForReading( src, dims )
 {
   let result;
 
@@ -1076,11 +1077,11 @@ function fromForReading( src, dims )
   else if( _.numberIs( src ) )
   {
     _.assert( _.arrayIs( dims ) );
-    result = this.fromScalarForReading( src, dims );
+    result = this.FromScalarForReading( src, dims );
   }
   else
   {
-    let result = this.fromVectorAdapter( src );
+    let result = this.FromVector( src );
   }
 
   _.assert( !dims || result.hasShape( dims ) );
@@ -1095,7 +1096,7 @@ function fromForReading( src, dims )
  * to the new instance of Matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.Make( [ 4, 4 ] ).copy
  * ([
  *   +1, +2, +3, +1,
  *   +0, +4, +5, +1,
@@ -1147,7 +1148,7 @@ function fromTransformations( position, quaternion, scale )
  * to the new instance of Matrix, take the source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.Make( [ 4, 4 ] ).copy
  * ([
  *   +1, +2, +3, +1,
  *   +0, +4, +5, +1,
@@ -1229,7 +1230,7 @@ function fromQuat( q )
  * to the new instance of Matrix, take the source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.Make( [ 4, 4 ] ).copy
  * ([
  *   +1, +2, +3, +1,
  *   +0, +4, +5, +1,
@@ -1936,31 +1937,31 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* make */
 
-  make,
-  makeSquare,
+  Make,
+  MakeSquare,
 
-  makeZero,
-  makeIdentity,
-  makeIdentity2,
-  makeIdentity3,
-  makeIdentity4,
+  MakeZero,
+  MakeIdentity,
+  MakeIdentity2,
+  MakeIdentity3,
+  MakeIdentity4,
 
-  makeDiagonal,
-  makeSimilar,
+  MakeDiagonal,
+  MakeSimilar,
 
-  makeLine,
-  makeCol,
-  makeColZeroed,
-  makeRow,
-  makeRowZeroed,
+  MakeLine,
+  MakeCol,
+  MakeColZeroed,
+  MakeRow,
+  MakeRowZeroed,
 
-  convertToClass,
+  ConvertToClass,
 
-  fromVectorAdapter,
-  fromScalar,
-  fromScalarForReading,
-  from,
-  fromForReading,
+  FromVector,
+  FromScalar,
+  FromScalarForReading,
+  From,
+  FromForReading,
 
 }
 
@@ -1980,33 +1981,33 @@ let Extension =
 
   // make
 
-  make,
-  makeSquare,
-  makeZero,
+  Make,
+  MakeSquare,
+  MakeZero,
 
-  makeIdentity,
-  makeIdentity2,
-  makeIdentity3,
-  makeIdentity4,
+  MakeIdentity,
+  MakeIdentity2,
+  MakeIdentity3,
+  MakeIdentity4,
 
-  makeDiagonal,
-  makeSimilar,
+  MakeDiagonal,
+  MakeSimilar,
 
-  makeLine,
-  makeCol,
-  makeColZeroed,
-  makeRow,
-  makeRowZeroed,
+  MakeLine,
+  MakeCol,
+  MakeColZeroed,
+  MakeRow,
+  MakeRowZeroed,
 
   // convert
 
-  convertToClass,
+  ConvertToClass,
 
-  fromVectorAdapter,
-  fromScalar,
-  fromScalarForReading,
-  from,
-  fromForReading,
+  FromVector,
+  FromScalar,
+  FromScalarForReading,
+  From,
+  FromForReading,
 
   fromTransformations,
   fromQuat,
@@ -2033,6 +2034,6 @@ let Extension =
 }
 
 _.classExtend( Self, Extension );
-_.assert( Self.from === from );
+_.assert( Self.From === From );
 
 })();

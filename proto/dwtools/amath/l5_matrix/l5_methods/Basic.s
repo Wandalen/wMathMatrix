@@ -216,7 +216,7 @@ function tempBorrow3( src )
  * takes destination matrix from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   3, 2, 3,
  *   4, 0, 2
@@ -303,7 +303,7 @@ function mul_static( dst, srcs )
   if( dst === null )
   {
     let dims = [ this.NrowOf( srcs[ srcs.length-2 ] ) , this.NcolOf( srcs[ srcs.length-1 ] ) ];
-    dst = this.makeSimilar( srcs[ srcs.length-1 ] , dims );
+    dst = this.MakeSimilar( srcs[ srcs.length-1 ] , dims );
   }
 
   /* adjust srcs */
@@ -312,12 +312,12 @@ function mul_static( dst, srcs )
   let dstClone = null;
 
   let odst = dst;
-  dst = this.from( dst );
+  dst = this.From( dst );
 
   for( let s = 0 ; s < srcs.length ; s++ )
   {
 
-    srcs[ s ] = this.from( srcs[ s ] );
+    srcs[ s ] = this.From( srcs[ s ] );
 
     if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
     {
@@ -476,8 +476,8 @@ function mul( srcs )
 function Mul2Matrices( dst, src1, src2 )
 {
 
-  src1 = this.fromForReading( src1 );
-  src2 = this.fromForReading( src2 );
+  src1 = this.FromForReading( src1 );
+  src2 = this.FromForReading( src2 );
 
   if( dst === null )
   {
@@ -578,14 +578,14 @@ function mul2Matrices( src1, src2 )
  * The result assigns to the current matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   1, 2, 3,
  *   0, 4, 5
  *   0, 0, 6,
  * ]);
  *
- * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   1, 2, 3,
  *   4, 1, 2,
@@ -626,14 +626,14 @@ function mulLeft( src )
  * The result assigns to the current matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   1, 2, 3,
  *   0, 4, 5
  *   0, 0, 6,
  * ]);
  *
- * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   1, 2, 3,
  *   4, 1, 2,
@@ -733,7 +733,7 @@ function mulRight( src )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5
@@ -772,7 +772,7 @@ function zero()
  * The method matrix.identity() returns an instance of an identity matrix, based on dimension provided matrix( takes from context ).
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +3, +2, +3,
  *   +4, +0, +2
@@ -812,14 +812,14 @@ function identity()
  * takes destination matrix from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +3, +2, +3,
  *   +4, +0, +2
  *   +0, +0, +6,
  * ]);
  *
- * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +4, +5, +4
@@ -873,7 +873,7 @@ function diagonalSet( src )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +3, +2, +3,
  *   +4, +0, +2
@@ -914,14 +914,14 @@ function diagonalVectorGet()
  * with values of the lower left triangle {-src-} matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5,
  *   +0, +0, +6,
  * ]);
  *
- * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +0, +0,
  *   +1, +1, +0,
@@ -995,14 +995,14 @@ function triangleLowerSet( src )
  * with values of the upper right triangle {-src-} matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5,
  *   +0, +0, +6,
  * ]);
  *
- * var src = _.Matrix.make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +0, +0,
  *   +1, +1, +0,
@@ -1103,7 +1103,7 @@ function triangleUpperSet( src )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
+ * var matrix = _.Matrix.Make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
  *
  * var dstVector = [ 1, 2, 3, 4 ];
  *
@@ -1112,7 +1112,7 @@ function triangleUpperSet( src )
  * // log [ 0, 2, 3, 4 ]
  *
  * @example
- * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
+ * var matrix = _.Matrix.Make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
  *
  * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
  *
@@ -1179,7 +1179,7 @@ function matrixApplyTo( dstVector )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 4, 4 ]).copy
+ * var matrix = _.Matrix.Make([ 4, 4 ]).copy
  * ([
  *   1, 0, 0, 0,
  *   0, 1, 0, 0,
@@ -1195,7 +1195,7 @@ function matrixApplyTo( dstVector )
  *  [ 1, 2, 1 ]
  *
  * @example
- * var matrix = _.Matrix.make([ 4, 4 ]).copy
+ * var matrix = _.Matrix.Make([ 4, 4 ]).copy
  * ([
  *   1, 0, 0, 0,
  *   0, 1, 0, 0,
@@ -1258,7 +1258,7 @@ function matrixHomogenousApply( dstVector )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make([ 3, 3 ]).copy
+ * var matrix = _.Matrix.Make([ 3, 3 ]).copy
  * ([
  *   4, 0, 1,
  *   0, 5, 2,
@@ -1357,7 +1357,7 @@ function positionGet()
  * The method matrix.positionSet() sets and return position {-src-} specified by the matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +6, +4, +6,
  *   +8, +0, +4
@@ -1592,7 +1592,7 @@ function scaleMagGet( dst )
  * The method matrix.scaleSet() returns scaled instance of Matrix, takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -1772,7 +1772,7 @@ function scaleApply( src )
  * The method matrix.closest() returns the closest element to provided element {-insElement-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -1834,7 +1834,7 @@ function closest( insElement )
  * The method matrix.furthest() returns the furthest element to provided element {-insElement-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -1897,7 +1897,7 @@ function furthest( insElement )
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -1934,7 +1934,7 @@ function elementMean()
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5
@@ -1983,7 +1983,7 @@ function minmaxColWise()
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5
@@ -2032,7 +2032,7 @@ function minmaxRowWise()
  * takes source from context.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5

@@ -61,7 +61,7 @@ function experiment( test )
   test.case = 'experiment';
   test.identical( 1, 1 );
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +3, +2, +10,
     -3, -3, -14,
@@ -130,7 +130,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var matrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 6 ] ).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -142,7 +142,7 @@ function isDiagonal( test )
   var gotBool = matrix.isDiagonal( );
   test.identical( gotBool, expected );
 
-  var oldMatrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 4, 6 ] ).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -155,7 +155,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Not diagonal - square';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -171,7 +171,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Not diagonal - Upper Triangular';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -187,7 +187,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Not diagonal - Lower Triangular';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5,  0,   0,  0,
     1,  - 1,   0,  0,
@@ -203,7 +203,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix not square';
 
-  var matrix =  _.Matrix.make( [ 4, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 2 ] ).copy
   ([
     0.5,  0,
     1,  - 1,
@@ -219,7 +219,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Diagonal';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -235,7 +235,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Diagonal 6x6';
 
-  var matrix =  _.Matrix.make( [ 6, 6 ] ).copy
+  var matrix =  _.Matrix.Make( [ 6, 6 ] ).copy
   ([
     0.5, 0, 0, 0, 0, 0,
     0, - 1, 0, 0, 0, 0,
@@ -253,7 +253,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Diagonal not square';
 
-  var matrix =  _.Matrix.make( [ 4, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 3 ] ).copy
   ([
     0.5, 0, 0,
     0, - 1, 0,
@@ -269,7 +269,7 @@ function isDiagonal( test )
 
   test.description = 'Zero matrix ';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,  0, 0, 0,
     0,  0, 0, 0,
@@ -308,7 +308,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var matrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 6 ] ).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -320,7 +320,7 @@ function isUpperTriangle( test )
   var gotBool = matrix.isUpperTriangle( );
   test.identical( gotBool, expected );
 
-  var oldMatrix =  _.Matrix.make( [ 4, 6 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 4, 6 ] ).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -333,7 +333,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Not triangular - square';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -349,7 +349,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Not diagonal - Lower Triangular';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5,  0,   0,  0,
     1,  - 1,   0,  0,
@@ -365,7 +365,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix not square';
 
-  var matrix =  _.Matrix.make( [ 4, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 2 ] ).copy
   ([
     0.5,  0,
     1,  - 1,
@@ -381,7 +381,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Upper Triangular';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -397,7 +397,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Diagonal';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -413,7 +413,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Upper Triangular 6x6';
 
-  var matrix =  _.Matrix.make( [ 6, 6 ] ).copy
+  var matrix =  _.Matrix.Make( [ 6, 6 ] ).copy
   ([
     0.5, 5, 8, 0, 3, -0.5,
     0, - 1, 0, 8, 0, 2,
@@ -431,7 +431,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Upper Triangular not square';
 
-  var matrix =  _.Matrix.make( [ 4, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 3 ] ).copy
   ([
     0.5, 0, 0,
     0, - 1, 0,
@@ -447,7 +447,7 @@ function isUpperTriangle( test )
 
   test.description = 'Zero matrix ';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,  0, 0, 0,
     0,  0, 0, 0,
@@ -486,7 +486,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -498,7 +498,7 @@ function isSymmetric( test )
   var gotBool = matrix.isSymmetric( );
   test.identical( gotBool, expected );
 
-  var oldMatrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -511,7 +511,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Not Symmetric';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,   0,   2,   0,
     1, - 1,   0,   0,
@@ -527,7 +527,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Lower Triangular';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5,  0,   0,  0,
     1,  - 1,   0,  0,
@@ -543,7 +543,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Upper Triangular';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -559,7 +559,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Not Squared';
 
-  var matrix =  _.Matrix.make( [ 3, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 4 ] ).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -574,7 +574,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Diagonal';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -590,7 +590,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Symmetric';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5, 5, 8, 0.1,
     5, - 1, 2, 8,
@@ -606,7 +606,7 @@ function isSymmetric( test )
 
   test.description = 'Zero matrix ';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0,  0, 0, 0,
     0,  0, 0, 0,
@@ -733,7 +733,7 @@ function clone( test )
   test.case = 'copy buffer and dims'; /* */
 
   a.dims = [ 1, 3 ];
-  a.copyResetting({ buffer : new F32x([ 3, 4, 5 ]), dims : [ 3, 1 ] });
+  a./*copyResetting*/copy({ buffer : new F32x([ 3, 4, 5 ]), dims : [ 3, 1 ] });
 
   test.identical( a.size, 12 );
   test.identical( a.sizeOfElementStride, 12 );
@@ -755,7 +755,7 @@ function clone( test )
   test.case = 'copy dims and buffer'; /* */
 
   a.dims = [ 1, 3 ];
-  a.copyResetting({ dims : [ 3, 1 ], buffer : new F32x([ 3, 4, 5 ]) });
+  a./*copyResetting*/copy({ dims : [ 3, 1 ], buffer : new F32x([ 3, 4, 5 ]) });
 
   test.identical( a.size, 12 );
   test.identical( a.sizeOfElementStride, 12 );
@@ -1450,7 +1450,7 @@ function _make( test, o )
   logger.log( 'm\n' + _.toStr( m ) );
   // checkEmptyMatrixWithLongColNonTransposing( m ); xxx
 
-  var m = matrix.make([ 3, 0 ]);
+  var m = matrix.Make([ 3, 0 ]);
   logger.log( 'm\n' + _.toStr( m ) );
   checkEmptyMatrixWithLongColNonTransposing( m );
   test.identical( m.strides, null );
@@ -1902,17 +1902,17 @@ function _make( test, o )
   logger.log( 'm\n' + _.toStr( m ) );
   checkEmptyMatrixWithLongRowNonTransposing( m );
 
-  var m = matrix.make([ 0, 3 ]);
+  var m = matrix.Make([ 0, 3 ]);
   logger.log( 'm\n' + _.toStr( m ) );
   checkEmptyMatrixWithLongRowNonTransposing( m );
   test.identical( m.strides, null );
 
-  var m = matrix.make([ 0, 3 ]);
+  var m = matrix.Make([ 0, 3 ]);
   test.shouldThrowErrorSync( () => m.buffer = new I32x() );
 
   test.case = 'change by empty buffer of empty matrix with long row, non transposing'; /* */
 
-  var m = matrix.make([ 0, 3 ]);
+  var m = matrix.Make([ 0, 3 ]);
   m.growingDimension = 0;
   m.buffer = new I32x();
   logger.log( 'm\n' + _.toStr( m ) );
@@ -2191,7 +2191,7 @@ function _make( test, o )
 
   test.case = 'make then copy'; /* */
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -2236,14 +2236,14 @@ function _make( test, o )
 
   test.case = 'copy buffer from scalar'; /* */
 
-  var m = matrix.makeSquare([ 1, 2, 3, 4 ]);
-  var expected = matrix.makeSquare([ 13, 13, 13, 13 ]);
+  var m = matrix.MakeSquare([ 1, 2, 3, 4 ]);
+  var expected = matrix.MakeSquare([ 13, 13, 13, 13 ]);
 
   m.copy( 13 );
   test.identical( m, expected );
 
-  var m = matrix.makeSquare([]);
-  var expected = matrix.makeSquare([]);
+  var m = matrix.MakeSquare([]);
+  var expected = matrix.MakeSquare([]);
 
   m.copy( 13 );
   test.identical( m, expected );
@@ -2268,7 +2268,7 @@ function _make( test, o )
   test.is( m.buffer.length-( o.offset||0 ) === 9 );
   test.is( m.buffer instanceof F32x );
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -2327,7 +2327,7 @@ function _make( test, o )
 
   test.shouldThrowErrorSync( function()
   {
-    var m = matrix.make([ 2, 3 ]).copy
+    var m = matrix.Make([ 2, 3 ]).copy
     ([
       1, 2, 3,
       4, 5, 6,
@@ -2344,7 +2344,7 @@ function makeHelper( test )
 
   test.case = 'make'; /* */
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2374,7 +2374,7 @@ function makeHelper( test )
     7, 8, 9,
   ];
   debugger;
-  var m = matrix.makeSquare( buffer );
+  var m = matrix.MakeSquare( buffer );
   debugger;
 
   logger.log( 'm\n' + _.toStr( m ) );
@@ -2421,13 +2421,13 @@ function makeHelper( test )
     4, 5, 6,
     7, 8, 9,
   ]);
-  var m = matrix.makeSquare( buffer );
+  var m = matrix.MakeSquare( buffer );
   test.identical( m.determinant(), 0 );
   test.is( m.buffer instanceof U32x );
 
   test.case = 'square with length'; /* */
 
-  var m = matrix.makeSquare( 3 );
+  var m = matrix.MakeSquare( 3 );
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2451,7 +2451,7 @@ function makeHelper( test )
   test.case = 'diagonal'; /* */
 
   debugger;
-  var m = matrix.makeDiagonal([ 1, 2, 3 ]);
+  var m = matrix.MakeDiagonal([ 1, 2, 3 ]);
   debugger;
 
   logger.log( 'm\n' + _.toStr( m ) );
@@ -2494,7 +2494,7 @@ function makeHelper( test )
 
   test.case = 'identity'; /* */
 
-  m = matrix.makeIdentity( 3 );
+  m = matrix.MakeIdentity( 3 );
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2536,7 +2536,7 @@ function makeHelper( test )
 
   test.case = 'identity, not square, 2x3'; /* */
 
-  m = matrix.makeIdentity([ 2, 3 ]);
+  m = matrix.MakeIdentity([ 2, 3 ]);
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2577,7 +2577,7 @@ function makeHelper( test )
 
   test.case = 'identity, not square, 3x2'; /* */
 
-  m = matrix.makeIdentity([ 3, 2 ]);
+  m = matrix.MakeIdentity([ 3, 2 ]);
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2618,7 +2618,7 @@ function makeHelper( test )
 
   test.case = 'zeroed'; /* */
 
-  m = matrix.makeZero( 3 );
+  m = matrix.MakeZero( 3 );
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2702,34 +2702,34 @@ function makeHelper( test )
 
   test.case = 'square null with buffer'; /* */
 
-  var m = matrix.makeSquare([]);
+  var m = matrix.MakeSquare([]);
   checkNull( m );
 
   test.case = 'square null with length'; /* */
 
-  var m = matrix.makeSquare( 0 );
+  var m = matrix.MakeSquare( 0 );
   checkNull( m );
 
   test.case = 'zeroed null'; /* */
 
-  var m = matrix.makeZero([ 0, 0 ]);
+  var m = matrix.MakeZero([ 0, 0 ]);
   checkNull( m );
 
   test.case = 'identity null'; /* */
 
-  var m = matrix.makeIdentity([ 0, 0 ]);
+  var m = matrix.MakeIdentity([ 0, 0 ]);
   checkNull( m );
 
   test.case = 'diagonal null'; /* */
 
-  var m = matrix.makeDiagonal([]);
+  var m = matrix.MakeDiagonal([]);
   checkNull( m );
 
 }
 
 //
 
-function makeLine( test )
+function MakeLine( test )
 {
 
   function checkCol( m )
@@ -2782,11 +2782,11 @@ function makeLine( test )
 
   test.case = 'make col'; /* */
 
-  var m = matrix.makeCol( 3 );
+  var m = matrix.MakeCol( 3 );
 
   checkCol( m );
 
-  var m = matrix.makeLine
+  var m = matrix.MakeLine
   ({
     dimension : 0,
     buffer : 3,
@@ -2794,7 +2794,7 @@ function makeLine( test )
 
   checkCol( m );
 
-  var m = matrix.makeLine
+  var m = matrix.MakeLine
   ({
     dimension : 0,
     buffer : new F32x([ 1, 2, 3 ]),
@@ -2804,7 +2804,7 @@ function makeLine( test )
 
   test.case = 'make col from buffer'; /* */
 
-  var m = matrix.makeCol([ 1, 2, 3 ]);
+  var m = matrix.MakeCol([ 1, 2, 3 ]);
 
   checkCol( m );
 
@@ -2829,7 +2829,7 @@ function makeLine( test )
   test.case = 'make col from vector with Array'; /* */
 
   var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
-  var m = matrix.makeCol( v );
+  var m = matrix.MakeCol( v );
 
   checkCol( m );
 
@@ -2856,7 +2856,7 @@ function makeLine( test )
   test.case = 'make col from vector with F32x'; /* */
 
   var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = matrix.makeCol( v );
+  var m = matrix.MakeCol( v );
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2899,7 +2899,7 @@ function makeLine( test )
 
   test.case = 'make col zeroed'; /* */
 
-  var m = matrix.makeColZeroed( 3 );
+  var m = matrix.MakeColZeroed( 3 );
 
   checkCol( m );
 
@@ -2923,7 +2923,7 @@ function makeLine( test )
 
   test.case = 'make col zeroed from buffer'; /* */
 
-  var m = matrix.makeColZeroed([ 1, 2, 3 ]);
+  var m = matrix.MakeColZeroed([ 1, 2, 3 ]);
 
   checkCol( m );
 
@@ -2948,7 +2948,7 @@ function makeLine( test )
   test.case = 'make col zeroed from vector'; /* */
 
   var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = matrix.makeColZeroed( v );
+  var m = matrix.MakeColZeroed( v );
 
   checkCol( m );
 
@@ -2972,8 +2972,8 @@ function makeLine( test )
 
   test.case = 'make col from col'; /* */
 
-  var om = matrix.makeCol([ 1, 2, 3 ]);
-  var m = matrix.makeCol( om );
+  var om = matrix.MakeCol([ 1, 2, 3 ]);
+  var m = matrix.MakeCol( om );
 
   checkCol( m );
 
@@ -2998,8 +2998,8 @@ function makeLine( test )
 
   test.case = 'make col zeroed from col'; /* */
 
-  var om = matrix.makeCol([ 1, 2, 3 ]);
-  var m = matrix.makeColZeroed( om );
+  var om = matrix.MakeCol([ 1, 2, 3 ]);
+  var m = matrix.MakeColZeroed( om );
 
   checkCol( m );
 
@@ -3025,11 +3025,11 @@ function makeLine( test )
 
   test.case = 'make row'; /* */
 
-  var m = matrix.makeRow( 3 );
+  var m = matrix.MakeRow( 3 );
 
   checkRow( m );
 
-  var m = matrix.makeLine
+  var m = matrix.MakeLine
   ({
     dimension : 1,
     buffer : 3,
@@ -3037,7 +3037,7 @@ function makeLine( test )
 
   checkRow( m );
 
-  var m = matrix.makeLine
+  var m = matrix.MakeLine
   ({
     dimension : 1,
     buffer : new F32x([ 1, 2, 3 ]),
@@ -3047,7 +3047,7 @@ function makeLine( test )
 
   test.case = 'make row from buffer'; /* */
 
-  var m = matrix.makeRow([ 1, 2, 3 ]);
+  var m = matrix.MakeRow([ 1, 2, 3 ]);
 
   checkRow( m );
 
@@ -3072,7 +3072,7 @@ function makeLine( test )
   test.case = 'make row from vector with Array'; /* */
 
   var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
-  var m = matrix.makeRow( v );
+  var m = matrix.MakeRow( v );
 
   checkRow( m );
 
@@ -3099,7 +3099,7 @@ function makeLine( test )
   test.case = 'make row from vector with F32x'; /* */
 
   var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = matrix.makeRow( v );
+  var m = matrix.MakeRow( v );
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -3140,7 +3140,7 @@ function makeLine( test )
 
   test.case = 'make row zeroed'; /* */
 
-  var m = matrix.makeRowZeroed( 3 );
+  var m = matrix.MakeRowZeroed( 3 );
 
   checkRow( m );
 
@@ -3164,7 +3164,7 @@ function makeLine( test )
 
   test.case = 'make row zeroed from buffer'; /* */
 
-  var m = matrix.makeRowZeroed([ 1, 2, 3 ]);
+  var m = matrix.MakeRowZeroed([ 1, 2, 3 ]);
 
   checkRow( m );
 
@@ -3189,7 +3189,7 @@ function makeLine( test )
   test.case = 'make row zeroed from vector'; /* */
 
   var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = matrix.makeRowZeroed( v );
+  var m = matrix.MakeRowZeroed( v );
 
   checkRow( m );
 
@@ -3213,8 +3213,8 @@ function makeLine( test )
 
   test.case = 'make row from row'; /* */
 
-  var om = matrix.makeRow([ 1, 2, 3 ]);
-  var m = matrix.makeRow( om );
+  var om = matrix.MakeRow([ 1, 2, 3 ]);
+  var m = matrix.MakeRow( om );
 
   checkRow( m );
 
@@ -3240,8 +3240,8 @@ function makeLine( test )
 
   test.case = 'make row zeroed from row'; /* */
 
-  var om = matrix.makeRow([ 1, 2, 3 ]);
-  var m = matrix.makeRowZeroed( om );
+  var om = matrix.MakeRow([ 1, 2, 3 ]);
+  var m = matrix.MakeRowZeroed( om );
 
   checkRow( m );
 
@@ -3269,21 +3269,21 @@ function makeLine( test )
 
 //
 
-function _makeSimilar( test, o )
+function _MakeSimilar( test, o )
 {
 
   test.case = o.name + ' . simplest from matrix'; //
 
-  var m = matrix.make([ 2, 3 ]);
+  var m = matrix.Make([ 2, 3 ]);
   m.buffer = o.arrayMake([ 1, 2, 3, 4, 5, 6 ]);
 
-  var got = m.makeSimilar();
+  var got = m.MakeSimilar();
   test.is( got.buffer.constructor === m.buffer.constructor );
   test.identical( got.dims, m.dims );
   test.identical( got._stridesEffective, [ 1, 2 ] );
   test.identical( got.strides, null );
 
-  var got = matrix.makeSimilar( m );
+  var got = matrix.MakeSimilar( m );
   test.is( got.buffer.constructor === m.buffer.constructor );
   test.identical( got.dims, m.dims );
   test.identical( got._stridesEffective, [ 1, 2 ] );
@@ -3308,13 +3308,13 @@ function _makeSimilar( test, o )
     strides : [ 2, 2 ],
   });
 
-  var got = m.makeSimilar();
+  var got = m.MakeSimilar();
   test.is( got.buffer.constructor === m.buffer.constructor );
   test.identical( got.dims, m.dims );
   test.identical( got._stridesEffective, [ 1, 2 ] );
   test.identical( got.strides, null );
 
-  var got = matrix.makeSimilar( m );
+  var got = matrix.MakeSimilar( m );
   test.is( got.buffer.constructor === m.buffer.constructor );
   test.identical( got.dims, m.dims );
   test.identical( got._stridesEffective, [ 1, 2 ] );
@@ -3339,13 +3339,13 @@ function _makeSimilar( test, o )
     strides : [ 2, 2 ],
   });
 
-  var got = m.makeSimilar( [ 3, 4 ] );
+  var got = m.MakeSimilar( [ 3, 4 ] );
   test.is( got.buffer.constructor === m.buffer.constructor );
   test.identical( got.dims, [ 3, 4 ] );
   test.identical( got._stridesEffective, [ 1, 3 ] );
   test.identical( got.strides, null );
 
-  var got = matrix.makeSimilar( m, [ 3, 4 ] );
+  var got = matrix.MakeSimilar( m, [ 3, 4 ] );
   test.is( got.buffer.constructor === m.buffer.constructor );
   test.identical( got.dims, [ 3, 4 ] );
   test.identical( got._stridesEffective, [ 1, 3 ] );
@@ -3354,49 +3354,49 @@ function _makeSimilar( test, o )
   test.case = o.name + ' . from array'; //
 
   var src = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.makeSimilar( src );
+  var got = matrix.MakeSimilar( src );
   test.is( got.constructor === src.constructor );
   test.identical( got.length , src.length );
 
   test.case = o.name + ' . from array with dims'; //
 
   var src = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.makeSimilar( src, [ 5, 1 ] );
+  var got = matrix.MakeSimilar( src, [ 5, 1 ] );
   test.is( got.constructor === src.constructor );
   test.identical( got.length , 5 );
 
   test.case = o.name + ' . from vector'; //
 
   var src = vad.from( o.arrayMake([ 1, 2, 3 ]) );
-  var got = matrix.makeSimilar( src );
+  var got = matrix.MakeSimilar( src );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , src.length );
 
   var src = vad.fromLongLrangeAndStride( o.arrayMake([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 1 );
-  var got = matrix.makeSimilar( src );
+  var got = matrix.MakeSimilar( src );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , src.length );
 
   test.case = o.name + ' . from vector with dims'; //
 
   var src = vad.from( o.arrayMake([ 1, 2, 3 ]) );
-  var got = matrix.makeSimilar( src, [ 5, 1 ] );
+  var got = matrix.MakeSimilar( src, [ 5, 1 ] );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , 5 );
 
   var src = vad.fromLongLrangeAndStride( o.arrayMake([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 1 );
-  var got = matrix.makeSimilar( src, [ 5, 1 ] );
+  var got = matrix.MakeSimilar( src, [ 5, 1 ] );
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , 5 );
 
   test.case = o.name + ' . special'; //
 
   var exp = o.arrayMake( 4 );
-  var got = matrix.makeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 4, 1 ] ); /* xxx */
+  var got = matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 4, 1 ] ); /* xxx */
   test.identical( got, exp );
 
   var exp = o.arrayMake( 3 );
-  var got = matrix.makeSimilar( o.arrayMake([ 1, 2, 3 ]), [ null, 1 ] ); /* xxx */
+  var got = matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ null, 1 ] ); /* xxx */
   test.identical( got, exp );
 
   test.case = o.name + ' . bad arguments'; //
@@ -3404,45 +3404,45 @@ function _makeSimilar( test, o )
   if( !Config.debug )
   return;
 
-  test.shouldThrowErrorSync( () => matrix.makeSimilar() );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( null ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( null, [ 1, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar() );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( null ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( null, [ 1, 1 ] ) );
 
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( o.arrayMake([ 1, 2, 3 ]), 1 ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( matrix.make([ 2, 2 ]), 1 ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), 1 ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), 1 ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( matrix.Make([ 2, 2 ]), 1 ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), 1 ) );
 
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 3, 2 ] ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), [ 3, 2 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 3, 2 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), [ 3, 2 ] ) );
 
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), [ null, 1 ] ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( matrix.make([ 2, 2 ]), [ null, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), [ null, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( matrix.Make([ 2, 2 ]), [ null, 1 ] ) );
 
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 3, 1, 1 ] ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), [ 3, 1, 1 ] ) );
-  test.shouldThrowErrorSync( () => matrix.makeSimilar( matrix.make([ 2, 2 ]), [ null, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 3, 1, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( vec( o.arrayMake([ 1, 2, 3 ]) ), [ 3, 1, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.MakeSimilar( matrix.Make([ 2, 2 ]), [ null, 1 ] ) );
 
 }
 
 //
 
-function makeSimilar( test )
+function MakeSimilar( test )
 {
 
   var o = Object.create( null );
   o.name = 'Array';
   o.arrayMake = function( a ){ return _.longMake( Array, a ) };
-  this._makeSimilar( test, o );
+  this._MakeSimilar( test, o );
 
   var o = Object.create( null );
   o.name = 'F32x';
   o.arrayMake = function( a ){ return _.longMake( F32x, a ) };
-  this._makeSimilar( test, o );
+  this._MakeSimilar( test, o );
 
   var o = Object.create( null );
   o.name = 'U32x';
   o.arrayMake = function( a ){ return _.longMake( U32x, a ) };
-  this._makeSimilar( test, o );
+  this._MakeSimilar( test, o );
 
 }
 
@@ -3470,15 +3470,15 @@ function from( test )
   var got = matrix._BufferFrom( v );
   test.is( got === v );
 
-  test.case = 'fromScalarForReading scalar'; /* */
+  test.case = 'FromScalarForReading scalar'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 1, 1,
     1, 1, 1,
   ]);
 
-  var m = matrix.fromScalarForReading( 1, [ 2, 3 ] );
+  var m = matrix.FromScalarForReading( 1, [ 2, 3 ] );
   m.toStr();
   logger.log( m );
 
@@ -3486,30 +3486,30 @@ function from( test )
   test.identical( m.dims, [ 2, 3 ] );
   test.identical( m._stridesEffective, [ 0, 0 ] )
 
-  test.case = 'empty matrix fromScalarForReading scalar'; /* */
+  test.case = 'empty matrix FromScalarForReading scalar'; /* */
 
-  var expected = matrix.make([ 0, 3 ]);
-  var m = matrix.fromScalarForReading( 1, [ 0, 3 ] );
+  var expected = matrix.Make([ 0, 3 ]);
+  var m = matrix.FromScalarForReading( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m._stridesEffective, [ 0, 0 ] )
 
-  var expected = matrix.make([ 3, 0 ]);
-  var m = matrix.fromScalarForReading( 1, [ 3, 0 ] );
+  var expected = matrix.Make([ 3, 0 ]);
+  var m = matrix.FromScalarForReading( 1, [ 3, 0 ] );
   test.identical( m, expected );
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m._stridesEffective, [ 0, 0 ] )
   logger.log( m );
 
-  test.case = 'fromForReading scalar'; /* */
+  test.case = 'FromForReading scalar'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 1, 1,
     1, 1, 1,
   ]);
 
-  var m = matrix.fromForReading( 1, [ 2, 3 ] );
+  var m = matrix.FromForReading( 1, [ 2, 3 ] );
   m.toStr();
   logger.log( m );
 
@@ -3517,16 +3517,16 @@ function from( test )
   test.identical( m.dims, [ 2, 3 ] );
   test.identical( m._stridesEffective, [ 0, 0 ] )
 
-  test.case = 'empty matrix fromForReading scalar'; /* */
+  test.case = 'empty matrix FromForReading scalar'; /* */
 
-  var expected = matrix.make([ 0, 3 ]);
-  var m = matrix.fromForReading( 1, [ 0, 3 ] );
+  var expected = matrix.Make([ 0, 3 ]);
+  var m = matrix.FromForReading( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m._stridesEffective, [ 0, 0 ] )
 
-  var expected = matrix.make([ 3, 0 ]);
-  var m = matrix.fromForReading( 1, [ 3, 0 ] );
+  var expected = matrix.Make([ 3, 0 ]);
+  var m = matrix.FromForReading( 1, [ 3, 0 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m._stridesEffective, [ 0, 0 ] )
@@ -3534,13 +3534,13 @@ function from( test )
 
   test.case = 'from scalar'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 1, 1,
     1, 1, 1,
   ]);
 
-  var m = matrix.from( 1, [ 2, 3 ] );
+  var m = matrix.From( 1, [ 2, 3 ] );
   m.toStr();
   logger.log( m );
 
@@ -3550,29 +3550,29 @@ function from( test )
 
   test.case = 'empty matrix from scalar'; /* */
 
-  var expected = matrix.make([ 0, 3 ]);
-  var m = matrix.from( 1, [ 0, 3 ] );
+  var expected = matrix.Make([ 0, 3 ]);
+  var m = matrix.From( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] )
 
-  var expected = matrix.make([ 3, 0 ]);
-  var m = matrix.from( 1, [ 3, 0 ] );
+  var expected = matrix.Make([ 3, 0 ]);
+  var m = matrix.From( 1, [ 3, 0 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m._stridesEffective, [ 1, 3 ] )
 
   logger.log( m );
 
-  test.case = 'fromScalar scalar'; /* */
+  test.case = 'FromScalar scalar'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 1, 1,
     1, 1, 1,
   ]);
 
-  var m = matrix.fromScalar( 1, [ 2, 3 ] );
+  var m = matrix.FromScalar( 1, [ 2, 3 ] );
   m.toStr();
   logger.log( m );
 
@@ -3580,16 +3580,16 @@ function from( test )
   test.identical( m.dims, [ 2, 3 ] );
   test.identical( m._stridesEffective, [ 1, 2 ] )
 
-  test.case = 'empty matrix fromScalar scalar'; /* */
+  test.case = 'empty matrix FromScalar scalar'; /* */
 
-  var expected = matrix.make([ 0, 3 ]);
-  var m = matrix.fromScalar( 1, [ 0, 3 ] );
+  var expected = matrix.Make([ 0, 3 ]);
+  var m = matrix.FromScalar( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] )
 
-  var expected = matrix.make([ 3, 0 ]);
-  var m = matrix.fromScalar( 1, [ 3, 0 ] );
+  var expected = matrix.Make([ 3, 0 ]);
+  var m = matrix.FromScalar( 1, [ 3, 0 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m._stridesEffective, [ 1, 3 ] )
@@ -3598,48 +3598,48 @@ function from( test )
 
   test.case = 'from matrix'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 1, 1,
     1, 1, 1,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 1, 1,
     1, 1, 1,
   ]);
 
-  var got = matrix.from( m, [ 2, 3 ] );
+  var got = matrix.From( m, [ 2, 3 ] );
   test.identical( got, expected );
 
-  var got = matrix.from( m );
+  var got = matrix.From( m );
   test.identical( got, expected );
 
   test.case = 'from array'; /* */
 
-  var expected = matrix.make([ 3, 1 ]);
+  var expected = matrix.Make([ 3, 1 ]);
   expected.buffer = [ 1, 2, 3, ];
 
   var a = [ 1, 2, 3 ];
 
-  var got = matrix.from( a );
+  var got = matrix.From( a );
   test.identical( got, expected );
 
-  var got = matrix.from( a, [ 3, 1 ] );
+  var got = matrix.From( a, [ 3, 1 ] );
   test.identical( got, expected );
 
   test.case = 'from vector'; /* */
 
-  var expected = matrix.make([ 3, 1 ]);
+  var expected = matrix.Make([ 3, 1 ]);
   expected.buffer = [ 1, 2, 3, ];
 
   var a = vec([ 1, 2, 3 ]);
 
-  var got = matrix.from( a );
+  var got = matrix.From( a );
   test.identical( got, expected );
 
-  var got = matrix.from( a, [ 3, 1 ] );
+  var got = matrix.From( a, [ 3, 1 ] );
   test.identical( got, expected );
 
   test.case = 'bad arguments'; /* */
@@ -3656,9 +3656,9 @@ function from( test )
   test.shouldThrowErrorSync( () => m.from( vec([ 1, 2, 3 ]), [ 2, 1 ] ) );
   test.shouldThrowErrorSync( () => m.from( vec([ 1, 2, 3 ]), [ 4, 1 ] ) );
   test.shouldThrowErrorSync( () => m.from( vec([ 1, 2, 3 ]), [ 3, 2 ] ) );
-  test.shouldThrowErrorSync( () => m.from( matrix.make([ 3, 3 ]), matrix.make([ 3, 3 ]) ) );
-  test.shouldThrowErrorSync( () => m.from( matrix.make([ 2, 3 ]), [ 2, 4 ] ) );
-  test.shouldThrowErrorSync( () => m.from( matrix.make([ 3, 2 ]), [ 3, 2 ] ) );
+  test.shouldThrowErrorSync( () => m.from( matrix.Make([ 3, 3 ]), matrix.Make([ 3, 3 ]) ) );
+  test.shouldThrowErrorSync( () => m.from( matrix.Make([ 2, 3 ]), [ 2, 4 ] ) );
+  test.shouldThrowErrorSync( () => m.from( matrix.Make([ 3, 2 ]), [ 3, 2 ] ) );
 
 }
 
@@ -3669,7 +3669,7 @@ function tempBorrow( test )
 
   test.case = 'should give same temp'; /* */
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
   var t1 = m.tempBorrow();
 
   test.identical( t1.dims, [ 3, 2 ] )
@@ -3688,7 +3688,7 @@ function tempBorrow( test )
 
   test.case = 'should give another temp'; /* */
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
   var t2 = m.tempBorrow();
 
@@ -3711,7 +3711,7 @@ function tempBorrow( test )
 
   test.case = 'with dims'; /* */
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
   var t1 = matrix._tempBorrow( m, [ 4, 4 ], 0 );
   var t2 = matrix._tempBorrow( m, [ 4, 4 ], 1 );
@@ -3724,9 +3724,9 @@ function tempBorrow( test )
 
   test.case = 'with dims from matrix'; /* */
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
-  var m2 = matrix.make([ 4, 4 ]);
+  var m2 = matrix.Make([ 4, 4 ]);
   var t1 = matrix._tempBorrow( m, m2, 0 );
   var t2 = matrix._tempBorrow( m, m2, 1 );
 
@@ -3738,7 +3738,7 @@ function tempBorrow( test )
 
   test.case = 'without dims'; /* */
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
   var t1 = matrix._tempBorrow( m, null, 0 );
   var t2 = matrix._tempBorrow( m, null, 1 );
@@ -3769,7 +3769,7 @@ function copyClone( test )
 
   test.case = 'clone 3x3'; /* */
 
-  var m1 = matrix.makeIdentity([ 3, 3 ]);
+  var m1 = matrix.MakeIdentity([ 3, 3 ]);
   m2 = m1.clone();
 
   test.identical( m1, m2 );
@@ -3777,7 +3777,7 @@ function copyClone( test )
 
   test.case = 'clone 0x0'; /* */
 
-  var m1 = matrix.makeIdentity([ 0, 0 ]);
+  var m1 = matrix.MakeIdentity([ 0, 0 ]);
   m2 = m1.clone();
 
   test.identical( m2.dims, [ 0, 0 ] );
@@ -3786,7 +3786,7 @@ function copyClone( test )
 
   test.case = 'clone 3x0'; /* */
 
-  var m1 = matrix.makeIdentity([ 3, 0 ]);
+  var m1 = matrix.MakeIdentity([ 3, 0 ]);
   m2 = m1.clone();
 
   test.identical( m2.dims, [ 3, 0 ] );
@@ -3795,7 +3795,7 @@ function copyClone( test )
 
   test.case = 'clone 0x3'; /* */
 
-  var m1 = matrix.makeIdentity([ 0, 3 ]);
+  var m1 = matrix.MakeIdentity([ 0, 3 ]);
   m2 = m1.clone();
 
   test.identical( m2.dims, [ 0, 3 ] );
@@ -3804,8 +3804,8 @@ function copyClone( test )
 
   test.case = 'copy 3x3'; /* */
 
-  var m1 = matrix.makeIdentity([ 3, 3 ]);
-  var m2 = matrix.makeZero([ 3, 3 ]);
+  var m1 = matrix.MakeIdentity([ 3, 3 ]);
+  var m2 = matrix.MakeZero([ 3, 3 ]);
   m2.copy( m1 );
 
   test.identical( m1, m2 );
@@ -3813,16 +3813,16 @@ function copyClone( test )
 
   test.case = 'copy 3x3 itself'; /* */
 
-  var expected = matrix.makeIdentity([ 3, 3 ]);
-  var m1 = matrix.makeIdentity([ 3, 3 ]);
+  var expected = matrix.MakeIdentity([ 3, 3 ]);
+  var m1 = matrix.MakeIdentity([ 3, 3 ]);
   m1.copy( m1 );
 
   test.identical( m1, expected );
 
   test.case = 'copy 0x0'; /* */
 
-  var m1 = matrix.makeIdentity([ 0, 0 ]);
-  var m2 = matrix.makeZero([ 0, 0 ]);
+  var m1 = matrix.MakeIdentity([ 0, 0 ]);
+  var m2 = matrix.MakeZero([ 0, 0 ]);
   m2.copy( m1 );
 
   test.identical( m2.dims, [ 0, 0 ] );
@@ -3831,8 +3831,8 @@ function copyClone( test )
 
   test.case = 'copy 3x0'; /* */
 
-  var m1 = matrix.makeIdentity([ 3, 0 ]);
-  var m2 = matrix.makeZero([ 3, 0 ]);
+  var m1 = matrix.MakeIdentity([ 3, 0 ]);
+  var m2 = matrix.MakeZero([ 3, 0 ]);
   m2.copy( m1 );
 
   test.identical( m2.dims, [ 3, 0 ] );
@@ -3841,8 +3841,8 @@ function copyClone( test )
 
   test.case = 'copy 0x3'; /* */
 
-  var m1 = matrix.makeIdentity([ 0, 3 ]);
-  var m2 = matrix.makeZero([ 0, 3 ]);
+  var m1 = matrix.MakeIdentity([ 0, 3 ]);
+  var m2 = matrix.MakeZero([ 0, 3 ]);
   m2.copy( m1 );
 
   test.identical( m2.dims, [ 0, 3 ] );
@@ -3851,8 +3851,8 @@ function copyClone( test )
 
   test.case = 'copy 0x0 itself'; /* */
 
-  var expected = matrix.makeIdentity([ 0, 0 ]);
-  var m1 = matrix.makeIdentity([ 0, 0 ]);
+  var expected = matrix.MakeIdentity([ 0, 0 ]);
+  var m1 = matrix.MakeIdentity([ 0, 0 ]);
   m1.copy( m1 );
 
   test.identical( m1, expected );
@@ -3862,67 +3862,67 @@ function copyClone( test )
 
 //
 
-function _convertToClass( test, o )
+function _ConvertToClass( test, o )
 {
 
   test.case = o.name + ' . ' + 'matrix to matrix with class'; //
 
-  var src = matrix.make([ 2, 2 ]);
+  var src = matrix.Make([ 2, 2 ]);
   matrix.buffer = o.arrayMake([ 1, 2, 3, 4 ]);
-  var got = matrix.convertToClass( matrix, src );
+  var got = matrix.ConvertToClass( matrix, src );
   test.is( got === src );
 
   test.case = o.name + ' . ' + 'matrix to vector with class'; //
 
-  var src = matrix.makeCol( 3 );
+  var src = matrix.MakeCol( 3 );
   src.buffer = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.convertToClass( vad.fromLong( o.arrayMake([]) ).constructor, src );
+  var got = matrix.ConvertToClass( vad.fromLong( o.arrayMake([]) ).constructor, src );
   var expected = vad.fromLong( o.arrayMake([ 1, 2, 3 ]) );
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'matrix to array with class'; //
 
-  var src = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
-  var got = matrix.convertToClass( o.arrayMake([]).constructor, src );
+  var src = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var got = matrix.ConvertToClass( o.arrayMake([]).constructor, src );
   var expected = o.arrayMake([ 1, 2, 3 ]);
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'array to matrix with class'; //
 
   var src = o.arrayMake([ 1, 2, 3 ]);
-  var expected = matrix.make([ 3, 1 ]);
+  var expected = matrix.Make([ 3, 1 ]);
   expected.buffer = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.convertToClass( matrix, src );
+  var got = matrix.ConvertToClass( matrix, src );
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'array to vector with class'; //
 
   var src = o.arrayMake([ 1, 2, 3 ]);
   var expected = vec( o.arrayMake([ 1, 2, 3 ]) );
-  var got = matrix.convertToClass( vec([]).constructor, src );
+  var got = matrix.ConvertToClass( vec([]).constructor, src );
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'array to array with class'; //
 
   var src = o.arrayMake([ 1, 2, 3 ]);
   var expected = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.convertToClass( o.arrayMake([]).constructor, src );
+  var got = matrix.ConvertToClass( o.arrayMake([]).constructor, src );
   test.identical( got, expected );
   test.is( got === src );
 
   test.case = o.name + ' . ' + 'vector to matrix with class'; //
 
   var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-  var expected = matrix.make([ 3, 1 ]);
+  var expected = matrix.Make([ 3, 1 ]);
   expected.buffer = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.convertToClass( matrix, src );
+  var got = matrix.ConvertToClass( matrix, src );
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'vector to vector with class'; //
 
   var src = vec( o.arrayMake([ 1, 2, 3 ]) );
   var expected = vec( o.arrayMake([ 1, 2, 3 ]) );
-  var got = matrix.convertToClass( vec([]).constructor, src );
+  var got = matrix.ConvertToClass( vec([]).constructor, src );
   test.identical( got, expected );
   test.is( got === src );
 
@@ -3930,7 +3930,7 @@ function _convertToClass( test, o )
 
   var src = vec( o.arrayMake([ 1, 2, 3 ]) );
   var expected = o.arrayMake([ 1, 2, 3 ]);
-  var got = matrix.convertToClass( o.arrayMake([]).constructor, src );
+  var got = matrix.ConvertToClass( o.arrayMake([]).constructor, src );
   test.identical( got, expected );
 
   test.case = o.name + ' . ' + 'bad arguments'; //
@@ -3938,37 +3938,37 @@ function _convertToClass( test, o )
   if( !Config.debug )
   return;
 
-  test.shouldThrowErrorSync( () => matrix.make([ 2, 1 ]).convertToClass() );
-  test.shouldThrowErrorSync( () => matrix.make([ 2, 1 ]).convertToClass( [].constructor ) );
-  test.shouldThrowErrorSync( () => matrix.make([ 2, 1 ]).convertToClass( vec([]).constructor ) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 2, 1 ]).ConvertToClass() );
+  test.shouldThrowErrorSync( () => matrix.Make([ 2, 1 ]).ConvertToClass( [].constructor ) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 2, 1 ]).ConvertToClass( vec([]).constructor ) );
 
-  test.shouldThrowErrorSync( () => matrix.convertToClass( [].constructor, matrix.make([ 2, 1 ]), 1 ) );
-  test.shouldThrowErrorSync( () => matrix.convertToClass( [].constructor ) );
-  test.shouldThrowErrorSync( () => matrix.convertToClass( [].constructor, null ) );
-  test.shouldThrowErrorSync( () => matrix.convertToClass( null, matrix.make([ 2, 1 ]) ) );
-  test.shouldThrowErrorSync( () => matrix.convertToClass( [].constructor, 1 ) );
+  test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor, matrix.Make([ 2, 1 ]), 1 ) );
+  test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor ) );
+  test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor, null ) );
+  test.shouldThrowErrorSync( () => matrix.ConvertToClass( null, matrix.Make([ 2, 1 ]) ) );
+  test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor, 1 ) );
 
 }
 
 //
 
-function convertToClass( test )
+function ConvertToClass( test )
 {
 
   var o = Object.create( null );
   o.name = 'Array';
   o.arrayMake = function( a ){ return _.longMake( Array, a ) };
-  this._convertToClass( test, o );
+  this._ConvertToClass( test, o );
 
   var o = Object.create( null );
   o.name = 'F32x';
   o.arrayMake = function( a ){ return _.longMake( F32x, a ) };
-  this._convertToClass( test, o );
+  this._ConvertToClass( test, o );
 
   var o = Object.create( null );
   o.name = 'U32x';
   o.arrayMake = function( a ){ return _.longMake( U32x, a ) };
-  this._convertToClass( test, o );
+  this._ConvertToClass( test, o );
 
 }
 
@@ -3979,7 +3979,7 @@ function _copyTo( test, o )
 
   test.case = o.name + ' . ' + 'matrix to array'; //
 
-  var src = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var src = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
   var dst = o.arrayMake([ 0, 0, 0 ]);
   var expected = o.arrayMake([ 1, 2, 3 ]);
 
@@ -3989,7 +3989,7 @@ function _copyTo( test, o )
 
   test.case = o.name + ' . ' + 'matrix to vector'; //
 
-  var src = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var src = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
   var dst = vec( o.arrayMake([ 0, 0, 0 ]) );
   var expected = vec( o.arrayMake([ 1, 2, 3 ]) );
 
@@ -3999,9 +3999,9 @@ function _copyTo( test, o )
 
   test.case = o.name + ' . ' + 'matrix to matrix'; //
 
-  var src = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
-  var dst = matrix.makeCol( o.arrayMake([ 0, 0, 0 ]) );
-  var expected = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var src = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var dst = matrix.MakeCol( o.arrayMake([ 0, 0, 0 ]) );
+  var expected = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
 
   var got = matrix.CopyTo( dst, src );
   test.identical( got, expected );
@@ -4030,8 +4030,8 @@ function _copyTo( test, o )
   test.case = o.name + ' . ' + 'vector to matrix'; //
 
   var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-  var dst = matrix.makeCol( o.arrayMake([ 0, 0, 0 ]) );
-  var expected = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var dst = matrix.MakeCol( o.arrayMake([ 0, 0, 0 ]) );
+  var expected = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
 
   var got = matrix.CopyTo( dst, src );
   test.identical( got, expected );
@@ -4060,8 +4060,8 @@ function _copyTo( test, o )
   test.case = o.name + ' . ' + 'array to matrix'; //
 
   var src = o.arrayMake([ 1, 2, 3 ]);
-  var dst = matrix.makeCol( o.arrayMake([ 0, 0, 0 ]) );
-  var expected = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var dst = matrix.MakeCol( o.arrayMake([ 0, 0, 0 ]) );
+  var expected = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
 
   var got = matrix.CopyTo( dst, src );
   test.identical( got, expected );
@@ -4069,8 +4069,8 @@ function _copyTo( test, o )
 
   test.case = o.name + ' . ' + 'matrix to itself'; //
 
-  var src = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
-  var expected = matrix.makeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var src = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
+  var expected = matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
 
   var got = matrix.CopyTo( src, src );
   test.identical( got, expected );
@@ -4100,18 +4100,18 @@ function _copyTo( test, o )
   return;
 
   test.shouldThrowErrorSync( () => matrix.CopyTo() );
-  test.shouldThrowErrorSync( () => matrix.makeCol( o.arrayMake([ 1 ]) ).CopyTo() );
-  test.shouldThrowErrorSync( () => matrix.makeCol( o.arrayMake([ 1 ]) ).CopyTo( [ 3 ], null ) );
+  test.shouldThrowErrorSync( () => matrix.MakeCol( o.arrayMake([ 1 ]) ).CopyTo() );
+  test.shouldThrowErrorSync( () => matrix.MakeCol( o.arrayMake([ 1 ]) ).CopyTo( [ 3 ], null ) );
 
-  test.shouldThrowErrorSync( () => matrix.CopyTo( matrix.makeCol( o.arrayMake([ 1 ]) ) ) );
+  test.shouldThrowErrorSync( () => matrix.CopyTo( matrix.MakeCol( o.arrayMake([ 1 ]) ) ) );
   test.shouldThrowErrorSync( () => matrix.CopyTo( o.arrayMake([ 1 ]) ) );
   test.shouldThrowErrorSync( () => matrix.CopyTo( vec( o.arrayMake([ 1 ]) ) ) );
 
-  test.shouldThrowErrorSync( () => matrix.CopyTo( matrix.makeCol( o.arrayMake([ 1 ]) ), null ) );
+  test.shouldThrowErrorSync( () => matrix.CopyTo( matrix.MakeCol( o.arrayMake([ 1 ]) ), null ) );
   test.shouldThrowErrorSync( () => matrix.CopyTo( o.arrayMake([ 1 ]), null ) );
   test.shouldThrowErrorSync( () => matrix.CopyTo( vec( o.arrayMake([ 1 ]) ), null ) );
 
-  test.shouldThrowErrorSync( () => matrix.CopyTo( matrix.makeCol( o.arrayMake([ 1 ]) ), [ 3 ], null ) );
+  test.shouldThrowErrorSync( () => matrix.CopyTo( matrix.MakeCol( o.arrayMake([ 1 ]) ), [ 3 ], null ) );
   test.shouldThrowErrorSync( () => matrix.CopyTo( o.arrayMake([ 1 ]), [ 3 ], null ) );
   test.shouldThrowErrorSync( () => matrix.CopyTo( vec( o.arrayMake([ 1 ]) ), [ 3 ], null ) );
 
@@ -4222,13 +4222,13 @@ function copy( test )
 
   test.case = 'no buffer move'; /* */
 
-  var src = matrix.make([ 3, 2 ]).copy
+  var src = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
     3, 6,
   ]);
-  var dst = matrix.make([ 3, 2 ]).copy
+  var dst = matrix.Make([ 3, 2 ]).copy
   ([
     10, 40,
     20, 50,
@@ -4238,7 +4238,7 @@ function copy( test )
   var srcBuffer = src.buffer;
   var dstBuffer = dst.buffer;
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4253,13 +4253,13 @@ function copy( test )
 
   test.case = 'copy null matrix'; /* */
 
-  var src = matrix.make([ 0, 0 ]);
-  var dst = matrix.make([ 0, 0 ]);
+  var src = matrix.Make([ 0, 0 ]);
+  var dst = matrix.Make([ 0, 0 ]);
 
   var srcBuffer = src.buffer;
   var dstBuffer = dst.buffer;
 
-  var expected = matrix.make([ 0, 0 ]);
+  var expected = matrix.Make([ 0, 0 ]);
 
   dst.copy( src );
   test.identical( dst, expected );
@@ -4269,7 +4269,7 @@ function copy( test )
 
   test.case = 'converting constructor and copy itself'; /* */
 
-  var src = matrix.make([ 3, 2 ]).copy
+  var src = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4280,7 +4280,7 @@ function copy( test )
 
   var dst = matrix( src );
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4302,7 +4302,7 @@ function copy( test )
 
   test.case = 'copy via constructor with instance'; /* */
 
-  var src = matrix.make([ 3, 2 ]).copy
+  var src = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4314,7 +4314,7 @@ function copy( test )
   var srcBuffer = src.buffer;
   var dstBuffer = dst.buffer;
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4338,7 +4338,7 @@ function copy( test )
   var dst = matrix({ buffer, dims : [ 3, 2 ], inputTransposing : 1 });
   var dstBuffer = dst.buffer;
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4350,7 +4350,7 @@ function copy( test )
 
   test.case = 'copy from matrix with different srides'; /* */
 
-  var src1 = matrix.make([ 3, 2 ]).copy
+  var src1 = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
@@ -4359,7 +4359,7 @@ function copy( test )
 
   var src2 = src1.submatrix([ [ 0, src1.dims[ 0 ]-1 ], [ 0, src1.dims[ 1 ]-1 ] ]);
 
-  var dst = matrix.make([ 2, 1 ]).copy
+  var dst = matrix.Make([ 2, 1 ]).copy
   ([
     11,
     22,
@@ -4392,14 +4392,14 @@ function copy( test )
 
   test.case = 'copy different size'; /* */
 
-  var src = matrix.make([ 3, 2 ]).copy
+  var src = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
     3, 6,
   ]);
 
-  var dst = matrix.make([ 2, 1 ]).copy
+  var dst = matrix.Make([ 2, 1 ]).copy
   ([
     11,
     22,
@@ -4419,14 +4419,14 @@ function copy( test )
 
   test.case = 'copy different size, empty'; /* */
 
-  var src = matrix.make([ 3, 2 ]).copy
+  var src = matrix.Make([ 3, 2 ]).copy
   ([
     1, 4,
     2, 5,
     3, 6,
   ]);
 
-  var dst = matrix.make([ 0, 0 ]);
+  var dst = matrix.Make([ 0, 0 ]);
 
   dst.copy( src );
 
@@ -4447,11 +4447,11 @@ function copy( test )
 
   test.case = 'inconsistant sizes'; /* */
 
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).copy( 'x' ) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).copy( 'x' ) );
 
-  // test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).copy( matrix.make([ 2, 2 ]) ) );
-  // test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).copy( matrix.make([ 3, 1 ]) ) );
-  // test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).copy( matrix.make([ 0, 0 ]) ) );
+  // test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).copy( matrix.Make([ 2, 2 ]) ) );
+  // test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).copy( matrix.Make([ 3, 1 ]) ) );
+  // test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).copy( matrix.Make([ 0, 0 ]) ) );
 
 }
 
@@ -4471,7 +4471,7 @@ function offset( test )
     11, 11,
   ]
 
-  var m = matrix.make([ 3, 2 ]);
+  var m = matrix.Make([ 3, 2 ]);
 
   m.copy
   ({
@@ -4495,7 +4495,7 @@ function offset( test )
 
   test.case = 'atomSet, atomFlatSet'; /* */
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ({
     buffer : [ 101, 102, 3, 4, 105, 106 ],
   });
@@ -4561,7 +4561,7 @@ function stride( test )
     strides : [ 2, 2 ],
   });
 
-  var expected = matrix.make([ 2, 2 ]).copy
+  var expected = matrix.Make([ 2, 2 ]).copy
   ([
     1, 2,
     2, 3,
@@ -4592,7 +4592,7 @@ function stride( test )
     strides : [ 2, 2 ],
   });
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     2, 3, 4,
@@ -4737,14 +4737,14 @@ function expand( test )
 
   test.case = 'left grow'; /* */
 
-  var expected = matrix.make([ 3, 5 ]).copy
+  var expected = matrix.Make([ 3, 5 ]).copy
   ([
     0, 0, 0, 0, 0,
     0, 0, 1, 2, 3,
     0, 0, 3, 4, 5,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
@@ -4755,14 +4755,14 @@ function expand( test )
 
   test.case = 'right grow'; /* */
 
-  var expected = matrix.make([ 3, 5 ]).copy
+  var expected = matrix.Make([ 3, 5 ]).copy
   ([
     1, 2, 3, 0, 0,
     3, 4, 5, 0, 0,
     0, 0, 0, 0, 0,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
@@ -4773,12 +4773,12 @@ function expand( test )
 
   test.case = 'left shrink'; /* */
 
-  var expected = matrix.make([ 1, 2 ]).copy
+  var expected = matrix.Make([ 1, 2 ]).copy
   ([
     4, 5,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
@@ -4789,12 +4789,12 @@ function expand( test )
 
   test.case = 'right shrink'; /* */
 
-  var expected = matrix.make([ 1, 2 ]).copy
+  var expected = matrix.Make([ 1, 2 ]).copy
   ([
     1, 2,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
@@ -4805,13 +4805,13 @@ function expand( test )
 
   test.case = 'no expand'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
@@ -4825,7 +4825,7 @@ function expand( test )
 
   test.case = 'number as argument'; /* */
 
-  var expected = matrix.make([ 5, 1 ]).copy
+  var expected = matrix.Make([ 5, 1 ]).copy
   ([
     0,
     2,
@@ -4834,7 +4834,7 @@ function expand( test )
     0,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     3, 4, 5,
@@ -4846,69 +4846,69 @@ function expand( test )
 
   test.case = 'add rows to empty matrix'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     0, 0, 0,
     0, 0, 0,
     0, 0, 0,
   ]);
 
-  var m = matrix.make([ 0, 3 ]);
+  var m = matrix.Make([ 0, 3 ]);
   m.expand([ [ 2, 1 ], [ 0, 0 ] ]);
   test.identical( m, expected );
 
-  var expected = matrix.make([ 3, 0 ]);
-  var m = matrix.make([ 0, 0 ]);
+  var expected = matrix.Make([ 3, 0 ]);
+  var m = matrix.Make([ 0, 0 ]);
   m.expand([ [ 2, 1 ], [ 0, 0 ] ]);
   test.identical( m, expected );
 
-  var expected = matrix.make([ 6, 0 ]);
-  var m = matrix.make([ 3, 0 ]);
+  var expected = matrix.Make([ 6, 0 ]);
+  var m = matrix.Make([ 3, 0 ]);
   m.expand([ [ 2, 1 ], [ 0, 0 ] ]);
   test.identical( m, expected );
 
   test.case = 'add cols to empty matrix'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     0, 0, 0,
     0, 0, 0,
     0, 0, 0,
   ]);
 
-  var m = matrix.make([ 3, 0 ]);
+  var m = matrix.Make([ 3, 0 ]);
   m.expand([ [ 0, 0 ], [ 2, 1 ] ]);
   test.identical( m, expected );
 
-  var expected = matrix.make([ 0, 3 ]);
-  var m = matrix.make([ 0, 0 ]);
+  var expected = matrix.Make([ 0, 3 ]);
+  var m = matrix.Make([ 0, 0 ]);
   m.expand([ [ 0, 0 ], [ 2, 1 ] ]);
   test.identical( m, expected );
 
-  var expected = matrix.make([ 0, 6 ]);
-  var m = matrix.make([ 0, 3 ]);
+  var expected = matrix.Make([ 0, 6 ]);
+  var m = matrix.Make([ 0, 3 ]);
   m.expand([ [ 0, 0 ], [ 2, 1 ] ]);
   test.identical( m, expected );
 
   test.case = 'bad arguments'; /* */
 
-  matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ] ]);
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand() );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand( [ '1', '1' ] ) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand( [ 1, 1, 1 ] ) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand( [ 1, 1 ], [ 1, 1 ] ) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ] ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ], [ 1, 1 ] ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1, 1 ] ]) );
+  matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ] ]);
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand() );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand( [ '1', '1' ] ) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand( [ 1, 1, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand( [ 1, 1 ], [ 1, 1 ] ) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ], [ 1, 1 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1, 1 ] ]) );
 
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], '1' ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ '1', [ 1, 1 ] ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ], 1 ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], '1' ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ '1', [ 1, 1 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ], 1 ]) );
 
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ -4, 1 ], [ 1, 1 ] ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, -3 ] ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, -4 ], [ -4, 1 ] ]) );
-  test.shouldThrowErrorSync( () => matrix.make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, -3 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ -4, 1 ], [ 1, 1 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, -3 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, -4 ], [ -4, 1 ] ]) );
+  test.shouldThrowErrorSync( () => matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, -3 ] ]) );
 
 }
 
@@ -4922,7 +4922,7 @@ function vectorToMatrix( test )
   test.case = 'vector to matrix'; /* */
   var v = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = v.to( _.Matrix );
-  var expected = _.Matrix.makeCol([ 1, 2, 3 ]);
+  var expected = _.Matrix.MakeCol([ 1, 2, 3 ]);
   test.identical( got, expected );
 
   /* */
@@ -4997,7 +4997,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 40,
     20, 50,
@@ -5008,7 +5008,7 @@ function accessors( test )
   m32.eSet( 1, [ 40, 50, 60 ] );
   test.identical( m32, expected );
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 0, 30,
     40, 0, 60,
@@ -5033,7 +5033,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 40,
     20, 50,
@@ -5044,7 +5044,7 @@ function accessors( test )
   m32.eSet( 1, ivec([ 40, 50, 60 ]) );
   test.identical( m32, expected );
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 0, 30,
     40, 0, 60,
@@ -5100,7 +5100,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 40,
     20, 50,
@@ -5111,7 +5111,7 @@ function accessors( test )
   m32.colSet( 1, [ 40, 50, 60 ] );
   test.identical( m32, expected );
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 0, 30,
     40, 0, 60,
@@ -5136,7 +5136,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 40,
     20, 50,
@@ -5147,7 +5147,7 @@ function accessors( test )
   m32.colSet( 1, ivec([ 40, 50, 60 ]) );
   test.identical( m32, expected );
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 0, 30,
     40, 0, 60,
@@ -5172,7 +5172,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 40,
     20, 50,
@@ -5183,7 +5183,7 @@ function accessors( test )
   m32.lineSet( 0, 1, [ 40, 50, 60 ] );
   test.identical( m32, expected );
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 0, 30,
     40, 0, 60,
@@ -5251,7 +5251,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 20, 30,
     40, 50, 60,
@@ -5261,7 +5261,7 @@ function accessors( test )
   m23.rowSet( 1, [ 40, 50, 60 ] );
   test.identical( m23, expected );
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 20,
     0, 0,
@@ -5287,7 +5287,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 20, 30,
     40, 50, 60,
@@ -5297,7 +5297,7 @@ function accessors( test )
   m23.rowSet( 1, ivec([ 40, 50, 60 ]) );
   test.identical( m23, expected );
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 20,
     0, 0,
@@ -5323,7 +5323,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 20, 30,
     40, 50, 60,
@@ -5333,7 +5333,7 @@ function accessors( test )
   m23.lineSet( 1, 1, [ 40, 50, 60 ] );
   test.identical( m23, expected );
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     10, 20,
     0, 0,
@@ -5386,7 +5386,7 @@ function accessors( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     10, 2, 3,
     4, 5, 60,
@@ -5416,21 +5416,21 @@ function partialAccessors( test )
 
   test.case = 'mul'; /* */
 
-  var u = matrix.make([ 3, 3 ]).copy
+  var u = matrix.Make([ 3, 3 ]).copy
   ([
     +1, +2, +3,
     +0, +4, +5,
     +0, +0, +6,
   ]);
 
-  var l = matrix.make([ 3, 3 ]).copy
+  var l = matrix.Make([ 3, 3 ]).copy
   ([
     +1, +0, +0,
     +2, +4, +0,
     +3, +5, +6,
   ]);
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +14, +23, +18,
     +23, +41, +30,
@@ -5443,13 +5443,13 @@ function partialAccessors( test )
 
   test.case = 'zero'; /* */
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     0, 0, 0,
     0, 0, 0,
@@ -5460,8 +5460,8 @@ function partialAccessors( test )
 
   test.case = 'zero empty'; /* */
 
-  var m = matrix.make([ 0, 0 ]);
-  var expected = matrix.make([ 0, 0 ]);
+  var m = matrix.Make([ 0, 0 ]);
+  var expected = matrix.Make([ 0, 0 ]);
   var r = m.zero();
   test.identical( m, expected );
   test.is( m === r );
@@ -5470,9 +5470,9 @@ function partialAccessors( test )
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).zero( 1 ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).zero( [ 1, 1 ] ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).zero( matrix.makeIdentity( 3 ) ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).zero( 1 ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).zero( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).zero( matrix.MakeIdentity( 3 ) ) );
   }
 
   test.case = 'diagonalVectorGet 3x4 transposed'; /* */
@@ -5524,7 +5524,7 @@ function partialAccessors( test )
 
   test.case = 'diagonalVectorGet null row'; /* */
 
-  var m = matrix.make([ 0, 4 ]);
+  var m = matrix.Make([ 0, 4 ]);
   var expected = fvec([]);
   var diagonal = m.diagonalVectorGet();
   test.identical( diagonal, expected );
@@ -5578,7 +5578,7 @@ function partialAccessors( test )
 
   test.case = 'diagonalVectorGet null column'; /* */
 
-  var m = matrix.make([ 4, 0 ]);
+  var m = matrix.Make([ 4, 0 ]);
   var expected = fvec([]);
   var diagonal = m.diagonalVectorGet();
   test.identical( diagonal, expected );
@@ -5587,20 +5587,20 @@ function partialAccessors( test )
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalVectorGet( 1 ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalVectorGet( [ 1, 1 ] ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalVectorGet( matrix.makeIdentity( 3 ) ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).diagonalVectorGet( 1 ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).diagonalVectorGet( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).diagonalVectorGet( matrix.MakeIdentity( 3 ) ) );
   }
 
   test.case = 'diagonalSet vector'; /* */
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     11, 2, 3,
     4, 22, 6,
@@ -5611,13 +5611,13 @@ function partialAccessors( test )
 
   test.case = 'diagonalSet 2x3'; /* */
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     11, 2, 3,
     4, 22, 6,
@@ -5626,7 +5626,7 @@ function partialAccessors( test )
   m.diagonalSet([ 11, 22 ]);
   test.identical( m, expected );
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     0, 2, 3,
     4, 0, 6,
@@ -5637,14 +5637,14 @@ function partialAccessors( test )
 
   test.case = 'diagonalSet 3x2'; /* */
 
-  var m = matrix.make([ 3, 2 ]).copy
+  var m = matrix.Make([ 3, 2 ]).copy
   ([
     1, 2,
     3, 4,
     5, 6,
   ]);
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     11, 2,
     3, 22,
@@ -5654,7 +5654,7 @@ function partialAccessors( test )
   m.diagonalSet([ 11, 22 ]);
   test.identical( m, expected );
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     0, 2,
     3, 0,
@@ -5666,14 +5666,14 @@ function partialAccessors( test )
 
   test.case = 'diagonalSet from another matrix'; /* */
 
-  var m1 = matrix.make([ 3, 4 ]).copy
+  var m1 = matrix.Make([ 3, 4 ]).copy
   ([
     1, 2, 3, 4,
     5, 6, 7, 8,
     9, 10, 11, 12,
   ]);
 
-  var m2 = matrix.make([ 3, 3 ]).copy
+  var m2 = matrix.Make([ 3, 3 ]).copy
   ([
     +10, -1, -1,
     -1, +20, -1,
@@ -5687,7 +5687,7 @@ function partialAccessors( test )
     -1, -1, +30,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     10, 2, 3, 4,
     5, 20, 7, 8,
@@ -5697,7 +5697,7 @@ function partialAccessors( test )
   m1.diagonalSet( m2 );
   test.identical( m1, expected );
 
-  var m1 = matrix.make([ 4, 3 ]).copy
+  var m1 = matrix.Make([ 4, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -5705,14 +5705,14 @@ function partialAccessors( test )
     10, 11, 12,
   ]);
 
-  var m2 = matrix.make([ 3, 3 ]).copy
+  var m2 = matrix.Make([ 3, 3 ]).copy
   ([
     +10, -1, -1,
     -1, +20, -1,
     -1, -1, +30,
   ]);
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     10, 2, 3,
     4, 20, 6,
@@ -5725,20 +5725,20 @@ function partialAccessors( test )
 
   test.case = 'diagonalSet 0x0'; /* */
 
-  var m = matrix.make([ 0, 0 ]);
+  var m = matrix.Make([ 0, 0 ]);
   var r = m.diagonalSet( 0 );
   test.identical( m.dims, [ 0, 0 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
-  var m = matrix.make([ 0, 0 ]);
-  var r = m.diagonalSet( matrix.make([ 0, 3 ]) );
+  var m = matrix.Make([ 0, 0 ]);
+  var r = m.diagonalSet( matrix.Make([ 0, 3 ]) );
   test.identical( m.dims, [ 0, 0 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
-  var m = matrix.make([ 0, 0 ]);
-  var r = m.diagonalSet( matrix.make([ 3, 0 ]) );
+  var m = matrix.Make([ 0, 0 ]);
+  var r = m.diagonalSet( matrix.Make([ 3, 0 ]) );
   test.identical( m.dims, [ 0, 0 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] );
   test.is( m === r );
@@ -5747,16 +5747,16 @@ function partialAccessors( test )
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalSet() );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalSet( [ 1, 1 ] ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).diagonalSet( matrix.makeIdentity( 2 ) ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).diagonalSet() );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).diagonalSet( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).diagonalSet( matrix.MakeIdentity( 2 ) ) );
   }
 
   test.case = 'identity 3x2'; /* */
 
-  var m = matrix.makeZero([ 3, 2 ]);
+  var m = matrix.MakeZero([ 3, 2 ]);
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     1, 0,
     0, 1,
@@ -5768,9 +5768,9 @@ function partialAccessors( test )
 
   test.case = 'identity 2x3'; /* */
 
-  var m = matrix.makeZero([ 2, 3 ]);
+  var m = matrix.MakeZero([ 2, 3 ]);
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 0, 0,
     0, 1, 0,
@@ -5781,13 +5781,13 @@ function partialAccessors( test )
 
   test.case = 'identity 0x0'; /* */
 
-  var m = matrix.makeZero([ 0, 3 ]);
+  var m = matrix.MakeZero([ 0, 3 ]);
   var r = m.identity();
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m._stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
-  var m = matrix.makeZero([ 3, 0 ]);
+  var m = matrix.MakeZero([ 3, 0 ]);
   var r = m.identity();
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m._stridesEffective, [ 1, 3 ] );
@@ -5797,13 +5797,13 @@ function partialAccessors( test )
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).identity( 1 ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 ).identity( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).identity( 1 ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 ).identity( [ 1, 1 ] ) );
   }
 
   test.case = 'triangleLowerSet 3x4'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1, 2, 3, 4,
     0, 6, 7, 8,
@@ -5830,14 +5830,14 @@ function partialAccessors( test )
   m.triangleLowerSet( 0 );
   test.identical( m, expected );
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1 , 2, 3, 4,
     10, 6, 7, 8,
     20, 30, 11, 12,
   ]);
 
-  var m2 = matrix.make([ 3, 2 ]).copy
+  var m2 = matrix.Make([ 3, 2 ]).copy
   ([
     -1, -1,
     +10, -1,
@@ -5849,7 +5849,7 @@ function partialAccessors( test )
 
   test.case = 'triangleLowerSet 4x3'; /* */
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     1, 5, 9,
     0, 6, 10,
@@ -5878,7 +5878,7 @@ function partialAccessors( test )
   m.triangleLowerSet( 0 );
   test.identical( m, expected );
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     1, 5, 9,
     10, 6, 10,
@@ -5886,7 +5886,7 @@ function partialAccessors( test )
     30, 50, 60,
   ]);
 
-  var m2 = matrix.make([ 4, 3 ]).copy
+  var m2 = matrix.Make([ 4, 3 ]).copy
   ([
     -1, -1, -1,
     +10, -1, -1,
@@ -5917,7 +5917,7 @@ function partialAccessors( test )
     buffer,
   });
 
-  var expected = matrix.make([ 4, 1 ]).copy
+  var expected = matrix.Make([ 4, 1 ]).copy
   ([
     1,
     10,
@@ -5925,7 +5925,7 @@ function partialAccessors( test )
     30,
   ]);
 
-  var m2 = matrix.make([ 4, 1 ]).copy
+  var m2 = matrix.Make([ 4, 1 ]).copy
   ([
     -1,
     +10,
@@ -5953,12 +5953,12 @@ function partialAccessors( test )
     buffer,
   });
 
-  var expected = matrix.make([ 1, 4 ]).copy
+  var expected = matrix.Make([ 1, 4 ]).copy
   ([
     1, 2, 3, 4,
   ]);
 
-  var m2 = matrix.make([ 1, 1 ]).copy
+  var m2 = matrix.Make([ 1, 1 ]).copy
   ([
     -10,
   ]);
@@ -5971,21 +5971,21 @@ function partialAccessors( test )
   if( Config.debug )
   {
 
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 4 ]).triangleLowerSet( matrix.make([ 2, 4 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 4 ]).triangleLowerSet( matrix.make([ 3, 1 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 4, 3 ]).triangleLowerSet( matrix.make([ 3, 3 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 4, 3 ]).triangleLowerSet( matrix.make([ 4, 2 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 4 ]).triangleLowerSet( matrix.Make([ 2, 4 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 4 ]).triangleLowerSet( matrix.Make([ 3, 1 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 4, 3 ]).triangleLowerSet( matrix.Make([ 3, 3 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 4, 3 ]).triangleLowerSet( matrix.Make([ 4, 2 ]) ) );
 
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 0 ]).triangleLowerSet( matrix.make([ 0, 0 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 0 ]).triangleLowerSet( matrix.make([ 2, 0 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 0 ]).triangleLowerSet( matrix.make([ 0, 3 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 0 ]).triangleLowerSet( matrix.make([ 0, 4 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 0 ]).triangleLowerSet( matrix.Make([ 0, 0 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 0 ]).triangleLowerSet( matrix.Make([ 2, 0 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 0 ]).triangleLowerSet( matrix.Make([ 0, 3 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 0 ]).triangleLowerSet( matrix.Make([ 0, 4 ]) ) );
 
   }
 
   test.case = 'triangleUpperSet 4x3'; /* */
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     1, 0, 0,
     2, 6, 0,
@@ -6014,7 +6014,7 @@ function partialAccessors( test )
   m.triangleUpperSet( 0 );
   test.identical( m, expected );
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     1, 10, 20,
     2, 6, 30,
@@ -6022,7 +6022,7 @@ function partialAccessors( test )
     4, 8, 12,
   ]);
 
-  var m2 = matrix.make([ 2, 3 ]).copy
+  var m2 = matrix.Make([ 2, 3 ]).copy
   ([
     -1, +10, +20,
     -1, -1, +30,
@@ -6033,7 +6033,7 @@ function partialAccessors( test )
 
   test.case = 'triangleUpperSet 3x4'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1, 0, 0, 0,
     5, 6, 0, 0,
@@ -6060,14 +6060,14 @@ function partialAccessors( test )
   m.triangleUpperSet( 0 );
   test.identical( m, expected );
 
-  var m2 = matrix.make([ 3, 4 ]).copy
+  var m2 = matrix.Make([ 3, 4 ]).copy
   ([
     -1, 10, 20, 30,
     -1, -1, 40, 50,
     -1, -1, -1, 60,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1, 10, 20, 30,
     5, 6, 40, 50,
@@ -6094,12 +6094,12 @@ function partialAccessors( test )
     buffer,
   });
 
-  var m2 = matrix.make([ 1, 4 ]).copy
+  var m2 = matrix.Make([ 1, 4 ]).copy
   ([
     -1, 10, 20, 30,
   ]);
 
-  var expected = matrix.make([ 1, 4 ]).copy
+  var expected = matrix.Make([ 1, 4 ]).copy
   ([
     1, 10, 20, 30,
   ]);
@@ -6127,12 +6127,12 @@ function partialAccessors( test )
     buffer,
   });
 
-  var m2 = matrix.make([ 1, 1 ]).copy
+  var m2 = matrix.Make([ 1, 1 ]).copy
   ([
     -1,
   ]);
 
-  var expected = matrix.make([ 4, 1 ]).copy
+  var expected = matrix.Make([ 4, 1 ]).copy
   ([
     1,
     2,
@@ -6148,15 +6148,15 @@ function partialAccessors( test )
   if( Config.debug )
   {
 
-    test.shouldThrowErrorSync( () => matrix.make([ 4, 3 ]).triangleUpperSet( matrix.make([ 4, 2 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 4, 3 ]).triangleUpperSet( matrix.make([ 1, 3 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 4 ]).triangleUpperSet( matrix.make([ 3, 3 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 3, 4 ]).triangleUpperSet( matrix.make([ 2, 4 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 4, 3 ]).triangleUpperSet( matrix.Make([ 4, 2 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 4, 3 ]).triangleUpperSet( matrix.Make([ 1, 3 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 4 ]).triangleUpperSet( matrix.Make([ 3, 3 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 3, 4 ]).triangleUpperSet( matrix.Make([ 2, 4 ]) ) );
 
-    test.shouldThrowErrorSync( () => matrix.make([ 0, 3 ]).triangleUpperSet( matrix.make([ 0, 0 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 0, 3 ]).triangleUpperSet( matrix.make([ 0, 2 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 0, 3 ]).triangleUpperSet( matrix.make([ 3, 0 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.make([ 0, 3 ]).triangleUpperSet( matrix.make([ 4, 0 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 0, 3 ]).triangleUpperSet( matrix.Make([ 0, 0 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 0, 3 ]).triangleUpperSet( matrix.Make([ 0, 2 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 0, 3 ]).triangleUpperSet( matrix.Make([ 3, 0 ]) ) );
+    test.shouldThrowErrorSync( () => matrix.Make([ 0, 3 ]).triangleUpperSet( matrix.Make([ 4, 0 ]) ) );
 
   }
 
@@ -6167,33 +6167,33 @@ function partialAccessors( test )
 
     test.case = rname + ' null matrix by scalar'; /* */
 
-    var m = matrix.make([ 0, 3 ]);
-    var expected = matrix.make([ 0, 0 ]);
+    var m = matrix.Make([ 0, 3 ]);
+    var expected = matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( 0 );
     test.identical( m.dims, [ 0, 3 ] );
     test.is( m === r );
 
-    var m = matrix.make([ 3, 0 ]);
-    var expected = matrix.make([ 0, 0 ]);
+    var m = matrix.Make([ 3, 0 ]);
+    var expected = matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( 0 );
     test.identical( m.dims, [ 3, 0 ] );
     test.is( m === r );
 
     test.case = rname + ' null matrix by null matrix'; /* */
 
-    var m = matrix.make([ 0, 0 ]);
-    var expected = matrix.make([ 0, 0 ]);
-    var r = m[ rname ]( matrix.make([ 0, 0 ]) );
+    var m = matrix.Make([ 0, 0 ]);
+    var expected = matrix.Make([ 0, 0 ]);
+    var r = m[ rname ]( matrix.Make([ 0, 0 ]) );
     test.is( m === r );
 
-    var m = matrix.make([ 0, 0 ]);
-    var expected = matrix.make([ 0, 0 ]);
-    var r = m[ rname ]( matrix.make([ 0, 3 ]) );
+    var m = matrix.Make([ 0, 0 ]);
+    var expected = matrix.Make([ 0, 0 ]);
+    var r = m[ rname ]( matrix.Make([ 0, 3 ]) );
     test.is( m === r );
 
-    var m = matrix.make([ 0, 0 ]);
-    var expected = matrix.make([ 0, 0 ]);
-    var r = m[ rname ]( matrix.make([ 3, 0 ]) );
+    var m = matrix.Make([ 0, 0 ]);
+    var expected = matrix.Make([ 0, 0 ]);
+    var r = m[ rname ]( matrix.Make([ 3, 0 ]) );
     test.is( m === r );
 
     /* */
@@ -6201,41 +6201,41 @@ function partialAccessors( test )
     if( rname !== 'triangleUpperSet' )
     {
 
-      var m = matrix.make([ 0, 3 ]);
-      var expected = matrix.make([ 0, 0 ]);
-      var r = m[ rname ]( matrix.make([ 0, 0 ]) );
+      var m = matrix.Make([ 0, 3 ]);
+      var expected = matrix.Make([ 0, 0 ]);
+      var r = m[ rname ]( matrix.Make([ 0, 0 ]) );
       test.is( m === r );
 
-      var m = matrix.make([ 0, 3 ]);
-      var expected = matrix.make([ 0, 0 ]);
-      var r = m[ rname ]( matrix.make([ 3, 0 ]) );
+      var m = matrix.Make([ 0, 3 ]);
+      var expected = matrix.Make([ 0, 0 ]);
+      var r = m[ rname ]( matrix.Make([ 3, 0 ]) );
       test.is( m === r );
 
     }
 
-    var m = matrix.make([ 0, 3 ]);
-    var expected = matrix.make([ 0, 0 ]);
-    var r = m[ rname ]( matrix.make([ 0, 3 ]) );
+    var m = matrix.Make([ 0, 3 ]);
+    var expected = matrix.Make([ 0, 0 ]);
+    var r = m[ rname ]( matrix.Make([ 0, 3 ]) );
     test.is( m === r );
 
     /* */
 
     if( rname !== 'triangleLowerSet' )
     {
-      var m = matrix.make([ 3, 0 ]);
-      var expected = matrix.make([ 0, 0 ]);
-      var r = m[ rname ]( matrix.make([ 0, 0 ]) );
+      var m = matrix.Make([ 3, 0 ]);
+      var expected = matrix.Make([ 0, 0 ]);
+      var r = m[ rname ]( matrix.Make([ 0, 0 ]) );
       test.is( m === r );
 
-      var m = matrix.make([ 3, 0 ]);
-      var expected = matrix.make([ 0, 0 ]);
-      var r = m[ rname ]( matrix.make([ 0, 3 ]) );
+      var m = matrix.Make([ 3, 0 ]);
+      var expected = matrix.Make([ 0, 0 ]);
+      var r = m[ rname ]( matrix.Make([ 0, 3 ]) );
       test.is( m === r );
     }
 
-    var m = matrix.make([ 3, 0 ]);
-    var expected = matrix.make([ 0, 0 ]);
-    var r = m[ rname ]( matrix.make([ 3, 0 ]) );
+    var m = matrix.Make([ 3, 0 ]);
+    var expected = matrix.Make([ 0, 0 ]);
+    var r = m[ rname ]( matrix.Make([ 3, 0 ]) );
     test.is( m === r );
 
   }
@@ -6248,11 +6248,11 @@ function partialAccessors( test )
   function shouldThrowErrorOfAnyKind( name )
   {
 
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 )[ name ]( 1, 1 ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 )[ name ]( '1' ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 )[ name ]( undefined ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 )[ name ]( '1', '3' ) );
-    test.shouldThrowErrorSync( () => matrix.makeIdentity( 3 )[ name ]( [], [] ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 )[ name ]( 1, 1 ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 )[ name ]( '1' ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 )[ name ]( undefined ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 )[ name ]( '1', '3' ) );
+    test.shouldThrowErrorSync( () => matrix.MakeIdentity( 3 )[ name ]( [], [] ) );
 
   }
 
@@ -6274,7 +6274,7 @@ function lineSwap( test )
 
   test.case = 'rowsSwap'; /* */
 
-  var m = matrix.make([ 4, 3 ]).copy
+  var m = matrix.Make([ 4, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6282,7 +6282,7 @@ function lineSwap( test )
     11, 22, 33,
   ]);
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     1, 2, 3,
     7, 8, 9,
@@ -6300,7 +6300,7 @@ function lineSwap( test )
 
   test.case = 'linesSwap'; /* */
 
-  var m = matrix.make([ 4, 3 ]).copy
+  var m = matrix.Make([ 4, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6308,7 +6308,7 @@ function lineSwap( test )
     11, 22, 33,
   ]);
 
-  var expected = matrix.make([ 4, 3 ]).copy
+  var expected = matrix.Make([ 4, 3 ]).copy
   ([
     1, 2, 3,
     7, 8, 9,
@@ -6326,14 +6326,14 @@ function lineSwap( test )
 
   test.case = 'colsSwap'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     1, 2, 3, 4,
     5, 6, 7, 8,
     9, 10, 11, 12,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1, 3, 2, 4,
     5, 7, 6, 8,
@@ -6350,14 +6350,14 @@ function lineSwap( test )
 
   test.case = 'linesSwap'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     1, 2, 3, 4,
     5, 6, 7, 8,
     9, 10, 11, 12,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1, 3, 2, 4,
     5, 7, 6, 8,
@@ -6374,14 +6374,14 @@ function lineSwap( test )
 
   test.case = 'elementsSwap'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     1, 2, 3, 4,
     5, 6, 7, 8,
     9, 10, 11, 12,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     1, 3, 2, 4,
     5, 7, 6, 8,
@@ -6403,14 +6403,14 @@ function lineSwap( test )
 
   function shouldThrowErrorOfAnyKind( rname, dims )
   {
-    matrix.make( dims )[ rname ]( 0, 0 );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]( -1, -1 ) );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]( 4, 4 ) );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]( 0, -1 ) );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]( 0, 4 ) );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]() );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]( 1 ) );
-    test.shouldThrowErrorSync( () => matrix.make( dims )[ rname ]( 1, 2, 3 ) );
+    matrix.Make( dims )[ rname ]( 0, 0 );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]( -1, -1 ) );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]( 4, 4 ) );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]( 0, -1 ) );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]( 0, 4 ) );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]() );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]( 1 ) );
+    test.shouldThrowErrorSync( () => matrix.Make( dims )[ rname ]( 1, 2, 3 ) );
   }
 
   shouldThrowErrorOfAnyKind( 'rowsSwap', [ 4, 3 ] );
@@ -6426,13 +6426,13 @@ function pivot( test )
 
   test.case = 'simple row pivot'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     4, 5, 6,
     1, 2, 3,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6462,14 +6462,14 @@ function pivot( test )
 
   test.case = 'complex row pivot'; /* */
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     5, 6,
     1, 2,
     3, 4,
   ]);
 
-  var m = matrix.make([ 3, 2 ]).copy
+  var m = matrix.Make([ 3, 2 ]).copy
   ([
     1, 2,
     3, 4,
@@ -6500,14 +6500,14 @@ function pivot( test )
 
   test.case = 'vectorPivot matrix'; /* */
 
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     5, 6,
     1, 2,
     3, 4,
   ]);
 
-  var m = matrix.make([ 3, 2 ]).copy
+  var m = matrix.Make([ 3, 2 ]).copy
   ([
     1, 2,
     3, 4,
@@ -6563,13 +6563,13 @@ function pivot( test )
 
   test.case = 'no pivots'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6591,13 +6591,13 @@ function pivot( test )
 
   test.case = 'complex col pivot'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     3, 1, 2,
     6, 4, 5,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6619,13 +6619,13 @@ function pivot( test )
 
   test.case = 'complex col pivot'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     3, 2, 1,
     6, 5, 4,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6647,13 +6647,13 @@ function pivot( test )
 
   test.case = 'complex col pivot'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     2, 3, 1,
     5, 6, 4,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6675,13 +6675,13 @@ function pivot( test )
 
   test.case = 'mixed pivot'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     5, 6, 4,
     2, 3, 1,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6711,13 +6711,13 @@ function pivot( test )
 
   test.case = 'partially defined pivot'; /* */
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     4, 5, 6,
     1, 2, 3,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -6783,7 +6783,7 @@ function _submatrix( o )
     return m;
   }
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +2, +3, +4,
     +5, +6, +7, +8,
@@ -6802,21 +6802,21 @@ function _submatrix( o )
   var r1 = m.submatrix([ 0, _.all ]);
   var r2 = m.submatrix([ 2, _.all ]);
 
-  var expected = matrix.makeCol([ 1, 5, 9 ]);
+  var expected = matrix.MakeCol([ 1, 5, 9 ]);
   test.identical( c1, expected );
 
-  var expected = matrix.makeCol([ 4, 8, 12 ]);
+  var expected = matrix.MakeCol([ 4, 8, 12 ]);
   test.identical( c2, expected );
 
-  var expected = matrix.makeRow([ 1, 2, 3, 4 ]);
+  var expected = matrix.MakeRow([ 1, 2, 3, 4 ]);
   test.identical( r1, expected );
 
-  var expected = matrix.makeRow([ 9, 10, 11, 12 ]);
+  var expected = matrix.MakeRow([ 9, 10, 11, 12 ]);
   test.identical( r2, expected );
 
   test.case = 'modify submatrixs'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +11, +3, +4, +401,
     +50, +6, +7, +800,
@@ -6838,7 +6838,7 @@ function _submatrix( o )
   test.case = 'submatrix several columns'; /* */
 
   var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     +2, +3,
     +6, +7,
@@ -6850,7 +6850,7 @@ function _submatrix( o )
 
     test.case = 'modify submatrixs'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +20, +30, +4,
     +5, +60, +70, +8,
@@ -6863,7 +6863,7 @@ function _submatrix( o )
   test.case = 'submatrix several columns'; /* */
 
   var m = make();
-  var expected = matrix.make([ 3, 2 ]).copy
+  var expected = matrix.Make([ 3, 2 ]).copy
   ([
     +3, +4,
     +7, +8,
@@ -6875,7 +6875,7 @@ function _submatrix( o )
 
     test.case = 'modify submatrixs'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +2, +30, +40,
     +5, +6, +70, +80,
@@ -6888,7 +6888,7 @@ function _submatrix( o )
   test.case = 'submatrix several rows'; /* */
 
   var m = make();
-  var expected = matrix.make([ 2, 4 ]).copy
+  var expected = matrix.Make([ 2, 4 ]).copy
   ([
     +1, +2, +3, +4,
     +5, +6, +7, +8,
@@ -6899,7 +6899,7 @@ function _submatrix( o )
 
   test.case = 'modify submatrixs'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +10, +20, +30, +40,
     +50, +60, +70, +80,
@@ -6912,7 +6912,7 @@ function _submatrix( o )
   test.case = 'submatrix several rows'; /* */
 
   var m = make();
-  var expected = matrix.make([ 2, 4 ]).copy
+  var expected = matrix.Make([ 2, 4 ]).copy
   ([
     +5, +6, +7, +8,
     +9, +10, +11, +12,
@@ -6923,7 +6923,7 @@ function _submatrix( o )
 
   test.case = 'modify submatrix'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +2, +3, +4,
     +50, +60, +70, +80,
@@ -6936,7 +6936,7 @@ function _submatrix( o )
   test.case = 'complex submatrix'; /* */
 
   var m = make();
-  var expected = matrix.make([ 2, 2 ]).copy
+  var expected = matrix.Make([ 2, 2 ]).copy
   ([
     +1, +2,
     +5, +6,
@@ -6947,7 +6947,7 @@ function _submatrix( o )
 
   test.case = 'modify complex submatrix'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +10, +20, +3, +4,
     +50, +60, +7, +8,
@@ -6960,7 +6960,7 @@ function _submatrix( o )
   test.case = 'complex submatrix'; /* */
 
   var m = make();
-  var expected = matrix.make([ 2, 2 ]).copy
+  var expected = matrix.Make([ 2, 2 ]).copy
   ([
     +7, +8,
     +11, +12,
@@ -6971,7 +6971,7 @@ function _submatrix( o )
 
   test.case = 'modify complex submatrix'; /* */
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +2, +3, +4,
     +5, +6, +70, +80,
@@ -7020,31 +7020,31 @@ function addAtomWise( test )
   function remake()
   {
 
-    m1 = matrix.make([ 2, 3 ]).copy
+    m1 = matrix.Make([ 2, 3 ]).copy
     ([
       +1, +2, +3,
       +4, +5, +6,
     ]);
 
-    m2 = matrix.make([ 2, 3 ]).copy
+    m2 = matrix.Make([ 2, 3 ]).copy
     ([
       +10, +20, +30,
       +40, +50, +60,
     ]);
 
-    m3 = matrix.make([ 2, 3 ]).copy
+    m3 = matrix.Make([ 2, 3 ]).copy
     ([
       +100, +200, +300,
       +400, +500, +600,
     ]);
 
-    m4 = matrix.make([ 2, 1 ]).copy
+    m4 = matrix.Make([ 2, 1 ]).copy
     ([
       1,
       2,
     ]);
 
-    m5 = matrix.make([ 2, 1 ]).copy
+    m5 = matrix.Make([ 2, 1 ]).copy
     ([
       3,
       4,
@@ -7059,7 +7059,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     +11, +22, +33,
     +44, +55, +66,
@@ -7073,7 +7073,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     +11, +22, +33,
     +44, +55, +66,
@@ -7087,7 +7087,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     +111, +222, +333,
     +444, +555, +666,
@@ -7101,7 +7101,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     +111, +222, +333,
     +444, +555, +666,
@@ -7115,7 +7115,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     +11, +12, +13,
     +14, +15, +16,
@@ -7129,7 +7129,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     13,
     14,
@@ -7139,7 +7139,7 @@ function addAtomWise( test )
   test.equivalent( r, expected );
   test.is( r !== m5 );
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     22,
     22,
@@ -7149,7 +7149,7 @@ function addAtomWise( test )
   test.equivalent( r, expected );
   test.is( r !== m5 );
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     28,
     27,
@@ -7163,7 +7163,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     22,
     22,
@@ -7175,7 +7175,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     28,
     27,
@@ -7187,7 +7187,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     29,
     29,
@@ -7201,7 +7201,7 @@ function addAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     27,
     27,
@@ -7222,31 +7222,31 @@ function subAtomWise( test )
   function remake()
   {
 
-    m1 = matrix.make([ 2, 3 ]).copy
+    m1 = matrix.Make([ 2, 3 ]).copy
     ([
       +1, +2, +3,
       +4, +5, +6,
     ]);
 
-    m2 = matrix.make([ 2, 3 ]).copy
+    m2 = matrix.Make([ 2, 3 ]).copy
     ([
       +10, +20, +30,
       +40, +50, +60,
     ]);
 
-    m3 = matrix.make([ 2, 3 ]).copy
+    m3 = matrix.Make([ 2, 3 ]).copy
     ([
       +100, +200, +300,
       +400, +500, +600,
     ]);
 
-    m4 = matrix.make([ 2, 1 ]).copy
+    m4 = matrix.Make([ 2, 1 ]).copy
     ([
       1,
       2,
     ]);
 
-    m5 = matrix.make([ 2, 1 ]).copy
+    m5 = matrix.Make([ 2, 1 ]).copy
     ([
       3,
       4,
@@ -7261,7 +7261,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     -9, -18, -27,
     -36, -45, -54,
@@ -7275,7 +7275,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     -9, -18, -27,
     -36, -45, -54,
@@ -7289,7 +7289,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     -109, -218, -327,
     -436, -545, -654,
@@ -7303,7 +7303,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     -109, -218, -327,
     -436, -545, -654,
@@ -7317,7 +7317,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 3 ]).copy
+  var expected = matrix.Make([ 2, 3 ]).copy
   ([
     -9, -8, -7,
     -6, -5, -4,
@@ -7331,7 +7331,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -7,
     -6,
@@ -7341,7 +7341,7 @@ function subAtomWise( test )
   test.equivalent( r, expected );
   test.is( r !== m5 );
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -16,
     -14,
@@ -7351,7 +7351,7 @@ function subAtomWise( test )
   test.equivalent( r, expected );
   test.is( r !== m5 );
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -22,
     -19,
@@ -7365,7 +7365,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -16,
     -14,
@@ -7377,7 +7377,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -22,
     -19,
@@ -7389,7 +7389,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -23,
     -21,
@@ -7403,7 +7403,7 @@ function subAtomWise( test )
 
   remake();
 
-  var expected = matrix.make([ 2, 1 ]).copy
+  var expected = matrix.Make([ 2, 1 ]).copy
   ([
     -25,
     -23,
@@ -7422,7 +7422,7 @@ function subAtomWise( test )
 //
 //   function make()
 //   {
-//     var m = matrix.make([ 3, 2 ]).copy
+//     var m = matrix.Make([ 3, 2 ]).copy
 //     ([
 //       +1, +2,
 //       +3, +4,
@@ -7434,7 +7434,7 @@ function subAtomWise( test )
 //   test.case = 'assignScalar'; /* */
 //
 //   var m = make();
-//   var expected = matrix.make([ 3, 2 ]).copy
+//   var expected = matrix.Make([ 3, 2 ]).copy
 //   ([
 //     +5, +5,
 //     +5, +5,
@@ -7448,7 +7448,7 @@ function subAtomWise( test )
 //   test.case = 'addScalar'; /* */
 //
 //   var m = make();
-//   var expected = matrix.make([ 3, 2 ]).copy
+//   var expected = matrix.Make([ 3, 2 ]).copy
 //   ([
 //     +6, +7,
 //     +8, +9,
@@ -7461,7 +7461,7 @@ function subAtomWise( test )
 //   test.case = 'subScalar'; /* */
 //
 //   var m = make();
-//   var expected = matrix.make([ 3, 2 ]).copy
+//   var expected = matrix.Make([ 3, 2 ]).copy
 //   ([
 //     -4, -3,
 //     -2, -1,
@@ -7474,7 +7474,7 @@ function subAtomWise( test )
 //   test.case = 'mulScalar'; /* */
 //
 //   var m = make();
-//   var expected = matrix.make([ 3, 2 ]).copy
+//   var expected = matrix.Make([ 3, 2 ]).copy
 //   ([
 //     +5, +10,
 //     +15, +20,
@@ -7487,7 +7487,7 @@ function subAtomWise( test )
 //   test.case = 'divScalar'; /* */
 //
 //   var m = make();
-//   var expected = matrix.make([ 3, 2 ]).copy
+//   var expected = matrix.Make([ 3, 2 ]).copy
 //   ([
 //     +1/5, +2/5,
 //     +3/5, +4/5,
@@ -7544,12 +7544,12 @@ function colRowWiseOperations( test )
     inputTransposing : 0,
   });
 
-  var empty1 = matrix.make([ 2, 0 ]);
+  var empty1 = matrix.Make([ 2, 0 ]);
   empty1.buffer = new F64x();
   test.identical( empty1.dims, [ 2, 0 ] );
   test.identical( empty1._stridesEffective, [ 1, 2 ] );
 
-  var empty2 = matrix.make([ 0, 2 ]);
+  var empty2 = matrix.Make([ 0, 2 ]);
   test.identical( empty2.dims, [ 0, 2 ] );
   test.identical( empty2._stridesEffective, [ 1, 0 ] );
   empty2.growingDimension = 0;
@@ -7864,7 +7864,7 @@ function colRowWiseOperations( test )
   test.identical( max, vec([]) );
 
 /*
-  var matrix1 = matrix.make([ 4, 3 ])
+  var matrix1 = matrix.Make([ 4, 3 ])
   .copy
   ( new F64x([
     0, 0, 0,
@@ -7873,7 +7873,7 @@ function colRowWiseOperations( test )
     1, 111, 11,
   ]));
 
-  var matrix2 = matrix.make([ 4, 3 ])
+  var matrix2 = matrix.Make([ 4, 3 ])
   .copy
   ( new F64x([
     10, 0, 3,
@@ -7909,7 +7909,7 @@ function mul( test )
   test.case = 'm3';
   test.identical( m3.determinant(), 0 );
 
-  var m3a = matrix.makeSquare
+  var m3a = matrix.MakeSquare
   ([
     1, 3, 5,
     2, 4, 6,
@@ -7919,7 +7919,7 @@ function mul( test )
   test.case = 'm3a';
   test.identical( m3a.determinant(), 2 );
 
-  var m3b = matrix.makeSquare
+  var m3b = matrix.MakeSquare
   ([
     1, 2, 3,
     1, 3, 5,
@@ -7927,8 +7927,8 @@ function mul( test )
   ]);
   test.identical( m3b.determinant(), 1 );
 
-  var ca = matrix.makeCol([ 1, 2, 3 ]);
-  var ra = matrix.makeRow([ 1, 2, 3 ]);
+  var ca = matrix.MakeCol([ 1, 2, 3 ]);
+  var ra = matrix.MakeRow([ 1, 2, 3 ]);
   var cb = ra.clone().transpose();
   var rb = ca.clone().transpose();
 
@@ -7937,7 +7937,7 @@ function mul( test )
   var mul = matrix.mul( null, [ m3, m3 ] );
   logger.log( 'mul\n' + _.toStr( mul ) );
 
-  var expected = matrix.makeSquare( 3 );
+  var expected = matrix.MakeSquare( 3 );
   expected.buffer = new I32x
   ([
     -8, +18, -6,
@@ -7952,7 +7952,7 @@ function mul( test )
   var mul = matrix.mul( null, [ m3a, m3b ] );
   logger.log( 'mul\n' + _.toStr( mul ) );
 
-  var expected = matrix.makeSquare
+  var expected = matrix.MakeSquare
   ([
     9, 36, 68,
     12, 46, 86,
@@ -7973,40 +7973,40 @@ function mul( test )
 
   test.case = 'identity * ca'; /* */
 
-  var identity = matrix.makeIdentity( 3 );
+  var identity = matrix.MakeIdentity( 3 );
   var mul = matrix.mul( null, [ identity, ca ] );
-  var expected = matrix.makeCol([ 1, 2, 3 ]);
+  var expected = matrix.MakeCol([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
 
   test.case = 'identity * cb'; /* */
 
-  var identity = matrix.makeIdentity( 3 );
+  var identity = matrix.MakeIdentity( 3 );
   var mul = matrix.mul( null, [ identity, cb ] );
-  var expected = matrix.makeCol([ 1, 2, 3 ]);
+  var expected = matrix.MakeCol([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
 
   test.case = 'ra * identity'; /* */
 
-  var identity = matrix.makeIdentity( 3 );
+  var identity = matrix.MakeIdentity( 3 );
   var mul = matrix.mul( null, [ ra, identity ] );
-  var expected = matrix.makeRow([ 1, 2, 3 ]);
+  var expected = matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
 
   test.case = 'rb * identity'; /* */
 
-  var identity = matrix.makeIdentity( 3 );
+  var identity = matrix.MakeIdentity( 3 );
   var mul = matrix.mul( null, [ rb, identity ] );
-  var expected = matrix.makeRow([ 1, 2, 3 ]);
+  var expected = matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
 
   test.case = 'm3 * ca'; /* */
 
   var mul = matrix.mul( null, [ m3, ca ] );
-  var expected = matrix.makeCol([ 0, 4, 4 ]);
+  var expected = matrix.MakeCol([ 0, 4, 4 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 8 );
   test.identical( mul.reduceToProductAtomWise(), 0 );
@@ -8016,7 +8016,7 @@ function mul( test )
   test.case = 'm3 * ca'; /* */
 
   var mul = matrix.mul( null, [ m3, cb ] );
-  var expected = matrix.makeCol([ 0, 4, 4 ]);
+  var expected = matrix.MakeCol([ 0, 4, 4 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 8 );
   test.identical( mul.reduceToProductAtomWise(), 0 );
@@ -8026,7 +8026,7 @@ function mul( test )
   test.case = 'ra * m3'; /* */
 
   var mul = matrix.mul( null, [ ra, m3 ] );
-  var expected = matrix.makeRow([ 10, 5, 0 ]);
+  var expected = matrix.MakeRow([ 10, 5, 0 ]);
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 15 );
@@ -8037,7 +8037,7 @@ function mul( test )
   test.case = 'rb * m3'; /* */
 
   var mul = matrix.mul( null, [ rb, m3 ] );
-  var expected = matrix.makeRow([ 10, 5, 0 ]);
+  var expected = matrix.MakeRow([ 10, 5, 0 ]);
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 15 );
@@ -8047,7 +8047,7 @@ function mul( test )
 
   //
 
-  var expected = matrix.makeRow([ 14 ]);
+  var expected = matrix.MakeRow([ 14 ]);
 
   test.case = 'ra * ca';
 
@@ -8071,7 +8071,7 @@ function mul( test )
 
   //
 
-  var expected = matrix.makeSquare
+  var expected = matrix.MakeSquare
   ([
     1, 2, 3,
     2, 4, 6,
@@ -8096,7 +8096,7 @@ function mul( test )
 
   test.case = 'data'; /* */
 
-  var m1 = matrix.make([ 4, 3 ]).copy
+  var m1 = matrix.Make([ 4, 3 ]).copy
   ([
     +2, +0, +1,
     -1, +1, +0,
@@ -8104,7 +8104,7 @@ function mul( test )
     -1, +1, +1,
   ]);
 
-  var m2 = matrix.make([ 3, 4 ]).copy
+  var m2 = matrix.Make([ 3, 4 ]).copy
   ([
     +2, +1, +2, +1,
     +0, +1, +0, +1,
@@ -8115,7 +8115,7 @@ function mul( test )
 
   test.case = '4x3 * 3x4'; /* */
 
-  var expected = matrix.make([ 4, 4 ]).copy
+  var expected = matrix.Make([ 4, 4 ]).copy
   ([
     +5, +2, +5, +2,
     -2, +0, -2, +0,
@@ -8129,7 +8129,7 @@ function mul( test )
 
   test.case = '3x4 * 4x3'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +4, +8, +5,
     -2, +2, +1,
@@ -8142,7 +8142,7 @@ function mul( test )
 
   test.case = '3x4 * 4x3'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +4, -2, +3,
     +8, +2, +3,
@@ -8155,7 +8155,7 @@ function mul( test )
 
   test.case = '4x3 * 4x3t'; /* */
 
-  var expected = matrix.make([ 4, 4 ]).copy
+  var expected = matrix.Make([ 4, 4 ]).copy
   ([
     +5, -2, +3, -1,
     -2, +2, +2, +2,
@@ -8171,7 +8171,7 @@ function mul( test )
 
   var m = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +6, +23, +43,
     +9, +36, +68,
@@ -8187,7 +8187,7 @@ function mul( test )
 
   var m = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +72, +296, +563,
     +113, +466, +887,
@@ -8203,7 +8203,7 @@ function mul( test )
 
   var m = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +931, +3847, +7326,
     +1466, +6059, +11539,
@@ -8220,7 +8220,7 @@ function mul( test )
   var m1 = m3a.clone();
   var m2 = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +113, +466, +887,
     +144, +592, +1126,
@@ -8237,7 +8237,7 @@ function mul( test )
   var m1 = m3a.clone();
   var m2 = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +113, +466, +887,
     +144, +592, +1126,
@@ -8254,7 +8254,7 @@ function mul( test )
   var m1 = m3a.clone();
   var m2 = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +3706, +7525, +10457,
     +4706, +9556, +13280,
@@ -8271,7 +8271,7 @@ function mul( test )
   var m1 = m3a.clone();
   var m2 = m3b.clone();
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +3706, +7525, +10457,
     +4706, +9556, +13280,
@@ -8307,7 +8307,7 @@ function mul( test )
 
   var m = m3a.clone();
   var v = [ 1, 2, 3 ];
-  var row = matrix.makeRow([ 3, 4, 5 ]);
+  var row = matrix.MakeRow([ 3, 4, 5 ]);
   var expected = [ 8206 , 10444 , 14547 ];
   var mul = matrix.mul( v, [ m, v, row, m, v ] );
   logger.log( mul );
@@ -8318,7 +8318,7 @@ function mul( test )
 
   var m = m3a.clone();
   var v = [ 1, 2, 3 ];
-  var row = matrix.makeRow([ 3, 4, 5 ]);
+  var row = matrix.MakeRow([ 3, 4, 5 ]);
   var expected = [ 82060 , 104440 , 145470 ];
   var mul = matrix.mul( v, [ m, v, row, m, v, [ 10 ] ] );
   logger.log( mul );
@@ -8333,9 +8333,9 @@ function mul( test )
   test.shouldThrowErrorSync( () => matrix.mul( null ) );
   test.shouldThrowErrorSync( () => matrix.mul( null, null ) );
   test.shouldThrowErrorSync( () => matrix.mul( null, [] ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.make([ 3, 3 ]) ] ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.make([ 3, 3 ]), matrix.make([ 1, 4 ]) ] ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.make([ 4, 1 ]), matrix.make([ 3, 3 ]) ] ) );
+  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.Make([ 3, 3 ]) ] ) );
+  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.Make([ 3, 3 ]), matrix.Make([ 1, 4 ]) ] ) );
+  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.Make([ 4, 1 ]), matrix.Make([ 3, 3 ]) ] ) );
 
     // 1, 3, 5,
     // 2, 4, 6,
@@ -8352,7 +8352,7 @@ function mul( test )
 function furthestClosest( test )
 {
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
@@ -8406,7 +8406,7 @@ function matrixHomogenousApply( test )
 
   test.case = 'matrixHomogenousApply 2d'; /* */
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     4, 0, 1,
     0, 5, 2,
@@ -8423,7 +8423,7 @@ function matrixHomogenousApply( test )
 
   test.case = 'fromTransformations'; /* */
 
-  var m = matrix.make([ 4, 4 ]);
+  var m = matrix.Make([ 4, 4 ]);
 
   var position = [ 1, 2, 3 ];
   var quaternion = [ 0, 0, 0, 1 ];
@@ -8576,14 +8576,14 @@ function triangulate( test )
 
   test.case = 'triangulateGausian simple1'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +1, +2, -1,
     +3, +1, +7, -7,
     +1, +7, +1, +7,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +1, +2, -1,
     +0, -2, +1, -4,
@@ -8597,14 +8597,14 @@ function triangulate( test )
 
   test.case = 'triangulateGausianNormal simple1'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +1, +2, -1,
     +3, +1, +7, -7,
     +1, +7, +1, +7,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +1, +2, -1,
     +0, +1, -0.5, +2,
@@ -8616,14 +8616,14 @@ function triangulate( test )
 
   test.case = 'triangulateGausianNormal simple2'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     +1, -2, +2, 1,
     +5, -15, +8, 1,
     -2, -11, -11, 1,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, -2, +2, +1.0,
     +0, +1, 0.4, +0.8,
@@ -8635,14 +8635,14 @@ function triangulate( test )
 
   test.case = 'triangulateGausian simple2'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     +1, -2, +2, 1,
     +5, -15, +8, 1,
     -2, -11, -11, 1,
   ]);
 
-  var expected = matrix.make([ 3, 4 ]).copy
+  var expected = matrix.Make([ 3, 4 ]).copy
   ([
     +1, -2, +2, +1,
     +0, -5, -2, -4,
@@ -8654,23 +8654,23 @@ function triangulate( test )
 
   test.case = 'triangulateGausian with y argument'; /* */
 
-  var mexpected = matrix.make([ 3, 3 ]).copy
+  var mexpected = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +0, -5, -2,
     +0, +0, -1,
   ]);
 
-  var yexpected = matrix.makeCol([ +1, -4, +15 ]);
+  var yexpected = matrix.MakeCol([ +1, -4, +15 ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -15, +8,
     -2, -11, -11,
   ]);
 
-  var y = matrix.makeCol([ 1, 1, 1 ]);
+  var y = matrix.MakeCol([ 1, 1, 1 ]);
 
   m.triangulateGausian( y );
   test.equivalent( m, mexpected );
@@ -8678,23 +8678,23 @@ function triangulate( test )
 
   test.case = 'triangulateGausianNormal with y argument'; /* */
 
-  var mexpected = matrix.make([ 3, 3 ]).copy
+  var mexpected = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +0, +1, 0.4,
     +0, +0, 1,
   ]);
 
-  var yexpected = matrix.makeCol([ +1, +0.8, -15 ]);
+  var yexpected = matrix.MakeCol([ +1, +0.8, -15 ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -15, +8,
     -2, -11, -11,
   ]);
 
-  var y = matrix.makeCol([ 1, 1, 1 ]);
+  var y = matrix.MakeCol([ 1, 1, 1 ]);
 
   m.triangulateGausianNormal( y );
   test.equivalent( m, mexpected );
@@ -8702,23 +8702,23 @@ function triangulate( test )
 
   test.case = 'triangulateGausian with y argument'; /* */
 
-  var mexpected = matrix.make([ 3, 3 ]).copy
+  var mexpected = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +0, -5, -2,
     +0, +0, -1,
   ]);
 
-  var yexpected = matrix.makeCol([ +1, -4, +15 ]);
+  var yexpected = matrix.MakeCol([ +1, -4, +15 ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -15, +8,
     -2, -11, -11,
   ]);
 
-  var y = matrix.makeCol([ 1, 1, 1 ]);
+  var y = matrix.MakeCol([ 1, 1, 1 ]);
 
   m.triangulateGausian( y );
   test.equivalent( m, mexpected );
@@ -8726,7 +8726,7 @@ function triangulate( test )
 
   test.case = 'triangulateGausian ( nrow < ncol ) with y argument'; /* */
 
-  var mexpected = matrix.make([ 4, 3 ]).copy
+  var mexpected = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +0, +2, -4,
@@ -8734,9 +8734,9 @@ function triangulate( test )
     +0, +0, +0,
   ]);
 
-  var yexpected = matrix.makeCol([ -1, +3, -2, +0 ]);
+  var yexpected = matrix.MakeCol([ -1, +3, -2, +0 ]);
 
-  var m = matrix.make([ 4, 3 ]).copy
+  var m = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +0, +0,
@@ -8744,7 +8744,7 @@ function triangulate( test )
     +1, +4, +16,
   ]);
 
-  var y = matrix.makeCol([ -1, +2, +3, +2 ]);
+  var y = matrix.MakeCol([ -1, +2, +3, +2 ]);
 
   m.triangulateGausian( y );
   test.equivalent( m, mexpected );
@@ -8752,7 +8752,7 @@ function triangulate( test )
 
   test.case = 'triangulateGausianNormal ( nrow < ncol ) with y argument'; /* */
 
-  var mexpected = matrix.make([ 4, 3 ]).copy
+  var mexpected = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +0, +1, -2,
@@ -8760,9 +8760,9 @@ function triangulate( test )
     +0, +0, +0,
   ]);
 
-  var yexpected = matrix.makeCol([ -1, +1.5, -0.25, +0 ]);
+  var yexpected = matrix.MakeCol([ -1, +1.5, -0.25, +0 ]);
 
-  var m = matrix.make([ 4, 3 ]).copy
+  var m = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +0, +0,
@@ -8770,7 +8770,7 @@ function triangulate( test )
     +1, +4, +16,
   ]);
 
-  var y = matrix.makeCol([ -1, +2, +3, +2 ]);
+  var y = matrix.MakeCol([ -1, +2, +3, +2 ]);
 
   m.triangulateGausianNormal( y );
   test.equivalent( m, mexpected );
@@ -8778,14 +8778,14 @@ function triangulate( test )
 
   test.case = 'triangulateLu'; /* */
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +2, +4, -2,
     +4, -2, +6,
     +6, -4, +2,
   ]);
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +2, +4, -2,
     +2, -10, +10,
@@ -8801,14 +8801,14 @@ function triangulate( test )
   var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
   var u = m.clone().triangleLowerSet( 0 );
 
-  var ll = matrix.make([ 3, 3 ]).copy
+  var ll = matrix.Make([ 3, 3 ]).copy
   ([
     +1, +0, +0,
     +2, +1, +0,
     +3, +1.6, +1,
   ]);
 
-  var uu = matrix.make([ 3, 3 ]).copy
+  var uu = matrix.Make([ 3, 3 ]).copy
   ([
     +2, +4, -2,
     +0, -10, +10,
@@ -8822,14 +8822,14 @@ function triangulate( test )
 
   test.case = 'triangulateLuNormal'; /* */
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +2, +4, -2,
     +4, -2, +6,
     +6, -4, +2,
   ]);
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +2, +2, -1,
     +4, -10, -1,
@@ -8845,14 +8845,14 @@ function triangulate( test )
   var l = m.clone().triangleUpperSet( 0 );
   var u = m.clone().triangleLowerSet( 0 ).diagonalSet( 1 );
 
-  var ll = matrix.make([ 3, 3 ]).copy
+  var ll = matrix.Make([ 3, 3 ]).copy
   ([
     +2, +0, +0,
     +4, -10, +0,
     +6, -16, -8,
   ]);
 
-  var uu = matrix.make([ 3, 3 ]).copy
+  var uu = matrix.Make([ 3, 3 ]).copy
   ([
     +1, +2, -1,
     +0, +1, -1,
@@ -8866,14 +8866,14 @@ function triangulate( test )
 
   test.case = 'triangulateLu'; /* */
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -15, +8,
     -2, -11, -11,
   ]);
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -5, -2,
@@ -8889,14 +8889,14 @@ function triangulate( test )
   var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
   var u = m.clone().triangleLowerSet( 0 );
 
-  var ll = matrix.make([ 3, 3 ]).copy
+  var ll = matrix.Make([ 3, 3 ]).copy
   ([
     +1, +0, +0,
     +5, +1, +0,
     -2, +3, +1,
   ]);
 
-  var uu = matrix.make([ 3, 3 ]).copy
+  var uu = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +0, -5, -2,
@@ -8910,14 +8910,14 @@ function triangulate( test )
 
   test.case = 'triangulateLuNormal'; /* */
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -15, +8,
     -2, -11, -11,
   ]);
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +5, -5, +0.4,
@@ -8935,14 +8935,14 @@ function triangulate( test )
   logger.log( 'l', l );
   logger.log( 'u', u );
 
-  var ll = matrix.make([ 3, 3 ]).copy
+  var ll = matrix.Make([ 3, 3 ]).copy
   ([
     +1, +0, +0,
     +5, -5, +0,
     -2, -15, -1,
   ]);
 
-  var uu = matrix.make([ 3, 3 ]).copy
+  var uu = matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
     +0, +1, +0.4,
@@ -8956,7 +8956,7 @@ function triangulate( test )
 
   test.case = 'triangulateLu ( nrow < ncol ) with y argument'; /* */
 
-  var mexpected = matrix.make([ 4, 3 ]).copy
+  var mexpected = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +2, -4,
@@ -8964,9 +8964,9 @@ function triangulate( test )
     +1, +3, +3,
   ]);
 
-  var yexpected = matrix.makeCol([ -1, +3, -2, +0 ]);
+  var yexpected = matrix.MakeCol([ -1, +3, -2, +0 ]);
 
-  var m = matrix.make([ 4, 3 ]).copy
+  var m = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +0, +0,
@@ -8985,7 +8985,7 @@ function triangulate( test )
   logger.log( 'l', l );
   logger.log( 'u', u );
 
-  var ll = matrix.make([ 4, 3 ]).copy
+  var ll = matrix.Make([ 4, 3 ]).copy
   ([
     +1, +0, +0,
     +1, +1, +0,
@@ -8993,7 +8993,7 @@ function triangulate( test )
     +1, +3, +3,
   ]);
 
-  var uu = matrix.make([ 4, 3 ]).copy
+  var uu = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +0, +2, -4,
@@ -9014,7 +9014,7 @@ function triangulate( test )
 
   test.case = 'triangulateLuNormal ( nrow < ncol )'; /* */
 
-  var mexpected = matrix.make([ 4, 3 ]).copy
+  var mexpected = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +2, -2,
@@ -9022,7 +9022,7 @@ function triangulate( test )
     +1, +6, +24,
   ]);
 
-  var m = matrix.make([ 4, 3 ]).copy
+  var m = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +0, +0,
@@ -9041,7 +9041,7 @@ function triangulate( test )
   logger.log( 'l', l );
   logger.log( 'u', u );
 
-  var ll = matrix.make([ 4, 3 ]).copy
+  var ll = matrix.Make([ 4, 3 ]).copy
   ([
     +1, +0, +0,
     +1, +2, +0,
@@ -9049,7 +9049,7 @@ function triangulate( test )
     +1, +6, +24,
   ]);
 
-  var uu = matrix.make([ 4, 3 ]).copy
+  var uu = matrix.Make([ 4, 3 ]).copy
   ([
     +1, -2, +4,
     +0, +1, -2,
@@ -9070,13 +9070,13 @@ function triangulate( test )
 
   test.case = 'triangulateLu ( nrow > ncol )'; /* */
 
-  var mexpected = matrix.make([ 2, 3 ]).copy
+  var mexpected = matrix.Make([ 2, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +2, -4,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +0, +0,
@@ -9093,13 +9093,13 @@ function triangulate( test )
   logger.log( 'l', l );
   logger.log( 'u', u );
 
-  var ll = matrix.make([ 2, 3 ]).copy
+  var ll = matrix.Make([ 2, 3 ]).copy
   ([
     +1, +0, +0,
     +1, +1, +0,
   ]);
 
-  var uu = matrix.make([ 2, 3 ]).copy
+  var uu = matrix.Make([ 2, 3 ]).copy
   ([
     +1, -2, +4,
     +0, +2, -4,
@@ -9118,13 +9118,13 @@ function triangulate( test )
 
   test.case = 'triangulateLuNormal ( nrow > ncol )'; /* */
 
-  var mexpected = matrix.make([ 2, 3 ]).copy
+  var mexpected = matrix.Make([ 2, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +2, -2,
   ]);
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     +1, -2, +4,
     +1, +0, +0,
@@ -9141,13 +9141,13 @@ function triangulate( test )
   logger.log( 'l', l );
   logger.log( 'u', u );
 
-  var ll = matrix.make([ 2, 3 ]).copy
+  var ll = matrix.Make([ 2, 3 ]).copy
   ([
     +1, +0, +0,
     +1, +2, +0,
   ]);
 
-  var uu = matrix.make([ 2, 3 ]).copy
+  var uu = matrix.Make([ 2, 3 ]).copy
   ([
     +1, -2, +4,
     +0, +1, -2,
@@ -9175,20 +9175,20 @@ function solveTriangulated( test )
 
   test.case = 'solveTriangleLower'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     2, 0, 0,
     2, 3, 0,
     4, 5, 6,
   ]);
 
-  var expected = matrix.makeCol([ 1, 0, 0 ]);
-  var y = matrix.makeCol([ 2, 2, 4 ]);
+  var expected = matrix.MakeCol([ 1, 0, 0 ]);
+  var y = matrix.MakeCol([ 2, 2, 4 ]);
   var x = matrix.solveTriangleLower( null, m, y );
 
   test.equivalent( x, expected );
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     2, -99, -99,
     2, 3, -99,
@@ -9199,20 +9199,20 @@ function solveTriangulated( test )
 
   test.case = 'solveTriangleUpper'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     6, 5, 4,
     0, 3, 2,
     0, 0, 2,
   ]);
 
-  var expected = matrix.makeCol([ 0, 0, 1 ]);
-  var y = matrix.makeCol([ 4, 2, 2 ]);
+  var expected = matrix.MakeCol([ 0, 0, 1 ]);
+  var y = matrix.MakeCol([ 4, 2, 2 ]);
   var x = matrix.solveTriangleUpper( null, m, y );
 
   test.equivalent( x, expected );
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     6, 5, 4,
     -99, 3, 2,
@@ -9223,20 +9223,20 @@ function solveTriangulated( test )
 
   test.case = 'solveTriangleLowerNormal'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     1, 0, 0,
     2, 1, 0,
     4, 5, 1,
   ]);
 
-  var expected = matrix.makeCol([ 2, -2, 6 ]);
-  var y = matrix.makeCol([ 2, 2, 4 ]);
+  var expected = matrix.MakeCol([ 2, -2, 6 ]);
+  var y = matrix.MakeCol([ 2, 2, 4 ]);
   var x = matrix.solveTriangleLowerNormal( null, m, y );
 
   test.equivalent( x, expected );
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     -99, -99, -99,
     2, -99, -99,
@@ -9247,20 +9247,20 @@ function solveTriangulated( test )
 
   test.case = 'solveTriangleUpperNormal'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     1, 5, 4,
     0, 1, 2,
     0, 0, 1,
   ]);
 
-  var expected = matrix.makeCol([ 6, -2, 2 ]);
-  var y = matrix.makeCol([ 4, 2, 2 ]);
+  var expected = matrix.MakeCol([ 6, -2, 2 ]);
+  var y = matrix.MakeCol([ 4, 2, 2 ]);
   var x = matrix.solveTriangleUpperNormal( null, m, y );
 
   test.equivalent( x, expected );
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     -99, 5, 4,
     -99, -99, 2,
@@ -9273,44 +9273,44 @@ function solveTriangulated( test )
 
   test.case = 'solveWithTriangles u'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     1, 5, 4,
     0, 1, 2,
     0, 0, 1,
   ]);
 
-  var expected = matrix.makeCol([ 6, -2, 2 ]);
-  var y = matrix.makeCol([ 4, 2, 2 ]);
+  var expected = matrix.MakeCol([ 6, -2, 2 ]);
+  var y = matrix.MakeCol([ 4, 2, 2 ]);
   var x = matrix.solveWithTriangles( null, m, y );
 
   test.equivalent( x, expected );
 
   test.case = 'solveWithTriangles u'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     -2, +1, +2,
     +4, -1, -5,
     +2, -3, -1,
   ]);
 
-  var expected = matrix.makeCol([ -1, 2, -2 ]);
-  var y = matrix.makeCol([ 0, 4, -6 ]);
+  var expected = matrix.MakeCol([ -1, 2, -2 ]);
+  var y = matrix.MakeCol([ 0, 4, -6 ]);
   var x = matrix.solveWithTriangles( null, m, y );
 
   test.equivalent( x, expected );
 
   test.case = 'system triangulateLu'; /* */
 
-  var expected = matrix.makeSquare
+  var expected = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +2, -2,
     -2, -1, -2,
   ]);
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9323,7 +9323,7 @@ function solveTriangulated( test )
 
   test.case = 'system solve'; /* */
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9347,7 +9347,7 @@ function _solveSimple( test, rname )
 
   test.case = rname + ' . y array . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9372,7 +9372,7 @@ function _solveSimple( test, rname )
   // return;
   test.case = rname + ' . y vector . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9396,7 +9396,7 @@ function _solveSimple( test, rname )
 
   test.case = rname + ' . y matrix . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9404,7 +9404,7 @@ function _solveSimple( test, rname )
   ]);
 
   var om = m.clone();
-  var y = matrix.makeCol([ 7, 4, -10 ]);
+  var y = matrix.MakeCol([ 7, 4, -10 ]);
   var oy = y.clone();
   var x = matrix[ rname ]( null, m, y );
 
@@ -9412,7 +9412,7 @@ function _solveSimple( test, rname )
   logger.log( 'x', x );
 
   test.is( x !== y );
-  test.identical( x, matrix.makeCol([ -1, -2, +3 ]) );
+  test.identical( x, matrix.MakeCol([ -1, -2, +3 ]) );
   test.identical( y, oy );
 
   var y2 = matrix.mul( null, [ om, x ] );
@@ -9420,7 +9420,7 @@ function _solveSimple( test, rname )
 
   test.case = rname + ' . x array . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9446,7 +9446,7 @@ function _solveSimple( test, rname )
 
   test.case = rname + ' . x vector . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9472,7 +9472,7 @@ function _solveSimple( test, rname )
 
   test.case = rname + ' . x matrix . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9482,7 +9482,7 @@ function _solveSimple( test, rname )
   var om = m.clone();
   var y = [ 7, 4, -10 ];
   var oy = y.slice();
-  var ox = matrix.makeCol([ 0, 0, 0 ]);
+  var ox = matrix.MakeCol([ 0, 0, 0 ]);
   var x = matrix[ rname ]( ox, m, y );
 
   logger.log( 'm', m );
@@ -9490,15 +9490,15 @@ function _solveSimple( test, rname )
 
   test.is( x !== y );
   test.is( x === ox );
-  test.identical( x, matrix.makeCol([ -1, -2, +3 ]) );
+  test.identical( x, matrix.MakeCol([ -1, -2, +3 ]) );
   test.identical( y, oy );
 
   var y2 = matrix.mul( null, [ om, x ] );
-  test.identical( y2, matrix.makeCol([ 7, 4, -10 ]) );
+  test.identical( y2, matrix.MakeCol([ 7, 4, -10 ]) );
 
   test.case = rname + ' . y 3x2 matrix . solve 3x3 system'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +1, -1, +2,
     +2, +0, +2,
@@ -9506,7 +9506,7 @@ function _solveSimple( test, rname )
   ]);
 
   var om = m.clone();
-  var y = matrix.make([ 3, 2 ]).copy
+  var y = matrix.Make([ 3, 2 ]).copy
   ([
     7, 3,
     4, 2,
@@ -9518,7 +9518,7 @@ function _solveSimple( test, rname )
   logger.log( 'm', m );
   logger.log( 'x', x );
 
-  var xEpxpected = matrix.make([ 3, 2 ]).copy
+  var xEpxpected = matrix.Make([ 3, 2 ]).copy
   ([
     -1, +5,
     -2, -6,
@@ -9534,18 +9534,18 @@ function _solveSimple( test, rname )
 
   test.case = rname + ' . y 0x2 matrix . solve 0x0 system'; //
 
-  var m = matrix.makeSquare([]);
+  var m = matrix.MakeSquare([]);
   m.toStr();
 
   var om = m.clone();
-  var y = matrix.make([ 0, 2 ]).copy([]);
+  var y = matrix.Make([ 0, 2 ]).copy([]);
   var oy = y.clone();
   var x = matrix[ rname ]( null, m, y );
 
   logger.log( 'm', m );
   logger.log( 'x', x );
 
-  var xEpxpected = matrix.make([ 0, 2 ]).copy([]);
+  var xEpxpected = matrix.Make([ 0, 2 ]).copy([]);
 
   test.is( x !== y );
   test.identical( x, xEpxpected );
@@ -9578,7 +9578,7 @@ function _solveComplicated( test, rname )
 
   test.case = rname + ' . y array . solve 3x3 system1'; //
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +4, +2, +4,
     +4, +2, +2,
@@ -9621,7 +9621,7 @@ function solveWithPivoting( test )
 
   test.case = 'triangulateGausianPivoting 3x4'; /* */
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +3, +1, +2,
     +2, +6, +4, +8,
@@ -9629,7 +9629,7 @@ function solveWithPivoting( test )
   ]);
 
   var om = m.clone();
-  var y = matrix.makeCol([ +1, +3, +1 ]);
+  var y = matrix.MakeCol([ +1, +3, +1 ]);
   var pivots = m.triangulateGausianPivoting( y );
 
   logger.log( 'm', m );
@@ -9637,7 +9637,7 @@ function solveWithPivoting( test )
   logger.log( 'y', y );
   logger.log( 'pivots', _.toStr( pivots, { levels : 2 } ) );
 
-  var em = matrix.make([ 3, 4 ]).copy
+  var em = matrix.Make([ 3, 4 ]).copy
   ([
     +3, +2, +1, +1,
     +0, +4, +2, +0,
@@ -9645,7 +9645,7 @@ function solveWithPivoting( test )
   ]);
   test.identical( m, em );
 
-  var ey = matrix.makeCol([ 1, 1, 0 ]);
+  var ey = matrix.MakeCol([ 1, 1, 0 ]);
   test.identical( y, ey );
 
   var epivots = [ [ 0, 1, 2 ], [ 1, 3, 2, 0 ] ]
@@ -9661,7 +9661,7 @@ function solveWithPivoting( test )
   logger.log( 'y', y );
   logger.log( 'pivots', _.toStr( pivots, { levels : 2 } ) );
 
-  var em = matrix.make([ 3, 4 ]).copy
+  var em = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +3, +1, +2,
     +0, +0, +2, +4,
@@ -9669,32 +9669,32 @@ function solveWithPivoting( test )
   ]);
   test.identical( m, em );
 
-  var ey = matrix.makeCol([ 1, 1, 0 ]);
+  var ey = matrix.MakeCol([ 1, 1, 0 ]);
   test.identical( y, ey );
 
   test.case = 'triangulateGausianPivoting'; /* */
 
-  var y = matrix.makeCol([ 1, 2, 3 ]);
+  var y = matrix.MakeCol([ 1, 2, 3 ]);
   var yoriginal = y.clone();
-  var yexpected = matrix.makeCol([ 1, 1, 2.5 ]);
+  var yexpected = matrix.MakeCol([ 1, 1, 2.5 ]);
 
   var pivotsExpected = [ [ 0, 1, 2 ], [ 0, 2, 1 ] ];
 
-  var mexpected = matrix.make([ 3, 3 ]).copy
+  var mexpected = matrix.Make([ 3, 3 ]).copy
   ([
     +4, +4, +2,
     +0, -2, +0,
     +0, +0, +1,
   ]);
 
-  var munpivotedExpected = matrix.make([ 3, 3 ]).copy
+  var munpivotedExpected = matrix.Make([ 3, 3 ]).copy
   ([
     +4, +2, +4,
     +0, +0, -2,
     +0, +1, +0,
   ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +4, +2, +4,
     +4, +2, +2,
@@ -9716,7 +9716,7 @@ function solveWithPivoting( test )
   var x = matrix.solveTriangleUpper( null, m, y );
   var y2 = matrix.mul( null, [ m, x ] );
 
-  var x3 = matrix.from( x.clone() ).pivotBackward([ pivots[ 1 ], null ]);
+  var x3 = matrix.From( x.clone() ).pivotBackward([ pivots[ 1 ], null ]);
   var y3 = matrix.mul( null, [ om, x3 ] );
 
   test.equivalent( pivots, pivotsExpected );
@@ -9749,12 +9749,12 @@ function solveGeneral( test )
 
     var param = _.dup( 0, m.dims[ 1 ] );
     param[ d ] = 1;
-    var x2 = matrix.mul( null, [ r.kernel, matrix.makeCol( param ) ] );
+    var x2 = matrix.mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
     var y2 = matrix.mul( null, [ m, x2 ] );
 
     if( y2.dims[ 0 ] < m.dims[ 1 ] )
     y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
-    test.equivalent( y2, matrix.makeZero([ m.dims[ 1 ], 1 ]) );
+    test.equivalent( y2, matrix.MakeZero([ m.dims[ 1 ], 1 ]) );
 
     logger.log( 'm', m );
     logger.log( 'x2', x2 );
@@ -9767,7 +9767,7 @@ function solveGeneral( test )
 
     var param = _.dup( 0, m.dims[ 1 ] );
     param[ d ] = factor;
-    var x2 = matrix.mul( null, [ r.kernel, matrix.makeCol( param ) ] );
+    var x2 = matrix.mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
     x2 = matrix.addAtomWise( x2, r.base, x2 );
     var y2 = matrix.mul( null, [ m, x2 ] );
 
@@ -9805,9 +9805,9 @@ function solveGeneral( test )
   var re =
   {
     nsolutions : Infinity,
-    base : matrix.makeCol([ +3, -3, +0 ]),
+    base : matrix.MakeCol([ +3, -3, +0 ]),
     nkernel : 1,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       +0, +0, -1,
       +0, +0, +2,
@@ -9815,14 +9815,14 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +2, +2, -2,
     -2, -3, +4,
     +4, +3, -2,
   ]);
 
-  var me = matrix.makeSquare
+  var me = matrix.MakeSquare
   ([
     +1, +0, +1,
     +0, +1, -2,
@@ -9830,7 +9830,7 @@ function solveGeneral( test )
   ]);
 
   var mo = m.clone();
-  var y = matrix.makeCol([ 0, 3, 3 ]);
+  var y = matrix.MakeCol([ 0, 3, 3 ]);
   var yo = y.clone();
   var r = matrix.solveGeneral({ m, y, pivoting : 0 });
 
@@ -9849,9 +9849,9 @@ function solveGeneral( test )
   // var re =
   // {
   //   nsolutions : Infinity,
-  //   base : matrix.makeCol([ +1.5, 0, +1.5 ]),
+  //   base : matrix.MakeCol([ +1.5, 0, +1.5 ]),
   //   nkernel : 1,
-  //   kernel : matrix.makeSquare
+  //   kernel : matrix.MakeSquare
   //   ([
   //     +0, +0, -0.5,
   //     +0, +0, +1,
@@ -9862,9 +9862,9 @@ function solveGeneral( test )
   var re =
   {
     nsolutions : Infinity,
-    base : matrix.makeCol([ 1.5, 0, 1.5 ]),
+    base : matrix.MakeCol([ 1.5, 0, 1.5 ]),
     nkernel : 1,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       -0.5, +0, +0,
       +1, +0, +0,
@@ -9872,21 +9872,21 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +2, +2, -2,
     -2, -3, +4,
     +4, +3, -2,
   ]);
 
-  // var me = matrix.makeSquare
+  // var me = matrix.MakeSquare
   // ([
   //   +1, +0.5, +0,
   //   +0, -0.5, +1,
   //   +0, +0, +0,
   // ]);
 
-  var me = matrix.makeSquare
+  var me = matrix.MakeSquare
   ([
     +0, +0, +0,
     +0, -0.5, +1,
@@ -9894,7 +9894,7 @@ function solveGeneral( test )
   ]);
 
   var mo = m.clone();
-  var y = matrix.makeCol([ 0, 3, 3 ]);
+  var y = matrix.MakeCol([ 0, 3, 3 ]);
   var yo = y.clone();
   var r = matrix.solveGeneral({ m, y, pivoting : 1 });
 
@@ -9913,9 +9913,9 @@ function solveGeneral( test )
   var expected =
   {
     nsolutions : Infinity,
-    base : matrix.makeCol([ +1, -1, +0 ]),
+    base : matrix.MakeCol([ +1, -1, +0 ]),
     nkernel : 1,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       +0, +0, +2,
       +0, +0, +0,
@@ -9923,7 +9923,7 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +2, -2, -4,
     -2, +1, +4,
@@ -9932,7 +9932,7 @@ function solveGeneral( test )
 
   var mo = m.clone();
 
-  var y = matrix.makeCol([ +4, -3, +2 ]);
+  var y = matrix.MakeCol([ +4, -3, +2 ]);
   var r = matrix.solveGeneral({ m, y });
   /*test.equivalent( r, expected );*/
 
@@ -9947,9 +9947,9 @@ function solveGeneral( test )
   var expected =
   {
     nsolutions : Infinity,
-    base : matrix.makeCol([ +1, +0, -1 ]),
+    base : matrix.MakeCol([ +1, +0, -1 ]),
     nkernel : 1,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       +0, +2, +0,
       +0, +1, +0,
@@ -9957,7 +9957,7 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.makeSquare
+  var m = matrix.MakeSquare
   ([
     +2, -4, -2,
     -2, +4, +1,
@@ -9966,7 +9966,7 @@ function solveGeneral( test )
 
   var mo = m.clone();
 
-  var y = matrix.makeCol([ +4, -3, +2 ]);
+  var y = matrix.MakeCol([ +4, -3, +2 ]);
   var r = matrix.solveGeneral({ m , y });
   /*test.equivalent( r, expected );*/
 
@@ -9981,9 +9981,9 @@ function solveGeneral( test )
   var expected =
   {
     nsolutions : Infinity,
-    base : matrix.makeCol([ -2, +0, -0.25 ]),
+    base : matrix.MakeCol([ -2, +0, -0.25 ]),
     nkernel : 1,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       +0, +0, +0,
       +0, +0, +1,
@@ -9991,7 +9991,7 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.make([ 2, 3 ]).copy
+  var m = matrix.Make([ 2, 3 ]).copy
   ([
     -1, -2, +4,
     +1, +0, +0,
@@ -9999,7 +9999,7 @@ function solveGeneral( test )
 
   var mo = m.clone();
 
-  var y = matrix.makeCol([ +1, -2 ]);
+  var y = matrix.MakeCol([ +1, -2 ]);
   var r = matrix.solveGeneral({ m , y });
   test.equivalent( r, expected );
   /*test.equivalent( r, expected );*/
@@ -10015,9 +10015,9 @@ function solveGeneral( test )
   var expected =
   {
     nsolutions : 1,
-    base : matrix.makeCol([ -0.5, +2.5, -0.5 ]),
+    base : matrix.MakeCol([ -0.5, +2.5, -0.5 ]),
     nkernel : 0,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       0, 0, 0,
       0, 0, 0,
@@ -10025,7 +10025,7 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +4, +2, +4,
     +4, +2, +2,
@@ -10034,7 +10034,7 @@ function solveGeneral( test )
 
   var mo = m.clone();
 
-  var y = matrix.makeCol([ 1, 2, 3 ]);
+  var y = matrix.MakeCol([ 1, 2, 3 ]);
   var r = matrix.solveGeneral({ m, y });
   test.equivalent( r, expected );
 
@@ -10049,9 +10049,9 @@ function solveGeneral( test )
   var expected =
   {
     nsolutions : Infinity,
-    base : matrix.makeCol([ 0, +1/6, 0, 0.25 ]),
+    base : matrix.MakeCol([ 0, +1/6, 0, 0.25 ]),
     nkernel : 2,
-    kernel : matrix.makeSquare
+    kernel : matrix.MakeSquare
     ([
       +0, +0, +1, +0,
       +0, +0, -1/3, +0,
@@ -10060,7 +10060,7 @@ function solveGeneral( test )
     ]),
   }
 
-  var m = matrix.make([ 3, 4 ]).copy
+  var m = matrix.Make([ 3, 4 ]).copy
   ([
     +1, +3, +1, +2,
     +2, +6, +4, +8,
@@ -10069,7 +10069,7 @@ function solveGeneral( test )
 
   var mo = m.clone();
 
-  var y = matrix.makeCol([ +1, +3, +1 ]);
+  var y = matrix.MakeCol([ +1, +3, +1 ]);
   var r = matrix.solveGeneral({ m, y });
   test.equivalent( r, expected );
 
@@ -10090,14 +10090,14 @@ function invert( test )
 
   test.case = 'invertingClone'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +0, -0.5, -0.5,
     -7, -3, +2,
     -3, -1, +1,
   ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     -2, +2, -5,
     +2, -3, +7,
@@ -10112,14 +10112,14 @@ function invert( test )
 
   test.case = 'invertingClone'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     +5/3, +1, -1/3,
     -11, -6, +5,
     +2, +1, -1,
   ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +3, +2, +9,
     -3, -3, -14,
@@ -10134,14 +10134,14 @@ function invert( test )
 
   test.case = 'invertingClone'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     -1.5, +0.5, +0.5,
     +0, +3, -1,
     +1, +2, -1,
   ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +2, -3, +4,
     +2, -2, +3,
@@ -10156,14 +10156,14 @@ function invert( test )
 
   test.case = 'invert'; /* */
 
-  var expected = matrix.make([ 3, 3 ]).copy
+  var expected = matrix.Make([ 3, 3 ]).copy
   ([
     -1.5, +0.5, +0.5,
     +0, +3, -1,
     +1, +2, -1,
   ]);
 
-  var m = matrix.make([ 3, 3 ]).copy
+  var m = matrix.Make([ 3, 3 ]).copy
   ([
     +2, -3, +4,
     +2, -2, +3,
@@ -10301,8 +10301,8 @@ function identical( test )
 
   test.case = 'trivial';
 
-  var m1 = matrix.makeIdentity([ 3, 3 ]);
-  var m2 = matrix.makeIdentity([ 3, 3 ]);
+  var m1 = matrix.MakeIdentity([ 3, 3 ]);
+  var m2 = matrix.MakeIdentity([ 3, 3 ]);
   var got = m1.identicalWith( m2 );
   test.identical( got, true );
 
@@ -10371,8 +10371,8 @@ var Self =
     makeWithOffset,
 
     _make,
-    _makeSimilar,
-    _convertToClass,
+    _MakeSimilar,
+    _ConvertToClass,
     _copyTo,
     _submatrix,
     _bufferNormalize,
@@ -10403,12 +10403,12 @@ var Self =
     construct,
     make,
     makeHelper,
-    makeLine,
-    makeSimilar,
+    MakeLine,
+    MakeSimilar,
     from,
     tempBorrow,
     copyClone,
-    convertToClass,
+    ConvertToClass,
     copyTo,
     copy,
 
