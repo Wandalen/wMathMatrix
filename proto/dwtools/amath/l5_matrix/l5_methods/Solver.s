@@ -40,7 +40,7 @@ function _triangulateGausian( o )
   }
 
   if( o.y !== null )
-  o.y = Self.from( o.y );
+  o.y = Self.From( o.y );
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( !o.y || o.y.dims[ 0 ] === self.dims[ 0 ] );
@@ -357,7 +357,7 @@ function solveWithGausian()
   o.m.triangulateGausian( o.x );
   this.solveTriangleUpper( o.x, o.m, o.x );
 
-  // o.x = this.convertToClass( o.oy.constructor, o.x );
+  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -383,7 +383,7 @@ function _solveWithGaussJordan( o )
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
 
-  o.x = this.from( o.x );
+  o.x = this.From( o.x );
   o.y = o.x;
 
   /* */
@@ -442,7 +442,7 @@ function _solveWithGaussJordan( o )
 
   /* */
 
-  // o.x = this.convertToClass( o.oy.constructor, o.x );
+  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -520,7 +520,7 @@ function solveWithTriangles( x, m, y )
   o.x = this.solveTriangleLower( o.x, o.m, o.y );
   o.x = this.solveTriangleUpperNormal( o.x, o.m, o.x );
 
-  // o.x = this.convertToClass( o.oy.constructor, o.x );
+  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -540,7 +540,7 @@ function solveWithTrianglesPivoting( x, m, y )
   Self.VectorPivotBackward( o.x, pivots[ 1 ] );
   Self.VectorPivotBackward( o.y, pivots[ 0 ] );
 
-  // o.x = this.convertToClass( o.oy.constructor, o.x );
+  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -565,7 +565,7 @@ function _solveTriangleWithRoutine( args, onSolve )
     }
     else
     {
-      x = Self.from( x, y.dims );
+      x = Self.From( x, y.dims );
       x.copy( y );
     }
 
@@ -725,7 +725,7 @@ function solveGeneral( o )
   }
 
   if( !result.kernel )
-  result.kernel = Self.makeZero( o.m.dims );
+  result.kernel = Self.MakeZero( o.m.dims );
   let nrow = o.m.nrow;
 
   /* verify */
@@ -823,7 +823,7 @@ function invertingClone()
   _.assert( self.isSquare() );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  return Self.solveWithGaussJordan( null, self.clone(), self.Self.makeIdentity( self.dims[ 0 ] ) );
+  return Self.solveWithGaussJordan( null, self.clone(), self.Self.MakeIdentity( self.dims[ 0 ] ) );
 }
 
 //

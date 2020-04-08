@@ -4,10 +4,10 @@
 
 ### Рутина `make`
 
-Створює ініціалізовану матрицю заданого розміру.
+Створює матрицю заданої розмірності.
 
 ```js
-var matrix = _.Matrix.make( [ 2, 2 ] );
+var matrix = _.Matrix.make([ 2, 2 ]);
 console.log( 'matrix : ', a.toStr() );
 /* log : matrix : +0, +0,
                   +0, +0,
@@ -24,7 +24,9 @@ console.log( 'matrix1 : ', a.toStr() );
 /* log : matrix1 : +2, +2,
                    +3, +3,
 */
+```
 
+```js
 var matrix2 = _.Matrix.makeSquare( 2 );
 console.log( 'matrix2 : ', a.toStr() );
 /* log : matrix2 : +0, +0,
@@ -34,7 +36,7 @@ console.log( 'matrix2 : ', a.toStr() );
 
 ### Рутина `makeZero`
 
-Створює матрицю заданого розміру елементи котрої є нулі.
+Створює матрицю заданого розміру і заповнює її нулями.
 
 ```js
 var matrix1 = _.Matrix.makeZero( [ 2, 2 ] );
@@ -42,7 +44,9 @@ console.log( 'matrix1 : ', a.toStr() );
 /* log : matrix1 : +0, +0,
                    +0, +0,
 */
+```
 
+```js
 var matrix2 = _.Matrix.makeZero( 2 );
 console.log( 'matrix2 : ', a.toStr() );
 /* log : matrix2 : +0, +0,
@@ -52,7 +56,7 @@ console.log( 'matrix2 : ', a.toStr() );
 
 ### Рутина `makeIdentity`
 
-Створює матрицю заданого розміру, елемент матриці що має індекс рівний номеру рядка заповнюється значенням 1. У випадку квадратної матриці утворює одиничну матрицю.
+Створює одиничну матрицю заданого розміру. Діагональні значення такої матриці `1`.
 
 ```js
 var matrix1 = _.Matrix.makeIdentity( [ 2, 3 ] );
@@ -60,7 +64,9 @@ console.log( 'matrix1 : ', a.toStr() );
 /* log : matrix1 : +1, +0, +0
                    +0, +1, +0
 */
+```
 
+```js
 var matrix2 = _.Matrix.makeIdentity( 2 );
 console.log( 'matrix2 : ', a.toStr() );
 /* log : matrix2 : +1, +0,
@@ -70,7 +76,7 @@ console.log( 'matrix2 : ', a.toStr() );
 
 ### Рутина `makeDiagonal`
 
-Створює квадратну матрицю діагональ якої заповнюється значеннями з переданого буферу.
+Створює квадратну матрицю з заданими діагональними значеннями.
 
 ```js
 var matrix1 = _.Matrix.makeIdentity( [ 2, 3, 1 ] );
@@ -83,15 +89,17 @@ console.log( 'matrix : ', a.toStr() );
 
 ### Рутина `makeCol`
 
-Створює квадратну матрицю-колонку з переданого аргумента.
+Створює матрицю у формі колонки.
 
 ```js
-var matrix1 = _.Matrix.makeCol( [ 2, 3 ] );
+var matrix1 = _.Matrix.makeCol([ 2, 3 ]);
 console.log( 'matrix1 : ', a.toStr() );
 /* log : matrix1 : +2,
                    +3,
 */
+```
 
+```js
 var matrix2 = _.Matrix.makeCol( 2 );
 console.log( 'matrix2 : ', a.toStr() );
 /* log : matrix2 : +0,
@@ -101,21 +109,27 @@ console.log( 'matrix2 : ', a.toStr() );
 
 ### Рутина `makeRow`
 
-Створює квадратну матрицю-колонку з переданого аргумента.
+Створює матрицю у формі рядка.
 
 ```js
 var matrix1 = _.Matrix.makeRow( [ 2, 3 ] );
 console.log( 'matrix1 : ', a.toStr() );
 /* log : matrix1 : +2, +3,*/
+```
 
+```js
 var matrix2 = _.Matrix.makeRow( 2 );
 console.log( 'matrix2 : ', a.toStr() );
 /* log : matrix2 : +0, +0, */
 ```
 
-### Рутина `fromVectorAdapter`
+### Рутина `fromVector`
 
-Створює матрицю-колонку з переданого вектора. Якщо вектор має крок, він передається як зміщення для рядка. Початкове зміщення в буфері - 0.
+Створює матрицю-колонку з переданого вектора. Приймає вектора в будь-якому форматі:
+
+- як вектор адаптер
+- типізований буфер
+- звичайний масивмасив
 
 ```js
 var array = [ 1, 2, 3, 4, 5, 6 ];

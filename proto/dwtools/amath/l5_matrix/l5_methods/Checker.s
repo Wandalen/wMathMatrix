@@ -29,7 +29,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   *
   * @example
   * // returns true;
-  * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
   * ([
   *   1,   0,   0,
   *   0, - 1,   0
@@ -37,7 +37,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   * matrix.isDiagonal( );
   *
   * // returns false;
-  * var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   * ([
   *   1,   1,
   *   0, - 1
@@ -83,7 +83,7 @@ function isDiagonal()
   *
   * @example
   * // returns true;
-  * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
   * ([
   *   1,   0,   1,
   *   0, - 1,   0
@@ -91,7 +91,7 @@ function isDiagonal()
   * matrix.isUpperTriangle( );
   *
   * // returns false;
-  * var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   * ([
   *   1,   0,
   *   1, - 1
@@ -146,7 +146,7 @@ function isUpperTriangle( accuracy )
   *
   * @example
   * // returns true;
-  * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
   * ([
   *   1,   0,
   *   0, - 1
@@ -154,7 +154,7 @@ function isUpperTriangle( accuracy )
   * matrix.isSymmetric( );
   *
   * // returns false;
-  * var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
   * ([
   *   1,   0,  0,
   *   1, - 1,  0

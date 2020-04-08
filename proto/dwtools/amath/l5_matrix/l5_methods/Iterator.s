@@ -170,8 +170,8 @@ function AtomWiseHomogeneous( o )
   {
     o.srcs = o.args.slice( 1 );
     o.dst = o.args[ 0 ];
-    /*o.dst = proto.makeZero( dims );*/
-    o.dst = o.args[ 0 ] = proto.Self.from( o.dst, dims );
+    /*o.dst = proto.MakeZero( dims );*/
+    o.dst = o.args[ 0 ] = proto.Self.From( o.dst, dims );
   }
   else
   {
@@ -184,7 +184,7 @@ function AtomWiseHomogeneous( o )
 
   for( let s = 0 ; s < o.srcs.length ; s++ )
   {
-    let src = o.srcs[ s ] = proto.Self.from( o.srcs[ s ], dims );
+    let src = o.srcs[ s ] = proto.Self.From( o.srcs[ s ], dims );
     _.assert( src instanceof Self );
   }
 

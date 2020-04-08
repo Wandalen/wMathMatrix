@@ -265,7 +265,7 @@ function _copy( src, resetting )
  * Method copy() copies scalars from buffer {-src-} into inner matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +0, +0,
  * //       +0, +0,
@@ -310,7 +310,7 @@ function copy( src )
  * Method copyFromScalar() applies scalar {-src-} to each element of inner matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +0, +0,
  * //       +0, +0,
@@ -347,7 +347,7 @@ function copyFromScalar( src )
  * Method copyFromBuffer() copies scalars from buffer {-src-} into inner matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +0, +0,
  * //       +0, +0,
@@ -379,7 +379,7 @@ function copyFromBuffer( src )
  * Method clone() makes copy of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +1, +1,
  * //       +2, +2,
@@ -418,7 +418,7 @@ function clone()
  * Static routine CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 2, 2 ] );
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
  * console.log( matrix.toStr() );
  * var copy = _.Matrix.CopyTo( matrix, [ 1, 2, 3, 4 ] );
  * console.log( copy.toStr() );
@@ -506,7 +506,7 @@ function CopyTo( dst, src )
  * Method extractNormalized() extracts data from the Matrix instance and saves it in new map.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * var extract = matrix.extractNormalized();
  * console.log( extract );
  * // log : {
@@ -726,7 +726,7 @@ function AtomsPerMatrixForDimensions( dims )
  * Static routine NrowOf() returns number of rows in source Matrix {-src-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 5 ] );
+ * var matrix = _.Matrix.Make( [ 3, 5 ] );
  * var rows = _.Matrix.NrowOf( matrix );
  * console.log( rows );
  * // log : 3
@@ -755,7 +755,7 @@ function NrowOf( src )
  * Static routine NcolOf() returns number of columns in source Matrix {-src-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 5 ] );
+ * var matrix = _.Matrix.Make( [ 3, 5 ] );
  * var cols = _.Matrix.NcolOf( matrix );
  * console.log( cols );
  * // log : 5
@@ -784,7 +784,7 @@ function NcolOf( src )
  * Static routine DimsOf() returns dimentions of source Matrix {-src-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 5 ] );
+ * var matrix = _.Matrix.Make( [ 3, 5 ] );
  * var dims = _.Matrix.DimsOf( matrix );
  * console.log( dims );
  * // log : [ 3, 5 ]
@@ -1047,7 +1047,7 @@ function _bufferAssign( src )
  * Method bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * var dst = [ 0, 0, 0, 0 ];
  * var got = matrix.bufferCopyTo( dst );
  * console.log( got );
@@ -1435,7 +1435,7 @@ function _dimsSet( src )
  * Method expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +1, +1,
  * //       +2, +2,
@@ -1447,7 +1447,7 @@ function _dimsSet( src )
  * //       +0, +0,
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +1, +1,
  * //       +2, +2,
@@ -1545,8 +1545,8 @@ function expand( expand )
  * Static routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
  *
  * @example
- * var matrix1 = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
- * var matrix2 = _.Matrix.make( [ 2, 2 ] );
+ * var matrix1 = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix2 = _.Matrix.Make( [ 2, 2 ] );
  * var got = _.Matrix.ShapesAreSame( matrix1, matrix2 );
  * console.log( got );
  * // log : true
@@ -1578,7 +1578,7 @@ function ShapesAreSame( ins1, ins2 )
  * Method hasShape() compares dimensions of instance with dimensions of source container {-src-}.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * var got = matrix.hasShape( [ 2, 2 ] );
  * console.log( got );
  * // log : true
@@ -1614,7 +1614,7 @@ function hasShape( src )
  * Method isSquare() checks the equality of matrix dimensions.
  *
  * @example
- * var matrix = _.Matrix.make( [ 1, 2 ] );
+ * var matrix = _.Matrix.Make( [ 1, 2 ] );
  * var got = matrix.isSquare();
  * console.log( got );
  * // log : false
@@ -1642,7 +1642,7 @@ function isSquare()
  * Method flatAtomIndexFrom() finds the index of element in the matrix buffer.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * var got = matrix.flatAtomIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 4
@@ -1694,7 +1694,7 @@ function _FlatAtomIndexFromIndexNd( indexNd, strides )
  * Method takes into account values of definition of element position {-indexNd-}.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * var got = matrix.flatGranuleIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 3
@@ -1738,7 +1738,7 @@ function flatGranuleIndexFrom( indexNd )
  * Method transpose() transposes the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * console.log( matrix.toStr() );
  * // log : +1, +1,
  * //       +2, +2
@@ -1868,7 +1868,7 @@ function Is( src )
  * Method toStr() converts current matrix to string.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
  * var got = matrix.toStr();
  * console.log( got );
  * // log : +1, +1,\n+2, +2,
@@ -2061,7 +2061,7 @@ function bufferNormalize()
  * The buffer of new instance is the same container as original matrix buffer.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
  * console.log( got.toStr() );
  * // log : +1, +2,
@@ -2142,7 +2142,7 @@ function submatrix( submatrix )
  * while callback returns defined value.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.atomWhile( ( e ) => Math.pow( e, 2 ) );
  * console.log( got );
  * // log : 81
@@ -2204,7 +2204,7 @@ atomWhile.defaults =
  * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var storage = [];
  * matrix.atomEach( ( e ) => { storage.push(  Math.pow( e.atom, 2 ) ) } );
  * console.log( storage );
@@ -2270,7 +2270,7 @@ function atomEach( onAtom, args )
  * Method atomFlatGet() returns value of element by using its flat index.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.atomFlatGet( 3 );
  * console.log( got );
  * // log : 4
@@ -2304,7 +2304,7 @@ function atomFlatGet( index )
  * Method atomFlatSet() sets value of element of matrix buffer by using its flat index.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.atomFlatSet( 3, 1 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
@@ -2341,7 +2341,7 @@ function atomFlatSet( index, value )
  * Method atomGet() returns value of element using its position in matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.atomGet( [ 1, 1 ] );
  * console.log( got );
  * // log : 5
@@ -2377,7 +2377,7 @@ function atomGet( index )
  * Method atomSet() sets value of matrix element using its position.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.atomSet( [ 1, 1 ], 1 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
@@ -2417,7 +2417,7 @@ function atomSet( index, value )
  * Method atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
  *
  * @example
- * var matrix = _.Matrix.make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.Make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.atomsGet( [ 2, 5 ] );
  * console.log( got.toStr() );
  * // log : 3.000, 4.000, 5.000
@@ -2583,7 +2583,7 @@ function elementSlice( index )
  * defined by delta between ranges elements.
  *
  * @example
- * var matrix = _.Matrix.make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.Make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.elementsInRangeGet( [ 2, 5 ] );
  * console.log( got.toStr() );
  * // log : 3.000, 4.000, 5.000
@@ -2632,7 +2632,7 @@ function elementsInRangeGet( range )
  * for 3D matrices it is matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.eGet( 1 );
  * console.log( got.toStr() );
  * // log : 4.000, 5.000, 6.000
@@ -2676,7 +2676,7 @@ function eGet( index )
  * for 3D matrices it is matrix.
  *
  * @example
- * var matrix = _.Matrix.make( [ 3, 3 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.eSet( 1, 0 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
@@ -2714,7 +2714,7 @@ function eSet( index, srcElement )
  * for 3D matrices it is matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.elementsSwap( 0, 2 );
  * console.log( got.toStr() );
  * // log : +7, +8, +9,
@@ -2759,7 +2759,7 @@ function elementsSwap( i1, i2 )
  * {-index-}, else if {-d-} is 0, then the method returns column.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.lineVectorGet( 1, 2 );
  * console.log( got.toStr() );
  * // log : 7.000, 8.000, 9.000
@@ -2797,7 +2797,7 @@ function lineVectorGet( d, index )
  * Method lineVectorGet() applies value in source vector {-src-} to line of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.lineVectorSet( 1, 2, [ 0, 0, 0 ] );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
@@ -2841,7 +2841,7 @@ function lineSet( d, index, src )
  * the method returns column.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.linesSwap( 1, 1, 2 );
  * console.log( got.toStr() );
  * // log : +1, +3, +2,
@@ -2891,7 +2891,7 @@ function linesSwap( d, i1, i2 )
  * Method rowVectorOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.rowVectorOfMatrixGet( [ 0, 0 ], 2 );
  * console.log( got.toStr() );
  * // log : 1.000, 2.000, 3.000
@@ -2931,7 +2931,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
  * Method rowVectorGet() returns row of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.rowVectorGet( 1 );
  * console.log( got.toStr() );
  * // log : 4.000, 5.000, 6.000
@@ -2973,7 +2973,7 @@ function rowVectorGet( index )
  * Method rowSet() assigns values to the row of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.rowSet( 1, 5 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
@@ -3009,7 +3009,7 @@ function rowSet( rowIndex, srcRow )
  * Method rowsSwap() swaps rows of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.rowsSwap( 1, 2 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
@@ -3043,7 +3043,7 @@ function rowsSwap( i1, i2 )
  * Method colVectorGet() returns column of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.colVectorGet( 1 );
  * console.log( got.toStr() );
  * // log : 2.000, 5.000, 8.000
@@ -3085,7 +3085,7 @@ function colVectorGet( index )
  * Method colSet() assigns values to the column of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.colSet( 1, [ 5, 5, 5 ] );
  * console.log( got.toStr() );
  * // log : +1, +5, +3,
@@ -3121,7 +3121,7 @@ function colSet( index, srcCol )
  * Method colsSwap() swaps columns of the matrix.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.colsSwap( 1, 2 );
  * console.log( got.toStr() );
  * // log : +1, +3, +2,
@@ -3176,7 +3176,7 @@ function _pivotDimension( d, current, expected )
  * Pivoting provides by swapping of elements in declared order.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.pivotForward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
  * console.log( got.toStr() );
  * // log : +5, +4, +6,
@@ -3219,7 +3219,7 @@ function pivotForward( pivots )
  * Pivoting provides by swapping of elements in declared position.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.pivotBackward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
  * console.log( got.toStr() );
  * // log : +5, +4, +6,
@@ -3283,7 +3283,7 @@ function _vectorPivotDimension( v, current, expected )
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.VectorPivotForward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
  * // log : +4, +5, +6,
@@ -3327,7 +3327,7 @@ function VectorPivotForward( vector, pivot )
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.VectorPivotBackward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
  * // log : +4, +5, +6,

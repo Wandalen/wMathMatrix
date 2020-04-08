@@ -31,7 +31,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
   *
   * @example
   * // returns self.vectorAdapter.from( [ 4, -2, -2 ] );
-  * var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   1,  -3,  3,
   *   3, - 5,  3,
@@ -61,19 +61,19 @@ function _qrIteration( q, r )
 
   if( arguments.length === 0 )
   {
-    var q = _.Matrix.makeIdentity( [ rows, cols ] );
-    var r = _.Matrix.make([ rows, cols ]);
+    var q = _.Matrix.MakeIdentity( [ rows, cols ] );
+    var r = _.Matrix.Make([ rows, cols ]);
   }
 
   let a = self.clone();
   let loop = 0;
-  q.copy( _.Matrix.makeIdentity( rows ) );
+  q.copy( _.Matrix.MakeIdentity( rows ) );
 
 
   while( a.isUpperTriangle() === false && loop < 1000 )
   {
-    var qInt = _.Matrix.makeIdentity([ rows, cols ]);
-    var rInt = _.Matrix.makeIdentity([ rows, cols ]);
+    var qInt = _.Matrix.MakeIdentity([ rows, cols ]);
+    var rInt = _.Matrix.MakeIdentity([ rows, cols ]);
     a._qrDecompositionHh( qInt, rInt );
     // Calculate transformation matrix
     q.mulLeft( qInt );
@@ -126,20 +126,20 @@ function _qrIteration( q, r )
   * upper triangular, and Q is orthogonal. Matrix stays unchanged.
   *
   * @example
-  * // returns Q = _.Matrix.make( [ 3, 3 ] ).copy
+  * // returns Q = _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   0.857143, -0.467324, -0.216597,
   *   0.428571, 0.880322, -0.203369,
   *   -0.285714, -0.081489, -0.954844
   * ]);
-  * returns R = _.Matrix.make( [ 3, 3 ] ).copy
+  * returns R = _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   14, 34.714287, -14,
   *   0, 172.803116, -58.390148,
   *   0, 0, 52.111328
   * ]);
   *
-  * var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   12, -51, 4,
   *   6, 167, -68,
@@ -173,9 +173,9 @@ function _qrDecompositionGS( q, r )
   _.assert( !isNaN( self.clone().invert().atomGet([ 0, 0 ]) ), 'Matrix must be invertible' )
 
   let matrix = self.clone();
-  q.copy( _.Matrix.makeIdentity( [ rows, cols ] ) );
+  q.copy( _.Matrix.MakeIdentity( [ rows, cols ] ) );
 
-  let qInt = _.Matrix.makeIdentity([ rows, cols ]);
+  let qInt = _.Matrix.MakeIdentity([ rows, cols ]);
 
   for( let i = 0; i < cols; i++ )
   {
@@ -197,7 +197,7 @@ function _qrDecompositionGS( q, r )
 
   // Calculate transformation matrix
   q.mulLeft( qInt );
-  let a = _.Matrix.make([ cols, rows ]);
+  let a = _.Matrix.Make([ cols, rows ]);
 }
 
 //
@@ -207,20 +207,20 @@ function _qrDecompositionGS( q, r )
   * upper triangular, and Q is orthogonal. Matrix stays unchanged.
   *
   * @example
-  * // returns Q = _.Matrix.make( [ 3, 3 ] ).copy
+  * // returns Q = _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   -0.857143, 0.467324, -0.216597,
   *   -0.428571, -0.880322, -0.203369,
   *   0.285714, 0.081489, -0.954844
   * ]);
-  * returns R = _.Matrix.make( [ 3, 3 ] ).copy
+  * returns R = _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   -14, -34.714287, 14,
   *   0, -172.803116, 58.390148,
   *   0, 0, 52.111328
   * ]);
   *
-  * var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   12, -51, 4,
   *   6, 167, -68,
@@ -253,8 +253,8 @@ function _qrDecompositionHh( q, r )
 
   let matrix = self.clone();
 
-  q.copy( _.Matrix.makeIdentity( rows ) );
-  let identity = _.Matrix.makeIdentity( rows );
+  q.copy( _.Matrix.MakeIdentity( rows ) );
+  let identity = _.Matrix.MakeIdentity( rows );
 
   // Calculate Q
 
@@ -283,7 +283,7 @@ function _qrDecompositionHh( q, r )
     u = self.vectorAdapter.add( col, e.mul( c*col.mag() ) ).normalize();
 
     debugger;
-    let m = _.Matrix.make( [ rows, cols ] ).fromVectors_( u, u );
+    let m = _.Matrix.Make( [ rows, cols ] ).fromVectors_( u, u );
     let mi = identity.clone();
     let h = mi.addAtomWise( m.mul( - 2 ) );
     q.mulLeft( h );
@@ -322,7 +322,7 @@ function _qrDecompositionHh( q, r )
   * Create a matrix out of a two vectors multiplication. Vectors stay unchanged.
   *
   * @example
-  * // returns M = _.Matrix.make( [ 3, 3 ] ).copy
+  * // returns M = _.Matrix.Make( [ 3, 3 ] ).copy
   * ([
   *   0, 0, 0,
   *   3, 3, 3,
@@ -352,7 +352,7 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   _.assert( _.vectorAdapterIs( v2 ) );
 //  _.assert( v1.length === v2.length );
 
-  let matrix = _.Matrix.make( [ v1.length, v2.length ] );
+  let matrix = _.Matrix.Make( [ v1.length, v2.length ] );
 
   for( let i = 0; i < v1.length; i ++ )
   {
@@ -374,23 +374,23 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   *
   * @example
   * // returns:
-  * var u =  _.Matrix.make( [ 2, 2 ] ).copy
+  * var u =  _.Matrix.Make( [ 2, 2 ] ).copy
   * ([
   *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
   *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
   * ]);
-  * var s =  _.Matrix.make( [ 2, 2 ] ).copy
+  * var s =  _.Matrix.Make( [ 2, 2 ] ).copy
   * ([
   *   6.000, 0.000,
   *   0.000, 2.000,
   * ]);
-  * var v =  _.Matrix.make( [ 2, 2 ] ).copy
+  * var v =  _.Matrix.Make( [ 2, 2 ] ).copy
   * ([
   *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2,
   *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2
   * ]);
   *
-  * var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   * ([
   *   2, 4,
   *   4, 2
@@ -423,19 +423,19 @@ function svd( u, s, v )
   min = cols;
 
   if( arguments[ 0 ] == null )
-  var u = _.Matrix.make([ rows, rows ]);
+  var u = _.Matrix.Make([ rows, rows ]);
 
   if( arguments[ 1 ] == null )
-  var s = _.Matrix.make([ rows, cols ]);
+  var s = _.Matrix.Make([ rows, cols ]);
 
   if( arguments[ 2 ] == null )
-  var v = _.Matrix.make([ cols, cols ]);
+  var v = _.Matrix.Make([ cols, cols ]);
 
   if( self.isSymmetric() === true )
   {
-    let q =  _.Matrix.make( [ cols, rows ] );
-    let r =  _.Matrix.make( [ cols, rows ] );
-    let identity = _.Matrix.makeIdentity( [ cols, rows ] );
+    let q =  _.Matrix.Make( [ cols, rows ] );
+    let r =  _.Matrix.Make( [ cols, rows ] );
+    let identity = _.Matrix.MakeIdentity( [ cols, rows ] );
     self._qrIteration( q, r );
 
     let eigenValues = r.diagonalVectorGet();
@@ -458,8 +458,8 @@ function svd( u, s, v )
   else
   {
     let aaT = _.Matrix.mul2Matrices( null, self, self.clone().transpose() );
-    let qAAT = _.Matrix.make( [ rows, rows ] );
-    let rAAT = _.Matrix.make( [ rows, rows ] );
+    let qAAT = _.Matrix.Make( [ rows, rows ] );
+    let rAAT = _.Matrix.Make( [ rows, rows ] );
 
     aaT._qrIteration( qAAT, rAAT );
     let sd = _.Matrix.mul2Matrices( null, rAAT, qAAT.clone().transpose() )
@@ -467,8 +467,8 @@ function svd( u, s, v )
     u.copy( qAAT );
 
     let aTa = _.Matrix.mul2Matrices( null, self.clone().transpose(), self );
-    let qATA = _.Matrix.make( [ cols, cols ] );
-    let rATA = _.Matrix.make( [ cols, cols ] );
+    let qATA = _.Matrix.Make( [ cols, cols ] );
+    let rATA = _.Matrix.Make( [ cols, cols ] );
 
     aTa._qrIteration( qATA, rATA );
 
@@ -483,7 +483,7 @@ function svd( u, s, v )
       if( eigenV.eGet( i ) !== 0 )
       {
         let col = u.colVectorGet( i ).slice();
-        let m1 = _.Matrix.make( [ col.length, 1 ] ).copy( col );
+        let m1 = _.Matrix.Make( [ col.length, 1 ] ).copy( col );
         let m2 = _.Matrix.mul2Matrices( null, self.clone().transpose(), m1 );
 
         v.colSet( i, m2.colVectorGet( 0 ).mul( 1 / eigenV.eGet( i ) ).normalize() );

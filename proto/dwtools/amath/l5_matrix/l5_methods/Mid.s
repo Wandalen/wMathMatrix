@@ -38,7 +38,7 @@ function _linearModel( o )
   if( o.npoints === null )
   o.npoints = o.points ? o.points.length : o.order;
 
-  let m = this.makeZero([ o.npoints, o.order ]);
+  let m = this.MakeZero([ o.npoints, o.order ]);
   let ys = [];
 
   /* */

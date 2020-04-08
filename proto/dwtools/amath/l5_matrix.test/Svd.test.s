@@ -35,7 +35,7 @@ function qrIteration( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1,
@@ -45,7 +45,7 @@ function qrIteration( test )
   var gotValues = matrix.qrIteration( );
   test.equivalent( gotValues, expected );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1
@@ -56,7 +56,7 @@ function qrIteration( test )
 
   test.description = 'Matrix with one repeated eigenvalue 3x3';
 
-  var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     1,  -3,  3,
     3, - 5,  3,
@@ -71,7 +71,7 @@ function qrIteration( test )
 
   test.description = 'Matrix with different eigenvalues 3x3';
 
-  var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     13,  -4,  2,
     -4,  11, -2,
@@ -86,7 +86,7 @@ function qrIteration( test )
 
   test.description = 'Matrix 2x2';
 
-  var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     8,  7,
     1,  2
@@ -100,7 +100,7 @@ function qrIteration( test )
 
   test.description = 'Matrix 4x4';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     17, 24, 1, 8,
     23, 5, 7, 14,
@@ -116,7 +116,7 @@ function qrIteration( test )
 
   test.description = 'Symmetric matrix';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     1, 0.5, 1/3, 0.25,
     0.5, 1, 2/3, 0.5,
@@ -132,7 +132,7 @@ function qrIteration( test )
 
   test.description = 'Matrix 5x5 Symmetric';
 
-  var matrix =  _.Matrix.make( [ 5, 5 ] ).copy
+  var matrix =  _.Matrix.Make( [ 5, 5 ] ).copy
   ([
     17, 24, 0, 8, 0,
     24, 5, 6, 0, 0,
@@ -149,7 +149,7 @@ function qrIteration( test )
 
   test.description = 'Matrix Diagonal';
 
-  var matrix =  _.Matrix.make( [ 4, 4 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -165,20 +165,20 @@ function qrIteration( test )
 
   test.description = 'Input Q and R';
 
-  var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     1, - 3,  3,
     3, - 5,  3,
     6, - 6,  4
   ]);
-  var q = _.Matrix.make( [ 3, 3 ] );
-  var r = _.Matrix.make( [ 3, 3 ] );
+  var q = _.Matrix.Make( [ 3, 3 ] );
+  var r = _.Matrix.Make( [ 3, 3 ] );
   var expected = _.vectorAdapter.from( [ 4, -2, -2 ] );
 
   var gotValues = matrix.qrIteration( q, r );
   test.equivalent( gotValues, expected );
 
-  var oldQ =  _.Matrix.make( [ 3, 3 ] ).copy
+  var oldQ =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     -0.408248, 0.707106, -0.577350,
     -0.408248, -0.707106, -0.577350,
@@ -186,7 +186,7 @@ function qrIteration( test )
   ]);
   test.equivalent( q, oldQ );
 
-  var oldR =  _.Matrix.make( [ 3, 3 ] ).copy
+  var oldR =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     4.0000167, -4.242737, - 10.392261,
     0,  -2,  0,
@@ -224,17 +224,17 @@ function qrDecomposition( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1,
   ]);
 
-  var q = _.Matrix.make( [ 2, 2 ] );
-  var r = _.Matrix.make( [ 2, 2 ] );
+  var q = _.Matrix.Make( [ 2, 2 ] );
+  var r = _.Matrix.Make( [ 2, 2 ] );
   var gotValues = matrix.qrDecompositionGS( q, r );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1
@@ -243,7 +243,7 @@ function qrDecomposition( test )
 
   var gotValues = matrix.qrDecompositionHh( q, r );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1
@@ -254,18 +254,18 @@ function qrDecomposition( test )
 
   test.description = 'Matrix with one repeated eigenvalue 3x3';
 
-  var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     12, -51, 4,
     6, 167, -68,
     -4, -24, -41,
   ]);
-  var q = _.Matrix.make( [ 3, 3 ] );
-  var r = _.Matrix.make( [ 3, 3 ] );
+  var q = _.Matrix.Make( [ 3, 3 ] );
+  var r = _.Matrix.Make( [ 3, 3 ] );
   var gotValues = matrix.qrDecompositionGS( q, r );
   test.equivalent( matrix, _.Matrix.mul2Matrices( null, q, r ) );
 
-  var expectedQ =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedQ =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     0.857143, -0.467324, -0.216597,
     0.428571, 0.880322, -0.203369,
@@ -273,7 +273,7 @@ function qrDecomposition( test )
   ]);
   test.equivalent( expectedQ, q );
 
-  var expectedR =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedR =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     14, 34.714287, -14,
     0, 172.803116, -58.390148,
@@ -284,7 +284,7 @@ function qrDecomposition( test )
   gotValues = matrix.qrDecompositionHh( q, r );
   test.equivalent( matrix, _.Matrix.mul2Matrices( null, q, r ) );
 
-  var expectedQ =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedQ =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     -0.857143, 0.467324, -0.216597,
     -0.428571, -0.880322, -0.203369,
@@ -292,7 +292,7 @@ function qrDecomposition( test )
   ]);
   test.equivalent( expectedQ, q );
 
-  var expectedR =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedR =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     -14, -34.714287, 14,
     0, -172.803116, 58.390148,
@@ -304,18 +304,18 @@ function qrDecomposition( test )
 
   test.description = 'Symmetric matrix with different eigenvalues 3x3';
 
-  var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     13,  -4,  2,
     -4,  11, -2,
     2,   -2,  8
   ]);
-  var q = _.Matrix.make( [ 3, 3 ] );
-  var r = _.Matrix.make( [ 3, 3 ] );
+  var q = _.Matrix.Make( [ 3, 3 ] );
+  var r = _.Matrix.Make( [ 3, 3 ] );
   var gotValues = matrix.qrDecompositionGS( q, r );
   test.equivalent( matrix, _.Matrix.mul2Matrices( null, q, r ) );
 
-  var expectedQ =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedQ =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     0.945611, 0.306672, -0.108501,
     -0.290957, 0.946511, 0.139501,
@@ -323,7 +323,7 @@ function qrDecomposition( test )
   ]);
   test.equivalent( expectedQ, q );
 
-  var expectedR =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedR =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     13.747727, -7.273930, 3.636965,
     0, 9.385624, -2.082437,
@@ -334,7 +334,7 @@ function qrDecomposition( test )
   gotValues = matrix.qrDecompositionHh( q, r );
   test.equivalent( matrix, _.Matrix.mul2Matrices( null, q, r ) );
 
-  var expectedQ =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedQ =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     -0.945611, -0.306672, 0.108501,
     0.290957, -0.946511, -0.139501,
@@ -342,7 +342,7 @@ function qrDecomposition( test )
   ]);
   test.equivalent( expectedQ, q );
 
-  var expectedR =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedR =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     -13.747727, 7.273930, -3.636965,
     0, -9.385624, 2.082437,
@@ -356,8 +356,8 @@ function qrDecomposition( test )
   return;
 
   var matrix = 'matrix';
-  var q = _.Matrix.make([ 3, 3 ]);
-  var r = _.Matrix.make([ 3, 3 ]);
+  var q = _.Matrix.Make([ 3, 3 ]);
+  var r = _.Matrix.Make([ 3, 3 ]);
   test.shouldThrowErrorSync( () => matrix.qrDecompositionGS( q, r ));
   test.shouldThrowErrorSync( () => matrix.qrDecompositionHh( q, r ));
   var matrix = NaN;
@@ -383,7 +383,7 @@ qrDecomposition.timeOut = 20000;
 function fromVectors( test )
 {
 
-  var matrix = _.Matrix.make( [ 2, 2 ] );
+  var matrix = _.Matrix.Make( [ 2, 2 ] );
 
   /* */
 
@@ -408,7 +408,7 @@ function fromVectors( test )
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var expected =  _.Matrix.make( [ 1, 1 ] ).copy
+  var expected =  _.Matrix.Make( [ 1, 1 ] ).copy
   ([
     6
   ]);
@@ -424,7 +424,7 @@ function fromVectors( test )
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var expected =  _.Matrix.make( [ 2, 1 ] ).copy
+  var expected =  _.Matrix.Make( [ 2, 1 ] ).copy
   ([
     6,
     6
@@ -441,7 +441,7 @@ function fromVectors( test )
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var expected =  _.Matrix.make( [ 1, 2 ] ).copy
+  var expected =  _.Matrix.Make( [ 1, 2 ] ).copy
   ([
     6, 6
   ]);
@@ -457,7 +457,7 @@ function fromVectors( test )
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var expected =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expected =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     3, 4,
     6, 8
@@ -474,7 +474,7 @@ function fromVectors( test )
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var expected =  _.Matrix.make( [ 3, 2 ] ).copy
+  var expected =  _.Matrix.Make( [ 3, 2 ] ).copy
   ([
     3, 4,
     6, 8,
@@ -492,7 +492,7 @@ function fromVectors( test )
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
 
-  var expected =  _.Matrix.make( [ 2, 3 ] ).copy
+  var expected =  _.Matrix.Make( [ 2, 3 ] ).copy
   ([
     3, 4, 5,
     6, 8, 10
@@ -508,7 +508,7 @@ function fromVectors( test )
   var v2 = _.vectorAdapter.from( [ 3, 4, 5 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
-  var expected =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expected =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     3, 4, 5,
     6, 8, 10,
@@ -525,7 +525,7 @@ function fromVectors( test )
   var v2 = _.vectorAdapter.from( [ 3, 4, 5, 6 ] );
 
   var gotMatrix = matrix.fromVectors( v1, v2 );
-  var expected =  _.Matrix.make( [ 4, 4 ] ).copy
+  var expected =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     3, 4, 5, 6,
     6, 8, 10, 12,
@@ -553,7 +553,7 @@ function fromVectors( test )
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, v2 ) );
   var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, v2 ) );
-  var matrix = _.Matrix.make( [ 2, 2 ] );
+  var matrix = _.Matrix.Make( [ 2, 2 ] );
   test.shouldThrowErrorSync( () => matrix.fromVectors( 'v1', v2 ) );
   test.shouldThrowErrorSync( () => matrix.fromVectors( v1, 'v2' ) );
   test.shouldThrowErrorSync( () => matrix.fromVectors( null, v2 ) );
@@ -573,7 +573,7 @@ function svd( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1,
@@ -581,7 +581,7 @@ function svd( test )
 
   var gotValues = matrix.svd( null, null, null );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     1, 2,
     2, 1
@@ -592,40 +592,40 @@ function svd( test )
 
   test.description = '2x2 Symmetric Matrix';
 
-  var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     2, 4,
     4, 2,
   ]);
 
-  var u = _.Matrix.make( [ 2, 2 ] );
-  var s = _.Matrix.make( [ 2, 2 ] );
-  var v = _.Matrix.make( [ 2, 2 ] );
+  var u = _.Matrix.Make( [ 2, 2 ] );
+  var s = _.Matrix.Make( [ 2, 2 ] );
+  var v = _.Matrix.Make( [ 2, 2 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedU =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedU =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
     -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     6.000, 0.000,
     0.000, 2.000
   ]);
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2,
     -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2
   ]);
   test.equivalent( v, expectedV );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     2, 4,
     4, 2
@@ -638,40 +638,40 @@ function svd( test )
 
   test.description = '2x2 Matrix';
 
-  var matrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     4, 0,
     3, -5
   ]);
 
-  var u = _.Matrix.make( [ 2, 2 ] );
-  var s = _.Matrix.make( [ 2, 2 ] );
-  var v = _.Matrix.make( [ 2, 2 ] );
+  var u = _.Matrix.Make( [ 2, 2 ] );
+  var s = _.Matrix.Make( [ 2, 2 ] );
+  var v = _.Matrix.Make( [ 2, 2 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedU =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedU =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     0.4472, -0.8944,
     0.8944, 0.4472
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     6.3245, 0.000,
     0.000, 3.1622
   ]);
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
     -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2
   ]);
   test.equivalent( v, expectedV );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     4, 0,
     3, -5
@@ -684,33 +684,33 @@ function svd( test )
 
   test.description = '2x3 Matrix';
 
-  var matrix =  _.Matrix.make( [ 2, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
   ([
     3, 2, 2,
     2, 3, -2,
   ]);
 
-  var u = _.Matrix.make( [ 2, 2 ] );
-  var s = _.Matrix.make( [ 2, 3 ] );
-  var v = _.Matrix.make( [ 3, 3 ] );
+  var u = _.Matrix.Make( [ 2, 2 ] );
+  var s = _.Matrix.Make( [ 2, 3 ] );
+  var v = _.Matrix.Make( [ 3, 3 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedU =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedU =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
     Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 2, 3 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 2, 3 ] ).copy
   ([
     5.000, 0.000, 0.000,
     0.000, 3.000, 0.000
   ]);
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     Math.sqrt( 2 ) / 2, -1/Math.sqrt( 18 ), 2/3,
     Math.sqrt( 2 ) / 2, 1/Math.sqrt( 18 ), -2/3,
@@ -718,7 +718,7 @@ function svd( test )
   ]);
   test.equivalent( v, expectedV );
 
-  var oldMatrix =  _.Matrix.make( [ 2, 3 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 2, 3 ] ).copy
   ([
     3, 2, 2,
     2, 3, -2,
@@ -731,20 +731,20 @@ function svd( test )
 
   test.description = '3x2 Matrix';
 
-  var matrix =  _.Matrix.make( [ 3, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 2 ] ).copy
   ([
     0, 0,
     0, 9,
     3, 0
   ]);
 
-  var u = _.Matrix.make( [ 3, 3 ] );
-  var s = _.Matrix.make( [ 3, 2 ] );
-  var v = _.Matrix.make( [ 2, 2 ] );
+  var u = _.Matrix.Make( [ 3, 3 ] );
+  var s = _.Matrix.Make( [ 3, 2 ] );
+  var v = _.Matrix.Make( [ 2, 2 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedU =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedU =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     0, 0, 1,
     1, 0, 0,
@@ -752,7 +752,7 @@ function svd( test )
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 3, 2 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 3, 2 ] ).copy
   ([
     9.000, 0.000,
     0.000, 3.000,
@@ -760,14 +760,14 @@ function svd( test )
   ]);
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     0, 1,
     1, 0
   ]);
   test.equivalent( v, expectedV );
 
-  var oldMatrix =  _.Matrix.make( [ 3, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 3, 2 ] ).copy
   ([
     0, 0,
     0, 9,
@@ -781,20 +781,20 @@ function svd( test )
 
   test.description = '3x3 Matrix';
 
-  var matrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     1, 2, 3,
     -2, 3, 8,
     5, 1, -3
   ]);
 
-  var u = _.Matrix.make( [ 3, 3 ] );
-  var s = _.Matrix.make( [ 3, 3 ] );
-  var v = _.Matrix.make( [ 3, 3 ] );
+  var u = _.Matrix.Make( [ 3, 3 ] );
+  var s = _.Matrix.Make( [ 3, 3 ] );
+  var v = _.Matrix.Make( [ 3, 3 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedU =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedU =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     0.287101, -0.477321, -0.830504,
     0.864001, -0.245327, 0.439679,
@@ -802,7 +802,7 @@ function svd( test )
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     10.05705738, 0, 0,
     0.000, 4.985533, 0,
@@ -810,7 +810,7 @@ function svd( test )
   ]);
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 3, 3 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     -0.348906, -0.843563, 0.742781,
     0.273697, -0.508353, 0.557086,
@@ -818,7 +818,7 @@ function svd( test )
   ]);
   test.equivalent( v, expectedV );
 
-  var oldMatrix =  _.Matrix.make( [ 3, 3 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 3, 3 ] ).copy
   ([
     1, 2, 3,
     -2, 3, 8,
@@ -832,7 +832,7 @@ function svd( test )
 
   test.description = '4x2 Matrix';
 
-  var matrix =  _.Matrix.make( [ 4, 2 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 2 ] ).copy
   ([
     2, 4,
     1, 3,
@@ -840,13 +840,13 @@ function svd( test )
     0, 0
   ]);
 
-  var u = _.Matrix.make( [ 4, 4 ] );
-  var s = _.Matrix.make( [ 4, 2 ] );
-  var v = _.Matrix.make( [ 2, 2 ] );
+  var u = _.Matrix.Make( [ 4, 4 ] );
+  var s = _.Matrix.Make( [ 4, 2 ] );
+  var v = _.Matrix.Make( [ 2, 2 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedU =  _.Matrix.make( [ 4, 4 ] ).copy
+  var expectedU =  _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     -0.817415, 0.576048, 0, 0,
     -0.576048, -0.817415, 0, 0,
@@ -855,7 +855,7 @@ function svd( test )
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 4, 2 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 4, 2 ] ).copy
   ([
     5.46499, 0.000,
     0.000, 0.365966,
@@ -864,14 +864,14 @@ function svd( test )
   ]);
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 2, 2 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 2, 2 ] ).copy
   ([
     -0.404554, 0.914514,
     -0.914514, -0.404554
   ]);
   test.equivalent( v, expectedV );
 
-  var oldMatrix =  _.Matrix.make( [ 4, 2 ] ).copy
+  var oldMatrix =  _.Matrix.Make( [ 4, 2 ] ).copy
   ([
     2, 4,
     1, 3,
@@ -886,7 +886,7 @@ function svd( test )
 
   test.description = '4x5 Matrix';
 
-  var matrix =  _.Matrix.make( [ 4, 5 ] ).copy
+  var matrix =  _.Matrix.Make( [ 4, 5 ] ).copy
   ([
     1, 0, 0, 0, 2,
     0, 0, 3, 0, 0,
@@ -894,12 +894,12 @@ function svd( test )
     0, 2, 0, 0, 0
   ]);
 
-  var u = _.Matrix.make( [ 4, 4 ] );
-  var s = _.Matrix.make( [ 4, 5 ] );
-  var v = _.Matrix.make( [ 5, 5 ] );
+  var u = _.Matrix.Make( [ 4, 4 ] );
+  var s = _.Matrix.Make( [ 4, 5 ] );
+  var v = _.Matrix.Make( [ 5, 5 ] );
 
   var gotValues = matrix.svd( u, s, v );
-  var expectedU = _.Matrix.make( [ 4, 4 ] ).copy
+  var expectedU = _.Matrix.Make( [ 4, 4 ] ).copy
   ([
     0, 1, 0, 0,
     1, 0, 0, 0,
@@ -908,7 +908,7 @@ function svd( test )
   ]);
   test.equivalent( u, expectedU );
 
-  var expectedS =  _.Matrix.make( [ 4, 5 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 4, 5 ] ).copy
   ([
     3, 0, 0, 0, 0,
     0, Math.sqrt( 5 ), 0, 0, 0,
@@ -918,7 +918,7 @@ function svd( test )
 
   test.equivalent( s, expectedS );
 
-  var expectedV =  _.Matrix.make( [ 5, 5 ] ).copy
+  var expectedV =  _.Matrix.Make( [ 5, 5 ] ).copy
   ([
     0, Math.sqrt(0.2), 0, 0, 0,
     0, 0, 1, 0, 0,
@@ -929,7 +929,7 @@ function svd( test )
 
   test.equivalent( v, expectedV );
 
-  var oldMatrix =   _.Matrix.make( [ 4, 5 ] ).copy
+  var oldMatrix =   _.Matrix.Make( [ 4, 5 ] ).copy
   ([
     1, 0, 0, 0, 2,
     0, 0, 3, 0, 0,
@@ -944,7 +944,7 @@ function svd( test )
 
   test.description = '7x5 Matrix';
 
-  var matrix =  _.Matrix.make( [ 7, 5 ] ).copy
+  var matrix =  _.Matrix.Make( [ 7, 5 ] ).copy
   ([
     1, 1, 1, 0, 0,
     2, 2, 2, 0, 0,
@@ -955,13 +955,13 @@ function svd( test )
     0, 0, 0, 1, 1
   ]);
 
-  var u = _.Matrix.make( [ 7, 7 ] );
-  var s = _.Matrix.make( [ 7, 5 ] );
-  var v = _.Matrix.make( [ 5, 5 ] );
+  var u = _.Matrix.Make( [ 7, 7 ] );
+  var s = _.Matrix.Make( [ 7, 5 ] );
+  var v = _.Matrix.Make( [ 5, 5 ] );
 
   var gotValues = matrix.svd( u, s, v );
 
-  var expectedS =  _.Matrix.make( [ 7, 5 ] ).copy
+  var expectedS =  _.Matrix.Make( [ 7, 5 ] ).copy
   ([
     9.64365, 0, 0, 0, 0,
     0, 5.291502, 0, 0, 0,
@@ -973,7 +973,7 @@ function svd( test )
   ]);
   test.equivalent( s, expectedS );
 
-  var oldMatrix = _.Matrix.make( [ 7, 5 ] ).copy
+  var oldMatrix = _.Matrix.Make( [ 7, 5 ] ).copy
   ([
     1, 1, 1, 0, 0,
     2, 2, 2, 0, 0,
@@ -994,9 +994,9 @@ function svd( test )
   return;
 
   var matrix = 'matrix';
-  var u = _.Matrix.make([ 3, 3 ]);
-  var s = _.Matrix.make([ 3, 3 ]);
-  var v = _.Matrix.make([ 3, 3 ]);
+  var u = _.Matrix.Make([ 3, 3 ]);
+  var s = _.Matrix.Make([ 3, 3 ]);
+  var v = _.Matrix.Make([ 3, 3 ]);
   test.shouldThrowErrorSync( () => matrix.svd( u, s, v ));
   var matrix = NaN;
   test.shouldThrowErrorSync( () => matrix.svd( u, s, v ));
