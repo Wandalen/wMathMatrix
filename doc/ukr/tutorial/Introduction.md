@@ -173,7 +173,7 @@ console.log( 'matrix : ', matrix.toStr() );
 var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
 var vector = [ 1, 1 ];
 
-var got = _.Matrix.mul( null, [ matrix, vector ] );
+var got = _.Matrix.Mul( null, [ matrix, vector ] );
 console.log( 'got : ', got );
 /* log : oot : [ 3, 7 ] */
 ```
