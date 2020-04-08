@@ -49,7 +49,7 @@ function init( o )
 
   self[ stridesEffectiveSymbol ] = null;
   self[ lengthSymbol ] = null;
-  self[ scalarsPerElementSymbol ] = null;
+  self[ atomsPerElementSymbol ] = null;
   self[ occupiedRangeSymbol ] = null;
   self[ breadthSymbol ] = null;
 
@@ -73,7 +73,7 @@ function init( o )
     if( _.mapIs( o ) )
     {
 
-      if( o.scalarsPerElement !== undefined )
+      if( o.atomsPerElement !== undefined )
       {
         _.assert( _.longIs( o.buffer ) );
         if( !o.offset )
@@ -81,13 +81,13 @@ function init( o )
         if( !o.dims )
         {
           if( o.strides )
-          o.dims = [ o.scalarsPerElement, ( o.buffer.length - o.offset ) / o.strides[ 1 ] ];
+          o.dims = [ o.atomsPerElement, ( o.buffer.length - o.offset ) / o.strides[ 1 ] ];
           else
-          o.dims = [ o.scalarsPerElement, ( o.buffer.length - o.offset ) / o.scalarsPerElement ];
+          o.dims = [ o.atomsPerElement, ( o.buffer.length - o.offset ) / o.atomsPerElement ];
           o.dims[ 1 ] = Math.floor( o.dims[ 1 ] );
         }
         _.assert( _.intIs( o.dims[ 1 ] ) );
-        delete o.scalarsPerElement;
+        delete o.atomsPerElement;
       }
 
     }
@@ -166,7 +166,7 @@ function _traverseAct( it )
 
     dst.dims = null;
 
-    if( srcIsInstance && dst.buffer && dst.scalarsPerMatrix === src.scalarsPerMatrix )
+    if( srcIsInstance && dst.buffer && dst.atomsPerMatrix === src.atomsPerMatrix )
     {
     }
     else if( !srcIsInstance )
@@ -181,14 +181,14 @@ function _traverseAct( it )
     }
     else if( src.buffer && !dst.buffer )
     {
-      dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
+      dst.buffer = self.long.longMakeUndefined( src.buffer , src.atomsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst[ stridesEffectiveSymbol ] = dst.StridesForDimensions( src.dims, !!dst.inputTransposing );
     }
-    else if( src.buffer && dst.scalarsPerMatrix !== src.scalarsPerMatrix )
+    else if( src.buffer && dst.atomsPerMatrix !== src.atomsPerMatrix )
     {
-      dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
+      dst.buffer = self.long.longMakeUndefined( src.buffer , src.atomsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst[ stridesEffectiveSymbol ] = dst.StridesForDimensions( src.dims, !!dst.inputTransposing );
@@ -220,9 +220,9 @@ function _traverseAct( it )
     if( dstIsInstance )
     {
       _.assert( dst.hasShape( src ) );
-      src.scalarEach( function( it )
+      src.atomEach( function( it )
       {
-        dst.scalarSet( it.indexNd, it.scalar );
+        dst.atomSet( it.indexNd, it.atom );
       });
 
     }
@@ -262,7 +262,7 @@ function _copy( src, resetting )
 //
 
 /**
- * Routine copy() copies scalars from buffer {-src-} into inner matrix.
+ * Method copy() copies scalars from buffer {-src-} into inner matrix.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 2, 2 ] );
@@ -276,7 +276,7 @@ function _copy( src, resetting )
  *
  * @param { Long|Number } src - A Long or single scalar.
  * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
- * @function copy
+ * @method copy
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Long, not a Number.
  * @class Matrix
@@ -307,7 +307,7 @@ function copy( src )
 //
 
 /**
- * Routine copyFromScalar() applies scalar {-src-} to each element of inner matrix.
+ * Method copyFromScalar() applies scalar {-src-} to each element of inner matrix.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 2, 2 ] );
@@ -321,7 +321,7 @@ function copy( src )
  *
  * @param { Number } src - Scalar to fill the matrix.
  * @returns { Matrix } - Returns original instance of Matrix filled by scalar values.
- * @function copyFromScalar
+ * @method copyFromScalar
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Number.
  * @class Matrix
@@ -336,7 +336,7 @@ function copyFromScalar( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.numberIs( src ) );
 
-  self.scalarEach( ( it ) => self.scalarSet( it.indexNd, src ) );
+  self.atomEach( ( it ) => self.atomSet( it.indexNd, src ) );
 
   return self;
 }
@@ -344,7 +344,7 @@ function copyFromScalar( src )
 //
 
 /**
- * Routine copyFromBuffer() copies scalars from buffer {-src-} into inner matrix.
+ * Method copyFromBuffer() copies scalars from buffer {-src-} into inner matrix.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 2, 2 ] );
@@ -358,7 +358,7 @@ function copyFromScalar( src )
  *
  * @param { Long } src - A Long for assigning to the matrix.
  * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
- * @function copyFromBuffer
+ * @method copyFromBuffer
  * @throws { Error } If arguments.length is less then one.
  * @throws { Error } If {-src-} is not a Long.
  * @class Matrix
@@ -376,7 +376,7 @@ function copyFromBuffer( src )
 //
 
 /**
- * Routine clone() makes copy of the matrix.
+ * Method clone() makes copy of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -391,7 +391,7 @@ function copyFromBuffer( src )
  * // log : false
  *
  * @returns { Matrix } - Returns copy of the Matrix.
- * @function clone
+ * @method clone
  * @throws { Error } If arguments is passed.
  * @class Matrix
  * @namespace wTools
@@ -415,7 +415,7 @@ function clone()
 //
 
 /**
- * Routine CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
+ * Static routine CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 2, 2 ] );
@@ -430,10 +430,11 @@ function clone()
  * @param { Long|VectorAdapter|Matrix } dst - Destination container.
  * @param { Long|VectorAdapter|Matrix } src - Source container.
  * @returns { Long|VectorAdapter|Matrix } - Returns original instance of destination container filled by values of source container.
- * @function CopyTo
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-dst-} and {-src-} have different dimensions.
  * @throws { Error } If routine is called by instance of Matrix.
+ * @static
+ * @function CopyTo
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -466,7 +467,7 @@ function CopyTo( dst, src )
     dst.eSet( s, src.eGet( s ) )
     else if( _.matrixIs( dst ) )
     for( let s = 0 ; s < src.length ; s += 1 )
-    dst.scalarSet( [ s, 0 ], src.eGet( s ) )
+    dst.atomSet( [ s, 0 ], src.eGet( s ) )
     else _.assert( 0, 'unknown type of (-dst-)', _.strType( dst ) );
 
     return odst;
@@ -478,19 +479,19 @@ function CopyTo( dst, src )
     let srcDims = Self.DimsOf( src );
 
     if( _.matrixIs( dst ) )
-    src.scalarEach( function( it )
+    src.atomEach( function( it )
     {
-      dst.scalarSet( it.indexNd , it.scalar );
+      dst.atomSet( it.indexNd , it.atom );
     });
     else if( _.vectorAdapterIs( dst ) )
-    src.scalarEach( function( it )
+    src.atomEach( function( it )
     {
-      dst.eSet( it.indexFlat , it.scalar );
+      dst.eSet( it.indexFlat , it.atom );
     });
     else if( _.longIs( dst ) )
-    src.scalarEach( function( it )
+    src.atomEach( function( it )
     {
-      dst[ it.indexFlat ] = it.scalar;
+      dst[ it.indexFlat ] = it.atom;
     });
     else _.assert( 0, 'unknown type of (-dst-)', _.strType( dst ) );
 
@@ -502,7 +503,7 @@ function CopyTo( dst, src )
 //
 
 /**
- * Routine extractNormalized() extracts data from the Matrix instance and saves it in new map.
+ * Method extractNormalized() extracts data from the Matrix instance and saves it in new map.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -515,7 +516,7 @@ function CopyTo( dst, src )
  * //        }
  *
  * @returns { Map } - Returns map with matrix data.
- * @function extractNormalized
+ * @method extractNormalized
  * @throws { Error } If arguments is passed.
  * @class Matrix
  * @namespace wTools
@@ -530,14 +531,14 @@ function extractNormalized()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  result.buffer = self.long.longMakeUndefined( self.buffer , self.scalarsPerMatrix );
+  result.buffer = self.long.longMakeUndefined( self.buffer , self.atomsPerMatrix );
   result.offset = 0;
   result.strides = self.StridesForDimensions( self.dims, self.inputTransposing );
 
-  self.scalarEach( function( it )
+  self.atomEach( function( it )
   {
-    let i = self._FlatScalarIndexFromIndexNd( it.indexNd, result.strides );
-    result.buffer[ i ] = it.scalar;
+    let i = self._FlatAtomIndexFromIndexNd( it.indexNd, result.strides );
+    result.buffer[ i ] = it.atom;
   });
 
   return result;
@@ -549,7 +550,7 @@ function extractNormalized()
 
 function _sizeGet()
 {
-  let result = this.sizeOfScalar*this.scalarsPerMatrix;
+  let result = this.sizeOfAtom*this.atomsPerMatrix;
   _.assert( result >= 0 );
   return result;
 }
@@ -558,7 +559,7 @@ function _sizeGet()
 
 function _sizeOfElementGet()
 {
-  let result = this.sizeOfScalar*this.scalarsPerElement;
+  let result = this.sizeOfAtom*this.atomsPerElement;
   _.assert( result >= 0 );
   return result;
 }
@@ -567,7 +568,7 @@ function _sizeOfElementGet()
 
 function _sizeOfElementStrideGet()
 {
-  let result = this.sizeOfScalar*this.strideOfElement;
+  let result = this.sizeOfAtom*this.strideOfElement;
   _.assert( result >= 0 );
   return result;
 }
@@ -576,7 +577,7 @@ function _sizeOfElementStrideGet()
 
 function _sizeOfColGet()
 {
-  let result = this.sizeOfScalar*this.scalarsPerCol;
+  let result = this.sizeOfAtom*this.atomsPerCol;
   _.assert( result >= 0 );
   return result;
 }
@@ -585,7 +586,7 @@ function _sizeOfColGet()
 
 function _sizeOfColStrideGet()
 {
-  let result = this.sizeOfScalar*this.strideOfCol;
+  let result = this.sizeOfAtom*this.strideOfCol;
   _.assert( result >= 0 );
   return result;
 }
@@ -594,7 +595,7 @@ function _sizeOfColStrideGet()
 
 function _sizeOfRowGet()
 {
-  let result = this.sizeOfScalar*this.scalarsPerRow;
+  let result = this.sizeOfAtom*this.atomsPerRow;
   _.assert( result >= 0 );
   return result;
 }
@@ -603,14 +604,14 @@ function _sizeOfRowGet()
 
 function _sizeOfRowStrideGet()
 {
-  let result = this.sizeOfScalar*this.strideOfRow;
+  let result = this.sizeOfAtom*this.strideOfRow;
   _.assert( result >= 0 );
   return result;
 }
 
 //
 
-function _sizeOfScalarGet()
+function _sizeOfAtomGet()
 {
   _.assert( !!this.buffer );
   let result = this.buffer.BYTES_PER_ELEMENT;
@@ -619,18 +620,18 @@ function _sizeOfScalarGet()
 }
 
 // --
-// size in scalrs
+// size in atoms
 // --
 
-function _scalarsPerElementGet()
+function _atomsPerElementGet()
 {
   let self = this;
-  return self[ scalarsPerElementSymbol ];
+  return self[ atomsPerElementSymbol ];
 }
 
 //
 
-function _scalarsPerColGet()
+function _atomsPerColGet()
 {
   let self = this;
   let result = self.dims[ 0 ];
@@ -640,7 +641,7 @@ function _scalarsPerColGet()
 
 //
 
-function _scalarsPerRowGet()
+function _atomsPerRowGet()
 {
   let self = this;
   let result = self.dims[ 1 ];
@@ -670,10 +671,10 @@ function _ncolGet()
 
 //
 
-function _scalarsPerMatrixGet()
+function _atomsPerMatrixGet()
 {
   let self = this;
-  let result = self.length === Infinity ? self.scalarsPerElement : self.length * self.scalarsPerElement;
+  let result = self.length === Infinity ? self.atomsPerElement : self.length * self.atomsPerElement;
   _.assert( _.numberIsFinite( result ) );
   _.assert( result >= 0 );
   return result;
@@ -683,25 +684,34 @@ function _scalarsPerMatrixGet()
 
 
 /**
- * Routine ScalarsPerMatrixForDimensions() calculates quantity of scalars in matrix with defined dimensions.
+<<<<<<< HEAD
+ * Static routine AtomsPerMatrixForDimensions() calculates quantity of atoms in matrix with defined dimensions.
+=======
+ * Static routine ScalarsPerMatrixForDimensions() calculates quantity of scalars in matrix with defined dimensions.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
- * var size = _.Matrix.ScalarsPerMatrixForDimensions( [ 2, 2 ] );
- * console.log( size );
+ * var atoms = _.Matrix.AtomsPerMatrixForDimensions( [ 2, 2 ] );
+ * console.log( atoms );
  * // log : 4
  *
  * @param { Array } dims - An array with matrix dimensions.
+<<<<<<< HEAD
+ * @returns { Number } - Returns quantity of atoms in matrix with defined dimensions.
+=======
  * @returns { Number } - Returns quantity of scalars in matrix with defined dimensions.
- * @function ScalarsPerMatrixForDimensions
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If routine is called by instance of Matrix.
+ * @static
+ * @function ScalarsPerMatrixForDimensions
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function ScalarsPerMatrixForDimensions( dims )
+function AtomsPerMatrixForDimensions( dims )
 {
   let result = 1;
 
@@ -721,7 +731,7 @@ function ScalarsPerMatrixForDimensions( dims )
 //
 
 /**
- * Routine NrowOf() returns number of rows in source Matrix {-src-}.
+ * Static routine NrowOf() returns number of rows in source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 5 ] );
@@ -731,8 +741,9 @@ function ScalarsPerMatrixForDimensions( dims )
  *
  * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of rows in source matrix.
- * @function NrowOf
  * @throws { Error } If {-src-} is not a Matrix, not a Long.
+ * @static
+ * @function NrowOf
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -749,7 +760,7 @@ function NrowOf( src )
 //
 
 /**
- * Routine NcolOf() returns number of columns in source Matrix {-src-}.
+ * Static routine NcolOf() returns number of columns in source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 5 ] );
@@ -759,8 +770,9 @@ function NrowOf( src )
  *
  * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of columns in source matrix.
- * @function NcolOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @static
+ * @function NcolOf
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -777,7 +789,7 @@ function NcolOf( src )
 //
 
 /**
- * Routine DimsOf() returns dimentions of source Matrix {-src-}.
+ * Static routine DimsOf() returns dimentions of source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 5 ] );
@@ -787,8 +799,9 @@ function NcolOf( src )
  *
  * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
  * @returns { Array } - Returns dimensions in source matrix.
- * @function DimsOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @static
+ * @function DimsOf
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -883,7 +896,7 @@ function _strideInRowGet()
 //
 
 /**
- * Routine StridesForDimensions() calculates strides for each dimension taking into account transposing value.
+ * Static routine StridesForDimensions() calculates strides for each dimension taking into account transposing value.
  *
  * @example
  * var strides = _.Matrix.StridesForDimensions( [ 2, 2 ], true );
@@ -893,11 +906,12 @@ function _strideInRowGet()
  * @param { Array } dims - Dimensions of a matrix.
  * @param { BoolLike } transposing - Options defines transposing of the matrix.
  * @returns { Array } - Returns strides for each dimension of the matrix.
- * @function StridesForDimensions
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If {-transposing-} is not BoolLike.
  * @throws { Error } If elements of {-dims-} is negative number.
+ * @static
+ * @function StridesForDimensions
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -946,7 +960,7 @@ function StridesForDimensions( dims, transposing )
 //
 
 /**
- * Routine StridesRoll() calculates strides offset for each dimension.
+ * Static routine StridesRoll() calculates strides offset for each dimension.
  *
  * @example
  * var strides = _.Matrix.StridesRoll( [ 2, 2 ] );
@@ -955,8 +969,9 @@ function StridesForDimensions( dims, transposing )
  *
  * @param { Array } strides - Strides of a matrix.
  * @returns { Array } - Returns strides for each dimension of the matrix.
- * @function StridesRoll
  * @throws { Error } If arguments.length is not equal to one.
+ * @static
+ * @function StridesRoll
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1023,11 +1038,11 @@ function _bufferAssign( src )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( src ) );
-  _.assert( self.scalarsPerMatrix === src.length, 'matrix', self.dims, 'should have', self.scalarsPerMatrix, 'scalars, but got', src.length );
+  _.assert( self.atomsPerMatrix === src.length, 'matrix', self.dims, 'should have', self.atomsPerMatrix, 'atoms, but got', src.length );
 
-  self.scalarEach( function( it )
+  self.atomEach( function( it )
   {
-    self.scalarSet( it.indexNd, src[ it.indexFlatRowFirst ] );
+    self.atomSet( it.indexNd, src[ it.indexFlatRowFirst ] );
   });
 
   self._changeEnd();
@@ -1037,7 +1052,7 @@ function _bufferAssign( src )
 //
 
 /**
- * Routine bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
+ * Method bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1050,8 +1065,8 @@ function _bufferAssign( src )
  *
  * @param { Long } dst - Destination buffer.
  * @returns { Long } - Returns destination buffer filled by values of matrix buffer.
- * If {-dst-} is undefined, then routine returns copy of matrix buffer.
- * @function bufferCopyTo
+ * If {-dst-} is undefined, then method returns copy of matrix buffer.
+ * @method bufferCopyTo
  * @throws { Error } If arguments.length is more then one.
  * @throws { Error } If {-dst-} is not a Long.
  * @throws { Error } If number of elements in matrix is not equal to dst.length.
@@ -1064,20 +1079,20 @@ function _bufferAssign( src )
 function bufferCopyTo( dst )
 {
   let self = this;
-  let scalarsPerMatrix = self.scalarsPerMatrix;
+  let atomsPerMatrix = self.atomsPerMatrix;
 
   if( !dst )
-  dst = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
+  dst = self.long.longMakeUndefined( self.buffer, atomsPerMatrix );
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( _.longIs( dst ) );
-  _.assert( scalarsPerMatrix === dst.length, 'matrix', self.dims, 'should have', scalarsPerMatrix, 'scalars, but got', dst.length );
+  _.assert( atomsPerMatrix === dst.length, 'matrix', self.dims, 'should have', atomsPerMatrix, 'atoms, but got', dst.length );
 
   throw _.err( 'not tested' );
 
-  self.scalarEach( function( it )
+  self.atomEach( function( it )
   {
-    dst[ it.indexFlat ] = it.scalar;
+    dst[ it.indexFlat ] = it.atom;
   });
 
   return dst;
@@ -1236,10 +1251,10 @@ function _adjustAct()
 
   _.assert( self._stridesEffective.length >= 2 );
 
-  /* scalars per element */
+  /* atoms per element */
 
   _.assert( self.breadth.length === 1, 'not tested' );
-  self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
+  self[ atomsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
 
   /* buffer region */
 
@@ -1306,7 +1321,7 @@ function _adjustValidate()
   _.assert( _.arrayIs( self.breadth ) );
 
   _.assert( self.length >= 0 );
-  _.assert( self.scalarsPerElement >= 0 );
+  _.assert( self.atomsPerElement >= 0 );
   _.assert( self.strideOfElement >= 0 );
 
   _.assert( _.longIs( self.buffer ) );
@@ -1331,7 +1346,7 @@ function _adjustValidate()
   _.assert( self.dims[ d ] >= 0 );
 
   if( Config.debug )
-  if( self.scalarsPerMatrix > 0 && _.numberIsFinite( self.length ) )
+  if( self.atomsPerMatrix > 0 && _.numberIsFinite( self.length ) )
   for( let d = 0 ; d < self.dims.length ; d++ )
   _.assert( self.offset + ( self.dims[ d ]-1 )*self._stridesEffective[ d ] <= self.buffer.length, 'out of bound' );
 
@@ -1425,7 +1440,7 @@ function _dimsSet( src )
 //
 
 /**
- * Routine expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
+ * Method expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1452,7 +1467,7 @@ function _dimsSet( src )
  *
  * @param { Long } expand - The quantity of appended and prepended lines in each dimension.
  * @returns { Matrix } - Returns original expanded matrix.
- * @function expand
+ * @method expand
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If expand.length is not equal to quantity of dimensions.
  * @throws { Error } If elements of {-expand-} is bigger then equivalent dimension length.
@@ -1497,13 +1512,13 @@ function expand( expand )
   if( self.hasShape( dims ) )
   return self;
 
-  let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
+  let atomsPerMatrix = Self.AtomsPerMatrixForDimensions( dims );
   let strides = Self.StridesForDimensions( dims, 0 );
-  let buffer = self.long.longMakeZeroed( self.buffer, scalarsPerMatrix );
+  let buffer = self.long.longMakeZeroed( self.buffer, atomsPerMatrix );
 
   /* move data */
 
-  self.scalarEach( function( it )
+  self.atomEach( function( it )
   {
     for( let i = 0 ; i < dims.length ; i++ )
     {
@@ -1511,10 +1526,10 @@ function expand( expand )
       if( it.indexNd[ i ] < 0 || it.indexNd[ i ] >= dims[ i ] )
       return;
     }
-    let indexFlat = Self._FlatScalarIndexFromIndexNd( it.indexNd , strides );
+    let indexFlat = Self._FlatAtomIndexFromIndexNd( it.indexNd , strides );
     _.assert( indexFlat >= 0 );
     _.assert( indexFlat < buffer.length );
-    buffer[ indexFlat ] = it.scalar;
+    buffer[ indexFlat ] = it.atom;
   });
 
   /* copy */
@@ -1535,7 +1550,7 @@ function expand( expand )
 //
 
 /**
- * Routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
+ * Static routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
  *
  * @example
  * var matrix1 = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1547,8 +1562,9 @@ function expand( expand )
  * @param { Matrix|VectorAdapter|Long } ins1 - The source matrix.
  * @param { Matrix|VectorAdapter|Long } ins2 - The source matrix.
  * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
- * @function ShapesAreSame
  * @throws { Error } If routine is called by instance of Matrix.
+ * @static
+ * @function ShapesAreSame
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1567,7 +1583,7 @@ function ShapesAreSame( ins1, ins2 )
 //
 
 /**
- * Routine hasShape() compares dimensions of instance with dimensions of source container {-src-}.
+ * Method hasShape() compares dimensions of instance with dimensions of source container {-src-}.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1577,7 +1593,7 @@ function ShapesAreSame( ins1, ins2 )
  *
  * @param { Array|Matrix } src - The container with dimensions.
  * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
- * @function hasShape
+ * @method hasShape
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not an Array, not a Matrix.
  * @class Matrix
@@ -1603,7 +1619,7 @@ function hasShape( src )
 //
 
 /**
- * Routine isSquare() checks the equality of matrix dimensions.
+ * Method isSquare() checks the equality of matrix dimensions.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 2 ] );
@@ -1612,7 +1628,7 @@ function hasShape( src )
  * // log : false
  *
  * @returns { Boolean } - Returns value whether is the instance square matrix.
- * @function isSquare
+ * @method isSquare
  * @throws { Error } If argument is provided.
  * @class Matrix
  * @namespace wTools
@@ -1631,17 +1647,26 @@ function isSquare()
 // --
 
 /**
- * Routine flatScalarIndexFrom() finds the index of element in the matrix buffer.
+<<<<<<< HEAD
+ * Method flatAtomIndexFrom() finds the index of element in the matrix buffer.
+=======
+
+ * Method flatScalarIndexFrom() finds the index of element in the matrix buffer.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
- * var got = matrix.flatScalarIndexFrom( [ 1, 1 ] );
+ * var got = matrix.flatAtomIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 4
  *
  * @param { Array } indexNd - The position of element.
  * @returns { Number } - Returns flat index of element.
- * @function flatScalarIndexFrom
+<<<<<<< HEAD
+ * @method flatAtomIndexFrom
+=======
+ * @method flatScalarIndexFrom
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not an Array.
  * @class Matrix
@@ -1649,20 +1674,20 @@ function isSquare()
  * @module Tools/math/Matrix
  */
 
-function flatScalarIndexFrom( indexNd )
+function flatAtomIndexFrom( indexNd )
 {
   let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = self._FlatScalarIndexFromIndexNd( indexNd, self._stridesEffective );
+  let result = self._FlatAtomIndexFromIndexNd( indexNd, self._stridesEffective );
 
   return result + self.offset;
 }
 
 //
 
-function _FlatScalarIndexFromIndexNd( indexNd, strides )
+function _FlatAtomIndexFromIndexNd( indexNd, strides )
 {
   let result = 0;
 
@@ -1682,8 +1707,8 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
 //
 
 /**
- * Routine flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
- * Routine takes into account values of definition of element position {-indexNd-}.
+ * Method flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
+ * Method takes into account values of definition of element position {-indexNd-}.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1693,7 +1718,7 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
  *
  * @param { Long|VectorAdapter|Matrix } indexNd - The position of element.
  * @returns { Number } - Returns index offset of element.
- * @function flatGranuleIndexFrom
+ * @method flatGranuleIndexFrom
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If indexNd.length is not equal to strides length.
  * @class Matrix
@@ -1727,7 +1752,7 @@ function flatGranuleIndexFrom( indexNd )
 //
 
 /**
- * Routine transpose() transposes the matrix.
+ * Method transpose() transposes the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1740,7 +1765,7 @@ function flatGranuleIndexFrom( indexNd )
  * //       +1, +2
  *
  * @returns { Matrix } - Returns original matrix instance with transposed elements.
- * @function transpose
+ * @method transpose
  * @throws { Error } If argument is provided.
  * @throws { Error } If dims.length is less then 2.
  * @throws { Error } If strides.length is less then 2.
@@ -1815,10 +1840,10 @@ function _equalAre( it )
     return it.result;
   }
 
-  it.result = it.src.scalarWhile( function( scalar, indexNd, indexFlat )
+  it.result = it.src.atomWhile( function( atom, indexNd, indexFlat )
   {
-    let scalar2 = it.src2.scalarGet( indexNd );
-    return it.onNumbersAreEqual( scalar, scalar2 );
+    let atom2 = it.src2.atomGet( indexNd );
+    return it.onNumbersAreEqual( atom, atom2 );
   });
 
   _.assert( _.boolIs( it.result ) );
@@ -1830,7 +1855,7 @@ _.routineExtend( _equalAre, _._equal );
 //
 
 /**
- * Routine Is() checks whether the provided argument is an instance of Matrix.
+ * Static routine Is() checks whether the provided argument is an instance of Matrix.
  *
  * @example
  * var matrix = _.Matrix.transpose( [ 1, 1, 2, 2 ] );
@@ -1840,8 +1865,9 @@ _.routineExtend( _equalAre, _._equal );
  *
  * @param { * } src - The source argument.
  * @returns { Boolean } - Returns whether the argument is instance of Matrix.
- * @function Is
  * @throws { Error } If arguments.length is not equal to one.
+ * @static
+ * @function Is
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1856,7 +1882,7 @@ function Is( src )
 //
 
 /**
- * Routine toStr() converts current matrix to string.
+ * Method toStr() converts current matrix to string.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1869,7 +1895,7 @@ function Is( src )
  * @param { Number } o.precision -  Precision of scalar values.
  * @param { Boolean } o.usingSign - Prepend sign to scalar values.
  * @returns { String } - Returns formatted string that represents matrix of scalars.
- * @function toStr
+ * @method toStr
  * @throws { Error } If options map {-o-} has unknown options.
  * @throws { Error } If options map {-o-} is not map like.
  * @class Matrix
@@ -1886,14 +1912,14 @@ function toStr( o )
   _.routineOptions( toStr, o );
 
   let l = self.dims[ 0 ];
-  let scalarsPerRow, scalarsPerCol;
+  let atomsPerRow, atomsPerCol;
   let col, row;
   let m, c, r, e;
 
   let isInt = true;
-  self.scalarEach( function( it )
+  self.atomEach( function( it )
   {
-    isInt = isInt && _.intIs( it.scalar );
+    isInt = isInt && _.intIs( it.atom );
   });
 
   /* */
@@ -1928,13 +1954,13 @@ function toStr( o )
     else
     row = self.rowVectorOfMatrixGet( [ m ], r );
 
-    if( scalarsPerRow === Infinity )
+    if( atomsPerRow === Infinity )
     {
       e = 0;
       eToStr();
       result += '*Infinity';
     }
-    else for( c = 0 ; c < scalarsPerRow ; c += 1 )
+    else for( c = 0 ; c < atomsPerRow ; c += 1 )
     eToStr();
 
   }
@@ -1944,19 +1970,19 @@ function toStr( o )
   function matrixToStr( m )
   {
 
-    scalarsPerRow = self.scalarsPerRow;
-    scalarsPerCol = self.scalarsPerCol;
+    atomsPerRow = self.atomsPerRow;
+    atomsPerCol = self.atomsPerCol;
 
-    if( scalarsPerCol === Infinity )
+    if( atomsPerCol === Infinity )
     {
       r = 0;
       rowToStr( 0 );
       result += ' **Infinity';
     }
-    else for( r = 0 ; r < scalarsPerCol ; r += 1 )
+    else for( r = 0 ; r < atomsPerCol ; r += 1 )
     {
       rowToStr( r );
-      if( r < scalarsPerCol - 1 )
+      if( r < atomsPerCol - 1 )
       result += '\n' + o.tab;
     }
 
@@ -1997,8 +2023,8 @@ toStr.defaults.__proto__ = _.toStr.defaults;
 //
 
 /**
- * Routine bufferNormalize() normalizes buffer of current matrix.
- * Routine replaces current matrix buffer by new buffer with only elements of matrix.
+ * Method bufferNormalize() normalizes buffer of current matrix.
+ * Method replaces current matrix buffer by new buffer with only elements of matrix.
  *
  * @example
  * var matrix = _.Matrix
@@ -2014,7 +2040,7 @@ toStr.defaults.__proto__ = _.toStr.defaults;
  * // log : [ 1, 2, 3, 4 ]
  *
  * @returns { Undefined } - Returns not a value, changes buffer of current matrix.
- * @function bufferNormalize
+ * @method bufferNormalize
  * @throws { Error } If argument is provided.
  * @class Matrix
  * @namespace wTools
@@ -2027,12 +2053,12 @@ function bufferNormalize()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
+  let buffer = self.long.longMakeUndefined( self.buffer, self.atomsPerMatrix );
 
   let i = 0;
-  self.scalarEach( function( it )
+  self.atomEach( function( it )
   {
-    buffer[ i ] = it.scalar;
+    buffer[ i ] = it.atom;
     i += 1;
   });
 
@@ -2048,7 +2074,7 @@ function bufferNormalize()
 //
 
 /**
- * Routine submatrix() creates new instance of Matrix from part of original matrix.
+ * Method submatrix() creates new instance of Matrix from part of original matrix.
  * The buffer of new instance is the same container as original matrix buffer.
  *
  * @example
@@ -2060,7 +2086,7 @@ function bufferNormalize()
  *
  * @param { Array } submatrix - Array with pairs of ranges.
  * @returns { Matrix } - Returns new instance of Matrix with part of original matrix.
- * @function submatrix
+ * @method submatrix
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-submatrix-} is not an Array.
  * @throws { Error } If submatrix.length is not equal to numbers of dimensions.
@@ -2129,21 +2155,29 @@ function submatrix( submatrix )
 // --
 
 /**
- * Routine scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
+<<<<<<< HEAD
+ * Method atomWhile() applies callback {-o.onAtom-} to each element of current matrix
+=======
+ * Method scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * while callback returns defined value.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarWhile( ( e ) => Math.pow( e, 2 ) );
+ * var got = matrix.atomWhile( ( e ) => Math.pow( e, 2 ) );
  * console.log( got );
  * // log : 81
  *
  * @param { Map|Function } o - Options map of callback.
- * @param { Function } o.onScalar - Callback.
- * Callback {-o.onScalar-} applies four arguments : element of matrix, position `indexNd`,
+ * @param { Function } o.onAtom - Callback.
+ * Callback {-o.onAtom-} applies four arguments : element of matrix, position `indexNd`,
  * flat index `indexFlat`, options map {-o-}.
  * @returns { * } - Returns the result of callback.
- * @function scalarWhile
+<<<<<<< HEAD
+ * @method atomWhile
+=======
+ * @method scalarWhile
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
  * @throws { Error } If options map {-o-} has unknown options.
@@ -2152,24 +2186,24 @@ function submatrix( submatrix )
  * @module Tools/math/Matrix
  */
 
-function scalarWhile( o )
+function atomWhile( o )
 {
   let self = this;
   let result = true;
 
   if( _.routineIs( o ) )
-  o = { onScalar : o }
+  o = { onAtom : o }
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.routineOptions( scalarWhile, o );
-  _.assert( _.routineIs( o.onScalar ) );
+  _.routineOptions( atomWhile, o );
+  _.assert( _.routineIs( o.onAtom ) );
 
   let dims = self.dims;
 
   function handleEach( indexNd, indexFlat )
   {
-    let value = self.scalarGet( indexNd );
-    result = o.onScalar.call( self, value, indexNd, indexFlat, o );
+    let value = self.atomGet( indexNd );
+    result = o.onAtom.call( self, value, indexNd, indexFlat, o );
     return result;
   }
 
@@ -2182,39 +2216,49 @@ function scalarWhile( o )
   return result;
 }
 
-scalarWhile.defaults =
+atomWhile.defaults =
 {
-  onScalar : null,
+  onAtom : null,
 }
 
 //
 
 /**
- * Routine scalarEach() applies callback {-onScalar-} to each element of current matrix.
+<<<<<<< HEAD
+ * Method atomEach() applies callback {-onAtom-} to each element of current matrix.
+ * The callback {-onAtom-} applies option map with next fields : `indexNd`, `indexFlat`,
+ * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
+=======
+ * Method scalarEach() applies callback {-onScalar-} to each element of current matrix.
  * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexFlat`,
  * `indexFlatRowFirst`, `scalar`, `args`. Field `args` defines by the second argument.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var storage = [];
- * matrix.scalarEach( ( e ) => { storage.push(  Math.pow( e.scalar, 2 ) ) } );
+ * matrix.atomEach( ( e ) => { storage.push(  Math.pow( e.atom, 2 ) ) } );
  * console.log( storage );
  * // log : [ 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
  *
- * @param { Function } onScalar - Callback.
+ * @param { Function } onAtom - Callback.
  * @param { Array } args - Array for callback.
  * @returns { Matrix } - Returns the original matrix.
- * @function scalarEach
+<<<<<<< HEAD
+ * @method atomEach
+=======
+ * @method scalarEach
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is more then two.
  * @throws { Error } If number of dimensions of matrix is more then two.
  * @throws { Error } If {-args-} is not an Array.
- * @throws { Error } If {-onScalar-} accepts less or more then one argument.
+ * @throws { Error } If {-onAtom-} accepts less or more then one argument.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function scalarEach( onScalar, args )
+function atomEach( onAtom, args )
 {
   let self = this;
   let dims = self.dims;
@@ -2225,7 +2269,7 @@ function scalarEach( onScalar, args )
   _.assert( arguments.length <= 2 );
   _.assert( self.dims.length === 2, 'not tested' );
   _.assert( _.arrayIs( args ) );
-  _.assert( onScalar.length === 1 );
+  _.assert( onAtom.length === 1 );
 
   args.unshift( null );
   args.unshift( null );
@@ -2245,8 +2289,8 @@ function scalarEach( onScalar, args )
     it.indexNd = [ r, c ];
     it.indexFlat = indexFlat;
     it.indexFlatRowFirst = r*dims[ 1 ] + c;
-    it.scalar = self.scalarGet( it.indexNd );
-    onScalar.call( self, it );
+    it.atom = self.atomGet( it.indexNd );
+    onAtom.call( self, it );
     indexFlat += 1;
   }
 
@@ -2258,17 +2302,25 @@ function scalarEach( onScalar, args )
 // --
 
 /**
- * Routine scalarFlatGet() returns value of element by using its flat index.
+<<<<<<< HEAD
+ * Method atomFlatGet() returns value of element by using its flat index.
+=======
+ * Method scalarFlatGet() returns value of element by using its flat index.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarFlatGet( 3 );
+ * var got = matrix.atomFlatGet( 3 );
  * console.log( got );
  * // log : 4
  *
  * @param { Number } index - Index of matrix element.
  * @returns { Number } - Returns the element of matrix by using its flat index.
- * @function scalarFlatGet
+<<<<<<< HEAD
+ * @method atomFlatGet
+=======
+ * @method scalarFlatGet
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2278,7 +2330,7 @@ function scalarEach( onScalar, args )
  * @module Tools/math/Matrix
  */
 
-function scalarFlatGet( index )
+function atomFlatGet( index )
 {
   let i = this.offset+index;
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -2292,11 +2344,15 @@ function scalarFlatGet( index )
 //
 
 /**
- * Routine scalarFlatSet() sets value of element of matrix buffer by using its flat index.
+<<<<<<< HEAD
+ * Method atomFlatSet() sets value of element of matrix buffer by using its flat index.
+=======
+ * Method scalarFlatSet() sets value of element of matrix buffer by using its flat index.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarFlatSet( 3, 1 );
+ * var got = matrix.atomFlatSet( 3, 1 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
  * //       +1, +5, +6,
@@ -2305,7 +2361,11 @@ function scalarFlatGet( index )
  * @param { Number } index - Index of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
- * @function scalarFlatSet
+<<<<<<< HEAD
+ * @method atomFlatSet
+=======
+ * @method scalarFlatSet
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2315,7 +2375,7 @@ function scalarFlatGet( index )
  * @module Tools/math/Matrix
  */
 
-function scalarFlatSet( index, value )
+function atomFlatSet( index, value )
 {
   let i = this.offset+index;
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -2329,17 +2389,25 @@ function scalarFlatSet( index, value )
 //
 
 /**
- * Routine scalarGet() returns value of element using its position in matrix.
+<<<<<<< HEAD
+ * Method atomGet() returns value of element using its position in matrix.
+=======
+ * Method scalarGet() returns value of element using its position in matrix.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarGet( [ 1, 1 ] );
+ * var got = matrix.atomGet( [ 1, 1 ] );
  * console.log( got );
  * // log : 5
  *
  * @param { Array } index - Position of matrix element.
  * @returns { Number } - Returns the element of matrix using its position.
- * @function scalarGet
+<<<<<<< HEAD
+ * @method atomGet
+=======
+ * @method scalarGet
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2350,9 +2418,9 @@ function scalarFlatSet( index, value )
  * @module Tools/math/Matrix
  */
 
-function scalarGet( index )
+function atomGet( index )
 {
-  let i = this.flatScalarIndexFrom( index );
+  let i = this.flatAtomIndexFrom( index );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( i < this.buffer.length );
   _.assert( this.occupiedRange[ 0 ] <= i && i < this.occupiedRange[ 1 ] );
@@ -2365,11 +2433,15 @@ function scalarGet( index )
 //
 
 /**
- * Routine scalarSet() sets value of matrix element using its position.
+<<<<<<< HEAD
+ * Method atomSet() sets value of matrix element using its position.
+=======
+ * Method scalarSet() sets value of matrix element using its position.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarSet( [ 1, 1 ], 1 );
+ * var got = matrix.atomSet( [ 1, 1 ], 1 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
  * //       +4, +1, +6,
@@ -2378,7 +2450,11 @@ function scalarGet( index )
  * @param { Number } index - Position of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
- * @function scalarSet
+<<<<<<< HEAD
+ * @method atomSet
+=======
+ * @method scalarSet
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2389,9 +2465,9 @@ function scalarGet( index )
  * @module Tools/math/Matrix
  */
 
-function scalarSet( index, value )
+function atomSet( index, value )
 {
-  let i = this.flatScalarIndexFrom( index );
+  let i = this.flatAtomIndexFrom( index );
   _.assert( _.numberIs( value ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( i < this.buffer.length );
@@ -2405,17 +2481,25 @@ function scalarSet( index, value )
 //
 
 /**
- * Routine scalarsGet() returns vector of elements with length defined by delta between {-range-} elements.
+<<<<<<< HEAD
+ * Method atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
+=======
+ * Method scalarsGet() returns vector of elements with length defined by delta between {-range-} elements.
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarsGet( [ 2, 5 ] );
+ * var got = matrix.atomsGet( [ 2, 5 ] );
  * console.log( got.toStr() );
  * // log : 3.000, 4.000, 5.000
  *
  * @param { Long } range - Range of elements.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function scalarsGet
+<<<<<<< HEAD
+ * @method atomsGet
+=======
+ * @method scalarsGet
+>>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-range-} is not a Long.
  * @throws { Error } If range.length is not equal to two.
@@ -2426,7 +2510,7 @@ function scalarSet( index, value )
  * @module Tools/math/Matrix
  */
 
-function scalarsGet( range )
+function atomsGet( range )
 {
   let self = this;
 
@@ -2453,7 +2537,7 @@ function scalarsGet( range )
 //
 
 /**
- * Routine asVector() extracts part of original buffer between first element of matrix and the
+ * Method asVector() extracts part of original buffer between first element of matrix and the
  * last element of the matrix.
  *
  * @example
@@ -2468,7 +2552,7 @@ function scalarsGet( range )
  * // log : 1.000, 2.000, 3.000, 4.000, 5.000, 6.000
  *
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function asVector
+ * @method asVector
  * @throws { Error } If argument is provided.
  * @throws { Error } If strides of element is not equal to scalars per element.
  * @class Matrix
@@ -2482,8 +2566,8 @@ function asVector()
   let result = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  // _.assert( self.strideOfElement === self.scalarsPerElement ); /* Dmytro : it is duplicated below */
-  _.assert( self.strideOfElement === self.scalarsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
+  // _.assert( self.strideOfElement === self.atomsPerElement ); /* Dmytro : it is duplicated below */
+  _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
   result = self.vectorAdapter.fromLongLrange
   (
@@ -2498,11 +2582,11 @@ function asVector()
 //
 
 /**
- * Routine granuleGet() returns vector extracted from original buffer.
+ * Method granuleGet() returns vector extracted from original buffer.
  *
  * @param { Array } index - Position of element.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function granuleGet
+ * @method granuleGet
  * @throws { Error } If {-index-} is not an Array.
  * @class Matrix
  * @namespace wTools
@@ -2512,21 +2596,21 @@ function asVector()
 function granuleGet( index )
 {
   let self = this;
-  let scalarsPerGranule;
+  let atomsPerGranule;
 
   debugger;
   _.assert( 0, 'not imlemented' );
 
   if( index.length < self._stridesEffective.length+1 )
-  scalarsPerGranule = _.avector.reduceToProduct( self._stridesEffective.slice( index.length-1 ) );
+  atomsPerGranule = _.avector.reduceToProduct( self._stridesEffective.slice( index.length-1 ) );
   else
-  scalarsPerGranule = 1;
+  atomsPerGranule = 1;
 
   let result = self.vectorAdapter.fromLongLrange
   (
     this.buffer,
     this.offset + this.flatGranuleIndexFrom( index ),
-    scalarsPerGranule
+    atomsPerGranule
   );
 
   return result;
@@ -2535,7 +2619,7 @@ function granuleGet( index )
 //
 
 /**
- * Routine elementSlice() makes new vector from default matrix element.
+ * Method elementSlice() makes new vector from default matrix element.
  * For regular 2D matrices it is row, for 3D matrices it is matrix.
  *
  * @example
@@ -2551,7 +2635,7 @@ function granuleGet( index )
  *
  * @param { Number } - Index of element.
  * @returns { VectorAdapter } - Returns the vector with default matrix element.
- * @function elementSlice
+ * @method elementSlice
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of matrix length.
  * @class Matrix
@@ -2569,7 +2653,7 @@ function elementSlice( index )
 //
 
 /**
- * Routine elementsInRangeGet() extracts vector of elements from original buffer.
+ * Method elementsInRangeGet() extracts vector of elements from original buffer.
  * Vector starts from element of matrix defined by first element of range an has length
  * defined by delta between ranges elements.
  *
@@ -2581,7 +2665,7 @@ function elementSlice( index )
  *
  * @param { Long } range - Range of elements.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function elementsInRangeGet
+ * @method elementsInRangeGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-range-} is not a Long.
  * @throws { Error } If range.length is not equal to two.
@@ -2603,13 +2687,13 @@ function elementsInRangeGet( range )
   _.assert( self.breadth.length === 1 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( range[ 1 ] >= range[ 0 ] );
-  _.assert( self.strideOfElement === self.scalarsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
+  _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
   result = self.vectorAdapter.fromLongLrange
   (
     self.buffer,
     self.offset+self.strideOfElement*range[ 0 ],
-    self.scalarsPerElement*( range[ 1 ]-range[ 0 ] )
+    self.atomsPerElement*( range[ 1 ]-range[ 0 ] )
   );
 
   return result;
@@ -2618,7 +2702,7 @@ function elementsInRangeGet( range )
 //
 
 /**
- * Routine eGet() extracts default matrix element from current matrix.
+ * Method eGet() extracts default matrix element from current matrix.
  * For row matrices it is separate elements, for regular 2D matrices it is row,
  * for 3D matrices it is matrix.
  *
@@ -2630,7 +2714,7 @@ function elementsInRangeGet( range )
  *
  * @param { Number } index - Index of element.
  * @returns { VectorAdapter } - Returns the vector with default matrix element.
- * @function eGet
+ * @method eGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If dims.length is not equal to two.
@@ -2662,7 +2746,7 @@ function eGet( index )
 //
 
 /**
- * Routine eSet() sets value of default matrix element.
+ * Method eSet() sets value of default matrix element.
  * For row matrices it is separate elements, for regular 2D matrices it is row,
  * for 3D matrices it is matrix.
  *
@@ -2677,7 +2761,7 @@ function eGet( index )
  * @param { Number } index - Index of element.
  * @param { Number|Long|VectorAdapter } value - Value to assign to matrix element.
  * @returns { Matrix } - Returns original matrix instance.
- * @function eSet
+ * @method eSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-value-} is not a Number, not a Long, not a VectorAdapter.
  * @class Matrix
@@ -2700,7 +2784,7 @@ function eSet( index, srcElement )
 //
 
 /**
- * Routine elementsSwap() swaps elements of two default matrix elements.
+ * Method elementsSwap() swaps elements of two default matrix elements.
  * For row matrices it is separate elements, for regular 2D matrices it is row,
  * for 3D matrices it is matrix.
  *
@@ -2715,7 +2799,7 @@ function eSet( index, srcElement )
  * @param { Number } i1 - Index of first element.
  * @param { Number } i2 - Index of second element.
  * @returns { Matrix } - Returns original matrix with swapped elements.
- * @function elementsSwap
+ * @method elementsSwap
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If any of indexes is out of range of elements.
  * @class Matrix
@@ -2745,9 +2829,9 @@ function elementsSwap( i1, i2 )
 //
 
 /**
- * Routine lineVectorGet() returns line, it is row or column of matrix, taking into account the
- * index of dimensions {-d-}. If {-d-} is 1, then routine returns row with index
- * {-index-}, else if {-d-} is 0, then the routine returns column.
+ * Method lineVectorGet() returns line, it is row or column of matrix, taking into account the
+ * index of dimensions {-d-}. If {-d-} is 1, then method returns row with index
+ * {-index-}, else if {-d-} is 0, then the method returns column.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2758,7 +2842,7 @@ function elementsSwap( i1, i2 )
  * @param { Number } d - Dimension index.
  * @param { Number } index - Index of the line.
  * @returns { VectorAdapter } - Returns vector with row or column of the matrix.
- * @function lineVectorGet
+ * @method lineVectorGet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If number of dimensions is not equal to two.
  * @class Matrix
@@ -2785,7 +2869,7 @@ function lineVectorGet( d, index )
 //
 
 /**
- * Routine lineVectorGet() applies value in source vector {-src-} to line of the matrix.
+ * Method lineVectorGet() applies value in source vector {-src-} to line of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2796,11 +2880,11 @@ function lineVectorGet( d, index )
  * //       +0, +0, +0,
  *
  * @param { Number } d - Dimension index.
- * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then the routine returns column.
+ * If {-d-} is 1, then method returns row with index {-index-}, else if {-d-} is 0, then the method returns column.
  * @param { Number } index - Index of the line.
  * @param { Long|VectorAdapter } src - The source elements.
  * @returns { VectorAdapter } - Returns vector with row or column of the matrix.
- * @function lineVectorGet
+ * @method lineVectorGet
  * @throws { Error } If arguments.length is not equal to three.
  * @throws { Error } If number of dimensions is not equal to two.
  * @class Matrix
@@ -2827,9 +2911,9 @@ function lineSet( d, index, src )
 //
 
 /**
- * Routine linesSwap() swaps lines of the matrix taking into account index of dimension {-d-}.
- * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then
- * the routine returns column.
+ * Method linesSwap() swaps lines of the matrix taking into account index of dimension {-d-}.
+ * If {-d-} is 1, then method returns row with index {-index-}, else if {-d-} is 0, then
+ * the method returns column.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2843,7 +2927,7 @@ function lineSet( d, index, src )
  * @param { Number } i1 - Index of first line.
  * @param { Number } i2 - Index of second line.
  * @returns { Matrix } - Returns original matrix with swapped lines.
- * @function linesSwap
+ * @method linesSwap
  * @throws { Error } If arguments.length is not equal to three.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If any of indexes is out of range of lines.
@@ -2879,7 +2963,7 @@ function linesSwap( d, i1, i2 )
 //
 
 /**
- * Routine rowVectorOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
+ * Method rowVectorOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2890,7 +2974,7 @@ function linesSwap( d, i1, i2 )
  * @param { Long|VectorAdapter|Matrix } matrixIndex - Index of matrix.
  * @param { Number } rowIndex - Index of the row.
  * @returns { VectorAdapter } - Returns vector with row.
- * @function rowVectorOfMatrixGet
+ * @method rowVectorOfMatrixGet
  * @throws { Error } If {-matrixIndex-} is not a Long, not a VectorAdapter, not a Matrix.
  * @class Matrix
  * @namespace wTools
@@ -2909,7 +2993,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
   (
     this.buffer,
     this.offset + rowIndex*this.strideOfRow + matrixOffset,
-    this.scalarsPerRow,
+    this.atomsPerRow,
     this.strideInRow
   );
 
@@ -2919,7 +3003,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
 //
 
 /**
- * Routine rowVectorGet() returns row of the matrix.
+ * Method rowVectorGet() returns row of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2929,7 +3013,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
  *
  * @param { Number } index - Index of the row.
  * @returns { VectorAdapter } - Returns vector with row of the matrix.
- * @function rowVectorGet
+ * @method rowVectorGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If {-index-} is out of range of rows.
@@ -2951,7 +3035,7 @@ function rowVectorGet( index )
   (
     this.buffer,
     this.offset + index*this.strideOfRow,
-    this.scalarsPerRow,
+    this.atomsPerRow,
     this.strideInRow
   );
 
@@ -2961,7 +3045,7 @@ function rowVectorGet( index )
 //
 
 /**
- * Routine rowSet() assigns values to the row of the matrix.
+ * Method rowSet() assigns values to the row of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2974,7 +3058,7 @@ function rowVectorGet( index )
  * @param { Number } rowIndex - Index of the row.
  * @param { Number|Long|VectorAdapter } srcRow - Source value for the row.
  * @returns { Matrix } - Returns original matrix with changed row.
- * @function rowSet
+ * @method rowSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-srcRow-} is not a Number, not a Long, not a VectorAdapter.
  * @class Matrix
@@ -2997,7 +3081,7 @@ function rowSet( rowIndex, srcRow )
 //
 
 /**
- * Routine rowsSwap() swaps rows of the matrix.
+ * Method rowsSwap() swaps rows of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3010,7 +3094,7 @@ function rowSet( rowIndex, srcRow )
  * @param { Number } i1 - Index of first row.
  * @param { Number } i2 - Index of second row.
  * @returns { Matrix } - Returns original matrix with swapped rows.
- * @function rowsSwap
+ * @method rowsSwap
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If any of indexes is out of range of lines.
@@ -3031,7 +3115,7 @@ function rowsSwap( i1, i2 )
 //
 
 /**
- * Routine colVectorGet() returns column of the matrix.
+ * Method colVectorGet() returns column of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3041,7 +3125,7 @@ function rowsSwap( i1, i2 )
  *
  * @param { Number } index - Index of the column.
  * @returns { VectorAdapter } - Returns vector with column of the matrix.
- * @function colVectorGet
+ * @method colVectorGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If {-index-} is out of range of columns.
@@ -3063,7 +3147,7 @@ function colVectorGet( index )
   (
     this.buffer,
     this.offset + index*this.strideOfCol,
-    this.scalarsPerCol,
+    this.atomsPerCol,
     this.strideInCol
   );
 
@@ -3073,7 +3157,7 @@ function colVectorGet( index )
 //
 
 /**
- * Routine colSet() assigns values to the column of the matrix.
+ * Method colSet() assigns values to the column of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3086,7 +3170,7 @@ function colVectorGet( index )
  * @param { Number } index - Index of the column.
  * @param { Number|Long|VectorAdapter } srcCol - Source value for the column.
  * @returns { Matrix } - Returns original matrix with changed column.
- * @function colSet
+ * @method colSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-srcCol-} is not a Number, not a Long, not a VectorAdapter.
  * @class Matrix
@@ -3109,7 +3193,7 @@ function colSet( index, srcCol )
 //
 
 /**
- * Routine colsSwap() swaps columns of the matrix.
+ * Method colsSwap() swaps columns of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3122,7 +3206,7 @@ function colSet( index, srcCol )
  * @param { Number } i1 - Index of first column.
  * @param { Number } i2 - Index of second second.
  * @returns { Matrix } - Returns original matrix with swapped columns.
- * @function colsSwap
+ * @method colsSwap
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If any of indexes is out of range of lines.
@@ -3163,7 +3247,7 @@ function _pivotDimension( d, current, expected )
 //
 
 /**
- * Routine pivotForward() pivots elements of the matrix.
+ * Method pivotForward() pivots elements of the matrix.
  * Pivoting provides by swapping of elements in declared order.
  *
  * @example
@@ -3175,7 +3259,7 @@ function _pivotDimension( d, current, expected )
  * //       +8, +7, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function pivotForward
+ * @method pivotForward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If pivots.length is not equal to number of dimensions.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
@@ -3206,7 +3290,7 @@ function pivotForward( pivots )
 //
 
 /**
- * Routine pivotBackward() pivots elements of the matrix.
+ * Method pivotBackward() pivots elements of the matrix.
  * Pivoting provides by swapping of elements in declared position.
  *
  * @example
@@ -3218,7 +3302,7 @@ function pivotForward( pivots )
  * //       +8, +7, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function pivotBackward
+ * @method pivotBackward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If pivots.length is not equal to number of dimensions.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
@@ -3259,7 +3343,7 @@ function _vectorPivotDimension( v, current, expected )
     continue;
     let p2 = current[ expected[ p1 ] ];
     _.longSwapElements( current, p1, p2 );
-    self.vectorAdapter.scalarsSwap( v, p1, p2 );
+    self.vectorAdapter.swapAtoms( v, p1, p2 );
   }
 
   _.assert( expected.length === v.length );
@@ -3270,7 +3354,7 @@ function _vectorPivotDimension( v, current, expected )
 //
 
 /**
- * Routine VectorPivotForward() pivots elements of the vector {-vector-}.
+ * Static routine VectorPivotForward() pivots elements of the vector {-vector-}.
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
@@ -3282,10 +3366,11 @@ function _vectorPivotDimension( v, current, expected )
  * //       +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function VectorPivotForward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-pivots-} is not an Array.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @static
+ * @function VectorPivotForward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -3313,7 +3398,7 @@ function VectorPivotForward( vector, pivot )
 //
 
 /**
- * Routine VectorPivotBackward() pivots elements of the vector {-vector-}.
+ * Static routine VectorPivotBackward() pivots elements of the vector {-vector-}.
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
@@ -3325,10 +3410,11 @@ function VectorPivotForward( vector, pivot )
  * //       +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function VectorPivotBackward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-pivots-} is not an Array.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @static
+ * @function VectorPivotBackward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -3378,7 +3464,7 @@ let stridesSymbol = Symbol.for( 'strides' );
 let lengthSymbol = Symbol.for( 'length' );
 let stridesEffectiveSymbol = Symbol.for( '_stridesEffective' );
 
-let scalarsPerElementSymbol = Symbol.for( 'scalarsPerElement' );
+let atomsPerElementSymbol = Symbol.for( 'atomsPerElement' );
 let occupiedRangeSymbol = Symbol.for( 'occupiedRange' );
 
 //
@@ -3436,7 +3522,7 @@ let Statics =
 
   CopyTo,
 
-  ScalarsPerMatrixForDimensions,
+  AtomsPerMatrixForDimensions,
   NrowOf,
   NcolOf,
   DimsOf,
@@ -3445,7 +3531,7 @@ let Statics =
   StridesForDimensions,
   StridesRoll,
 
-  _FlatScalarIndexFromIndexNd,
+  _FlatAtomIndexFromIndexNd,
 
   Is,
 
@@ -3467,8 +3553,27 @@ let Statics =
 
 let Forbids =
 {
+
   stride : 'stride',
+
+  strideInBytes : 'strideInBytes',
+  strideInAtoms : 'strideInAtoms',
+
+  stridePerElement : 'stridePerElement',
+  lengthInStrides : 'lengthInStrides',
+
   dimensions : 'dimensions',
+  dimensionsWithLength : 'dimensionsWithLength',
+  stridesEffective : 'stridesEffective',
+
+  colLength : 'colLength',
+  rowLength : 'rowLength',
+
+  _generator : '_generator',
+  usingOptimizedAccessors : 'usingOptimizedAccessors',
+  dimensionsDesired : 'dimensionsDesired',
+  array : 'array',
+
 }
 
 //
@@ -3485,16 +3590,16 @@ let ReadOnlyAccessors =
   sizeOfColStride : 'sizeOfColStride',
   sizeOfRow : 'sizeOfRow',
   sizeOfRowStride : 'sizeOfRowStride',
-  sizeOfScalar : 'sizeOfScalar',
+  sizeOfAtom : 'sizeOfAtom',
 
-  /* size in scalars */
+  /* size in atoms */
 
-  scalarsPerElement : 'scalarsPerElement', /*  cached*/
-  scalarsPerCol : 'scalarsPerCol',
-  scalarsPerRow : 'scalarsPerRow',
+  atomsPerElement : 'atomsPerElement', /*  cached*/
+  atomsPerCol : 'atomsPerCol',
+  atomsPerRow : 'atomsPerRow',
   ncol : 'ncol',
   nrow : 'nrow',
-  scalarsPerMatrix : 'scalarsPerMatrix',
+  atomsPerMatrix : 'atomsPerMatrix',
 
   /* length */
 
@@ -3559,18 +3664,18 @@ let Extension =
   _sizeOfRowGet,
   _sizeOfRowStrideGet,
 
-  _sizeOfScalarGet,
+  _sizeOfAtomGet,
 
-  /* size in scalars */
+  /* size in atoms */
 
-  _scalarsPerElementGet, /* cached */
-  _scalarsPerColGet,
-  _scalarsPerRowGet,
+  _atomsPerElementGet, /* cached */
+  _atomsPerColGet,
+  _atomsPerRowGet,
   _nrowGet,
   _ncolGet,
-  _scalarsPerMatrixGet,
+  _atomsPerMatrixGet,
 
-  ScalarsPerMatrixForDimensions,
+  AtomsPerMatrixForDimensions,
   NrowOf,
   NcolOf,
 
@@ -3623,8 +3728,8 @@ let Extension =
 
   /* etc */
 
-  flatScalarIndexFrom,
-  _FlatScalarIndexFromIndexNd,
+  flatAtomIndexFrom,
+  _FlatAtomIndexFromIndexNd,
   flatGranuleIndexFrom,
 
   transpose,
@@ -3640,8 +3745,8 @@ let Extension =
 
   /* iterator */
 
-  scalarWhile,
-  scalarEach,
+  atomWhile,
+  atomEach,
 
   /*
 
@@ -3656,11 +3761,11 @@ let Extension =
 
   /* components accessor */
 
-  scalarFlatGet,
-  scalarFlatSet,
-  scalarGet,
-  scalarSet,
-  scalarsGet,
+  atomFlatGet,
+  atomFlatSet,
+  atomGet,
+  atomSet,
+  atomsGet,
   asVector,
 
   granuleGet,
