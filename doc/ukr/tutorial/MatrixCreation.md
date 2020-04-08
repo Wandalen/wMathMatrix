@@ -120,6 +120,8 @@ console.log( 'matrix2 : ', a.toStr() );
 ```js
 var array = [ 1, 2, 3, 4, 5, 6 ];
 var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
+console.log( vector.toStr() );
+/* log : 2.000, 4.000, 6.000 */
 
 var matrix1 = _.Matrix.fromVectorAdapter( vector );
 console.log( 'matrix1 : ', a.toStr() );
