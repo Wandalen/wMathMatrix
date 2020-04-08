@@ -24,10 +24,10 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // top
 // --
 
-function _linearModel( o )
+function _LinearModel( o )
 {
 
-  _.routineOptions( polynomExactFor, o );
+  _.routineOptions( PolynomExactFor, o );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( o.order >= 1 );
 
@@ -90,7 +90,7 @@ function _linearModel( o )
   return result;
 }
 
-_linearModel.defaults =
+_LinearModel.defaults =
 {
   npoints : null,
   points : null,
@@ -101,47 +101,47 @@ _linearModel.defaults =
 
 //
 
-function polynomExactFor( o )
+function PolynomExactFor( o )
 {
 
-  _.routineOptions( polynomExactFor, o );
+  _.routineOptions( PolynomExactFor, o );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( o.points )
   _.assert( o.order === null || o.order === o.points.length );
 
-  let model = this._linearModel( o );
-  let result = this.solve( null , model.m , model.y );
+  let model = this._LinearModel( o );
+  let result = this.Solve( null , model.m , model.y );
 
   return result;
 }
 
-polynomExactFor.defaults =
+PolynomExactFor.defaults =
 {
 }
 
-polynomExactFor.defaults.__proto__ = _linearModel.defaults;
+PolynomExactFor.defaults.__proto__ = _LinearModel.defaults;
 
 //
 
-function polynomClosestFor( o )
+function PolynomClosestFor( o )
 {
 
-  _.routineOptions( polynomExactFor, o );
+  _.routineOptions( PolynomExactFor, o );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let model = this._linearModel( o );
+  let model = this._LinearModel( o );
 
   let mt = model.m.clone().transpose();
-  let y = this.mul( null , [ mt , model.y ] );
-  let m = this.mul( null , [ mt , model.m ] );
+  let y = this.Mul( null , [ mt , model.y ] );
+  let m = this.Mul( null , [ mt , model.m ] );
 
-  let result = this.solve( null , m , y );
+  let result = this.Solve( null , m , y );
 
   return result;
 }
 
-polynomClosestFor.defaults =
+PolynomClosestFor.defaults =
 {
   points : null,
   domain : null,
@@ -149,7 +149,7 @@ polynomClosestFor.defaults =
   onFunction : null,
 }
 
-polynomClosestFor.defaults.__proto__ = _linearModel.defaults;
+PolynomClosestFor.defaults.__proto__ = _LinearModel.defaults;
 
 // --
 // relations
@@ -160,9 +160,9 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* modeler */
 
-  _linearModel,
-  polynomExactFor,
-  polynomClosestFor,
+  _LinearModel,
+  PolynomExactFor,
+  PolynomClosestFor,
 
 }
 
@@ -175,10 +175,10 @@ let Extension =
 
   // modeler
 
-  _linearModel,
+  _LinearModel,
 
-  polynomExactFor,
-  polynomClosestFor,
+  PolynomExactFor,
+  PolynomClosestFor,
 
   //
 

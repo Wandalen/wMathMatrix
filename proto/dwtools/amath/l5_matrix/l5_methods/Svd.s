@@ -78,7 +78,7 @@ function _qrIteration( q, r )
     // Calculate transformation matrix
     q.mulLeft( qInt );
 
-    a.mul2Matrices( rInt, qInt );
+    a._mul2Matrices( rInt, qInt );
 
     loop = loop + 1;
   }
@@ -193,7 +193,7 @@ function _qrDecompositionGS( q, r )
   }
 
   // Calculate R
-  r.mul2Matrices( qInt.clone().transpose(), matrix );
+  r._mul2Matrices( qInt.clone().transpose(), matrix );
 
   // Calculate transformation matrix
   q.mulLeft( qInt );
@@ -288,15 +288,15 @@ function _qrDecompositionHh( q, r )
     let h = mi.addAtomWise( m.mul( - 2 ) );
     q.mulLeft( h );
 
-    matrix = _.Matrix.mul2Matrices( null, h, matrix );
+    matrix = _.Matrix._mul2Matrices( null, h, matrix );
   }
 
   r.copy( matrix );
 
   // Calculate R
-  // r.mul2Matrices( h.clone().transpose(), matrix );
-  let m = _.Matrix.mul2Matrices( null, q, r );
-  let rb = _.Matrix.mul2Matrices( null, q.clone().transpose(), self )
+  // r._mul2Matrices( h.clone().transpose(), matrix );
+  let m = _.Matrix._mul2Matrices( null, q, r );
+  let rb = _.Matrix._mul2Matrices( null, q.clone().transpose(), self )
 
   for( let i = 0; i < rows; i++ )
   {
@@ -457,22 +457,22 @@ function svd( u, s, v )
   }
   else
   {
-    let aaT = _.Matrix.mul2Matrices( null, self, self.clone().transpose() );
+    let aaT = _.Matrix._mul2Matrices( null, self, self.clone().transpose() );
     let qAAT = _.Matrix.Make( [ rows, rows ] );
     let rAAT = _.Matrix.Make( [ rows, rows ] );
 
     aaT._qrIteration( qAAT, rAAT );
-    let sd = _.Matrix.mul2Matrices( null, rAAT, qAAT.clone().transpose() )
+    let sd = _.Matrix._mul2Matrices( null, rAAT, qAAT.clone().transpose() )
 
     u.copy( qAAT );
 
-    let aTa = _.Matrix.mul2Matrices( null, self.clone().transpose(), self );
+    let aTa = _.Matrix._mul2Matrices( null, self.clone().transpose(), self );
     let qATA = _.Matrix.Make( [ cols, cols ] );
     let rATA = _.Matrix.Make( [ cols, cols ] );
 
     aTa._qrIteration( qATA, rATA );
 
-    let sd1 = _.Matrix.mul2Matrices( null, rATA, qATA.clone().transpose() )
+    let sd1 = _.Matrix._mul2Matrices( null, rATA, qATA.clone().transpose() )
 
     v.copy( qATA );
 
@@ -484,7 +484,7 @@ function svd( u, s, v )
       {
         let col = u.colVectorGet( i ).slice();
         let m1 = _.Matrix.Make( [ col.length, 1 ] ).copy( col );
-        let m2 = _.Matrix.mul2Matrices( null, self.clone().transpose(), m1 );
+        let m2 = _.Matrix._mul2Matrices( null, self.clone().transpose(), m1 );
 
         v.colSet( i, m2.colVectorGet( 0 ).mul( 1 / eigenV.eGet( i ) ).normalize() );
       }

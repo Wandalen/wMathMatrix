@@ -140,7 +140,7 @@ function triangulateGausianPivoting( y )
   let self = this;
   let o = Object.create( null );
   o.y = y;
-  o.onPivot = self._pivotRook;
+  o.onPivot = self._PivotRook;
   return self._triangulateGausian( o );
 }
 
@@ -238,7 +238,7 @@ function triangulateLuPivoting( pivots )
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
-    self._pivotRook.call( self, r1, o );
+    self._PivotRook.call( self, r1, o );
 
     let row1 = self.rowVectorGet( r1 );
     let scaler1 = row1.eGet( r1 );
@@ -261,7 +261,7 @@ function triangulateLuPivoting( pivots )
 
 //
 
-function _pivotRook( i, o )
+function _PivotRook( i, o )
 {
   let self = this;
 
@@ -298,18 +298,18 @@ function _pivotRook( i, o )
 }
 
 // --
-// solver
+// Solver
 // --
 
-function solve( x, m, y )
+function Solve( x, m, y )
 {
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-  return this.solveWithTrianglesPivoting( x, m, y )
+  return this.SolveWithTrianglesPivoting( x, m, y )
 }
 
 //
 
-function _solve_pre( args )
+function _Solve_pre( args )
 {
   let self = this;
   let o = Object.create( null );
@@ -350,12 +350,12 @@ function _solve_pre( args )
 
 //
 
-function solveWithGausian()
+function SolveWithGausian()
 {
-  let o = this._solve_pre( arguments );
+  let o = this._Solve_pre( arguments );
 
   o.m.triangulateGausian( o.x );
-  this.solveTriangleUpper( o.x, o.m, o.x );
+  this.SolveTriangleUpper( o.x, o.m, o.x );
 
   // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
@@ -363,12 +363,12 @@ function solveWithGausian()
 
 //
 
-function solveWithGausianPivoting()
+function SolveWithGausianPivoting()
 {
-  let o = this._solve_pre( arguments );
+  let o = this._Solve_pre( arguments );
 
   let pivots = o.m.triangulateGausianPivoting( o.x );
-  this.solveTriangleUpper( o.x, o.m, o.x );
+  this.SolveTriangleUpper( o.x, o.m, o.x );
   Self.VectorPivotBackward( o.x, pivots[ 1 ] );
 
   return o.ox;
@@ -376,7 +376,7 @@ function solveWithGausianPivoting()
 
 //
 
-function _solveWithGaussJordan( o )
+function _SolveWithGaussJordan( o )
 {
   let self = this;
 
@@ -448,25 +448,25 @@ function _solveWithGaussJordan( o )
 
 //
 
-function solveWithGaussJordan()
+function SolveWithGaussJordan()
 {
-  let o = this._solve_pre( arguments );
-  return this._solveWithGaussJordan( o );
+  let o = this._Solve_pre( arguments );
+  return this._SolveWithGaussJordan( o );
 }
 
 //
 
-function solveWithGaussJordanPivoting()
+function SolveWithGaussJordanPivoting()
 {
-  let o = this._solve_pre( arguments );
-  o.onPivot = this._pivotRook;
+  let o = this._Solve_pre( arguments );
+  o.onPivot = this._PivotRook;
   o.pivotingBackward = 1;
-  return this._solveWithGaussJordan( o );
+  return this._SolveWithGaussJordan( o );
 }
 
 //
 
-function invertWithGaussJordan()
+function InvertWithGaussJordan()
 {
   let m = this;
 
@@ -511,14 +511,14 @@ function invertWithGaussJordan()
 
 //
 
-function solveWithTriangles( x, m, y )
+function SolveWithTriangles( x, m, y )
 {
 
-  let o = this._solve_pre( arguments );
+  let o = this._Solve_pre( arguments );
   m.triangulateLuNormal();
 
-  o.x = this.solveTriangleLower( o.x, o.m, o.y );
-  o.x = this.solveTriangleUpperNormal( o.x, o.m, o.x );
+  o.x = this.SolveTriangleLower( o.x, o.m, o.y );
+  o.x = this.SolveTriangleUpperNormal( o.x, o.m, o.x );
 
   // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
@@ -526,16 +526,16 @@ function solveWithTriangles( x, m, y )
 
 //
 
-function solveWithTrianglesPivoting( x, m, y )
+function SolveWithTrianglesPivoting( x, m, y )
 {
 
-  let o = this._solve_pre( arguments );
+  let o = this._Solve_pre( arguments );
   let pivots = m.triangulateLuPivoting();
 
   o.y = Self.VectorPivotForward( o.y, pivots[ 0 ] );
 
-  o.x = this.solveTriangleLowerNormal( o.x, o.m, o.y );
-  o.x = this.solveTriangleUpper( o.x, o.m, o.x );
+  o.x = this.SolveTriangleLowerNormal( o.x, o.m, o.y );
+  o.x = this.SolveTriangleUpper( o.x, o.m, o.x );
 
   Self.VectorPivotBackward( o.x, pivots[ 1 ] );
   Self.VectorPivotBackward( o.y, pivots[ 0 ] );
@@ -546,7 +546,7 @@ function solveWithTrianglesPivoting( x, m, y )
 
 //
 
-function _solveTriangleWithRoutine( args, onSolve )
+function _SolveTriangleWithRoutine( args, onSolve )
 {
   let x = args[ 0 ];
   let m = args[ 1 ];
@@ -603,7 +603,7 @@ function _solveTriangleWithRoutine( args, onSolve )
 
 //
 
-function solveTriangleLower( x, m, y )
+function SolveTriangleLower( x, m, y )
 {
   let self = this;
 
@@ -623,12 +623,12 @@ function solveTriangleLower( x, m, y )
     return x;
   }
 
-  return self._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
-function solveTriangleLowerNormal( x, m, y )
+function SolveTriangleLowerNormal( x, m, y )
 {
   let self = this;
 
@@ -647,15 +647,15 @@ function solveTriangleLowerNormal( x, m, y )
     return x;
   }
 
-  return self._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
-function solveTriangleUpper( x, m, y )
+function SolveTriangleUpper( x, m, y )
 {
   let self = this;
-  return self._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 
   function handleSolve( x, m, y )
   {
@@ -677,7 +677,7 @@ function solveTriangleUpper( x, m, y )
 
 //
 
-function solveTriangleUpperNormal( x, m, y )
+function SolveTriangleUpperNormal( x, m, y )
 {
   let self = this;
 
@@ -696,17 +696,17 @@ function solveTriangleUpperNormal( x, m, y )
     return x;
   }
 
-  return self._solveTriangleWithRoutine( arguments, handleSolve );
+  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
 
-function solveGeneral( o )
+function SolveGeneral( o )
 {
   let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.routineOptions( solveGeneral, o );
+  _.routineOptions( SolveGeneral, o );
 
   /* */
 
@@ -736,20 +736,20 @@ function solveGeneral( o )
   _.assert( o.y instanceof Self );
   _.assert( o.y.dims[ 1 ] === 1 );
 
-  /* solve */
+  /* Solve */
 
   let optionsForMethod;
   if( o.pivoting )
   {
-    optionsForMethod = this._solve_pre([ o.x, o.m, o.y ]);
-    optionsForMethod.onPivot = this._pivotRook;
+    optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
+    optionsForMethod.onPivot = this._PivotRook;
     optionsForMethod.pivotingBackward = 0;
-    o.x = result.base = this._solveWithGaussJordan( optionsForMethod );
+    o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }
   else
   {
-    optionsForMethod = this._solve_pre([ o.x, o.m, o.y ]);
-    o.x = result.base = this._solveWithGaussJordan( optionsForMethod );
+    optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
+    o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }
 
   /* analyse */
@@ -791,7 +791,7 @@ function solveGeneral( o )
   return result;
 }
 
-solveGeneral.defaults =
+SolveGeneral.defaults =
 {
   x : null,
   m : null,
@@ -810,7 +810,7 @@ function invert()
   _.assert( self.isSquare() );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  return self.invertWithGaussJordan();
+  return self.InvertWithGaussJordan();
 }
 
 //
@@ -823,7 +823,7 @@ function invertingClone()
   _.assert( self.isSquare() );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  return Self.solveWithGaussJordan( null, self.clone(), self.Self.MakeIdentity( self.dims[ 0 ] ) );
+  return Self.SolveWithGaussJordan( null, self.clone(), self.Self.MakeIdentity( self.dims[ 0 ] ) );
 }
 
 //
@@ -849,32 +849,32 @@ function copyAndInvert( src )
 let Statics = /* qqq : split static routines. ask how */
 {
 
-  /* solve */
+  /* Solve */
 
-  _pivotRook,
+  _PivotRook,
 
-  solve,
+  Solve,
 
-  _solve_pre,
+  _Solve_pre,
 
-  solveWithGausian,
-  solveWithGausianPivoting,
+  SolveWithGausian,
+  SolveWithGausianPivoting,
 
-  _solveWithGaussJordan,
-  solveWithGaussJordan,
-  solveWithGaussJordanPivoting,
-  invertWithGaussJordan,
+  _SolveWithGaussJordan,
+  SolveWithGaussJordan,
+  SolveWithGaussJordanPivoting,
+  InvertWithGaussJordan,
 
-  solveWithTriangles,
-  solveWithTrianglesPivoting,
+  SolveWithTriangles,
+  SolveWithTrianglesPivoting,
 
-  _solveTriangleWithRoutine,
-  solveTriangleLower,
-  solveTriangleLowerNormal,
-  solveTriangleUpper,
-  solveTriangleUpperNormal,
+  _SolveTriangleWithRoutine,
+  SolveTriangleLower,
+  SolveTriangleLowerNormal,
+  SolveTriangleUpper,
+  SolveTriangleUpperNormal,
 
-  solveGeneral,
+  SolveGeneral,
 
 }
 
@@ -903,32 +903,32 @@ let Extension =
   triangulateLuNormal,
   triangulateLuPivoting,
 
-  _pivotRook,
+  _PivotRook,
 
-  // solver
+  // Solver
 
-  solve,
+  Solve,
 
-  _solve_pre,
+  _Solve_pre,
 
-  solveWithGausian,
-  solveWithGausianPivoting,
+  SolveWithGausian,
+  SolveWithGausianPivoting,
 
-  _solveWithGaussJordan,
-  solveWithGaussJordan,
-  solveWithGaussJordanPivoting,
-  invertWithGaussJordan,
+  _SolveWithGaussJordan,
+  SolveWithGaussJordan,
+  SolveWithGaussJordanPivoting,
+  InvertWithGaussJordan,
 
-  solveWithTriangles,
-  solveWithTrianglesPivoting,
+  SolveWithTriangles,
+  SolveWithTrianglesPivoting,
 
-  _solveTriangleWithRoutine,
-  solveTriangleLower,
-  solveTriangleLowerNormal,
-  solveTriangleUpper,
-  solveTriangleUpperNormal,
+  _SolveTriangleWithRoutine,
+  SolveTriangleLower,
+  SolveTriangleLowerNormal,
+  SolveTriangleUpper,
+  SolveTriangleUpperNormal,
 
-  solveGeneral,
+  SolveGeneral,
 
   invert,
   invertingClone,

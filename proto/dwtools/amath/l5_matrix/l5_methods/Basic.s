@@ -52,7 +52,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * @param { Array } dims - size of provided matrix.
  * @param { Number } index - Number of method, which will be called.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
- * @method _tempBorrow
+ * @method _TempBorrow
  * @throws { Error } If (arguments.length) is not 3.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @throws { Error } If {-dims-} is not array.
@@ -61,7 +61,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * @module Tools/math/Matrix
  */
 
-function _tempBorrow( src, dims, index )
+function _TempBorrow( src, dims, index )
 {
   let bufferConstructor;
 
@@ -101,10 +101,10 @@ function _tempBorrow( src, dims, index )
 
   let key = bufferConstructor.name + '_' + dims.join( 'x' );
 
-  if( this._tempMatrices[ index ][ key ] )
-  return this._tempMatrices[ index ][ key ];
+  if( this._TempMatrices[ index ][ key ] )
+  return this._TempMatrices[ index ][ key ];
 
-  let result = this._tempMatrices[ index ][ key ] = new Self
+  let result = this._TempMatrices[ index ][ key ] = new Self
   ({
     dims,
     buffer : new bufferConstructor( this.AtomsPerMatrixForDimensions( dims ) ),
@@ -117,11 +117,11 @@ function _tempBorrow( src, dims, index )
 //
 
 /**
- * This is a specialized method for executing tempBorrow for passing [ 0 ] index.
+ * This is a specialized method for executing TempBorrow for passing [ 0 ] index.
  *
  * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
- * @method tempBorrow1
+ * @method TempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @class Matrix
@@ -129,7 +129,7 @@ function _tempBorrow( src, dims, index )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow1( src )
+function TempBorrow1( src )
 {
 
   _.assert( arguments.length <= 1 );
@@ -137,22 +137,22 @@ function tempBorrow1( src )
   src = this;
 
   if( this instanceof Self )
-  return Self._tempBorrow( this, src , 0 );
+  return Self._TempBorrow( this, src , 0 );
   else if( src instanceof Self )
-  return Self._tempBorrow( src, src , 0 );
+  return Self._TempBorrow( src, src , 0 );
   else
-  return Self._tempBorrow( null, src , 0 );
+  return Self._TempBorrow( null, src , 0 );
 
 }
 
 //
 
 /**
- * This is a specialized method for executing tempBorrow for passing [ 1 ] index.
+ * This is a specialized method for executing TempBorrow for passing [ 1 ] index.
  *
  * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
- * @method tempBorrow1
+ * @method TempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @class Matrix
@@ -160,7 +160,7 @@ function tempBorrow1( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow2( src )
+function TempBorrow2( src )
 {
 
   _.assert( arguments.length <= 1 );
@@ -168,22 +168,22 @@ function tempBorrow2( src )
   src = this;
 
   if( this instanceof Self )
-  return Self._tempBorrow( this, src , 1 );
+  return Self._TempBorrow( this, src , 1 );
   else if( src instanceof Self )
-  return Self._tempBorrow( src, src , 1 );
+  return Self._TempBorrow( src, src , 1 );
   else
-  return Self._tempBorrow( null, src , 1 );
+  return Self._TempBorrow( null, src , 1 );
 
 }
 
 //
 
 /**
- * This is a specialized method for executing tempBorrow for passing [ 2 ] index.
+ * This is a specialized method for executing TempBorrow for passing [ 2 ] index.
  *
  * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
- * @method tempBorrow1
+ * @method TempBorrow1
  * @throws { Error } If (arguments.length) is more than 1.
  * @throws { Error } If {-src-} is not instance of Matrix.
  * @class Matrix
@@ -191,7 +191,7 @@ function tempBorrow2( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow3( src )
+function TempBorrow3( src )
 {
 
   _.assert( arguments.length <= 1 );
@@ -199,11 +199,11 @@ function tempBorrow3( src )
   src = this;
 
   if( this instanceof Self )
-  return Self._tempBorrow( this, src , 2 );
+  return Self._TempBorrow( this, src , 2 );
   else if( src instanceof Self )
-  return Self._tempBorrow( src, src , 2 );
+  return Self._TempBorrow( src, src , 2 );
   else
-  return Self._tempBorrow( null, src , 2 );
+  return Self._TempBorrow( null, src , 2 );
 
 }
 
@@ -247,7 +247,7 @@ function matrixPow( exponent )
   _.assert( _.instanceIs( this ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let t = this.tempBorrow( this );
+  let t = this.TempBorrow( this );
 
   // self.mul(  );
 
@@ -256,7 +256,7 @@ function matrixPow( exponent )
 //
 
 /**
- * The routine  mul() ( shortcut for routine mul_static ) returns the result of multiplication of matrices {-srcs-}.
+ * The static routine Mul() returns the result of multiplication of matrices {-srcs-}.
  *
  * @example
  * var buffer = new I32x
@@ -273,7 +273,7 @@ function matrixPow( exponent )
  *   inputTransposing : 1,
  * });
  *
- * var got = _.Matrix.mul( null, [ m, m ] );
+ * var got = _.Matrix.Mul( null, [ m, m ] );
  * console.log( got.toStr() );
  * // log :  -8,  -8,  +8,
  * //       +18, +17, -16,
@@ -282,7 +282,7 @@ function matrixPow( exponent )
  * @param { Null|Matrix } dst - The container for result.
  * @param { Array } srcs - Array with matrices.
  * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
- * @function mul
+ * @function Mul
  * @throws { Error } If (arguments.length) is not 2.
  * @throws { Error } If {-srcs-} is not an Array.
  * @throws { Error } If srcs.length is less then 2.
@@ -291,7 +291,7 @@ function matrixPow( exponent )
  * @module Tools/math/Matrix
  */
 
-function mul_static( dst, srcs )
+function Mul( dst, srcs )
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -323,7 +323,7 @@ function mul_static( dst, srcs )
     {
       if( dstClone === null )
       {
-        dstClone = dst.tempBorrow1();
+        dstClone = dst.TempBorrow1();
         dstClone.copy( dst );
       }
       srcs[ s ] = dstClone;
@@ -335,7 +335,7 @@ function mul_static( dst, srcs )
 
   /* */
 
-  dst = this.mul2Matrices( dst , srcs[ 0 ] , srcs[ 1 ] );
+  dst = this._Mul2Matrices( dst , srcs[ 0 ] , srcs[ 1 ] );
 
   /* */
 
@@ -349,13 +349,13 @@ function mul_static( dst, srcs )
       let src = srcs[ s ];
       if( s % 2 === 0 )
       {
-        dst2 = dst.tempBorrow2([ dst3.dims[ 0 ], src.dims[ 1 ] ]);
-        this.mul2Matrices( dst2 , dst3 , src );
+        dst2 = dst.TempBorrow2([ dst3.dims[ 0 ], src.dims[ 1 ] ]);
+        this._Mul2Matrices( dst2 , dst3 , src );
       }
       else
       {
-        dst3 = dst.tempBorrow3([ dst2.dims[ 0 ], src.dims[ 1 ] ]);
-        this.mul2Matrices( dst3 , dst2 , src );
+        dst3 = dst.TempBorrow3([ dst2.dims[ 0 ], src.dims[ 1 ] ]);
+        this._Mul2Matrices( dst3 , dst2 , src );
       }
     }
 
@@ -417,13 +417,13 @@ function mul( srcs )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayIs( srcs ) );
 
-  return dst.Self.mul( dst, srcs );
+  return dst.Self.Mul( dst, srcs );
 }
 
 //
 
 /**
- * The routine Mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
+ * The routine _Mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
  * The result of multiplication assigns to destination matrix {-dst-}.
  *
  * @example
@@ -448,7 +448,7 @@ function mul( srcs )
  *   inputTransposing : 1,
  * });
  *
- * var got = _.Matrix.mul2Matrices( dst, src1, src2 )
+ * var got = _.Matrix._Mul2Matrices( dst, src1, src2 )
  * console.log( got )
  * // log : +14, +4, +22,
  * //       +18, +4, +36,
@@ -458,7 +458,7 @@ function mul( srcs )
  * @param { Matrix } src1 - Source Matrix.
  * @param { Matrix } src2 - Source Matrix.
  * @returns { Matrix } - Returns instance of destination matrix filled by result of multiplication.
- * @function Mul2Matrices
+ * @function _Mul2Matrices
  * @throws { Error } If (arguments.length) is not 3.
  * @throws { Error } If {-dst-} is not a Matrix, not a Null.
  * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
@@ -473,7 +473,7 @@ function mul( srcs )
  * @module Tools/math/Matrix
  */
 
-function Mul2Matrices( dst, src1, src2 )
+function _Mul2Matrices( dst, src1, src2 )
 {
 
   src1 = this.FromForReading( src1 );
@@ -481,7 +481,7 @@ function Mul2Matrices( dst, src1, src2 )
 
   if( dst === null )
   {
-    dst = this.make([ src1.dims[ 0 ], src2.dims[ 1 ] ]);
+    dst = this.Make([ src1.dims[ 0 ], src2.dims[ 1 ] ]);
   }
 
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
@@ -514,7 +514,7 @@ function Mul2Matrices( dst, src1, src2 )
 //
 
 /**
- * The method mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
+ * The method _mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
  * The result of multiplication assigns to destination matrix {-dst-}.
  *
  * @example
@@ -539,7 +539,7 @@ function Mul2Matrices( dst, src1, src2 )
  *   inputTransposing : 1,
  * });
  *
- * var got = dst.mul2Matrices( src1, src2 )
+ * var got = dst._mul2Matrices( src1, src2 )
  * console.log( got )
  * // log : +14, +4, +22,
  * //       +18, +4, +36,
@@ -548,7 +548,7 @@ function Mul2Matrices( dst, src1, src2 )
  * @param { Matrix } src1 - Source Matrix.
  * @param { Matrix } src2 - Source Matrix.
  * @returns { Matrix } - Returns original matrix filled by result of multiplication.
- * @method mul2Matrices
+ * @method _mul2Matrices
  * @throws { Error } If (arguments.length) is not 2.
  * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
  * @throws { Error } If src1.dims or src2.dims length is not 2.
@@ -562,13 +562,13 @@ function Mul2Matrices( dst, src1, src2 )
  * @module Tools/math/Matrix
  */
 
-function mul2Matrices( src1, src2 )
+function _mul2Matrices( src1, src2 )
 {
   let dst = this;
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  return dst.Self.mul2Matrices( dst, src1, src2 );
+  return dst.Self._mul2Matrices( dst, src1, src2 );
 }
 
 //
@@ -681,12 +681,12 @@ function mulRight( src )
 //   let code = src.buffer.constructor.name + '_' + atomsPerRow + 'x' + atomsPerCol;
 //
 //   debugger;
-//   if( !self._tempMatrices[ code ] )
-//   self._tempMatrices[ code ] = self.Self.make([ atomsPerCol, atomsPerRow ]);
-//   let dst = self._tempMatrices[ code ]
+//   if( !self._TempMatrices[ code ] )
+//   self._TempMatrices[ code ] = self.Self.make([ atomsPerCol, atomsPerRow ]);
+//   let dst = self._TempMatrices[ code ]
 //
 //   debugger;
-//   dst.mul2Matrices( dst, self, src );
+//   dst._Mul2Matrices( dst, self, src );
 //   debugger;
 //
 //   self.copy( dst );
@@ -719,7 +719,7 @@ function mulRight( src )
 //   _.assert( self.dims.length === 2 );
 //
 //   let result = Self.make( src.dims );
-//   result.mul2Matrices( result, self, src );
+//   result._Mul2Matrices( result, self, src );
 //
 //   return result;
 // }
@@ -1153,7 +1153,7 @@ function matrixApplyTo( dstVector )
     return dstVector;
   }
 
-  return Self.mul( dstVector, [ self, dstVector ] );
+  return self.Mul( dstVector, [ self, dstVector ] );
 }
 
 //
@@ -2089,20 +2089,20 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* borrow */
 
-  _tempBorrow,
-  tempBorrow : tempBorrow1,
-  tempBorrow1,
-  tempBorrow2,
-  tempBorrow3,
+  _TempBorrow,
+  TempBorrow : TempBorrow1,
+  TempBorrow1,
+  TempBorrow2,
+  TempBorrow3,
 
   /* mul */
 
-  mul : mul_static,
-  mul2Matrices : Mul2Matrices,
+  Mul,
+  _Mul2Matrices,
 
   /* var */
 
-  _tempMatrices : [ Object.create( null ) , Object.create( null ) , Object.create( null ) ],
+  _TempMatrices : [ Object.create( null ) , Object.create( null ) , Object.create( null ) ],
 
 }
 
@@ -2122,17 +2122,19 @@ let Extension =
 
   // borrow
 
-  _tempBorrow,
-  tempBorrow : tempBorrow1,
-  tempBorrow1,
-  tempBorrow2,
-  tempBorrow3,
+  _TempBorrow,
+  TempBorrow : TempBorrow1,
+  TempBorrow1,
+  TempBorrow2,
+  TempBorrow3,
 
   // mul
 
   pow : matrixPow,
+  Mul,
   mul,
-  mul2Matrices,
+  _Mul2Matrices,
+  _mul2Matrices,
   mulLeft,
   mulRight,
 
@@ -2180,7 +2182,9 @@ let Extension =
 }
 
 _.classExtend( Self, Extension );
-_.assert( Self.mul2Matrices === Mul2Matrices );
-_.assert( Self.prototype.mul2Matrices === mul2Matrices );
+_.assert( Self._Mul2Matrices === _Mul2Matrices );
+_.assert( Self.prototype._Mul2Matrices === _Mul2Matrices );
+_.assert( Self._mul2Matrices === undefined );
+_.assert( Self.prototype._mul2Matrices === _mul2Matrices );
 
 })();
