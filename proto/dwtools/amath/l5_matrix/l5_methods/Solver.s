@@ -762,7 +762,7 @@ function SolveGeneral( o )
     let row = o.m.rowVectorGet( r );
     if( abs( row.eGet( r ) ) < this.accuracy )
     {
-      if( abs( o.x.atomGet([ r, 0 ]) ) < this.accuracy )
+      if( abs( o.x.scalarGet([ r, 0 ]) ) < this.accuracy )
       {
         result.nsolutions = Infinity;
         let termCol = result.kernel.colVectorGet( r );

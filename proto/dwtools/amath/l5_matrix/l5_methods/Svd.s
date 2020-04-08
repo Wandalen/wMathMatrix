@@ -54,10 +54,10 @@ function _qrIteration( q, r )
 {
   let self = this;
   _.assert( _.Matrix.Is( self ) );
-  //_.assert( !isNaN( self.clone().invert().atomGet([ 0, 0 ]) ), 'Matrix must be invertible' )
+  //_.assert( !isNaN( self.clone().invert().scalarGet([ 0, 0 ]) ), 'Matrix must be invertible' )
 
   let cols = self.length;
-  let rows = self.atomsPerElement;
+  let rows = self.scalarsPerElement;
 
   if( arguments.length === 0 )
   {
@@ -100,18 +100,18 @@ function _qrIteration( q, r )
     let newValue = eigenValues[ i ];
     for( let j = 0; j < eigenValues.length; j++ )
     {
-      let value = r.atomGet( [ j, j ] );
+      let value = r.scalarGet( [ j, j ] );
 
       if( newValue === value )
       {
         let oldColQ = q.colVectorGet( i ).clone();
-        let oldValue = r.atomGet( [ i, i ] );
+        let oldValue = r.scalarGet( [ i, i ] );
 
         q.colSet( i, q.colVectorGet( j ) );
         q.colSet( j, oldColQ );
 
-        r.atomSet( [ i, i ], r.atomGet( [ j, j ] ) );
-        r.atomSet( [ j, j ], oldValue );
+        r.scalarSet( [ i, i ], r.scalarGet( [ j, j ] ) );
+        r.scalarSet( [ j, j ], oldValue );
       }
     }
   }
@@ -168,9 +168,9 @@ function _qrDecompositionGS( q, r )
   _.assert( _.Matrix.Is( r ) );
 
   let cols = self.length;
-  let rows = self.atomsPerElement;
+  let rows = self.scalarsPerElement;
 
-  _.assert( !isNaN( self.clone().invert().atomGet([ 0, 0 ]) ), 'Matrix must be invertible' )
+  _.assert( !isNaN( self.clone().invert().scalarGet([ 0, 0 ]) ), 'Matrix must be invertible' )
 
   let matrix = self.clone();
   q.copy( _.Matrix.MakeIdentity( [ rows, cols ] ) );
@@ -244,7 +244,7 @@ function _qrDecompositionHh( q, r )
 {
   let self = this;
   let cols = self.length;
-  let rows = self.atomsPerElement;
+  let rows = self.scalarsPerElement;
 
   _.assert( _.Matrix.Is( self ) );
   _.assert( _.Matrix.Is( q ) );
@@ -269,7 +269,7 @@ function _qrDecompositionHh( q, r )
     }
     let c = 0;
 
-    if( matrix.atomGet( [ j, j ] ) > 0 )
+    if( matrix.scalarGet( [ j, j ] ) > 0 )
     {
       c = 1;
     }
@@ -302,11 +302,11 @@ function _qrDecompositionHh( q, r )
   {
     for( let j = 0; j < cols; j++ )
     {
-      if( m.atomGet( [ i, j ] ) < self.atomGet( [ i, j ] ) - 1E-4 ) /* xxx */
+      if( m.scalarGet( [ i, j ] ) < self.scalarGet( [ i, j ] ) - 1E-4 ) /* xxx */
       {
         throw _.err( 'QR decomposition failed' );
       }
-      if( m.atomGet( [ i, j ] ) > self.atomGet( [ i, j ] ) + 1E-4 )
+      if( m.scalarGet( [ i, j ] ) > self.scalarGet( [ i, j ] ) + 1E-4 )
       {
         throw _.err( 'QR decomposition failed' );
       }
@@ -356,7 +356,7 @@ function fromVectors_( v1, v2 ) /* xxx : remove? */
   {
     for( let j = 0; j < v2.length; j ++ )
     {
-      matrix.atomSet( [ i, j ], v1.eGet( i )*v2.eGet( j ) );
+      matrix.scalarSet( [ i, j ], v1.eGet( i )*v2.eGet( j ) );
     }
   }
 
@@ -490,7 +490,7 @@ function svd( u, s, v )
 
     for( let i = 0; i < min; i++ )
     {
-      s.atomSet( [ i, i ], Math.sqrt( Math.abs( rATA.atomGet( [ i, i ] ) ) ) );
+      s.scalarSet( [ i, i ], Math.sqrt( Math.abs( rATA.scalarGet( [ i, i ] ) ) ) );
     }
 
   }

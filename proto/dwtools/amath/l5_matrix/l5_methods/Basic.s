@@ -107,7 +107,7 @@ function _TempBorrow( src, dims, index )
   let result = this._TempMatrices[ index ][ key ] = new Self
   ({
     dims,
-    buffer : new bufferConstructor( this.AtomsPerMatrixForDimensions( dims ) ),
+    buffer : new bufferConstructor( this.ScalarsPerMatrixForDimensions( dims ) ),
     inputTransposing : 0,
   });
 
@@ -511,7 +511,7 @@ function _Mul2Matrices( dst, src1, src2 )
     let row = src1.rowVectorGet( r );
     let col = src2.colVectorGet( c );
     let dot = this.vectorAdapter.dot( row, col );
-    dst.atomSet( [ r, c ], dot );
+    dst.scalarSet( [ r, c ], dot );
   }
 
   return dst;
@@ -684,13 +684,13 @@ function mulRight( src )
 //   _.assert( src.breadth.length === 1 );
 //
 //   let self = this;
-//   let atomsPerRow = self.atomsPerRow;
-//   let atomsPerCol = src.atomsPerCol;
-//   let code = src.buffer.constructor.name + '_' + atomsPerRow + 'x' + atomsPerCol;
+//   let scalarsPerRow = self.scalarsPerRow;
+//   let scalarsPerCol = src.scalarsPerCol;
+//   let code = src.buffer.constructor.name + '_' + scalarsPerRow + 'x' + scalarsPerCol;
 //
 //   debugger;
 //   if( !self._TempMatrices[ code ] )
-//   self._TempMatrices[ code ] = self.Self.make([ atomsPerCol, atomsPerRow ]);
+//   self._TempMatrices[ code ] = self.Self.make([ scalarsPerCol, scalarsPerRow ]);
 //   let dst = self._TempMatrices[ code ]
 //
 //   debugger;
@@ -767,7 +767,7 @@ function zero()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  self.atomEach( ( it ) => self.atomSet( it.indexNd, 0 ) );
+  self.scalarEach( ( it ) => self.scalarSet( it.indexNd, 0 ) );
 
   return self;
 }
@@ -805,7 +805,7 @@ function identity()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  self.atomEach( ( it ) => it.indexNd[ 0 ] === it.indexNd[ 1 ] ? self.atomSet( it.indexNd, 1 ) : self.atomSet( it.indexNd, 0 ) );
+  self.scalarEach( ( it ) => it.indexNd[ 0 ] === it.indexNd[ 1 ] ? self.scalarSet( it.indexNd, 1 ) : self.scalarSet( it.indexNd, 0 ) );
 
   return self;
 }
@@ -853,7 +853,7 @@ function identity()
 function diagonalSet( src )
 {
   let self = this;
-  let length = Math.min( self.atomsPerCol, self.atomsPerRow );
+  let length = Math.min( self.scalarsPerCol, self.scalarsPerRow );
 
   if( src instanceof Self )
   src = src.diagonalVectorGet();
@@ -866,7 +866,7 @@ function diagonalSet( src )
 
   for( let i = 0 ; i < length ; i += 1 )
   {
-    self.atomSet( [ i, i ], src.eGet( i ) );
+    self.scalarSet( [ i, i ], src.eGet( i ) );
   }
 
   return self;
@@ -901,7 +901,7 @@ function diagonalSet( src )
 function diagonalVectorGet()
 {
   let self = this;
-  let length = Math.min( self.atomsPerCol, self.atomsPerRow );
+  let length = Math.min( self.scalarsPerCol, self.scalarsPerRow );
   let strides = self._stridesEffective;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -972,7 +972,7 @@ function triangleLowerSet( src )
     {
       let cl = min( r, ncol );
       for( let c = 0 ; c < cl ; c++ )
-      self.atomSet( [ r, c ], src.atomGet([ r, c ]) );
+      self.scalarSet( [ r, c ], src.scalarGet([ r, c ]) );
     }
 
   }
@@ -983,7 +983,7 @@ function triangleLowerSet( src )
     {
       let cl = min( r, ncol );
       for( let c = 0 ; c < cl ; c++ )
-      self.atomSet( [ r, c ], src );
+      self.scalarSet( [ r, c ], src );
     }
 
   }
@@ -1051,7 +1051,7 @@ function triangleUpperSet( src )
     {
       let cl = min( c, nrow );
       for( let r = 0 ; r < cl ; r++ )
-      self.atomSet( [ r, c ], src.atomGet([ r, c ]) );
+      self.scalarSet( [ r, c ], src.scalarGet([ r, c ]) );
     }
 
   }
@@ -1062,7 +1062,7 @@ function triangleUpperSet( src )
     {
       let cl = min( c, nrow );
       for( let r = 0 ; r < cl ; r++ )
-      self.atomSet( [ r, c ], src );
+      self.scalarSet( [ r, c ], src );
     }
 
   }
@@ -1135,9 +1135,9 @@ function matrixApplyTo( dstVector )
     let y = dstVectorv.eGet( 1 );
     let z = dstVectorv.eGet( 2 );
 
-    let s00 = self.atomGet([ 0, 0 ]), s10 = self.atomGet([ 1, 0 ]), s20 = self.atomGet([ 2, 0 ]);
-    let s01 = self.atomGet([ 0, 1 ]), s11 = self.atomGet([ 1, 1 ]), s21 = self.atomGet([ 2, 1 ]);
-    let s02 = self.atomGet([ 0, 2 ]), s12 = self.atomGet([ 1, 2 ]), s22 = self.atomGet([ 2, 2 ]);
+    let s00 = self.scalarGet([ 0, 0 ]), s10 = self.scalarGet([ 1, 0 ]), s20 = self.scalarGet([ 2, 0 ]);
+    let s01 = self.scalarGet([ 0, 1 ]), s11 = self.scalarGet([ 1, 1 ]), s21 = self.scalarGet([ 2, 1 ]);
+    let s02 = self.scalarGet([ 0, 2 ]), s12 = self.scalarGet([ 1, 2 ]), s22 = self.scalarGet([ 2, 2 ]);
 
     dstVectorv.eSet( 0 , s00 * x + s01 * y + s02 * z );
     dstVectorv.eSet( 1 , s10 * x + s11 * y + s12 * z );
@@ -1152,8 +1152,8 @@ function matrixApplyTo( dstVector )
     let x = dstVectorv.eGet( 0 );
     let y = dstVectorv.eGet( 1 );
 
-    let s00 = self.atomGet([ 0, 0 ]), s10 = self.atomGet([ 1, 0 ]);
-    let s01 = self.atomGet([ 0, 1 ]), s11 = self.atomGet([ 1, 1 ]);
+    let s00 = self.scalarGet([ 0, 0 ]), s10 = self.scalarGet([ 1, 0 ]);
+    let s01 = self.scalarGet([ 0, 1 ]), s11 = self.scalarGet([ 1, 1 ]);
 
     dstVectorv.eSet( 0 , s00 * x + s01 * y );
     dstVectorv.eSet( 1 , s10 * x + s11 * y );
@@ -1312,7 +1312,7 @@ function positionGet()
 {
   let self = this;
   let l = self.length;
-  let loe = self.atomsPerElement;
+  let loe = self.scalarsPerElement;
   let result = self.colVectorGet( l-1 );
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -1509,7 +1509,7 @@ function scaleMagGet( dst )
 {
   let self = this;
   let l = self.length-1;
-  let loe = self.atomsPerElement;
+  let loe = self.scalarsPerElement;
 
   if( dst )
   {
@@ -1570,7 +1570,7 @@ function scaleSet( src )
   let self = this;
   src = self.vectorAdapter.fromLong( src );
   let l = self.length;
-  let loe = self.atomsPerElement;
+  let loe = self.scalarsPerElement;
   let cur = this.scaleGet();
 
   _.assert( src.length === l-1 );
@@ -1629,7 +1629,7 @@ function scaleAroundSet( scale, center )
   let self = this;
   scale = self.vectorAdapter.fromLong( scale );
   let l = self.length;
-  let loe = self.atomsPerElement;
+  let loe = self.scalarsPerElement;
   let cur = this.scaleGet();
 
   _.assert( scale.length === l-1 );
@@ -1697,7 +1697,7 @@ function scaleApply( src )
 {
   let self = this;
   src = self.vectorAdapter.fromLong( src );
-  let ape = self.atomsPerElement;
+  let ape = self.scalarsPerElement;
   let l = self.length;
 
   for( let i = 0 ; i < ape ; i += 1 )
@@ -2008,7 +2008,7 @@ function determinant()
   let iterations = _.math.factorial( l );
   let result = 0;
 
-  _.assert( l === self.atomsPerElement );
+  _.assert( l === self.scalarsPerElement );
 
   /* */
 
@@ -2023,7 +2023,7 @@ function determinant()
   {
     let r = 1;
     for( let i = 0 ; i < l ; i += 1 )
-    r *= self.atomGet([ index[ i ], i ]);
+    r *= self.scalarGet([ index[ i ], i ]);
     r *= sign;
     // console.log( index );
     // console.log( r );
