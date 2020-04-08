@@ -684,11 +684,7 @@ function _atomsPerMatrixGet()
 
 
 /**
-<<<<<<< HEAD
- * Static routine AtomsPerMatrixForDimensions() calculates quantity of atoms in matrix with defined dimensions.
-=======
  * Static routine ScalarsPerMatrixForDimensions() calculates quantity of scalars in matrix with defined dimensions.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var atoms = _.Matrix.AtomsPerMatrixForDimensions( [ 2, 2 ] );
@@ -696,11 +692,7 @@ function _atomsPerMatrixGet()
  * // log : 4
  *
  * @param { Array } dims - An array with matrix dimensions.
-<<<<<<< HEAD
- * @returns { Number } - Returns quantity of atoms in matrix with defined dimensions.
-=======
  * @returns { Number } - Returns quantity of scalars in matrix with defined dimensions.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If routine is called by instance of Matrix.
@@ -1647,12 +1639,7 @@ function isSquare()
 // --
 
 /**
-<<<<<<< HEAD
- * Method flatAtomIndexFrom() finds the index of element in the matrix buffer.
-=======
-
  * Method flatScalarIndexFrom() finds the index of element in the matrix buffer.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
@@ -1662,11 +1649,7 @@ function isSquare()
  *
  * @param { Array } indexNd - The position of element.
  * @returns { Number } - Returns flat index of element.
-<<<<<<< HEAD
- * @method flatAtomIndexFrom
-=======
  * @method flatScalarIndexFrom
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not an Array.
  * @class Matrix
@@ -2155,11 +2138,7 @@ function submatrix( submatrix )
 // --
 
 /**
-<<<<<<< HEAD
- * Method atomWhile() applies callback {-o.onAtom-} to each element of current matrix
-=======
  * Method scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * while callback returns defined value.
  *
  * @example
@@ -2173,11 +2152,7 @@ function submatrix( submatrix )
  * Callback {-o.onAtom-} applies four arguments : element of matrix, position `indexNd`,
  * flat index `indexFlat`, options map {-o-}.
  * @returns { * } - Returns the result of callback.
-<<<<<<< HEAD
- * @method atomWhile
-=======
  * @method scalarWhile
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
  * @throws { Error } If options map {-o-} has unknown options.
@@ -2224,15 +2199,9 @@ atomWhile.defaults =
 //
 
 /**
-<<<<<<< HEAD
- * Method atomEach() applies callback {-onAtom-} to each element of current matrix.
- * The callback {-onAtom-} applies option map with next fields : `indexNd`, `indexFlat`,
- * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
-=======
  * Method scalarEach() applies callback {-onScalar-} to each element of current matrix.
  * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexFlat`,
  * `indexFlatRowFirst`, `scalar`, `args`. Field `args` defines by the second argument.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2244,11 +2213,7 @@ atomWhile.defaults =
  * @param { Function } onAtom - Callback.
  * @param { Array } args - Array for callback.
  * @returns { Matrix } - Returns the original matrix.
-<<<<<<< HEAD
- * @method atomEach
-=======
  * @method scalarEach
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is more then two.
  * @throws { Error } If number of dimensions of matrix is more then two.
  * @throws { Error } If {-args-} is not an Array.
@@ -2302,11 +2267,7 @@ function atomEach( onAtom, args )
 // --
 
 /**
-<<<<<<< HEAD
- * Method atomFlatGet() returns value of element by using its flat index.
-=======
  * Method scalarFlatGet() returns value of element by using its flat index.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2316,11 +2277,7 @@ function atomEach( onAtom, args )
  *
  * @param { Number } index - Index of matrix element.
  * @returns { Number } - Returns the element of matrix by using its flat index.
-<<<<<<< HEAD
- * @method atomFlatGet
-=======
  * @method scalarFlatGet
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2344,11 +2301,7 @@ function atomFlatGet( index )
 //
 
 /**
-<<<<<<< HEAD
- * Method atomFlatSet() sets value of element of matrix buffer by using its flat index.
-=======
  * Method scalarFlatSet() sets value of element of matrix buffer by using its flat index.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2361,11 +2314,7 @@ function atomFlatGet( index )
  * @param { Number } index - Index of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
-<<<<<<< HEAD
- * @method atomFlatSet
-=======
  * @method scalarFlatSet
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2389,11 +2338,7 @@ function atomFlatSet( index, value )
 //
 
 /**
-<<<<<<< HEAD
- * Method atomGet() returns value of element using its position in matrix.
-=======
  * Method scalarGet() returns value of element using its position in matrix.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2403,11 +2348,7 @@ function atomFlatSet( index, value )
  *
  * @param { Array } index - Position of matrix element.
  * @returns { Number } - Returns the element of matrix using its position.
-<<<<<<< HEAD
- * @method atomGet
-=======
  * @method scalarGet
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2433,11 +2374,7 @@ function atomGet( index )
 //
 
 /**
-<<<<<<< HEAD
- * Method atomSet() sets value of matrix element using its position.
-=======
  * Method scalarSet() sets value of matrix element using its position.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2450,11 +2387,7 @@ function atomGet( index )
  * @param { Number } index - Position of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
-<<<<<<< HEAD
- * @method atomSet
-=======
  * @method scalarSet
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2481,11 +2414,7 @@ function atomSet( index, value )
 //
 
 /**
-<<<<<<< HEAD
- * Method atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
-=======
  * Method scalarsGet() returns vector of elements with length defined by delta between {-range-} elements.
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2495,11 +2424,7 @@ function atomSet( index, value )
  *
  * @param { Long } range - Range of elements.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
-<<<<<<< HEAD
- * @method atomsGet
-=======
  * @method scalarsGet
->>>>>>> dcb72c040655928f602e361ee7e373862d135d77
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-range-} is not a Long.
  * @throws { Error } If range.length is not equal to two.
