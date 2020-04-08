@@ -262,7 +262,7 @@ function _copy( src, resetting )
 //
 
 /**
- * Routine copy() copies scalars from buffer {-src-} into inner matrix.
+ * Method copy() copies scalars from buffer {-src-} into inner matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 2, 2 ] );
@@ -276,7 +276,7 @@ function _copy( src, resetting )
  *
  * @param { Long|Number } src - A Long or single scalar.
  * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
- * @function copy
+ * @method copy
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Long, not a Number.
  * @class Matrix
@@ -307,7 +307,7 @@ function copy( src )
 //
 
 /**
- * Routine copyFromScalar() applies scalar {-src-} to each element of inner matrix.
+ * Method copyFromScalar() applies scalar {-src-} to each element of inner matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 2, 2 ] );
@@ -321,7 +321,7 @@ function copy( src )
  *
  * @param { Number } src - Scalar to fill the matrix.
  * @returns { Matrix } - Returns original instance of Matrix filled by scalar values.
- * @function copyFromScalar
+ * @method copyFromScalar
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not a Number.
  * @class Matrix
@@ -344,7 +344,7 @@ function copyFromScalar( src )
 //
 
 /**
- * Routine copyFromBuffer() copies scalars from buffer {-src-} into inner matrix.
+ * Method copyFromBuffer() copies scalars from buffer {-src-} into inner matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 2, 2 ] );
@@ -358,7 +358,7 @@ function copyFromScalar( src )
  *
  * @param { Long } src - A Long for assigning to the matrix.
  * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
- * @function copyFromBuffer
+ * @method copyFromBuffer
  * @throws { Error } If arguments.length is less then one.
  * @throws { Error } If {-src-} is not a Long.
  * @class Matrix
@@ -376,7 +376,7 @@ function copyFromBuffer( src )
 //
 
 /**
- * Routine clone() makes copy of the matrix.
+ * Method clone() makes copy of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -391,7 +391,7 @@ function copyFromBuffer( src )
  * // log : false
  *
  * @returns { Matrix } - Returns copy of the Matrix.
- * @function clone
+ * @method clone
  * @throws { Error } If arguments is passed.
  * @class Matrix
  * @namespace wTools
@@ -415,7 +415,7 @@ function clone()
 //
 
 /**
- * Routine CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
+ * Method CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 2, 2 ] );
@@ -502,7 +502,7 @@ function CopyTo( dst, src )
 //
 
 /**
- * Routine extractNormalized() extracts data from the Matrix instance and saves it in new map.
+ * Method extractNormalized() extracts data from the Matrix instance and saves it in new map.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -515,7 +515,7 @@ function CopyTo( dst, src )
  * //        }
  *
  * @returns { Map } - Returns map with matrix data.
- * @function extractNormalized
+ * @method extractNormalized
  * @throws { Error } If arguments is passed.
  * @class Matrix
  * @namespace wTools
@@ -1037,7 +1037,7 @@ function _bufferAssign( src )
 //
 
 /**
- * Routine bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
+ * Method bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1050,8 +1050,8 @@ function _bufferAssign( src )
  *
  * @param { Long } dst - Destination buffer.
  * @returns { Long } - Returns destination buffer filled by values of matrix buffer.
- * If {-dst-} is undefined, then routine returns copy of matrix buffer.
- * @function bufferCopyTo
+ * If {-dst-} is undefined, then method returns copy of matrix buffer.
+ * @method bufferCopyTo
  * @throws { Error } If arguments.length is more then one.
  * @throws { Error } If {-dst-} is not a Long.
  * @throws { Error } If number of elements in matrix is not equal to dst.length.
@@ -1425,7 +1425,7 @@ function _dimsSet( src )
 //
 
 /**
- * Routine expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
+ * Method expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1452,7 +1452,7 @@ function _dimsSet( src )
  *
  * @param { Long } expand - The quantity of appended and prepended lines in each dimension.
  * @returns { Matrix } - Returns original expanded matrix.
- * @function expand
+ * @method expand
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If expand.length is not equal to quantity of dimensions.
  * @throws { Error } If elements of {-expand-} is bigger then equivalent dimension length.
@@ -1567,7 +1567,7 @@ function ShapesAreSame( ins1, ins2 )
 //
 
 /**
- * Routine hasShape() compares dimensions of instance with dimensions of source container {-src-}.
+ * Method hasShape() compares dimensions of instance with dimensions of source container {-src-}.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1577,7 +1577,7 @@ function ShapesAreSame( ins1, ins2 )
  *
  * @param { Array|Matrix } src - The container with dimensions.
  * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
- * @function hasShape
+ * @method hasShape
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not an Array, not a Matrix.
  * @class Matrix
@@ -1603,7 +1603,7 @@ function hasShape( src )
 //
 
 /**
- * Routine isSquare() checks the equality of matrix dimensions.
+ * Method isSquare() checks the equality of matrix dimensions.
  *
  * @example
  * var matrix = _.Matrix.make( [ 1, 2 ] );
@@ -1612,7 +1612,7 @@ function hasShape( src )
  * // log : false
  *
  * @returns { Boolean } - Returns value whether is the instance square matrix.
- * @function isSquare
+ * @method isSquare
  * @throws { Error } If argument is provided.
  * @class Matrix
  * @namespace wTools
@@ -1631,7 +1631,7 @@ function isSquare()
 // --
 
 /**
- * Routine flatAtomIndexFrom() finds the index of element in the matrix buffer.
+ * Method flatAtomIndexFrom() finds the index of element in the matrix buffer.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1641,7 +1641,7 @@ function isSquare()
  *
  * @param { Array } indexNd - The position of element.
  * @returns { Number } - Returns flat index of element.
- * @function flatAtomIndexFrom
+ * @method flatAtomIndexFrom
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not an Array.
  * @class Matrix
@@ -1682,8 +1682,8 @@ function _FlatAtomIndexFromIndexNd( indexNd, strides )
 //
 
 /**
- * Routine flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
- * Routine takes into account values of definition of element position {-indexNd-}.
+ * Method flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
+ * Method takes into account values of definition of element position {-indexNd-}.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1693,7 +1693,7 @@ function _FlatAtomIndexFromIndexNd( indexNd, strides )
  *
  * @param { Long|VectorAdapter|Matrix } indexNd - The position of element.
  * @returns { Number } - Returns index offset of element.
- * @function flatGranuleIndexFrom
+ * @method flatGranuleIndexFrom
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If indexNd.length is not equal to strides length.
  * @class Matrix
@@ -1727,7 +1727,7 @@ function flatGranuleIndexFrom( indexNd )
 //
 
 /**
- * Routine transpose() transposes the matrix.
+ * Method transpose() transposes the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1740,7 +1740,7 @@ function flatGranuleIndexFrom( indexNd )
  * //       +1, +2
  *
  * @returns { Matrix } - Returns original matrix instance with transposed elements.
- * @function transpose
+ * @method transpose
  * @throws { Error } If argument is provided.
  * @throws { Error } If dims.length is less then 2.
  * @throws { Error } If strides.length is less then 2.
@@ -1856,7 +1856,7 @@ function Is( src )
 //
 
 /**
- * Routine toStr() converts current matrix to string.
+ * Method toStr() converts current matrix to string.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1869,7 +1869,7 @@ function Is( src )
  * @param { Number } o.precision -  Precision of scalar values.
  * @param { Boolean } o.usingSign - Prepend sign to scalar values.
  * @returns { String } - Returns formatted string that represents matrix of scalars.
- * @function toStr
+ * @method toStr
  * @throws { Error } If options map {-o-} has unknown options.
  * @throws { Error } If options map {-o-} is not map like.
  * @class Matrix
@@ -1997,8 +1997,8 @@ toStr.defaults.__proto__ = _.toStr.defaults;
 //
 
 /**
- * Routine bufferNormalize() normalizes buffer of current matrix.
- * Routine replaces current matrix buffer by new buffer with only elements of matrix.
+ * Method bufferNormalize() normalizes buffer of current matrix.
+ * Method replaces current matrix buffer by new buffer with only elements of matrix.
  *
  * @example
  * var matrix = _.Matrix
@@ -2014,7 +2014,7 @@ toStr.defaults.__proto__ = _.toStr.defaults;
  * // log : [ 1, 2, 3, 4 ]
  *
  * @returns { Undefined } - Returns not a value, changes buffer of current matrix.
- * @function bufferNormalize
+ * @method bufferNormalize
  * @throws { Error } If argument is provided.
  * @class Matrix
  * @namespace wTools
@@ -2048,7 +2048,7 @@ function bufferNormalize()
 //
 
 /**
- * Routine submatrix() creates new instance of Matrix from part of original matrix.
+ * Method submatrix() creates new instance of Matrix from part of original matrix.
  * The buffer of new instance is the same container as original matrix buffer.
  *
  * @example
@@ -2060,7 +2060,7 @@ function bufferNormalize()
  *
  * @param { Array } submatrix - Array with pairs of ranges.
  * @returns { Matrix } - Returns new instance of Matrix with part of original matrix.
- * @function submatrix
+ * @method submatrix
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-submatrix-} is not an Array.
  * @throws { Error } If submatrix.length is not equal to numbers of dimensions.
@@ -2129,7 +2129,7 @@ function submatrix( submatrix )
 // --
 
 /**
- * Routine atomWhile() applies callback {-o.onAtom-} to each element of current matrix
+ * Method atomWhile() applies callback {-o.onAtom-} to each element of current matrix
  * while callback returns defined value.
  *
  * @example
@@ -2143,7 +2143,7 @@ function submatrix( submatrix )
  * Callback {-o.onAtom-} applies four arguments : element of matrix, position `indexNd`,
  * flat index `indexFlat`, options map {-o-}.
  * @returns { * } - Returns the result of callback.
- * @function atomWhile
+ * @method atomWhile
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
  * @throws { Error } If options map {-o-} has unknown options.
@@ -2190,7 +2190,7 @@ atomWhile.defaults =
 //
 
 /**
- * Routine atomEach() applies callback {-onAtom-} to each element of current matrix.
+ * Method atomEach() applies callback {-onAtom-} to each element of current matrix.
  * The callback {-onAtom-} applies option map with next fields : `indexNd`, `indexFlat`,
  * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
  *
@@ -2204,7 +2204,7 @@ atomWhile.defaults =
  * @param { Function } onAtom - Callback.
  * @param { Array } args - Array for callback.
  * @returns { Matrix } - Returns the original matrix.
- * @function atomEach
+ * @method atomEach
  * @throws { Error } If arguments.length is more then two.
  * @throws { Error } If number of dimensions of matrix is more then two.
  * @throws { Error } If {-args-} is not an Array.
@@ -2258,7 +2258,7 @@ function atomEach( onAtom, args )
 // --
 
 /**
- * Routine atomFlatGet() returns value of element by using its flat index.
+ * Method atomFlatGet() returns value of element by using its flat index.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2268,7 +2268,7 @@ function atomEach( onAtom, args )
  *
  * @param { Number } index - Index of matrix element.
  * @returns { Number } - Returns the element of matrix by using its flat index.
- * @function atomFlatGet
+ * @method atomFlatGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2292,7 +2292,7 @@ function atomFlatGet( index )
 //
 
 /**
- * Routine atomFlatSet() sets value of element of matrix buffer by using its flat index.
+ * Method atomFlatSet() sets value of element of matrix buffer by using its flat index.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2305,7 +2305,7 @@ function atomFlatGet( index )
  * @param { Number } index - Index of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
- * @function atomFlatSet
+ * @method atomFlatSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2329,7 +2329,7 @@ function atomFlatSet( index, value )
 //
 
 /**
- * Routine atomGet() returns value of element using its position in matrix.
+ * Method atomGet() returns value of element using its position in matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2339,7 +2339,7 @@ function atomFlatSet( index, value )
  *
  * @param { Array } index - Position of matrix element.
  * @returns { Number } - Returns the element of matrix using its position.
- * @function atomGet
+ * @method atomGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2365,7 +2365,7 @@ function atomGet( index )
 //
 
 /**
- * Routine atomSet() sets value of matrix element using its position.
+ * Method atomSet() sets value of matrix element using its position.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2378,7 +2378,7 @@ function atomGet( index )
  * @param { Number } index - Position of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
- * @function atomSet
+ * @method atomSet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2405,7 +2405,7 @@ function atomSet( index, value )
 //
 
 /**
- * Routine atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
+ * Method atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
  *
  * @example
  * var matrix = _.Matrix.make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2415,7 +2415,7 @@ function atomSet( index, value )
  *
  * @param { Long } range - Range of elements.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function atomsGet
+ * @method atomsGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-range-} is not a Long.
  * @throws { Error } If range.length is not equal to two.
@@ -2453,7 +2453,7 @@ function atomsGet( range )
 //
 
 /**
- * Routine asVector() extracts part of original buffer between first element of matrix and the
+ * Method asVector() extracts part of original buffer between first element of matrix and the
  * last element of the matrix.
  *
  * @example
@@ -2468,7 +2468,7 @@ function atomsGet( range )
  * // log : 1.000, 2.000, 3.000, 4.000, 5.000, 6.000
  *
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function asVector
+ * @method asVector
  * @throws { Error } If argument is provided.
  * @throws { Error } If strides of element is not equal to scalars per element.
  * @class Matrix
@@ -2498,11 +2498,11 @@ function asVector()
 //
 
 /**
- * Routine granuleGet() returns vector extracted from original buffer.
+ * Method granuleGet() returns vector extracted from original buffer.
  *
  * @param { Array } index - Position of element.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function granuleGet
+ * @method granuleGet
  * @throws { Error } If {-index-} is not an Array.
  * @class Matrix
  * @namespace wTools
@@ -2535,7 +2535,7 @@ function granuleGet( index )
 //
 
 /**
- * Routine elementSlice() makes new vector from default matrix element.
+ * Method elementSlice() makes new vector from default matrix element.
  * For regular 2D matrices it is row, for 3D matrices it is matrix.
  *
  * @example
@@ -2551,7 +2551,7 @@ function granuleGet( index )
  *
  * @param { Number } - Index of element.
  * @returns { VectorAdapter } - Returns the vector with default matrix element.
- * @function elementSlice
+ * @method elementSlice
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of matrix length.
  * @class Matrix
@@ -2569,7 +2569,7 @@ function elementSlice( index )
 //
 
 /**
- * Routine elementsInRangeGet() extracts vector of elements from original buffer.
+ * Method elementsInRangeGet() extracts vector of elements from original buffer.
  * Vector starts from element of matrix defined by first element of range an has length
  * defined by delta between ranges elements.
  *
@@ -2581,7 +2581,7 @@ function elementSlice( index )
  *
  * @param { Long } range - Range of elements.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function elementsInRangeGet
+ * @method elementsInRangeGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-range-} is not a Long.
  * @throws { Error } If range.length is not equal to two.
@@ -2618,7 +2618,7 @@ function elementsInRangeGet( range )
 //
 
 /**
- * Routine eGet() extracts default matrix element from current matrix.
+ * Method eGet() extracts default matrix element from current matrix.
  * For row matrices it is separate elements, for regular 2D matrices it is row,
  * for 3D matrices it is matrix.
  *
@@ -2630,7 +2630,7 @@ function elementsInRangeGet( range )
  *
  * @param { Number } index - Index of element.
  * @returns { VectorAdapter } - Returns the vector with default matrix element.
- * @function eGet
+ * @method eGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If dims.length is not equal to two.
@@ -2662,7 +2662,7 @@ function eGet( index )
 //
 
 /**
- * Routine eSet() sets value of default matrix element.
+ * Method eSet() sets value of default matrix element.
  * For row matrices it is separate elements, for regular 2D matrices it is row,
  * for 3D matrices it is matrix.
  *
@@ -2677,7 +2677,7 @@ function eGet( index )
  * @param { Number } index - Index of element.
  * @param { Number|Long|VectorAdapter } value - Value to assign to matrix element.
  * @returns { Matrix } - Returns original matrix instance.
- * @function eSet
+ * @method eSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-value-} is not a Number, not a Long, not a VectorAdapter.
  * @class Matrix
@@ -2700,7 +2700,7 @@ function eSet( index, srcElement )
 //
 
 /**
- * Routine elementsSwap() swaps elements of two default matrix elements.
+ * Method elementsSwap() swaps elements of two default matrix elements.
  * For row matrices it is separate elements, for regular 2D matrices it is row,
  * for 3D matrices it is matrix.
  *
@@ -2715,7 +2715,7 @@ function eSet( index, srcElement )
  * @param { Number } i1 - Index of first element.
  * @param { Number } i2 - Index of second element.
  * @returns { Matrix } - Returns original matrix with swapped elements.
- * @function elementsSwap
+ * @method elementsSwap
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If any of indexes is out of range of elements.
  * @class Matrix
@@ -2745,9 +2745,9 @@ function elementsSwap( i1, i2 )
 //
 
 /**
- * Routine lineVectorGet() returns line, it is row or column of matrix, taking into account the
- * index of dimensions {-d-}. If {-d-} is 1, then routine returns row with index
- * {-index-}, else if {-d-} is 0, then the routine returns column.
+ * Method lineVectorGet() returns line, it is row or column of matrix, taking into account the
+ * index of dimensions {-d-}. If {-d-} is 1, then method returns row with index
+ * {-index-}, else if {-d-} is 0, then the method returns column.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2758,7 +2758,7 @@ function elementsSwap( i1, i2 )
  * @param { Number } d - Dimension index.
  * @param { Number } index - Index of the line.
  * @returns { VectorAdapter } - Returns vector with row or column of the matrix.
- * @function lineVectorGet
+ * @method lineVectorGet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If number of dimensions is not equal to two.
  * @class Matrix
@@ -2785,7 +2785,7 @@ function lineVectorGet( d, index )
 //
 
 /**
- * Routine lineVectorGet() applies value in source vector {-src-} to line of the matrix.
+ * Method lineVectorGet() applies value in source vector {-src-} to line of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2796,11 +2796,11 @@ function lineVectorGet( d, index )
  * //       +0, +0, +0,
  *
  * @param { Number } d - Dimension index.
- * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then the routine returns column.
+ * If {-d-} is 1, then method returns row with index {-index-}, else if {-d-} is 0, then the method returns column.
  * @param { Number } index - Index of the line.
  * @param { Long|VectorAdapter } src - The source elements.
  * @returns { VectorAdapter } - Returns vector with row or column of the matrix.
- * @function lineVectorGet
+ * @method lineVectorGet
  * @throws { Error } If arguments.length is not equal to three.
  * @throws { Error } If number of dimensions is not equal to two.
  * @class Matrix
@@ -2827,9 +2827,9 @@ function lineSet( d, index, src )
 //
 
 /**
- * Routine linesSwap() swaps lines of the matrix taking into account index of dimension {-d-}.
- * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then
- * the routine returns column.
+ * Method linesSwap() swaps lines of the matrix taking into account index of dimension {-d-}.
+ * If {-d-} is 1, then method returns row with index {-index-}, else if {-d-} is 0, then
+ * the method returns column.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2843,7 +2843,7 @@ function lineSet( d, index, src )
  * @param { Number } i1 - Index of first line.
  * @param { Number } i2 - Index of second line.
  * @returns { Matrix } - Returns original matrix with swapped lines.
- * @function linesSwap
+ * @method linesSwap
  * @throws { Error } If arguments.length is not equal to three.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If any of indexes is out of range of lines.
@@ -2879,7 +2879,7 @@ function linesSwap( d, i1, i2 )
 //
 
 /**
- * Routine rowVectorOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
+ * Method rowVectorOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2890,7 +2890,7 @@ function linesSwap( d, i1, i2 )
  * @param { Long|VectorAdapter|Matrix } matrixIndex - Index of matrix.
  * @param { Number } rowIndex - Index of the row.
  * @returns { VectorAdapter } - Returns vector with row.
- * @function rowVectorOfMatrixGet
+ * @method rowVectorOfMatrixGet
  * @throws { Error } If {-matrixIndex-} is not a Long, not a VectorAdapter, not a Matrix.
  * @class Matrix
  * @namespace wTools
@@ -2919,7 +2919,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
 //
 
 /**
- * Routine rowVectorGet() returns row of the matrix.
+ * Method rowVectorGet() returns row of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2929,7 +2929,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
  *
  * @param { Number } index - Index of the row.
  * @returns { VectorAdapter } - Returns vector with row of the matrix.
- * @function rowVectorGet
+ * @method rowVectorGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If {-index-} is out of range of rows.
@@ -2961,7 +2961,7 @@ function rowVectorGet( index )
 //
 
 /**
- * Routine rowSet() assigns values to the row of the matrix.
+ * Method rowSet() assigns values to the row of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -2974,7 +2974,7 @@ function rowVectorGet( index )
  * @param { Number } rowIndex - Index of the row.
  * @param { Number|Long|VectorAdapter } srcRow - Source value for the row.
  * @returns { Matrix } - Returns original matrix with changed row.
- * @function rowSet
+ * @method rowSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-srcRow-} is not a Number, not a Long, not a VectorAdapter.
  * @class Matrix
@@ -2997,7 +2997,7 @@ function rowSet( rowIndex, srcRow )
 //
 
 /**
- * Routine rowsSwap() swaps rows of the matrix.
+ * Method rowsSwap() swaps rows of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3010,7 +3010,7 @@ function rowSet( rowIndex, srcRow )
  * @param { Number } i1 - Index of first row.
  * @param { Number } i2 - Index of second row.
  * @returns { Matrix } - Returns original matrix with swapped rows.
- * @function rowsSwap
+ * @method rowsSwap
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If any of indexes is out of range of lines.
@@ -3031,7 +3031,7 @@ function rowsSwap( i1, i2 )
 //
 
 /**
- * Routine colVectorGet() returns column of the matrix.
+ * Method colVectorGet() returns column of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3041,7 +3041,7 @@ function rowsSwap( i1, i2 )
  *
  * @param { Number } index - Index of the column.
  * @returns { VectorAdapter } - Returns vector with column of the matrix.
- * @function colVectorGet
+ * @method colVectorGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If {-index-} is out of range of columns.
@@ -3073,7 +3073,7 @@ function colVectorGet( index )
 //
 
 /**
- * Routine colSet() assigns values to the column of the matrix.
+ * Method colSet() assigns values to the column of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3086,7 +3086,7 @@ function colVectorGet( index )
  * @param { Number } index - Index of the column.
  * @param { Number|Long|VectorAdapter } srcCol - Source value for the column.
  * @returns { Matrix } - Returns original matrix with changed column.
- * @function colSet
+ * @method colSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-srcCol-} is not a Number, not a Long, not a VectorAdapter.
  * @class Matrix
@@ -3109,7 +3109,7 @@ function colSet( index, srcCol )
 //
 
 /**
- * Routine colsSwap() swaps columns of the matrix.
+ * Method colsSwap() swaps columns of the matrix.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -3122,7 +3122,7 @@ function colSet( index, srcCol )
  * @param { Number } i1 - Index of first column.
  * @param { Number } i2 - Index of second second.
  * @returns { Matrix } - Returns original matrix with swapped columns.
- * @function colsSwap
+ * @method colsSwap
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If any of indexes is out of range of lines.
@@ -3163,7 +3163,7 @@ function _pivotDimension( d, current, expected )
 //
 
 /**
- * Routine pivotForward() pivots elements of the matrix.
+ * Method pivotForward() pivots elements of the matrix.
  * Pivoting provides by swapping of elements in declared order.
  *
  * @example
@@ -3175,7 +3175,7 @@ function _pivotDimension( d, current, expected )
  * //       +8, +7, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function pivotForward
+ * @method pivotForward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If pivots.length is not equal to number of dimensions.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
@@ -3206,7 +3206,7 @@ function pivotForward( pivots )
 //
 
 /**
- * Routine pivotBackward() pivots elements of the matrix.
+ * Method pivotBackward() pivots elements of the matrix.
  * Pivoting provides by swapping of elements in declared position.
  *
  * @example
@@ -3218,7 +3218,7 @@ function pivotForward( pivots )
  * //       +8, +7, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function pivotBackward
+ * @method pivotBackward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If pivots.length is not equal to number of dimensions.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
