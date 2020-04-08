@@ -3664,20 +3664,20 @@ function from( test )
 
 //
 
-function tempBorrow( test )
+function TempBorrow( test )
 {
 
   test.case = 'should give same temp'; /* */
 
   var m = matrix.Make([ 3, 2 ]);
-  var t1 = m.tempBorrow();
+  var t1 = m.TempBorrow();
 
   test.identical( t1.dims, [ 3, 2 ] )
   test.identical( t1._stridesEffective, [ 1, 3 ] )
 
-  var t2 = m.tempBorrow();
-  var t3 = matrix.tempBorrow( m );
-  var t3 = matrix.tempBorrow( m.dims );
+  var t2 = m.TempBorrow();
+  var t3 = matrix.TempBorrow( m );
+  var t3 = matrix.TempBorrow( m.dims );
 
   test.is( t1 === t2 );
   test.is( t1 === t3 );
@@ -3690,14 +3690,14 @@ function tempBorrow( test )
 
   var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
-  var t2 = m.tempBorrow();
+  var t2 = m.TempBorrow();
 
   test.identical( t2.dims, [ 3, 2 ] )
   test.identical( t2._stridesEffective, [ 1, 3 ] )
 
-  var t3 = m.tempBorrow();
-  var t4 = matrix.tempBorrow( m );
-  var t5 = matrix.tempBorrow( m.dims );
+  var t3 = m.TempBorrow();
+  var t4 = matrix.TempBorrow( m );
+  var t5 = matrix.TempBorrow( m.dims );
 
   test.is( t1 !== t2 );
   test.is( t2 === t3 );
@@ -3713,8 +3713,8 @@ function tempBorrow( test )
 
   var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
-  var t1 = matrix._tempBorrow( m, [ 4, 4 ], 0 );
-  var t2 = matrix._tempBorrow( m, [ 4, 4 ], 1 );
+  var t1 = matrix._TempBorrow( m, [ 4, 4 ], 0 );
+  var t2 = matrix._TempBorrow( m, [ 4, 4 ], 1 );
 
   test.identical( t1.dims, [ 4, 4 ] );
   test.identical( t2.dims, [ 4, 4 ] );
@@ -3727,8 +3727,8 @@ function tempBorrow( test )
   var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
   var m2 = matrix.Make([ 4, 4 ]);
-  var t1 = matrix._tempBorrow( m, m2, 0 );
-  var t2 = matrix._tempBorrow( m, m2, 1 );
+  var t1 = matrix._TempBorrow( m, m2, 0 );
+  var t2 = matrix._TempBorrow( m, m2, 1 );
 
   test.identical( t1.dims, [ 4, 4 ] );
   test.identical( t2.dims, [ 4, 4 ] );
@@ -3740,8 +3740,8 @@ function tempBorrow( test )
 
   var m = matrix.Make([ 3, 2 ]);
   m.buffer = new I32x( 6 );
-  var t1 = matrix._tempBorrow( m, null, 0 );
-  var t2 = matrix._tempBorrow( m, null, 1 );
+  var t1 = matrix._TempBorrow( m, null, 0 );
+  var t2 = matrix._TempBorrow( m, null, 1 );
 
   test.identical( t1.dims, [ 3, 2 ] );
   test.identical( t2.dims, [ 3, 2 ] );
@@ -3751,8 +3751,8 @@ function tempBorrow( test )
 
   test.case = 'without matrix'; /* */
 
-  var t1 = matrix._tempBorrow( null, [ 4, 4 ], 0 );
-  var t2 = matrix._tempBorrow( null, [ 4, 4 ], 1 );
+  var t1 = matrix._TempBorrow( null, [ 4, 4 ], 0 );
+  var t2 = matrix._TempBorrow( null, [ 4, 4 ], 1 );
 
   test.identical( t1.dims, [ 4, 4 ] );
   test.identical( t2.dims, [ 4, 4 ] );
@@ -5437,7 +5437,7 @@ function partialAccessors( test )
     +18, +30, +36,
   ]);
 
-  var uxl = matrix.mul( null, [ u, l ] );
+  var uxl = matrix.Mul( null, [ u, l ] );
   logger.log( uxl );
   test.identical( uxl, expected );
 
@@ -7934,7 +7934,7 @@ function mul( test )
 
   test.case = 'm3 mul m3'; /* */
 
-  var mul = matrix.mul( null, [ m3, m3 ] );
+  var mul = matrix.Mul( null, [ m3, m3 ] );
   logger.log( 'mul\n' + _.toStr( mul ) );
 
   var expected = matrix.MakeSquare( 3 );
@@ -7949,7 +7949,7 @@ function mul( test )
 
   test.case = 'm3a * m3b'; /* */
 
-  var mul = matrix.mul( null, [ m3a, m3b ] );
+  var mul = matrix.Mul( null, [ m3a, m3b ] );
   logger.log( 'mul\n' + _.toStr( mul ) );
 
   var expected = matrix.MakeSquare
@@ -7974,7 +7974,7 @@ function mul( test )
   test.case = 'identity * ca'; /* */
 
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.mul( null, [ identity, ca ] );
+  var mul = matrix.Mul( null, [ identity, ca ] );
   var expected = matrix.MakeCol([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
@@ -7982,7 +7982,7 @@ function mul( test )
   test.case = 'identity * cb'; /* */
 
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.mul( null, [ identity, cb ] );
+  var mul = matrix.Mul( null, [ identity, cb ] );
   var expected = matrix.MakeCol([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
@@ -7990,7 +7990,7 @@ function mul( test )
   test.case = 'ra * identity'; /* */
 
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.mul( null, [ ra, identity ] );
+  var mul = matrix.Mul( null, [ ra, identity ] );
   var expected = matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
@@ -7998,14 +7998,14 @@ function mul( test )
   test.case = 'rb * identity'; /* */
 
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.mul( null, [ rb, identity ] );
+  var mul = matrix.Mul( null, [ rb, identity ] );
   var expected = matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
   identityMuled( mul, identity );
 
   test.case = 'm3 * ca'; /* */
 
-  var mul = matrix.mul( null, [ m3, ca ] );
+  var mul = matrix.Mul( null, [ m3, ca ] );
   var expected = matrix.MakeCol([ 0, 4, 4 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 8 );
@@ -8015,7 +8015,7 @@ function mul( test )
 
   test.case = 'm3 * ca'; /* */
 
-  var mul = matrix.mul( null, [ m3, cb ] );
+  var mul = matrix.Mul( null, [ m3, cb ] );
   var expected = matrix.MakeCol([ 0, 4, 4 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 8 );
@@ -8025,7 +8025,7 @@ function mul( test )
 
   test.case = 'ra * m3'; /* */
 
-  var mul = matrix.mul( null, [ ra, m3 ] );
+  var mul = matrix.Mul( null, [ ra, m3 ] );
   var expected = matrix.MakeRow([ 10, 5, 0 ]);
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
@@ -8036,7 +8036,7 @@ function mul( test )
 
   test.case = 'rb * m3'; /* */
 
-  var mul = matrix.mul( null, [ rb, m3 ] );
+  var mul = matrix.Mul( null, [ rb, m3 ] );
   var expected = matrix.MakeRow([ 10, 5, 0 ]);
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
@@ -8051,22 +8051,22 @@ function mul( test )
 
   test.case = 'ra * ca';
 
-  var mul = matrix.mul( null, [ ra, ca ] );
+  var mul = matrix.Mul( null, [ ra, ca ] );
   test.equivalent( mul, expected );
 
   test.case = 'ra * cb';
 
-  var mul = matrix.mul( null, [ ra, cb ] );
+  var mul = matrix.Mul( null, [ ra, cb ] );
   test.equivalent( mul, expected );
 
   test.case = 'rb * ca';
 
-  var mul = matrix.mul( null, [ rb, ca ] );
+  var mul = matrix.Mul( null, [ rb, ca ] );
   test.equivalent( mul, expected );
 
   test.case = 'rb * cb';
 
-  var mul = matrix.mul( null, [ rb, cb ] );
+  var mul = matrix.Mul( null, [ rb, cb ] );
   test.equivalent( mul, expected );
 
   //
@@ -8079,19 +8079,19 @@ function mul( test )
   ]);
 
   test.case = 'ca * ra';
-  var mul = matrix.mul( null, [ ca, ra ] );
+  var mul = matrix.Mul( null, [ ca, ra ] );
   test.equivalent( mul, expected );
 
   test.case = 'ca * rb';
-  var mul = matrix.mul( null, [ ca, rb ] );
+  var mul = matrix.Mul( null, [ ca, rb ] );
   test.equivalent( mul, expected );
 
   test.case = 'cb * ra';
-  var mul = matrix.mul( null, [ cb, ra ] );
+  var mul = matrix.Mul( null, [ cb, ra ] );
   test.equivalent( mul, expected );
 
   test.case = 'cb * rb';
-  var mul = matrix.mul( null, [ cb, rb ] );
+  var mul = matrix.Mul( null, [ cb, rb ] );
   test.equivalent( mul, expected );
 
   test.case = 'data'; /* */
@@ -8123,7 +8123,7 @@ function mul( test )
     -1, +0, -1, +0,
   ]);
 
-  var mul = matrix.mul( null, [ m1, m2 ] );
+  var mul = matrix.Mul( null, [ m1, m2 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
 
@@ -8136,7 +8136,7 @@ function mul( test )
     +3, +3, +2,
   ]);
 
-  var mul = matrix.mul( null, [ m2, m1 ] );
+  var mul = matrix.Mul( null, [ m2, m1 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
 
@@ -8149,7 +8149,7 @@ function mul( test )
     +5, +1, +2,
   ]);
 
-  var mul = matrix.mul( null, [ t1, t2 ] );
+  var mul = matrix.Mul( null, [ t1, t2 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
 
@@ -8163,7 +8163,7 @@ function mul( test )
     -1, +2, +3, +3,
   ]);
 
-  var mul = matrix.mul( null, [ m1, t1 ] );
+  var mul = matrix.Mul( null, [ m1, t1 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
 
@@ -8178,7 +8178,7 @@ function mul( test )
     +16, +67, +128,
   ]);
 
-  var mul = matrix.mul( m, [ m, m ] );
+  var mul = matrix.Mul( m, [ m, m ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m );
@@ -8194,7 +8194,7 @@ function mul( test )
     +211, +873, +1663,
   ]);
 
-  var mul = matrix.mul( m, [ m, m, m ] );
+  var mul = matrix.Mul( m, [ m, m, m ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m );
@@ -8210,7 +8210,7 @@ function mul( test )
     +2747, +11356, +21628,
   ]);
 
-  var mul = matrix.mul( m, [ m, m, m, m ] );
+  var mul = matrix.Mul( m, [ m, m, m, m ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m );
@@ -8227,7 +8227,7 @@ function mul( test )
     +200, +821, +1561,
   ]);
 
-  var mul = matrix.mul( m1, [ m1, m2, m2 ] );
+  var mul = matrix.Mul( m1, [ m1, m2, m2 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m1 );
@@ -8244,7 +8244,7 @@ function mul( test )
     +200, +821, +1561,
   ]);
 
-  var mul = matrix.mul( m2, [ m1, m2, m2 ] );
+  var mul = matrix.Mul( m2, [ m1, m2, m2 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m2 );
@@ -8261,7 +8261,7 @@ function mul( test )
     +6525, +13250, +18414,
   ]);
 
-  var mul = matrix.mul( m1, [ m1, m2, m2, m1 ] );
+  var mul = matrix.Mul( m1, [ m1, m2, m2, m1 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m1 );
@@ -8278,7 +8278,7 @@ function mul( test )
     +6525, +13250, +18414,
   ]);
 
-  var mul = matrix.mul( m2, [ m1, m2, m2, m1 ] );
+  var mul = matrix.Mul( m2, [ m1, m2, m2, m1 ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m2 );
@@ -8288,7 +8288,7 @@ function mul( test )
   var m = m3a.clone();
   var v = [ 1, 2, 3 ];
   var expected = [ 22 , 28 , 39 ];
-  var mul = matrix.mul( v, [ m, v ] );
+  var mul = matrix.Mul( v, [ m, v ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
@@ -8298,7 +8298,7 @@ function mul( test )
   var m = m3a.clone();
   var v = vec([ 1, 2, 3 ]);
   var expected = vec([ 22 , 28 , 39 ]);
-  var mul = matrix.mul( v, [ m, v ] );
+  var mul = matrix.Mul( v, [ m, v ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
@@ -8309,7 +8309,7 @@ function mul( test )
   var v = [ 1, 2, 3 ];
   var row = matrix.MakeRow([ 3, 4, 5 ]);
   var expected = [ 8206 , 10444 , 14547 ];
-  var mul = matrix.mul( v, [ m, v, row, m, v ] );
+  var mul = matrix.Mul( v, [ m, v, row, m, v ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
@@ -8320,7 +8320,7 @@ function mul( test )
   var v = [ 1, 2, 3 ];
   var row = matrix.MakeRow([ 3, 4, 5 ]);
   var expected = [ 82060 , 104440 , 145470 ];
-  var mul = matrix.mul( v, [ m, v, row, m, v, [ 10 ] ] );
+  var mul = matrix.Mul( v, [ m, v, row, m, v, [ 10 ] ] );
   logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
@@ -8330,12 +8330,12 @@ function mul( test )
   if( !Config.debug )
   return;
 
-  test.shouldThrowErrorSync( () => matrix.mul( null ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, null ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [] ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.Make([ 3, 3 ]) ] ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.Make([ 3, 3 ]), matrix.Make([ 1, 4 ]) ] ) );
-  test.shouldThrowErrorSync( () => matrix.mul( null, [ matrix.Make([ 4, 1 ]), matrix.Make([ 3, 3 ]) ] ) );
+  test.shouldThrowErrorSync( () => matrix.Mul( null ) );
+  test.shouldThrowErrorSync( () => matrix.Mul( null, null ) );
+  test.shouldThrowErrorSync( () => matrix.Mul( null, [] ) );
+  test.shouldThrowErrorSync( () => matrix.Mul( null, [ matrix.Make([ 3, 3 ]) ] ) );
+  test.shouldThrowErrorSync( () => matrix.Mul( null, [ matrix.Make([ 3, 3 ]), matrix.Make([ 1, 4 ]) ] ) );
+  test.shouldThrowErrorSync( () => matrix.Mul( null, [ matrix.Make([ 4, 1 ]), matrix.Make([ 3, 3 ]) ] ) );
 
     // 1, 3, 5,
     // 2, 4, 6,
@@ -8815,7 +8815,7 @@ function triangulate( test )
     +0, +0, -8,
   ]);
 
-  var got = matrix.mul( null, [ l, u ] );
+  var got = matrix.Mul( null, [ l, u ] );
   test.equivalent( got, original );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
@@ -8859,7 +8859,7 @@ function triangulate( test )
     +0, +0, +1,
   ]);
 
-  var got = matrix.mul( null, [ l, u ] );
+  var got = matrix.Mul( null, [ l, u ] );
   test.equivalent( got, original );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
@@ -8903,7 +8903,7 @@ function triangulate( test )
     +0, +0, -1,
   ]);
 
-  var got = matrix.mul( null, [ l, u ] );
+  var got = matrix.Mul( null, [ l, u ] );
   test.equivalent( got, original );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
@@ -8949,7 +8949,7 @@ function triangulate( test )
     +0, +0, +1,
   ]);
 
-  var mul = matrix.mul( null, [ l, u ] );
+  var mul = matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
@@ -9009,7 +9009,7 @@ function triangulate( test )
   test.case = 'l*u should be same as original m';
 
   u = u.submatrix([ [ 0, 3 ], _.all ]);
-  var mul = matrix.mul( null, [ l, u ] );
+  var mul = matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
   test.case = 'triangulateLuNormal ( nrow < ncol )'; /* */
@@ -9065,7 +9065,7 @@ function triangulate( test )
   test.case = 'l*u should be same as original m';
 
   u = u.submatrix([ [ 0, 3 ], _.all ]);
-  var mul = matrix.mul( null, [ l, u ] );
+  var mul = matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
   test.case = 'triangulateLu ( nrow > ncol )'; /* */
@@ -9113,7 +9113,7 @@ function triangulate( test )
   test.case = 'l*u should be same as original m';
 
   u = u.expand([ [ 0, 1 ], null ]);
-  var mul = matrix.mul( null, [ l, u ] );
+  var mul = matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
   test.case = 'triangulateLuNormal ( nrow > ncol )'; /* */
@@ -9161,7 +9161,7 @@ function triangulate( test )
   test.case = 'l*u should be same as original m';
 
   u = u.expand([ [ 0, 1 ], null ]);
-  var mul = matrix.mul( null, [ l, u ] );
+  var mul = matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
 }
@@ -9170,10 +9170,10 @@ triangulate.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
-function solveTriangulated( test )
+function SolveTriangulated( test )
 {
 
-  test.case = 'solveTriangleLower'; /* */
+  test.case = 'SolveTriangleLower'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9184,7 +9184,7 @@ function solveTriangulated( test )
 
   var expected = matrix.MakeCol([ 1, 0, 0 ]);
   var y = matrix.MakeCol([ 2, 2, 4 ]);
-  var x = matrix.solveTriangleLower( null, m, y );
+  var x = matrix.SolveTriangleLower( null, m, y );
 
   test.equivalent( x, expected );
 
@@ -9194,10 +9194,10 @@ function solveTriangulated( test )
     2, 3, -99,
     4, 5, 6,
   ]);
-  var x = matrix.solveTriangleLower( null, m, y );
+  var x = matrix.SolveTriangleLower( null, m, y );
   test.equivalent( x, expected );
 
-  test.case = 'solveTriangleUpper'; /* */
+  test.case = 'SolveTriangleUpper'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9208,7 +9208,7 @@ function solveTriangulated( test )
 
   var expected = matrix.MakeCol([ 0, 0, 1 ]);
   var y = matrix.MakeCol([ 4, 2, 2 ]);
-  var x = matrix.solveTriangleUpper( null, m, y );
+  var x = matrix.SolveTriangleUpper( null, m, y );
 
   test.equivalent( x, expected );
 
@@ -9218,10 +9218,10 @@ function solveTriangulated( test )
     -99, 3, 2,
     -99, -99, 2,
   ]);
-  var x = matrix.solveTriangleUpper( null, m, y );
+  var x = matrix.SolveTriangleUpper( null, m, y );
   test.equivalent( x, expected );
 
-  test.case = 'solveTriangleLowerNormal'; /* */
+  test.case = 'SolveTriangleLowerNormal'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9232,7 +9232,7 @@ function solveTriangulated( test )
 
   var expected = matrix.MakeCol([ 2, -2, 6 ]);
   var y = matrix.MakeCol([ 2, 2, 4 ]);
-  var x = matrix.solveTriangleLowerNormal( null, m, y );
+  var x = matrix.SolveTriangleLowerNormal( null, m, y );
 
   test.equivalent( x, expected );
 
@@ -9242,10 +9242,10 @@ function solveTriangulated( test )
     2, -99, -99,
     4, 5, -99,
   ]);
-  var x = matrix.solveTriangleLowerNormal( null, m, y );
+  var x = matrix.SolveTriangleLowerNormal( null, m, y );
   test.equivalent( x, expected );
 
-  test.case = 'solveTriangleUpperNormal'; /* */
+  test.case = 'SolveTriangleUpperNormal'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9256,7 +9256,7 @@ function solveTriangulated( test )
 
   var expected = matrix.MakeCol([ 6, -2, 2 ]);
   var y = matrix.MakeCol([ 4, 2, 2 ]);
-  var x = matrix.solveTriangleUpperNormal( null, m, y );
+  var x = matrix.SolveTriangleUpperNormal( null, m, y );
 
   test.equivalent( x, expected );
 
@@ -9267,11 +9267,11 @@ function solveTriangulated( test )
     -99, -99, -99,
   ]);
 
-  var x = matrix.solveTriangleUpperNormal( null, m, y );
+  var x = matrix.SolveTriangleUpperNormal( null, m, y );
 
   test.equivalent( x, expected );
 
-  test.case = 'solveWithTriangles u'; /* */
+  test.case = 'SolveWithTriangles u'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9282,11 +9282,11 @@ function solveTriangulated( test )
 
   var expected = matrix.MakeCol([ 6, -2, 2 ]);
   var y = matrix.MakeCol([ 4, 2, 2 ]);
-  var x = matrix.solveWithTriangles( null, m, y );
+  var x = matrix.SolveWithTriangles( null, m, y );
 
   test.equivalent( x, expected );
 
-  test.case = 'solveWithTriangles u'; /* */
+  test.case = 'SolveWithTriangles u'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9297,7 +9297,7 @@ function solveTriangulated( test )
 
   var expected = matrix.MakeCol([ -1, 2, -2 ]);
   var y = matrix.MakeCol([ 0, 4, -6 ]);
-  var x = matrix.solveWithTriangles( null, m, y );
+  var x = matrix.SolveWithTriangles( null, m, y );
 
   test.equivalent( x, expected );
 
@@ -9321,7 +9321,7 @@ function solveTriangulated( test )
   logger.log( 'm', m );
   test.identical( m, expected )
 
-  test.case = 'system solve'; /* */
+  test.case = 'system Solve'; /* */
 
   var m = matrix.MakeSquare
   ([
@@ -9331,7 +9331,7 @@ function solveTriangulated( test )
   ]);
 
   var y = [ 7, 4, -10 ];
-  var x = matrix.solve( null, m, y );
+  var x = matrix.Solve( null, m, y );
 
   logger.log( 'm', m );
   logger.log( 'x', x );
@@ -9342,10 +9342,10 @@ function solveTriangulated( test )
 
 //
 
-function _solveSimple( test, rname )
+function _SolveSimple( test, rname )
 {
 
-  test.case = rname + ' . y array . solve 3x3 system'; //
+  test.case = rname + ' . y array . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9366,11 +9366,11 @@ function _solveSimple( test, rname )
   test.identical( x, [ -1, -2, +3 ] );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, oy );
 
   // return;
-  test.case = rname + ' . y vector . solve 3x3 system'; //
+  test.case = rname + ' . y vector . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9391,10 +9391,10 @@ function _solveSimple( test, rname )
   test.identical( x, vec([ -1, -2, +3 ]) );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, y );
 
-  test.case = rname + ' . y matrix . solve 3x3 system'; //
+  test.case = rname + ' . y matrix . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9415,10 +9415,10 @@ function _solveSimple( test, rname )
   test.identical( x, matrix.MakeCol([ -1, -2, +3 ]) );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, y );
 
-  test.case = rname + ' . x array . solve 3x3 system'; //
+  test.case = rname + ' . x array . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9441,10 +9441,10 @@ function _solveSimple( test, rname )
   test.identical( x, [ -1, -2, +3 ] );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, [ 7, 4, -10 ] );
 
-  test.case = rname + ' . x vector . solve 3x3 system'; //
+  test.case = rname + ' . x vector . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9467,10 +9467,10 @@ function _solveSimple( test, rname )
   test.identical( x, vec([ -1, -2, +3 ]) );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, vec([ 7, 4, -10 ]) );
 
-  test.case = rname + ' . x matrix . solve 3x3 system'; //
+  test.case = rname + ' . x matrix . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9493,10 +9493,10 @@ function _solveSimple( test, rname )
   test.identical( x, matrix.MakeCol([ -1, -2, +3 ]) );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, matrix.MakeCol([ 7, 4, -10 ]) );
 
-  test.case = rname + ' . y 3x2 matrix . solve 3x3 system'; //
+  test.case = rname + ' . y 3x2 matrix . Solve 3x3 system'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9529,10 +9529,10 @@ function _solveSimple( test, rname )
   test.identical( x, xEpxpected );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, y );
 
-  test.case = rname + ' . y 0x2 matrix . solve 0x0 system'; //
+  test.case = rname + ' . y 0x2 matrix . Solve 0x0 system'; //
 
   var m = matrix.MakeSquare([]);
   m.toStr();
@@ -9551,32 +9551,32 @@ function _solveSimple( test, rname )
   test.identical( x, xEpxpected );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, y );
 
 }
 
 //
 
-function solveSimple( test, rname )
+function SolveSimple( test, rname )
 {
 
-  this._solveSimple( test, 'solve' );
-  this._solveSimple( test, 'solveWithGausian' );
-  this._solveSimple( test, 'solveWithGausianPivoting' );
-  this._solveSimple( test, 'solveWithGaussJordan' );
-  this._solveSimple( test, 'solveWithGaussJordanPivoting' );
-  this._solveSimple( test, 'solveWithTriangles' );
-  this._solveSimple( test, 'solveWithTrianglesPivoting' );
+  this._SolveSimple( test, 'Solve' );
+  this._SolveSimple( test, 'SolveWithGausian' );
+  this._SolveSimple( test, 'SolveWithGausianPivoting' );
+  this._SolveSimple( test, 'SolveWithGaussJordan' );
+  this._SolveSimple( test, 'SolveWithGaussJordanPivoting' );
+  this._SolveSimple( test, 'SolveWithTriangles' );
+  this._SolveSimple( test, 'SolveWithTrianglesPivoting' );
 
 }
 
 //
 
-function _solveComplicated( test, rname )
+function _SolveComplicated( test, rname )
 {
 
-  test.case = rname + ' . y array . solve 3x3 system1'; //
+  test.case = rname + ' . y array . Solve 3x3 system1'; //
 
   var m = matrix.MakeSquare
   ([
@@ -9597,26 +9597,26 @@ function _solveComplicated( test, rname )
   test.identical( x, [ -0.5, +2.5, -0.5 ] );
   test.identical( y, oy );
 
-  var y2 = matrix.mul( null, [ om, x ] );
+  var y2 = matrix.Mul( null, [ om, x ] );
   test.identical( y2, y );
 
 }
 
 //
 
-function solveComplicated( test, rname )
+function SolveComplicated( test, rname )
 {
 
-  this._solveComplicated( test, 'solve' );
-  this._solveComplicated( test, 'solveWithGausianPivoting' );
-  this._solveComplicated( test, 'solveWithGaussJordanPivoting' );
-  this._solveComplicated( test, 'solveWithTrianglesPivoting' );
+  this._SolveComplicated( test, 'Solve' );
+  this._SolveComplicated( test, 'SolveWithGausianPivoting' );
+  this._SolveComplicated( test, 'SolveWithGaussJordanPivoting' );
+  this._SolveComplicated( test, 'SolveWithTrianglesPivoting' );
 
 }
 
 //
 
-function solveWithPivoting( test )
+function SolveWithPivoting( test )
 {
 
   test.case = 'triangulateGausianPivoting 3x4'; /* */
@@ -9713,11 +9713,11 @@ function solveWithPivoting( test )
   var pivots = m.triangulateGausianPivoting( y );
 
   var munpivoted = m.clone().pivotBackward( pivots );
-  var x = matrix.solveTriangleUpper( null, m, y );
-  var y2 = matrix.mul( null, [ m, x ] );
+  var x = matrix.SolveTriangleUpper( null, m, y );
+  var y2 = matrix.Mul( null, [ m, x ] );
 
   var x3 = matrix.From( x.clone() ).pivotBackward([ pivots[ 1 ], null ]);
-  var y3 = matrix.mul( null, [ om, x3 ] );
+  var y3 = matrix.Mul( null, [ om, x3 ] );
 
   test.equivalent( pivots, pivotsExpected );
   test.equivalent( munpivoted, munpivotedExpected );
@@ -9739,7 +9739,7 @@ function solveWithPivoting( test )
 
 //
 
-function solveGeneral( test )
+function SolveGeneral( test )
 {
 
   // return; // xxx
@@ -9749,8 +9749,8 @@ function solveGeneral( test )
 
     var param = _.dup( 0, m.dims[ 1 ] );
     param[ d ] = 1;
-    var x2 = matrix.mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
-    var y2 = matrix.mul( null, [ m, x2 ] );
+    var x2 = matrix.Mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
+    var y2 = matrix.Mul( null, [ m, x2 ] );
 
     if( y2.dims[ 0 ] < m.dims[ 1 ] )
     y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
@@ -9767,9 +9767,9 @@ function solveGeneral( test )
 
     var param = _.dup( 0, m.dims[ 1 ] );
     param[ d ] = factor;
-    var x2 = matrix.mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
+    var x2 = matrix.Mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
     x2 = matrix.addAtomWise( x2, r.base, x2 );
-    var y2 = matrix.mul( null, [ m, x2 ] );
+    var y2 = matrix.Mul( null, [ m, x2 ] );
 
     if( y2.dims[ 0 ] < m.dims[ 1 ] )
     y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
@@ -9832,7 +9832,7 @@ function solveGeneral( test )
   var mo = m.clone();
   var y = matrix.MakeCol([ 0, 3, 3 ]);
   var yo = y.clone();
-  var r = matrix.solveGeneral({ m, y, pivoting : 0 });
+  var r = matrix.SolveGeneral({ m, y, pivoting : 0 });
 
   test.equivalent( r, re );
   test.equivalent( m, me );
@@ -9896,7 +9896,7 @@ function solveGeneral( test )
   var mo = m.clone();
   var y = matrix.MakeCol([ 0, 3, 3 ]);
   var yo = y.clone();
-  var r = matrix.solveGeneral({ m, y, pivoting : 1 });
+  var r = matrix.SolveGeneral({ m, y, pivoting : 1 });
 
   test.equivalent( r, re );
   test.equivalent( m, me );
@@ -9933,7 +9933,7 @@ function solveGeneral( test )
   var mo = m.clone();
 
   var y = matrix.MakeCol([ +4, -3, +2 ]);
-  var r = matrix.solveGeneral({ m, y });
+  var r = matrix.SolveGeneral({ m, y });
   /*test.equivalent( r, expected );*/
 
   logger.log( 'r.base', r.base );
@@ -9967,7 +9967,7 @@ function solveGeneral( test )
   var mo = m.clone();
 
   var y = matrix.MakeCol([ +4, -3, +2 ]);
-  var r = matrix.solveGeneral({ m , y });
+  var r = matrix.SolveGeneral({ m , y });
   /*test.equivalent( r, expected );*/
 
   logger.log( 'r.base', r.base );
@@ -10000,7 +10000,7 @@ function solveGeneral( test )
   var mo = m.clone();
 
   var y = matrix.MakeCol([ +1, -2 ]);
-  var r = matrix.solveGeneral({ m , y });
+  var r = matrix.SolveGeneral({ m , y });
   test.equivalent( r, expected );
   /*test.equivalent( r, expected );*/
 
@@ -10035,7 +10035,7 @@ function solveGeneral( test )
   var mo = m.clone();
 
   var y = matrix.MakeCol([ 1, 2, 3 ]);
-  var r = matrix.solveGeneral({ m, y });
+  var r = matrix.SolveGeneral({ m, y });
   test.equivalent( r, expected );
 
   logger.log( 'r.base', r.base );
@@ -10070,7 +10070,7 @@ function solveGeneral( test )
   var mo = m.clone();
 
   var y = matrix.MakeCol([ +1, +3, +1 ]);
-  var r = matrix.solveGeneral({ m, y });
+  var r = matrix.SolveGeneral({ m, y });
   test.equivalent( r, expected );
 
   logger.log( 'r.base', r.base );
@@ -10081,7 +10081,7 @@ function solveGeneral( test )
 
 }
 
-solveGeneral.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
+SolveGeneral.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
@@ -10182,7 +10182,7 @@ invert.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
-function polynomExactFor( test )
+function PolynomExactFor( test )
 {
 
   function checkPolynom( polynom , f )
@@ -10209,7 +10209,7 @@ function polynomExactFor( test )
 
   }
 
-  test.case = 'polynomExactFor for E( n )'; /* */
+  test.case = 'PolynomExactFor for E( n )'; /* */
 
   /*
     1, 2, 6, 10, 15, 21, 28, 36
@@ -10226,7 +10226,7 @@ function polynomExactFor( test )
     return r;
   }
 
-  var polynom = matrix.polynomExactFor
+  var polynom = matrix.PolynomExactFor
   ({
     order : 3,
     domain : [ 1, 4 ],
@@ -10237,7 +10237,7 @@ function polynomExactFor( test )
   test.equivalent( polynom, [ 0, -0.5, +0.5 ] );
   checkPolynom( polynom , f );
 
-  test.case = 'polynomExactFor for E( n*n )'; /* */
+  test.case = 'PolynomExactFor for E( n*n )'; /* */
 
   f = function( x )
   {
@@ -10247,7 +10247,7 @@ function polynomExactFor( test )
     return r;
   }
 
-  var polynom = matrix.polynomExactFor
+  var polynom = matrix.PolynomExactFor
   ({
     order : 4,
     domain : [ 1, 5 ],
@@ -10258,11 +10258,11 @@ function polynomExactFor( test )
   test.equivalent( polynom, [ 0, 1/6, -1/2, 1/3 ] );
   checkPolynom( polynom , f );
 
-  test.case = 'polynomExactFor for parabola'; /* */
+  test.case = 'PolynomExactFor for parabola'; /* */
 
   var points = [ [ -2, -1 ], [ 0, 2 ], [ 2, 3 ] ];
 
-  var polynom = matrix.polynomExactFor
+  var polynom = matrix.PolynomExactFor
   ({
     order : 3,
     points,
@@ -10274,16 +10274,16 @@ function polynomExactFor( test )
 
 }
 
-polynomExactFor.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
+PolynomExactFor.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
-function polynomClosestFor( test )
+function PolynomClosestFor( test )
 {
 
-  test.case = 'polynomClosestFor for E( i )'; /* */
+  test.case = 'PolynomClosestFor for E( i )'; /* */
 
-  var polynom = matrix.polynomClosestFor
+  var polynom = matrix.PolynomClosestFor
   ({
     order : 2,
     points : [ [ 1, 0.5 ], [ 2, 2.25 ], [ 3, 2 ] ],
@@ -10376,8 +10376,8 @@ var Self =
     _copyTo,
     _submatrix,
     _bufferNormalize,
-    _solveSimple,
-    _solveComplicated,
+    _SolveSimple,
+    _SolveComplicated,
 
   },
 
@@ -10406,7 +10406,7 @@ var Self =
     MakeLine,
     MakeSimilar,
     from,
-    tempBorrow,
+    TempBorrow,
     copyClone,
     ConvertToClass,
     copyTo,
@@ -10440,15 +10440,15 @@ var Self =
 
     determinant,
     triangulate,
-    solveTriangulated,
-    solveSimple,
-    solveComplicated,
-    solveWithPivoting,
-    solveGeneral,
+    SolveTriangulated,
+    SolveSimple,
+    SolveComplicated,
+    SolveWithPivoting,
+    SolveGeneral,
     invert,
 
-    polynomExactFor,
-    polynomClosestFor,
+    PolynomExactFor,
+    PolynomClosestFor,
 
     identical,
 
