@@ -141,7 +141,7 @@ function declareAtomWiseReducingRoutine( routine , rname )
   if( !op.reducing )
   return;
 
-  if( !op.onAtom )
+  if( !op.onScalar )
   return;
 
   // if( op.kind !== 'atomWiseReducing' )
@@ -156,29 +156,29 @@ function declareAtomWiseReducingRoutine( routine , rname )
   // debugger;
 
   let name = rname + 'AtomWise';
-  let handleAtom = op.onAtom[ 0 ];
-  let onAtomsBegin0 = op.onAtomsBegin[ 0 ];
-  let onAtomsEnd0 = op.onAtomsEnd[ 0 ];
+  let handleAtom = op.onScalar[ 0 ];
+  let onScalarsBegin0 = op.onScalarsBegin[ 0 ];
+  let onScalarsEnd0 = op.onScalarsEnd[ 0 ];
   let onVectorsBegin0 = op.onVectorsBegin[ 0 ];
   let onVectorsEnd0 = op.onVectorsEnd[ 0 ];
 
   function onBegin( o )
   {
     let op = onVectorsBegin0( o );
-    onAtomsBegin0( op );
+    onScalarsBegin0( op );
     return op;
   }
 
   function onEnd( op )
   {
-    onAtomsEnd0( op );
+    onScalarsEnd0( op );
     let result = onVectorsEnd0( op );
     return result;
   }
 
   _.assert( _.objectIs( handleAtom.defaults ) );
-  _.assert( _.routineIs( onAtomsBegin0 ) );
-  _.assert( _.routineIs( onAtomsEnd0 ) );
+  _.assert( _.routineIs( onScalarsBegin0 ) );
+  _.assert( _.routineIs( onScalarsEnd0 ) );
   _.assert( _.routineIs( onVectorsBegin0 ) );
   _.assert( _.routineIs( onVectorsEnd0 ) );
   _.assert( !Proto[ name ] );
@@ -211,12 +211,12 @@ function declareAtomWiseHomogeneousWithScalarRoutines( routine, rname )
   if( op.takingArguments[ 0 ] !== 2 || op.takingArguments[ 1 ] !== 2 )
   return;
 
-  let onAtom = op.onAtom[ 1 ];
+  let onScalar = op.onScalar[ 1 ];
   let name = rname;
 
   _.assert( !Proto[ name ] );
   _.assert( _.objectIs( op ) );
-  _.assert( _.routineIs( onAtom ) );
+  _.assert( _.routineIs( onScalar ) );
 
   /* */
 
@@ -225,15 +225,15 @@ function declareAtomWiseHomogeneousWithScalarRoutines( routine, rname )
     let self = this;
 
     op.srcElement = op.args[ 0 ];
-    let val = onAtom( op );
+    let val = onScalar( op );
     _.assert( val === undefined );
     _.assert( _.numberIs( op.dstElement ) );
     _.assert( _.numberIs( op.srcElement ) );
-    self.atomSet( op.key, op.dstElement );
+    self.scalarSet( op.key, op.dstElement );
 
   }
 
-  handleAtom2.have = { onAtom };
+  handleAtom2.have = { onScalar };
 
   /* */
 
@@ -269,7 +269,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
   if( dop.kind === 'reducing' )
   return;
 
-  if( !dop.onAtom )
+  if( !dop.onScalar )
   return;
 
   // if( _.longIdentical( dop.input, [ 'vw|s', 's' ] ) )
@@ -282,16 +282,16 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
   }
 
   let routineName = name + 'AtomWise';
-  let onAtom0 = dop.onAtom[ 0 ];
-  let onAtom1 = dop.onAtom[ 1 ];
+  let onScalar0 = dop.onScalar[ 0 ];
+  let onScalar1 = dop.onScalar[ 1 ];
   let onVectorsBegin0 = dop.onVectorsBegin[ 0 ];
   let onVectorsEnd0 = dop.onVectorsEnd[ 0 ];
   let onContinue0 = dop.onContinue[ 0 ];
 
-  _.assert( _.routineIs( onAtom0 ) );
-  _.assert( _.routineIs( onAtom1 ) );
-  _.assert( _.objectIs( onAtom0.defaults ) );
-  _.assert( !onAtom1.defaults );
+  _.assert( _.routineIs( onScalar0 ) );
+  _.assert( _.routineIs( onScalar1 ) );
+  _.assert( _.objectIs( onScalar0.defaults ) );
+  _.assert( !onScalar1.defaults );
   _.assert( !Statics[ routineName ] );
   _.assert( !Proto[ routineName ] );
 
@@ -303,7 +303,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
 
   function handleAtom( o )
   {
-    let r = onAtom1.call( this, o );
+    let r = onScalar1.call( this, o );
     _.assert( r === undefined );
   }
 
@@ -315,7 +315,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
     return o.result;
   }
 
-  handleAtom.defaults = onAtom0.defaults;
+  handleAtom.defaults = onScalar0.defaults;
 
   /* */
 
@@ -342,7 +342,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
       onContinue : onContinue0,
       onVectorsBegin,
       onVectorsEnd,
-      onAtom : handleAtom,
+      onScalar : handleAtom,
       args,
       reducing : dop.reducing,
       usingDstAsSrc : dop.usingDstAsSrc,
@@ -373,7 +373,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
     ({
       onVectorsBegin,
       onVectorsEnd,
-      onAtom : handleAtom,
+      onScalar : handleAtom,
       args,
       reducing : dop.reducing,
       usingDstAsSrc : dop.usingDstAsSrc,
@@ -384,9 +384,9 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
     // _.assert( _.arrayIs( srcs ) );
     // let result = self.Self.atomWiseHomogeneousZip
     // ({
-    //   onAtomsBegin : onVectorsBegin,
-    //   onAtomsEnd : onVectorsEnd,
-    //   onAtom : handleAtom,
+    //   onScalarsBegin : onVectorsBegin,
+    //   onScalarsEnd : onVectorsEnd,
+    //   onScalar : handleAtom,
     //   dst,
     //   srcs,
     // });

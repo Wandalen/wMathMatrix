@@ -87,7 +87,7 @@ function matrixIs( test )
   ({
     buffer : new F32x( [ 0, 1, 2, 3, 4, 5, 6, 7 ] ),
     offset : 1,
-    atomsPerElement : 3,
+    scalarsPerElement : 3,
     inputTransposing : 0,
     strides : [ 2, 6 ],
     dims : [ 3, 1 ],
@@ -110,7 +110,7 @@ function constructorIsMatrix( test )
   ({
     buffer : new F32x( [ 0, 1, 2, 3, 4, 5, 6, 7 ] ),
     offset : 1,
-    atomsPerElement : 3,
+    scalarsPerElement : 3,
     inputTransposing : 0,
     strides : [ 2, 6 ],
     dims : [ 3, 1 ],
@@ -786,7 +786,7 @@ function construct( test )
   ({
     buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
     offset : 1,
-    atomsPerElement : 3,
+    scalarsPerElement : 3,
     inputTransposing : 0,
     strides : [ 2, 6 ],
     dims : [ 3, 1 ],
@@ -831,7 +831,7 @@ function construct( test )
       "--buffer-->0<--buffer--" :
       {
         "bufferConstructorName" : `F32x`,
-        "sizeOfAtom" : 4,
+        "sizeOfScalar" : 4,
         "offset" : 0,
         "size" : 12,
         "index" : 0
@@ -889,7 +889,7 @@ function construct( test )
   ({
     buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
     offset : 1,
-    atomsPerElement : 3,
+    scalarsPerElement : 3,
     inputTransposing : 1,
     strides : [ 2, 6 ],
     // dims : [ 3, 1 ],
@@ -934,7 +934,7 @@ function construct( test )
       "--buffer-->0<--buffer--" :
       {
         "bufferConstructorName" : `F32x`,
-        "sizeOfAtom" : 4,
+        "sizeOfScalar" : 4,
         "offset" : 0,
         "size" : 12,
         "index" : 0
@@ -1060,8 +1060,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 2 );
   var c2 = m.lineVectorGet( 0, 2 );
   var e = m.eGet( 2 );
-  var a1 = m.atomFlatGet( 5 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, o.vec([ 4, 5, 6 ]) );
   test.identical( r1, r2 );
@@ -1108,8 +1108,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 2 );
   var c2 = m.lineVectorGet( 0, 2 );
   var e = m.eGet( 2 );
-  var a1 = m.atomFlatGet( 5 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, o.vec([ 2, 4, 6 ]) );
   test.identical( r1, r2 );
@@ -1157,8 +1157,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 2 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 2 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 2 ]) );
   test.identical( r1, r2 );
@@ -1206,8 +1206,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 2 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 2 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 2 ]) );
   test.identical( r1, r2 );
@@ -1254,8 +1254,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 2 );
   var c2 = m.lineVectorGet( 0, 2 );
   var e = m.eGet( 2 );
-  var a1 = m.atomFlatGet( 5 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, o.vec([ 4, 5, 6 ]) );
   test.identical( r1, r2 );
@@ -1302,8 +1302,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 2 );
   var c2 = m.lineVectorGet( 0, 2 );
   var e = m.eGet( 2 );
-  var a1 = m.atomFlatGet( 5 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, o.vec([ 2, 4, 6 ]) );
   test.identical( r1, r2 );
@@ -1387,8 +1387,8 @@ function _make( test, o )
     test.shouldThrowErrorSync( () => m.rowVectorGet( 1 ) );
     test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
     test.shouldThrowErrorSync( () => m.eGet( 1 ) );
-    test.shouldThrowErrorSync( () => m.atomFlatGet( 1 ) );
-    test.shouldThrowErrorSync( () => m.atomGet( 1 ) );
+    test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+    test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
 
   }
 
@@ -1433,8 +1433,8 @@ function _make( test, o )
       test.shouldThrowErrorSync( () => m.eGet( 0 ) );
       test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
       test.shouldThrowErrorSync( () => m.eGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.atomFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.atomGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
     }
 
   }
@@ -1491,8 +1491,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 2 ]) );
   test.identical( r1, r2 );
@@ -1528,8 +1528,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 2, 5 ]) );
   test.identical( r1, r2 );
@@ -1581,8 +1581,8 @@ function _make( test, o )
       test.shouldThrowErrorSync( () => m.eGet( 0 ) );
       test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
       test.shouldThrowErrorSync( () => m.eGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.atomFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.atomGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
     }
 
   }
@@ -1641,8 +1641,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 2 ]) );
   test.identical( r1, r2 );
@@ -1678,8 +1678,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, o.vec([ 3, 4 ]) );
   test.identical( r1, r2 );
@@ -1732,8 +1732,8 @@ function _make( test, o )
       test.shouldThrowErrorSync( () => m.eGet( 3 ) );
       test.shouldThrowErrorSync( () => m.colVectorGet( 3 ) );
 
-      test.shouldThrowErrorSync( () => m.atomFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.atomGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
 
     }
 
@@ -1793,8 +1793,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, o.vec([ 1, 2, 3 ]) );
   test.identical( r1, r2 );
@@ -1830,8 +1830,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, o.vec([ 4, 5, 6 ]) );
   test.identical( r1, r2 );
@@ -1884,8 +1884,8 @@ function _make( test, o )
       test.shouldThrowErrorSync( () => m.eGet( 3 ) );
       test.shouldThrowErrorSync( () => m.colVectorGet( 3 ) );
 
-      test.shouldThrowErrorSync( () => m.atomFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.atomGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
 
     }
 
@@ -1949,8 +1949,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, o.vec([ 1, 2, 3 ]) );
   test.identical( r1, r2 );
@@ -1987,8 +1987,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 1, 3, 5 ]) );
   test.identical( r1, r2 );
@@ -2010,7 +2010,7 @@ function _make( test, o )
   logger.log( 'm\n' + _.toStr( m ) );
 
 
-  test.identical( m.atomsPerMatrix, 3 );
+  test.identical( m.scalarsPerMatrix, 3 );
   test.identical( m.size, 12 );
   test.identical( m.sizeOfElement, 12 );
   test.identical( m.sizeOfCol, 12 );
@@ -2030,8 +2030,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, o.vec([ 2 ]) );
   test.identical( r1, r2 );
@@ -2077,7 +2077,7 @@ function _make( test, o )
   });
   logger.log( 'm\n' + _.toStr( m ) );
 
-  test.identical( m.atomsPerMatrix, 0 );
+  test.identical( m.scalarsPerMatrix, 0 );
   test.identical( m.size, 0 );
   test.identical( m.sizeOfElement, 12 );
   test.identical( m.sizeOfCol, 12 );
@@ -2116,8 +2116,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 4 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 4 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, o.vec([ 2, 5 ]) );
   test.identical( r1, r2 );
@@ -2176,8 +2176,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 3 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 3 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, o.vec([ 3, 4 ]) );
   test.identical( r1, r2 );
@@ -2218,8 +2218,8 @@ function _make( test, o )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 3 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 3 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, vec( new F32x([ 4, 5, 6 ]) ) );
   test.identical( r1, r2 );
@@ -2398,8 +2398,8 @@ function makeHelper( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 4 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 4 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, fvec([ 4, 5, 6 ]) );
   test.identical( r1, r2 );
@@ -2475,8 +2475,8 @@ function makeHelper( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 4 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 4 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, fvec([ 0, 2, 0 ]) );
   test.identical( r1, r2 );
@@ -2517,8 +2517,8 @@ function makeHelper( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 4 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 4 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, fvec([ 0, 1, 0 ]) );
   test.identical( r1, r2 );
@@ -2559,8 +2559,8 @@ function makeHelper( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 3 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 3 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, fvec([ 0, 1, 0 ]) );
   test.identical( r1, r2 );
@@ -2600,8 +2600,8 @@ function makeHelper( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 4 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 4 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, fvec([ 0, 1 ]) );
   test.identical( r1, r2 );
@@ -2641,8 +2641,8 @@ function makeHelper( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 4 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 4 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, fvec([ 0, 0, 0 ]) );
   test.identical( r1, r2 );
@@ -2693,8 +2693,8 @@ function makeHelper( test )
       test.shouldThrowErrorSync( () => m.rowVectorGet( 0 ) );
       test.shouldThrowErrorSync( () => m.colVectorGet( 0 ) );
       test.shouldThrowErrorSync( () => m.eGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.atomFlatGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.atomGet( 0 ) );
+      test.shouldThrowErrorSync( () => m.scalarFlatGet( 0 ) );
+      test.shouldThrowErrorSync( () => m.scalarGet( 0 ) );
 
     }
 
@@ -2813,8 +2813,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 2 ]) );
   test.identical( r1, r2 );
@@ -2838,8 +2838,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 2 ]) );
   test.identical( r1, r2 );
@@ -2882,8 +2882,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 2 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 2 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 2 ]) );
   test.identical( r1, r2 );
@@ -2908,8 +2908,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 0 ]) );
   test.identical( r1, r2 );
@@ -2932,8 +2932,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 0 ]) );
   test.identical( r1, r2 );
@@ -2957,8 +2957,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 0 ]) );
   test.identical( r1, r2 );
@@ -2982,8 +2982,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 2 ]) );
   test.identical( r1, r2 );
@@ -3008,8 +3008,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 0 );
   var c2 = m.lineVectorGet( 0, 0 );
   var e = m.eGet( 0 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 1, 0 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 1, 0 ]);
 
   test.identical( r1, fvec([ 0 ]) );
   test.identical( r1, r2 );
@@ -3056,8 +3056,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 1, 2, 3 ]) );
   test.identical( r1, r2 );
@@ -3081,8 +3081,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 1, 2, 3 ]) );
   test.identical( r1, r2 );
@@ -3125,8 +3125,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 2 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 2 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 1, 2, 3 ]) );
   test.identical( r1, r2 );
@@ -3149,8 +3149,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 0, 0, 0 ]) );
   test.identical( r1, r2 );
@@ -3173,8 +3173,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 0, 0, 0 ]) );
   test.identical( r1, r2 );
@@ -3198,8 +3198,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 0, 0, 0 ]) );
   test.identical( r1, r2 );
@@ -3223,8 +3223,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 1, 2, 3 ]) );
   test.identical( r1, r2 );
@@ -3250,8 +3250,8 @@ function MakeLine( test )
   var c1 = m.colVectorGet( 1 );
   var c2 = m.lineVectorGet( 0, 1 );
   var e = m.eGet( 1 );
-  var a1 = m.atomFlatGet( 1 );
-  var a2 = m.atomGet([ 0, 1 ]);
+  var a1 = m.scalarFlatGet( 1 );
+  var a2 = m.scalarGet([ 0, 1 ]);
 
   test.identical( r1, fvec([ 0, 0, 0 ]) );
   test.identical( r1, r2 );
@@ -4483,17 +4483,17 @@ function offset( test )
 
   test.is( m.buffer instanceof Array );
 
-  test.case = 'atomGet'; /* */
+  test.case = 'scalarGet'; /* */
 
-  test.identical( m.atomGet([ 0, 0 ]), 1 );
-  test.identical( m.atomGet([ 2, 1 ]), 6 );
+  test.identical( m.scalarGet([ 0, 0 ]), 1 );
+  test.identical( m.scalarGet([ 2, 1 ]), 6 );
 
-  test.case = 'atomFlatGet'; /* */
+  test.case = 'scalarFlatGet'; /* */
 
-  test.identical( m.atomFlatGet( 0 ), 1 );
-  test.identical( m.atomFlatGet( 5 ), 6 );
+  test.identical( m.scalarFlatGet( 0 ), 1 );
+  test.identical( m.scalarFlatGet( 5 ), 6 );
 
-  test.case = 'atomSet, atomFlatSet'; /* */
+  test.case = 'scalarSet, scalarFlatSet'; /* */
 
   var expected = matrix.Make([ 3, 2 ]).copy
   ({
@@ -4503,10 +4503,10 @@ function offset( test )
   console.log( m.toStr() );
   console.log( expected.toStr() );
 
-  m.atomSet([ 0, 0 ], 101 );
-  m.atomSet([ 2, 1 ], 106 );
-  m.atomFlatSet( 1, 102 );
-  m.atomFlatSet( 4, 105 );
+  m.scalarSet([ 0, 0 ], 101 );
+  m.scalarSet([ 2, 1 ], 106 );
+  m.scalarFlatSet( 1, 102 );
+  m.scalarFlatSet( 4, 105 );
 
   test.identical( m, expected );
 
@@ -4515,25 +4515,25 @@ function offset( test )
   if( !Config.debug )
   return;
 
-  test.shouldThrowErrorSync( () => m.atomFlatGet() );
-  test.shouldThrowErrorSync( () => m.atomFlatGet( '' ) );
-  test.shouldThrowErrorSync( () => m.atomFlatGet( '0' ) );
-  test.shouldThrowErrorSync( () => m.atomFlatGet( -1 ) );
-  test.shouldThrowErrorSync( () => m.atomFlatGet( 6 ) );
+  test.shouldThrowErrorSync( () => m.scalarFlatGet() );
+  test.shouldThrowErrorSync( () => m.scalarFlatGet( '' ) );
+  test.shouldThrowErrorSync( () => m.scalarFlatGet( '0' ) );
+  test.shouldThrowErrorSync( () => m.scalarFlatGet( -1 ) );
+  test.shouldThrowErrorSync( () => m.scalarFlatGet( 6 ) );
 
-  test.shouldThrowErrorSync( () => m.atomFlatSet( -1, -1 ) );
-  test.shouldThrowErrorSync( () => m.atomFlatSet( 6, -1 ) );
+  test.shouldThrowErrorSync( () => m.scalarFlatSet( -1, -1 ) );
+  test.shouldThrowErrorSync( () => m.scalarFlatSet( 6, -1 ) );
 
-  test.shouldThrowErrorSync( () => m.atomGet() );
-  test.shouldThrowErrorSync( () => m.atomGet( '' ) );
-  test.shouldThrowErrorSync( () => m.atomGet( '0' ) );
-  test.shouldThrowErrorSync( () => m.atomGet( [] ) );
-  test.shouldThrowErrorSync( () => m.atomGet( [ 0, 0, 0 ] ) );
-  test.shouldThrowErrorSync( () => m.atomGet( [ 3, 0 ] ) );
-  test.shouldThrowErrorSync( () => m.atomGet( [ 0, 2 ] ) );
+  test.shouldThrowErrorSync( () => m.scalarGet() );
+  test.shouldThrowErrorSync( () => m.scalarGet( '' ) );
+  test.shouldThrowErrorSync( () => m.scalarGet( '0' ) );
+  test.shouldThrowErrorSync( () => m.scalarGet( [] ) );
+  test.shouldThrowErrorSync( () => m.scalarGet( [ 0, 0, 0 ] ) );
+  test.shouldThrowErrorSync( () => m.scalarGet( [ 3, 0 ] ) );
+  test.shouldThrowErrorSync( () => m.scalarGet( [ 0, 2 ] ) );
 
-  test.shouldThrowErrorSync( () => m.atomSet( [ 3, 0 ], -1 ) );
-  test.shouldThrowErrorSync( () => m.atomSet( [ 0, 2 ], -1 ) );
+  test.shouldThrowErrorSync( () => m.scalarSet( [ 3, 0 ], -1 ) );
+  test.shouldThrowErrorSync( () => m.scalarSet( [ 0, 2 ], -1 ) );
 
 }
 
@@ -4648,8 +4648,8 @@ function _bufferNormalize( o )
   var c1 = m.colVectorGet( 2 );
   var c2 = m.lineVectorGet( 0, 2 );
   var e = m.eGet( 2 );
-  var a1 = m.atomFlatGet( 5 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, vec( new F64x([ 4, 5, 6 ]) ) );
   test.identical( r1, r2 );
@@ -4699,8 +4699,8 @@ function _bufferNormalize( o )
   var c1 = m.colVectorGet( 2 );
   var c2 = m.lineVectorGet( 0, 2 );
   var e = m.eGet( 2 );
-  var a1 = m.atomFlatGet( 5 );
-  var a2 = m.atomGet([ 1, 1 ]);
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
 
   test.identical( r1, vec( new F64x([ 4, 5, 6 ]) ) );
   test.identical( r1, r2 );
@@ -5356,33 +5356,33 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.lineSet( 1, [ 0 ], [ 10, 20, 30 ] ) );
   }
 
-  test.case = 'atomGet'; /* */
+  test.case = 'scalarGet'; /* */
 
   remake();
 
-  test.identical( m23.atomGet([ 0, 0 ]), 1 );
-  test.identical( m23.atomGet([ 1, 2 ]), 6 );
-  test.identical( m32.atomGet([ 0, 0 ]), 1 );
-  test.identical( m32.atomGet([ 2, 1 ]), 6 );
+  test.identical( m23.scalarGet([ 0, 0 ]), 1 );
+  test.identical( m23.scalarGet([ 1, 2 ]), 6 );
+  test.identical( m32.scalarGet([ 0, 0 ]), 1 );
+  test.identical( m32.scalarGet([ 2, 1 ]), 6 );
 
   if( Config.debug )
   {
 
-    test.shouldThrowErrorSync( () => m23.atomGet() );
-    test.shouldThrowErrorSync( () => m23.atomGet( 0 ) );
-    test.shouldThrowErrorSync( () => m23.atomGet( 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.atomGet( [ 0, 0 ], 0 ) );
-    test.shouldThrowErrorSync( () => m23.atomGet( [ 0, undefined ] ) );
-    test.shouldThrowErrorSync( () => m23.atomGet( [ undefined, 0 ] ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet() );
+    test.shouldThrowErrorSync( () => m23.scalarGet( 0 ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet( 0, 0 ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet( [ 0, 0 ], 0 ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet( [ 0, undefined ] ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet( [ undefined, 0 ] ) );
 
-    test.shouldThrowErrorSync( () => m23.atomGet( [ 2, 2 ] ) );
-    test.shouldThrowErrorSync( () => m23.atomGet( [ 1, 3 ] ) );
-    test.shouldThrowErrorSync( () => m32.atomGet( [ 2, 2 ] ) );
-    test.shouldThrowErrorSync( () => m32.atomGet( [ 3, 1 ] ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet( [ 2, 2 ] ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet( [ 1, 3 ] ) );
+    test.shouldThrowErrorSync( () => m32.scalarGet( [ 2, 2 ] ) );
+    test.shouldThrowErrorSync( () => m32.scalarGet( [ 3, 1 ] ) );
 
   }
 
-  test.case = 'atomSet'; /* */
+  test.case = 'scalarSet'; /* */
 
   remake();
 
@@ -5392,19 +5392,19 @@ function accessors( test )
     4, 5, 60,
   ]);
 
-  m23.atomSet( [ 0, 0 ], 10 );
-  m23.atomSet( [ 1, 2 ], 60 );
+  m23.scalarSet( [ 0, 0 ], 10 );
+  m23.scalarSet( [ 1, 2 ], 60 );
   test.identical( m23, expected );
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => m23.atomSet() );
-    test.shouldThrowErrorSync( () => m23.atomSet( 0 ) );
-    test.shouldThrowErrorSync( () => m23.atomSet( 0, 0) );
-    test.shouldThrowErrorSync( () => m23.atomSet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.atomSet( [ 0, 0 ], undefined ) );
-    test.shouldThrowErrorSync( () => m23.atomSet( [ 0, 0 ], 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.atomSet( [ 0, 0 ], [ 0 ] ) );
+    test.shouldThrowErrorSync( () => m23.scalarSet() );
+    test.shouldThrowErrorSync( () => m23.scalarSet( 0 ) );
+    test.shouldThrowErrorSync( () => m23.scalarSet( 0, 0) );
+    test.shouldThrowErrorSync( () => m23.scalarSet( 0, 0, 0 ) );
+    test.shouldThrowErrorSync( () => m23.scalarSet( [ 0, 0 ], undefined ) );
+    test.shouldThrowErrorSync( () => m23.scalarSet( [ 0, 0 ], 0, 0 ) );
+    test.shouldThrowErrorSync( () => m23.scalarSet( [ 0, 0 ], [ 0 ] ) );
   }
 
 }

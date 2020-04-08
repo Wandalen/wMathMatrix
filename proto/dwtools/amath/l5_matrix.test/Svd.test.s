@@ -1020,7 +1020,7 @@ var Self =
 
   name : 'Tools/Math/Svd',
   silencing : 1,
-  enabled : 1,
+  enabled : 0,
 
   tests :
   {

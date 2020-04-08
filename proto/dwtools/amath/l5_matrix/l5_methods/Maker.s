@@ -87,7 +87,7 @@ function Make( dims )
   if( _.numberIs( dims ) )
   dims = [ dims, dims ];
 
-  let lengthFlat = proto.AtomsPerMatrixForDimensions( dims );
+  let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesForDimensions( dims, 0 );
   let buffer = proto.long.longMake( lengthFlat );
   let result = new proto.Self
@@ -149,13 +149,13 @@ function MakeSquare( buffer )
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   let dims = [ length, length ];
-  let atomsPerMatrix = this.AtomsPerMatrixForDimensions( dims );
+  let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
 
-  let inputTransposing = atomsPerMatrix > 0 ? 1 : 0;
+  let inputTransposing = scalarsPerMatrix > 0 ? 1 : 0;
   if( _.numberIs( buffer ) )
   {
     inputTransposing = 0;
-    buffer = this.long.longMake( atomsPerMatrix );
+    buffer = this.long.longMake( scalarsPerMatrix );
   }
   else
   {
@@ -189,13 +189,13 @@ function MakeSquare( buffer )
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   let dims = [ length, length ];
-  let atomsPerMatrix = this.AtomsPerMatrixForDimensions( dims );
+  let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
 
-  let inputTransposing = atomsPerMatrix > 0 ? 1 : 0;
+  let inputTransposing = scalarsPerMatrix > 0 ? 1 : 0;
   if( _.numberIs( buffer ) )
   {
     inputTransposing = 0;
-    buffer = this.long.longMake( atomsPerMatrix );
+    buffer = this.long.longMake( scalarsPerMatrix );
   }
   else
   {
@@ -256,7 +256,7 @@ function MakeZero( dims )
   if( _.numberIs( dims ) )
   dims = [ dims, dims ];
 
-  let lengthFlat = proto.AtomsPerMatrixForDimensions( dims );
+  let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesForDimensions( dims, 0 );
   let buffer = proto.long.longMakeZeroed( lengthFlat );
   let result = new proto.Self
@@ -307,7 +307,7 @@ function MakeIdentity( dims )
   if( _.numberIs( dims ) )
   dims = [ dims, dims ];
 
-  let lengthFlat = proto.AtomsPerMatrixForDimensions( dims );
+  let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesForDimensions( dims, 0 );
   let buffer = proto.long.longMakeZeroed( lengthFlat ); /* xxx */
   let result = new proto.Self
@@ -410,8 +410,8 @@ function MakeDiagonal( diagonal )
 
   let length = diagonal.length;
   let dims = [ length, length ];
-  let atomsPerMatrix = this.AtomsPerMatrixForDimensions( dims );
-  let buffer = this.long.longMakeZeroed( atomsPerMatrix );
+  let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
+  let buffer = this.long.longMakeZeroed( scalarsPerMatrix );
   let result = new this.Self
   ({
     buffer,
@@ -490,8 +490,8 @@ function MakeSimilar( m , dims )
   if( m instanceof Self )
   {
 
-    let atomsPerMatrix = Self.AtomsPerMatrixForDimensions( dims );
-    let buffer = proto.long.longMakeZeroed( m.buffer, atomsPerMatrix ); /* yyy */
+    let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
+    let buffer = proto.long.longMakeZeroed( m.buffer, scalarsPerMatrix ); /* yyy */
     /* could possibly be not zeroed */
 
     result = new m.constructor
@@ -800,33 +800,33 @@ function ConvertToClass( cls, src )
     _.assert( src.dims[ 1 ] === 1 );
 
     let array;
-    let atomsPerMatrix = src.atomsPerMatrix;
+    let scalarsPerMatrix = src.scalarsPerMatrix;
 
     if( _.constructorLikeArray( cls ) )
     {
-      result = new cls( atomsPerMatrix );
+      result = new cls( scalarsPerMatrix );
       array = result;
     }
     else if( _.constructorIsVector( cls ) )
     {
-      array = new src.buffer.constructor( atomsPerMatrix );
+      array = new src.buffer.constructor( scalarsPerMatrix );
       result = self.vectorAdapter.fromLong( array );
     }
     else _.assert( 0, 'unknown class (-cls-)', cls.name );
 
     for( let i = 0 ; i < result.length ; i += 1 )
-    array[ i ] = src.atomGet([ i, 0 ]);
+    array[ i ] = src.scalarGet([ i, 0 ]);
 
   }
   else
   {
 
-    let atomsPerMatrix = src.length;
+    let scalarsPerMatrix = src.length;
     src = self.vectorAdapter.from( src );
 
     if( _.constructorIsMatrix( cls ) )
     {
-      let array = new src._vectorBuffer.constructor( atomsPerMatrix );
+      let array = new src._vectorBuffer.constructor( scalarsPerMatrix );
       result = new cls
       ({
         dims : [ src.length, 1 ],
@@ -834,17 +834,17 @@ function ConvertToClass( cls, src )
         inputTransposing : 0,
       });
       for( let i = 0 ; i < src.length ; i += 1 )
-      result.atomSet( [ i, 0 ], src.eGet( i ) );
+      result.scalarSet( [ i, 0 ], src.eGet( i ) );
     }
     else if( _.constructorLikeArray( cls ) )
     {
-      result = new cls( atomsPerMatrix );
+      result = new cls( scalarsPerMatrix );
       for( let i = 0 ; i < src.length ; i += 1 )
       result[ i ] = src.eGet( i );
     }
     else if( _.constructorIsVector( cls ) )
     {
-      let array = new src._vectorBuffer.constructor( atomsPerMatrix );
+      let array = new src._vectorBuffer.constructor( scalarsPerMatrix );
       result = self.vectorAdapter.fromLong( array );
       for( let i = 0 ; i < src.length ; i += 1 )
       array[ i ] = src.eGet( i );
@@ -952,7 +952,7 @@ function FromScalar( scalar, dims )
 
   let result = new this.Self
   ({
-    buffer : this.long.longFrom( _.dup( scalar, this.AtomsPerMatrixForDimensions( dims ) ) ),
+    buffer : this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) ),
     dims,
     inputTransposing : 0,
   });
@@ -1166,7 +1166,7 @@ function fromTransformations( position, quaternion, scale )
  * @param { VectorAdapter|Long } quaternion - the instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromQuat
- * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
+ * @throws { Error } If (scalarsPerElement) of source matrix is less than 3.
  * @throws { Error } If (self.length) of source matrix is less than 3.
  * @throws { Error } If {-quaternion-} length is not 4.
  * @throws { Error } If (arguments.length) is not 1.
@@ -1185,7 +1185,7 @@ function fromQuat( q )
   let z = q.eGet( 2 );
   let w = q.eGet( 3 );
 
-  _.assert( self.atomsPerElement >= 3 );
+  _.assert( self.scalarsPerElement >= 3 );
   _.assert( self.length >= 3 );
   _.assert( q.length === 4 );
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -1195,27 +1195,27 @@ function fromQuat( q )
   let yy = y * y2, yz = y * z2, zz = z * z2;
   let wx = w * x2, wy = w * y2, wz = w * z2;
 
-  self.atomSet( [ 0, 0 ] , 1 - ( yy + zz ) );
-  self.atomSet( [ 0, 1 ] , xy - wz );
-  self.atomSet( [ 0, 2 ] , xz + wy );
+  self.scalarSet( [ 0, 0 ] , 1 - ( yy + zz ) );
+  self.scalarSet( [ 0, 1 ] , xy - wz );
+  self.scalarSet( [ 0, 2 ] , xz + wy );
 
-  self.atomSet( [ 1, 0 ] , xy + wz );
-  self.atomSet( [ 1, 1 ] , 1 - ( xx + zz ) );
-  self.atomSet( [ 1, 2 ] , yz - wx );
+  self.scalarSet( [ 1, 0 ] , xy + wz );
+  self.scalarSet( [ 1, 1 ] , 1 - ( xx + zz ) );
+  self.scalarSet( [ 1, 2 ] , yz - wx );
 
-  self.atomSet( [ 2, 0 ] , xz - wy );
-  self.atomSet( [ 2, 1 ] , yz + wx );
-  self.atomSet( [ 2, 2 ] , 1 - ( xx + yy ) );
+  self.scalarSet( [ 2, 0 ] , xz - wy );
+  self.scalarSet( [ 2, 1 ] , yz + wx );
+  self.scalarSet( [ 2, 2 ] , 1 - ( xx + yy ) );
 
   if( self.dims[ 0 ] > 3 )
   {
-    self.atomSet( [ 3, 0 ] , 0 );
-    self.atomSet( [ 3, 1 ] , 0 );
-    self.atomSet( [ 3, 2 ] , 0 );
-    self.atomSet( [ 0, 3 ], 0 );
-    self.atomSet( [ 1, 3 ], 0 );
-    self.atomSet( [ 2, 3 ], 0 );
-    self.atomSet( [ 3, 3 ], 1 );
+    self.scalarSet( [ 3, 0 ] , 0 );
+    self.scalarSet( [ 3, 1 ] , 0 );
+    self.scalarSet( [ 3, 2 ] , 0 );
+    self.scalarSet( [ 0, 3 ], 0 );
+    self.scalarSet( [ 1, 3 ], 0 );
+    self.scalarSet( [ 2, 3 ], 0 );
+    self.scalarSet( [ 3, 3 ], 1 );
   }
 
   return self;
@@ -1248,7 +1248,7 @@ function fromQuat( q )
  * @param { VectorAdapter|Long } q - the instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @method fromQuatWithScale
- * @throws { Error } If (atomsPerElement) of source matrix is less than 3.
+ * @throws { Error } If (scalarsPerElement) of source matrix is less than 3.
  * @throws { Error } If {-q-} length is not 4.
  * @throws { Error } If count of arguments less or more than one.
  * @class Matrix
@@ -1267,7 +1267,7 @@ function fromQuatWithScale( q )
   let z = q.eGet( 2 ) / m;
   let w = q.eGet( 3 ) / m;
 
-  _.assert( self.atomsPerElement >= 3 );
+  _.assert( self.scalarsPerElement >= 3 );
   _.assert( self.length >= 3 );
   _.assert( q.length === 4 );
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -1277,27 +1277,27 @@ function fromQuatWithScale( q )
   let yy = y * y2, yz = y * z2, zz = z * z2;
   let wx = w * x2, wy = w * y2, wz = w * z2;
 
-  self.atomSet( [ 0, 0 ] , m*( 1 - ( yy + zz ) ) );
-  self.atomSet( [ 0, 1 ] , m*( xy - wz ) );
-  self.atomSet( [ 0, 2 ] , m*( xz + wy ) );
+  self.scalarSet( [ 0, 0 ] , m*( 1 - ( yy + zz ) ) );
+  self.scalarSet( [ 0, 1 ] , m*( xy - wz ) );
+  self.scalarSet( [ 0, 2 ] , m*( xz + wy ) );
 
-  self.atomSet( [ 1, 0 ] , m*( xy + wz ) );
-  self.atomSet( [ 1, 1 ] , m*( 1 - ( xx + zz ) ) );
-  self.atomSet( [ 1, 2 ] , m*( yz - wx ) );
+  self.scalarSet( [ 1, 0 ] , m*( xy + wz ) );
+  self.scalarSet( [ 1, 1 ] , m*( 1 - ( xx + zz ) ) );
+  self.scalarSet( [ 1, 2 ] , m*( yz - wx ) );
 
-  self.atomSet( [ 2, 0 ] , m*( xz - wy ) );
-  self.atomSet( [ 2, 1 ] , m*( yz + wx ) );
-  self.atomSet( [ 2, 2 ] , m*( 1 - ( xx + yy ) ) );
+  self.scalarSet( [ 2, 0 ] , m*( xz - wy ) );
+  self.scalarSet( [ 2, 1 ] , m*( yz + wx ) );
+  self.scalarSet( [ 2, 2 ] , m*( 1 - ( xx + yy ) ) );
 
   if( self.dims[ 0 ] > 3 )
   {
-    self.atomSet( [ 3, 0 ] , 0 );
-    self.atomSet( [ 3, 1 ] , 0 );
-    self.atomSet( [ 3, 2 ] , 0 );
-    self.atomSet( [ 0, 3 ], 0 );
-    self.atomSet( [ 1, 3 ], 0 );
-    self.atomSet( [ 2, 3 ], 0 );
-    self.atomSet( [ 3, 3 ], 1 );
+    self.scalarSet( [ 3, 0 ] , 0 );
+    self.scalarSet( [ 3, 1 ] , 0 );
+    self.scalarSet( [ 3, 2 ] , 0 );
+    self.scalarSet( [ 0, 3 ], 0 );
+    self.scalarSet( [ 1, 3 ], 0 );
+    self.scalarSet( [ 2, 3 ], 0 );
+    self.scalarSet( [ 3, 3 ], 1 );
   }
 
   return self;
@@ -1346,17 +1346,17 @@ function fromAxisAndAngle( axis, angle )
   let m21 = a + b;
   let m12 = a - b;
 
-  self.atomSet( [ 0, 0 ], m00 );
-  self.atomSet( [ 1, 0 ], m10 );
-  self.atomSet( [ 2, 0 ], m20 );
+  self.scalarSet( [ 0, 0 ], m00 );
+  self.scalarSet( [ 1, 0 ], m10 );
+  self.scalarSet( [ 2, 0 ], m20 );
 
-  self.atomSet( [ 0, 1 ], m01 );
-  self.atomSet( [ 1, 1 ], m11 );
-  self.atomSet( [ 2, 1 ], m21 );
+  self.scalarSet( [ 0, 1 ], m01 );
+  self.scalarSet( [ 1, 1 ], m11 );
+  self.scalarSet( [ 2, 1 ], m21 );
 
-  self.atomSet( [ 0, 2 ], m02 );
-  self.atomSet( [ 1, 2 ], m12 );
-  self.atomSet( [ 2, 2 ], m22 );
+  self.scalarSet( [ 0, 2 ], m02 );
+  self.scalarSet( [ 1, 2 ], m12 );
+  self.scalarSet( [ 2, 2 ], m22 );
 
   return self;
 }
@@ -1417,17 +1417,17 @@ function fromAxisAndAngleWithScale( axis, angle )
   let m21 = a + b;
   let m12 = a - b;
 
-  self.atomSet( [ 0, 0 ], m*m00 );
-  self.atomSet( [ 1, 0 ], m*m10 );
-  self.atomSet( [ 2, 0 ], m*m20 );
+  self.scalarSet( [ 0, 0 ], m*m00 );
+  self.scalarSet( [ 1, 0 ], m*m10 );
+  self.scalarSet( [ 2, 0 ], m*m20 );
 
-  self.atomSet( [ 0, 1 ], m*m01 );
-  self.atomSet( [ 1, 1 ], m*m11 );
-  self.atomSet( [ 2, 1 ], m*m21 );
+  self.scalarSet( [ 0, 1 ], m*m01 );
+  self.scalarSet( [ 1, 1 ], m*m11 );
+  self.scalarSet( [ 2, 1 ], m*m21 );
 
-  self.atomSet( [ 0, 2 ], m*m02 );
-  self.atomSet( [ 1, 2 ], m*m12 );
-  self.atomSet( [ 2, 2 ], m*m22 );
+  self.scalarSet( [ 0, 2 ], m*m02 );
+  self.scalarSet( [ 1, 2 ], m*m12 );
+  self.scalarSet( [ 2, 2 ], m*m22 );
 
   return self;
 }
@@ -1453,9 +1453,9 @@ function normalProjectionMatrixGet( src )
   {
     // debugger;
 
-    let s00 = self.atomGet([ 0, 0 ]), s10 = self.atomGet([ 1, 0 ]), s20 = self.atomGet([ 2, 0 ]);
-    let s01 = self.atomGet([ 0, 1 ]), s11 = self.atomGet([ 1, 1 ]), s21 = self.atomGet([ 2, 1 ]);
-    let s02 = self.atomGet([ 0, 2 ]), s12 = self.atomGet([ 1, 2 ]), s22 = self.atomGet([ 2, 2 ]);
+    let s00 = self.scalarGet([ 0, 0 ]), s10 = self.scalarGet([ 1, 0 ]), s20 = self.scalarGet([ 2, 0 ]);
+    let s01 = self.scalarGet([ 0, 1 ]), s11 = self.scalarGet([ 1, 1 ]), s21 = self.scalarGet([ 2, 1 ]);
+    let s02 = self.scalarGet([ 0, 2 ]), s12 = self.scalarGet([ 1, 2 ]), s22 = self.scalarGet([ 2, 2 ]);
 
     let d1 = s22 * s11 - s21 * s12;
     let d2 = s21 * s02 - s22 * s01;
@@ -1480,17 +1480,17 @@ function normalProjectionMatrixGet( src )
     let d12 = ( s10 * s02 - s12 * s00 ) * determiant;
     let d22 = ( s11 * s00 - s10 * s01 ) * determiant;
 
-    self.atomSet( [ 0, 0 ], d00 );
-    self.atomSet( [ 1, 0 ], d10 );
-    self.atomSet( [ 2, 0 ], d20 );
+    self.scalarSet( [ 0, 0 ], d00 );
+    self.scalarSet( [ 1, 0 ], d10 );
+    self.scalarSet( [ 2, 0 ], d20 );
 
-    self.atomSet( [ 0, 1 ], d01 );
-    self.atomSet( [ 1, 1 ], d11 );
-    self.atomSet( [ 2, 1 ], d21 );
+    self.scalarSet( [ 0, 1 ], d01 );
+    self.scalarSet( [ 1, 1 ], d11 );
+    self.scalarSet( [ 2, 1 ], d21 );
 
-    self.atomSet( [ 0, 2 ], d02 );
-    self.atomSet( [ 1, 2 ], d12 );
-    self.atomSet( [ 2, 2 ], d22 );
+    self.scalarSet( [ 0, 2 ], d02 );
+    self.scalarSet( [ 1, 2 ], d12 );
+    self.scalarSet( [ 2, 2 ], d22 );
 
     return self;
   }
@@ -1571,25 +1571,25 @@ function formFrustum( horizontal, vertical, depth )
   let c = - ( depth[ 1 ] + depth[ 0 ] ) / ( depth[ 1 ] - depth[ 0 ] );
   let d = - 2 * depth[ 1 ] * depth[ 0 ] / ( depth[ 1 ] - depth[ 0 ] );
 
-  self.atomSet( [ 0, 0 ], x );
-  self.atomSet( [ 1, 0 ], 0 );
-  self.atomSet( [ 2, 0 ], 0 );
-  self.atomSet( [ 3, 0 ], 0 );
+  self.scalarSet( [ 0, 0 ], x );
+  self.scalarSet( [ 1, 0 ], 0 );
+  self.scalarSet( [ 2, 0 ], 0 );
+  self.scalarSet( [ 3, 0 ], 0 );
 
-  self.atomSet( [ 0, 1 ], 0 );
-  self.atomSet( [ 1, 1 ], y );
-  self.atomSet( [ 2, 1 ], 0 );
-  self.atomSet( [ 3, 1 ], 0 );
+  self.scalarSet( [ 0, 1 ], 0 );
+  self.scalarSet( [ 1, 1 ], y );
+  self.scalarSet( [ 2, 1 ], 0 );
+  self.scalarSet( [ 3, 1 ], 0 );
 
-  self.atomSet( [ 0, 2 ], a );
-  self.atomSet( [ 1, 2 ], b );
-  self.atomSet( [ 2, 2 ], c );
-  self.atomSet( [ 3, 2 ], -1 );
+  self.scalarSet( [ 0, 2 ], a );
+  self.scalarSet( [ 1, 2 ], b );
+  self.scalarSet( [ 2, 2 ], c );
+  self.scalarSet( [ 3, 2 ], -1 );
 
-  self.atomSet( [ 0, 3 ], 0 );
-  self.atomSet( [ 1, 3 ], 0 );
-  self.atomSet( [ 2, 3 ], d );
-  self.atomSet( [ 3, 3 ], 0 );
+  self.scalarSet( [ 0, 3 ], 0 );
+  self.scalarSet( [ 1, 3 ], 0 );
+  self.scalarSet( [ 2, 3 ], d );
+  self.scalarSet( [ 3, 3 ], 0 );
 
   // debugger;
   return self;
@@ -1619,25 +1619,25 @@ function formOrthographic( horizontal, vertical, depth )
   let y = ( vertical[ 1 ] + vertical[ 0 ] ) / h;
   let z = ( depth[ 1 ] + depth[ 0 ] ) / d;
 
-  self.atomSet( [ 0, 0 ], 2 / w );
-  self.atomSet( [ 1, 0 ], 0 );
-  self.atomSet( [ 2, 0 ], 0 );
-  self.atomSet( [ 3, 0 ], 0 );
+  self.scalarSet( [ 0, 0 ], 2 / w );
+  self.scalarSet( [ 1, 0 ], 0 );
+  self.scalarSet( [ 2, 0 ], 0 );
+  self.scalarSet( [ 3, 0 ], 0 );
 
-  self.atomSet( [ 0, 1 ], 0 );
-  self.atomSet( [ 1, 1 ], 2 / h );
-  self.atomSet( [ 2, 1 ], 0 );
-  self.atomSet( [ 3, 1 ], 0 );
+  self.scalarSet( [ 0, 1 ], 0 );
+  self.scalarSet( [ 1, 1 ], 2 / h );
+  self.scalarSet( [ 2, 1 ], 0 );
+  self.scalarSet( [ 3, 1 ], 0 );
 
-  self.atomSet( [ 0, 2 ], 0 );
-  self.atomSet( [ 1, 2 ], 0 );
-  self.atomSet( [ 2, 2 ], -2 / d );
-  self.atomSet( [ 3, 2 ], 0 );
+  self.scalarSet( [ 0, 2 ], 0 );
+  self.scalarSet( [ 1, 2 ], 0 );
+  self.scalarSet( [ 2, 2 ], -2 / d );
+  self.scalarSet( [ 3, 2 ], 0 );
 
-  self.atomSet( [ 0, 3 ], -x );
-  self.atomSet( [ 1, 3 ], -y );
-  self.atomSet( [ 2, 3 ], -z );
-  self.atomSet( [ 3, 3 ], 1 );
+  self.scalarSet( [ 0, 3 ], -x );
+  self.scalarSet( [ 1, 3 ], -y );
+  self.scalarSet( [ 2, 3 ], -z );
+  self.scalarSet( [ 3, 3 ], 1 );
 
   // te[ 0 ] = 2 / w; te[ 4 ] = 0; te[ 8 ] = 0; te[ 12 ] = - x;
   // te[ 1 ] = 0; te[ 5 ] = 2 / h; te[ 9 ] = 0; te[ 13 ] = - y;
@@ -1856,7 +1856,7 @@ function minmaxRowWise()
 //   let iterations = _.math.factorial( l );
 //   let result = 0;
 //
-//   _.assert( l === self.atomsPerElement );
+//   _.assert( l === self.scalarsPerElement );
 //
 //   /* */
 //
@@ -1871,7 +1871,7 @@ function minmaxRowWise()
 //   {
 //     let r = 1;
 //     for( let i = 0 ; i < l ; i += 1 )
-//     r *= self.atomGet([ index[ i ], i ]);
+//     r *= self.scalarGet([ index[ i ], i ]);
 //     r *= sign;
 //     // console.log( index );
 //     // console.log( r );
