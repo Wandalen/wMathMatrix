@@ -49,7 +49,7 @@ function init( o )
 
   self[ stridesEffectiveSymbol ] = null;
   self[ lengthSymbol ] = null;
-  self[ atomsPerElementSymbol ] = null;
+  self[ scalarsPerElementSymbol ] = null;
   self[ occupiedRangeSymbol ] = null;
   self[ breadthSymbol ] = null;
 
@@ -73,7 +73,7 @@ function init( o )
     if( _.mapIs( o ) )
     {
 
-      if( o.atomsPerElement !== undefined )
+      if( o.scalarsPerElement !== undefined )
       {
         _.assert( _.longIs( o.buffer ) );
         if( !o.offset )
@@ -81,13 +81,13 @@ function init( o )
         if( !o.dims )
         {
           if( o.strides )
-          o.dims = [ o.atomsPerElement, ( o.buffer.length - o.offset ) / o.strides[ 1 ] ];
+          o.dims = [ o.scalarsPerElement, ( o.buffer.length - o.offset ) / o.strides[ 1 ] ];
           else
-          o.dims = [ o.atomsPerElement, ( o.buffer.length - o.offset ) / o.atomsPerElement ];
+          o.dims = [ o.scalarsPerElement, ( o.buffer.length - o.offset ) / o.scalarsPerElement ];
           o.dims[ 1 ] = Math.floor( o.dims[ 1 ] );
         }
         _.assert( _.intIs( o.dims[ 1 ] ) );
-        delete o.atomsPerElement;
+        delete o.scalarsPerElement;
       }
 
     }
@@ -166,7 +166,7 @@ function _traverseAct( it )
 
     dst.dims = null;
 
-    if( srcIsInstance && dst.buffer && dst.atomsPerMatrix === src.atomsPerMatrix )
+    if( srcIsInstance && dst.buffer && dst.scalarsPerMatrix === src.scalarsPerMatrix )
     {
     }
     else if( !srcIsInstance )
@@ -181,14 +181,14 @@ function _traverseAct( it )
     }
     else if( src.buffer && !dst.buffer )
     {
-      dst.buffer = self.long.longMakeUndefined( src.buffer , src.atomsPerMatrix );
+      dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst[ stridesEffectiveSymbol ] = dst.StridesForDimensions( src.dims, !!dst.inputTransposing );
     }
-    else if( src.buffer && dst.atomsPerMatrix !== src.atomsPerMatrix )
+    else if( src.buffer && dst.scalarsPerMatrix !== src.scalarsPerMatrix )
     {
-      dst.buffer = self.long.longMakeUndefined( src.buffer , src.atomsPerMatrix );
+      dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst[ stridesEffectiveSymbol ] = dst.StridesForDimensions( src.dims, !!dst.inputTransposing );
@@ -220,9 +220,9 @@ function _traverseAct( it )
     if( dstIsInstance )
     {
       _.assert( dst.hasShape( src ) );
-      src.atomEach( function( it )
+      src.scalarEach( function( it )
       {
-        dst.atomSet( it.indexNd, it.atom );
+        dst.scalarSet( it.indexNd, it.scalar );
       });
 
     }
@@ -336,7 +336,7 @@ function copyFromScalar( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.numberIs( src ) );
 
-  self.atomEach( ( it ) => self.atomSet( it.indexNd, src ) );
+  self.scalarEach( ( it ) => self.scalarSet( it.indexNd, src ) );
 
   return self;
 }
@@ -466,7 +466,7 @@ function CopyTo( dst, src )
     dst.eSet( s, src.eGet( s ) )
     else if( _.matrixIs( dst ) )
     for( let s = 0 ; s < src.length ; s += 1 )
-    dst.atomSet( [ s, 0 ], src.eGet( s ) )
+    dst.scalarSet( [ s, 0 ], src.eGet( s ) )
     else _.assert( 0, 'unknown type of (-dst-)', _.strType( dst ) );
 
     return odst;
@@ -478,19 +478,19 @@ function CopyTo( dst, src )
     let srcDims = Self.DimsOf( src );
 
     if( _.matrixIs( dst ) )
-    src.atomEach( function( it )
+    src.scalarEach( function( it )
     {
-      dst.atomSet( it.indexNd , it.atom );
+      dst.scalarSet( it.indexNd , it.scalar );
     });
     else if( _.vectorAdapterIs( dst ) )
-    src.atomEach( function( it )
+    src.scalarEach( function( it )
     {
-      dst.eSet( it.indexFlat , it.atom );
+      dst.eSet( it.indexFlat , it.scalar );
     });
     else if( _.longIs( dst ) )
-    src.atomEach( function( it )
+    src.scalarEach( function( it )
     {
-      dst[ it.indexFlat ] = it.atom;
+      dst[ it.indexFlat ] = it.scalar;
     });
     else _.assert( 0, 'unknown type of (-dst-)', _.strType( dst ) );
 
@@ -530,14 +530,14 @@ function extractNormalized()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  result.buffer = self.long.longMakeUndefined( self.buffer , self.atomsPerMatrix );
+  result.buffer = self.long.longMakeUndefined( self.buffer , self.scalarsPerMatrix );
   result.offset = 0;
   result.strides = self.StridesForDimensions( self.dims, self.inputTransposing );
 
-  self.atomEach( function( it )
+  self.scalarEach( function( it )
   {
-    let i = self._FlatAtomIndexFromIndexNd( it.indexNd, result.strides );
-    result.buffer[ i ] = it.atom;
+    let i = self._FlatScalarIndexFromIndexNd( it.indexNd, result.strides );
+    result.buffer[ i ] = it.scalar;
   });
 
   return result;
@@ -549,7 +549,7 @@ function extractNormalized()
 
 function _sizeGet()
 {
-  let result = this.sizeOfAtom*this.atomsPerMatrix;
+  let result = this.sizeOfScalar*this.scalarsPerMatrix;
   _.assert( result >= 0 );
   return result;
 }
@@ -558,7 +558,7 @@ function _sizeGet()
 
 function _sizeOfElementGet()
 {
-  let result = this.sizeOfAtom*this.atomsPerElement;
+  let result = this.sizeOfScalar*this.scalarsPerElement;
   _.assert( result >= 0 );
   return result;
 }
@@ -567,7 +567,7 @@ function _sizeOfElementGet()
 
 function _sizeOfElementStrideGet()
 {
-  let result = this.sizeOfAtom*this.strideOfElement;
+  let result = this.sizeOfScalar*this.strideOfElement;
   _.assert( result >= 0 );
   return result;
 }
@@ -576,7 +576,7 @@ function _sizeOfElementStrideGet()
 
 function _sizeOfColGet()
 {
-  let result = this.sizeOfAtom*this.atomsPerCol;
+  let result = this.sizeOfScalar*this.scalarsPerCol;
   _.assert( result >= 0 );
   return result;
 }
@@ -585,7 +585,7 @@ function _sizeOfColGet()
 
 function _sizeOfColStrideGet()
 {
-  let result = this.sizeOfAtom*this.strideOfCol;
+  let result = this.sizeOfScalar*this.strideOfCol;
   _.assert( result >= 0 );
   return result;
 }
@@ -594,7 +594,7 @@ function _sizeOfColStrideGet()
 
 function _sizeOfRowGet()
 {
-  let result = this.sizeOfAtom*this.atomsPerRow;
+  let result = this.sizeOfScalar*this.scalarsPerRow;
   _.assert( result >= 0 );
   return result;
 }
@@ -603,14 +603,14 @@ function _sizeOfRowGet()
 
 function _sizeOfRowStrideGet()
 {
-  let result = this.sizeOfAtom*this.strideOfRow;
+  let result = this.sizeOfScalar*this.strideOfRow;
   _.assert( result >= 0 );
   return result;
 }
 
 //
 
-function _sizeOfAtomGet()
+function _sizeOfScalarGet()
 {
   _.assert( !!this.buffer );
   let result = this.buffer.BYTES_PER_ELEMENT;
@@ -619,18 +619,18 @@ function _sizeOfAtomGet()
 }
 
 // --
-// size in atoms
+// size in scalrs
 // --
 
-function _atomsPerElementGet()
+function _scalarsPerElementGet()
 {
   let self = this;
-  return self[ atomsPerElementSymbol ];
+  return self[ scalarsPerElementSymbol ];
 }
 
 //
 
-function _atomsPerColGet()
+function _scalarsPerColGet()
 {
   let self = this;
   let result = self.dims[ 0 ];
@@ -640,7 +640,7 @@ function _atomsPerColGet()
 
 //
 
-function _atomsPerRowGet()
+function _scalarsPerRowGet()
 {
   let self = this;
   let result = self.dims[ 1 ];
@@ -670,10 +670,10 @@ function _ncolGet()
 
 //
 
-function _atomsPerMatrixGet()
+function _scalarsPerMatrixGet()
 {
   let self = this;
-  let result = self.length === Infinity ? self.atomsPerElement : self.length * self.atomsPerElement;
+  let result = self.length === Infinity ? self.scalarsPerElement : self.length * self.scalarsPerElement;
   _.assert( _.numberIsFinite( result ) );
   _.assert( result >= 0 );
   return result;
@@ -683,16 +683,16 @@ function _atomsPerMatrixGet()
 
 
 /**
- * Routine AtomsPerMatrixForDimensions() calculates quantity of atoms in matrix with defined dimensions.
+ * Routine ScalarsPerMatrixForDimensions() calculates quantity of scalars in matrix with defined dimensions.
  *
  * @example
- * var atoms = _.Matrix.AtomsPerMatrixForDimensions( [ 2, 2 ] );
- * console.log( atoms );
+ * var size = _.Matrix.ScalarsPerMatrixForDimensions( [ 2, 2 ] );
+ * console.log( size );
  * // log : 4
  *
  * @param { Array } dims - An array with matrix dimensions.
- * @returns { Number } - Returns quantity of atoms in matrix with defined dimensions.
- * @function AtomsPerMatrixForDimensions
+ * @returns { Number } - Returns quantity of scalars in matrix with defined dimensions.
+ * @function ScalarsPerMatrixForDimensions
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If routine is called by instance of Matrix.
@@ -701,7 +701,7 @@ function _atomsPerMatrixGet()
  * @module Tools/math/Matrix
  */
 
-function AtomsPerMatrixForDimensions( dims )
+function ScalarsPerMatrixForDimensions( dims )
 {
   let result = 1;
 
@@ -1023,11 +1023,11 @@ function _bufferAssign( src )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( src ) );
-  _.assert( self.atomsPerMatrix === src.length, 'matrix', self.dims, 'should have', self.atomsPerMatrix, 'atoms, but got', src.length );
+  _.assert( self.scalarsPerMatrix === src.length, 'matrix', self.dims, 'should have', self.scalarsPerMatrix, 'scalars, but got', src.length );
 
-  self.atomEach( function( it )
+  self.scalarEach( function( it )
   {
-    self.atomSet( it.indexNd, src[ it.indexFlatRowFirst ] );
+    self.scalarSet( it.indexNd, src[ it.indexFlatRowFirst ] );
   });
 
   self._changeEnd();
@@ -1064,20 +1064,20 @@ function _bufferAssign( src )
 function bufferCopyTo( dst )
 {
   let self = this;
-  let atomsPerMatrix = self.atomsPerMatrix;
+  let scalarsPerMatrix = self.scalarsPerMatrix;
 
   if( !dst )
-  dst = self.long.longMakeUndefined( self.buffer, atomsPerMatrix );
+  dst = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( _.longIs( dst ) );
-  _.assert( atomsPerMatrix === dst.length, 'matrix', self.dims, 'should have', atomsPerMatrix, 'atoms, but got', dst.length );
+  _.assert( scalarsPerMatrix === dst.length, 'matrix', self.dims, 'should have', scalarsPerMatrix, 'scalars, but got', dst.length );
 
   throw _.err( 'not tested' );
 
-  self.atomEach( function( it )
+  self.scalarEach( function( it )
   {
-    dst[ it.indexFlat ] = it.atom;
+    dst[ it.indexFlat ] = it.scalar;
   });
 
   return dst;
@@ -1236,10 +1236,10 @@ function _adjustAct()
 
   _.assert( self._stridesEffective.length >= 2 );
 
-  /* atoms per element */
+  /* scalars per element */
 
   _.assert( self.breadth.length === 1, 'not tested' );
-  self[ atomsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
+  self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
 
   /* buffer region */
 
@@ -1306,7 +1306,7 @@ function _adjustValidate()
   _.assert( _.arrayIs( self.breadth ) );
 
   _.assert( self.length >= 0 );
-  _.assert( self.atomsPerElement >= 0 );
+  _.assert( self.scalarsPerElement >= 0 );
   _.assert( self.strideOfElement >= 0 );
 
   _.assert( _.longIs( self.buffer ) );
@@ -1331,7 +1331,7 @@ function _adjustValidate()
   _.assert( self.dims[ d ] >= 0 );
 
   if( Config.debug )
-  if( self.atomsPerMatrix > 0 && _.numberIsFinite( self.length ) )
+  if( self.scalarsPerMatrix > 0 && _.numberIsFinite( self.length ) )
   for( let d = 0 ; d < self.dims.length ; d++ )
   _.assert( self.offset + ( self.dims[ d ]-1 )*self._stridesEffective[ d ] <= self.buffer.length, 'out of bound' );
 
@@ -1497,13 +1497,13 @@ function expand( expand )
   if( self.hasShape( dims ) )
   return self;
 
-  let atomsPerMatrix = Self.AtomsPerMatrixForDimensions( dims );
+  let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
   let strides = Self.StridesForDimensions( dims, 0 );
-  let buffer = self.long.longMakeZeroed( self.buffer, atomsPerMatrix );
+  let buffer = self.long.longMakeZeroed( self.buffer, scalarsPerMatrix );
 
   /* move data */
 
-  self.atomEach( function( it )
+  self.scalarEach( function( it )
   {
     for( let i = 0 ; i < dims.length ; i++ )
     {
@@ -1511,10 +1511,10 @@ function expand( expand )
       if( it.indexNd[ i ] < 0 || it.indexNd[ i ] >= dims[ i ] )
       return;
     }
-    let indexFlat = Self._FlatAtomIndexFromIndexNd( it.indexNd , strides );
+    let indexFlat = Self._FlatScalarIndexFromIndexNd( it.indexNd , strides );
     _.assert( indexFlat >= 0 );
     _.assert( indexFlat < buffer.length );
-    buffer[ indexFlat ] = it.atom;
+    buffer[ indexFlat ] = it.scalar;
   });
 
   /* copy */
@@ -1631,17 +1631,17 @@ function isSquare()
 // --
 
 /**
- * Routine flatAtomIndexFrom() finds the index of element in the matrix buffer.
+ * Routine flatScalarIndexFrom() finds the index of element in the matrix buffer.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
- * var got = matrix.flatAtomIndexFrom( [ 1, 1 ] );
+ * var got = matrix.flatScalarIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 4
  *
  * @param { Array } indexNd - The position of element.
  * @returns { Number } - Returns flat index of element.
- * @function flatAtomIndexFrom
+ * @function flatScalarIndexFrom
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-src-} is not an Array.
  * @class Matrix
@@ -1649,20 +1649,20 @@ function isSquare()
  * @module Tools/math/Matrix
  */
 
-function flatAtomIndexFrom( indexNd )
+function flatScalarIndexFrom( indexNd )
 {
   let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let result = self._FlatAtomIndexFromIndexNd( indexNd, self._stridesEffective );
+  let result = self._FlatScalarIndexFromIndexNd( indexNd, self._stridesEffective );
 
   return result + self.offset;
 }
 
 //
 
-function _FlatAtomIndexFromIndexNd( indexNd, strides )
+function _FlatScalarIndexFromIndexNd( indexNd, strides )
 {
   let result = 0;
 
@@ -1815,10 +1815,10 @@ function _equalAre( it )
     return it.result;
   }
 
-  it.result = it.src.atomWhile( function( atom, indexNd, indexFlat )
+  it.result = it.src.scalarWhile( function( scalar, indexNd, indexFlat )
   {
-    let atom2 = it.src2.atomGet( indexNd );
-    return it.onNumbersAreEqual( atom, atom2 );
+    let scalar2 = it.src2.scalarGet( indexNd );
+    return it.onNumbersAreEqual( scalar, scalar2 );
   });
 
   _.assert( _.boolIs( it.result ) );
@@ -1886,14 +1886,14 @@ function toStr( o )
   _.routineOptions( toStr, o );
 
   let l = self.dims[ 0 ];
-  let atomsPerRow, atomsPerCol;
+  let scalarsPerRow, scalarsPerCol;
   let col, row;
   let m, c, r, e;
 
   let isInt = true;
-  self.atomEach( function( it )
+  self.scalarEach( function( it )
   {
-    isInt = isInt && _.intIs( it.atom );
+    isInt = isInt && _.intIs( it.scalar );
   });
 
   /* */
@@ -1928,13 +1928,13 @@ function toStr( o )
     else
     row = self.rowVectorOfMatrixGet( [ m ], r );
 
-    if( atomsPerRow === Infinity )
+    if( scalarsPerRow === Infinity )
     {
       e = 0;
       eToStr();
       result += '*Infinity';
     }
-    else for( c = 0 ; c < atomsPerRow ; c += 1 )
+    else for( c = 0 ; c < scalarsPerRow ; c += 1 )
     eToStr();
 
   }
@@ -1944,19 +1944,19 @@ function toStr( o )
   function matrixToStr( m )
   {
 
-    atomsPerRow = self.atomsPerRow;
-    atomsPerCol = self.atomsPerCol;
+    scalarsPerRow = self.scalarsPerRow;
+    scalarsPerCol = self.scalarsPerCol;
 
-    if( atomsPerCol === Infinity )
+    if( scalarsPerCol === Infinity )
     {
       r = 0;
       rowToStr( 0 );
       result += ' **Infinity';
     }
-    else for( r = 0 ; r < atomsPerCol ; r += 1 )
+    else for( r = 0 ; r < scalarsPerCol ; r += 1 )
     {
       rowToStr( r );
-      if( r < atomsPerCol - 1 )
+      if( r < scalarsPerCol - 1 )
       result += '\n' + o.tab;
     }
 
@@ -2027,12 +2027,12 @@ function bufferNormalize()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  let buffer = self.long.longMakeUndefined( self.buffer, self.atomsPerMatrix );
+  let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
 
   let i = 0;
-  self.atomEach( function( it )
+  self.scalarEach( function( it )
   {
-    buffer[ i ] = it.atom;
+    buffer[ i ] = it.scalar;
     i += 1;
   });
 
@@ -2129,21 +2129,21 @@ function submatrix( submatrix )
 // --
 
 /**
- * Routine atomWhile() applies callback {-o.onAtom-} to each element of current matrix
+ * Routine scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
  * while callback returns defined value.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.atomWhile( ( e ) => Math.pow( e, 2 ) );
+ * var got = matrix.scalarWhile( ( e ) => Math.pow( e, 2 ) );
  * console.log( got );
  * // log : 81
  *
  * @param { Map|Function } o - Options map of callback.
- * @param { Function } o.onAtom - Callback.
- * Callback {-o.onAtom-} applies four arguments : element of matrix, position `indexNd`,
+ * @param { Function } o.onScalar - Callback.
+ * Callback {-o.onScalar-} applies four arguments : element of matrix, position `indexNd`,
  * flat index `indexFlat`, options map {-o-}.
  * @returns { * } - Returns the result of callback.
- * @function atomWhile
+ * @function scalarWhile
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
  * @throws { Error } If options map {-o-} has unknown options.
@@ -2152,24 +2152,24 @@ function submatrix( submatrix )
  * @module Tools/math/Matrix
  */
 
-function atomWhile( o )
+function scalarWhile( o )
 {
   let self = this;
   let result = true;
 
   if( _.routineIs( o ) )
-  o = { onAtom : o }
+  o = { onScalar : o }
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.routineOptions( atomWhile, o );
-  _.assert( _.routineIs( o.onAtom ) );
+  _.routineOptions( scalarWhile, o );
+  _.assert( _.routineIs( o.onScalar ) );
 
   let dims = self.dims;
 
   function handleEach( indexNd, indexFlat )
   {
-    let value = self.atomGet( indexNd );
-    result = o.onAtom.call( self, value, indexNd, indexFlat, o );
+    let value = self.scalarGet( indexNd );
+    result = o.onScalar.call( self, value, indexNd, indexFlat, o );
     return result;
   }
 
@@ -2182,39 +2182,39 @@ function atomWhile( o )
   return result;
 }
 
-atomWhile.defaults =
+scalarWhile.defaults =
 {
-  onAtom : null,
+  onScalar : null,
 }
 
 //
 
 /**
- * Routine atomEach() applies callback {-onAtom-} to each element of current matrix.
- * The callback {-onAtom-} applies option map with next fields : `indexNd`, `indexFlat`,
- * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
+ * Routine scalarEach() applies callback {-onScalar-} to each element of current matrix.
+ * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexFlat`,
+ * `indexFlatRowFirst`, `scalar`, `args`. Field `args` defines by the second argument.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var storage = [];
- * matrix.atomEach( ( e ) => { storage.push(  Math.pow( e.atom, 2 ) ) } );
+ * matrix.scalarEach( ( e ) => { storage.push(  Math.pow( e.scalar, 2 ) ) } );
  * console.log( storage );
  * // log : [ 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
  *
- * @param { Function } onAtom - Callback.
+ * @param { Function } onScalar - Callback.
  * @param { Array } args - Array for callback.
  * @returns { Matrix } - Returns the original matrix.
- * @function atomEach
+ * @function scalarEach
  * @throws { Error } If arguments.length is more then two.
  * @throws { Error } If number of dimensions of matrix is more then two.
  * @throws { Error } If {-args-} is not an Array.
- * @throws { Error } If {-onAtom-} accepts less or more then one argument.
+ * @throws { Error } If {-onScalar-} accepts less or more then one argument.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function atomEach( onAtom, args )
+function scalarEach( onScalar, args )
 {
   let self = this;
   let dims = self.dims;
@@ -2225,7 +2225,7 @@ function atomEach( onAtom, args )
   _.assert( arguments.length <= 2 );
   _.assert( self.dims.length === 2, 'not tested' );
   _.assert( _.arrayIs( args ) );
-  _.assert( onAtom.length === 1 );
+  _.assert( onScalar.length === 1 );
 
   args.unshift( null );
   args.unshift( null );
@@ -2245,8 +2245,8 @@ function atomEach( onAtom, args )
     it.indexNd = [ r, c ];
     it.indexFlat = indexFlat;
     it.indexFlatRowFirst = r*dims[ 1 ] + c;
-    it.atom = self.atomGet( it.indexNd );
-    onAtom.call( self, it );
+    it.scalar = self.scalarGet( it.indexNd );
+    onScalar.call( self, it );
     indexFlat += 1;
   }
 
@@ -2258,17 +2258,17 @@ function atomEach( onAtom, args )
 // --
 
 /**
- * Routine atomFlatGet() returns value of element by using its flat index.
+ * Routine scalarFlatGet() returns value of element by using its flat index.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.atomFlatGet( 3 );
+ * var got = matrix.scalarFlatGet( 3 );
  * console.log( got );
  * // log : 4
  *
  * @param { Number } index - Index of matrix element.
  * @returns { Number } - Returns the element of matrix by using its flat index.
- * @function atomFlatGet
+ * @function scalarFlatGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2278,7 +2278,7 @@ function atomEach( onAtom, args )
  * @module Tools/math/Matrix
  */
 
-function atomFlatGet( index )
+function scalarFlatGet( index )
 {
   let i = this.offset+index;
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -2292,11 +2292,11 @@ function atomFlatGet( index )
 //
 
 /**
- * Routine atomFlatSet() sets value of element of matrix buffer by using its flat index.
+ * Routine scalarFlatSet() sets value of element of matrix buffer by using its flat index.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.atomFlatSet( 3, 1 );
+ * var got = matrix.scalarFlatSet( 3, 1 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
  * //       +1, +5, +6,
@@ -2305,7 +2305,7 @@ function atomFlatGet( index )
  * @param { Number } index - Index of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
- * @function atomFlatSet
+ * @function scalarFlatSet
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-index-} is not a Number.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2315,7 +2315,7 @@ function atomFlatGet( index )
  * @module Tools/math/Matrix
  */
 
-function atomFlatSet( index, value )
+function scalarFlatSet( index, value )
 {
   let i = this.offset+index;
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -2329,17 +2329,17 @@ function atomFlatSet( index, value )
 //
 
 /**
- * Routine atomGet() returns value of element using its position in matrix.
+ * Routine scalarGet() returns value of element using its position in matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.atomGet( [ 1, 1 ] );
+ * var got = matrix.scalarGet( [ 1, 1 ] );
  * console.log( got );
  * // log : 5
  *
  * @param { Array } index - Position of matrix element.
  * @returns { Number } - Returns the element of matrix using its position.
- * @function atomGet
+ * @function scalarGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2350,9 +2350,9 @@ function atomFlatSet( index, value )
  * @module Tools/math/Matrix
  */
 
-function atomGet( index )
+function scalarGet( index )
 {
-  let i = this.flatAtomIndexFrom( index );
+  let i = this.flatScalarIndexFrom( index );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( i < this.buffer.length );
   _.assert( this.occupiedRange[ 0 ] <= i && i < this.occupiedRange[ 1 ] );
@@ -2365,11 +2365,11 @@ function atomGet( index )
 //
 
 /**
- * Routine atomSet() sets value of matrix element using its position.
+ * Routine scalarSet() sets value of matrix element using its position.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.atomSet( [ 1, 1 ], 1 );
+ * var got = matrix.scalarSet( [ 1, 1 ], 1 );
  * console.log( got.toStr() );
  * // log : +1, +2, +3,
  * //       +4, +1, +6,
@@ -2378,7 +2378,7 @@ function atomGet( index )
  * @param { Number } index - Position of matrix element.
  * @param { Number } value - The value of element.
  * @returns { Matrix } - Returns the original instance of Matrix with changed buffer.
- * @function atomSet
+ * @function scalarSet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-index-} is not an Array.
  * @throws { Error } If {-index-} is out of range of matrix buffer.
@@ -2389,9 +2389,9 @@ function atomGet( index )
  * @module Tools/math/Matrix
  */
 
-function atomSet( index, value )
+function scalarSet( index, value )
 {
-  let i = this.flatAtomIndexFrom( index );
+  let i = this.flatScalarIndexFrom( index );
   _.assert( _.numberIs( value ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( i < this.buffer.length );
@@ -2405,17 +2405,17 @@ function atomSet( index, value )
 //
 
 /**
- * Routine atomsGet() returns vector of elements with length defined by delta between {-range-} elements.
+ * Routine scalarsGet() returns vector of elements with length defined by delta between {-range-} elements.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 9 ] ).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.atomsGet( [ 2, 5 ] );
+ * var got = matrix.scalarsGet( [ 2, 5 ] );
  * console.log( got.toStr() );
  * // log : 3.000, 4.000, 5.000
  *
  * @param { Long } range - Range of elements.
  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @function atomsGet
+ * @function scalarsGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-range-} is not a Long.
  * @throws { Error } If range.length is not equal to two.
@@ -2426,7 +2426,7 @@ function atomSet( index, value )
  * @module Tools/math/Matrix
  */
 
-function atomsGet( range )
+function scalarsGet( range )
 {
   let self = this;
 
@@ -2482,8 +2482,8 @@ function asVector()
   let result = null;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  // _.assert( self.strideOfElement === self.atomsPerElement ); /* Dmytro : it is duplicated below */
-  _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
+  // _.assert( self.strideOfElement === self.scalarsPerElement ); /* Dmytro : it is duplicated below */
+  _.assert( self.strideOfElement === self.scalarsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
   result = self.vectorAdapter.fromLongLrange
   (
@@ -2512,21 +2512,21 @@ function asVector()
 function granuleGet( index )
 {
   let self = this;
-  let atomsPerGranule;
+  let scalarsPerGranule;
 
   debugger;
   _.assert( 0, 'not imlemented' );
 
   if( index.length < self._stridesEffective.length+1 )
-  atomsPerGranule = _.avector.reduceToProduct( self._stridesEffective.slice( index.length-1 ) );
+  scalarsPerGranule = _.avector.reduceToProduct( self._stridesEffective.slice( index.length-1 ) );
   else
-  atomsPerGranule = 1;
+  scalarsPerGranule = 1;
 
   let result = self.vectorAdapter.fromLongLrange
   (
     this.buffer,
     this.offset + this.flatGranuleIndexFrom( index ),
-    atomsPerGranule
+    scalarsPerGranule
   );
 
   return result;
@@ -2603,13 +2603,13 @@ function elementsInRangeGet( range )
   _.assert( self.breadth.length === 1 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( range[ 1 ] >= range[ 0 ] );
-  _.assert( self.strideOfElement === self.atomsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
+  _.assert( self.strideOfElement === self.scalarsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );
 
   result = self.vectorAdapter.fromLongLrange
   (
     self.buffer,
     self.offset+self.strideOfElement*range[ 0 ],
-    self.atomsPerElement*( range[ 1 ]-range[ 0 ] )
+    self.scalarsPerElement*( range[ 1 ]-range[ 0 ] )
   );
 
   return result;
@@ -2909,7 +2909,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
   (
     this.buffer,
     this.offset + rowIndex*this.strideOfRow + matrixOffset,
-    this.atomsPerRow,
+    this.scalarsPerRow,
     this.strideInRow
   );
 
@@ -2951,7 +2951,7 @@ function rowVectorGet( index )
   (
     this.buffer,
     this.offset + index*this.strideOfRow,
-    this.atomsPerRow,
+    this.scalarsPerRow,
     this.strideInRow
   );
 
@@ -3063,7 +3063,7 @@ function colVectorGet( index )
   (
     this.buffer,
     this.offset + index*this.strideOfCol,
-    this.atomsPerCol,
+    this.scalarsPerCol,
     this.strideInCol
   );
 
@@ -3259,7 +3259,7 @@ function _vectorPivotDimension( v, current, expected )
     continue;
     let p2 = current[ expected[ p1 ] ];
     _.longSwapElements( current, p1, p2 );
-    self.vectorAdapter.swapAtoms( v, p1, p2 );
+    self.vectorAdapter.scalarsSwap( v, p1, p2 );
   }
 
   _.assert( expected.length === v.length );
@@ -3378,7 +3378,7 @@ let stridesSymbol = Symbol.for( 'strides' );
 let lengthSymbol = Symbol.for( 'length' );
 let stridesEffectiveSymbol = Symbol.for( '_stridesEffective' );
 
-let atomsPerElementSymbol = Symbol.for( 'atomsPerElement' );
+let scalarsPerElementSymbol = Symbol.for( 'scalarsPerElement' );
 let occupiedRangeSymbol = Symbol.for( 'occupiedRange' );
 
 //
@@ -3436,7 +3436,7 @@ let Statics =
 
   CopyTo,
 
-  AtomsPerMatrixForDimensions,
+  ScalarsPerMatrixForDimensions,
   NrowOf,
   NcolOf,
   DimsOf,
@@ -3445,7 +3445,7 @@ let Statics =
   StridesForDimensions,
   StridesRoll,
 
-  _FlatAtomIndexFromIndexNd,
+  _FlatScalarIndexFromIndexNd,
 
   Is,
 
@@ -3467,27 +3467,8 @@ let Statics =
 
 let Forbids =
 {
-
   stride : 'stride',
-
-  strideInBytes : 'strideInBytes',
-  strideInAtoms : 'strideInAtoms',
-
-  stridePerElement : 'stridePerElement',
-  lengthInStrides : 'lengthInStrides',
-
   dimensions : 'dimensions',
-  dimensionsWithLength : 'dimensionsWithLength',
-  stridesEffective : 'stridesEffective',
-
-  colLength : 'colLength',
-  rowLength : 'rowLength',
-
-  _generator : '_generator',
-  usingOptimizedAccessors : 'usingOptimizedAccessors',
-  dimensionsDesired : 'dimensionsDesired',
-  array : 'array',
-
 }
 
 //
@@ -3504,16 +3485,16 @@ let ReadOnlyAccessors =
   sizeOfColStride : 'sizeOfColStride',
   sizeOfRow : 'sizeOfRow',
   sizeOfRowStride : 'sizeOfRowStride',
-  sizeOfAtom : 'sizeOfAtom',
+  sizeOfScalar : 'sizeOfScalar',
 
-  /* size in atoms */
+  /* size in scalars */
 
-  atomsPerElement : 'atomsPerElement', /*  cached*/
-  atomsPerCol : 'atomsPerCol',
-  atomsPerRow : 'atomsPerRow',
+  scalarsPerElement : 'scalarsPerElement', /*  cached*/
+  scalarsPerCol : 'scalarsPerCol',
+  scalarsPerRow : 'scalarsPerRow',
   ncol : 'ncol',
   nrow : 'nrow',
-  atomsPerMatrix : 'atomsPerMatrix',
+  scalarsPerMatrix : 'scalarsPerMatrix',
 
   /* length */
 
@@ -3578,18 +3559,18 @@ let Extension =
   _sizeOfRowGet,
   _sizeOfRowStrideGet,
 
-  _sizeOfAtomGet,
+  _sizeOfScalarGet,
 
-  /* size in atoms */
+  /* size in scalars */
 
-  _atomsPerElementGet, /* cached */
-  _atomsPerColGet,
-  _atomsPerRowGet,
+  _scalarsPerElementGet, /* cached */
+  _scalarsPerColGet,
+  _scalarsPerRowGet,
   _nrowGet,
   _ncolGet,
-  _atomsPerMatrixGet,
+  _scalarsPerMatrixGet,
 
-  AtomsPerMatrixForDimensions,
+  ScalarsPerMatrixForDimensions,
   NrowOf,
   NcolOf,
 
@@ -3642,8 +3623,8 @@ let Extension =
 
   /* etc */
 
-  flatAtomIndexFrom,
-  _FlatAtomIndexFromIndexNd,
+  flatScalarIndexFrom,
+  _FlatScalarIndexFromIndexNd,
   flatGranuleIndexFrom,
 
   transpose,
@@ -3659,8 +3640,8 @@ let Extension =
 
   /* iterator */
 
-  atomWhile,
-  atomEach,
+  scalarWhile,
+  scalarEach,
 
   /*
 
@@ -3675,11 +3656,11 @@ let Extension =
 
   /* components accessor */
 
-  atomFlatGet,
-  atomFlatSet,
-  atomGet,
-  atomSet,
-  atomsGet,
+  scalarFlatGet,
+  scalarFlatSet,
+  scalarGet,
+  scalarSet,
+  scalarsGet,
   asVector,
 
   granuleGet,

@@ -27,7 +27,7 @@ function atomWiseReduceWithFlatVector( onVector )
   let result;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( self.strideOfElement === self.atomsPerElement );
+  _.assert( self.strideOfElement === self.scalarsPerElement );
 
   debugger;
 
@@ -38,7 +38,7 @@ function atomWiseReduceWithFlatVector( onVector )
 
 //
 
-function atomWiseReduceWithAtomHandler( onBegin, onAtom, onEnd )
+function atomWiseReduceWithAtomHandler( onBegin, onScalar, onEnd )
 {
   let self = this;
   let result;
@@ -53,12 +53,12 @@ function atomWiseReduceWithAtomHandler( onBegin, onAtom, onEnd )
     filter : null,
   });
 
-  for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  for( let r = 0 ; r < self.atomsPerRow ; r++ )
+  for( let c = 0 ; c < self.scalarsPerCol ; c++ )
+  for( let r = 0 ; r < self.scalarsPerRow ; r++ )
   {
     op.key = [ c, r ];
-    op.element = self.atomGet([ c, r ]);
-    onAtom( op );
+    op.element = self.scalarGet([ c, r ]);
+    onScalar( op );
   }
 
   onEnd( op );
@@ -68,7 +68,7 @@ function atomWiseReduceWithAtomHandler( onBegin, onAtom, onEnd )
 
 //
 
-function atomWiseWithAssign( onAtom, args )
+function atomWiseWithAssign( onScalar, args )
 {
   let self = this;
   let result;
@@ -84,12 +84,12 @@ function atomWiseWithAssign( onAtom, args )
   op.srcElement = null;
   Object.preventExtensions( op );
 
-  for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  for( let r = 0 ; r < self.atomsPerRow ; r++ )
+  for( let c = 0 ; c < self.scalarsPerCol ; c++ )
+  for( let r = 0 ; r < self.scalarsPerRow ; r++ )
   {
     op.key = [ c, r ];
-    op.dstElement = self.atomGet( op.key );
-    onAtom.call( self, op );
+    op.dstElement = self.scalarGet( op.key );
+    onScalar.call( self, op );
   }
 
   return self;
@@ -151,10 +151,10 @@ function AtomWiseHomogeneous( o )
     return op;
   }
 
-  if( o.onAtomsBegin )
+  if( o.onScalarsBegin )
   debugger;
-  if( !o.onAtomsBegin )
-  o.onAtomsBegin = function handleAtomsBeing( op )
+  if( !o.onScalarsBegin )
+  o.onScalarsBegin = function handleAtomsBeing( op )
   {
   }
 
@@ -212,24 +212,24 @@ function AtomWiseHomogeneous( o )
   /* */
 
   let brk = 0;
-  for( let c = 0 ; c < fsrc.atomsPerCol ; c++ )
+  for( let c = 0 ; c < fsrc.scalarsPerCol ; c++ )
   {
 
-    for( let r = 0 ; r < fsrc.atomsPerRow ; r++ )
+    for( let r = 0 ; r < fsrc.scalarsPerRow ; r++ )
     {
 
       op.key = [ c, r ];
 
-      op.dstElement = fsrc.atomGet( op.key );
+      op.dstElement = fsrc.scalarGet( op.key );
 
-      o.onAtomsBegin( op );
+      o.onScalarsBegin( op );
 
       _.assert( _.numberIs( op.dstElement ) );
 
       if( op.srcContainers.length === 1 )
       {
-        op.srcElement = fsrc.atomGet( op.key );
-        o.onAtom.call( o.dst, op );
+        op.srcElement = fsrc.scalarGet( op.key );
+        o.onScalar.call( o.dst, op );
 
         if( o.onContinue )
         if( o.onContinue( o ) === false )
@@ -238,8 +238,8 @@ function AtomWiseHomogeneous( o )
       }
       else for( let s = 1 ; s < op.srcContainers.length ; s++ )
       {
-        op.srcElement = op.srcContainers[ s ].atomGet( op.key );
-        o.onAtom.call( o.dst, op );
+        op.srcElement = op.srcContainers[ s ].scalarGet( op.key );
+        o.onScalar.call( o.dst, op );
 
         if( o.onContinue )
         if( o.onContinue( o ) === false )
@@ -251,10 +251,10 @@ function AtomWiseHomogeneous( o )
       }
 
       if( !o.reducing )
-      op.dstContainer.atomSet( op.key, op.dstElement );
+      op.dstContainer.scalarSet( op.key, op.dstElement );
 
-      if( o.onAtomsEnd )
-      o.onAtomsEnd( op );
+      if( o.onScalarsEnd )
+      o.onScalarsEnd( op );
 
       if( brk )
       break;
@@ -269,9 +269,9 @@ function AtomWiseHomogeneous( o )
 
 AtomWiseHomogeneous.defaults =
 {
-  onAtom : null,
-  onAtomsBegin : null,
-  onAtomsEnd : null,
+  onScalar : null,
+  onScalarsBegin : null,
+  onScalarsEnd : null,
   onVectorsBegin : null,
   onVectorsEnd : null,
   onContinue : null,
@@ -284,12 +284,12 @@ AtomWiseHomogeneous.defaults =
 
 // }
 
-function atomWiseZip( onAtom, dst, srcs )
+function atomWiseZip( onScalar, dst, srcs )
 {
   let self = this;
   let o =
   {
-    onAtom,
+    onScalar,
     dst,
     dstContainer : self,
     srcs,
@@ -307,7 +307,7 @@ function AtomWiseZip( o )
   _.assert( _.definedIs( o.dst ) );
   _.assert( o.dstContainer instanceof Self );
   _.assert( _.definedIs( o.srcs ) );
-  _.assert( _.routineIs( o.onAtom ) );
+  _.assert( _.routineIs( o.onScalar ) );
 
   let self = o.dstContainer;
 
@@ -332,16 +332,16 @@ function AtomWiseZip( o )
 
   /* */
 
-  for( let c = 0 ; c < self.atomsPerCol ; c++ )
-  for( let r = 0 ; r < self.atomsPerRow ; r++ )
+  for( let c = 0 ; c < self.scalarsPerCol ; c++ )
+  for( let r = 0 ; r < self.scalarsPerRow ; r++ )
   {
     op.key = [ c, r ];
-    op.dstElement = self.atomGet( op.key );
+    op.dstElement = self.scalarGet( op.key );
 
     for( let s = 0 ; s < srcs.length ; s++ )
-    op.srcElements[ s ] = srcs[ s ].atomGet( op.key );
+    op.srcElements[ s ] = srcs[ s ].scalarGet( op.key );
 
-    onAtom.call( self, op );
+    onScalar.call( self, op );
   }
 
   return self;
@@ -349,7 +349,7 @@ function AtomWiseZip( o )
 
 AtomWiseZip.defaults =
 {
-  onAtom : null,
+  onScalar : null,
   dst : null,
   dstContainer : null,
   srcs : null,
@@ -471,7 +471,7 @@ function colEachCollecting( onEach , args , returningNumber )
   ({
     onEach,
     args,
-    length : self.atomsPerRow,
+    length : self.scalarsPerRow,
     lineOrder : 0,
     returningNumber,
   });
@@ -491,7 +491,7 @@ function rowEachCollecting( onEach , args , returningNumber )
   ({
     onEach,
     args,
-    length : self.atomsPerCol,
+    length : self.scalarsPerCol,
     lineOrder : 1,
     returningNumber,
   });

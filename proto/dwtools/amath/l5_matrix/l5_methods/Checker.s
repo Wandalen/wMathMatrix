@@ -61,14 +61,14 @@ function isDiagonal()
   _.assert( arguments.length === 0 );
 
   let cols = self.length;
-  let rows = self.atomsPerElement;
+  let rows = self.scalarsPerElement;
 
   for( let i = 0; i < rows; i++ )
   {
     for( let j = 0; j < cols; j++ )
     {
       // debugger;
-      if( j !== i && self.atomGet( [ i, j ]) !== 0 )
+      if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
       return false
     }
   }
@@ -118,7 +118,7 @@ function isUpperTriangle( accuracy )
   accuracy = 1E-5;
 
   let cols = self.length;
-  let rows = self.atomsPerElement;
+  let rows = self.scalarsPerElement;
 
   for( let i = 0; i < rows; i++ )
   {
@@ -126,7 +126,7 @@ function isUpperTriangle( accuracy )
     {
       if( i > j )
       {
-        let point = self.atomGet([ i, j ]);
+        let point = self.scalarGet([ i, j ]);
         if( 0 - accuracy > point || point > 0 + accuracy )
         {
           return false
@@ -180,7 +180,7 @@ function isSymmetric( accuracy )
   accuracy = 1E-5; /* xxx */
 
   let cols = self.length;
-  let rows = self.atomsPerElement;
+  let rows = self.scalarsPerElement;
 
   if( cols !== rows )
   {
@@ -194,7 +194,7 @@ function isSymmetric( accuracy )
       debugger;
       if( i > j )
       {
-        let dif = self.atomGet([ i, j ]) - self.atomGet([ j, i ]);
+        let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
         if( 0 - accuracy > dif || dif > 0 + accuracy )
         {
           return false
