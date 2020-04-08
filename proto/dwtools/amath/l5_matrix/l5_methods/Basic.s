@@ -39,7 +39,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * });
  *
  * var got = matrix._tempBorrow( m, [ 4, 4 ], 1 );
- * logger.log( got );
+ * console.log( got );
  * // log
  * new I32x
  * [
@@ -224,7 +224,7 @@ function tempBorrow3( src )
  * ]);
  *
  * var got = matrix.pow( 2 );
- * logger.log( got );
+ * console.log( got );
  * // log :  +17, +6, +31,
  * //        +12, +8, +24,
  * //        +0,  +0, +36,
@@ -593,7 +593,7 @@ function mul2Matrices( src1, src2 )
  * ]);
  *
  * var got = matrix.mulLeft( src );
- * logger.log( matrix );
+ * console.log( matrix );
  * // log :  +9, +4, +10,
  * //       +16, +4, +13
  * //        +0, +0,  +6,
@@ -641,7 +641,7 @@ function mulLeft( src )
  * ]);
  *
  * var got = matrix.mulRight( src );
- * logger.log( got );
+ * console.log( got );
  * // log :  +9, +4, +10,
  * //       +16, +4, +13
  * //        +0, +0,  +6,
@@ -729,27 +729,25 @@ function mulRight( src )
 // --
 
 /**
- * The method matrix.zero() returns instance of Matrix, values filled with zeros,
- * takes source from context.
+ * The method zero() assigns the value `0` to each element of the current matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +0, +4, +5
- *   +0, +0, +6,
+ *   1, 2, 3,
+ *   0, 4, 5
+ *   0, 0, 6,
  * ]);
  *
  * var got = matrix.zero();
- * logger.log( got );
- * // log
- *   +0, +0, +0,
- *   +0, +0, +0
- *   +0, +0, +0,
+ * console.log( got );
+ * // log : +0, +0, +0,
+ * //       +0, +0, +0
+ * //       +0, +0, +0,
  *
- * @returns { Matrix } - Returns the new instance of Matrix.
+ * @returns { Matrix } - Returns the original matrix filled by zeros.
  * @method zero
- * @throws { Error } If (arguments.length) exist.
+ * @throws { Error } If arguments are passed.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -769,26 +767,25 @@ function zero()
 //
 
 /**
- * The method matrix.identity() returns an instance of an identity matrix, based on dimension provided matrix( takes from context ).
+ * The method identity() transforms current matrix to identity matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +3, +2, +3,
- *   +4, +0, +2
- *   +0, +0, +6,
+ *   3, 2, 3,
+ *   4, 0, 2
+ *   0, 0, 6,
  * ]);
  *
  * var got = matrix.identity();
- * logger.log( got );
- * // log
- *   +1, +0, +0,
- *   +0, +1, +0,
- *   +0, +0, +1,
+ * console.log( got );
+ * // log : +1, +0, +0,
+ * //       +0, +1, +0,
+ * //       +0, +0, +1,
  *
- * @returns { Matrix } - Returns instance of Matrix.
+ * @returns { Matrix } - Returns original matrix, it is identity matrix.
  * @method identity
- * @throws { Error } If arguments exist.
+ * @throws { Error } If arguments are passed.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -808,15 +805,16 @@ function identity()
 //
 
 /**
- * The method matrix.diagonalSet() returns an instance of Matrix with diagonal values {-src-} matrix,
- * takes destination matrix from context.
+ * The method diagonalSet() assigns the values from {-src-} to the diagonal of current matrix.
+ * If {-src-} is a Matrix, then method assigns the diagonal of {-src-} to the diagonal of current
+ * matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +3, +2, +3,
- *   +4, +0, +2
- *   +0, +0, +6,
+ *   3, 2, 3,
+ *   4, 0, 2
+ *   0, 0, 6,
  * ]);
  *
  * var src = _.Matrix.make( [ 3, 3 ] ).copy
@@ -827,18 +825,18 @@ function identity()
  * ]);
  *
  * var got = matrix.diagonalSet( src );
- * logger.log( got );
+ * console.log( got );
  * // log
  * +1, +2, +3,
  * +4, +5, +2,
  * +0, +0, +1,
  *
- * @param { Matrix } src - an instance of Matrix.
- * @returns { Matrix } - Returns instance of Matrix.
+ * @param { Number|Long|VectorAdapter|Matrix } src - The values.
+ * @returns { Matrix } - Returns original matrix with changed diagonal values.
  * @method diagonalSet
- * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If (src.length) is not same length destination matrix.
- * @throws { Error } If (self.dims.length) dimension length of called matrix is not 2.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If src.length is not same as minimal dimension of the current matrix.
+ * @throws { Error } If number of dimensions of current matrix is not 2.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -869,8 +867,7 @@ function diagonalSet( src )
 //
 
 /**
- * The method matrix.diagonalVectorGet() returns an instance of VectorAdapter filled by values,
- * takes source from context.
+ * The method diagonalVectorGet() returns vector with values of diagonal of current matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
@@ -881,13 +878,13 @@ function diagonalSet( src )
  * ]);
  *
  * var got = matrix.diagonalVectorGet();
- * logger.log( got );
- * // log 3.000 0.000 6.000
+ * console.log( got );
+ * // log : 3.000 0.000 6.000
  *
- * @returns { VectorAdapter } - Returns instance of VectorAdapter.
+ * @returns { VectorAdapter } - Returns vector of diagonal values.
  * @method diagonalVectorGet
- * @throws { Error } If arguments exist.
- * @throws { Error } If (self.dims.length) dimension length of called matrix is not 2.
+ * @throws { Error } If arguments are passed.
+ * @throws { Error } If number of dimensions of current matrix is not 2.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -910,39 +907,37 @@ function diagonalVectorGet()
 //
 
 /**
- * The method matrix.triangleLowerSet() returns the instance of Matrix based on a source (takes from context)
- * with values of the lower left triangle {-src-} matrix.
+ * The method triangleLowerSet() assigns the value from source value {-src-} to the lower
+ * triangle of current matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +0, +4, +5,
- *   +0, +0, +6,
+ *   0, 0, 0,
+ *   0, 0, 0,
+ *   0, 0, 0,
  * ]);
  *
  * var src = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +0, +0,
- *   +1, +1, +0,
- *   +1, +1, +1,
+ *   1, 1, 1,
+ *   1, 1, 1,
+ *   1, 1, 1,
  * ]);
  *
  * var got = matrix.triangleLowerSet( src );
- * logger.log( got );
- * // log
- *   +1, +2, +3,
- *   +1, +4, +5,
- *   +1, +1, +6,
+ * console.log( got );
+ * // log : +0, +0, +0,
+ * //       +1, +0, +0,
+ * //       +1, +1, +0,
  *
- * @param { Matrix } src - an instance of Matrix.
- * @returns { Matrix } - Returns an instance of Matrix.
+ * @param { Number|Matrix } src - Source values.
+ * @returns { Matrix } - Returns original matrix with changed lower triangle.
  * @method triangleLowerSet
- * @throws { Error } If {-src-} is not 1.
- * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If matrix dimension length is more than two.
- * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less index called matrix instance (self.dims[ 0 ]).
- * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less min decrementing values of [ 0 ] and [ 1 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If number of dimensions or current matrix is not 2.
+ * @throws { Error } If {-src-} is instance of Matrix and number of its rows is less then number of rows in current matrix.
+ * @throws { Error } If {-src-} is instance of Matrix and number of its columns is less minimal value of next parameters: decremented number or rows of current matrix or number of columns of current matrix.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -991,39 +986,37 @@ function triangleLowerSet( src )
 //
 
 /**
- * The method matrix.triangleUpperSet() returns the instance of Matrix based on a source (takes from context)
- * with values of the upper right triangle {-src-} matrix.
+ * The method triangleUpperSet() assigns the value from source value {-src-} to the upper
+ * triangle of current matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +0, +4, +5,
- *   +0, +0, +6,
+ *   0, 0, 0,
+ *   0, 0, 0,
+ *   0, 0, 0,
  * ]);
  *
  * var src = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +0, +0,
- *   +1, +1, +0,
- *   +1, +1, +1,
+ *   1, 1, 1,
+ *   1, 1, 1,
+ *   1, 1, 1,
  * ]);
  *
  * var got = matrix.triangleUpperSet( src );
- * logger.log( got );
- * // log
- *  +1, +0, +0,
- *  +0, +4, +0,
- *  +0, +0, +6,
+ * console.log( got );
+ * // log : +0, +1, +1,
+ * //       +0, +0, +1,
+ * //       +0, +0, +0,
  *
- * @param { Matrix|Number } src - an instance of Matrix or Number.
- * @returns { Matrix } - Returns an instance of Matrix.
+ * @param { Number|Matrix } src - Source values.
+ * @returns { Matrix } - Returns original matrix with changed upper triangle.
  * @method triangleUpperSet
- * @throws { Error } If (arguments.length) is not 1.
- * @throws { Error } If {-src-} is not an instance of Matrix or Number.
- * @throws { Error } If matrix dimension length is more than two.
- * @throws { Error } If index of src dimension (src.dims[ 1 ]) is less index called matrix instance (self.dims[ 1 ]).
- * @throws { Error } If index of src dimension (src.dims[ 0 ]) is less min decrementing values of [ 1 ] and [ 0 ] indexes called matrix instance (self.dims[ 0 ]-1, self.dims[ 1 ])).
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If number of dimensions or current matrix is not 2.
+ * @throws { Error } If {-src-} is instance of Matrix and number of its columns is less then number of columns in current matrix.
+ * @throws { Error } If {-src-} is instance of Matrix and number of its rows is less minimal value of next parameters: decremented number or columns of current matrix or number of columns of current matrix.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1099,33 +1092,24 @@ function triangleUpperSet( src )
 // }
 
 /**
- * The method matrix.matrixApplyTo() applies the provided matrix to destination vector {-dstVector-}, returns the changed instance of Matrix,
- * takes source from context.
+ * The method matrixApplyTo() provides multiplication of current matrix on destination vector {-dst-}.
+ * The result of multiplication applies to destination vector.
  *
  * @example
- * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
+ * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var dstVector = [ 1, 1 ];
  *
- * var dstVector = [ 1, 2, 3, 4 ];
+ * var got = matrix.matrixApplyTo( dstVector );
+ * console.log( got );
+ * // log : [ 2, 4 ]
+ * console.log( dstVector === got );
+ * // log : true
  *
- * var got = matrix.matrixApplyTo( dstVector);
- * logger.log( got );
- * // log [ 0, 2, 3, 4 ]
- *
- * @example
- * var matrix = _.Matrix.make([ 2, 2 ] ).copy( [ 0, 0, 2, 0 ] )
- *
- * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
- *
- * var got = matrix.matrixApplyTo( dstVector);
- * logger.log( got );
- * // log [ 0, 2, 3, 4 ]
- *
- *
- * @param { VectorAdapter|Long } dstVector - an instance of VectorAdapter or Long.
- * @returns { Matrix|VectorAdapter } - Returns the changed instance of Matrix or VectorAdapter.
+ * @param { VectorAdapter|Long } dstVector - Destination vector, an instance of VectorAdapter or Long.
+ * @returns { VectorAdapter } - Returns destination vector with result of multiplication.
  * @method matrixApplyTo
- * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-dstVector-} is not a Long, not a VectorAdapter.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1175,11 +1159,11 @@ function matrixApplyTo( dstVector )
 //
 
 /**
- * The method matrix.matrixHomogenousApply() apply the homogenous matrix to provided vector {-dstVector-}, returns the instance of VectorAdapter,
- * takes source from context.
+ * The method matrixHomogenousApply() calculates the homogenous value for each row
+ * of current matrix and applies it to the destination vector {-dst-}.
  *
  * @example
- * var matrix = _.Matrix.make([ 4, 4 ]).copy
+ * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
  * ([
  *   1, 0, 0, 0,
  *   0, 1, 0, 0,
@@ -1190,31 +1174,16 @@ function matrixApplyTo( dstVector )
  * var dstVector = [ 1, 2, 1 ];
  *
  * var got = matrix.matrixHomogenousApply( dstVector );
- * logger.log( got );
- * // log
- *  [ 1, 2, 1 ]
+ * console.log( got );
+ * // log : [ 1, 2, 1 ]
+ * console.log( got === matrix );
+ * // log : true
  *
- * @example
- * var matrix = _.Matrix.make([ 4, 4 ]).copy
- * ([
- *   1, 0, 0, 0,
- *   0, 1, 0, 0,
- *   0, 0, 1, 0,
- *   0, 0, 1, 0,
- * ]);
- *
- * var dstVector = _.vectorAdapter.fromLong( [ 1, 2, 1 ];
- *
- * var got = matrix.matrixHomogenousApply( dstVector );
- * logger.log( got );
- * // log
- *  1.000, 2.000, 1.000
- *
- * @param { VectorAdapter|Long } dstVector - destination instance of VectorAdapter or Long.
- * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
+ * @param { VectorAdapter|Long } dstVector - Destination vector, an instance of VectorAdapter or Long.
+ * @returns { VectorAdapter } - Returns the vector with homogenous values.
  * @method matrixHomogenousApply
- * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-dstVector-} is not a Long, not a VectorAdapter.
  * @throws { Error } If dst.length is not equal to number of columns of matrix decremented by 1.
  * @class Matrix
  * @namespace wTools
@@ -1241,6 +1210,7 @@ function matrixHomogenousApply( dstVector )
     result[ i ] = 0;
     for( let j = 0 ; j < dstLength ; j++ )
     result[ i ] += row.eGet( j ) * _dstVector.eGet( j );
+
     result[ i ] += row.eGet( dstLength );
 
   }
@@ -1254,8 +1224,8 @@ function matrixHomogenousApply( dstVector )
 //
 
 /**
- * The method matrix.matrixDirectionsApply() applies the directions of matrix to provided vector {-dstVector-}, returns the instance of VectorAdapter,
- * takes source from context.
+ * The method matrixDirectionsApply() calculates directions of matrix and applies it to
+ * destination vector {-dstVector-}.
  *
  * @example
  * var matrix = _.Matrix.make([ 3, 3 ]).copy
@@ -1268,7 +1238,7 @@ function matrixHomogenousApply( dstVector )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.matrixDirectionsApply( dstVector );
- * logger.log
+ * console.log
  * // log
  *  [ 1, 2 ]
  *
@@ -1295,8 +1265,10 @@ function matrixDirectionsApply( dstVector )
 
   debugger;
 
-  Self.mul( v, [ self.submatrix([ [ 0, v.length ], [ 0, v.length ] ]), v ] );
-  self.vectorAdapter.normalize( v );
+  // Self.mul( v, [ self.submatrix([ [ 0, v.length ], [ 0, v.length ] ]), v ] ); /* Dmytro : unknown variable v. Please, clarify this moment */
+  // self.vectorAdapter.normalize( v );
+  self.Self.mul( dstVector, [ self.submatrix([ [ 0, dstVector.length ], [ 0, dstVector.length ] ]), dstVector ] );
+  self.vectorAdapter.normalize( dstVector );
 
   return dstVector;
 }
@@ -1322,7 +1294,7 @@ function matrixDirectionsApply( dstVector )
  * });
  *
  * var got = matrix.positionGet();
- * logger.log( got );
+ * console.log( got );
  * // log 2.000 4.000
  *
  * @returns { VectorAdapter } - Returns offset or position specified by the matrix.
@@ -1367,7 +1339,7 @@ function positionGet()
  * var src = [ 4, 4 ];
  *
  * var got = matrix.positionSet( src );
- * logger.log( got );
+ * console.log( got );
  * // log 4.000, 4.000
  *
  * @param { Long|VectorAdapter } src - an instance of Long or VectorAdapter.
@@ -1414,7 +1386,7 @@ function positionSet( src )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMaxGet( dst )
- * logger.log( got )
+ * console.log( got )
  * // log 3.605551275463989
  *
  * @param { Array|VectorAdapter } dst - Array or an instance of VectorAdapter.
@@ -1458,7 +1430,7 @@ function scaleMaxGet( dst )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMeanGet( dst )
- * logger.log( got )
+ * console.log( got )
  * // log 3.2169892001050897
  *
  * @param { VectorAdapter } dst - an instance of VectorAdapter.
@@ -1502,7 +1474,7 @@ function scaleMeanGet( dst )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMagGet( dst )
- * logger.log( got )
+ * console.log( got )
  * // log 4.58257569495584
  *
  * @param { VectorAdapter } dst - an instance of VectorAdapter.
@@ -1546,7 +1518,7 @@ function scaleMagGet( dst )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleGet( dst );
- * logger.log( got );
+ * console.log( got );
  * // log 2.828, 3.606
  *
  * @param { Array|VectorAdapter } dst - Array or the instance of VectorAdapter.
@@ -1602,7 +1574,7 @@ function scaleMagGet( dst )
  * var src = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleSet( src );
- * logger.log( got )
+ * console.log( got )
  * // log
  *  +0, +0, +0,
  *  +0, +0, +0,
@@ -1660,7 +1632,7 @@ function scaleSet( src )
  * var center = _.vectorAdapter.fromLong( [ 2, 3 ] );
  *
  * var got = matrix.scaleAroundSet( src );
- * logger.log( got )
+ * console.log( got )
  * // log
  *  +0, +0, +2,
  *  +0, +0, +3,
@@ -1733,7 +1705,7 @@ function scaleAroundSet( scale, center )
  * var src = _.vectorAdapter.fromLong( [ 2, 3 ] );
  *
  * var got = matrix.scaleApply( src );
- * logger.log( got )
+ * console.log( got )
  * // log
  * undefined
  *
@@ -1782,7 +1754,7 @@ function scaleApply( src )
  * var insElement = _.vectorAdapter.fromLong( [ 2, 2, 1 ] );
  *
  * var got = matrix.closest( insElement );
- * logger.log( got )
+ * console.log( got )
  * // log
  * {
  *  index: 1,
@@ -1844,7 +1816,7 @@ function closest( insElement )
  * var insElement = _.vectorAdapter.fromLong( [ 2, 2, 1 ] );
  *
  * var got = matrix.furthest( insElement );
- * logger.log( got )
+ * console.log( got )
  * // log
  * {
  *  index: 2,
@@ -1905,7 +1877,7 @@ function furthest( insElement )
  * ]);
  *
  * var got = matrix.elementMean( );
- * logger.log( got )
+ * console.log( got )
  * // log 2.333, 0.666, 3.666
  *
  * @returns { Number } - Returns medium element values of provided matrix.
@@ -2040,7 +2012,7 @@ function minmaxRowWise()
  * ]);
  *
  * var got = matrix.determinant();
- * logger.log( got );
+ * console.log( got );
  * // log 24
  *
  * @returns { Number } - Returns a determinant value of the provided matrix.
