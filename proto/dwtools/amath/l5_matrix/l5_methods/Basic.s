@@ -1176,7 +1176,7 @@ function matrixApplyTo( dstVector )
  * var got = matrix.matrixHomogenousApply( dstVector );
  * console.log( got );
  * // log : [ 1, 2, 1 ]
- * console.log( got === matrix );
+ * console.log( got === dstVector );
  * // log : true
  *
  * @param { VectorAdapter|Long } dstVector - Destination vector, an instance of VectorAdapter or Long.
@@ -1235,18 +1235,19 @@ function matrixHomogenousApply( dstVector )
  *   0, 0, 1,
  * ]);
  *
- * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
+ * var dst = _.vectorAdapter.fromLong( [ 1, 1 ] );
  *
  * var got = matrix.matrixDirectionsApply( dstVector );
  * console.log
- * // log
- *  [ 1, 2 ]
+ * // log : [ 4, 5 ]
+ * console.log( got === dst );
+ * // log : true
  *
- * @param { VectorAdapter } dstVector - destination instance of VectorAdapter.
- * @returns { VectorAdapter } - Returns the instance of VectorAdapter.
+ * @param { VectorAdapter|Long } dstVector - Destination vector.
+ * @returns { VectorAdapter } - Returns destination vector with changed values.
  * @method matrixDirectionsApply
- * @throws { Error } If {-dstVector-} is not an instance of VectorAdapter.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-dstVector-} is not a Long, not a VectorAdapter.
  * @throws { Error } If dst.length is not equal to number of columns of matrix decremented by 1.
  * @class Matrix
  * @namespace wTools
@@ -1267,7 +1268,7 @@ function matrixDirectionsApply( dstVector )
 
   // Self.mul( v, [ self.submatrix([ [ 0, v.length ], [ 0, v.length ] ]), v ] ); /* Dmytro : unknown variable v. Please, clarify this moment */
   // self.vectorAdapter.normalize( v );
-  self.Self.mul( dstVector, [ self.submatrix([ [ 0, dstVector.length ], [ 0, dstVector.length ] ]), dstVector ] );
+  Self.mul( dstVector, [ self.submatrix([ [ 0, dstVector.length ], [ 0, dstVector.length ] ]), dstVector ] );
   self.vectorAdapter.normalize( dstVector );
 
   return dstVector;
@@ -1276,30 +1277,24 @@ function matrixDirectionsApply( dstVector )
 //
 
 /**
- * The method matrix.positionGet() Returns offset or position specified by the matrix, takes source from context.
+ * The method positionGet() gets the vector from last column of matrix.
+ * The vector has length equivalent to row length decremented by one.
  *
  * @example
- * var buffer = new I32x
+ * var buffer = _.Matrix.makeSquare
  * ([
  *   +2, +2, +2,
  *   +2, +3, +4,
  *   +4, +3, -2,
  * ]);
  *
- * var matrix = new _.Matrix
- * ({
- *  buffer,
- *  dims : [ 3, 3 ],
- *  inputTransposing : 1,
- * });
- *
  * var got = matrix.positionGet();
- * console.log( got );
- * // log 2.000 4.000
+ * console.log( got.toStr() );
+ * // log : 2.000 4.000
  *
- * @returns { VectorAdapter } - Returns offset or position specified by the matrix.
+ * @returns { VectorAdapter } - Returns vector from last column of the matrix.
  * @method positionGet
- * @throws { Error } If argument exist.
+ * @throws { Error } If arguments are passed.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1326,7 +1321,8 @@ function positionGet()
 //
 
 /**
- * The method matrix.positionSet() sets and return position {-src-} specified by the matrix.
+ * The method positionSet() assigns vector {-src-} to the vector maiden from last column
+ * of the matrix. The column does not include last element.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
@@ -1342,10 +1338,10 @@ function positionGet()
  * console.log( got );
  * // log 4.000, 4.000
  *
- * @param { Long|VectorAdapter } src - an instance of Long or VectorAdapter.
- * @returns { VectorAdapter } - Returns position specified by the matrix.
+ * @param { Long|VectorAdapter } src - Source vector.
+ * @returns { VectorAdapter } - Returns vector specified by the matrix.
  * @method positionSet
- * @throws { Error } If {-src-} and destination matrix length is not same.
+ * @throws { Error } If src.length is equal or great then length of the matrix row.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1369,19 +1365,12 @@ function positionSet( src )
  * The method matrix.scaleMaxGet() returns maximum value of scale specified by the matrix.
  *
  * @example
- * var buffer = new I32x
+ * var buffer = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
  *   +2, +2, +2,
  *   +2, +3, +4,
  *   +4, +3, -2,
  * ]);
- *
- * var matrix = new _.Matrix
- * ({
-     buffer,
-     dims : [ 3, 3 ],
-     inputTransposing : 1,
- * });
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
@@ -1389,7 +1378,7 @@ function positionSet( src )
  * console.log( got )
  * // log 3.605551275463989
  *
- * @param { Array|VectorAdapter } dst - Array or an instance of VectorAdapter.
+ * @param { Long|VectorAdapter } dst - Array or an instance of VectorAdapter.
  * @returns { Number } - Returns maximum value of scale specified by the matrix.
  * @method scaleMaxGet
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter or Array.
