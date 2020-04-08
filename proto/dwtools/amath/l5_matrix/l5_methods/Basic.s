@@ -38,7 +38,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  *   inputTransposing : 1,
  * });
  *
- * var got = matrix._tempBorrow( m, [ 4, 4 ], 1 );
+ * var got = matrix._TempBorrow( m, [ 4, 4 ], 1 );
  * console.log( got );
  * // log
  * new I32x
