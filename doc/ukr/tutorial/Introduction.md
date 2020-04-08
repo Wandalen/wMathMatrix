@@ -136,6 +136,61 @@ console.log( 'transposed matrix : ', matrixTransposed.toStr() );
 */
 ```
 
+### Множення двох матриць
+
+Перемножити матриці можна з допомогою статичної рутини `Mul`. Рутина поміщає результат виконання операції в контейнер `dst`, якщо `dst` має значення `null` тоді результат поміщається в новий контейнер.
+
+```js
+var matrixA = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
+var matrixB = _.Matrix.makeSquare( [ 4, 3, 2, 1 ] );
+
+var matrix = _.Matrix.Mul( null, [ matrixA, matrixB ] );
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix :  +8,  +5,
+                  +20, +13,
+*/
+```
+
+Екземпляр класу `Matrix` також має метод `mul`, результат множення матриць присвоюється цьому екземпляру.
+
+```js
+var matrixA = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
+var matrixB = _.Matrix.makeSquare( [ 4, 3, 2, 1 ] );
+
+var matrix = _.Matrix.make( [ 2, 2 ] );
+matrix.mul( [ matrixA, matrixB ] );
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix :  +8,  +5,
+                  +20, +13,
+*/
+```
+
+### Множення матриці на вектор
+
+Матриця може бути помножена на вектор з допомогою статичної рутини `Mul`, результатом множення буде вектор.
+
+```js
+var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
+var vector = [ 1, 1 ];
+
+var got = _.Matrix.mul( null, [ matrix, vector ] );
+console.log( 'got : ', got );
+/* log : oot : [ 3, 7 ] */
+```
+
+Екземпляр класу може бути помножений на вектор з використанням методу `matrixApplyTo`, результат множення записується в вектор.
+
+```js
+var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
+var vector = [ 1, 1 ];
+
+var got = matrix.matrixApplyTo( vector );
+console.log( 'got : ', got );
+/* log : oot : [ 3, 7 ] */
+console.log( 'got === vector : ', got === vector );
+/* log : got === vector : true */
+```
+
 ### Рішення системи лінійних рівнянь
 
 Рішення системи з двох лінійних рівнянь
