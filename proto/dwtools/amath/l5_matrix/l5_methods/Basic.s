@@ -382,9 +382,9 @@ function mul_static( dst, srcs )
  * @example
  * var buffer = new I32x
  * ([
- *  +2, +2, -2,
- *  -2, -3, +4,
- *  +4, +3, -2,
+ *   2,  2, -2,
+ *  -2, -3,  4,
+ *   4,  3, -2,
  * ]);
  *
  * var m = new _.Matrix
@@ -394,20 +394,16 @@ function mul_static( dst, srcs )
  *   inputTransposing : 1,
  * });
  *
- * var got = matrix.mul( m, [ m, m ] );
- * console.log( got.buffer );
- * // log
- * new I32x
- * [
- *  -8, -8, +8,
- *  +18, +17, -16,
- *  -6, -7, +8,
- * ];
+ * var got = m.mul( [ m, m ] );
+ * console.log( got.toStr() );
+ * // log :  -8,  -8,  +8,
+ * //       +18, +17, -16,
+ * //        -6,  -7,  +8,
  *
- * @param { Matrix } srcs - provide multiplication values.
+ * @param { Array } srcs - Array with matrices.
  * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
  * @method mul
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-srcs-} is not array.
  * @class Matrix
  * @namespace wTools
@@ -427,73 +423,51 @@ function mul( srcs )
 //
 
 /**
- * The Mul2Matrices() is part of mul2Matrices method, returns multiplies values of provided matrix {-src1-}, {-src2-} to
- * destination matrix {-dst-}.
+ * The routine Mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
+ * The result of multiplication assigns to destination matrix {-dst-}.
  *
  * @example
- * var buffer1 = new I32x
- * ([
- *   +2, +2, +2,
- *   +2, +3, +4,
- *   +4, +3, -2,
- * ]);
  * var src1 = new _.Matrix
  * ({
- *   buffer : buffer1,
+ *   buffer : [ 2, 2, 2, 2, 3, 4, 4, 3, -2 ],
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
- *
- * var buffer2 = new I32x
- * ([
- *   3, 2, 3,
- *   4, 0, 2,
- *   0, 0, 6,
- * ]);
  *
  * var src2 = new _.Matrix
  * ({
- *   buffer : buffer2,
+ *   buffer : [ 3, 2, 3, 4, 0, 2, 0, 0, 6 ],
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
- *
- * var buffer3 = new I32x
- * ([
- *   0, 0, 0,
- *   0, 0, 0,
- *   0, 0, 0,
- * ]);
  *
  * var dst = new _.Matrix
  * ({
- *   buffer : buffer3,
+ *   buffer : new I32x( [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ),
  *   dims : [ 3, 3 ],
  *   inputTransposing : 1,
  * });
  *
- * var got = res.mul2Matrices( dst, src1, src2 )
- * logger.log( got ) // got === dst
- * //log
- *  +14, +4, +22,
- *  +18, +4, +36,
- *  +24, +8, +6,
+ * var got = _.Matrix.mul2Matrices( dst, src1, src2 )
+ * console.log( got )
+ * // log : +14, +4, +22,
+ * //       +18, +4, +36,
+ * //       +24, +8,  +6,
  *
- * @param { Matrix } dst - destination instance of Matrix.
- * @param { Matrix } src1 - provided instance of Matrix.
- * @param { Matrix } src2 - provided instance of Matrix.
- * @returns { Matrix } - Returns instance with multiplies values of provided matrices.
- * @method Mul2Matrices
+ * @param { Null|Matrix } dst - Destination matrix.
+ * @param { Matrix } src1 - Source Matrix.
+ * @param { Matrix } src2 - Source Matrix.
+ * @returns { Matrix } - Returns instance of destination matrix filled by result of multiplication.
+ * @function Mul2Matrices
  * @throws { Error } If (arguments.length) is not 3.
- * @throws { Error } If {-dst-} is not instance of Matrix.
- * @throws { Error } If {-src1-} is not instance of Matrix.
- * @throws { Error } If {-src2-} is not instance of Matrix.
- * @throws { Error } If {-src1.dims-} and {-src2.dims-} length is not 2.
+ * @throws { Error } If {-dst-} is not a Matrix, not a Null.
+ * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
+ * @throws { Error } If src1.dims or src2.dims length is not 2.
  * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
  * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
- * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (src2.dims[ 0 ]).
- * @throws { Error } If (src1.dims[ 0 ]) index is not equal of index (dst.dims[ 0 ]).
- * @throws { Error } If (src1.dims[ 1 ]) index is not equal of index (dst.dims[ 1 ]).
+ * @throws { Error } If src1.dims[ 1 ] is not equal to src2.dims[ 0 ].
+ * @throws { Error } If src1.dims[ 0 ] is not equal to dst.dims[ 0 ].
+ * @throws { Error } If src1.dims[ 1 ] is not equal to dst.dims[ 1 ].
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -539,6 +513,55 @@ function Mul2Matrices( dst, src1, src2 )
 
 //
 
+/**
+ * The method mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
+ * The result of multiplication assigns to destination matrix {-dst-}.
+ *
+ * @example
+ * var src1 = new _.Matrix
+ * ({
+ *   buffer : [ 2, 2, 2, 2, 3, 4, 4, 3, -2 ],
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var src2 = new _.Matrix
+ * ({
+ *   buffer : [ 3, 2, 3, 4, 0, 2, 0, 0, 6 ],
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var dst = new _.Matrix
+ * ({
+ *   buffer : new I32x( [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ),
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = dst.mul2Matrices( src1, src2 )
+ * console.log( got )
+ * // log : +14, +4, +22,
+ * //       +18, +4, +36,
+ * //       +24, +8,  +6,
+ *
+ * @param { Matrix } src1 - Source Matrix.
+ * @param { Matrix } src2 - Source Matrix.
+ * @returns { Matrix } - Returns original matrix filled by result of multiplication.
+ * @method mul2Matrices
+ * @throws { Error } If (arguments.length) is not 2.
+ * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
+ * @throws { Error } If src1.dims or src2.dims length is not 2.
+ * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
+ * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
+ * @throws { Error } If src1.dims[ 1 ] is not equal to src2.dims[ 0 ].
+ * @throws { Error } If src1.dims[ 0 ] is not equal to self.dims[ 0 ].
+ * @throws { Error } If src1.dims[ 1 ] is not equal to self.dims[ 1 ].
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function mul2Matrices( src1, src2 )
 {
   let dst = this;
@@ -551,41 +574,35 @@ function mul2Matrices( src1, src2 )
 //
 
 /**
- * The method matrix.mulLeft() multiplies values of provided matrices and returns left matrix with these values.
+ * The method mulLeft() provides multiplication of current matrix on source matrix {-src-}.
+ * The result assigns to the current matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +0, +4, +5
- *   +0, +0, +6,
+ *   1, 2, 3,
+ *   0, 4, 5
+ *   0, 0, 6,
  * ]);
  *
  * var src = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +4, +1, +2,
- *   +0, +0, +1,
+ *   1, 2, 3,
+ *   4, 1, 2,
+ *   0, 0, 1,
  * ]);
  *
  * var got = matrix.mulLeft( src );
  * logger.log( matrix );
- * // log
- *   +9, +4, +10,
- *   +16, +4, +13
- *   +0, +0, +6,
+ * // log :  +9, +4, +10,
+ * //       +16, +4, +13
+ * //        +0, +0,  +6,
  *
- * logger.log( src );
- * // log
- *   +1, +2, +3,
- *   +4, +1, +2,
- *   +0, +0, +1,
- *
- * @param { Matrix } src - an instance of Matrix.
- * @returns { Matrix } - Returns an instance of Matrix.
+ * @param { Matrix } src - Source Matrix.
+ * @returns { Matrix } - Returns original matrix filled by result of multiplication.
  * @method mulLeft
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-src-} is not an instance of Matrix.
- * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -597,8 +614,6 @@ function mulLeft( src )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  // debugger;
-
   dst.mul([ dst, src ])
 
   return dst;
@@ -607,41 +622,35 @@ function mulLeft( src )
 //
 
 /**
- * The method matrix.mulRight() multiplies values of provided matrices and returns right matrix with these values.
+ * The method mulRight() provides multiplication of source matrix {-src-} on current matrix.
+ * The result assigns to the current matrix.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +0, +4, +5
- *   +0, +0, +6,
+ *   1, 2, 3,
+ *   0, 4, 5
+ *   0, 0, 6,
  * ]);
  *
  * var src = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +1, +2, +3,
- *   +4, +1, +2,
- *   +0, +0, +1,
+ *   1, 2, 3,
+ *   4, 1, 2,
+ *   0, 0, 1,
  * ]);
  *
  * var got = matrix.mulRight( src );
- * logger.log( matrix );
- * // log
- *   +1, +2, +3,
- *   +0, +4, +5
- *   +0, +0, +6,
+ * logger.log( got );
+ * // log :  +9, +4, +10,
+ * //       +16, +4, +13
+ * //        +0, +0,  +6,
  *
- * logger.log( src );
- * // log
- *   +9, +4, +10,
- *   +16, +4, +13
- *   +0, +0, +6,
- *
- * @param { Matrix } src - an instance of Matrix.
- * @returns { Matrix } - Returns an instance of Matrix.
+ * @param { Matrix } src - Source Matrix.
+ * @returns { Matrix } - Returns original matrix filled by result of multiplication.
  * @method mulRight
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-src-} is not an instance of Matrix.
- * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -653,10 +662,7 @@ function mulRight( src )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  // debugger;
-
   dst.mul([ src, dst ]);
-  // dst.mul2Matrices( src, dst );
 
   return dst;
 }
