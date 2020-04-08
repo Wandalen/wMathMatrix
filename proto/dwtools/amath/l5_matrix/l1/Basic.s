@@ -2717,7 +2717,7 @@ function eSet( index, srcElement )
  * @returns { Matrix } - Returns original matrix with swapped elements.
  * @function elementsSwap
  * @throws { Error } If arguments.length is not equal to two.
- * @throws { Error } If any of indexes is out of elements range.
+ * @throws { Error } If any of indexes is out of range of elements.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -2791,7 +2791,6 @@ function lineVectorGet( d, index )
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.lineVectorSet( 1, 2, [ 0, 0, 0 ] );
  * console.log( got.toStr() );
- * console.log( got.toStr() );
  * // log : +1, +2, +3,
  * //       +4, +5, +6,
  * //       +0, +0, +0,
@@ -2828,13 +2827,13 @@ function lineSet( d, index, src )
 //
 
 /**
- * Routine linesSwap() swaps lines of the matrices taking into account index of dimension {-d-}.
+ * Routine linesSwap() swaps lines of the matrix taking into account index of dimension {-d-}.
  * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then
  * the routine returns column.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.linesSwap( 0, 1, 2 );
+ * var got = matrix.linesSwap( 1, 1, 2 );
  * console.log( got.toStr() );
  * // log : +1, +3, +2,
  * //       +4, +6, +5,
@@ -2847,7 +2846,7 @@ function lineSet( d, index, src )
  * @function linesSwap
  * @throws { Error } If arguments.length is not equal to three.
  * @throws { Error } If number of dimensions is not equal to two.
- * @throws { Error } If any of indexes is out of lines range.
+ * @throws { Error } If any of indexes is out of range of lines.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -2919,6 +2918,27 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
 
 //
 
+/**
+ * Routine rowVectorGet() returns row of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.rowVectorGet( 1 );
+ * console.log( got.toStr() );
+ * // log : 4.000, 5.000, 6.000
+ *
+ * @param { Number } index - Index of the row.
+ * @returns { VectorAdapter } - Returns vector with row of the matrix.
+ * @function rowVectorGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If number of dimensions is not equal to two.
+ * @throws { Error } If {-index-} is out of range of rows.
+ * @throws { Error } If {-index-} is not a Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function rowVectorGet( index )
 {
 
@@ -2940,6 +2960,28 @@ function rowVectorGet( index )
 
 //
 
+/**
+ * Routine rowSet() assigns values to the row of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.rowSet( 1, 5 );
+ * console.log( got.toStr() );
+ * // log : +1, +2, +3,
+ * //       +5, +5, +5,
+ * //       +7, +8, +9,
+ *
+ * @param { Number } rowIndex - Index of the row.
+ * @param { Number|Long|VectorAdapter } srcRow - Source value for the row.
+ * @returns { Matrix } - Returns original matrix with changed row.
+ * @function rowSet
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If {-srcRow-} is not a Number, not a Long, not a VectorAdapter.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function rowSet( rowIndex, srcRow )
 {
   let self = this;
@@ -2954,6 +2996,29 @@ function rowSet( rowIndex, srcRow )
 
 //
 
+/**
+ * Routine rowsSwap() swaps rows of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.rowsSwap( 1, 2 );
+ * console.log( got.toStr() );
+ * // log : +1, +2, +3,
+ * //       +7, +8, +9,
+ * //       +4, +5, +6,
+ *
+ * @param { Number } i1 - Index of first row.
+ * @param { Number } i2 - Index of second row.
+ * @returns { Matrix } - Returns original matrix with swapped rows.
+ * @function rowsSwap
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If number of dimensions is not equal to two.
+ * @throws { Error } If any of indexes is out of range of lines.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function rowsSwap( i1, i2 )
 {
   let self = this;
@@ -2964,6 +3029,27 @@ function rowsSwap( i1, i2 )
 }
 
 //
+
+/**
+ * Routine colVectorGet() returns column of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.colVectorGet( 1 );
+ * console.log( got.toStr() );
+ * // log : 2.000, 5.000, 8.000
+ *
+ * @param { Number } index - Index of the column.
+ * @returns { VectorAdapter } - Returns vector with column of the matrix.
+ * @function colVectorGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If number of dimensions is not equal to two.
+ * @throws { Error } If {-index-} is out of range of columns.
+ * @throws { Error } If {-index-} is not a Number.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function colVectorGet( index )
 {
@@ -2986,6 +3072,28 @@ function colVectorGet( index )
 
 //
 
+/**
+ * Routine colSet() assigns values to the column of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.colSet( 1, [ 5, 5, 5 ] );
+ * console.log( got.toStr() );
+ * // log : +1, +5, +3,
+ * //       +4, +5, +6,
+ * //       +7, +5, +9,
+ *
+ * @param { Number } index - Index of the column.
+ * @param { Number|Long|VectorAdapter } srcCol - Source value for the column.
+ * @returns { Matrix } - Returns original matrix with changed column.
+ * @function colSet
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If {-srcCol-} is not a Number, not a Long, not a VectorAdapter.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function colSet( index, srcCol )
 {
   let self = this;
@@ -2999,6 +3107,29 @@ function colSet( index, srcCol )
 }
 
 //
+
+/**
+ * Routine colsSwap() swaps columns of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.colsSwap( 1, 2 );
+ * console.log( got.toStr() );
+ * // log : +1, +3, +2,
+ * //       +4, +6, +5,
+ * //       +7, +9, +8,
+ *
+ * @param { Number } i1 - Index of first column.
+ * @param { Number } i2 - Index of second second.
+ * @returns { Matrix } - Returns original matrix with swapped columns.
+ * @function colsSwap
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If number of dimensions is not equal to two.
+ * @throws { Error } If any of indexes is out of range of lines.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function colsSwap( i1, i2 )
 {
