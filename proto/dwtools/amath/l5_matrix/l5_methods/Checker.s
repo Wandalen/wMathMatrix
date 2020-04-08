@@ -124,7 +124,6 @@ function isUpperTriangle( accuracy )
   {
     for( let j = 0; j < cols; j++ )
     {
-      debugger;
       if( i > j )
       {
         let point = self.atomGet([ i, j ]);

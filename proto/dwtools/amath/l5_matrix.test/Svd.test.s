@@ -28,7 +28,7 @@ var sqrt = _.math.sqrt;
 //
 // --
 
-function qrIteration( test )
+function _qrIteration( test )
 {
 
   /* */
@@ -42,7 +42,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 3, -1 ]);
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   var oldMatrix =  _.Matrix.Make( [ 2, 2 ] ).copy
@@ -64,7 +64,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 4, -2, -2 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -79,7 +79,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 17, 8, 7 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -93,7 +93,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 9, 1 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -109,7 +109,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 52.01152, 21.52969, -3.60211, -13.93910 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -125,7 +125,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 2.5362, 0.8482, 0.4078, 0.2078 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -142,7 +142,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 43.943070, 29.437279, 9.139799, -0.380354, -17.139794 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -158,7 +158,7 @@ function qrIteration( test )
   ]);
   var expected = _.vectorAdapter.from( [ 2, 1, 0.5, -1 ] );
 
-  var gotValues = matrix.qrIteration( );
+  var gotValues = matrix._qrIteration( );
   test.equivalent( gotValues, expected );
 
   /* */
@@ -175,7 +175,7 @@ function qrIteration( test )
   var r = _.Matrix.Make( [ 3, 3 ] );
   var expected = _.vectorAdapter.from( [ 4, -2, -2 ] );
 
-  var gotValues = matrix.qrIteration( q, r );
+  var gotValues = matrix._qrIteration( q, r );
   test.equivalent( gotValues, expected );
 
   var oldQ =  _.Matrix.Make( [ 3, 3 ] ).copy
@@ -200,24 +200,24 @@ function qrIteration( test )
   return;
 
   var matrix = 'matrix';
-  test.shouldThrowErrorSync( () => matrix.qrIteration( ));
+  test.shouldThrowErrorSync( () => matrix._qrIteration( ));
   var matrix = NaN;
-  test.shouldThrowErrorSync( () => matrix.qrIteration( ));
+  test.shouldThrowErrorSync( () => matrix._qrIteration( ));
   var matrix = null;
-  test.shouldThrowErrorSync( () => matrix.qrIteration( ));
+  test.shouldThrowErrorSync( () => matrix._qrIteration( ));
   var matrix = [ 0, 0, 0 ];
-  test.shouldThrowErrorSync( () => matrix.qrIteration( ));
+  test.shouldThrowErrorSync( () => matrix._qrIteration( ));
   var matrix = _.vectorAdapter.from( [ 0, 0, 0 ] );
-  test.shouldThrowErrorSync( () => matrix.qrIteration( ));
+  test.shouldThrowErrorSync( () => matrix._qrIteration( ));
 
 }
 
-qrIteration.accuracy = 1E-4;
-qrIteration.timeOut = 20000;
+_qrIteration.accuracy = 1E-4;
+_qrIteration.timeOut = 20000;
 
 //
 
-function qrDecomposition( test )
+function _qrDecomposition( test )
 {
 
   /* */
@@ -375,8 +375,8 @@ function qrDecomposition( test )
 
 }
 
-qrDecomposition.accuracy = 1E-4;
-qrDecomposition.timeOut = 20000;
+_qrDecomposition.accuracy = 1E-4;
+_qrDecomposition.timeOut = 20000;
 
 //
 
@@ -1025,8 +1025,8 @@ var Self =
   tests :
   {
 
-    qrIteration,
-    qrDecomposition,
+    _qrIteration,
+    _qrDecomposition,
     fromVectors,
     svd,
 

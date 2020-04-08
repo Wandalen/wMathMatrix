@@ -243,20 +243,19 @@ function _qrDecompositionGS( q, r )
 function _qrDecompositionHh( q, r )
 {
   let self = this;
+  let cols = self.length;
+  let rows = self.atomsPerElement;
 
   _.assert( _.Matrix.Is( self ) );
   _.assert( _.Matrix.Is( q ) );
   _.assert( _.Matrix.Is( r ) );
-
-  let cols = self.length;
-  let rows = self.atomsPerElement;
 
   let matrix = self.clone();
 
   q.copy( _.Matrix.MakeIdentity( rows ) );
   let identity = _.Matrix.MakeIdentity( rows );
 
-  // Calculate Q
+  /* Calculate Q */
 
   for( let j = 0; j < cols; j++ )
   {
@@ -268,7 +267,6 @@ function _qrDecompositionHh( q, r )
     {
       col.eSet( i, 0 );
     }
-    debugger;
     let c = 0;
 
     if( matrix.atomGet( [ j, j ] ) > 0 )
@@ -285,18 +283,20 @@ function _qrDecompositionHh( q, r )
     debugger;
     let m = _.Matrix.Make( [ rows, cols ] ).fromVectors_( u, u );
     let mi = identity.clone();
+    debugger;
     let h = mi.addAtomWise( m.mul( - 2 ) );
+    debugger;
     q.mulLeft( h );
 
-    matrix = _.Matrix._mul2Matrices( null, h, matrix );
+    matrix = _.Matrix.Mul( null, [ h, matrix ] );
   }
 
   r.copy( matrix );
 
   // Calculate R
   // r._mul2Matrices( h.clone().transpose(), matrix );
-  let m = _.Matrix._mul2Matrices( null, q, r );
-  let rb = _.Matrix._mul2Matrices( null, q.clone().transpose(), self )
+  let m = _.Matrix.Mul( null, [ q, r ] );
+  let rb = _.Matrix.Mul( null, [ q.clone().transpose(), self ] )
 
   for( let i = 0; i < rows; i++ )
   {
@@ -347,10 +347,8 @@ function _qrDecompositionHh( q, r )
 function fromVectors_( v1, v2 ) /* xxx : remove? */
 {
 
-  debugger;
   _.assert( _.vectorAdapterIs( v1 ) );
   _.assert( _.vectorAdapterIs( v2 ) );
-//  _.assert( v1.length === v2.length );
 
   let matrix = _.Matrix.Make( [ v1.length, v2.length ] );
 
@@ -457,22 +455,22 @@ function svd( u, s, v )
   }
   else
   {
-    let aaT = _.Matrix._mul2Matrices( null, self, self.clone().transpose() );
+    let aaT = _.Matrix.Mul( null, [ self, self.clone().transpose() ] );
     let qAAT = _.Matrix.Make( [ rows, rows ] );
     let rAAT = _.Matrix.Make( [ rows, rows ] );
 
     aaT._qrIteration( qAAT, rAAT );
-    let sd = _.Matrix._mul2Matrices( null, rAAT, qAAT.clone().transpose() )
+    let sd = _.Matrix.Mul( null, [ rAAT, qAAT.clone().transpose() ] )
 
     u.copy( qAAT );
 
-    let aTa = _.Matrix._mul2Matrices( null, self.clone().transpose(), self );
+    let aTa = _.Matrix.Mul( null, [ self.clone().transpose(), self ] );
     let qATA = _.Matrix.Make( [ cols, cols ] );
     let rATA = _.Matrix.Make( [ cols, cols ] );
 
     aTa._qrIteration( qATA, rATA );
 
-    let sd1 = _.Matrix._mul2Matrices( null, rATA, qATA.clone().transpose() )
+    let sd1 = _.Matrix.Mul( null, [ rATA, qATA.clone().transpose() ] )
 
     v.copy( qATA );
 
@@ -484,7 +482,7 @@ function svd( u, s, v )
       {
         let col = u.colVectorGet( i ).slice();
         let m1 = _.Matrix.Make( [ col.length, 1 ] ).copy( col );
-        let m2 = _.Matrix._mul2Matrices( null, self.clone().transpose(), m1 );
+        let m2 = _.Matrix.Mul( null, [ self.clone().transpose(), m1 ] );
 
         v.colSet( i, m2.colVectorGet( 0 ).mul( 1 / eigenV.eGet( i ) ).normalize() );
       }
@@ -498,7 +496,6 @@ function svd( u, s, v )
   }
 
 }
-
 
 // --
 // relations
