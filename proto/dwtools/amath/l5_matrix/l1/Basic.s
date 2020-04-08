@@ -2746,12 +2746,12 @@ function elementsSwap( i1, i2 )
 
 /**
  * Routine lineVectorGet() returns line, it is row or column of matrix, taking into account the
- * index of dimensions {-d-}. If {-d-} is 0, then routine returns row with index
- * {-index-}, else if {-d-} is 1, then the routine returns column.
+ * index of dimensions {-d-}. If {-d-} is 1, then routine returns row with index
+ * {-index-}, else if {-d-} is 0, then the routine returns column.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.lineVectorGet( 0, 2 );
+ * var got = matrix.lineVectorGet( 1, 2 );
  * console.log( got.toStr() );
  * // log : 7.000, 8.000, 9.000
  *
@@ -2784,6 +2784,31 @@ function lineVectorGet( d, index )
 
 //
 
+/**
+ * Routine lineVectorGet() applies value in source vector {-src-} to line of the matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.lineVectorSet( 1, 2, [ 0, 0, 0 ] );
+ * console.log( got.toStr() );
+ * console.log( got.toStr() );
+ * // log : +1, +2, +3,
+ * //       +4, +5, +6,
+ * //       +0, +0, +0,
+ *
+ * @param { Number } d - Dimension index.
+ * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then the routine returns column.
+ * @param { Number } index - Index of the line.
+ * @param { Long|VectorAdapter } src - The source elements.
+ * @returns { VectorAdapter } - Returns vector with row or column of the matrix.
+ * @function lineVectorGet
+ * @throws { Error } If arguments.length is not equal to three.
+ * @throws { Error } If number of dimensions is not equal to two.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function lineSet( d, index, src )
 {
   let self = this;
@@ -2801,6 +2826,32 @@ function lineSet( d, index, src )
 }
 
 //
+
+/**
+ * Routine linesSwap() swaps lines of the matrices taking into account index of dimension {-d-}.
+ * If {-d-} is 1, then routine returns row with index {-index-}, else if {-d-} is 0, then
+ * the routine returns column.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.linesSwap( 0, 1, 2 );
+ * console.log( got.toStr() );
+ * // log : +1, +3, +2,
+ * //       +4, +6, +5,
+ * //       +7, +9, +8,
+ *
+ * @param { Number } d - Index of dimension.
+ * @param { Number } i1 - Index of first line.
+ * @param { Number } i2 - Index of second line.
+ * @returns { Matrix } - Returns original matrix with swapped lines.
+ * @function linesSwap
+ * @throws { Error } If arguments.length is not equal to three.
+ * @throws { Error } If number of dimensions is not equal to two.
+ * @throws { Error } If any of indexes is out of lines range.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function linesSwap( d, i1, i2 )
 {
@@ -2827,6 +2878,25 @@ function linesSwap( d, i1, i2 )
 }
 
 //
+
+/**
+ * Routine rowVectorOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
+ *
+ * @example
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.rowVectorOfMatrixGet( [ 0, 0 ], 2 );
+ * console.log( got.toStr() );
+ * // log : 1.000, 2.000, 3.000
+ *
+ * @param { Long|VectorAdapter|Matrix } matrixIndex - Index of matrix.
+ * @param { Number } rowIndex - Index of the row.
+ * @returns { VectorAdapter } - Returns vector with row.
+ * @function rowVectorOfMatrixGet
+ * @throws { Error } If {-matrixIndex-} is not a Long, not a VectorAdapter, not a Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function rowVectorOfMatrixGet( matrixIndex, rowIndex )
 {
