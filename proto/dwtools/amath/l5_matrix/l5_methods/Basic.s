@@ -1362,27 +1362,26 @@ function positionSet( src )
 //
 
 /**
- * The method matrix.scaleMaxGet() returns maximum value of scale specified by the matrix.
+ * The method scaleMaxGet() calculates maximum value of scale of the matrix.
  *
  * @example
  * var buffer = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +2, +2, +2,
- *   +2, +3, +4,
- *   +4, +3, -2,
+ *   2,  2,  2,
+ *   2,  3,  4,
+ *   4,  3, -2,
  * ]);
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMaxGet( dst )
  * console.log( got )
- * // log 3.605551275463989
+ * // log : 3.605551275463989
  *
- * @param { Long|VectorAdapter } dst - Array or an instance of VectorAdapter.
- * @returns { Number } - Returns maximum value of scale specified by the matrix.
+ * @param { Long|VectorAdapter } dst - Destination vector for scales.
+ * @returns { Number } - Returns maximum value of scale.
  * @method scaleMaxGet
  * @throws { Error } If {-dst-} is not an instance of VectorAdapter or Array.
- * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1399,34 +1398,26 @@ function scaleMaxGet( dst )
 //
 
 /**
- * The method matrix.scaleMeanGet() returns medium value of scale specified by the matrix.
+ * The method scaleMeanGet() returns medium value of scale of the matrix.
  *
  * @example
- * var buffer = new I32x
+ * var buffer = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +2, +2, +2,
- *   +2, +3, +4,
- *   +4, +3, -2,
+ *   2,  2,  2,
+ *   2,  3,  4,
+ *   4,  3, -2,
  * ]);
- *
- * var matrix = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMeanGet( dst )
  * console.log( got )
- * // log 3.2169892001050897
+ * // log : 3.2169892001050897
  *
- * @param { VectorAdapter } dst - an instance of VectorAdapter.
- * @returns { Number } - Returns medium value of scale specified by the matrix.
+ * @param { VectorAdapter } dst - Destination vector for scales.
+ * @returns { Number } - Returns medium value of scales of the matrix.
  * @method scaleMeanGet
- * @throws { Error } If {-dst-} is not an instance of VectorAdapter.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If {-dst-} is not an instance of an Long or a VectorAdapter.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1443,7 +1434,7 @@ function scaleMeanGet( dst )
 //
 
 /**
- * The method matrix.scaleMagGet() returns magnitude of scale specified by the matrix.
+ * The method scaleMagGet() returns magnitude of scale specified by the matrix.
  *
  * @example
  * var buffer = new I32x
@@ -1532,7 +1523,7 @@ function scaleMagGet( dst )
     dst.length = self.length-1;
   }
 
-  if( dst )
+  if( dst ) /* Dmytro : bug if dst is not an Array */
   l = dst.length;
   else
   dst = self.vectorAdapter.from( self.long.longMakeZeroed( self.length-1 ) );

@@ -415,7 +415,7 @@ function clone()
 //
 
 /**
- * Method CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
+ * Static routine CopyTo() copies data from buffer {-src-} into buffer {-dst-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 2, 2 ] );
@@ -430,10 +430,11 @@ function clone()
  * @param { Long|VectorAdapter|Matrix } dst - Destination container.
  * @param { Long|VectorAdapter|Matrix } src - Source container.
  * @returns { Long|VectorAdapter|Matrix } - Returns original instance of destination container filled by values of source container.
- * @function CopyTo
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-dst-} and {-src-} have different dimensions.
  * @throws { Error } If routine is called by instance of Matrix.
+ * @static
+ * @function CopyTo
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -683,7 +684,7 @@ function _atomsPerMatrixGet()
 
 
 /**
- * Routine AtomsPerMatrixForDimensions() calculates quantity of atoms in matrix with defined dimensions.
+ * Static routine AtomsPerMatrixForDimensions() calculates quantity of atoms in matrix with defined dimensions.
  *
  * @example
  * var atoms = _.Matrix.AtomsPerMatrixForDimensions( [ 2, 2 ] );
@@ -692,10 +693,11 @@ function _atomsPerMatrixGet()
  *
  * @param { Array } dims - An array with matrix dimensions.
  * @returns { Number } - Returns quantity of atoms in matrix with defined dimensions.
- * @function AtomsPerMatrixForDimensions
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If routine is called by instance of Matrix.
+ * @static
+ * @function AtomsPerMatrixForDimensions
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -721,7 +723,7 @@ function AtomsPerMatrixForDimensions( dims )
 //
 
 /**
- * Routine NrowOf() returns number of rows in source Matrix {-src-}.
+ * Static routine NrowOf() returns number of rows in source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 5 ] );
@@ -731,8 +733,9 @@ function AtomsPerMatrixForDimensions( dims )
  *
  * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of rows in source matrix.
- * @function NrowOf
  * @throws { Error } If {-src-} is not a Matrix, not a Long.
+ * @static
+ * @function NrowOf
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -749,7 +752,7 @@ function NrowOf( src )
 //
 
 /**
- * Routine NcolOf() returns number of columns in source Matrix {-src-}.
+ * Static routine NcolOf() returns number of columns in source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 5 ] );
@@ -759,8 +762,9 @@ function NrowOf( src )
  *
  * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of columns in source matrix.
- * @function NcolOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @static
+ * @function NcolOf
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -777,7 +781,7 @@ function NcolOf( src )
 //
 
 /**
- * Routine DimsOf() returns dimentions of source Matrix {-src-}.
+ * Static routine DimsOf() returns dimentions of source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 5 ] );
@@ -787,8 +791,9 @@ function NcolOf( src )
  *
  * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
  * @returns { Array } - Returns dimensions in source matrix.
- * @function DimsOf
  * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @static
+ * @function DimsOf
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -883,7 +888,7 @@ function _strideInRowGet()
 //
 
 /**
- * Routine StridesForDimensions() calculates strides for each dimension taking into account transposing value.
+ * Static routine StridesForDimensions() calculates strides for each dimension taking into account transposing value.
  *
  * @example
  * var strides = _.Matrix.StridesForDimensions( [ 2, 2 ], true );
@@ -893,11 +898,12 @@ function _strideInRowGet()
  * @param { Array } dims - Dimensions of a matrix.
  * @param { BoolLike } transposing - Options defines transposing of the matrix.
  * @returns { Array } - Returns strides for each dimension of the matrix.
- * @function StridesForDimensions
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-dims-} is not an Array.
  * @throws { Error } If {-transposing-} is not BoolLike.
  * @throws { Error } If elements of {-dims-} is negative number.
+ * @static
+ * @function StridesForDimensions
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -946,7 +952,7 @@ function StridesForDimensions( dims, transposing )
 //
 
 /**
- * Routine StridesRoll() calculates strides offset for each dimension.
+ * Static routine StridesRoll() calculates strides offset for each dimension.
  *
  * @example
  * var strides = _.Matrix.StridesRoll( [ 2, 2 ] );
@@ -955,8 +961,9 @@ function StridesForDimensions( dims, transposing )
  *
  * @param { Array } strides - Strides of a matrix.
  * @returns { Array } - Returns strides for each dimension of the matrix.
- * @function StridesRoll
  * @throws { Error } If arguments.length is not equal to one.
+ * @static
+ * @function StridesRoll
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1535,7 +1542,7 @@ function expand( expand )
 //
 
 /**
- * Routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
+ * Static routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
  *
  * @example
  * var matrix1 = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
@@ -1547,8 +1554,9 @@ function expand( expand )
  * @param { Matrix|VectorAdapter|Long } ins1 - The source matrix.
  * @param { Matrix|VectorAdapter|Long } ins2 - The source matrix.
  * @returns { Boolean } - Returns value whether are dimensions of two matrices the same.
- * @function ShapesAreSame
  * @throws { Error } If routine is called by instance of Matrix.
+ * @static
+ * @function ShapesAreSame
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1830,7 +1838,7 @@ _.routineExtend( _equalAre, _._equal );
 //
 
 /**
- * Routine Is() checks whether the provided argument is an instance of Matrix.
+ * Static routine Is() checks whether the provided argument is an instance of Matrix.
  *
  * @example
  * var matrix = _.Matrix.transpose( [ 1, 1, 2, 2 ] );
@@ -1840,8 +1848,9 @@ _.routineExtend( _equalAre, _._equal );
  *
  * @param { * } src - The source argument.
  * @returns { Boolean } - Returns whether the argument is instance of Matrix.
- * @function Is
  * @throws { Error } If arguments.length is not equal to one.
+ * @static
+ * @function Is
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -3270,7 +3279,7 @@ function _vectorPivotDimension( v, current, expected )
 //
 
 /**
- * Routine VectorPivotForward() pivots elements of the vector {-vector-}.
+ * Static routine VectorPivotForward() pivots elements of the vector {-vector-}.
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
@@ -3282,10 +3291,11 @@ function _vectorPivotDimension( v, current, expected )
  * //       +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function VectorPivotForward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-pivots-} is not an Array.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @static
+ * @function VectorPivotForward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -3313,7 +3323,7 @@ function VectorPivotForward( vector, pivot )
 //
 
 /**
- * Routine VectorPivotBackward() pivots elements of the vector {-vector-}.
+ * Static routine VectorPivotBackward() pivots elements of the vector {-vector-}.
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
@@ -3325,10 +3335,11 @@ function VectorPivotForward( vector, pivot )
  * //       +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function VectorPivotBackward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-pivots-} is not an Array.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @static
+ * @function VectorPivotBackward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
