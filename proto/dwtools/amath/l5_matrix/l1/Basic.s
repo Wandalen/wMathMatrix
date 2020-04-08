@@ -3313,19 +3313,19 @@ function VectorPivotForward( vector, pivot )
 //
 
 /**
- * Routine VectorPivotForward() pivots elements of the vector {-vector-}.
+ * Routine VectorPivotBackward() pivots elements of the vector {-vector-}.
  * If {-vector-} is a Matrix instance, then routine pivots the rows.
  *
  * @example
  * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.VectorPivotForward( matrix, [ 1, 0, 2 ] );
+ * var got = matrix.VectorPivotBackward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
  * // log : +4, +5, +6,
  * //       +1, +2, +3,
  * //       +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
- * @function VectorPivotForward
+ * @function VectorPivotBackward
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-pivots-} is not an Array.
  * @throws { Error } If {-pivots-} element defines wrong pivoting.

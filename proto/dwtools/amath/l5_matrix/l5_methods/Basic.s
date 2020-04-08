@@ -117,8 +117,7 @@ function _tempBorrow( src, dims, index )
 //
 
 /**
- * This is a specialized method for executing tempBorrow,
- * for passing [ 0 ] index.
+ * This is a specialized method for executing tempBorrow for passing [ 0 ] index.
  *
  * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
@@ -149,8 +148,7 @@ function tempBorrow1( src )
 //
 
 /**
- * This is a specialized method for executing tempBorrow,
- * for passing [ 1 ] index.
+ * This is a specialized method for executing tempBorrow for passing [ 1 ] index.
  *
  * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
@@ -181,8 +179,7 @@ function tempBorrow2( src )
 //
 
 /**
- * This is a specialized method for executing tempBorrow,
- * for passing [ 2 ] index.
+ * This is a specialized method for executing tempBorrow for passing [ 2 ] index.
  *
  * @param { Matrix } Matrix - an instance of matrix.
  * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
@@ -215,25 +212,24 @@ function tempBorrow3( src )
 // --
 
 /**
- * The method matrix.pow is short-cut matrixPow returns an instance of Matrix with exponentiation values provided matrix,
+ * The method matrix.pow is short-cut matrixPow returns an instance of Matrix with exponentiation values of provided matrix,
  * takes destination matrix from context.
  *
  * @example
  * var matrix = _.Matrix.make( [ 3, 3 ] ).copy
  * ([
- *   +3, +2, +3,
- *   +4, +0, +2
- *   +0, +0, +6,
+ *   3, 2, 3,
+ *   4, 0, 2
+ *   0, 0, 6,
  * ]);
  *
  * var got = matrix.pow( 2 );
  * logger.log( got );
- * // log
- * +17, +6, +31,
- * +12, +8, +24,
- * +0, +0, +36,
+ * // log :  +17, +6, +31,
+ * //        +12, +8, +24,
+ * //        +0,  +0, +36,
  *
- * @param { Number|String } exponent - Number or String.
+ * @param { Number } exponent - The power of elements.
  * @returns { Matrix } - Returns instance of Matrix.
  * @method pow
  * @throws { Error } If method called by not an instance of matrix constructor.
@@ -242,6 +238,8 @@ function tempBorrow3( src )
  * @namespace wTools
  * @module Tools/math/Matrix
  */
+
+/* Dmytro : need clarification */
 
 function matrixPow( exponent )
 {
@@ -256,6 +254,42 @@ function matrixPow( exponent )
 }
 
 //
+
+/**
+ * The routine  mul() ( shortcut for routine mul_static ) returns the result of multiplication of matrices {-srcs-}.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   2,  2, -2,
+ *  -2, -3,  4,
+ *   4,  3, -2,
+ * ]);
+ *
+ * var m = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = _.Matrix.mul( null, [ m, m ] );
+ * console.log( got.toStr() );
+ * // log :  -8,  -8,  +8,
+ * //       +18, +17, -16,
+ * //        -6,  -7,  +8,
+ *
+ * @param { Null|Matrix } dst - The container for result.
+ * @param { Array } srcs - Array with matrices.
+ * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
+ * @function mul
+ * @throws { Error } If (arguments.length) is not 2.
+ * @throws { Error } If {-srcs-} is not an Array.
+ * @throws { Error } If srcs.length is less then 2.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function mul_static( dst, srcs )
 {
@@ -342,7 +376,8 @@ function mul_static( dst, srcs )
 //
 
 /**
- * The method matrix.mull() returns multiplies values of provided matrix {-srcs-}.
+ * The method mul() provides multiplication of matrices {-srcs-}.
+ * The result of multiplication assigns to the current matrix.
  *
  * @example
  * var buffer = new I32x
