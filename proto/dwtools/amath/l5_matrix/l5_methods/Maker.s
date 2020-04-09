@@ -1089,6 +1089,23 @@ function FromForReading( src, dims )
 
 //
 
+
+function FromTransformations( dst, position, quaternion, scale )
+{
+  dst = this.From( dst );
+
+  _.assert( !this.instanceIs() );
+  _.assert( arguments.length === 4, 'Expects exactly four arguments' );
+
+  dst.fromQuat( quaternion );
+  dst.scaleApply( scale );
+  dst.positionSet( position );
+
+  return dst;
+}
+
+//
+
 /**
  * The method matrix.fromTransformations() converts provided position {-position-}, quaternion {-quaternion-}, scale {-scale-} values
  * to the new instance of Matrix.
@@ -1960,6 +1977,7 @@ let Statics = /* qqq : split static routines. ask how */
   FromScalarForReading,
   From,
   FromForReading,
+  FromTransformations,
 
 }
 
@@ -2007,6 +2025,7 @@ let Extension =
   From,
   FromForReading,
 
+  FromTransformations,
   fromTransformations,
   fromQuat,
   fromQuatWithScale,
