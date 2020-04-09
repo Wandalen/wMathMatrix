@@ -331,30 +331,31 @@ function Mul( dst, srcs )
   /* adjust srcs 1 */
 
   srcs = srcs.slice();
-  let dstClone = null;
 
-  let odst = dst;
-  dst = this.From( dst );
-
+  let leftMatrix;
   for( let s = 0 ; s < srcs.length ; s++ )
   {
+    let src = srcs[ s ]
 
-    if( _.numberIs( srcs[ s ] ) )
-    srcs[ s ] = this.FromScalar( srcs[ s ], dst.dims );
-    else
-    srcs[ s ] = this.From( srcs[ s ] );
-
-    if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
+    if( _.numberIs( src ) )
     {
-      if( dstClone === null )
+      if( leftMatrix )
       {
-        dstClone = dst.TempBorrow1();
-        dstClone.copy( dst );
+        let dims = this.DimsOf( leftMatrix );
+        src = srcs[ s ] = this.MakeDiagonal( _.dup( src, dims[ 1 ] ) );
       }
-      srcs[ s ] = dstClone;
+      else
+      {
+        let m = notScalarRight( s );
+        let dims = m ? this.DimsOf( m ) : [ 1, 1 ];
+        src = srcs[ s ] = this.MakeDiagonal( _.dup( src, dims[ 0 ] ) );
+      }
     }
-
-    _.assert( dst.buffer !== srcs[ s ].buffer );
+    else
+    {
+      src = srcs[ s ] = this.From( src );
+    }
+    leftMatrix = src;
 
   }
 
@@ -368,7 +369,6 @@ function Mul( dst, srcs )
 
   /* adjust srcs 2 */
 
-  srcs = srcs.slice();
   let dstClone = null;
 
   let odst = dst;
@@ -376,11 +376,6 @@ function Mul( dst, srcs )
 
   for( let s = 0 ; s < srcs.length ; s++ )
   {
-
-    if( _.numberIs( srcs[ s ] ) )
-    srcs[ s ] = this.FromScalar( srcs[ s ], dst.dims );
-    else
-    srcs[ s ] = this.From( srcs[ s ] );
 
     if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
     {
@@ -434,6 +429,27 @@ function Mul( dst, srcs )
   }
 
   return odst;
+
+  // function notScalarLeft( current )
+  // {
+  //   for( let s = current-1 ; s >= 0 ; s-- )
+  //   {
+  //     let src = srcs[ s ];
+  //     if( !_.numberIs( src ) )
+  //     return src;
+  //   }
+  // }
+
+  function notScalarRight( current )
+  {
+    for( let s = current+1 ; s < srcs.length ; s++ )
+    {
+      let src = srcs[ s ];
+      if( !_.numberIs( src ) )
+      return src;
+    }
+  }
+
 }
 
 //

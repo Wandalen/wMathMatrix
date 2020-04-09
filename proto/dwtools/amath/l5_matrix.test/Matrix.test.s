@@ -3358,7 +3358,9 @@ function _MakeSimilar( test, o )
   test.is( got.constructor === src.constructor );
   test.identical( got.length , 5 );
 
-  test.case = o.name + ' . from vector'; //
+  /* */
+
+  test.case = o.name + ' . from vector';
 
   var src = vad.from( o.arrayMake([ 1, 2, 3 ]) );
   var got = matrix.MakeSimilar( src );
@@ -3370,7 +3372,9 @@ function _MakeSimilar( test, o )
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , src.length );
 
-  test.case = o.name + ' . from vector with dims'; //
+  /* */
+
+  test.case = o.name + ' . from vector with dims';
 
   var src = vad.from( o.arrayMake([ 1, 2, 3 ]) );
   var got = matrix.MakeSimilar( src, [ 5, 1 ] );
@@ -3382,7 +3386,9 @@ function _MakeSimilar( test, o )
   test.is( _.vectorAdapterIs( src ) );
   test.identical( got.length , 5 );
 
-  test.case = o.name + ' . special'; //
+  /* */
+
+  test.case = o.name + ' . special';
 
   var exp = o.arrayMake( 4 );
   var got = matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 4, 1 ] ); /* xxx */
@@ -3392,7 +3398,9 @@ function _MakeSimilar( test, o )
   var got = matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ null, 1 ] ); /* xxx */
   test.identical( got, exp );
 
-  test.case = o.name + ' . bad arguments'; //
+  /* */
+
+  test.case = o.name + ' . bad arguments';
 
   if( !Config.debug )
   return;
@@ -8332,33 +8340,132 @@ function mul( test )
 
 //
 
-function MulExperiment( test )
+function Mul( test )
 {
 
-  test.case = 'matrix3 mul scalar';
-  var matrix3 = _.Matrix.MakeSquare
-  ([
-     2,  2, -2,
-    -2, -3,  4,
-     4,  3, -2,
-  ]);
-  test.identical( matrix3.determinant(), 0 );
+  /* */
 
-  debugger;
-  var mul = matrix.Mul( null, [ matrix3, 2 ] );
-  debugger;
-  var expected = matrix.MakeSquare( 3 );
-  expected.buffer = new F32x
+  test.case = 'matrix mul scalar';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
-     4,  4, -4,
-    -4, -6,  8,
-     8,  6, -4,
+     1,  4,
+    -2, -5,
+     3,  6,
   ]);
-  test.equivalent( mul, expected );
+  console.log( matrix.toStr() );
+  var got = matrix.Mul( null, [ matrix, 2 ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     2,  8,
+    -4, -10,
+     6,  12,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'scalar mul matrix';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  console.log( matrix.toStr() );
+  var got = matrix.Mul( null, [ 2, matrix ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     2,  8,
+    -4, -10,
+     6,  12,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matrix mul vector';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  console.log( matrix.toStr() );
+  var got = matrix.Mul( null, [ matrix, new F32x([ 1, 2 ]) ] );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     9,
+    -12,
+     15,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vector mul matrix';
+  var matrix = _.Matrix.Make([ 1, 2 ]).copy
+  ([
+     1,  2,
+  ]);
+  console.log( matrix.toStr() );
+  var got = matrix.Mul( null, [ new F32x([ 1, 2, 3 ]), matrix ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1, 2,
+     2, 4,
+     3, 6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vector mul vector';
+  var got = matrix.Mul( null, [ new F32x([ 1, 2, 3 ]), new F32x([ 2 ]) ] );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     2,
+     4,
+     6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vector mul scalar';
+  var got = matrix.Mul( null, [ new F32x([ 1, 2, 3 ]), 2 ] );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     2,
+     4,
+     6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'scalar mul vector';
+  var got = matrix.Mul( null, [ 2, new F32x([ 1, 2, 3 ]) ] );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     2,
+     4,
+     6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'scalar mul scalar';
+  var got = matrix.Mul( null, [ 2, 3 ] );
+  var exp = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+     6
+  ]);
+  test.identical( got, exp );
+
+  /* */
 
 }
-
-MulExperiment.experimental = 1;
 
 //
 
@@ -10389,7 +10496,6 @@ var Self =
 
     makeWithOffset,
 
-    _MakeSimilar,
     _ConvertToClass,
     _copyTo,
     _submatrix,
@@ -10455,7 +10561,7 @@ var Self =
 
     colRowWiseOperations,
     mul,
-    MulExperiment,
+    Mul,
     furthestClosest,
     matrixHomogenousApply,
 

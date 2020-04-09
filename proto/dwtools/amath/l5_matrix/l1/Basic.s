@@ -453,7 +453,7 @@ function CopyTo( dst, src )
   let srcDims = Self.DimsOf( src );
 
   _.assert( _.longIdentical( srcDims, dstDims ), '(-src-) and (-dst-) should have same dimensions' );
-  _.assert( !_.instanceIs( this ) )
+  // _.assert( !_.instanceIs( this ) )
 
   if( !_.matrixIs( src ) )
   {
@@ -709,7 +709,7 @@ function ScalarsPerMatrixForDimensions( dims )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayIs( dims ) );
-  _.assert( !_.instanceIs( this ) )
+  // _.assert( !_.instanceIs( this ) )
 
   for( let d = dims.length-1 ; d >= 0 ; d-- )
   {
@@ -810,7 +810,7 @@ function DimsOf( src )
   if( _.numberIs( src ) )
   return [ 1, 1 ];
   let result = [ 0, 1 ];
-  _.assert( src.length >= 0 );
+  _.assert( !!src && src.length >= 0 );
   result[ 0 ] = src.length;
   return result;
 }
@@ -1581,7 +1581,7 @@ function expand( expand )
 
 function ShapesAreSame( ins1, ins2 )
 {
-  _.assert( !_.instanceIs( this ) );
+  // _.assert( !_.instanceIs( this ) );
 
   let dims1 = this.DimsOf( ins1 );
   let dims2 = this.DimsOf( ins2 );

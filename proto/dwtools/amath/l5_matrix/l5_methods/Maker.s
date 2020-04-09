@@ -78,9 +78,9 @@ function _BufferFrom( src )
 
 function Make( dims )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = Self.prototype;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument array (-dims-)' );
 
@@ -136,13 +136,14 @@ function Make( dims )
 
 function MakeSquare( buffer )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  // let proto = this ? this.Self.prototype : Self.prototype; /* xxx */
+  let proto = this.Self.prototype; /* xxx */
 
   let length = buffer;
   if( _.longIs( buffer ) )
   length = Math.sqrt( buffer.length );
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
   _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
@@ -200,9 +201,10 @@ function MakeSquare( buffer )
 
 function MakeZero( dims )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  // let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = this.Self.prototype;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -251,9 +253,10 @@ function MakeZero( dims )
 
 function MakeIdentity( dims )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  // let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = this.Self.prototype;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -354,8 +357,8 @@ function MakeIdentity4( src )
 function MakeDiagonal( diagonal )
 {
 
-  _.assert( !this.instanceIs() );
-  _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
+  // _.assert( !this.instanceIs() );
+  // _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.arrayIs( diagonal ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -424,11 +427,11 @@ function MakeSimilar( m , dims )
   let proto = this;
   let result;
 
-  if( proto.instanceIs() )
-  {
-    _.assert( arguments.length === 0 || arguments.length === 1 );
-    return proto.Self.MakeSimilar( proto , arguments[ 0 ] );
-  }
+  // if( proto.instanceIs() )
+  // {
+  //   _.assert( arguments.length === 0 || arguments.length === 1 );
+  //   return proto.Self.MakeSimilar( proto , arguments[ 0 ] );
+  // }
 
   if( dims === undefined )
   dims = proto.DimsOf( m );
@@ -476,15 +479,25 @@ function MakeSimilar( m , dims )
 
 //
 
+function makeSimilar( dims ) /* qqq : jsdoc */
+{
+  let self = this;
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+  return self.MakeSimilar( self , dims );
+}
+
+//
+
 function MakeLine( o )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  // let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = this.Self.prototype;
   let strides = null;
   let offset = 0;
   let length = ( _.longIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) ) ? o.buffer.length : o.buffer;
   let dims = null;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( MakeLine, o );
@@ -732,7 +745,7 @@ function ConvertToClass( cls, src )
 {
   let self = this;
 
-  _.assert( !_.instanceIs( this ) );
+  // _.assert( !_.instanceIs( this ) );
   _.assert( _.constructorIs( cls ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
@@ -840,7 +853,7 @@ function FromVector( src )
 {
   let result;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( _.vectorAdapterIs( src ) )
@@ -898,7 +911,7 @@ function FromVector( src )
 function FromScalar( scalar, dims )
 {
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.arrayIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.numberIs( scalar );
@@ -918,7 +931,7 @@ function FromScalar( scalar, dims )
 function FromScalarForReading( scalar, dims )
 {
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.arrayIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.numberIs( scalar );
@@ -983,7 +996,7 @@ function From( src, dims )
 {
   let result;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
 
@@ -1017,7 +1030,7 @@ function FromForReading( src, dims )
 {
   let result;
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
 
@@ -1047,7 +1060,7 @@ function FromTransformations( dst, position, quaternion, scale )
 {
   dst = this.From( dst );
 
-  _.assert( !this.instanceIs() );
+  // _.assert( !this.instanceIs() );
   _.assert( arguments.length === 4, 'Expects exactly four arguments' );
 
   dst.fromQuat( quaternion );
@@ -1961,6 +1974,7 @@ let Extension =
 
   MakeDiagonal,
   MakeSimilar,
+  makeSimilar,
 
   MakeLine,
   MakeCol,
