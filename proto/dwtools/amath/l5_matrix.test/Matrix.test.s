@@ -4607,6 +4607,25 @@ function stride( test )
 
 //
 
+function strideExperiment( test )
+{
+  test.case = 'negative stride';
+  debugger;
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+    dims : [ 2, 2 ],
+    offset : 8,
+    strides : [ -1, -2 ],
+  });
+  var expected = _.Matrix.MakeSquare( [ 9, 8, 7, 6 ] );
+  test.identical( matrix, expected );
+}
+
+strideExperiment.experimental = 1;
+
+//
+
 function _bufferNormalize( o )
 {
   var test = o.test;
@@ -7889,7 +7908,6 @@ function colRowWiseOperations( test )
 
 function mul( test )
 {
-
   test.case = 'data'; /* */
 
   var buffer = new I32x
@@ -7899,44 +7917,39 @@ function mul( test )
     +4, +3, -2,
   ]);
 
-  var m3 = new matrix
+  var matrix3 = new matrix
   ({
     buffer,
     dims : [ 3, 3 ],
     inputTransposing : 1,
   });
+  test.identical( matrix3.determinant(), 0 );
 
-  test.case = 'm3';
-  test.identical( m3.determinant(), 0 );
-
-  var m3a = matrix.MakeSquare
+  var matrix3A = matrix.MakeSquare
   ([
     1, 3, 5,
     2, 4, 6,
     3, 6, 8,
   ]);
+  test.identical( matrix3A.determinant(), 2 );
 
-  test.case = 'm3a';
-  test.identical( m3a.determinant(), 2 );
-
-  var m3b = matrix.MakeSquare
+  var matrix3B = matrix.MakeSquare
   ([
     1, 2, 3,
     1, 3, 5,
     1, 5, 10,
   ]);
-  test.identical( m3b.determinant(), 1 );
+  test.identical( matrix3B.determinant(), 1 );
 
-  var ca = matrix.MakeCol([ 1, 2, 3 ]);
-  var ra = matrix.MakeRow([ 1, 2, 3 ]);
-  var cb = ra.clone().transpose();
-  var rb = ca.clone().transpose();
+  var colA = matrix.MakeCol([ 1, 2, 3 ]);
+  var rowA = matrix.MakeRow([ 1, 2, 3 ]);
+  var colB = rowA.clone().transpose();
+  var rowB = colA.clone().transpose();
 
-  test.case = 'm3 mul m3'; /* */
+  /* tests */
 
-  var mul = matrix.Mul( null, [ m3, m3 ] );
-  logger.log( 'mul\n' + _.toStr( mul ) );
-
+  test.case = 'matrix3 mul matrix3';
+  var mul = matrix.Mul( null, [ matrix3, matrix3 ] );
   var expected = matrix.MakeSquare( 3 );
   expected.buffer = new I32x
   ([
@@ -7944,129 +7957,119 @@ function mul( test )
     -8, +17, -7,
     +8, -16, +8
   ]);
-
   test.equivalent( mul, expected );
 
-  test.case = 'm3a * m3b'; /* */
-
-  var mul = matrix.Mul( null, [ m3a, m3b ] );
-  logger.log( 'mul\n' + _.toStr( mul ) );
-
+  test.case = 'matrix3A * matrix3B';
+  var mul = matrix.Mul( null, [ matrix3A, matrix3B ] );
   var expected = matrix.MakeSquare
   ([
     9, 36, 68,
     12, 46, 86,
     17, 64, 119,
   ]);
-
   test.equivalent( mul, expected );
 
   //
 
-  function identityMuled( mul, m )
-  {
-    test.identical( mul.reduceToSumAtomWise(), 6 );
-    test.identical( mul.reduceToProductAtomWise(), 6 );
-    test.identical( m.reduceToSumAtomWise(), 3 );
-    test.identical( m.reduceToProductAtomWise(), 0 );
-  }
-
-  test.case = 'identity * ca'; /* */
-
+  test.case = 'identity * colA'; /* */
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.Mul( null, [ identity, ca ] );
+  var mul = matrix.Mul( null, [ identity, colA ] );
   var expected = matrix.MakeCol([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
-  identityMuled( mul, identity );
+  test.identical( mul.reduceToSumAtomWise(), 6 );
+  test.identical( mul.reduceToProductAtomWise(), 6 );
+  test.identical( identity.reduceToSumAtomWise(), 3 );
+  test.identical( identity.reduceToProductAtomWise(), 0 );
 
-  test.case = 'identity * cb'; /* */
 
+  test.case = 'identity * colB'; /* */
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.Mul( null, [ identity, cb ] );
+  var mul = matrix.Mul( null, [ identity, colB ] );
   var expected = matrix.MakeCol([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
-  identityMuled( mul, identity );
+  test.identical( mul.reduceToSumAtomWise(), 6 );
+  test.identical( mul.reduceToProductAtomWise(), 6 );
+  test.identical( identity.reduceToSumAtomWise(), 3 );
+  test.identical( identity.reduceToProductAtomWise(), 0 );
 
-  test.case = 'ra * identity'; /* */
-
+  test.case = 'rowA * identity'; /* */
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.Mul( null, [ ra, identity ] );
+  var mul = matrix.Mul( null, [ rowA, identity ] );
   var expected = matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
-  identityMuled( mul, identity );
+  test.identical( mul.reduceToSumAtomWise(), 6 );
+  test.identical( mul.reduceToProductAtomWise(), 6 );
+  test.identical( identity.reduceToSumAtomWise(), 3 );
+  test.identical( identity.reduceToProductAtomWise(), 0 );
 
-  test.case = 'rb * identity'; /* */
-
+  test.case = 'rowB * identity'; /* */
   var identity = matrix.MakeIdentity( 3 );
-  var mul = matrix.Mul( null, [ rb, identity ] );
+  var mul = matrix.Mul( null, [ rowB, identity ] );
   var expected = matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( mul, expected );
-  identityMuled( mul, identity );
+  test.identical( mul.reduceToSumAtomWise(), 6 );
+  test.identical( mul.reduceToProductAtomWise(), 6 );
+  test.identical( identity.reduceToSumAtomWise(), 3 );
+  test.identical( identity.reduceToProductAtomWise(), 0 );
 
-  test.case = 'm3 * ca'; /* */
-
-  var mul = matrix.Mul( null, [ m3, ca ] );
+  test.case = 'matrix3 * colA'; /* */
+  var mul = matrix.Mul( null, [ matrix3, colA ] );
   var expected = matrix.MakeCol([ 0, 4, 4 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 8 );
   test.identical( mul.reduceToProductAtomWise(), 0 );
-  test.identical( m3.reduceToSumAtomWise(), 6 );
-  test.identical( m3.reduceToProductAtomWise(), 4608 );
+  test.identical( matrix3.reduceToSumAtomWise(), 6 );
+  test.identical( matrix3.reduceToProductAtomWise(), 4608 );
 
-  test.case = 'm3 * ca'; /* */
-
-  var mul = matrix.Mul( null, [ m3, cb ] );
+  test.case = 'matrix3 * colA'; /* */
+  var mul = matrix.Mul( null, [ matrix3, colB ] );
   var expected = matrix.MakeCol([ 0, 4, 4 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 8 );
   test.identical( mul.reduceToProductAtomWise(), 0 );
-  test.identical( m3.reduceToSumAtomWise(), 6 );
-  test.identical( m3.reduceToProductAtomWise(), 4608 );
+  test.identical( matrix3.reduceToSumAtomWise(), 6 );
+  test.identical( matrix3.reduceToProductAtomWise(), 4608 );
 
-  test.case = 'ra * m3'; /* */
-
-  var mul = matrix.Mul( null, [ ra, m3 ] );
+  test.case = 'rowA * matrix3'; /* */
+  var mul = matrix.Mul( null, [ rowA, matrix3 ] );
   var expected = matrix.MakeRow([ 10, 5, 0 ]);
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 15 );
   test.identical( mul.reduceToProductAtomWise(), 0 );
-  test.identical( m3.reduceToSumAtomWise(), 6 );
-  test.identical( m3.reduceToProductAtomWise(), 4608 );
+  test.identical( matrix3.reduceToSumAtomWise(), 6 );
+  test.identical( matrix3.reduceToProductAtomWise(), 4608 );
 
-  test.case = 'rb * m3'; /* */
-
-  var mul = matrix.Mul( null, [ rb, m3 ] );
+  test.case = 'rowB * matrix3'; /* */
+  var mul = matrix.Mul( null, [ rowB, matrix3 ] );
   var expected = matrix.MakeRow([ 10, 5, 0 ]);
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
   test.identical( mul.reduceToSumAtomWise(), 15 );
   test.identical( mul.reduceToProductAtomWise(), 0 );
-  test.identical( m3.reduceToSumAtomWise(), 6 );
-  test.identical( m3.reduceToProductAtomWise(), 4608 );
+  test.identical( matrix3.reduceToSumAtomWise(), 6 );
+  test.identical( matrix3.reduceToProductAtomWise(), 4608 );
 
   //
 
+  test.case = 'rowA * colA';
+  var mul = matrix.Mul( null, [ rowA, colA ] );
   var expected = matrix.MakeRow([ 14 ]);
-
-  test.case = 'ra * ca';
-
-  var mul = matrix.Mul( null, [ ra, ca ] );
   test.equivalent( mul, expected );
 
-  test.case = 'ra * cb';
-
-  var mul = matrix.Mul( null, [ ra, cb ] );
+  test.case = 'rowA * colB';
+  var mul = matrix.Mul( null, [ rowA, colB ] );
+  var expected = matrix.MakeRow([ 14 ]);
   test.equivalent( mul, expected );
 
-  test.case = 'rb * ca';
-
-  var mul = matrix.Mul( null, [ rb, ca ] );
+  test.case = 'rowB * colA';
+  var mul = matrix.Mul( null, [ rowB, colA ] );
+  var expected = matrix.MakeRow([ 14 ]);
   test.equivalent( mul, expected );
 
-  test.case = 'rb * cb';
-
-  var mul = matrix.Mul( null, [ rb, cb ] );
+  test.case = 'rowB * colB';
+  var mul = matrix.Mul( null, [ rowB, colB ] );
+  var expected = matrix.MakeRow([ 14 ]);
   test.equivalent( mul, expected );
 
   //
@@ -8078,21 +8081,23 @@ function mul( test )
     3, 6, 9,
   ]);
 
-  test.case = 'ca * ra';
-  var mul = matrix.Mul( null, [ ca, ra ] );
+  test.case = 'colA * rowA';
+  var mul = matrix.Mul( null, [ colA, rowA ] );
   test.equivalent( mul, expected );
 
-  test.case = 'ca * rb';
-  var mul = matrix.Mul( null, [ ca, rb ] );
+  test.case = 'colA * rowB';
+  var mul = matrix.Mul( null, [ colA, rowB ] );
   test.equivalent( mul, expected );
 
-  test.case = 'cb * ra';
-  var mul = matrix.Mul( null, [ cb, ra ] );
+  test.case = 'colB * rowA';
+  var mul = matrix.Mul( null, [ colB, rowA ] );
   test.equivalent( mul, expected );
 
-  test.case = 'cb * rb';
-  var mul = matrix.Mul( null, [ cb, rb ] );
+  test.case = 'colB * rowB';
+  var mul = matrix.Mul( null, [ colB, rowB ] );
   test.equivalent( mul, expected );
+
+  /* */
 
   test.case = 'data'; /* */
 
@@ -8169,7 +8174,7 @@ function mul( test )
 
   test.case = 'mul itself'; /* */
 
-  var m = m3b.clone();
+  var m = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8185,7 +8190,7 @@ function mul( test )
 
   test.case = 'mul itself 2 times'; /* */
 
-  var m = m3b.clone();
+  var m = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8201,7 +8206,7 @@ function mul( test )
 
   test.case = 'mul itself 3 times'; /* */
 
-  var m = m3b.clone();
+  var m = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8211,14 +8216,13 @@ function mul( test )
   ]);
 
   var mul = matrix.Mul( m, [ m, m, m, m ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m );
 
   test.case = 'mul 3 matrices with dst === src'; /* */
 
-  var m1 = m3a.clone();
-  var m2 = m3b.clone();
+  var m1 = matrix3A.clone();
+  var m2 = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8228,14 +8232,13 @@ function mul( test )
   ]);
 
   var mul = matrix.Mul( m1, [ m1, m2, m2 ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m1 );
 
   test.case = 'mul 3 matrices with dst === src'; /* */
 
-  var m1 = m3a.clone();
-  var m2 = m3b.clone();
+  var m1 = matrix3A.clone();
+  var m2 = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8245,14 +8248,13 @@ function mul( test )
   ]);
 
   var mul = matrix.Mul( m2, [ m1, m2, m2 ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m2 );
 
   test.case = 'mul 4 matrices with dst === src'; /* */
 
-  var m1 = m3a.clone();
-  var m2 = m3b.clone();
+  var m1 = matrix3A.clone();
+  var m2 = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8262,14 +8264,13 @@ function mul( test )
   ]);
 
   var mul = matrix.Mul( m1, [ m1, m2, m2, m1 ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m1 );
 
   test.case = 'mul 4 matrices with dst === src'; /* */
 
-  var m1 = m3a.clone();
-  var m2 = m3b.clone();
+  var m1 = matrix3A.clone();
+  var m2 = matrix3B.clone();
 
   var expected = matrix.Make([ 3, 3 ]).copy
   ([
@@ -8279,73 +8280,87 @@ function mul( test )
   ]);
 
   var mul = matrix.Mul( m2, [ m1, m2, m2, m1 ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( mul === m2 );
 
   test.case = 'matrix array multiplication'; /* */
 
-  var m = m3a.clone();
+  var m = matrix3A.clone();
   var v = [ 1, 2, 3 ];
   var expected = [ 22 , 28 , 39 ];
   var mul = matrix.Mul( v, [ m, v ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
 
   test.case = 'matrix vector multiplication'; /* */
 
-  var m = m3a.clone();
+  var m = matrix3A.clone();
   var v = vec([ 1, 2, 3 ]);
   var expected = vec([ 22 , 28 , 39 ]);
   var mul = matrix.Mul( v, [ m, v ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
 
   test.case = 'matrix array matrix multiplication'; /* */
 
-  var m = m3a.clone();
+  var m = matrix3A.clone();
   var v = [ 1, 2, 3 ];
   var row = matrix.MakeRow([ 3, 4, 5 ]);
   var expected = [ 8206 , 10444 , 14547 ];
   var mul = matrix.Mul( v, [ m, v, row, m, v ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
 
   test.case = 'matrix array matrix multiplication'; /* */
 
-  var m = m3a.clone();
+  var m = matrix3A.clone();
   var v = [ 1, 2, 3 ];
   var row = matrix.MakeRow([ 3, 4, 5 ]);
   var expected = [ 82060 , 104440 , 145470 ];
   var mul = matrix.Mul( v, [ m, v, row, m, v, [ 10 ] ] );
-  logger.log( mul );
   test.equivalent( mul, expected );
   test.is( v === mul );
 
-  test.case = 'bad arguments'; /* */
+  /* - */
 
   if( !Config.debug )
   return;
 
+  test.case = 'bad arguments'; /* */
   test.shouldThrowErrorSync( () => matrix.Mul( null ) );
   test.shouldThrowErrorSync( () => matrix.Mul( null, null ) );
   test.shouldThrowErrorSync( () => matrix.Mul( null, [] ) );
   test.shouldThrowErrorSync( () => matrix.Mul( null, [ matrix.Make([ 3, 3 ]) ] ) );
   test.shouldThrowErrorSync( () => matrix.Mul( null, [ matrix.Make([ 3, 3 ]), matrix.Make([ 1, 4 ]) ] ) );
   test.shouldThrowErrorSync( () => matrix.Mul( null, [ matrix.Make([ 4, 1 ]), matrix.Make([ 3, 3 ]) ] ) );
-
-    // 1, 3, 5,
-    // 2, 4, 6,
-    // 3, 6, 8,
-
-    // 1, 2, 3,
-    // 1, 3, 5,
-    // 1, 5, 10,
-
 }
+
+//
+
+function MulExperiment( test )
+{
+  test.case = 'matrix3 mul scalar';
+  var matrix3 = _.Matrix.MakeSquare
+  ([
+     2,  2, -2,
+    -2, -3,  4,
+     4,  3, -2,
+  ]);
+  test.identical( matrix3.determinant(), 0 );
+
+  debugger;
+  var mul = matrix.Mul( null, [ matrix3, 2 ] );
+  var expected = matrix.MakeSquare( 3 );
+  expected.buffer = new I32x
+  ([
+     4,  4, -4,
+    -4, -6,  8,
+     8,  6, -4,
+  ]);
+  test.equivalent( mul, expected );
+}
+
+MulExperiment.experimental = 1;
 
 //
 
@@ -10416,6 +10431,7 @@ var Self =
 
     offset,
     stride,
+    strideExperiment,
     bufferNormalize,
     expand,
     vectorToMatrix,
@@ -10435,6 +10451,7 @@ var Self =
 
     colRowWiseOperations,
     mul,
+    MulExperiment,
     furthestClosest,
     matrixHomogenousApply,
 
