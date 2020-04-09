@@ -127,7 +127,7 @@ console.log( 'matrix : ', matrix.toStr() );
 
 var matrixTransposed = _.Matrix
 ({
-  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 2, 2 ],
   strides : [ 2, 4 ],
   offset : 1,
