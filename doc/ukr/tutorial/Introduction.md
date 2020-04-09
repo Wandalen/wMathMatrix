@@ -114,9 +114,10 @@ console.log( 'transposed matrix : ', matrix.toStr() );
 ```js
 var matrix = _.Matrix
 ({
-  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 2, 2 ],
-  strides : [ 4, 2 ]
+  strides : [ 4, 2 ],
+  offset : 1,
 });
 
 console.log( 'matrix : ', matrix.toStr() );
@@ -128,7 +129,8 @@ var matrixTransposed = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 2, 2 ],
-  strides : [ 2, 4 ]
+  strides : [ 2, 4 ],
+  offset : 1,
 });
 console.log( 'transposed matrix : ', matrixTransposed.toStr() );
 /* log : transposed matrix : +1, +5,
