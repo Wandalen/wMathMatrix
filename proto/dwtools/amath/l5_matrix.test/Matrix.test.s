@@ -81,7 +81,6 @@ function matrixIs( test )
 
   /* */
 
-  debugger;
   test.case = 'instance of _.Matrix';
   var src = new _.Matrix
   ({
@@ -666,10 +665,8 @@ function clone( test )
 
   test.case = 'clone'; /* */
 
-  debugger;
   var b = a.clone();
   test.identical( a, b );
-  debugger;
   test.is( a.buffer !== b.buffer );
   test.is( a.buffer === buffer );
 
@@ -1008,402 +1005,187 @@ function make( test )
   }
 
   o.offset = 0;
-  this._make( test, o );
+  _make( test, o );
 
   o.offset = undefined;
-  this._make( test, o );
+  _make( test, o );
 
   o.offset = 13;
-  this._make( test, o );
+  _make( test, o );
 
-}
+  /* */
 
-make.timeOut = 30000;
-
-//
-
-function _make( test, o )
-{
-
-  test.case = 'matrix with dimensions without stride, transposing'; /* */
-
-  var m = new matrix
-  ({
-    inputTransposing : 1,
-    dims : [ 2, 3 ],
-    offset : o.offset,
-    buffer : o.arrayMake
-    ([
-      1, 2, 3,
-      4, 5, 6,
-    ]),
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 3, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 2 );
-  var c2 = m.lineVectorGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, o.vec([ 4, 5, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 3, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 3, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'matrix with dimensions without stride, non transposing'; /* */
-
-  var m = new matrix
-  ({
-    inputTransposing : 0,
-    dims : [ 2, 3 ],
-    offset : o.offset,
-    buffer : o.arrayMake
-    ([
-      1, 2, 3,
-      4, 5, 6,
-    ]),
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 1, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 2 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 2 );
-  var c2 = m.lineVectorGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, o.vec([ 2, 4, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 5, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 5, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 4 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'column with dimensions without stride, transposing'; /* */
-
-  var m = new matrix
-  ({
-    inputTransposing : 1,
-    dims : [ 3, 1 ],
-    offset : o.offset,
-    buffer : o.arrayMake
-    ([
-      1,
-      2,
-      3
-    ]),
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 4 );
-  test.identical( m.dims, [ 3, 1 ] );
-  test.identical( m.length, 1 );
-
-  test.identical( m._stridesEffective, [ 1, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 2 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, o.vec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 2, 3 ]) );
-  test.identical( a1, 3 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.case = 'column with dimensions without stride, non transposing'; /* */
-
-  var m = new matrix
-  ({
-    inputTransposing : 0,
-    dims : [ 3, 1 ],
-    offset : o.offset,
-    buffer : o.arrayMake
-    ([
-      1,
-      2,
-      3
-    ]),
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 4 );
-  test.identical( m.dims, [ 3, 1 ] );
-  test.identical( m.length, 1 );
-
-  test.identical( m._stridesEffective, [ 1, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 3 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 2 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, o.vec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 2, 3 ]) );
-  test.identical( a1, 3 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.case = 'matrix with breadth, transposing'; /* */
-
-  var m = new matrix
-  ({
-    inputTransposing : 1,
-    breadth : [ 2 ],
-    offset : o.offset,
-    buffer : o.arrayMake
-    ([
-      1, 2, 3,
-      4, 5, 6,
-    ]),
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 3, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 2 );
-  var c2 = m.lineVectorGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, o.vec([ 4, 5, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 3, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 3, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'matrix with breadth, non transposing'; /* */
-
-  var m = new matrix
-  ({
-    inputTransposing : 0,
-    breadth : [ 2 ],
-    offset : o.offset,
-    buffer : o.arrayMake
-    ([
-      1, 2, 3,
-      4, 5, 6,
-    ]),
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 1, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 2 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 2 );
-  var c2 = m.lineVectorGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, o.vec([ 2, 4, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 5, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 5, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 4 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'construct empty matrix with dims defined'; /* */
-
-  var m = new matrix({ buffer : o.arrayMake(), offset : o.offset, inputTransposing : 0, dims : [ 1, 0 ] });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 0 );
-  test.identical( m.sizeOfElement, 4 );
-  test.identical( m.sizeOfCol, 4 );
-  test.identical( m.sizeOfRow, 0 );
-  test.identical( m.dims, [ 1, 0 ] );
-  test.identical( m.length, 0 );
-
-  test.identical( m._stridesEffective, [ 1, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
-
-  console.log( r1.toStr() );
-  console.log( o.vec([]) );
-
-  test.identical( r1, o.vec([]) );
-  test.identical( r1, r2 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 1 );
-
-  test.case = 'construct empty matrix'; /* */
-
-  var m = new matrix({ buffer : o.arrayMake(), offset : o.offset, inputTransposing : 0/*, dims : [ 1, 0 ]*/ });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 0 );
-  test.identical( m.sizeOfElement, 4 );
-  test.identical( m.sizeOfCol, 4 );
-  test.identical( m.sizeOfRow, 0 );
-  test.identical( m.dims, [ 1, 0 ] );
-  test.identical( m.length, 0 );
-
-  test.identical( m._stridesEffective, [ 1, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
-
-  console.log( r1.toStr() );
-  console.log( o.vec([]) );
-
-  test.identical( r1, o.vec([]) );
-  test.identical( r1, r2 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 1 );
-
-  if( Config.debug )
+  function _make( test, o )
   {
 
-    test.shouldThrowErrorSync( () => m.colVectorGet( 0 ) );
-    test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
-    test.shouldThrowErrorSync( () => m.eGet( 0 ) );
+    test.case = 'matrix with dimensions without stride, transposing'; /* */
 
-    test.shouldThrowErrorSync( () => m.rowVectorGet( 1 ) );
-    test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
-    test.shouldThrowErrorSync( () => m.eGet( 1 ) );
-    test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
-    test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
+    var m = new matrix
+    ({
+      inputTransposing : 1,
+      dims : [ 2, 3 ],
+      offset : o.offset,
+      buffer : o.arrayMake
+      ([
+        1, 2, 3,
+        4, 5, 6,
+      ]),
+    });
 
-  }
+    logger.log( 'm\n' + _.toStr( m ) );
 
-  test.case = 'construct empty matrix with long column, non transposing'; /* */
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
 
-  function checkEmptyMatrixWithLongColNonTransposing( m )
-  {
+    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 3 );
+    test.identical( m.strideOfRow, 3 );
+    test.identical( m.strideInRow, 1 );
 
-    test.identical( m.size, 0 );
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 2 );
+    var c2 = m.lineVectorGet( 0, 2 );
+    var e = m.eGet( 2 );
+    var a1 = m.scalarFlatGet( 5 );
+    var a2 = m.scalarGet([ 1, 1 ]);
+
+    test.identical( r1, o.vec([ 4, 5, 6 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 3, 6 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 3, 6 ]) );
+    test.identical( a1, 6 );
+    test.identical( a2, 5 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'matrix with dimensions without stride, non transposing'; /* */
+
+    var m = new matrix
+    ({
+      inputTransposing : 0,
+      dims : [ 2, 3 ],
+      offset : o.offset,
+      buffer : o.arrayMake
+      ([
+        1, 2, 3,
+        4, 5, 6,
+      ]),
+    });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.strideOfElement, 2 );
+    test.identical( m.strideOfCol, 2 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 2 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 2 );
+    var c2 = m.lineVectorGet( 0, 2 );
+    var e = m.eGet( 2 );
+    var a1 = m.scalarFlatGet( 5 );
+    var a2 = m.scalarGet([ 1, 1 ]);
+
+    test.identical( r1, o.vec([ 2, 4, 6 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 5, 6 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 5, 6 ]) );
+    test.identical( a1, 6 );
+    test.identical( a2, 4 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'column with dimensions without stride, transposing'; /* */
+
+    var m = new matrix
+    ({
+      inputTransposing : 1,
+      dims : [ 3, 1 ],
+      offset : o.offset,
+      buffer : o.arrayMake
+      ([
+        1,
+        2,
+        3
+      ]),
+    });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 12 );
     test.identical( m.sizeOfCol, 12 );
-    test.identical( m.sizeOfRow, 0 );
-    test.identical( m.dims, [ 3, 0 ] );
-    test.identical( m.breadth, [ 3 ] );
-    test.identical( m.length, 0 );
+    test.identical( m.sizeOfRow, 4 );
+    test.identical( m.dims, [ 3, 1 ] );
+    test.identical( m.length, 1 );
+
+    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 2 );
+    var a2 = m.scalarGet([ 1, 0 ]);
+
+    test.identical( r1, o.vec([ 2 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 2, 3 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 2, 3 ]) );
+    test.identical( a1, 3 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'column with dimensions without stride, non transposing'; /* */
+
+    var m = new matrix
+    ({
+      inputTransposing : 0,
+      dims : [ 3, 1 ],
+      offset : o.offset,
+      buffer : o.arrayMake
+      ([
+        1,
+        2,
+        3
+      ]),
+    });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 12 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 4 );
+    test.identical( m.dims, [ 3, 1 ] );
+    test.identical( m.length, 1 );
 
     test.identical( m._stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
@@ -1412,139 +1194,944 @@ function _make( test, o )
     test.identical( m.strideOfRow, 1 );
     test.identical( m.strideInRow, 3 );
 
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 2 );
+    var a2 = m.scalarGet([ 1, 0 ]);
+
+    test.identical( r1, o.vec([ 2 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 2, 3 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 2, 3 ]) );
+    test.identical( a1, 3 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'matrix with breadth, transposing'; /* */
+
+    var m = new matrix
+    ({
+      inputTransposing : 1,
+      breadth : [ 2 ],
+      offset : o.offset,
+      buffer : o.arrayMake
+      ([
+        1, 2, 3,
+        4, 5, 6,
+      ]),
+    });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 3 );
+    test.identical( m.strideOfRow, 3 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 2 );
+    var c2 = m.lineVectorGet( 0, 2 );
+    var e = m.eGet( 2 );
+    var a1 = m.scalarFlatGet( 5 );
+    var a2 = m.scalarGet([ 1, 1 ]);
+
+    test.identical( r1, o.vec([ 4, 5, 6 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 3, 6 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 3, 6 ]) );
+    test.identical( a1, 6 );
+    test.identical( a2, 5 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'matrix with breadth, non transposing'; /* */
+
+    var m = new matrix
+    ({
+      inputTransposing : 0,
+      breadth : [ 2 ],
+      offset : o.offset,
+      buffer : o.arrayMake
+      ([
+        1, 2, 3,
+        4, 5, 6,
+      ]),
+    });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.strideOfElement, 2 );
+    test.identical( m.strideOfCol, 2 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 2 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 2 );
+    var c2 = m.lineVectorGet( 0, 2 );
+    var e = m.eGet( 2 );
+    var a1 = m.scalarFlatGet( 5 );
+    var a2 = m.scalarGet([ 1, 1 ]);
+
+    test.identical( r1, o.vec([ 2, 4, 6 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 5, 6 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 5, 6 ]) );
+    test.identical( a1, 6 );
+    test.identical( a2, 4 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'construct empty matrix with dims defined'; /* */
+
+    var m = new matrix({ buffer : o.arrayMake(), offset : o.offset, inputTransposing : 0, dims : [ 1, 0 ] });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 0 );
+    test.identical( m.sizeOfElement, 4 );
+    test.identical( m.sizeOfCol, 4 );
+    test.identical( m.sizeOfRow, 0 );
+    test.identical( m.dims, [ 1, 0 ] );
+    test.identical( m.length, 0 );
+
+    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 1 );
+
     var r1 = m.rowVectorGet( 0 );
-    var r2 = m.rowVectorGet( 1 );
-    var r3 = m.lineVectorGet( 1, 0 );
+    var r2 = m.lineVectorGet( 1, 0 );
 
     console.log( r1.toStr() );
     console.log( o.vec([]) );
 
-    test.identical( r1, vec( new m.buffer.constructor([]) ) );
+    test.identical( r1, o.vec([]) );
     test.identical( r1, r2 );
-    test.identical( r1, r3 );
     test.identical( m.reduceToSumAtomWise(), 0 );
     test.identical( m.reduceToProductAtomWise(), 1 );
-    test.identical( m.buffer.length-m.offset, 0 );
+
+    test.case = 'construct empty matrix'; /* */
+
+    var m = new matrix({ buffer : o.arrayMake(), offset : o.offset, inputTransposing : 0/*, dims : [ 1, 0 ]*/ });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 0 );
+    test.identical( m.sizeOfElement, 4 );
+    test.identical( m.sizeOfCol, 4 );
+    test.identical( m.sizeOfRow, 0 );
+    test.identical( m.dims, [ 1, 0 ] );
+    test.identical( m.length, 0 );
+
+    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 0 );
+    var r2 = m.lineVectorGet( 1, 0 );
+
+    console.log( r1.toStr() );
+    console.log( o.vec([]) );
+
+    test.identical( r1, o.vec([]) );
+    test.identical( r1, r2 );
+    test.identical( m.reduceToSumAtomWise(), 0 );
+    test.identical( m.reduceToProductAtomWise(), 1 );
 
     if( Config.debug )
     {
+
       test.shouldThrowErrorSync( () => m.colVectorGet( 0 ) );
       test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
       test.shouldThrowErrorSync( () => m.eGet( 0 ) );
+
+      test.shouldThrowErrorSync( () => m.rowVectorGet( 1 ) );
       test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
       test.shouldThrowErrorSync( () => m.eGet( 1 ) );
       test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
       test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
+
     }
 
-  }
+    test.case = 'construct empty matrix with long column, non transposing'; /* */
 
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    offset : o.offset,
-    /* strides : [ 1, 3 ], */
-    inputTransposing : 0,
-    dims : [ 3, 0 ],
-  });
-  logger.log( 'm\n' + _.toStr( m ) );
-  // checkEmptyMatrixWithLongColNonTransposing( m ); xxx
+    function checkEmptyMatrixWithLongColNonTransposing( m )
+    {
 
-  var m = matrix.Make([ 3, 0 ]);
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongColNonTransposing( m );
-  test.identical( m.strides, null );
+      test.identical( m.size, 0 );
+      test.identical( m.sizeOfElement, 12 );
+      test.identical( m.sizeOfCol, 12 );
+      test.identical( m.sizeOfRow, 0 );
+      test.identical( m.dims, [ 3, 0 ] );
+      test.identical( m.breadth, [ 3 ] );
+      test.identical( m.length, 0 );
 
-  test.case = 'change by empty buffer of empty matrix with long column, non transposing'; /* */
+      test.identical( m._stridesEffective, [ 1, 3 ] );
+      test.identical( m.strideOfElement, 3 );
+      test.identical( m.strideOfCol, 3 );
+      test.identical( m.strideInCol, 1 );
+      test.identical( m.strideOfRow, 1 );
+      test.identical( m.strideInRow, 3 );
 
-  m.buffer = new I32x();
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongColNonTransposing( m );
+      var r1 = m.rowVectorGet( 0 );
+      var r2 = m.rowVectorGet( 1 );
+      var r3 = m.lineVectorGet( 1, 0 );
 
-  test.case = 'change by empty buffer of empty matrix with long column, non transposing, with copy'; /* */
+      console.log( r1.toStr() );
+      console.log( o.vec([]) );
 
-  m.copy({ buffer : o.arrayMake(), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongColNonTransposing( m );
+      test.identical( r1, vec( new m.buffer.constructor([]) ) );
+      test.identical( r1, r2 );
+      test.identical( r1, r3 );
+      test.identical( m.reduceToSumAtomWise(), 0 );
+      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.buffer.length-m.offset, 0 );
 
-  test.case = 'change buffer of empty matrix with long column, non transposing'; /* */
+      if( Config.debug )
+      {
+        test.shouldThrowErrorSync( () => m.colVectorGet( 0 ) );
+        test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
+        test.shouldThrowErrorSync( () => m.eGet( 0 ) );
+        test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.eGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
+      }
 
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
+    }
 
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 4 );
-  test.identical( m.dims, [ 3, 1 ] );
-  test.identical( m.length, 1 );
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      offset : o.offset,
+      /* strides : [ 1, 3 ], */
+      inputTransposing : 0,
+      dims : [ 3, 0 ],
+    });
+    logger.log( 'm\n' + _.toStr( m ) );
+    // checkEmptyMatrixWithLongColNonTransposing( m ); xxx
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 3 );
+    var m = matrix.Make([ 3, 0 ]);
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongColNonTransposing( m );
+    test.identical( m.strides, null );
 
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
+    test.case = 'change by empty buffer of empty matrix with long column, non transposing'; /* */
 
-  test.identical( r1, o.vec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
+    m.buffer = new I32x();
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongColNonTransposing( m );
 
-  test.case = 'change buffer of not empty matrix with long column, non transposing'; /* */
+    test.case = 'change by empty buffer of empty matrix with long column, non transposing, with copy'; /* */
 
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
+    m.copy({ buffer : o.arrayMake(), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongColNonTransposing( m );
 
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 8 );
-  test.identical( m.dims, [ 3, 2 ] );
-  test.identical( m.length, 2 );
+    test.case = 'change buffer of empty matrix with long column, non transposing'; /* */
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 3 );
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
 
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
+    test.identical( m.size, 12 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 4 );
+    test.identical( m.dims, [ 3, 1 ] );
+    test.identical( m.length, 1 );
 
-  test.identical( r1, o.vec([ 2, 5 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.strideOfElement, 3 );
+    test.identical( m.strideOfCol, 3 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 3 );
 
-  test.case = 'construct empty matrix with long column, transposing'; /* */
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 1, 0 ]);
 
-  function checkEmptyMatrixWithLongColTransposing( m )
-  {
+    test.identical( r1, o.vec([ 2 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 2, 3 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 2, 3 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'change buffer of not empty matrix with long column, non transposing'; /* */
+
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 8 );
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.length, 2 );
+
+    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.strideOfElement, 3 );
+    test.identical( m.strideOfCol, 3 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 3 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 1, 0 ]);
+
+    test.identical( r1, o.vec([ 2, 5 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 2, 3 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 2, 3 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'construct empty matrix with long column, transposing'; /* */
+
+    function checkEmptyMatrixWithLongColTransposing( m )
+    {
+
+      test.identical( m.size, 0 );
+      test.identical( m.sizeOfElement, 12 );
+      test.identical( m.sizeOfCol, 12 );
+      test.identical( m.sizeOfRow, 0 );
+      test.identical( m.dims, [ 3, 0 ] );
+      test.identical( m.length, 0 );
+
+      test.identical( m._stridesEffective, [ 0, 1 ] );
+      test.identical( m.strideOfElement, 1 );
+      test.identical( m.strideOfCol, 1 );
+      test.identical( m.strideInCol, 0 );
+      test.identical( m.strideOfRow, 0 );
+      test.identical( m.strideInRow, 1 );
+
+      var r1 = m.rowVectorGet( 0 );
+      var r2 = m.rowVectorGet( 1 );
+      var r3 = m.lineVectorGet( 1, 0 );
+
+      console.log( r1.toStr() );
+      console.log( o.vec([]) );
+
+      test.identical( r1, o.vec([]) );
+      test.identical( r1, r2 );
+      test.identical( r1, r3 );
+      test.identical( m.reduceToSumAtomWise(), 0 );
+      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.buffer.length-m.offset, 0 );
+
+      if( Config.debug )
+      {
+        test.shouldThrowErrorSync( () => m.colVectorGet( 0 ) );
+        test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
+        test.shouldThrowErrorSync( () => m.eGet( 0 ) );
+        test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.eGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
+      }
+
+    }
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      offset : o.offset,
+      /* strides : [ 1, 3 ], */
+      inputTransposing : 1,
+      dims : [ 3, 0 ],
+    });
+
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongColTransposing( m );
+
+    test.case = 'change by empty buffer of empty matrix with long column, transposing'; /* */
+
+    var m = new matrix
+    ({
+      buffer : new I32x(),
+      inputTransposing : 1,
+      dims : [ 3, 0 ],
+    });
+    m.buffer = new I32x();
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongColTransposing( m );
+
+    test.case = 'change by empty buffer of empty matrix with long column, transposing, by copy'; /* */
+
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongColTransposing( m );
+
+    test.case = 'change buffer of empty matrix with long column, transposing'; /* */
+
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 12 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 4 );
+    test.identical( m.dims, [ 3, 1 ] );
+    test.identical( m.length, 1 );
+
+    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 1, 0 ]);
+
+    test.identical( r1, o.vec([ 2 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 2, 3 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 2, 3 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'change buffer of empty matrix with long column, transposing'; /* */
+
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 8 );
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.length, 2 );
+
+    test.identical( m._stridesEffective, [ 2, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 2 );
+    test.identical( m.strideOfRow, 2 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 0, 1 ]);
+
+    test.identical( r1, o.vec([ 3, 4 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 3, 5 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 3, 5 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'construct empty matrix with long row, transposing'; /* */
+
+    function checkEmptyMatrixWithLongRowTransposing( m )
+    {
+
+      test.identical( m.size, 0 );
+      test.identical( m.sizeOfElement, 0 );
+      test.identical( m.sizeOfCol, 0 );
+      test.identical( m.sizeOfRow, 12 );
+      test.identical( m.dims, [ 0, 3 ] );
+      test.identical( m.length, 3 );
+
+      test.identical( m._stridesEffective, [ 3, 1 ] );
+      test.identical( m.strideOfElement, 1 );
+      test.identical( m.strideOfCol, 1 );
+      test.identical( m.strideInCol, 3 );
+      test.identical( m.strideOfRow, 3 );
+      test.identical( m.strideInRow, 1 );
+
+      var c1 = m.colVectorGet( 0 );
+      var c2 = m.colVectorGet( 1 );
+      var c3 = m.lineVectorGet( 0, 0 );
+      var e = m.eGet( 2 );
+
+      test.identical( c1, o.vec([]) );
+      test.identical( c1, c2 );
+      test.identical( c1, c3 );
+      test.identical( e, o.vec([]) );
+      test.identical( m.reduceToSumAtomWise(), 0 );
+      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.buffer.length-m.offset, 0 );
+
+      if( Config.debug )
+      {
+
+        test.shouldThrowErrorSync( () => m.rowVectorGet( 0 ) );
+        test.shouldThrowErrorSync( () => m.lineVectorGet( 1, 0 ) );
+
+        test.shouldThrowErrorSync( () => m.eGet( 3 ) );
+        test.shouldThrowErrorSync( () => m.colVectorGet( 3 ) );
+
+        test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
+
+      }
+
+    }
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      offset : o.offset,
+      /* strides : [ 3, 0 ], */
+      inputTransposing : 1,
+      dims : [ 0, 3 ],
+    });
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowTransposing( m );
+    test.shouldThrowErrorSync( () => m.buffer = new I32x() );
+
+    test.case = 'change by empty buffer of empty matrix with long row, transposing'; /* */
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      inputTransposing : 1,
+      growingDimension : 0,
+      dims : [ 0, 3 ],
+    });
+
+    m.buffer = new I32x();
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowTransposing( m );
+
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowTransposing( m );
+
+    test.case = 'change by non empty buffer of empty matrix with long row, transposing'; /* */
+
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 12 );
+    test.identical( m.sizeOfElement, 4 );
+    test.identical( m.sizeOfCol, 4 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 1, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 3 );
+    test.identical( m.strideOfRow, 3 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 0 );
+    var r2 = m.lineVectorGet( 1, 0 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 0, 1 ]);
+
+    test.identical( r1, o.vec([ 1, 2, 3 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 2 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 2 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'change by non empty buffer of non empty matrix with long row, transposing'; /* */
+
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 3 );
+    test.identical( m.strideOfRow, 3 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 0, 1 ]);
+
+    test.identical( r1, o.vec([ 4, 5, 6 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 2, 5 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 2, 5 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'construct empty matrix with long row, non transposing'; /* */
+
+    function checkEmptyMatrixWithLongRowNonTransposing( m )
+    {
+
+      test.identical( m.size, 0 );
+      test.identical( m.sizeOfElement, 0 );
+      test.identical( m.sizeOfCol, 0 );
+      test.identical( m.sizeOfRow, 12 );
+      test.identical( m.dims, [ 0, 3 ] );
+      test.identical( m.length, 3 );
+
+      test.identical( m._stridesEffective, [ 1, 0 ] );
+      test.identical( m.strideOfElement, 0 );
+      test.identical( m.strideOfCol, 0 );
+      test.identical( m.strideInCol, 1 );
+      test.identical( m.strideOfRow, 1 );
+      test.identical( m.strideInRow, 0 );
+
+      var c1 = m.colVectorGet( 0 );
+      var c2 = m.colVectorGet( 1 );
+      var c3 = m.lineVectorGet( 0, 0 );
+      var e = m.eGet( 2 );
+
+      test.identical( c1, vec( new m.buffer.constructor([]) ) );
+      test.identical( c1, c2 );
+      test.identical( c1, c3 );
+      test.identical( e, vec( new m.buffer.constructor([]) ) );
+      test.identical( m.reduceToSumAtomWise(), 0 );
+      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.buffer.length-m.offset, 0 );
+
+      if( Config.debug )
+      {
+
+        test.shouldThrowErrorSync( () => m.rowVectorGet( 0 ) );
+        test.shouldThrowErrorSync( () => m.lineVectorGet( 1, 0 ) );
+
+        test.shouldThrowErrorSync( () => m.eGet( 3 ) );
+        test.shouldThrowErrorSync( () => m.colVectorGet( 3 ) );
+
+        test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
+        test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
+
+      }
+
+    }
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      offset : o.offset,
+      /* strides : [ 3, 0 ], */
+      inputTransposing : 0,
+      dims : [ 0, 3 ],
+    });
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowNonTransposing( m );
+
+    var m = matrix.Make([ 0, 3 ]);
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowNonTransposing( m );
+    test.identical( m.strides, null );
+
+    var m = matrix.Make([ 0, 3 ]);
+    test.shouldThrowErrorSync( () => m.buffer = new I32x() );
+
+    test.case = 'change by empty buffer of empty matrix with long row, non transposing'; /* */
+
+    var m = matrix.Make([ 0, 3 ]);
+    m.growingDimension = 0;
+    m.buffer = new I32x();
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowNonTransposing( m );
+
+    test.case = 'change by empty buffer of empty matrix with long row, non transposing, by copy'; /* */
+
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+    checkEmptyMatrixWithLongRowNonTransposing( m );
+
+    test.case = 'change by non empty buffer of empty matrix with long row, non transposing'; /* */
+
+    m.growingDimension = 0;
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 12 );
+    test.identical( m.sizeOfElement, 4 );
+    test.identical( m.sizeOfCol, 4 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 1, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.strideOfElement, 1 );
+    test.identical( m.strideOfCol, 1 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 1 );
+
+    var r1 = m.rowVectorGet( 0 );
+    var r2 = m.lineVectorGet( 1, 0 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 0, 1 ]);
+
+    test.identical( r1, o.vec([ 1, 2, 3 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 2 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 2 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'change by non empty buffer of non empty matrix with long row, non transposing'; /* */
+
+    m.growingDimension = 0;
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.strideOfElement, 2 );
+    test.identical( m.strideOfCol, 2 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 2 );
+
+    var r1 = m.rowVectorGet( 0 );
+    var r2 = m.lineVectorGet( 1, 0 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 1, 0 ]);
+
+    test.identical( r1, o.vec([ 1, 3, 5 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 3, 4 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 3, 4 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'construct matrix with only buffer'; /* */
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake([ 1, 2, 3 ]),
+      offset : o.offset,
+    });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+
+    test.identical( m.scalarsPerMatrix, 3 );
+    test.identical( m.size, 12 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 4 );
+    test.identical( m.dims, [ 3, 1 ] );
+    test.identical( m.length, 1 );
+
+    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.strideOfElement, 3 );
+    test.identical( m.strideOfCol, 3 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 3 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 0 );
+    var c2 = m.lineVectorGet( 0, 0 );
+    var e = m.eGet( 0 );
+    var a1 = m.scalarFlatGet( 1 );
+    var a2 = m.scalarGet([ 1, 0 ]);
+
+    test.identical( r1, o.vec([ 2 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 1, 2, 3 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 1, 2, 3 ]) );
+    test.identical( a1, 2 );
+    test.identical( a2, 2 );
+    test.identical( m.reduceToSumAtomWise(), 6 );
+    test.identical( m.reduceToProductAtomWise(), 6 );
+
+    test.case = 'construct matrix without buffer'; /* */
+
+    if( Config.debug )
+    {
+
+      test.shouldThrowErrorSync( () => new matrix({ offset : o.offset, }) );
+
+    }
+
+    test.case = 'construct matrix with buffer and strides'; /* */
+
+    if( Config.debug )
+    {
+
+      var buffer = new I32x
+      ([
+        1, 2, 3,
+        4, 5, 6,
+      ]);
+      test.shouldThrowErrorSync( () => new matrix({ buffer, strides : [ 1, 3 ] }) );
+
+    }
+
+    test.case = 'construct empty matrix with dimensions, non transposing'; /* */
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      dims : [ 3, 0 ],
+      inputTransposing : 0,
+      offset : o.offset,
+    });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.scalarsPerMatrix, 0 );
+    test.identical( m.size, 0 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 0 );
+    test.identical( m.dims, [ 3, 0 ] );
+    test.identical( m.length, 0 );
+
+    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.strideOfElement, 3 );
+    test.identical( m.strideOfCol, 3 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 3 );
+    test.identical( m.reduceToSumAtomWise(), 0 );
+    test.identical( m.reduceToProductAtomWise(), 1 );
+
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 8 );
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.length, 2 );
+
+    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.strideOfElement, 3 );
+    test.identical( m.strideOfCol, 3 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 3 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 4 );
+    var a2 = m.scalarGet([ 1, 1 ]);
+
+    test.identical( r1, o.vec([ 2, 5 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 4, 5, 6 ]) );
+    test.identical( c1, c2 );
+    test.identical( e, o.vec([ 4, 5, 6 ]) );
+    test.identical( a1, 5 );
+    test.identical( a2, 5 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.case = 'construct empty matrix with dimensions, transposing'; /* */
+
+    var m = new matrix
+    ({
+      buffer : o.arrayMake(),
+      dims : [ 3, 0 ],
+      inputTransposing : 1,
+      offset : o.offset,
+    });
+    logger.log( 'm\n' + _.toStr( m ) );
 
     test.identical( m.size, 0 );
     test.identical( m.sizeOfElement, 12 );
@@ -1560,782 +2147,192 @@ function _make( test, o )
     test.identical( m.strideOfRow, 0 );
     test.identical( m.strideInRow, 1 );
 
-    var r1 = m.rowVectorGet( 0 );
-    var r2 = m.rowVectorGet( 1 );
-    var r3 = m.lineVectorGet( 1, 0 );
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
+    logger.log( 'm\n' + _.toStr( m ) );
 
-    console.log( r1.toStr() );
-    console.log( o.vec([]) );
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 12 );
+    test.identical( m.sizeOfCol, 12 );
+    test.identical( m.sizeOfRow, 8 );
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.length, 2 );
 
-    test.identical( r1, o.vec([]) );
-    test.identical( r1, r2 );
-    test.identical( r1, r3 );
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
-    test.identical( m.buffer.length-m.offset, 0 );
-
-    if( Config.debug )
-    {
-      test.shouldThrowErrorSync( () => m.colVectorGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
-      test.shouldThrowErrorSync( () => m.eGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.colVectorGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.eGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
-    }
-
-  }
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    offset : o.offset,
-    /* strides : [ 1, 3 ], */
-    inputTransposing : 1,
-    dims : [ 3, 0 ],
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongColTransposing( m );
-
-  test.case = 'change by empty buffer of empty matrix with long column, transposing'; /* */
-
-  var m = new matrix
-  ({
-    buffer : new I32x(),
-    inputTransposing : 1,
-    dims : [ 3, 0 ],
-  });
-  m.buffer = new I32x();
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongColTransposing( m );
-
-  test.case = 'change by empty buffer of empty matrix with long column, transposing, by copy'; /* */
-
-  m.copy({ buffer : o.arrayMake([]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongColTransposing( m );
-
-  test.case = 'change buffer of empty matrix with long column, transposing'; /* */
-
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 4 );
-  test.identical( m.dims, [ 3, 1 ] );
-  test.identical( m.length, 1 );
-
-  test.identical( m._stridesEffective, [ 1, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, o.vec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.case = 'change buffer of empty matrix with long column, transposing'; /* */
-
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 8 );
-  test.identical( m.dims, [ 3, 2 ] );
-  test.identical( m.length, 2 );
-
-  test.identical( m._stridesEffective, [ 2, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 2 );
-  test.identical( m.strideOfRow, 2 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, o.vec([ 3, 4 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 3, 5 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 3, 5 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'construct empty matrix with long row, transposing'; /* */
-
-  function checkEmptyMatrixWithLongRowTransposing( m )
-  {
-
-    test.identical( m.size, 0 );
-    test.identical( m.sizeOfElement, 0 );
-    test.identical( m.sizeOfCol, 0 );
-    test.identical( m.sizeOfRow, 12 );
-    test.identical( m.dims, [ 0, 3 ] );
-    test.identical( m.length, 3 );
-
-    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m._stridesEffective, [ 2, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
-    test.identical( m.strideInCol, 3 );
-    test.identical( m.strideOfRow, 3 );
+    test.identical( m.strideInCol, 2 );
+    test.identical( m.strideOfRow, 2 );
     test.identical( m.strideInRow, 1 );
 
-    var c1 = m.colVectorGet( 0 );
-    var c2 = m.colVectorGet( 1 );
-    var c3 = m.lineVectorGet( 0, 0 );
-    var e = m.eGet( 2 );
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 3 );
+    var a2 = m.scalarGet([ 1, 1 ]);
 
-    test.identical( c1, o.vec([]) );
+    test.identical( r1, o.vec([ 3, 4 ]) );
+    test.identical( r1, r2 );
+    test.identical( c1, o.vec([ 2, 4, 6 ]) );
     test.identical( c1, c2 );
-    test.identical( c1, c3 );
-    test.identical( e, o.vec([]) );
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
-    test.identical( m.buffer.length-m.offset, 0 );
+    test.identical( e, o.vec([ 2, 4, 6 ]) );
+    test.identical( a1, 4 );
+    test.identical( a2, 4 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
 
-    if( Config.debug )
-    {
+    test.case = 'make then copy'; /* */
 
-      test.shouldThrowErrorSync( () => m.rowVectorGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.lineVectorGet( 1, 0 ) );
-
-      test.shouldThrowErrorSync( () => m.eGet( 3 ) );
-      test.shouldThrowErrorSync( () => m.colVectorGet( 3 ) );
-
-      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
-
-    }
-
-  }
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    offset : o.offset,
-    /* strides : [ 3, 0 ], */
-    inputTransposing : 1,
-    dims : [ 0, 3 ],
-  });
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowTransposing( m );
-  test.shouldThrowErrorSync( () => m.buffer = new I32x() );
-
-  test.case = 'change by empty buffer of empty matrix with long row, transposing'; /* */
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    inputTransposing : 1,
-    growingDimension : 0,
-    dims : [ 0, 3 ],
-  });
-
-  m.buffer = new I32x();
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowTransposing( m );
-
-  m.copy({ buffer : o.arrayMake([]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowTransposing( m );
-
-  test.case = 'change by non empty buffer of empty matrix with long row, transposing'; /* */
-
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 4 );
-  test.identical( m.sizeOfCol, 4 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 1, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 3, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, o.vec([ 1, 2, 3 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 2 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 2 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.case = 'change by non empty buffer of non empty matrix with long row, transposing'; /* */
-
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 3, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, o.vec([ 4, 5, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 2, 5 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 2, 5 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'construct empty matrix with long row, non transposing'; /* */
-
-  function checkEmptyMatrixWithLongRowNonTransposing( m )
-  {
-
-    test.identical( m.size, 0 );
-    test.identical( m.sizeOfElement, 0 );
-    test.identical( m.sizeOfCol, 0 );
-    test.identical( m.sizeOfRow, 12 );
-    test.identical( m.dims, [ 0, 3 ] );
-    test.identical( m.length, 3 );
-
-    test.identical( m._stridesEffective, [ 1, 0 ] );
-    test.identical( m.strideOfElement, 0 );
-    test.identical( m.strideOfCol, 0 );
-    test.identical( m.strideInCol, 1 );
-    test.identical( m.strideOfRow, 1 );
-    test.identical( m.strideInRow, 0 );
-
-    var c1 = m.colVectorGet( 0 );
-    var c2 = m.colVectorGet( 1 );
-    var c3 = m.lineVectorGet( 0, 0 );
-    var e = m.eGet( 2 );
-
-    test.identical( c1, vec( new m.buffer.constructor([]) ) );
-    test.identical( c1, c2 );
-    test.identical( c1, c3 );
-    test.identical( e, vec( new m.buffer.constructor([]) ) );
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
-    test.identical( m.buffer.length-m.offset, 0 );
-
-    if( Config.debug )
-    {
-
-      test.shouldThrowErrorSync( () => m.rowVectorGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.lineVectorGet( 1, 0 ) );
-
-      test.shouldThrowErrorSync( () => m.eGet( 3 ) );
-      test.shouldThrowErrorSync( () => m.colVectorGet( 3 ) );
-
-      test.shouldThrowErrorSync( () => m.scalarFlatGet( 1 ) );
-      test.shouldThrowErrorSync( () => m.scalarGet( 1 ) );
-
-    }
-
-  }
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    offset : o.offset,
-    /* strides : [ 3, 0 ], */
-    inputTransposing : 0,
-    dims : [ 0, 3 ],
-  });
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowNonTransposing( m );
-
-  var m = matrix.Make([ 0, 3 ]);
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowNonTransposing( m );
-  test.identical( m.strides, null );
-
-  var m = matrix.Make([ 0, 3 ]);
-  test.shouldThrowErrorSync( () => m.buffer = new I32x() );
-
-  test.case = 'change by empty buffer of empty matrix with long row, non transposing'; /* */
-
-  var m = matrix.Make([ 0, 3 ]);
-  m.growingDimension = 0;
-  m.buffer = new I32x();
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowNonTransposing( m );
-
-  test.case = 'change by empty buffer of empty matrix with long row, non transposing, by copy'; /* */
-
-  m.copy({ buffer : o.arrayMake([]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-  checkEmptyMatrixWithLongRowNonTransposing( m );
-
-  test.case = 'change by non empty buffer of empty matrix with long row, non transposing'; /* */
-
-  m.growingDimension = 0;
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 4 );
-  test.identical( m.sizeOfCol, 4 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 1, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 1, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, o.vec([ 1, 2, 3 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 2 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 2 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.case = 'change by non empty buffer of non empty matrix with long row, non transposing'; /* */
-
-  m.growingDimension = 0;
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 1, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 2 );
-
-  var r1 = m.rowVectorGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, o.vec([ 1, 3, 5 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 3, 4 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 3, 4 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'construct matrix with only buffer'; /* */
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake([ 1, 2, 3 ]),
-    offset : o.offset,
-  });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-
-  test.identical( m.scalarsPerMatrix, 3 );
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 4 );
-  test.identical( m.dims, [ 3, 1 ] );
-  test.identical( m.length, 1 );
-
-  test.identical( m._stridesEffective, [ 1, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 3 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, o.vec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.case = 'construct matrix without buffer'; /* */
-
-  if( Config.debug )
-  {
-
-    test.shouldThrowErrorSync( () => new matrix({ offset : o.offset, }) );
-
-  }
-
-  test.case = 'construct matrix with buffer and strides'; /* */
-
-  if( Config.debug )
-  {
-
-    var buffer = new I32x
-    ([
-      1, 2, 3,
-      4, 5, 6,
-    ]);
-    test.shouldThrowErrorSync( () => new matrix({ buffer, strides : [ 1, 3 ] }) );
-
-  }
-
-  test.case = 'construct empty matrix with dimensions, non transposing'; /* */
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    dims : [ 3, 0 ],
-    inputTransposing : 0,
-    offset : o.offset,
-  });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.scalarsPerMatrix, 0 );
-  test.identical( m.size, 0 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 0 );
-  test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m.length, 0 );
-
-  test.identical( m._stridesEffective, [ 1, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 3 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 1 );
-
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 8 );
-  test.identical( m.dims, [ 3, 2 ] );
-  test.identical( m.length, 2 );
-
-  test.identical( m._stridesEffective, [ 1, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 3 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 4 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, o.vec([ 2, 5 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 4, 5, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 4, 5, 6 ]) );
-  test.identical( a1, 5 );
-  test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'construct empty matrix with dimensions, transposing'; /* */
-
-  var m = new matrix
-  ({
-    buffer : o.arrayMake(),
-    dims : [ 3, 0 ],
-    inputTransposing : 1,
-    offset : o.offset,
-  });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 0 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 0 );
-  test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m.length, 0 );
-
-  test.identical( m._stridesEffective, [ 0, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 0 );
-  test.identical( m.strideOfRow, 0 );
-  test.identical( m.strideInRow, 1 );
-
-  m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 8 );
-  test.identical( m.dims, [ 3, 2 ] );
-  test.identical( m.length, 2 );
-
-  test.identical( m._stridesEffective, [ 2, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 2 );
-  test.identical( m.strideOfRow, 2 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 3 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, o.vec([ 3, 4 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, o.vec([ 2, 4, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, o.vec([ 2, 4, 6 ]) );
-  test.identical( a1, 4 );
-  test.identical( a2, 4 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.case = 'make then copy'; /* */
-
-  var m = matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 8 );
-  test.identical( m.sizeOfCol, 8 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m._stridesEffective, [ 1, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 2 );
-
-  var r1 = m.rowVectorGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
-  var c1 = m.colVectorGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 3 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, vec( new F32x([ 4, 5, 6 ]) ) );
-  test.identical( r1, r2 );
-  test.identical( c1, vec( new F32x([ 2, 5 ]) ) );
-  test.identical( c1, c2 );
-  test.identical( e, vec( new F32x([ 2, 5 ]) ) );
-  test.identical( a1, 5 );
-  test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  test.identical( m.strides, null );
-  test.is( m.buffer instanceof F32x );
-
-  test.case = 'copy buffer from scalar'; /* */
-
-  var m = matrix.MakeSquare([ 1, 2, 3, 4 ]);
-  var expected = matrix.MakeSquare([ 13, 13, 13, 13 ]);
-
-  m.copy( 13 );
-  test.identical( m, expected );
-
-  var m = matrix.MakeSquare([]);
-  var expected = matrix.MakeSquare([]);
-
-  m.copy( 13 );
-  test.identical( m, expected );
-
-  test.case = 'copy buffer of different type'; /* */
-
-  var b = new F32x
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-  ]);
-
-  var m = makeWithOffset
-  ({
-    buffer : b,
-    dims : [ 3, 3 ],
-    offset : o.offset||0,
-    inputTransposing : 1,
-  });
-
-  test.is( m.buffer.length-( o.offset||0 ) === 9 );
-  test.is( m.buffer instanceof F32x );
-
-  var expected = matrix.Make([ 3, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-  ]);
-
-  m.copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-  ]);
-
-  test.identical( m, expected );
-  test.is( m.buffer.length === 9+( o.offset||0 ) );
-  test.is( m.buffer instanceof F32x );
-
-  m.copy
-  ( new U32x([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-  ]));
-
-  test.identical( m, expected );
-  test.is( m.buffer.length === 9+( o.offset||0 ) );
-  test.is( m.offset === ( o.offset||0 ) );
-  test.is( m.buffer instanceof F32x );
-
-  m.copy
-  ({
-    offset : 0,
-    buffer : new U32x
-    ([
-      1, 2, 3,
-      4, 5, 6,
-      7, 8, 9,
-    ]),
-  });
-
-  test.notIdentical( m, expected );
-  test.is( m.buffer.length === 9 );
-  test.is( m.offset === 0 );
-  test.is( m.buffer instanceof U32x );
-
-  test.case = 'bad buffer'; /* */
-
-  test.shouldThrowErrorSync( function()
-  {
-    new matrix
-    ({
-      buffer : _.longFromRange([ 1, 5 ]),
-      dims : [ 3, 3 ],
-    });
-  });
-
-  test.shouldThrowErrorSync( function()
-  {
     var m = matrix.Make([ 2, 3 ]).copy
     ([
       1, 2, 3,
       4, 5, 6,
+    ]);
+
+    logger.log( 'm\n' + _.toStr( m ) );
+
+    test.identical( m.size, 24 );
+    test.identical( m.sizeOfElement, 8 );
+    test.identical( m.sizeOfCol, 8 );
+    test.identical( m.sizeOfRow, 12 );
+    test.identical( m.dims, [ 2, 3 ] );
+    test.identical( m.length, 3 );
+
+    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.strideOfElement, 2 );
+    test.identical( m.strideOfCol, 2 );
+    test.identical( m.strideInCol, 1 );
+    test.identical( m.strideOfRow, 1 );
+    test.identical( m.strideInRow, 2 );
+
+    var r1 = m.rowVectorGet( 1 );
+    var r2 = m.lineVectorGet( 1, 1 );
+    var c1 = m.colVectorGet( 1 );
+    var c2 = m.lineVectorGet( 0, 1 );
+    var e = m.eGet( 1 );
+    var a1 = m.scalarFlatGet( 3 );
+    var a2 = m.scalarGet([ 1, 1 ]);
+
+    test.identical( r1, vec( new F32x([ 4, 5, 6 ]) ) );
+    test.identical( r1, r2 );
+    test.identical( c1, vec( new F32x([ 2, 5 ]) ) );
+    test.identical( c1, c2 );
+    test.identical( e, vec( new F32x([ 2, 5 ]) ) );
+    test.identical( a1, 5 );
+    test.identical( a2, 5 );
+    test.identical( m.reduceToSumAtomWise(), 21 );
+    test.identical( m.reduceToProductAtomWise(), 720 );
+
+    test.identical( m.strides, null );
+    test.is( m.buffer instanceof F32x );
+
+    test.case = 'copy buffer from scalar'; /* */
+
+    var m = matrix.MakeSquare([ 1, 2, 3, 4 ]);
+    var expected = matrix.MakeSquare([ 13, 13, 13, 13 ]);
+
+    m.copy( 13 );
+    test.identical( m, expected );
+
+    var m = matrix.MakeSquare([]);
+    var expected = matrix.MakeSquare([]);
+
+    m.copy( 13 );
+    test.identical( m, expected );
+
+    test.case = 'copy buffer of different type'; /* */
+
+    var b = new F32x
+    ([
+      1, 2, 3,
+      4, 5, 6,
       7, 8, 9,
     ]);
-  });
+
+    var m = makeWithOffset
+    ({
+      buffer : b,
+      dims : [ 3, 3 ],
+      offset : o.offset||0,
+      inputTransposing : 1,
+    });
+
+    test.is( m.buffer.length-( o.offset||0 ) === 9 );
+    test.is( m.buffer instanceof F32x );
+
+    var expected = matrix.Make([ 3, 3 ]).copy
+    ([
+      1, 2, 3,
+      4, 5, 6,
+      7, 8, 9,
+    ]);
+
+    m.copy
+    ([
+      1, 2, 3,
+      4, 5, 6,
+      7, 8, 9,
+    ]);
+
+    test.identical( m, expected );
+    test.is( m.buffer.length === 9+( o.offset||0 ) );
+    test.is( m.buffer instanceof F32x );
+
+    m.copy
+    ( new U32x([
+      1, 2, 3,
+      4, 5, 6,
+      7, 8, 9,
+    ]));
+
+    test.identical( m, expected );
+    test.is( m.buffer.length === 9+( o.offset||0 ) );
+    test.is( m.offset === ( o.offset||0 ) );
+    test.is( m.buffer instanceof F32x );
+
+    m.copy
+    ({
+      offset : 0,
+      buffer : new U32x
+      ([
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 9,
+      ]),
+    });
+
+    test.notIdentical( m, expected );
+    test.is( m.buffer.length === 9 );
+    test.is( m.offset === 0 );
+    test.is( m.buffer instanceof U32x );
+
+    test.case = 'bad buffer'; /* */
+
+    test.shouldThrowErrorSync( function()
+    {
+      new matrix
+      ({
+        buffer : _.longFromRange([ 1, 5 ]),
+        dims : [ 3, 3 ],
+      });
+    });
+
+    test.shouldThrowErrorSync( function()
+    {
+      var m = matrix.Make([ 2, 3 ]).copy
+      ([
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 9,
+      ]);
+    });
+
+  }
 
 }
+
+make.timeOut = 30000;
 
 //
 
@@ -2373,9 +2370,7 @@ function makeHelper( test )
     4, 5, 6,
     7, 8, 9,
   ];
-  debugger;
   var m = matrix.MakeSquare( buffer );
-  debugger;
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -2450,9 +2445,7 @@ function makeHelper( test )
 
   test.case = 'diagonal'; /* */
 
-  debugger;
   var m = matrix.MakeDiagonal([ 1, 2, 3 ]);
-  debugger;
 
   logger.log( 'm\n' + _.toStr( m ) );
 
@@ -3984,7 +3977,7 @@ function _copyTo( test, o )
   var expected = o.arrayMake([ 1, 2, 3 ]);
 
   var got = matrix.CopyTo( dst, src );
-  test.identical( got, expected ); debugger;
+  test.identical( got, expected );
   test.is( dst === got );
 
   test.case = o.name + ' . ' + 'matrix to vector'; //
@@ -4607,22 +4600,24 @@ function stride( test )
 
 //
 
-function strideExperiment( test )
+function strideNegative( test )
 {
   test.case = 'negative stride';
-  debugger;
   var matrix = new _.Matrix
   ({
-    buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+    buffer : new F32x([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]),
     dims : [ 2, 2 ],
     offset : 8,
     strides : [ -1, -2 ],
   });
-  var expected = _.Matrix.MakeSquare( [ 9, 8, 7, 6 ] );
+  console.log( matrix.toStr() );
+  var expected = _.Matrix.MakeSquare
+  ([
+    9, 7,
+    8, 6,
+  ]);
   test.identical( matrix, expected );
 }
-
-strideExperiment.experimental = 1;
 
 //
 
@@ -8241,7 +8236,6 @@ function MulExperiment( test )
   ]);
   test.identical( matrix3.determinant(), 0 );
 
-  debugger;
   var mul = matrix.Mul( null, [ matrix3, 2 ] );
   var expected = matrix.MakeSquare( 3 );
   expected.buffer = new I32x
@@ -9652,62 +9646,6 @@ function SolveGeneral( test )
 
   // return; // xxx
 
-  function checkNull( m, r, d )
-  {
-
-    var param = _.dup( 0, m.dims[ 1 ] );
-    param[ d ] = 1;
-    var x2 = matrix.Mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
-    var y2 = matrix.Mul( null, [ m, x2 ] );
-
-    if( y2.dims[ 0 ] < m.dims[ 1 ] )
-    y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
-    test.equivalent( y2, matrix.MakeZero([ m.dims[ 1 ], 1 ]) );
-
-    logger.log( 'm', m );
-    logger.log( 'x2', x2 );
-    logger.log( 'y2', y2 );
-
-  }
-
-  function checkDimension( m, y, r, d, factor )
-  {
-
-    var param = _.dup( 0, m.dims[ 1 ] );
-    param[ d ] = factor;
-    var x2 = matrix.Mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
-    x2 = matrix.addAtomWise( x2, r.base, x2 );
-    var y2 = matrix.Mul( null, [ m, x2 ] );
-
-    if( y2.dims[ 0 ] < m.dims[ 1 ] )
-    y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
-    test.equivalent( y2, y );
-
-    logger.log( 'param', param );
-    logger.log( 'kernel', r.kernel );
-
-    logger.log( 'm', m );
-    logger.log( 'x2', x2 );
-    logger.log( 'y2', y2 );
-
-  }
-
-  function check( m, y, r )
-  {
-    var description = test.case;
-
-    for( var d = 0 ; d < m.dims[ 1 ] ; d++ )
-    {
-      test.case = description + ' . ' + 'check direction ' + d;
-      checkDimension( m, y, r, d, 0 );
-      checkDimension( m, y, r, d, +10 );
-      checkDimension( m, y, r, d, -10 );
-      checkNull( m, r, d );
-    }
-
-    test.case = description;
-  }
-
   test.case = 'simple without pivoting'; /* */
 
   var re =
@@ -9986,6 +9924,70 @@ function SolveGeneral( test )
   logger.log( 'm', m );
 
   check( mo, y, r );
+
+  /* */
+
+  function checkNull( m, r, d )
+  {
+
+    var param = _.dup( 0, m.dims[ 1 ] );
+    param[ d ] = 1;
+    var x2 = matrix.Mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
+    var y2 = matrix.Mul( null, [ m, x2 ] );
+
+    if( y2.dims[ 0 ] < m.dims[ 1 ] )
+    y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
+    test.equivalent( y2, matrix.MakeZero([ m.dims[ 1 ], 1 ]) );
+
+    logger.log( 'm', m );
+    logger.log( 'x2', x2 );
+    logger.log( 'y2', y2 );
+
+  }
+
+  /* */
+
+  function checkDimension( m, y, r, d, factor )
+  {
+
+    var param = _.dup( 0, m.dims[ 1 ] );
+    param[ d ] = factor;
+    var x2 = matrix.Mul( null, [ r.kernel, matrix.MakeCol( param ) ] );
+    x2 = matrix.addAtomWise( x2, r.base, x2 );
+    var y2 = matrix.Mul( null, [ m, x2 ] );
+
+    if( y2.dims[ 0 ] < m.dims[ 1 ] )
+    y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
+    test.equivalent( y2, y );
+
+    logger.log( 'param', param );
+    logger.log( 'kernel', r.kernel );
+
+    logger.log( 'm', m );
+    logger.log( 'x2', x2 );
+    logger.log( 'y2', y2 );
+
+  }
+
+  /* */
+
+  function check( m, y, r )
+  {
+    var description = test.case;
+
+    for( var d = 0 ; d < m.dims[ 1 ] ; d++ )
+    {
+      test.case = description + ' . ' + 'check direction ' + d;
+      checkDimension( m, y, r, d, 0 );
+      checkDimension( m, y, r, d, +10 );
+      checkDimension( m, y, r, d, -10 );
+      checkNull( m, r, d );
+    }
+
+    test.case = description;
+  }
+
+  /* */
 
 }
 
@@ -10278,7 +10280,7 @@ var Self =
 
     makeWithOffset,
 
-    _make,
+    // _make,
     _MakeSimilar,
     _ConvertToClass,
     _copyTo,
@@ -10324,7 +10326,8 @@ var Self =
 
     offset,
     stride,
-    strideExperiment,
+    strideNegative, /* qqq : extend */
+    /* qqq : implement perfecto coverage for field stride */
     bufferNormalize,
     expand,
     vectorToMatrix,
