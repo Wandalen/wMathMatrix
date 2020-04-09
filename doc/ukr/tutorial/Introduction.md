@@ -208,8 +208,8 @@ var matrixB = _.Matrix.makeCol( [ 1, 2 ] );
 
 var matrixX = _.Matrix.solve( null, matrixA, matrixB );
 
-var x1 = matrixX.atomGet( [ 0, 0 ] );
-var x2 = matrixX.atomGet( [ 1, 0 ] );
+var x1 = matrixX.scalarGet( [ 0, 0 ] );
+var x2 = matrixX.scalarGet( [ 1, 0 ] );
 console.log( 'x1 : ', x1, ', x2 : ', x2 );
 /* log : x1 : 0.5384615659713745, x2 : 0.307692289352417 */
 ```

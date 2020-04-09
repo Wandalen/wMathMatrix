@@ -64,7 +64,7 @@ console.log( 'changed matrix : ', matrix.toStr() );
 
 ### Як отримати або встановити значення скаляра
 
-Для доступу до елемента за індексами рядка і колонки використовуються методи `atomGet` i `atomSet`.
+Для доступу до елемента за індексами рядка і колонки використовуються методи `scalarGet` i `scalarSet`.
 
 ```js
 var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
@@ -72,11 +72,11 @@ console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +3, +4
 */
-var el = matrix.atomGet( [ 0, 1 ] );
+var el = matrix.scalarGet( [ 0, 1 ] );
 console.log( 'second element of first row : ', el );
 /* log : second element of first row : 2 */
 
-matrix.atomSet( [ 0, 1 ], 5 );
+matrix.scalarSet( [ 0, 1 ], 5 );
 console.log( 'changed matrix : ', matrix.toStr() );
 /* log : changed matrix : +1, +5,
                           +3, +4
@@ -118,7 +118,7 @@ console.log( 'changed matrix : ', matrix.toStr() );
 
 ### Як отримати або встановити значення скаляра
 
-Модуль дозволяє працювати безпосередньо з буфером матриці з допомогою методів `atomFlatGet` i `atomFlatSet`. Доступні елементи лежать в ренжі між початком буферу і індексом останнього елемента створеної матриці та не залежать від кроку матриці ( `strides` ).
+Модуль дозволяє працювати безпосередньо з буфером матриці з допомогою методів `scalarFlatGet` i `scalarFlatSet`. Доступні елементи лежать в ренжі між початком буферу і індексом останнього елемента створеної матриці та не залежать від кроку матриці ( `strides` ).
 
 ```js
 var matrix = _.matrix
@@ -131,9 +131,6 @@ console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +3, +4,
 */
-var el = matrix.atomFlatGet( 2 );
-console.log( 'second element of buffer : ', el );
-/* log : second element of buffer : 3 */
 
 matrix.strides = [ 3, 4 ];
 var row = matrix.rowVectorGet( 0 );
@@ -141,7 +138,7 @@ console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +5,
                   +4, +9,
 */
-var el = matrix.atomFlatGet( 2 );
+var el = matrix.scalarFlatGet( 2 );
 console.log( 'second element of buffer : ', el );
 /* log : second element of buffer : 3 */
 ```
@@ -159,7 +156,7 @@ console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +6, +7,
 */
-matrix.atomFlatSet( 6, 0 );
+matrix.scalarFlatSet( 6, 0 );
 console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +6, +0,
