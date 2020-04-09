@@ -112,9 +112,11 @@ console.log( 'transposed matrix : ', matrix.toStr() );
 Для транспонування матриці можна змінити порядок значень в опції `strides`.
 
 ```js
+var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+
 var matrix = _.Matrix
 ({
-  buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  buffer : buffer1,
   dims : [ 2, 2 ],
   strides : [ 4, 2 ],
   offset : 1,
@@ -127,7 +129,7 @@ console.log( 'matrix : ', matrix.toStr() );
 
 var matrixTransposed = _.Matrix
 ({
-  buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  buffer : buffer1,
   dims : [ 2, 2 ],
   strides : [ 2, 4 ],
   offset : 1,
