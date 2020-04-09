@@ -4615,6 +4615,7 @@ function strideExperiment( test )
   ({
     buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
     dims : [ 2, 2 ],
+    offset : 8,
     strides : [ -1, -2 ],
   });
   var expected = _.Matrix.MakeSquare( [ 9, 8, 7, 6 ] );
