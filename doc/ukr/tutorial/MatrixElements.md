@@ -12,8 +12,8 @@ console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +3, +4,
 */
-var row = matrix.rowVectorGet( 0 ).toStr();
-console.log( 'first row : ', row );
+var row = matrix.rowVectorGet( 0 );
+console.log( 'first row : ', row.toStr() );
 /* log : first row : 1.000, 2.000 */
 ```
 
@@ -42,8 +42,8 @@ console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +3, +4
 */
-var row = matrix.colVectorGet( 0 ).toStr();
-console.log( 'first column : ', row );
+var row = matrix.colVectorGet( 0 );
+console.log( 'first column : ', row.toStr() );
 /* log : first column : 1.000, 3.000 */
 ```
 
