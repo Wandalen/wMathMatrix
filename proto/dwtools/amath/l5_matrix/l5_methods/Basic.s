@@ -97,7 +97,8 @@ function _TempBorrow( src, dims, index )
 
   _.assert( _.routineIs( bufferConstructor ) );
   _.assert( _.arrayIs( dims ) );
-  _.assert( index < 3 );
+  _.assert( index <= 3 );
+  _.assert( !!this._TempMatrices[ index ] );
 
   let key = bufferConstructor.name + '_' + dims.join( 'x' );
 
@@ -277,7 +278,7 @@ function matrixPow( exponent )
   _.assert( _.instanceIs( this ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let t = this.TempBorrow( this );
+  let t = this.tempBorrow( this );
 
   _.assert( 0, 'not implemented' );
 
@@ -330,6 +331,7 @@ function Mul( dst, srcs )
 
   /* adjust srcs 1 */
 
+  let osrcs = srcs;
   srcs = srcs.slice();
 
   let leftMatrix;
@@ -364,7 +366,8 @@ function Mul( dst, srcs )
   if( dst === null )
   {
     let dims = [ this.NrowOf( srcs[ srcs.length-2 ] ) , this.NcolOf( srcs[ srcs.length-1 ] ) ];
-    dst = this.MakeSimilar( srcs[ srcs.length-1 ] , dims );
+    // dst = this.MakeSimilar( srcs[ srcs.length-1 ] , dims );
+    dst = this.MakeSimilar( _.numberIs( osrcs[ osrcs.length-1 ] ) ? srcs[ osrcs.length-1 ] : osrcs[ osrcs.length-1 ], dims );
   }
 
   /* adjust srcs 2 */
@@ -381,7 +384,7 @@ function Mul( dst, srcs )
     {
       if( dstClone === null )
       {
-        dstClone = dst.TempBorrow1();
+        dstClone = dst.tempBorrow1();
         dstClone.copy( dst );
       }
       srcs[ s ] = dstClone;
@@ -407,12 +410,12 @@ function Mul( dst, srcs )
       let src = srcs[ s ];
       if( s % 2 === 0 )
       {
-        dst2 = dst.TempBorrow2([ dst3.dims[ 0 ], src.dims[ 1 ] ]);
+        dst2 = dst.tempBorrow2([ dst3.dims[ 0 ], src.dims[ 1 ] ]);
         this._Mul2Matrices( dst2 , dst3 , src );
       }
       else
       {
-        dst3 = dst.TempBorrow3([ dst2.dims[ 0 ], src.dims[ 1 ] ]);
+        dst3 = dst.tempBorrow3([ dst2.dims[ 0 ], src.dims[ 1 ] ]);
         this._Mul2Matrices( dst3 , dst2 , src );
       }
     }
@@ -2173,7 +2176,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* var */
 
-  _TempMatrices : [ Object.create( null ) , Object.create( null ) , Object.create( null ) ],
+  _TempMatrices : [ Object.create( null ) , Object.create( null ) , Object.create( null ) , Object.create( null ) ],
 
 }
 
