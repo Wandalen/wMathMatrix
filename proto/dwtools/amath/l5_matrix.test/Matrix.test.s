@@ -4618,6 +4618,9 @@ function strideExperiment( test )
     offset : 8,
     strides : [ -1, -2 ],
   });
+  debugger;
+  console.log( matrix.toStr() );
+  debugger;
   var expected = _.Matrix.MakeSquare( [ 9, 8, 7, 6 ] );
   test.identical( matrix, expected );
 }

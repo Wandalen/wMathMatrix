@@ -1255,6 +1255,7 @@ function _adjustAct()
   let occupiedRange = [ 0, 0 ];
   let last;
 
+  debugger;
   if( self.length !== 0 )
   {
 
@@ -1265,19 +1266,26 @@ function _adjustAct()
 
       last = dims[ s ] > 0 ? self._stridesEffective[ s ]*( dims[ s ]-1 ) : 0;
 
-      _.assert( last >= 0, 'not tested' );
+      // _.assert( last >= 0, 'not tested' );
 
+      if( last > 0 )
       occupiedRange[ 1 ] += last;
+      else
+      occupiedRange[ 0 ] += last;
 
     }
 
   }
+  debugger;
 
   occupiedRange[ 0 ] += offset;
   occupiedRange[ 1 ] += offset;
   occupiedRange[ 1 ] += 1;
 
   self[ occupiedRangeSymbol ] = occupiedRange;
+
+  _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
+  _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
 
   /* done */
 
