@@ -138,7 +138,7 @@ console.log( 'transposed matrix : ', matrixTransposed.toStr() );
 */
 ```
 
-![ZeroCopyTransposing.png](../img/ZeroCopyTransposing.png)
+![ZeroCopyTransposing.png](../../img/ZeroCopyTransposing.png)
 
 Приведена діаграма показано як буфер інтерпретується в матрицю. При зміні опції `strides` проходить транспонування матриці без копіювання буфера.
 
