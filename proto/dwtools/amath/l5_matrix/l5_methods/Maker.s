@@ -159,7 +159,7 @@ function MakeSquare( buffer )
   }
   else
   {
-    buffer = proto.constructor._BufferFrom( buffer );
+    buffer = proto._BufferFrom( buffer );
   }
 
   let result = new proto.constructor
@@ -171,53 +171,6 @@ function MakeSquare( buffer )
 
   return result;
 }
-
-//
-
-function MakeSquare( buffer )
-{
-  let proto = this.Self.prototype;
-
-  let length = buffer;
-  if( _.longIs( buffer ) )
-  length = Math.sqrt( buffer.length );
-
-  _.assert( !this.instanceIs() );
-  _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
-  _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
-  _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  let dims = [ length, length ];
-  let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
-
-  let inputTransposing = scalarsPerMatrix > 0 ? 1 : 0;
-  if( _.numberIs( buffer ) )
-  {
-    inputTransposing = 0;
-    buffer = this.long.longMake( scalarsPerMatrix );
-  }
-  else
-  {
-    buffer = proto.constructor._BufferFrom( buffer );
-  }
-
-  let result = new proto.constructor
-  ({
-    buffer,
-    dims,
-    inputTransposing,
-  });
-
-  return result;
-}
-
-// //
-//
-// function MakeSquare_( buffer )
-// {
-//   return this.MakeSquare( buffer );
-// }
 
 //
 

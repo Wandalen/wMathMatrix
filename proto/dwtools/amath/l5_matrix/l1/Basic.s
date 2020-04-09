@@ -1253,30 +1253,29 @@ function _adjustAct()
   let dims = self.dims;
   let offset = self.offset;
   let occupiedRange = [ 0, 0 ];
-  let last;
 
-  debugger;
   if( self.length !== 0 )
   {
+    let extreme = [ 0, 0 ];
 
     for( let s = 0 ; s < self._stridesEffective.length ; s++ )
     {
       if( dims[ s ] === Infinity )
       continue;
 
-      last = dims[ s ] > 0 ? self._stridesEffective[ s ]*( dims[ s ]-1 ) : 0;
+      let delta = dims[ s ] > 0 ? self._stridesEffective[ s ]*( dims[ s ]-1 ) : 0;
 
-      // _.assert( last >= 0, 'not tested' );
-
-      if( last > 0 )
-      occupiedRange[ 1 ] += last;
+      if( delta >= 0 )
+      extreme[ 1 ] = extreme[ 1 ] + delta;
       else
-      occupiedRange[ 0 ] += last;
+      extreme[ 0 ] = extreme[ 0 ] + delta;
 
     }
 
+    occupiedRange[ 0 ] += extreme[ 0 ];
+    occupiedRange[ 1 ] += extreme[ 1 ];
+
   }
-  debugger;
 
   occupiedRange[ 0 ] += offset;
   occupiedRange[ 1 ] += offset;
@@ -1284,8 +1283,12 @@ function _adjustAct()
 
   self[ occupiedRangeSymbol ] = occupiedRange;
 
-  _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
-  _.assert( 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length );
+  if( self.scalarsPerMatrix )
+  if( self.buffer.length )
+  {
+    _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
+    _.assert( 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length );
+  }
 
   /* done */
 
@@ -1322,14 +1325,14 @@ function _adjustValidate()
 
   _.assert( self.length >= 0 );
   _.assert( self.scalarsPerElement >= 0 );
-  _.assert( self.strideOfElement >= 0 );
+  // _.assert( self.strideOfElement >= 0 );
 
   _.assert( _.longIs( self.buffer ) );
   _.assert( _.longIs( self.breadth ) );
 
   _.assert( _.longIs( self._stridesEffective ) );
   _.assert( _.numbersAreInt( self._stridesEffective ) );
-  _.assert( _.numbersArePositive( self._stridesEffective ) );
+  // _.assert( _.numbersArePositive( self._stridesEffective ) );
   _.assert( self._stridesEffective.length >= 2 );
 
   _.assert( _.numbersAreInt( self.dims ) );
@@ -1820,7 +1823,6 @@ function _equalAre( it )
   if( it.src.buffer.constructor !== it.src2.buffer.constructor )
   {
     it.result = false;
-    debugger;
     return it.result;
   }
 
@@ -3790,7 +3792,7 @@ _.assert( Self.long === _.vectorAdapter.long );
 
 //
 
-// _.mapExtendConditional( _.field.mapper.srcOwnPrimitive, Self, Composes ); /*  qqq : required ??? */
+// _.mapExtendConditional( _.field.mapper.srcOwnPrimitive, Self, Composes ); /*  zzz : required ??? */
 // _.Matrix = _.Matrix = Self;
 
 })();

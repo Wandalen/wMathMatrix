@@ -191,7 +191,6 @@ function isSymmetric( accuracy )
   {
     for( let j = 0; j < cols; j++ )
     {
-      debugger;
       if( i > j )
       {
         let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
