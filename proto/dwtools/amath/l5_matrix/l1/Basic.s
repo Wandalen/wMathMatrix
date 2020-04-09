@@ -1285,7 +1285,7 @@ function _adjustAct()
   self[ occupiedRangeSymbol ] = occupiedRange;
 
   _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
-  _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
+  _.assert( 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length );
 
   /* done */
 
