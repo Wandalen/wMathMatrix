@@ -8334,6 +8334,7 @@ function mul( test )
 
 function MulExperiment( test )
 {
+
   test.case = 'matrix3 mul scalar';
   var matrix3 = _.Matrix.MakeSquare
   ([
@@ -8343,15 +8344,18 @@ function MulExperiment( test )
   ]);
   test.identical( matrix3.determinant(), 0 );
 
+  debugger;
   var mul = matrix.Mul( null, [ matrix3, 2 ] );
+  debugger;
   var expected = matrix.MakeSquare( 3 );
-  expected.buffer = new I32x
+  expected.buffer = new F32x
   ([
      4,  4, -4,
     -4, -6,  8,
      8,  6, -4,
   ]);
   test.equivalent( mul, expected );
+
 }
 
 MulExperiment.experimental = 1;
@@ -10379,15 +10383,12 @@ var Self =
   name : 'Tools.Math.Matrix',
   silencing : 1,
   enabled : 1,
-  // routine : 'construct',
-  // verbosity : 7,
 
   context :
   {
 
     makeWithOffset,
 
-    // _make,
     _MakeSimilar,
     _ConvertToClass,
     _copyTo,

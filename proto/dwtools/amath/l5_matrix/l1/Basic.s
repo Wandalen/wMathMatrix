@@ -745,6 +745,8 @@ function NrowOf( src )
 {
   if( src instanceof Self )
   return src.dims[ 0 ];
+  if( _.numberIs( src ) )
+  return 1;
   _.assert( src.length );
   return src.length;
 }
@@ -774,6 +776,8 @@ function NcolOf( src )
 {
   if( src instanceof Self )
   return src.dims[ 1 ];
+  if( _.numberIs( src ) )
+  return 1;
   _.assert( src.length >= 0 );
   return 1;
 }
@@ -803,6 +807,8 @@ function DimsOf( src )
 {
   if( src instanceof Self )
   return src.dims.slice();
+  if( _.numberIs( src ) )
+  return [ 1, 1 ];
   let result = [ 0, 1 ];
   _.assert( src.length >= 0 );
   result[ 0 ] = src.length;
@@ -3458,9 +3464,9 @@ let Statics =
   CopyTo,
 
   ScalarsPerMatrixForDimensions,
-  NrowOf,
-  NcolOf,
-  DimsOf,
+  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */
+  NcolOf, /* qqq : cover routine NcolOf. should work for any vector, matrix and scalar */
+  DimsOf, /* qqq : cover routine DimsOf. should work for any vector, matrix and scalar */
   ShapesAreSame,
 
   StridesForDimensions,
@@ -3613,6 +3619,7 @@ let Extension =
   ScalarsPerMatrixForDimensions,
   NrowOf,
   NcolOf,
+  DimsOf,
 
   /* stride */
 
@@ -3755,19 +3762,23 @@ _.classDeclare
 
 _.Copyable.mixin( Self );
 
-Object.defineProperty( Self, 'accuracy', {
+Object.defineProperty( Self, 'accuracy',
+{
   get : function() { return this.vectorAdapter.accuracy },
 });
 
-Object.defineProperty( Self, 'accuracySqr', {
+Object.defineProperty( Self, 'accuracySqr',
+{
   get : function() { return this.vectorAdapter.accuracySqr },
 });
 
-Object.defineProperty( Self.prototype, 'accuracy', {
+Object.defineProperty( Self.prototype, 'accuracy',
+{
   get : function() { return this.vectorAdapter.accuracy },
 });
 
-Object.defineProperty( Self.prototype, 'accuracySqr', {
+Object.defineProperty( Self.prototype, 'accuracySqr',
+{
   get : function() { return this.vectorAdapter.accuracySqr },
 });
 

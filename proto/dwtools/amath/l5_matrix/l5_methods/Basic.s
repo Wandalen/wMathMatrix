@@ -72,7 +72,7 @@ function _TempBorrow( src, dims, index )
   if( !src )
   {
 
-    // debugger;
+    debugger;
     // bufferConstructor = this.array.ArrayType;
     // bufferConstructor = this.longDescriptor;
     bufferConstructor = this.long.longDescriptor.type;
@@ -129,20 +129,23 @@ function _TempBorrow( src, dims, index )
  * @module Tools/math/Matrix
  */
 
-function TempBorrow1( src )
+function TempBorrow0( src )
 {
-
-  _.assert( arguments.length <= 1 );
-  if( src === undefined )
-  src = this;
-
-  if( this instanceof Self )
-  return Self._TempBorrow( this, src , 0 );
-  else if( src instanceof Self )
+  _.assert( arguments.length === 1 );
+  if( src instanceof Self )
   return Self._TempBorrow( src, src , 0 );
   else
   return Self._TempBorrow( null, src , 0 );
+}
 
+//
+
+function tempBorrow0( src ) /* qqq : improve jsdoc */
+{
+  _.assert( arguments.length <= 1 );
+  if( src === undefined )
+  src = this;
+  return Self._TempBorrow( this, src , 0 );
 }
 
 //
@@ -160,20 +163,23 @@ function TempBorrow1( src )
  * @module Tools/math/Matrix
  */
 
-function TempBorrow2( src )
+function TempBorrow1( src )
 {
-
-  _.assert( arguments.length <= 1 );
-  if( src === undefined )
-  src = this;
-
-  if( this instanceof Self )
-  return Self._TempBorrow( this, src , 1 );
-  else if( src instanceof Self )
+  _.assert( arguments.length === 1 );
+  if( src instanceof Self )
   return Self._TempBorrow( src, src , 1 );
   else
   return Self._TempBorrow( null, src , 1 );
+}
 
+//
+
+function tempBorrow1( src ) /* qqq : improve jsdoc */
+{
+  _.assert( arguments.length <= 1 );
+  if( src === undefined )
+  src = this;
+  return Self._TempBorrow( this, src , 1 );
 }
 
 //
@@ -191,20 +197,44 @@ function TempBorrow2( src )
  * @module Tools/math/Matrix
  */
 
-function TempBorrow3( src )
+function TempBorrow2( src )
 {
-
-  _.assert( arguments.length <= 1 );
-  if( src === undefined )
-  src = this;
-
-  if( this instanceof Self )
-  return Self._TempBorrow( this, src , 2 );
-  else if( src instanceof Self )
+  _.assert( arguments.length === 1 );
+  if( src instanceof Self )
   return Self._TempBorrow( src, src , 2 );
   else
   return Self._TempBorrow( null, src , 2 );
+}
 
+//
+
+function tempBorrow2( src ) /* qqq : improve jsdoc */
+{
+  _.assert( arguments.length <= 1 );
+  if( src === undefined )
+  src = this;
+  return Self._TempBorrow( this, src , 2 );
+}
+
+//
+
+function TempBorrow3( src )
+{
+  _.assert( arguments.length === 1 );
+  if( src instanceof Self )
+  return Self._TempBorrow( src, src , 3 );
+  else
+  return Self._TempBorrow( null, src , 3 );
+}
+
+//
+
+function tempBorrow3( src ) /* qqq : improve jsdoc */
+{
+  _.assert( arguments.length <= 1 );
+  if( src === undefined )
+  src = this;
+  return Self._TempBorrow( this, src , 3 );
 }
 
 // --
@@ -298,6 +328,36 @@ function Mul( dst, srcs )
   _.assert( _.arrayIs( srcs ) );
   _.assert( srcs.length >= 2 );
 
+  /* adjust srcs 1 */
+
+  srcs = srcs.slice();
+  let dstClone = null;
+
+  let odst = dst;
+  dst = this.From( dst );
+
+  for( let s = 0 ; s < srcs.length ; s++ )
+  {
+
+    if( _.numberIs( srcs[ s ] ) )
+    srcs[ s ] = this.FromScalar( srcs[ s ], dst.dims );
+    else
+    srcs[ s ] = this.From( srcs[ s ] );
+
+    if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
+    {
+      if( dstClone === null )
+      {
+        dstClone = dst.TempBorrow1();
+        dstClone.copy( dst );
+      }
+      srcs[ s ] = dstClone;
+    }
+
+    _.assert( dst.buffer !== srcs[ s ].buffer );
+
+  }
+
   /* adjust dst */
 
   if( dst === null )
@@ -306,7 +366,7 @@ function Mul( dst, srcs )
     dst = this.MakeSimilar( srcs[ srcs.length-1 ] , dims );
   }
 
-  /* adjust srcs */
+  /* adjust srcs 2 */
 
   srcs = srcs.slice();
   let dstClone = null;
@@ -2084,6 +2144,7 @@ let Statics = /* qqq : split static routines. ask how */
   /* borrow */
 
   _TempBorrow,
+  TempBorrow0,
   TempBorrow : TempBorrow1,
   TempBorrow1,
   TempBorrow2,
@@ -2117,10 +2178,16 @@ let Extension =
   // borrow
 
   _TempBorrow,
+  TempBorrow0,
+  tempBorrow0,
   TempBorrow : TempBorrow1,
+  tempBorrow : tempBorrow1,
   TempBorrow1,
+  tempBorrow1,
   TempBorrow2,
+  tempBorrow2,
   TempBorrow3,
+  tempBorrow3,
 
   // mul
 
