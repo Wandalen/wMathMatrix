@@ -169,21 +169,21 @@ console.log( 'matrix : ', a.toStr() );
 */
 ```
 
-### Рутина `fromTransformations`
+### Рутина `FromTransformations`
 
-Змінює значення матричі через трансформацію з квантеріоном.
+Змінює значення матриці через трансформацію з квантеріоном, значення зберігаються в матриці переданій першим аргументом.
 
 ```js
-var matrix = _.Matrix.make( [ 4, 4 ] );
+var matrix = _.Matrix.Make( [ 4, 4 ] );
 var position = [ 1, 2, 3 ];
 var quaternion = [ 0, 0, 0, 1 ];
 var scale = [ 1, 1, 1 ];
-matrix.fromTransformations( position, quaternion, scale );
-console.log( 'matrix : ' : matrix.toStr() );
-/* log : matrix : +1, +0, +0, +1,
-                  +0, +1, +0, +2,
-                  +0, +0, +1, +3,
-                  +0, +0, +0, +1,
+var got = _.Matrix.fromTransformations( matrix, position, quaternion, scale );
+console.log( 'got : ', matrix.toStr() );
+/* log : got : +1, +0, +0, +1,
+               +0, +1, +0, +2,
+               +0, +0, +1, +3,
+               +0, +0, +0, +1,
 */
 ```
 
