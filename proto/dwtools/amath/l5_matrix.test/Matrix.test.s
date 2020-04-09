@@ -19,7 +19,6 @@ if( typeof module !== 'undefined' )
 //
 
 var _ = _global_.wTools.withDefaultLong.Fx;
-// var matrix = _.Matrix; /* xxx : remove */
 var vad = _.vectorAdapter;
 var vec = _.vectorAdapter.fromLong;
 var fvec = function( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
@@ -1438,12 +1437,11 @@ function make( test )
     ({
       buffer : o.arrayMake(),
       offset : o.offset,
-      /* strides : [ 1, 3 ], */
       inputTransposing : 0,
       dims : [ 3, 0 ],
     });
     logger.log( 'm\n' + _.toStr( m ) );
-    // checkEmptyMatrixWithLongColNonTransposing( m ); xxx
+    checkEmptyMatrixWithLongColNonTransposing( m );
 
     var m = _.Matrix.Make([ 3, 0 ]);
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1586,7 +1584,6 @@ function make( test )
     ({
       buffer : o.arrayMake(),
       offset : o.offset,
-      /* strides : [ 1, 3 ], */
       inputTransposing : 1,
       dims : [ 3, 0 ],
     });
@@ -1738,7 +1735,6 @@ function make( test )
     ({
       buffer : o.arrayMake(),
       offset : o.offset,
-      /* strides : [ 3, 0 ], */
       inputTransposing : 1,
       dims : [ 0, 3 ],
     });
@@ -1890,7 +1886,6 @@ function make( test )
     ({
       buffer : o.arrayMake(),
       offset : o.offset,
-      /* strides : [ 3, 0 ], */
       inputTransposing : 0,
       dims : [ 0, 3 ],
     });
@@ -3423,11 +3418,11 @@ function MakeSimilar( test )
     test.case = o.name + ' . special';
 
     var exp = o.arrayMake( 4 );
-    var got = _.Matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 4, 1 ] ); /* xxx */
+    var got = _.Matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ 4, 1 ] );
     test.identical( got, exp );
 
     var exp = o.arrayMake( 3 );
-    var got = _.Matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ null, 1 ] ); /* xxx */
+    var got = _.Matrix.MakeSimilar( o.arrayMake([ 1, 2, 3 ]), [ null, 1 ] );
     test.identical( got, exp );
 
     /* */
@@ -4390,7 +4385,7 @@ function copy( test )
   console.log( 'src2', src2.toStr() );
   console.log( 'dst', dst.toStr() );
 
-  dst.copy( src2 ); /* xxx */
+  dst.copy( src2 );
 
   test.identical( src1._stridesEffective, [ 1, 3 ] );
   test.identical( src2._stridesEffective, [ 1, 3 ] );
@@ -7451,116 +7446,6 @@ function subAtomWise( test )
 
 //
 
-// function homogeneousWithScalarRoutines( test )
-// {
-//
-//   function make()
-//   {
-//     var m = _.Matrix.Make([ 3, 2 ]).copy
-//     ([
-//       +1, +2,
-//       +3, +4,
-//       +5, +6,
-//     ]);
-//     return m;
-//   }
-//
-//   test.case = 'assignScalar'; /* */
-//
-//   var m = make();
-//   var expected = _.Matrix.Make([ 3, 2 ]).copy
-//   ([
-//     +5, +5,
-//     +5, +5,
-//     +5, +5,
-//   ]);
-//
-//   // m.assignScalar( 5 );
-//   m.assign( 5 );
-//   test.identical( m, expected );
-//
-//   test.case = 'addScalar'; /* */
-//
-//   var m = make();
-//   var expected = _.Matrix.Make([ 3, 2 ]).copy
-//   ([
-//     +6, +7,
-//     +8, +9,
-//     +10, +11,
-//   ]);
-//
-//   m.addScalar( 5 );
-//   test.identical( m, expected );
-//
-//   test.case = 'subScalar'; /* */
-//
-//   var m = make();
-//   var expected = _.Matrix.Make([ 3, 2 ]).copy
-//   ([
-//     -4, -3,
-//     -2, -1,
-//     +0, +1,
-//   ]);
-//
-//   m.subScalar( 5 );
-//   test.identical( m, expected );
-//
-//   test.case = 'mulScalar'; /* */
-//
-//   var m = make();
-//   var expected = _.Matrix.Make([ 3, 2 ]).copy
-//   ([
-//     +5, +10,
-//     +15, +20,
-//     +25, +30,
-//   ]);
-//
-//   m.mulScalar( 5 );
-//   test.identical( m, expected );
-//
-//   test.case = 'divScalar'; /* */
-//
-//   var m = make();
-//   var expected = _.Matrix.Make([ 3, 2 ]).copy
-//   ([
-//     +1/5, +2/5,
-//     +3/5, +4/5,
-//     +5/5, +6/5,
-//   ]);
-//
-//   m.divScalar( 5 );
-//   test.identical( m, expected );
-//
-//   test.case = 'bad arguments'; /* */
-//
-//   function shouldThrowErrorOfAnyKind( name )
-//   {
-//
-//     test.shouldThrowErrorSync( () => make()[ name ]() );
-//     test.shouldThrowErrorSync( () => make()[ name ]( '1' ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( undefined ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( 1, 3 ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( '1', '3' ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( [], [] ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( [], 1, 3 ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( [], 1, undefined ) );
-//     test.shouldThrowErrorSync( () => make()[ name ]( [], undefined ) );
-//
-//   }
-//
-//   // if( Config.debug )
-//   // {
-//   //   shouldThrowErrorOfAnyKind( 'assignScalar' );
-//   //   shouldThrowErrorOfAnyKind( 'addScalar' );
-//   //   shouldThrowErrorOfAnyKind( 'subScalar' );
-//   //   shouldThrowErrorOfAnyKind( 'mulScalar' );
-//   //   shouldThrowErrorOfAnyKind( 'divScalar' );
-//   // }
-//
-// }
-
-//
-
 function colRowWiseOperations( test )
 {
 
@@ -9767,9 +9652,9 @@ function SolveWithPivoting( test )
 function SolveGeneral( test )
 {
 
-  // return; // xxx
+  /* */
 
-  test.case = 'simple without pivoting'; /* */
+  test.case = 'simple without pivoting';
 
   var re =
   {
@@ -9813,20 +9698,9 @@ function SolveGeneral( test )
 
   check( mo, yo, r );
 
-  test.case = 'simple with pivoting'; /* */
+  /* */
 
-  // var re =
-  // {
-  //   nsolutions : Infinity,
-  //   base : _.Matrix.MakeCol([ +1.5, 0, +1.5 ]),
-  //   nkernel : 1,
-  //   kernel : _.Matrix.MakeSquare
-  //   ([
-  //     +0, +0, -0.5,
-  //     +0, +0, +1,
-  //     +0, +0, +0.5,
-  //   ]),
-  // }
+  test.case = 'simple with pivoting';
 
   var re =
   {
@@ -9847,13 +9721,6 @@ function SolveGeneral( test )
     -2, -3, +4,
     +4, +3, -2,
   ]);
-
-  // var me = _.Matrix.MakeSquare
-  // ([
-  //   +1, +0.5, +0,
-  //   +0, -0.5, +1,
-  //   +0, +0, +0,
-  // ]);
 
   var me = _.Matrix.MakeSquare
   ([
@@ -9877,7 +9744,9 @@ function SolveGeneral( test )
 
   check( mo, yo, r );
 
-  test.case = 'simple2'; /* */
+  /* */
+
+  test.case = 'simple2';
 
   var expected =
   {
@@ -9903,7 +9772,6 @@ function SolveGeneral( test )
 
   var y = _.Matrix.MakeCol([ +4, -3, +2 ]);
   var r = _.Matrix.SolveGeneral({ m, y });
-  /*test.equivalent( r, expected );*/
 
   logger.log( 'r.base', r.base );
   logger.log( 'r.kernel', r.kernel );
@@ -9911,7 +9779,9 @@ function SolveGeneral( test )
 
   check( mo, y, r );
 
-  test.case = 'simple3'; /* */
+  /* */
+
+  test.case = 'simple3';
 
   var expected =
   {
@@ -9937,7 +9807,6 @@ function SolveGeneral( test )
 
   var y = _.Matrix.MakeCol([ +4, -3, +2 ]);
   var r = _.Matrix.SolveGeneral({ m , y });
-  /*test.equivalent( r, expected );*/
 
   logger.log( 'r.base', r.base );
   logger.log( 'r.kernel', r.kernel );
@@ -9945,7 +9814,9 @@ function SolveGeneral( test )
 
   check( mo, y, r );
 
-  test.case = 'missing rows'; /* */
+  /* */
+
+  test.case = 'missing rows';
 
   var expected =
   {
@@ -9971,7 +9842,6 @@ function SolveGeneral( test )
   var y = _.Matrix.MakeCol([ +1, -2 ]);
   var r = _.Matrix.SolveGeneral({ m , y });
   test.equivalent( r, expected );
-  /*test.equivalent( r, expected );*/
 
   logger.log( 'r.base', r.base );
   logger.log( 'r.kernel', r.kernel );
@@ -9979,7 +9849,9 @@ function SolveGeneral( test )
 
   check( mo, y, r );
 
-  test.case = 'complicated system'; /* */
+  /* */
+
+  test.case = 'complicated system';
 
   var expected =
   {
@@ -10013,7 +9885,9 @@ function SolveGeneral( test )
 
   check( mo, y, r );
 
-  test.case = 'missing rows'; /* */
+  /* */
+
+  test.case = 'missing rows';
 
   var expected =
   {
@@ -10463,8 +10337,6 @@ var Self =
 
     addAtomWise,
     subAtomWise,
-
-    // homogeneousWithScalarRoutines,
 
     colRowWiseOperations,
     mul,
