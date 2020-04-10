@@ -4,6 +4,28 @@
 
 ### Стандартна ширина кроку
 
+Об'єкт класа `Matrix` можливо створити одним із заданням значень полів об'єкта.
+
+```js
+var matrix = _.Matrix
+({
+  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  dims : [ 2, 2 ],
+  inputTransposing : 1,
+});
+
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+
+console.log( `effective strides :\n${ matrix._stridesEffective }` );
+/* log : effective strides :
+[ 2, 1 ]
+*/
+```
+
 ```js
 var matrix = _.Matrix
 ({
@@ -19,44 +41,17 @@ log : matrix :
 +1, +2,
 +3, +4,
 */
-console.log( `strides :\n${ matrix.strides }` );
-/* log : strides :
-[ 2, 1 ]
-*/
+
 console.log( `effective strides :\n${ matrix._stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
 ```
 
-Поле `strides` показує явно задані кроки в матриці. Якщо крок не задано явно, то діючі значення можна перевірити в полі `_stridesEffective`.
-
-```js
-var matrix = _.Matrix
-({
-  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
-  dims : [ 2, 2 ],
-  inputTransposing : 1,
-});
-
-console.log( `matrix :\n${ matrix.toStr() }` );
-/* log : matrix :
-+1, +2,
-+3, +4,
-*/
-console.log( `strides :\n${ matrix.strides }` );
-/* log : strides :
-null
-*/
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
-/* log : effective strides :
-[ 2, 1 ]
-*/
-```
 
 ![StandardStrides.png](../../img/StandardStrides.png)
 
-Приведена діаграма показано як буфер інтерпретується в матрицю. Кожен рядок формується із ділянки буфера, наступний рядок слідує за попереднім.
+Приведена діаграма показано як буфер відображається ( map into ) в матрицю. Всі скаляри йдуть послідовно один за одним.
 
 ### Нестандартна ширина кроку
 
