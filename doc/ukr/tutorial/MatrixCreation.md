@@ -197,26 +197,21 @@ console.log( 'matrix : ', a.toStr() );
 
 ### Статична рутина `FromTransformations`
 
-Створює гомогенну матрицю 3D трансформацій за поворотами ( у форматі кватерніона ), зусувом та маштабуванням.
+Створює гомогенну матрицю 3D трансформацій за поворотами, зусувом та маштабуванням. Повороти задаються кватерніоном.
 
 ```js
-var matrix = _.Matrix.Make( [ 4, 4 ] );
 var position = [ 1, 2, 3 ];
 var quaternion = [ 0, 0, 0, 1 ];
 var scale = [ 1, 1, 1 ];
-var got = _.Matrix.FromTransformations( matrix, position, quaternion, scale );
-console.log( 'got : ', matrix.toStr() );
-/* log : got : +1, +0, +0, +1,
-               +0, +1, +0, +2,
-               +0, +0, +1, +3,
-               +0, +0, +0, +1,
+var matrix = _.Matrix.FromTransformations( position, quaternion, scale );
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +0, +0, +1,
+                  +0, +1, +0, +2,
+                  +0, +0, +1, +3,
+                  +0, +0, +0, +1,
 */
-console.log( 'got === matrix : ', got === matrix );
-/* log : got === matrix : true */
 ```
 
-<!--
-### Багатовимірні матриці
--->
+Так як зсув є єдиною компонентою із не одиничин значенням то в результаті повертається матриця зсуву `matrix`.
 
 [Повернутись до змісту](../README.md#Туторіали)
