@@ -1058,10 +1058,28 @@ function FromForReading( src, dims )
 
 function FromTransformations( dst, position, quaternion, scale )
 {
-  dst = this.From( dst );
+  if( dst === null )
+  {
+    dst = this.MakeSquare( 4 );
+  }
 
-  // _.assert( !this.instanceIs() );
-  _.assert( arguments.length === 4, 'Expects exactly four arguments' );
+  if( arguments.length === 3 )
+  {
+    dst = this.MakeSquare( 4 );
+    position = arguments[ 0 ];
+    quaternion = arguments[ 1 ];
+    scale = arguments[ 2 ];
+  }
+  else if( arguments.length === 4 )
+  {
+    dst = this.From( dst );
+  }
+  else
+  {
+    _.assert( 0, 'Unexpected arguments.length' );
+  }
+
+  _.assert( !this.instanceIs() );
 
   dst.fromQuat( quaternion );
   dst.scaleApply( scale );
@@ -1115,11 +1133,13 @@ function fromTransformations( position, quaternion, scale )
 
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
 
-  self.fromQuat( quaternion );
-  self.scaleApply( scale );
-  self.positionSet( position );
+  return Self.FromTransformations( self, position, quaternion, scale );
 
-  return self;
+  // self.fromQuat( quaternion );
+  // self.scaleApply( scale );
+  // self.positionSet( position );
+
+  // return self;
 }
 
 //
