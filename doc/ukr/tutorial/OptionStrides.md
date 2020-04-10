@@ -70,7 +70,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 2, 2 ],
-  inputTransposing : 1,
+  strides : [ 2, 1 ],
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -183,6 +183,10 @@ console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
 ![ZeroCopyTransposing.png](../../img/ZeroCopyTransposing.png)
 
 Приведена діаграма показано як буфер інтерпретується в матрицю. При зміні опції `strides` проходить транспонування матриці без копіювання буфера.
+
+### Підматриці
+
+...
 
 ### Багатовимірна матриця
 
