@@ -11,8 +11,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 var el = matrix.scalarGet([ 0, 1 ]);
 console.log( `second element of first row :\n${ el }` );
-/* log :
-second element of first row :
+/* log : second element of first row :
 2
 */
 
