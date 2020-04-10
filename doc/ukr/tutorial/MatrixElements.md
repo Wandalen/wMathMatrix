@@ -108,7 +108,7 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 
 ### Як отримати або встановити значення елемента рядка матриці
 
-Метод `eGet` повертає елемент матриці. Елементом типової матриці є колонка. Якщо ж матриця має 3-ри виміри то елементом буде типова 2-во вимірна матриця. Якщо ж матриця має 4-ри виміри то елементом буде типова 3-х вимірна матриця.
+Метод `eGet` повертає елемент матриці. Елементом типової 2-во вмиірної матриці є колонка. Якщо ж матриця має 3-ри виміри то елементом буде типова 2-во вимірна матриця. Якщо матриця має 4-ри виміри то елементом буде типова 3-х вимірна матриця.
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
@@ -118,18 +118,13 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +4,
 */
 var el = matrix.eGet( 1 );
-console.log( `second column of matrix :\n${ el.toStr() }` );
-/* log : second column of matrix :
+console.log( `the second column of matrix :\n${ el.toStr() }` );
+/* log : the second column of matrix :
 2.000, 4.000
-*/
-var scalar = matrix.eGet( 1 ).eGet( 1 );
-console.log( `second scalar of the second column :\n${ scalar }` );
-/* log : second scalar of the first column :
-4.000
 */
 ```
 
-Для встановлення значення елемента матриці використовуйте метод `eSet`, якщо елемент матриці це рядок, тоді значення встановлюються для кожного елемента рядка. Для встановлення значення окремому елементу небхідно попередньо обрати колонку.
+Для встановлення значення елемента матриці використовуйте метод `eSet`.
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
@@ -138,11 +133,10 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +1, +2,
 +3, +4
 */
-matrix.eGet( 0 ).eSet( 1, 4 );
+matrix.eSet( 0, xxx );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
 /* log : changed matrix :
-+1, +2,
-+4, +4
+xxx
 */
 ```
 
