@@ -9,8 +9,7 @@
 ```js
 var matrix = _.Matrix.Make([ 2, 2 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +0, +0,
 +0, +0,
 */
@@ -25,8 +24,7 @@ matrix :
 ```js
 var matrix1 = _.Matrix.MakeSquare([ 2, 2, 3, 3 ]);
 console.log( `matrix :\n${ matrix1.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +2, +2,
 +3, +3,
 */
@@ -37,8 +35,7 @@ matrix :
 ```js
 var matrix2 = _.Matrix.MakeSquare( 2 );
 console.log( `matrix :\n${ matrix2.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +0, +0,
 +0, +0,
 */
@@ -53,8 +50,7 @@ matrix :
 ```js
 var matrix1 = _.Matrix.MakeZero([ 2, 2 ]);
 console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log :
-matrix1 :
+/* log : matrix1 :
 +0, +0,
 +0, +0,
 */
@@ -65,8 +61,7 @@ matrix1 :
 ```js
 var matrix2 = _.Matrix.MakeZero( 2 );
 console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log :
-matrix2 :
+/* log : matrix2 :
 +0, +0,
 +0, +0,
 */
@@ -81,8 +76,7 @@ matrix2 :
 ```js
 var matrix1 = _.Matrix.MakeIdentity( [ 2, 3 ] );
 console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log :
-matrix1 :
+/* log : matrix1 :
 +1, +0, +0,
 +0, +1, +0,
 */
@@ -93,8 +87,7 @@ matrix1 :
 ```js
 var matrix2 = _.Matrix.MakeIdentity( 2 );
 console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log :
-matrix2 :
+/* log : matrix2 :
 +1, +0,
 +0, +1,
 */
@@ -109,8 +102,7 @@ matrix2 :
 ```js
 var matrix = _.Matrix.MakeDiagonal( [ 2, 3, 1 ] );
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +2, +0, +0,
 +0, +3, +0,
 +0, +0, +1,
@@ -126,8 +118,7 @@ matrix :
 ```js
 var matrix1 = _.Matrix.MakeCol([ 2, 3 ]);
 console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log :
-matrix1 :
+/* log : matrix1 :
 +2,
 +3,
 */
@@ -138,8 +129,7 @@ matrix1 :
 ```js
 var matrix2 = _.Matrix.MakeCol( 2 );
 console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log :
-matrix2 :
+/* log : matrix2 :
 +0,
 +0,
 */
@@ -154,8 +144,7 @@ matrix2 :
 ```js
 var matrix1 = _.Matrix.MakeRow( [ 2, 3 ] );
 console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log :
-matrix1 :
+/* log : matrix1 :
 +2, +3,
 */
 ```
@@ -165,8 +154,7 @@ matrix1 :
 ```js
 var matrix2 = _.Matrix.MakeRow( 2 );
 console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log :
-matrix2 :
+/* log : matrix2 :
 +0, +0,
 */
 ```
@@ -184,21 +172,18 @@ matrix2 :
 ```js
 var array = [ 1, 2, 3, 4, 5, 6 ];
 console.log( `array :\n${ array }` );
-/* log :
-array :
+/* log : array :
 [ 1, 2, 3, 4, 5, 6 ]
 */
 var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
 console.log( `vector :\n${ vector.toStr() }` );
-/* log :
-vector :
+/* log : vector :
 2.000, 4.000, 6.000
 */
 
 var matrix1 = _.Matrix.FromVector( vector );
 console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log :
-matrix1 :
+/* log : matrix1 :
 +1,
 +3,
 +5,
@@ -206,8 +191,7 @@ matrix1 :
 
 var matrix2 = _.Matrix.FromVector( array );
 console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log :
-matrix2 :
+/* log : matrix2 :
 +1,
 +2,
 +3,
@@ -224,8 +208,7 @@ matrix2 :
 ```js
 var matrix = _.Matrix.FromScalar( 5, [ 2, 2 ] );
 console.log( `matrix :\n${ a.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +5, +5,
 +5, +5
 */
@@ -243,8 +226,7 @@ var quaternion = [ 0, 0, 0, 1 ];
 var scale = [ 1, 1, 1 ];
 var matrix = _.Matrix.FromTransformations( position, quaternion, scale );
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +0, +0, +1,
 +0, +1, +0, +2,
 +0, +0, +1, +3,

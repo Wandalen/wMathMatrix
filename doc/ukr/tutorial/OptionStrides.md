@@ -20,13 +20,11 @@ log : matrix :
 +3, +4,
 */
 console.log( `strides :\n${ matrix.strides }` );
-/* log :
-strides :
+/* log : strides :
 [ 2, 1 ]
 */
 console.log( `effective strides :\n${ matrix._stridesEffective }` );
-/* log :
-effective strides :
+/* log : effective strides :
 [ 2, 1 ]
 */
 ```
@@ -42,19 +40,16 @@ var matrix = _.Matrix
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4,
 */
 console.log( `strides :\n${ matrix.strides }` );
-/* log :
-strides :
+/* log : strides :
 null
 */
 console.log( `effective strides :\n${ matrix._stridesEffective }` );
-/* log :
-effective strides :
+/* log : effective strides :
 [ 2, 1 ]
 */
 ```
@@ -74,8 +69,7 @@ var matrix = _.Matrix
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +3,
 +5, +7,
 */
@@ -100,8 +94,7 @@ var matrix = _.Matrix
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +9, +8,
 +7, +6,
 */
@@ -130,8 +123,7 @@ var matrix = _.Matrix
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +3,
 +5, +7,
 */
@@ -144,8 +136,7 @@ var matrixTransposed = _.Matrix
   offset : 1,
 });
 console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
-/* log :
-transposed matrix :
+/* log : transposed matrix :
 +1, +5,
 +3, +7,
 */

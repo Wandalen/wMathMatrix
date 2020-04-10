@@ -11,5 +11,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 var row = matrix.colGet( 0 );
 console.log( `first column :\n${ row.toStr() }` );
-/* log : first column : 1.000, 3.000 */
+/* log : first column :
+1.000, 3.000
+*/
 
