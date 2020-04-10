@@ -990,6 +990,7 @@ function construct( test )
 
 function make( test )
 {
+  let context = this;
 
   var o = Object.create( null );
   o.arrayMake = function arrayMake( src )
@@ -2247,7 +2248,7 @@ function make( test )
       7, 8, 9,
     ]);
 
-    var m = makeWithOffset
+    var m = context.makeWithOffset
     ({
       buffer : b,
       dims : [ 3, 3 ],
@@ -4638,6 +4639,7 @@ function strideNegative( test )
 
 function _bufferNormalize( o )
 {
+  let context = this;
   var test = o.test;
 
   test.case = 'trivial'; /* */
@@ -4647,7 +4649,7 @@ function _bufferNormalize( o )
     1, 2, 3,
     4, 5, 6,
   ]);
-  var m = makeWithOffset
+  var m = context.makeWithOffset
   ({
     buffer,
     dims : [ 2, 3 ],
@@ -4698,7 +4700,7 @@ function _bufferNormalize( o )
     2, 5,
     3, 6,
   ]);
-  var m = makeWithOffset
+  var m = context.makeWithOffset
   ({
     buffer,
     dims : [ 2, 3 ],
@@ -6778,263 +6780,266 @@ function pivot( test )
 
 //
 
-function _submatrix( o )
-{
-
-  var test = o.test;
-  var m;
-  function make()
-  {
-
-    var b = new F32x
-    ([
-      +1, +2, +3, +4,
-      +5, +6, +7, +8,
-      +9, +10, +11, +12,
-    ]);
-    if( !o.transposing )
-    b = new F32x
-    ([
-      +1, +5, +9,
-      +2, +6, +10,
-      +3, +7, +11,
-      +4, +8, +12,
-    ]);
-
-    var m = makeWithOffset
-    ({
-      buffer : b,
-      dims : o.dims,
-      offset : o.offset,
-      inputTransposing : o.transposing,
-    })
-
-    return m;
-  }
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +5, +6, +7, +8,
-    +9, +10, +11, +12,
-  ]);
-
-  var m = make();
-  test.identical( m, expected )
-  test.identical( m.offset, o.offset );
-
-  test.case = 'simple submatrix'; /* */
-
-  var m = make();
-  var c1 = m.submatrix([ _.all, 0 ]);
-  var c2 = m.submatrix([ _.all, 3 ]);
-  var r1 = m.submatrix([ 0, _.all ]);
-  var r2 = m.submatrix([ 2, _.all ]);
-
-  var expected = _.Matrix.MakeCol([ 1, 5, 9 ]);
-  test.identical( c1, expected );
-
-  var expected = _.Matrix.MakeCol([ 4, 8, 12 ]);
-  test.identical( c2, expected );
-
-  var expected = _.Matrix.MakeRow([ 1, 2, 3, 4 ]);
-  test.identical( r1, expected );
-
-  var expected = _.Matrix.MakeRow([ 9, 10, 11, 12 ]);
-  test.identical( r2, expected );
-
-  test.case = 'modify submatrixs'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +11, +3, +4, +401,
-    +50, +6, +7, +800,
-    +93, +13, +14, +1203,
-  ]);
-
-  c1.mul( 10 );
-  c2.mul( 100 );
-  r1.add( 1 );
-  r2.add( 3 );
-
-  // c1.mulScalar( 10 );
-  // c2.mulScalar( 100 );
-  // r1.addScalar( 1 );
-  // r2.addScalar( 3 );
-
-  test.identical( m, expected );
-
-  test.case = 'submatrix several columns'; /* */
-
-  var m = make();
-  var expected = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    +2, +3,
-    +6, +7,
-    +10, +11,
-  ]);
-
-  var sub = m.submatrix([ _.all, [ 1, 3 ] ]);
-  test.identical( sub, expected );
-
-    test.case = 'modify submatrixs'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +20, +30, +4,
-    +5, +60, +70, +8,
-    +9, +100, +110, +12,
-  ]);
-
-  sub.mul( 10 );
-  test.identical( m, expected );
-
-  test.case = 'submatrix several columns'; /* */
-
-  var m = make();
-  var expected = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    +3, +4,
-    +7, +8,
-    +11, +12,
-  ]);
-
-  var sub = m.submatrix([ _.all, [ 2, 4 ] ]);
-  test.identical( sub, expected );
-
-    test.case = 'modify submatrixs'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +2, +30, +40,
-    +5, +6, +70, +80,
-    +9, +10, +110, +120,
-  ]);
-
-  sub.mul( 10 );
-  test.identical( m, expected );
-
-  test.case = 'submatrix several rows'; /* */
-
-  var m = make();
-  var expected = _.Matrix.Make([ 2, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +5, +6, +7, +8,
-  ]);
-
-  var sub = m.submatrix([ [ 0, 2 ], _.all ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify submatrixs'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +10, +20, +30, +40,
-    +50, +60, +70, +80,
-    +9, +10, +11, +12,
-  ]);
-
-  sub.mul( 10 );
-  test.identical( m, expected );
-
-  test.case = 'submatrix several rows'; /* */
-
-  var m = make();
-  var expected = _.Matrix.Make([ 2, 4 ]).copy
-  ([
-    +5, +6, +7, +8,
-    +9, +10, +11, +12,
-  ]);
-
-  var sub = m.submatrix([ [ 1, 3 ], _.all ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify submatrix'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +50, +60, +70, +80,
-    +90, +100, +110, +120,
-  ]);
-
-  sub.mul( 10 );
-  test.identical( m, expected );
-
-  test.case = 'complex submatrix'; /* */
-
-  var m = make();
-  var expected = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    +1, +2,
-    +5, +6,
-  ]);
-
-  var sub = m.submatrix([ [ 0, 2 ], [ 0, 2 ] ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify complex submatrix'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +10, +20, +3, +4,
-    +50, +60, +7, +8,
-    +9, +10, +11, +12,
-  ]);
-
-  sub.mul( 10 );
-  test.identical( m, expected );
-
-  test.case = 'complex submatrix'; /* */
-
-  var m = make();
-  var expected = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    +7, +8,
-    +11, +12,
-  ]);
-
-  var sub = m.submatrix([ [ 2, 4 ], [ 1, 3 ] ]);
-  test.identical( sub, expected );
-
-  test.case = 'modify complex submatrix'; /* */
-
-  var expected = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +2, +3, +4,
-    +5, +6, +70, +80,
-    +9, +10, +110, +120,
-  ]);
-
-  sub.mul( 10 );
-  test.identical( m, expected );
-
-}
-
-//
-
 function submatrix( test )
 {
+  let context = this;
 
   var o = Object.create( null );
   o.test = test;
 
   o.offset = 0;
   o.transposing = 0;
-  this._submatrix( o )
+  _submatrix( o )
 
-  o.offset = 0;
-  o.transposing = 1;
-  this._submatrix( o )
+  // xxx
+  // o.offset = 0;
+  // o.transposing = 1;
+  // _submatrix( o )
+  //
+  // o.offset = 10;
+  // o.transposing = 0;
+  // _submatrix( o )
+  //
+  // o.offset = 10;
+  // o.transposing = 1;
+  // _submatrix( o )
 
-  o.offset = 10;
-  o.transposing = 0;
-  this._submatrix( o )
+  /* */
 
-  o.offset = 10;
-  o.transposing = 1;
-  this._submatrix( o )
+  function _submatrix( o )
+  {
+    var test = o.test;
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +5, +6, +7, +8,
+      +9, +10, +11, +12,
+    ]);
+
+    debugger;
+    var m = make();
+    test.identical( m, expected );
+    test.identical( m.offset, o.offset );
+    debugger;
+
+    test.case = 'simple submatrix'; /* */
+
+    var m = make();
+    var c1 = m.submatrix([ _.all, 0 ]);
+    var c2 = m.submatrix([ _.all, 3 ]);
+    var r1 = m.submatrix([ 0, _.all ]);
+    var r2 = m.submatrix([ 2, _.all ]);
+
+    var expected = _.Matrix.MakeCol([ 1, 5, 9 ]);
+    test.identical( c1, expected );
+
+    var expected = _.Matrix.MakeCol([ 4, 8, 12 ]);
+    test.identical( c2, expected );
+
+    var expected = _.Matrix.MakeRow([ 1, 2, 3, 4 ]);
+    test.identical( r1, expected );
+
+    var expected = _.Matrix.MakeRow([ 9, 10, 11, 12 ]);
+    test.identical( r2, expected );
+
+    test.case = 'modify submatrixs'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +11, +3, +4, +401,
+      +50, +6, +7, +800,
+      +93, +13, +14, +1203,
+    ]);
+
+    c1.mul( 10 );
+    c2.mul( 100 );
+    r1.add( 1 );
+    r2.add( 3 );
+
+    // c1.mulScalar( 10 );
+    // c2.mulScalar( 100 );
+    // r1.addScalar( 1 );
+    // r2.addScalar( 3 );
+
+    test.identical( m, expected );
+
+    test.case = 'submatrix several columns'; /* */
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +2, +3,
+      +6, +7,
+      +10, +11,
+    ]);
+
+    var sub = m.submatrix([ _.all, [ 1, 3 ] ]);
+    test.identical( sub, expected );
+
+      test.case = 'modify submatrixs'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +20, +30, +4,
+      +5, +60, +70, +8,
+      +9, +100, +110, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    test.case = 'submatrix several columns'; /* */
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +3, +4,
+      +7, +8,
+      +11, +12,
+    ]);
+
+    var sub = m.submatrix([ _.all, [ 2, 4 ] ]);
+    test.identical( sub, expected );
+
+      test.case = 'modify submatrixs'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +30, +40,
+      +5, +6, +70, +80,
+      +9, +10, +110, +120,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    test.case = 'submatrix several rows'; /* */
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +5, +6, +7, +8,
+    ]);
+
+    var sub = m.submatrix([ [ 0, 2 ], _.all ]);
+    test.identical( sub, expected );
+
+    test.case = 'modify submatrixs'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +10, +20, +30, +40,
+      +50, +60, +70, +80,
+      +9, +10, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    test.case = 'submatrix several rows'; /* */
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +5, +6, +7, +8,
+      +9, +10, +11, +12,
+    ]);
+
+    var sub = m.submatrix([ [ 1, 3 ], _.all ]);
+    test.identical( sub, expected );
+
+    test.case = 'modify submatrix'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +50, +60, +70, +80,
+      +90, +100, +110, +120,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    test.case = 'complex submatrix'; /* */
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +1, +2,
+      +5, +6,
+    ]);
+
+    var sub = m.submatrix([ [ 0, 2 ], [ 0, 2 ] ]);
+    test.identical( sub, expected );
+
+    test.case = 'modify complex submatrix'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +10, +20, +3, +4,
+      +50, +60, +7, +8,
+      +9, +10, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    test.case = 'complex submatrix'; /* */
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +7, +8,
+      +11, +12,
+    ]);
+
+    var sub = m.submatrix([ [ 2, 4 ], [ 1, 3 ] ]);
+    test.identical( sub, expected );
+
+    test.case = 'modify complex submatrix'; /* */
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +5, +6, +70, +80,
+      +9, +10, +110, +120,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    function make()
+    {
+
+      var b = new F32x
+      ([
+        +1, +2, +3, +4,
+        +5, +6, +7, +8,
+        +9, +10, +11, +12,
+      ]);
+      if( !o.transposing )
+      b = new F32x
+      ([
+        +1, +5, +9,
+        +2, +6, +10,
+        +3, +7, +11,
+        +4, +8, +12,
+      ]);
+
+      var m = context.makeWithOffset
+      ({
+        buffer : b,
+        dims : [ 4, 3 ],
+        offset : o.offset,
+        inputTransposing : o.transposing,
+      })
+
+      return m;
+    }
+
+  }
 
 }
 
@@ -10280,7 +10285,6 @@ var Self =
 
     _ConvertToClass,
     _copyTo,
-    _submatrix,
     _bufferNormalize,
     _SolveComplicated,
 
@@ -10331,7 +10335,7 @@ var Self =
     lineSwap,
     pivot,
 
-    // submatrix, /* xxx : not ready */
+    submatrix, /* xxx : not ready */
 
     /* etc */
 
