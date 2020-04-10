@@ -127,11 +127,12 @@ var matrix = _.Matrix.MakeSquare
   9,  10, 11, 12,
   13, 14, 15, 16,
 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1,  +2,  +3,  +4,
-                  +5,  +6,  +7,  +8,
-                  +9,  +10, +11, +12,
-                  +13, +14, +15, +16,
+console.log( 'matrix :\n', matrix.toStr() );
+/* log : matrix :
++1,  +2,  +3,  +4,
++5,  +6,  +7,  +8,
++9,  +10, +11, +12,
++13, +14, +15, +16,
 */
 var sub1 = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
 console.log( 'submatrix :\n', sub.toStr() );
@@ -140,8 +141,9 @@ console.log( 'submatrix :\n', sub.toStr() );
 +5, +6,
 */
 var sub2 = matrix.submatrix( [ [ 2, 4 ], [ 2, 4 ] ] );
-/* log : submatrix : +3, +4,
-                     +7, +8,
+/* log : submatrix :
++3, +4,
++7, +8,
 */
 ```
 
