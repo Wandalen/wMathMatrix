@@ -45,7 +45,7 @@ console.log( 'determinant : ', got );
 /* log : determinant : 54 */
 ```
 
-### Використання опції strides
+### Використання опції `strides`
 
 Опція `strides` дає зрозуміти як інтерпретувати матрицю.
 
@@ -70,22 +70,22 @@ console.log( 'matrix : ', matrix.toStr() );
 var matrix = _.Matrix
 ({
   dims : [ 2, 2 ],
-  buffer : [ 1, 1, 2, 2 ],
+  buffer : [ 1, 2, 3, 4 ],
 });
 console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +1,
-                  +2, +2,
+/* log : matrix : +1, +2,
+                  +3, +4,
 */
 
 var matrix = _.Matrix
 ({
   dims : [ 2, 2 ],
-  buffer : [ 1, 1, 2, 2 ],
+  buffer : [ 1, 2, 3, 4 ],
   inputTransposing : 1,
 });
 console.log( 'transposed matrix : ', matrix.toStr() );
-/* log : transposed matrix : +1, +2,
-                             +1, +2,
+/* log : transposed matrix : +1, +3,
+                             +2, +4,
 */
 ```
 
@@ -94,16 +94,16 @@ console.log( 'transposed matrix : ', matrix.toStr() );
 Створену матрицю можна транспонувати методом `transpose`, дані зберігаються в оригінальному контейнері.
 
 ```js
-var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
 console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +1,
-                  +2, +2,
+/* log : matrix : +1, +2,
+                  +3, +4,
 */
 
 matrix.transpose();
 console.log( 'transposed matrix : ', matrix.toStr() );
-/* log : transposed matrix : +1, +2,
-                             +1, +2,
+/* log : transposed matrix : +1, +3,
+                             +2, +4,
 */
 ```
 
@@ -144,9 +144,23 @@ console.log( 'transposed matrix : ', matrixTransposed.toStr() );
 
 Приведена діаграма показано як буфер інтерпретується в матрицю. При зміні опції `strides` проходить транспонування матриці без копіювання буфера.
 
+### Множення матриці на скаляр
+
+Матриця може бути помножена на скаляр з допомогою статичної рутини `Mul`, кожне значення матриці збільшиться в відповідну кількість разів. Рутина поміщає результат виконання операції в контейнер `dst`, якщо `dst` має значення `null`, тоді результат поміщається в новий контейнер.
+
+```js
+var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+
+var got = _.Matrix.Mul( null, [ matrix, 3 ] );
+console.log( 'got : ', got );
+/* log : matrix :  +3,  +6,
+                   +9, +12,
+*/
+```
+
 ### Множення двох матриць
 
-Перемножити матриці можна з допомогою статичної рутини `Mul`. Рутина поміщає результат виконання операції в контейнер `dst`, якщо `dst` має значення `null`, тоді результат поміщається в новий контейнер.
+Перемножити матриці можна з допомогою статичної рутини `Mul`, результатом множення буде матриця.
 
 ```js
 var matrixA = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
