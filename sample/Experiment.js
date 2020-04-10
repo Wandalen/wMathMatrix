@@ -2,9 +2,10 @@ var _ = require( 'wmathmatrix' );
 
 var matrix = _.Matrix
 ({
-  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  buffer : [ 1, 2, 3, 4, 5, 6 ],
   dims : [ 2, 2 ],
-  inputTransposing : 1,
+  // strides : [ 2, 1 ],
+  inputTransposing : 0,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );

@@ -1239,7 +1239,7 @@ function _adjustAct()
   if( !self._stridesEffective )
   {
 
-    _.assert( _.boolLike( self.inputTransposing ), 'Field {- matrix.inputTransposing -} should be specified explicitly' );
+    _.assert( _.boolLike( self.inputTransposing ), 'If field {- matrix.strides -} is not spefified explicitly then field {- matrix.inputTransposing -} should be specified explicitly.' );
     _.assert( self.dims[ 0 ] >= 0 );
     _.assert( self.dims[ self.dims.length-1 ] >= 0 );
 
