@@ -9,13 +9,38 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 2, 2 ],
-  strides : [ 2, 1 ]
+  strides : [ 2, 1 ],
+  inputTransposing : 1,
 });
 
 console.log( 'matrix : ', matrix.toStr() );
 /* log : matrix : +1, +2,
                   +3, +4,
 */
+console.log( 'strides : ', matrix.strides );
+/* log : strides : [ 2, 1 ] */
+console.log( 'effective strides : ', matrix._stridesEffective );
+/* log : effective strides : [ 2, 1 ] */
+```
+
+Поле `strides` показує явно задані кроки в матриці. Якщо крок не задано явно, то діючі значення можна перевірити в полі `_stridesEffective`.
+
+```js
+var matrix = _.Matrix
+({
+  buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+  dims : [ 2, 2 ],
+  inputTransposing : 1,
+});
+
+console.log( 'matrix : ', matrix.toStr() );
+/* log : matrix : +1, +2,
+                  +3, +4,
+*/
+console.log( 'strides : ', matrix.strides );
+/* log : strides : null */
+console.log( 'effective strides : ', matrix._stridesEffective );
+/* log : effective strides : [ 2, 1 ] */
 ```
 
 ### Нестандартна ширина кроку
