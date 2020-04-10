@@ -31,8 +31,22 @@
 </details>
 
 <details>
+  <summary><a href="./tutorial/MatrixOperations.md">
+    Матричні операції
+  </a></summary>
+    Виконується огляд способів оперування матрицями.
+</details>
+
+<details>
   <summary><a href="./tutorial/OptionStrides.md">
     Використання опції strides
   </a></summary>
     Як використати опцію <code>stride</code> для інтерпретації буфера в матрицю.
+</details>
+
+<details>
+  <summary><a href="./tutorial/Solve.md">
+    Матричне рішення
+  </a></summary>
+    Розглядаються рішення матричних задач.
 </details>
