@@ -6854,6 +6854,7 @@ function submatrix( test )
 
     c1.mul( 10 );
     c2.mul( 100 );
+    debugger;
     r1.add( 1 );
     r2.add( 3 );
 
@@ -7019,6 +7020,7 @@ function submatrix( test )
         +5, +6, +7, +8,
         +9, +10, +11, +12,
       ]);
+
       if( !o.transposing )
       b = new F32x
       ([
@@ -7031,7 +7033,7 @@ function submatrix( test )
       var m = context.makeWithOffset
       ({
         buffer : b,
-        dims : [ 4, 3 ],
+        dims : [ 3, 4 ],
         offset : o.offset,
         inputTransposing : o.transposing,
       })
