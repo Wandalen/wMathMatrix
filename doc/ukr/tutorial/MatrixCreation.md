@@ -48,9 +48,9 @@ console.log( `matrix :\n${ matrix2.toStr() }` );
 Створює матрицю заданої розмірності і заповнює її нулями.
 
 ```js
-var matrix1 = _.Matrix.MakeZero([ 2, 2 ]);
-console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log : matrix1 :
+var matrix = _.Matrix.MakeZero([ 2, 2 ]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +0, +0,
 +0, +0,
 */
@@ -59,9 +59,9 @@ console.log( `matrix1 :\n${ matrix1.toStr() }` );
 Розмірність `2x2` задається явно масивом.
 
 ```js
-var matrix2 = _.Matrix.MakeZero( 2 );
-console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log : matrix2 :
+var matrix = _.Matrix.MakeZero( 2 );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +0, +0,
 +0, +0,
 */
@@ -74,9 +74,9 @@ console.log( `matrix2 :\n${ matrix2.toStr() }` );
 Створює одиничну матрицю заданої розмірності. Діагональні значення такої матриці `1`.
 
 ```js
-var matrix1 = _.Matrix.MakeIdentity( [ 2, 3 ] );
-console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log : matrix1 :
+var matrix = _.Matrix.MakeIdentity( [ 2, 3 ] );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +1, +0, +0,
 +0, +1, +0,
 */
@@ -85,9 +85,9 @@ console.log( `matrix1 :\n${ matrix1.toStr() }` );
 Розмірність `2x3` задається явно масивом.
 
 ```js
-var matrix2 = _.Matrix.MakeIdentity( 2 );
-console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log : matrix2 :
+var matrix = _.Matrix.MakeIdentity( 2 );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +1, +0,
 +0, +1,
 */
@@ -116,9 +116,9 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 Створює матрицю у формі колонки.
 
 ```js
-var matrix1 = _.Matrix.MakeCol([ 2, 3 ]);
-console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log : matrix1 :
+var matrix = _.Matrix.MakeCol([ 2, 3 ]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +2,
 +3,
 */
@@ -127,9 +127,9 @@ console.log( `matrix1 :\n${ matrix1.toStr() }` );
 Статична рутина `MakeCol` в якості аргументу, отримує колонку в форматі вектора. Розмірність матриці `2x1` виводиться ( deduced ) із довжини колонки.
 
 ```js
-var matrix2 = _.Matrix.MakeCol( 2 );
-console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log : matrix2 :
+var matrix = _.Matrix.MakeCol( 2 );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +0,
 +0,
 */
@@ -142,9 +142,9 @@ console.log( `matrix2 :\n${ matrix2.toStr() }` );
 Створює матрицю у формі рядка.
 
 ```js
-var matrix1 = _.Matrix.MakeRow( [ 2, 3 ] );
-console.log( `matrix1 :\n${ matrix1.toStr() }` );
-/* log : matrix1 :
+var matrix = _.Matrix.MakeRow( [ 2, 3 ] );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +2, +3,
 */
 ```
@@ -152,9 +152,9 @@ console.log( `matrix1 :\n${ matrix1.toStr() }` );
 Статична рутина `MakeRow` в якості аргументу, отримує рядок в форматі вектора. Розмірність матриці `1x2` виводиться ( deduced ) із довжини колонки.
 
 ```js
-var matrix2 = _.Matrix.MakeRow( 2 );
-console.log( `matrix2 :\n${ matrix2.toStr() }` );
-/* log : matrix2 :
+var matrix = _.Matrix.MakeRow( 2 );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
 +0, +0,
 */
 ```
@@ -207,7 +207,7 @@ console.log( `matrix2 :\n${ matrix2.toStr() }` );
 
 ```js
 var matrix = _.Matrix.FromScalar( 5, [ 2, 2 ] );
-console.log( `matrix :\n${ a.toStr() }` );
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +5, +5,
 +5, +5
