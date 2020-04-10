@@ -1055,13 +1055,8 @@ function FromForReading( src, dims )
 
 //
 
-
-function FromTransformations( dst, position, quaternion, scale )
+function FromTransformations( dst, position, quaternion, scale ) /* qqq : add jsdoc */
 {
-  if( dst === null )
-  {
-    dst = this.MakeSquare( 4 );
-  }
 
   if( arguments.length === 3 )
   {
@@ -1072,14 +1067,15 @@ function FromTransformations( dst, position, quaternion, scale )
   }
   else if( arguments.length === 4 )
   {
+    if( dst === null )
+    dst = this.MakeSquare( 4 );
+    else
     dst = this.From( dst );
   }
   else
   {
-    _.assert( 0, 'Unexpected arguments.length' );
+    _.assert( 0, 'Expects 3 or 4 arguments' );
   }
-
-  _.assert( !this.instanceIs() );
 
   dst.fromQuat( quaternion );
   dst.scaleApply( scale );
