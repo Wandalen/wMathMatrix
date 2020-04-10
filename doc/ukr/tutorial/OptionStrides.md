@@ -13,14 +13,22 @@ var matrix = _.Matrix
   inputTransposing : 1,
 });
 
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/*
+log : matrix :
++1, +2,
++3, +4,
 */
-console.log( 'strides : ', matrix.strides );
-/* log : strides : [ 2, 1 ] */
-console.log( 'effective strides : ', matrix._stridesEffective );
-/* log : effective strides : [ 2, 1 ] */
+console.log( `strides :\n${ matrix.strides }` );
+/* log :
+strides :
+[ 2, 1 ]
+*/
+console.log( `effective strides :\n${ matrix._stridesEffective }` );
+/* log :
+effective strides :
+[ 2, 1 ]
+*/
 ```
 
 Поле `strides` показує явно задані кроки в матриці. Якщо крок не задано явно, то діючі значення можна перевірити в полі `_stridesEffective`.
@@ -33,14 +41,22 @@ var matrix = _.Matrix
   inputTransposing : 1,
 });
 
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4,
 */
-console.log( 'strides : ', matrix.strides );
-/* log : strides : null */
-console.log( 'effective strides : ', matrix._stridesEffective );
-/* log : effective strides : [ 2, 1 ] */
+console.log( `strides :\n${ matrix.strides }` );
+/* log :
+strides :
+null
+*/
+console.log( `effective strides :\n${ matrix._stridesEffective }` );
+/* log :
+effective strides :
+[ 2, 1 ]
+*/
 ```
 
 ![StandardStrides.png](../../img/StandardStrides.png)
@@ -57,9 +73,11 @@ var matrix = _.Matrix
   strides : [ 4, 2 ]
 });
 
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +3,
-                  +5, +7,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +3,
++5, +7,
 */
 ```
 
@@ -81,9 +99,11 @@ var matrix = _.Matrix
   strides : [ -2, -1 ],
 });
 
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +9, +8,
-                  +7, +6,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++9, +8,
++7, +6,
 */
 ```
 
@@ -109,9 +129,11 @@ var matrix = _.Matrix
   offset : 1,
 });
 
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +3,
-                  +5, +7,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +3,
++5, +7,
 */
 
 var matrixTransposed = _.Matrix
@@ -121,9 +143,11 @@ var matrixTransposed = _.Matrix
   strides : [ 2, 4 ],
   offset : 1,
 });
-console.log( 'transposed matrix : ', matrixTransposed.toStr() );
-/* log : transposed matrix : +1, +5,
-                             +3, +7,
+console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
+/* log :
+transposed matrix :
++1, +5,
++3, +7,
 */
 ```
 
