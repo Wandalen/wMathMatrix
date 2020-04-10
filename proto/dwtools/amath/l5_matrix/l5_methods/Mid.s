@@ -47,7 +47,7 @@ function _LinearModel( o )
   function fixPoint( p )
   {
     ys[ i ] = p[ 1 ];
-    let row = m.rowVectorGet( i )
+    let row = m.rowGet( i )
     for( let d = 0 ; d < o.order ; d++ )
     row.eSet( d, pow( p[ 0 ], d ) );
     i += 1;

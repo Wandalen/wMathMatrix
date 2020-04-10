@@ -587,8 +587,8 @@ function _Mul2Matrices( dst, src1, src2 )
   for( let r = 0 ; r < nrow ; r++ )
   for( let c = 0 ; c < ncol ; c++ )
   {
-    let row = src1.rowVectorGet( r );
-    let col = src2.colVectorGet( c );
+    let row = src1.rowGet( r );
+    let col = src2.colGet( c );
     let dot = this.vectorAdapter.dot( row, col );
     dst.scalarSet( [ r, c ], dot );
   }
@@ -1292,7 +1292,7 @@ function matrixHomogenousApply( dstVector )
   result[ dstLength ] = 0;
   for( let i = 0 ; i < nrow ; i += 1 )
   {
-    let row = self.rowVectorGet( i );
+    let row = self.rowGet( i );
 
     result[ i ] = 0;
     for( let j = 0 ; j < dstLength ; j++ )
@@ -1392,7 +1392,7 @@ function positionGet()
   let self = this;
   let l = self.length;
   let loe = self.scalarsPerElement;
-  let result = self.colVectorGet( l-1 );
+  let result = self.colGet( l-1 );
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
@@ -1781,7 +1781,7 @@ function scaleApply( src )
 
   for( let i = 0 ; i < ape ; i += 1 )
   {
-    let c = self.rowVectorGet( i );
+    let c = self.rowGet( i );
     c = self.vectorAdapter.fromLongLrange( c, 0, l-1 );
     self.vectorAdapter.mul( c, src );
     // self.vectorAdapter.mulVectors( c, src );
