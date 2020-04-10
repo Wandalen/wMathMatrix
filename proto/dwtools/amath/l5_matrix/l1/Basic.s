@@ -379,10 +379,10 @@ function copyFromBuffer( src )
  * Method clone() makes copy of the matrix.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * console.log( matrix.toStr() );
- * // log : +1, +1,
- * //       +2, +2,
+ * // log : +1, +2,
+ * //       +3, +4,
  * var copy = matrix.clone();
  * console.log( copy.toStr() );
  * // log : +1, +2,
@@ -506,11 +506,11 @@ function CopyTo( dst, src )
  * Method extractNormalized() extracts data from the Matrix instance and saves it in new map.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var extract = matrix.extractNormalized();
  * console.log( extract );
  * // log : {
- * //         buffer : [ 1, 1, 2, 2 ],
+ * //         buffer : [ 1, 2, 3, 4 ],
  * //         offset : 0,
  * //         strides : 1, 2,
  * //        }
@@ -1053,11 +1053,11 @@ function _bufferAssign( src )
  * Method bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var dst = [ 0, 0, 0, 0 ];
  * var got = matrix.bufferCopyTo( dst );
  * console.log( got );
- * // log : [ 1, 1, 2, 2 ]
+ * // log : [ 1, 2, 3, 4 ]
  * console.log( got === dst );
  * // log : true
  *
@@ -1452,27 +1452,27 @@ function _dimsSet( src )
  * Method expand() expands dimensions of the matrix taking into account provided argument {-expand-}.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * console.log( matrix.toStr() );
- * // log : +1, +1,
- * //       +2, +2,
+ * // log : +1, +2,
+ * //       +3, +4,
  * var expanded = matrix.expand( [ 1, 0 ] );
  * console.log( expanded );
  * // log : +0, +0,
- * //       +1, +1,
- * //       +2, +2,
+ * //       +1, +2,
+ * //       +3, +4,
  * //       +0, +0,
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * console.log( matrix.toStr() );
- * // log : +1, +1,
- * //       +2, +2,
+ * // log : +1, +2,
+ * //       +3, +4,
  * var expanded = matrix.expand( [ [ 1, 0 ], [ 1, 0 ] ] );
  * console.log( expanded );
  * // log : +0, +0, +0,
- * //       +0, +1, +1,
- * //       +0, +2, +2,
+ * //       +0, +1, +2,
+ * //       +0, +3, +4,
  *
  * @param { Long } expand - The quantity of appended and prepended lines in each dimension.
  * @returns { Matrix } - Returns original expanded matrix.
@@ -1562,7 +1562,7 @@ function expand( expand )
  * Static routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
  *
  * @example
- * var matrix1 = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix1 = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var matrix2 = _.Matrix.Make( [ 2, 2 ] );
  * var got = _.Matrix.ShapesAreSame( matrix1, matrix2 );
  * console.log( got );
@@ -1595,7 +1595,7 @@ function ShapesAreSame( ins1, ins2 )
  * Method hasShape() compares dimensions of instance with dimensions of source container {-src-}.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var got = matrix.hasShape( [ 2, 2 ] );
  * console.log( got );
  * // log : true
@@ -1659,7 +1659,7 @@ function isSquare()
  * Method flatScalarIndexFrom() finds the index of element in the matrix buffer.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var got = matrix.flatAtomIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 4
@@ -1711,7 +1711,7 @@ function _FlatAtomIndexFromIndexNd( indexNd, strides )
  * Method takes into account values of definition of element position {-indexNd-}.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var got = matrix.flatGranuleIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 3
@@ -1755,14 +1755,14 @@ function flatGranuleIndexFrom( indexNd )
  * Method transpose() transposes the matrix.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
- * console.log( matrix.toStr() );
- * // log : +1, +1,
- * //       +2, +2
- * matrix.transpose();
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * console.log( matrix.toStr() );
  * // log : +1, +2,
- * //       +1, +2
+ * //       +3, +4
+ * matrix.transpose();
+ * console.log( matrix.toStr() );
+ * // log : +1, +3,
+ * //       +2, +4
  *
  * @returns { Matrix } - Returns original matrix instance with transposed elements.
  * @method transpose
@@ -1857,7 +1857,7 @@ _.routineExtend( _equalAre, _._equal );
  * Static routine Is() checks whether the provided argument is an instance of Matrix.
  *
  * @example
- * var matrix = _.Matrix.transpose( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.transpose( [ 1, 2, 3, 4 ] );
  * var got = _.Matrix.Is( matrix );
  * console.log( got );
  * // log : true
@@ -1884,10 +1884,10 @@ function Is( src )
  * Method toStr() converts current matrix to string.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var got = matrix.toStr();
  * console.log( got );
- * // log : +1, +1,\n+2, +2,
+ * // log : +1, +2,\n+3, +4,
  *
  * @param { Map } o - Options map.
  * @param { String } o.tab - String inserted before each new line.
