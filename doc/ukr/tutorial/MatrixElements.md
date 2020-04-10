@@ -20,7 +20,7 @@ console.log( `first row :\n${ row.toStr() }` );
 */
 ```
 
-Метод `rowGet` повертає рядок у вигляді вектор адаптера, не копіюючи даних, а лише надачи на них посилання.
+Метод `rowGet` повертає рядок у вигляді вектор адаптера, не копіюючи даних, а лише надаючи на них посилання.
 
 Щоб встановити значення для рядка використовуйте метод `rowSet`.
 
@@ -90,6 +90,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +1, +2,
 +3, +4
 */
+
 var el = matrix.scalarGet([ 0, 1 ]);
 console.log( `second element of first row :\n${ el }` );
 /* log : second element of first row :
@@ -133,10 +134,11 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +1, +2,
 +3, +4
 */
-matrix.eSet( 0, xxx );
+matrix.eSet( 0, [ 3, 5 ] );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
 /* log : changed matrix :
-xxx
++3, +2,
++5, +4
 */
 ```
 
