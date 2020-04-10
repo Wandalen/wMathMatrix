@@ -8,18 +8,18 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 /* log :
 matrix :
 +1, +2,
-+3, +4
++3, +4,
 */
 var el = matrix.eGet( 1 );
-console.log( `second row of matrix :\n${ el.toStr() }` );
+console.log( `second column of matrix :\n${ el.toStr() }` );
 /* log :
 the second row of matrix :
-3.000, 4.000
+2.000, 4.000
 */
 var scalar = matrix.eGet( 1 ).eGet( 1 );
-console.log( `second scalar of the first row :\n${ scalar }` );
+console.log( `second scalar of the second column :\n${ scalar }` );
 /* log :
 the second scalar of the first row :
-2.000
+4.000
 */
 

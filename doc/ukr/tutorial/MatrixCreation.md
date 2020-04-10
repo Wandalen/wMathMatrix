@@ -8,9 +8,11 @@
 
 ```js
 var matrix = _.Matrix.Make([ 2, 2 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +0, +0,
-                  +0, +0,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++0, +0,
++0, +0,
 */
 ```
 
@@ -22,9 +24,11 @@ console.log( 'matrix : ', matrix.toStr() );
 
 ```js
 var matrix1 = _.Matrix.MakeSquare([ 2, 2, 3, 3 ]);
-console.log( 'matrix1 : ', matrix1.toStr() );
-/* log : matrix1 : +2, +2,
-                   +3, +3,
+console.log( `matrix :\n${ matrix1.toStr() }` );
+/* log :
+matrix :
++2, +2,
++3, +3,
 */
 ```
 
@@ -32,9 +36,11 @@ console.log( 'matrix1 : ', matrix1.toStr() );
 
 ```js
 var matrix2 = _.Matrix.MakeSquare( 2 );
-console.log( 'matrix2 : ', matrix2.toStr() );
-/* log : matrix2 : +0, +0,
-                   +0, +0,
+console.log( `matrix :\n${ matrix2.toStr() }` );
+/* log :
+matrix :
++0, +0,
++0, +0,
 */
 ```
 
@@ -46,9 +52,11 @@ console.log( 'matrix2 : ', matrix2.toStr() );
 
 ```js
 var matrix1 = _.Matrix.MakeZero([ 2, 2 ]);
-console.log( 'matrix1 : ', matrix1.toStr() );
-/* log : matrix1 : +0, +0,
-                   +0, +0,
+console.log( `matrix1 :\n${ matrix1.toStr() }` );
+/* log :
+matrix1 :
++0, +0,
++0, +0,
 */
 ```
 
@@ -56,9 +64,11 @@ console.log( 'matrix1 : ', matrix1.toStr() );
 
 ```js
 var matrix2 = _.Matrix.MakeZero( 2 );
-console.log( 'matrix2 : ', matrix2.toStr() );
-/* log : matrix2 : +0, +0,
-                   +0, +0,
+console.log( `matrix2 :\n${ matrix2.toStr() }` );
+/* log :
+matrix2 :
++0, +0,
++0, +0,
 */
 ```
 
@@ -70,9 +80,11 @@ console.log( 'matrix2 : ', matrix2.toStr() );
 
 ```js
 var matrix1 = _.Matrix.MakeIdentity( [ 2, 3 ] );
-console.log( 'matrix1 : ', matrix1.toStr() );
-/* log : matrix1 : +1, +0, +0
-                   +0, +1, +0
+console.log( `matrix1 :\n${ matrix1.toStr() }` );
+/* log :
+matrix1 :
++1, +0, +0,
++0, +1, +0,
 */
 ```
 
@@ -80,9 +92,11 @@ console.log( 'matrix1 : ', matrix1.toStr() );
 
 ```js
 var matrix2 = _.Matrix.MakeIdentity( 2 );
-console.log( 'matrix2 : ', matrix2.toStr() );
-/* log : matrix2 : +1, +0,
-                   +0, +1,
+console.log( `matrix2 :\n${ matrix2.toStr() }` );
+/* log :
+matrix2 :
++1, +0,
++0, +1,
 */
 ```
 
@@ -94,10 +108,12 @@ console.log( 'matrix2 : ', matrix2.toStr() );
 
 ```js
 var matrix = _.Matrix.MakeDiagonal( [ 2, 3, 1 ] );
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +2, +0, +0
-                  +0, +3, +0
-                  +0, +0, +1
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++2, +0, +0,
++0, +3, +0,
++0, +0, +1,
 */
 ```
 
@@ -109,19 +125,23 @@ console.log( 'matrix : ', matrix.toStr() );
 
 ```js
 var matrix1 = _.Matrix.MakeCol([ 2, 3 ]);
-console.log( 'matrix1 : ', matrix1.toStr() );
-/* log : matrix1 : +2,
-                   +3,
+console.log( `matrix1 :\n${ matrix1.toStr() }` );
+/* log :
+matrix1 :
++2,
++3,
 */
 ```
 
-Стартична рутина `MakeCol` в якості аргументу, отримує колонку в форматі вектора. Розмірність матриці `2x1` виводиться ( deduced ) із довжини колонки.
+Статична рутина `MakeCol` в якості аргументу, отримує колонку в форматі вектора. Розмірність матриці `2x1` виводиться ( deduced ) із довжини колонки.
 
 ```js
 var matrix2 = _.Matrix.MakeCol( 2 );
-console.log( 'matrix2 : ', matrix2.toStr() );
-/* log : matrix2 : +0,
-                   +0,
+console.log( `matrix2 :\n${ matrix2.toStr() }` );
+/* log :
+matrix2 :
++0,
++0,
 */
 ```
 
@@ -133,16 +153,22 @@ console.log( 'matrix2 : ', matrix2.toStr() );
 
 ```js
 var matrix1 = _.Matrix.MakeRow( [ 2, 3 ] );
-console.log( 'matrix1 : ', matrix1.toStr() );
-/* log : matrix1 : +2, +3,*/
+console.log( `matrix1 :\n${ matrix1.toStr() }` );
+/* log :
+matrix1 :
++2, +3,
+*/
 ```
 
-Стартична рутина `MakeRow` в якості аргументу, отримує рядок в форматі вектора. Розмірність матриці `1x2` виводиться ( deduced ) із довжини колонки.
+Статична рутина `MakeRow` в якості аргументу, отримує рядок в форматі вектора. Розмірність матриці `1x2` виводиться ( deduced ) із довжини колонки.
 
 ```js
 var matrix2 = _.Matrix.MakeRow( 2 );
-console.log( 'matrix2 : ', matrix2.toStr() );
-/* log : matrix2 : +0, +0, */
+console.log( `matrix2 :\n${ matrix2.toStr() }` );
+/* log :
+matrix2 :
++0, +0,
+*/
 ```
 
 Довжина рялка задаєтсья явно `2`, розмірність матриці `1x2`.
@@ -157,27 +183,37 @@ console.log( 'matrix2 : ', matrix2.toStr() );
 
 ```js
 var array = [ 1, 2, 3, 4, 5, 6 ];
-console.log( 'array : ', array );
-/* log : array : [ 1, 2, 3, 4, 5, 6 ] */
+console.log( `array :\n${ array }` );
+/* log :
+array :
+[ 1, 2, 3, 4, 5, 6 ]
+*/
 var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
-console.log( vector.toStr() );
-/* log : 2.000, 4.000, 6.000 */
+console.log( `vector :\n${ vector.toStr() }` );
+/* log :
+vector :
+2.000, 4.000, 6.000
+*/
 
 var matrix1 = _.Matrix.FromVector( vector );
-console.log( 'matrix1 : ', matrix1.toStr() );
-/* log : matrix1 : +1,
-                   +3,
-                   +5,
+console.log( `matrix1 :\n${ matrix1.toStr() }` );
+/* log :
+matrix1 :
++1,
++3,
++5,
 */
 
 var matrix2 = _.Matrix.FromVector( array );
-console.log( 'matrix2 : ', matrix2.toStr() );
-/* log : matrix2 : +1,
-                   +2,
-                   +3,
-                   +4,
-                   +5,
-                   +6,
+console.log( `matrix2 :\n${ matrix2.toStr() }` );
+/* log :
+matrix2 :
++1,
++2,
++3,
++4,
++5,
++6,
 */
 ```
 
@@ -187,9 +223,11 @@ console.log( 'matrix2 : ', matrix2.toStr() );
 
 ```js
 var matrix = _.Matrix.FromScalar( 5, [ 2, 2 ] );
-console.log( 'matrix : ', a.toStr() );
-/* log : matrix : +5, +5,
-                  +5, +5
+console.log( `matrix :\n${ a.toStr() }` );
+/* log :
+matrix :
++5, +5,
++5, +5
 */
 ```
 
@@ -197,18 +235,20 @@ console.log( 'matrix : ', a.toStr() );
 
 ### Статична рутина `FromTransformations`
 
-Створює гомогенну матрицю 3D трансформацій за поворотами, зі зсувом та маштабуванням. Повороти задаються кватерніоном.
+Створює гомогенну матрицю 3D трансформацій за поворотами, зсувом та маштабуванням. Повороти задаються кватерніоном.
 
 ```js
 var position = [ 1, 2, 3 ];
 var quaternion = [ 0, 0, 0, 1 ];
 var scale = [ 1, 1, 1 ];
 var matrix = _.Matrix.FromTransformations( position, quaternion, scale );
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +0, +0, +1,
-                  +0, +1, +0, +2,
-                  +0, +0, +1, +3,
-                  +0, +0, +0, +1,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +0, +0, +1,
++0, +1, +0, +2,
++0, +0, +1, +3,
++0, +0, +0, +1,
 */
 ```
 

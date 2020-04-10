@@ -127,22 +127,23 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 /* log :
 matrix :
 +1, +2,
-+3, +4
++3, +4,
 */
 var el = matrix.eGet( 1 );
-console.log( `second row of matrix :\n${ el.toStr() }` );
+console.log( `second column of matrix :\n${ el.toStr() }` );
 /* log :
 the second row of matrix :
-3.000, 4.000 */
+2.000, 4.000
+*/
 var scalar = matrix.eGet( 1 ).eGet( 1 );
-console.log( `second scalar of the first row :\n${ scalar }` );
+console.log( `second scalar of the second column :\n${ scalar }` );
 /* log :
 the second scalar of the first row :
-2.000
+4.000
 */
 ```
 
-Для встановлення значення елемента матриці використовуйте метод `eSet`, якщо елемент матриці це рядок, тоді значення встановлюються для кожного елемента рядка. Для встановлення значення окремому елементу небхідно попередньо обрати рядок.
+Для встановлення значення елемента матриці використовуйте метод `eSet`, якщо елемент матриці це рядок, тоді значення встановлюються для кожного елемента рядка. Для встановлення значення окремому елементу небхідно попередньо обрати колонку.
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
@@ -152,12 +153,12 @@ matrix :
 +1, +2,
 +3, +4
 */
-matrix.rowGet( 0 ).eSet( 1, 4 );
+matrix.eGet( 0 ).eSet( 1, 4 );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
 /* log :
 changed matrix :
-+1, +4,
-+3, +4
++1, +2,
++4, +4
 */
 ```
 ### Як отримати підматрицю
