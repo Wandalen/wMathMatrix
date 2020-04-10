@@ -1949,7 +1949,7 @@ function toStr( o )
   {
 
     if( m === undefined )
-    row = self.rowVectorGet( r );
+    row = self.rowGet( r );
     else
     row = self.rowVectorOfMatrixGet( [ m ], r );
 
@@ -2799,9 +2799,9 @@ function lineVectorGet( d, index )
   _.assert( self.dims.length === 2 );
 
   if( d === 0 )
-  return self.colVectorGet( index );
+  return self.colGet( index );
   else if( d === 1 )
-  return self.rowVectorGet( index );
+  return self.rowGet( index );
   else
   _.assert( 0, 'unknown dimension' );
 
@@ -2944,17 +2944,17 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
 //
 
 /**
- * Method rowVectorGet() returns row of the matrix.
+ * Method rowGet() returns row of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.rowVectorGet( 1 );
+ * var got = matrix.rowGet( 1 );
  * console.log( got.toStr() );
  * // log : 4.000, 5.000, 6.000
  *
  * @param { Number } index - Index of the row.
  * @returns { VectorAdapter } - Returns vector with row of the matrix.
- * @method rowVectorGet
+ * @method rowGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If {-index-} is out of range of rows.
@@ -2964,7 +2964,7 @@ function rowVectorOfMatrixGet( matrixIndex, rowIndex )
  * @module Tools/math/Matrix
  */
 
-function rowVectorGet( index )
+function rowGet( index )
 {
 
   _.assert( this.dims.length === 2, 'not implemented' );
@@ -3010,7 +3010,7 @@ function rowVectorGet( index )
 function rowSet( rowIndex, srcRow )
 {
   let self = this;
-  let selfRow = self.rowVectorGet( rowIndex );
+  let selfRow = self.rowGet( rowIndex );
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
@@ -3056,17 +3056,17 @@ function rowsSwap( i1, i2 )
 //
 
 /**
- * Method colVectorGet() returns column of the matrix.
+ * Method colGet() returns column of the matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.colVectorGet( 1 );
+ * var got = matrix.colGet( 1 );
  * console.log( got.toStr() );
  * // log : 2.000, 5.000, 8.000
  *
  * @param { Number } index - Index of the column.
  * @returns { VectorAdapter } - Returns vector with column of the matrix.
- * @method colVectorGet
+ * @method colGet
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If number of dimensions is not equal to two.
  * @throws { Error } If {-index-} is out of range of columns.
@@ -3076,7 +3076,7 @@ function rowsSwap( i1, i2 )
  * @module Tools/math/Matrix
  */
 
-function colVectorGet( index )
+function colGet( index )
 {
 
   _.assert( this.dims.length === 2, 'not implemented' );
@@ -3122,7 +3122,7 @@ function colVectorGet( index )
 function colSet( index, srcCol )
 {
   let self = this;
-  let selfCol = self.colVectorGet( index );
+  let selfCol = self.colGet( index );
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
@@ -3722,11 +3722,11 @@ let Extension =
   linesSwap,
 
   rowVectorOfMatrixGet,
-  rowVectorGet,
+  rowGet,
   rowSet,
   rowsSwap,
 
-  colVectorGet,
+  colGet,
   colSet,
   colsSwap,
 

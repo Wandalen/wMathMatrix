@@ -104,10 +104,10 @@ function _qrIteration( q, r )
 
       if( newValue === value )
       {
-        let oldColQ = q.colVectorGet( i ).clone();
+        let oldColQ = q.colGet( i ).clone();
         let oldValue = r.scalarGet( [ i, i ] );
 
-        q.colSet( i, q.colVectorGet( j ) );
+        q.colSet( i, q.colGet( j ) );
         q.colSet( j, oldColQ );
 
         r.scalarSet( [ i, i ], r.scalarGet( [ j, j ] ) );
@@ -179,14 +179,14 @@ function _qrDecompositionGS( q, r )
 
   for( let i = 0; i < cols; i++ )
   {
-    let col = matrix.colVectorGet( i );
+    let col = matrix.colGet( i );
     let sum = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
     for( let j = 0; j < i ; j ++ )
     {
-      let dot = self.vectorAdapter.dot( col, self.vectorAdapter.from( qInt.colVectorGet( j ) ) );
+      let dot = self.vectorAdapter.dot( col, self.vectorAdapter.from( qInt.colGet( j ) ) );
       debugger;
 
-      self.vectorAdapter.add( sum, self.vectorAdapter.mul( self.vectorAdapter.from( qInt.colVectorGet( j ) ).clone(), - dot ) );
+      self.vectorAdapter.add( sum, self.vectorAdapter.mul( self.vectorAdapter.from( qInt.colGet( j ) ).clone(), - dot ) );
     }
     let e = self.vectorAdapter.normalize( self.vectorAdapter.add( col.clone(), sum ) );
     qInt.colSet( i, e );
@@ -260,8 +260,8 @@ function _qrDecompositionHh( q, r )
   for( let j = 0; j < cols; j++ )
   {
     let u = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
-    let e = identity.clone().colVectorGet( j );
-    let col = matrix.clone().colVectorGet( j );
+    let e = identity.clone().colGet( j );
+    let col = matrix.clone().colGet( j );
 
     for( let i = 0; i < j; i ++ )
     {
@@ -441,15 +441,15 @@ function svd( u, s, v )
     {
       if( eigenValues.eGet( i ) >= 0 )
       {
-        u.colSet( i, q.colVectorGet( i ) );
-        s.colSet( i, identity.colVectorGet( i ).mul( eigenValues.eGet( i ) ) );
-        v.colSet( i, q.colVectorGet( i ) );
+        u.colSet( i, q.colGet( i ) );
+        s.colSet( i, identity.colGet( i ).mul( eigenValues.eGet( i ) ) );
+        v.colSet( i, q.colGet( i ) );
       }
       else if( eigenValues.eGet( i ) < 0 )
       {
-        u.colSet( i, q.colVectorGet( i ).mul( - 1 ) );
-        s.colSet( i, identity.colVectorGet( i ).mul( - eigenValues.eGet( i ) ) );
-        v.colSet( i, q.colVectorGet( i ).mul( - 1 ) );
+        u.colSet( i, q.colGet( i ).mul( - 1 ) );
+        s.colSet( i, identity.colGet( i ).mul( - eigenValues.eGet( i ) ) );
+        v.colSet( i, q.colGet( i ).mul( - 1 ) );
       }
     }
   }
@@ -480,11 +480,11 @@ function svd( u, s, v )
     {
       if( eigenV.eGet( i ) !== 0 )
       {
-        let col = u.colVectorGet( i ).slice();
+        let col = u.colGet( i ).slice();
         let m1 = _.Matrix.Make( [ col.length, 1 ] ).copy( col );
         let m2 = _.Matrix.Mul( null, [ self.clone().transpose(), m1 ] );
 
-        v.colSet( i, m2.colVectorGet( 0 ).mul( 1 / eigenV.eGet( i ) ).normalize() );
+        v.colSet( i, m2.colGet( 0 ).mul( 1 / eigenV.eGet( i ) ).normalize() );
       }
     }
 
