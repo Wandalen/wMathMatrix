@@ -204,13 +204,15 @@ var matrix = _.Matrix.Make( [ 4, 4 ] );
 var position = [ 1, 2, 3 ];
 var quaternion = [ 0, 0, 0, 1 ];
 var scale = [ 1, 1, 1 ];
-var got = _.Matrix.fromTransformations( matrix, position, quaternion, scale );
+var got = _.Matrix.FromTransformations( matrix, position, quaternion, scale );
 console.log( 'got : ', matrix.toStr() );
 /* log : got : +1, +0, +0, +1,
                +0, +1, +0, +2,
                +0, +0, +1, +3,
                +0, +0, +0, +1,
 */
+console.log( 'got === matrix : ', got === matrix );
+/* log : got === matrix : true */
 ```
 
 <!--
