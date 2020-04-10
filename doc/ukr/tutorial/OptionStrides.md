@@ -43,6 +43,10 @@ console.log( 'effective strides : ', matrix._stridesEffective );
 /* log : effective strides : [ 2, 1 ] */
 ```
 
+![StandardStrides.png](../../img/StandardStrides.png)
+
+Приведена діаграма показано як буфер інтерпретується в матрицю. Кожен рядок формується із ділянки буфера, наступний рядок слідує за попереднім.
+
 ### Нестандартна ширина кроку
 
 ```js
@@ -60,6 +64,11 @@ console.log( 'matrix : ', matrix.toStr() );
 ```
 
 Значення першого елемента в опції `strides` визначає крок для рядків, другого - для колонок.
+
+![NonStandardStrides.png](../../img/NonStandardStrides.png)
+
+Діаграма показує як розміщуються елементи матриці в буфері `buffer`.
+
 
 ### Негативна ширина кроку
 
@@ -79,6 +88,11 @@ console.log( 'matrix : ', matrix.toStr() );
 ```
 
 При використанні негативних значень в опції `strides` відлік елементів ведеться в зворотньому напряму від зміщення в буфері.
+
+![NonStandardStrides.png](../../img/NonStandardStrides.png)
+
+Діаграма показує як розміщуються елементи матриці в буфері `buffer`.
+
 
 ### Транспонована матриця з кроком
 
