@@ -8,13 +8,18 @@
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4,
 */
 var row = matrix.rowGet( 0 );
-console.log( 'first row : ', row.toStr() );
-/* log : first row : 1.000, 2.000 */
+console.log( `first row :\n${ row.toStr() }` );
+/* log :
+first row :
+1.000, 2.000
+*/
 ```
 
 Метод `rowGet` повертає рядок у вигляді вектор адаптера, не копіюючи даних, а лише надачи на них посилання.
@@ -23,14 +28,18 @@ console.log( 'first row : ', row.toStr() );
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4,
 */
 matrix.rowSet( 0, [ 4, 3 ] );
-console.log( 'changed matrix : ', matrix.toStr() );
-/* log : changed matrix : +1, +2,
-                          +4, +3,
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log :
+changed matrix :
++1, +2,
++4, +3,
 */
 ```
 
@@ -42,13 +51,17 @@ console.log( 'changed matrix : ', matrix.toStr() );
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4
 */
 var row = matrix.colGet( 0 );
-console.log( 'first column : ', row.toStr() );
-/* log : first column : 1.000, 3.000 */
+console.log( `first column :\n${ row.toStr() }` );
+/* log :
+first column :
+1.000, 3.000 */
 ```
 
 Метод `colGet` повертає колонку у вигляді вектор адаптера, не копіюючи даних, а лише надачи на них посилання.
@@ -57,14 +70,18 @@ console.log( 'first column : ', row.toStr() );
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4
 */
 matrix.colSet( 0, 5 );
-console.log( 'changed matrix : ', matrix.toStr() );
-/* log : changed matrix : +5, +2,
-                          +5, +4
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log :
+changed matrix :
++5, +2,
++5, +4
 */
 ```
 
@@ -76,18 +93,25 @@ console.log( 'changed matrix : ', matrix.toStr() );
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4
 */
 var el = matrix.scalarGet([ 0, 1 ]);
-console.log( 'second element of first row : ', el );
-/* log : second element of first row : 2 */
+console.log( `second element of first row :\n${ el }` );
+/* log :
+second element of first row :
+2
+*/
 
 matrix.scalarSet( [ 0, 1 ], 5 );
-console.log( 'changed matrix : ', matrix.toStr() );
-/* log : changed matrix : +1, +5,
-                          +3, +4
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log :
+changed matrix :
++1, +5,
++3, +4
 */
 ```
 
@@ -98,33 +122,42 @@ console.log( 'changed matrix : ', matrix.toStr() );
 Метод `eGet` повертає елемент матриці. Елементом типової матриці є колонка. Якщо ж матриця має 3-ри виміри то елементом буде типова 2-во вимірна матриця. Якщо ж матриця має 4-ри виміри то елементом буде типова 3-х вимірна матриця.
 
 ```js
-
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( `matrix :\n${matrix.toStr()}` );
-/* log : matrix : +1, +2,
-                  +3, +4
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4
 */
 var el = matrix.eGet( 1 );
-console.log( 'second row of matrix : ', el.toStr() );
-/* log : the second row of matrix : 3.000, 4.000 */
+console.log( `second row of matrix :\n${ el.toStr() }` );
+/* log :
+the second row of matrix :
+3.000, 4.000 */
 var scalar = matrix.eGet( 1 ).eGet( 1 );
-console.log( 'second scalar of the first row : ', scalar );
-/* log : the second scalar of the first row : 2.000 */
-
+console.log( `second scalar of the first row :\n${ scalar }` );
+/* log :
+the second scalar of the first row :
+2.000
+*/
 ```
 
 Для встановлення значення елемента матриці використовуйте метод `eSet`, якщо елемент матриці це рядок, тоді значення встановлюються для кожного елемента рядка. Для встановлення значення окремому елементу небхідно попередньо обрати рядок.
 
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4
 */
 matrix.rowGet( 0 ).eSet( 1, 4 );
-console.log( 'changed matrix : ', matrix.toStr() );
-/* log : changed matrix : +1, +4,
-                          +3, +4
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log :
+changed matrix :
++1, +4,
++3, +4
 */
 ```
 ### Як отримати підматрицю
@@ -139,7 +172,7 @@ var matrix = _.Matrix.MakeSquare
   9,  10, 11, 12,
   13, 14, 15, 16,
 ]);
-console.log( 'matrix :\n', matrix.toStr() );
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1,  +2,  +3,  +4,
 +5,  +6,  +7,  +8,
@@ -147,12 +180,13 @@ console.log( 'matrix :\n', matrix.toStr() );
 +13, +14, +15, +16,
 */
 var sub1 = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
-console.log( 'submatrix :\n', sub.toStr() );
+console.log( `submatrix1 :\n${ sub1.toStr() }` );
 /* log : submatrix :
 +1, +2,
 +5, +6,
 */
 var sub2 = matrix.submatrix( [ [ 2, 4 ], [ 2, 4 ] ] );
+console.log( `submatrix2 :\n${ sub2.toStr() }` );
 /* log : submatrix :
 +3, +4,
 +7, +8,
