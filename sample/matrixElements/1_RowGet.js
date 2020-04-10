@@ -11,4 +11,6 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 var row = matrix.rowGet( 0 );
 console.log( `first row :\n${ row.toStr() }` );
-/* log : first row : 1.000, 2.000 */
+/* log : first row :
+1.000, 2.000
+*/

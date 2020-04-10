@@ -9,15 +9,13 @@
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4,
 */
 var row = matrix.rowGet( 0 );
 console.log( `first row :\n${ row.toStr() }` );
-/* log :
-first row :
+/* log : first row :
 1.000, 2.000
 */
 ```
@@ -29,15 +27,13 @@ first row :
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4,
 */
 matrix.rowSet( 0, [ 4, 3 ] );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
-/* log :
-changed matrix :
+/* log : changed matrix :
 +1, +2,
 +4, +3,
 */
@@ -52,15 +48,13 @@ changed matrix :
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4
 */
 var row = matrix.colGet( 0 );
 console.log( `first column :\n${ row.toStr() }` );
-/* log :
-first column :
+/* log : first column :
 1.000, 3.000 */
 ```
 
@@ -71,15 +65,13 @@ first column :
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4
 */
 matrix.colSet( 0, 5 );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
-/* log :
-changed matrix :
+/* log : changed matrix :
 +5, +2,
 +5, +4
 */
@@ -94,22 +86,19 @@ changed matrix :
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4
 */
 var el = matrix.scalarGet([ 0, 1 ]);
 console.log( `second element of first row :\n${ el }` );
-/* log :
-second element of first row :
+/* log : second element of first row :
 2
 */
 
 matrix.scalarSet( [ 0, 1 ], 5 );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
-/* log :
-changed matrix :
+/* log : changed matrix :
 +1, +5,
 +3, +4
 */
@@ -124,21 +113,18 @@ changed matrix :
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4,
 */
 var el = matrix.eGet( 1 );
 console.log( `second column of matrix :\n${ el.toStr() }` );
-/* log :
-the second row of matrix :
+/* log : second column of matrix :
 2.000, 4.000
 */
 var scalar = matrix.eGet( 1 ).eGet( 1 );
 console.log( `second scalar of the second column :\n${ scalar }` );
-/* log :
-the second scalar of the first row :
+/* log : second scalar of the first column :
 4.000
 */
 ```
@@ -148,15 +134,13 @@ the second scalar of the first row :
 ```js
 var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
-/* log :
-matrix :
+/* log : matrix :
 +1, +2,
 +3, +4
 */
 matrix.eGet( 0 ).eSet( 1, 4 );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
-/* log :
-changed matrix :
+/* log : changed matrix :
 +1, +2,
 +4, +4
 */
