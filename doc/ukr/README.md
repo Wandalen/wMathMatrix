@@ -1,14 +1,11 @@
-<!--
 ## Концепції
 
 <details>
-  <summary><a href="./concept/">
-    ...
+  <summary><a href="./concept/Matrix.md">
+    Матриця
   </a></summary>
-    ...
+    Впорядкована сукупність скалярів, що інтерпретується як матриця.
 </details>
--->
-
 
 ## Туторіали
 
