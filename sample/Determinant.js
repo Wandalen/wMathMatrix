@@ -1,8 +1,5 @@
 
-if( typeof module !== 'undefined' )
-require( 'wmathmatrix' );
-
-var _ = wTools;
+var _ = require( 'wmathmatrix' );
 
 var matrix3x3 = _.Matrix.make( [ 3, 3 ] ).copy
 ([
