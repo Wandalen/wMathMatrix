@@ -133,11 +133,15 @@ console.log( 'matrix : ', matrix.toStr() );
                   +9,  +10, +11, +12,
                   +13, +14, +15, +16,
 */
-var sub = matrix.submatrix( [ [ 0, 3 ], [ 0, 2 ] ] );
-console.log( 'submatrix : ', sub.toStr() );
-/* log : submatrix : +1, +2,
-                     +5, +6,
-                     +9, +10,
+var sub1 = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
+console.log( 'submatrix :\n', sub.toStr() );
+/* log : submatrix :
++1, +2,
++5, +6,
+*/
+var sub2 = matrix.submatrix( [ [ 2, 4 ], [ 2, 4 ] ] );
+/* log : submatrix : +3, +4,
+                     +7, +8,
 */
 ```
 
