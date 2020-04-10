@@ -1183,12 +1183,12 @@ function triangleUpperSet( src )
  * The result of multiplication applies to destination vector.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 1, 2, 2 ] );
+ * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
  * var dstVector = [ 1, 1 ];
  *
  * var got = matrix.matrixApplyTo( dstVector );
  * console.log( got );
- * // log : [ 2, 4 ]
+ * // log : [ 3, 7 ]
  * console.log( dstVector === got );
  * // log : true
  *
