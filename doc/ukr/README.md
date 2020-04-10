@@ -1,14 +1,11 @@
-<!--
 ## Концепції
 
 <details>
-  <summary><a href="./concept/">
-    ...
+  <summary><a href="./concept/Matrix.md">
+    Матриця
   </a></summary>
-    ...
+    Вектор або множина векторів, що інтерпретується як матриця.
 </details>
--->
-
 
 ## Туторіали
 

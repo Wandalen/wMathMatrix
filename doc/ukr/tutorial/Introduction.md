@@ -8,9 +8,11 @@
 
 ```js
 var matrix = _.Matrix.Make( [ 2, 2 ] );
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +0, +0,
-                  +0, +0,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++0, +0,
++0, +0,
 */
 ```
 
@@ -23,9 +25,11 @@ var matrix = _.Matrix
   buffer : [ 1, 2, 3, 4 ],
   strides : [ 1, 2 ],
 });
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +3,
-                  +2, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +3,
++2, +4,
 */
 ```
 
@@ -41,8 +45,11 @@ var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
   7, 8, -9
 ]);
 var got = matrix.determinant();
-console.log( 'determinant : ', got );
-/* log : determinant : 54 */
+console.log( `determinant :\n${ got }` );
+/* log :
+determinant :
+54
+*/
 ```
 
 ### Використання опції `strides`
@@ -56,9 +63,11 @@ var matrix = _.Matrix
   dims : [ 2, 2 ],
   strides : [ 4, 2 ]
 });
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +3,
-                  +5, +7,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +3,
++5, +7,
 */
 ```
 
@@ -72,9 +81,11 @@ var matrix = _.Matrix
   dims : [ 2, 2 ],
   buffer : [ 1, 2, 3, 4 ],
 });
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4,
 */
 
 var matrix = _.Matrix
@@ -83,9 +94,11 @@ var matrix = _.Matrix
   buffer : [ 1, 2, 3, 4 ],
   inputTransposing : 1,
 });
-console.log( 'transposed matrix : ', matrix.toStr() );
-/* log : transposed matrix : +1, +3,
-                             +2, +4,
+console.log( `transposed matrix :\n${ matrix.toStr() }` );
+/* log :
+transposed matrix :
++1, +3,
++2, +4,
 */
 ```
 
@@ -95,15 +108,19 @@ console.log( 'transposed matrix : ', matrix.toStr() );
 
 ```js
 var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +2,
-                  +3, +4,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +2,
++3, +4,
 */
 
 matrix.transpose();
-console.log( 'transposed matrix : ', matrix.toStr() );
-/* log : transposed matrix : +1, +3,
-                             +2, +4,
+console.log( `transposed matrix :\n${ matrix.toStr() }` );
+/* log :
+transposed matrix :
++1, +3,
++2, +4,
 */
 ```
 
@@ -122,9 +139,11 @@ var matrix = _.Matrix
   offset : 1,
 });
 
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix : +1, +3,
-                  +5, +7,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++1, +3,
++5, +7,
 */
 
 var matrixTransposed = _.Matrix
@@ -134,9 +153,11 @@ var matrixTransposed = _.Matrix
   strides : [ 2, 4 ],
   offset : 1,
 });
-console.log( 'transposed matrix : ', matrixTransposed.toStr() );
-/* log : transposed matrix : +1, +5,
-                             +3, +7,
+console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
+/* log :
+transposed matrix :
++1, +5,
++3, +7,
 */
 ```
 
@@ -152,9 +173,11 @@ console.log( 'transposed matrix : ', matrixTransposed.toStr() );
 var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
 
 var got = _.Matrix.Mul( null, [ matrix, 3 ] );
-console.log( 'got : ', got );
-/* log : matrix :  +3,  +6,
-                   +9, +12,
+console.log( `got :\n${ got }` );
+/* log :
+matrix :
++3, +6,
++9, +12,
 */
 ```
 
@@ -167,9 +190,11 @@ var matrixA = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
 var matrixB = _.Matrix.MakeSquare( [ 4, 3, 2, 1 ] );
 
 var matrix = _.Matrix.Mul( null, [ matrixA, matrixB ] );
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix :  +8,  +5,
-                  +20, +13,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++8,  +5,
++20, +13,
 */
 ```
 
@@ -181,9 +206,11 @@ var matrixB = _.Matrix.MakeSquare( [ 4, 3, 2, 1 ] );
 
 var matrix = _.Matrix.Make( [ 2, 2 ] );
 matrix.mul( [ matrixA, matrixB ] );
-console.log( 'matrix : ', matrix.toStr() );
-/* log : matrix :  +8,  +5,
-                  +20, +13,
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log :
+matrix :
++8,  +5,
++20, +13,
 */
 ```
 
@@ -196,8 +223,11 @@ var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
 var vector = [ 1, 1 ];
 
 var got = _.Matrix.Mul( null, [ matrix, vector ] );
-console.log( 'got : ', got );
-/* log : oot : [ 3, 7 ] */
+console.log( `got :\n${ got }` );
+/* log :
+got :
+[ 3, 7 ]
+*/
 ```
 
 Екземпляр класу може бути помножений на вектор з використанням методу `matrixApplyTo`, результат множення записується в вектор.
@@ -207,10 +237,16 @@ var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
 var vector = [ 1, 1 ];
 
 var got = matrix.matrixApplyTo( vector );
-console.log( 'got : ', got );
-/* log : oot : [ 3, 7 ] */
-console.log( 'got === vector : ', got === vector );
-/* log : got === vector : true */
+console.log( `got :\n${ got }` );
+/* log :
+got :
+[ 3, 7 ]
+*/
+console.log( `got === vector :\n${ got === vector }` );
+/* log :
+got === vector :
+true
+*/
 ```
 
 ### Рішення системи лінійних рівнянь
@@ -232,8 +268,11 @@ var matrixX = _.Matrix.solve( null, matrixA, matrixB );
 
 var x1 = matrixX.scalarGet( [ 0, 0 ] );
 var x2 = matrixX.scalarGet( [ 1, 0 ] );
-console.log( 'x1 : ', x1, ', x2 : ', x2 );
-/* log : x1 : 0.5384615659713745, x2 : 0.307692289352417 */
+console.log( `x1 : ${ x1 },\nx2 : ${ x2 }` );
+/* log :
+x1 : 0.5384615659713745,
+x2 : 0.307692289352417
+*/
 ```
 
 [Повернутись до змісту](../README.md#Туторіали)
