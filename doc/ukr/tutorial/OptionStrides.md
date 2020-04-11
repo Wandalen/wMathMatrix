@@ -140,6 +140,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +9, +8,
 +7, +6,
++5, +4,
 */
 ```
 
