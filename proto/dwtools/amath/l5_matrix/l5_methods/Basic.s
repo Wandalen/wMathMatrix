@@ -653,7 +653,7 @@ function _mul2Matrices( src1, src2 )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  return dst.Self._mul2Matrices( dst, src1, src2 );
+  return dst.Self._Mul2Matrices( dst, src1, src2 );
 }
 
 //
