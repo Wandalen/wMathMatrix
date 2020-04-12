@@ -1,4 +1,4 @@
-(function _Iterate_s_() {
+(function _Iterator_s_() {
 
 'use strict';
 
@@ -18,7 +18,7 @@ let Parent = null;
 let Self = _.Matrix;
 
 // --
-// implementation
+// advanced
 // --
 
 function atomWiseReduceWithFlatVector( onVector )
@@ -435,13 +435,13 @@ function _lineEachCollecting( o ) /* xxx : move out? */
   if( o.returningNumber )
   for( let i = 0 ; i < o.length ; i++ )
   {
-    o.args[ 0 ] = self.lineVectorGet( o.lineOrder, i );
+    o.args[ 0 ] = self.lineGet( o.lineOrder, i );
     result.eSet( i, o.onEach.apply( self, o.args ) );
   }
   else
   for( let i = 0 ; i < o.length ; i++ )
   {
-    o.args[ 0 ] = self.lineVectorGet( o.lineOrder, i );
+    o.args[ 0 ] = self.lineGet( o.lineOrder, i );
     result[ i ] = o.onEach.apply( self, o.args );
   }
 
@@ -503,7 +503,7 @@ function rowEachCollecting( onEach , args , returningNumber )
 // relations
 // --
 
-let Statics = /* qqq : split static routines. ask how */
+let Statics =
 {
 
   /* iterator */
@@ -520,7 +520,7 @@ let Statics = /* qqq : split static routines. ask how */
 let Extension =
 {
 
-  //
+  // advanced
 
   atomWiseReduceWithFlatVector,
   atomWiseReduceWithAtomHandler,

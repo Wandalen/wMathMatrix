@@ -155,7 +155,7 @@ PolynomClosestFor.defaults.__proto__ = _LinearModel.defaults;
 // relations
 // --
 
-let Statics = /* qqq : split static routines. ask how */
+let Statics = 
 {
 
   /* modeler */

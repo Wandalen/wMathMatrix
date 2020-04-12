@@ -78,7 +78,7 @@ function _qrIteration( q, r )
     // Calculate transformation matrix
     q.mulLeft( qInt );
 
-    a._mul2Matrices( rInt, qInt );
+    a.mul([ rInt, qInt ]);
 
     loop = loop + 1;
   }
@@ -91,7 +91,7 @@ function _qrIteration( q, r )
     r.copy( rInt );
   }
 
-  let eigenValues = self.vectorAdapter.toLong( a.diagonalVectorGet() );
+  let eigenValues = self.vectorAdapter.toLong( a.diagonalGet() );
   eigenValues.sort( ( a, b ) => b - a );
 
   logger.log( 'EI', eigenValues)
@@ -116,7 +116,7 @@ function _qrIteration( q, r )
     }
   }
 
-  return r.diagonalVectorGet();
+  return r.diagonalGet();
 }
 
 //
@@ -193,7 +193,7 @@ function _qrDecompositionGS( q, r )
   }
 
   // Calculate R
-  r._mul2Matrices( qInt.clone().transpose(), matrix );
+  r.mul( qInt.clone().transpose(), matrix );
 
   // Calculate transformation matrix
   q.mulLeft( qInt );
@@ -295,6 +295,7 @@ function _qrDecompositionHh( q, r )
 
   // Calculate R
   // r._mul2Matrices( h.clone().transpose(), matrix );
+  r.mul([ h.clone().transpose(), matrix ]);
   let m = _.Matrix.Mul( null, [ q, r ] );
   let rb = _.Matrix.Mul( null, [ q.clone().transpose(), self ] )
 
@@ -436,7 +437,7 @@ function svd( u, s, v )
     let identity = _.Matrix.MakeIdentity( [ cols, rows ] );
     self._qrIteration( q, r );
 
-    let eigenValues = r.diagonalVectorGet();
+    let eigenValues = r.diagonalGet();
     for( let i = 0; i < cols; i++ )
     {
       if( eigenValues.eGet( i ) >= 0 )
@@ -474,7 +475,7 @@ function svd( u, s, v )
 
     v.copy( qATA );
 
-    let eigenV = rATA.diagonalVectorGet();
+    let eigenV = rATA.diagonalGet();
 
     for( let i = 0; i < min; i++ )
     {

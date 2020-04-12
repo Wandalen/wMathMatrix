@@ -10,29 +10,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../dwtools/Tools.s' );
-
-  _.include( 'wMathScalar' );
-  _.include( 'wMathVector' );
-  _.include( 'wCopyable' );
-  _.include( 'wEntityBasic' );
-
-}
-
-if( typeof module !== 'undefined' )
-{
-
-  require( './l1/Basic.s' );
-
-  require( './l3/RoutinesFromVector.s' );
-
-  require( './l5_methods/Basic.s' );
-  require( './l5_methods/Checker.s' );
-  require( './l5_methods/Iterator.s' );
-  require( './l5_methods/Maker.s' );
-  require( './l5_methods/Mid.s' );
-  require( './l5_methods/Solver.s' );
-  require( './l5_methods/Svd.s' );
+  require( '../../include/Mid.s' );
 
 }
 
