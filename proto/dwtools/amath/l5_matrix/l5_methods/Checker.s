@@ -25,6 +25,32 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // --
 
 /**
+ * Method isSquare() checks the equality of matrix dimensions.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 1, 2 ] );
+ * var got = matrix.isSquare();
+ * console.log( got );
+ * // log : false
+ *
+ * @returns { Boolean } - Returns value whether is the instance square matrix.
+ * @method isSquare
+ * @throws { Error } If argument is provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isSquare()
+{
+  let self = this;
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  return self.dims[ 0 ] === self.dims[ 1 ];
+}
+
+//
+
+/**
   * Check if a matrix is diagonal.
   *
   * @example
@@ -223,6 +249,7 @@ let Extension =
 
   //
 
+  isSquare,
   isDiagonal,
   isUpperTriangle,
   isSymmetric,

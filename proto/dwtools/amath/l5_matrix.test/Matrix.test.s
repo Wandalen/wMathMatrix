@@ -12,7 +12,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wTesting' );
 
-  require( '../l5_matrix/Include.s' );
+  require( '../l5_matrix/module/full/Include.s' );
 
 }
 
@@ -1051,9 +1051,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 2 );
-    var c2 = m.lineVectorGet( 0, 2 );
+    var c2 = m.lineGet( 0, 2 );
     var e = m.eGet( 2 );
     var a1 = m.scalarFlatGet( 5 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -1099,9 +1099,9 @@ function make( test )
     test.identical( m.strideInRow, 2 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 2 );
-    var c2 = m.lineVectorGet( 0, 2 );
+    var c2 = m.lineGet( 0, 2 );
     var e = m.eGet( 2 );
     var a1 = m.scalarFlatGet( 5 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -1148,9 +1148,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 2 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -1197,9 +1197,9 @@ function make( test )
     test.identical( m.strideInRow, 3 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 2 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -1245,9 +1245,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 2 );
-    var c2 = m.lineVectorGet( 0, 2 );
+    var c2 = m.lineGet( 0, 2 );
     var e = m.eGet( 2 );
     var a1 = m.scalarFlatGet( 5 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -1293,9 +1293,9 @@ function make( test )
     test.identical( m.strideInRow, 2 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 2 );
-    var c2 = m.lineVectorGet( 0, 2 );
+    var c2 = m.lineGet( 0, 2 );
     var e = m.eGet( 2 );
     var a1 = m.scalarFlatGet( 5 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -1331,7 +1331,7 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 0 );
-    var r2 = m.lineVectorGet( 1, 0 );
+    var r2 = m.lineGet( 1, 0 );
 
     console.log( r1.toStr() );
     console.log( o.vec([]) );
@@ -1362,7 +1362,7 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 0 );
-    var r2 = m.lineVectorGet( 1, 0 );
+    var r2 = m.lineGet( 1, 0 );
 
     console.log( r1.toStr() );
     console.log( o.vec([]) );
@@ -1376,7 +1376,7 @@ function make( test )
     {
 
       test.shouldThrowErrorSync( () => m.colGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
+      test.shouldThrowErrorSync( () => m.lineGet( 0, 0 ) );
       test.shouldThrowErrorSync( () => m.eGet( 0 ) );
 
       test.shouldThrowErrorSync( () => m.rowGet( 1 ) );
@@ -1409,7 +1409,7 @@ function make( test )
 
       var r1 = m.rowGet( 0 );
       var r2 = m.rowGet( 1 );
-      var r3 = m.lineVectorGet( 1, 0 );
+      var r3 = m.lineGet( 1, 0 );
 
       console.log( r1.toStr() );
       console.log( o.vec([]) );
@@ -1424,7 +1424,7 @@ function make( test )
       if( Config.debug )
       {
         test.shouldThrowErrorSync( () => m.colGet( 0 ) );
-        test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
+        test.shouldThrowErrorSync( () => m.lineGet( 0, 0 ) );
         test.shouldThrowErrorSync( () => m.eGet( 0 ) );
         test.shouldThrowErrorSync( () => m.colGet( 1 ) );
         test.shouldThrowErrorSync( () => m.eGet( 1 ) );
@@ -1481,9 +1481,9 @@ function make( test )
     test.identical( m.strideInRow, 3 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -1518,9 +1518,9 @@ function make( test )
     test.identical( m.strideInRow, 3 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -1556,7 +1556,7 @@ function make( test )
 
       var r1 = m.rowGet( 0 );
       var r2 = m.rowGet( 1 );
-      var r3 = m.lineVectorGet( 1, 0 );
+      var r3 = m.lineGet( 1, 0 );
 
       console.log( r1.toStr() );
       console.log( o.vec([]) );
@@ -1571,7 +1571,7 @@ function make( test )
       if( Config.debug )
       {
         test.shouldThrowErrorSync( () => m.colGet( 0 ) );
-        test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
+        test.shouldThrowErrorSync( () => m.lineGet( 0, 0 ) );
         test.shouldThrowErrorSync( () => m.eGet( 0 ) );
         test.shouldThrowErrorSync( () => m.colGet( 1 ) );
         test.shouldThrowErrorSync( () => m.eGet( 1 ) );
@@ -1630,9 +1630,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -1667,9 +1667,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 0, 1 ]);
@@ -1705,7 +1705,7 @@ function make( test )
 
       var c1 = m.colGet( 0 );
       var c2 = m.colGet( 1 );
-      var c3 = m.lineVectorGet( 0, 0 );
+      var c3 = m.lineGet( 0, 0 );
       var e = m.eGet( 2 );
 
       test.identical( c1, o.vec([]) );
@@ -1720,7 +1720,7 @@ function make( test )
       {
 
         test.shouldThrowErrorSync( () => m.rowGet( 0 ) );
-        test.shouldThrowErrorSync( () => m.lineVectorGet( 1, 0 ) );
+        test.shouldThrowErrorSync( () => m.lineGet( 1, 0 ) );
 
         test.shouldThrowErrorSync( () => m.eGet( 3 ) );
         test.shouldThrowErrorSync( () => m.colGet( 3 ) );
@@ -1781,9 +1781,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 0 );
-    var r2 = m.lineVectorGet( 1, 0 );
+    var r2 = m.lineGet( 1, 0 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 0, 1 ]);
@@ -1818,9 +1818,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 0, 1 ]);
@@ -1856,7 +1856,7 @@ function make( test )
 
       var c1 = m.colGet( 0 );
       var c2 = m.colGet( 1 );
-      var c3 = m.lineVectorGet( 0, 0 );
+      var c3 = m.lineGet( 0, 0 );
       var e = m.eGet( 2 );
 
       test.identical( c1, vec( new m.buffer.constructor([]) ) );
@@ -1871,7 +1871,7 @@ function make( test )
       {
 
         test.shouldThrowErrorSync( () => m.rowGet( 0 ) );
-        test.shouldThrowErrorSync( () => m.lineVectorGet( 1, 0 ) );
+        test.shouldThrowErrorSync( () => m.lineGet( 1, 0 ) );
 
         test.shouldThrowErrorSync( () => m.eGet( 3 ) );
         test.shouldThrowErrorSync( () => m.colGet( 3 ) );
@@ -1936,9 +1936,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 0 );
-    var r2 = m.lineVectorGet( 1, 0 );
+    var r2 = m.lineGet( 1, 0 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 0, 1 ]);
@@ -1974,9 +1974,9 @@ function make( test )
     test.identical( m.strideInRow, 2 );
 
     var r1 = m.rowGet( 0 );
-    var r2 = m.lineVectorGet( 1, 0 );
+    var r2 = m.lineGet( 1, 0 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -2017,9 +2017,9 @@ function make( test )
     test.identical( m.strideInRow, 3 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 0 );
-    var c2 = m.lineVectorGet( 0, 0 );
+    var c2 = m.lineGet( 0, 0 );
     var e = m.eGet( 0 );
     var a1 = m.scalarFlatGet( 1 );
     var a2 = m.scalarGet([ 1, 0 ]);
@@ -2103,9 +2103,9 @@ function make( test )
     test.identical( m.strideInRow, 3 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 4 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -2163,9 +2163,9 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 3 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -2205,9 +2205,9 @@ function make( test )
     test.identical( m.strideInRow, 2 );
 
     var r1 = m.rowGet( 1 );
-    var r2 = m.lineVectorGet( 1, 1 );
+    var r2 = m.lineGet( 1, 1 );
     var c1 = m.colGet( 1 );
-    var c2 = m.lineVectorGet( 0, 1 );
+    var c2 = m.lineGet( 0, 1 );
     var e = m.eGet( 1 );
     var a1 = m.scalarFlatGet( 3 );
     var a2 = m.scalarGet([ 1, 1 ]);
@@ -2387,9 +2387,9 @@ function makeHelper( test )
   test.identical( m.strideInRow, 1 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 4 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -2462,9 +2462,9 @@ function makeHelper( test )
   test.identical( m.strideInRow, 3 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 4 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -2504,9 +2504,9 @@ function makeHelper( test )
   test.identical( m.strideInRow, 3 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 4 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -2546,9 +2546,9 @@ function makeHelper( test )
   test.identical( m.strideInRow, 2 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 3 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -2587,9 +2587,9 @@ function makeHelper( test )
   test.identical( m.strideInRow, 3 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 4 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -2628,9 +2628,9 @@ function makeHelper( test )
   test.identical( m.strideInRow, 3 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 4 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -2679,7 +2679,7 @@ function makeHelper( test )
     {
 
       test.shouldThrowErrorSync( () => m.colGet( 0 ) );
-      test.shouldThrowErrorSync( () => m.lineVectorGet( 0, 0 ) );
+      test.shouldThrowErrorSync( () => m.lineGet( 0, 0 ) );
       test.shouldThrowErrorSync( () => m.eGet( 0 ) );
       test.shouldThrowErrorSync( () => m.rowGet( 0 ) );
       test.shouldThrowErrorSync( () => m.colGet( 0 ) );
@@ -2800,9 +2800,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2825,9 +2825,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2869,9 +2869,9 @@ function MakeLine( test )
   test.is( m.buffer instanceof F32x );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 2 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2895,9 +2895,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2919,9 +2919,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2944,9 +2944,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2969,9 +2969,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -2995,9 +2995,9 @@ function MakeLine( test )
   checkCol( m );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 0 );
-  var c2 = m.lineVectorGet( 0, 0 );
+  var c2 = m.lineGet( 0, 0 );
   var e = m.eGet( 0 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 1, 0 ]);
@@ -3043,9 +3043,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3068,9 +3068,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3112,9 +3112,9 @@ function MakeLine( test )
   test.is( m.buffer instanceof F32x );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 2 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3136,9 +3136,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3160,9 +3160,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3185,9 +3185,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3210,9 +3210,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -3237,9 +3237,9 @@ function MakeLine( test )
   checkRow( m );
 
   var r1 = m.rowGet( 0 );
-  var r2 = m.lineVectorGet( 1, 0 );
+  var r2 = m.lineGet( 1, 0 );
   var c1 = m.colGet( 1 );
-  var c2 = m.lineVectorGet( 0, 1 );
+  var c2 = m.lineGet( 0, 1 );
   var e = m.eGet( 1 );
   var a1 = m.scalarFlatGet( 1 );
   var a2 = m.scalarGet([ 0, 1 ]);
@@ -4675,9 +4675,9 @@ function _bufferNormalize( o )
   test.identical( m.strideInRow, 2 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 2 );
-  var c2 = m.lineVectorGet( 0, 2 );
+  var c2 = m.lineGet( 0, 2 );
   var e = m.eGet( 2 );
   var a1 = m.scalarFlatGet( 5 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -4726,9 +4726,9 @@ function _bufferNormalize( o )
   test.identical( m.strideInRow, 2 );
 
   var r1 = m.rowGet( 1 );
-  var r2 = m.lineVectorGet( 1, 1 );
+  var r2 = m.lineGet( 1, 1 );
   var c1 = m.colGet( 2 );
-  var c2 = m.lineVectorGet( 0, 2 );
+  var c2 = m.lineGet( 0, 2 );
   var e = m.eGet( 2 );
   var a1 = m.scalarFlatGet( 5 );
   var a2 = m.scalarGet([ 1, 1 ]);
@@ -5106,25 +5106,25 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.colGet( [ 0 ] ) );
   }
 
-  test.case = 'lineVectorGet col'; /* */
+  test.case = 'lineGet col'; /* */
 
   remake();
 
-  test.identical( m32.lineVectorGet( 0, 0 ), fvec([ 1, 3, 5 ]) );
-  test.identical( m32.lineVectorGet( 0, 1 ), fvec([ 2, 4, 6 ]) );
-  test.identical( m23.lineVectorGet( 0, 0 ), fvec([ 1, 4 ]) );
-  test.identical( m23.lineVectorGet( 0, 2 ), fvec([ 3, 6 ]) );
+  test.identical( m32.lineGet( 0, 0 ), fvec([ 1, 3, 5 ]) );
+  test.identical( m32.lineGet( 0, 1 ), fvec([ 2, 4, 6 ]) );
+  test.identical( m23.lineGet( 0, 0 ), fvec([ 1, 4 ]) );
+  test.identical( m23.lineGet( 0, 2 ), fvec([ 3, 6 ]) );
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineVectorGet( 0, -1 ) );
-    test.shouldThrowErrorSync( () => m32.lineVectorGet( 0, 2 ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 0, -1 ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 0, 3 ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 0, [ 0 ] ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( [ 0 ] ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 0 ) );
+    test.shouldThrowErrorSync( () => m32.lineGet( 0, -1 ) );
+    test.shouldThrowErrorSync( () => m32.lineGet( 0, 2 ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 0, -1 ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 0, 3 ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 0, 0, 0 ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 0, [ 0 ] ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( [ 0 ] ) );
   }
 
   test.case = 'colSet'; /* */
@@ -5257,25 +5257,25 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m32.rowGet( [ 0 ] ) );
   }
 
-  test.case = 'lineVectorGet row'; /* */
+  test.case = 'lineGet row'; /* */
 
   remake();
 
-  test.identical( m23.lineVectorGet( 1, 0 ), fvec([ 1, 2, 3 ]) );
-  test.identical( m23.lineVectorGet( 1, 1 ), fvec([ 4, 5, 6 ]) );
-  test.identical( m32.lineVectorGet( 1, 0 ), fvec([ 1, 2 ]) );
-  test.identical( m32.lineVectorGet( 1, 2 ), fvec([ 5, 6 ]) );
+  test.identical( m23.lineGet( 1, 0 ), fvec([ 1, 2, 3 ]) );
+  test.identical( m23.lineGet( 1, 1 ), fvec([ 4, 5, 6 ]) );
+  test.identical( m32.lineGet( 1, 0 ), fvec([ 1, 2 ]) );
+  test.identical( m32.lineGet( 1, 2 ), fvec([ 5, 6 ]) );
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => m23.lineVectorGet() );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 1 ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 1, -1 ) );
-    test.shouldThrowErrorSync( () => m23.lineVectorGet( 1, 2 ) );
-    test.shouldThrowErrorSync( () => m32.lineVectorGet( 1, -1 ) );
-    test.shouldThrowErrorSync( () => m32.lineVectorGet( 1, 3 ) );
-    test.shouldThrowErrorSync( () => m32.lineVectorGet( 1, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineVectorGet( 1, [ 0 ] ) );
+    test.shouldThrowErrorSync( () => m23.lineGet() );
+    test.shouldThrowErrorSync( () => m23.lineGet( 1 ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 1, -1 ) );
+    test.shouldThrowErrorSync( () => m23.lineGet( 1, 2 ) );
+    test.shouldThrowErrorSync( () => m32.lineGet( 1, -1 ) );
+    test.shouldThrowErrorSync( () => m32.lineGet( 1, 3 ) );
+    test.shouldThrowErrorSync( () => m32.lineGet( 1, 0, 0 ) );
+    test.shouldThrowErrorSync( () => m32.lineGet( 1, [ 0 ] ) );
   }
 
   test.case = 'rowSet'; /* */
@@ -5506,7 +5506,7 @@ function partialAccessors( test )
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).zero( _.Matrix.MakeIdentity( 3 ) ) );
   }
 
-  test.case = 'diagonalVectorGet 3x4 transposed'; /* */
+  test.case = 'diagonalGet 3x4 transposed'; /* */
 
   var buffer =
   [
@@ -5526,10 +5526,10 @@ function partialAccessors( test )
   });
 
   var expected = vec([ 1, 6, 11 ]);
-  var diagonal = m.diagonalVectorGet();
+  var diagonal = m.diagonalGet();
   test.identical( diagonal, expected );
 
-  test.case = 'diagonalVectorGet 3x4 not transposed'; /* */
+  test.case = 'diagonalGet 3x4 not transposed'; /* */
 
   var buffer =
   [
@@ -5550,17 +5550,17 @@ function partialAccessors( test )
   });
 
   var expected = vec([ 1, 6, 11 ]);
-  var diagonal = m.diagonalVectorGet();
+  var diagonal = m.diagonalGet();
   test.identical( diagonal, expected );
 
-  test.case = 'diagonalVectorGet null row'; /* */
+  test.case = 'diagonalGet null row'; /* */
 
   var m = _.Matrix.Make([ 0, 4 ]);
   var expected = fvec([]);
-  var diagonal = m.diagonalVectorGet();
+  var diagonal = m.diagonalGet();
   test.identical( diagonal, expected );
 
-  test.case = 'diagonalVectorGet 4x3 transposed'; /* */
+  test.case = 'diagonalGet 4x3 transposed'; /* */
 
   var buffer =
   [
@@ -5581,10 +5581,10 @@ function partialAccessors( test )
   });
 
   var expected = vec([ 1, 6, 11 ]);
-  var diagonal = m.diagonalVectorGet();
+  var diagonal = m.diagonalGet();
   test.identical( diagonal, expected );
 
-  test.case = 'diagonalVectorGet 4x3 not transposed'; /* */
+  test.case = 'diagonalGet 4x3 not transposed'; /* */
 
   var buffer =
   [
@@ -5604,23 +5604,23 @@ function partialAccessors( test )
   });
 
   var expected = vec([ 1, 6, 11 ]);
-  var diagonal = m.diagonalVectorGet();
+  var diagonal = m.diagonalGet();
   test.identical( diagonal, expected );
 
-  test.case = 'diagonalVectorGet null column'; /* */
+  test.case = 'diagonalGet null column'; /* */
 
   var m = _.Matrix.Make([ 4, 0 ]);
   var expected = fvec([]);
-  var diagonal = m.diagonalVectorGet();
+  var diagonal = m.diagonalGet();
   test.identical( diagonal, expected );
 
-  test.case = 'diagonalVectorGet bad arguments'; /* */
+  test.case = 'diagonalGet bad arguments'; /* */
 
   if( Config.debug )
   {
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalVectorGet( 1 ) );
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalVectorGet( [ 1, 1 ] ) );
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalVectorGet( _.Matrix.MakeIdentity( 3 ) ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet( 1 ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet( _.Matrix.MakeIdentity( 3 ) ) );
   }
 
   test.case = 'diagonalSet vector'; /* */
@@ -8267,6 +8267,135 @@ function Mul( test )
 
 //
 
+function Add( test )
+{
+
+  /* */
+
+  test.case = 'matrix mul scalar';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  console.log( matrix.toStr() );
+  var got = _.Matrix.Add( null, [ matrix, 2 ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     2,  8,
+    -4, -10,
+     6,  12,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'scalar mul matrix';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  console.log( matrix.toStr() );
+  var got = _.Matrix.Add( null, [ 2, matrix ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     2,  8,
+    -4, -10,
+     6,  12,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matrix mul vector';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  console.log( matrix.toStr() );
+  var got = _.Matrix.Add( null, [ matrix, new F32x([ 1, 2 ]) ] );
+  var exp = new F32x
+  ([
+     9,
+    -12,
+     15,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vector mul matrix';
+  var matrix = _.Matrix.Make([ 1, 2 ]).copy
+  ([
+     1,  2,
+  ]);
+  console.log( matrix.toStr() );
+  var got = _.Matrix.Add( null, [ new F32x([ 1, 2, 3 ]), matrix ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1, 2,
+     2, 4,
+     3, 6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vector mul vector';
+  var got = _.Matrix.Add( null, [ new F32x([ 1, 2, 3 ]), new F32x([ 2 ]) ] );
+  var exp = new F32x
+  ([
+     2,
+     4,
+     6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vector mul scalar';
+  var got = _.Matrix.Add( null, [ new F32x([ 1, 2, 3 ]), 2 ] );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     2,
+     4,
+     6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'scalar mul vector';
+  var got = _.Matrix.Add( null, [ 2, new F32x([ 1, 2, 3 ]) ] );
+  var exp = new F32x
+  ([
+     2,
+     4,
+     6,
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'scalar mul scalar';
+  var got = _.Matrix.Add( null, [ 2, 3 ] );
+  var exp = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+     6
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+}
+
+//
+
 function furthestClosest( test )
 {
 
@@ -10346,7 +10475,8 @@ var Self =
 
     colRowWiseOperations,
     mul,
-    Mul,
+    Mul, /* qqq : extend. add extreme cases. give me a link, please */
+    Add, /* qqq : extend. add extreme cases */
     furthestClosest,
     matrixHomogenousApply,
 
