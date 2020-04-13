@@ -191,18 +191,6 @@ console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
 Саме так працює метод `matrix.transpose()`.
 
 ```js
-...
-```
-
-Розмірність та ширини кроку матриці `matrix` змінюються методом `matrix.transpose()` точно так само, як в попередньому прикладі, що призвотиь до її транспонування.
-
-![ZeroCopyTransposing.png](../../img/ZeroCopyTransposing.png)
-
-Приведена діаграма показано як буфер інтерпретується в матрицю. При зміні ширин кроків та розмірностей відбувається транспонування матриці без зміни даних в буфері `buffer1`.
-
-Матрицю можливо транспонувати методом `transpose`.
-
-```js
 var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
 
 var matrix = _.Matrix
@@ -228,9 +216,11 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-![ZeroCopyTransposingMethodTranspose.png](../../img/ZeroCopyTransposingMethodTranspose.png)
+Розмірність та ширини кроку матриці `matrix` змінюються методом `matrix.transpose()` точно так само, як в попередньому прикладі, що призвотиь до її транспонування.
 
-При використанні методу значення полів `dims` i `strides` змінюються автоматично.
+![ZeroCopyTransposing.png](../../img/ZeroCopyTransposing.png)
+
+Приведена діаграма показано як буфер інтерпретується в матрицю. При зміні ширин кроків та розмірностей відбувається транспонування матриці без зміни даних в буфері `buffer1`.
 
 ### Підматриці
 
