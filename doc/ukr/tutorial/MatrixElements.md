@@ -172,6 +172,51 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 
 Методу `eSet` передається номер елемента ( колонки ) `0` та вектор нових значень. Вектор може бути заданий в форматі масива, типізованого масива чи вектор адаптера.
 
+### Як отримати або встановити дагональ
+
+Метод `diagonalGet` повертає вектор з діагоналі матриці.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+var diagonal = matrix.diagonalGet();
+console.log( `diagonal of matrix :\n${ diagonal.toStr() }` );
+/* log : diagonal of matrix :
+1.000, 4.000
+*/
+```
+
+Для встановлення значення діагоналі матриці використовуйте метод `diagonalSet`.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+matrix.diagonalSet( [ 5, 7 ] );
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log : changed matrix :
++5, +2,
++3, +7,
+*/
+```
+
+Методу `diagonalSet` передається вектор, що записується в діагональ матриці. При передачі скаляра діагональ матриці буде заповнена значенням цього скаляра.
+
 ### Як отримати підматрицю
 
 Для того, щоб отримати підматрицю використовуйте метод `submatrix`.
