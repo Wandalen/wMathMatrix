@@ -8,19 +8,21 @@ let _ = wTools;
 2*x1 + 3*x2 = 2;
 */
 
-var matrixA = _.Matrix.MakeSquare
+var A = _.Matrix.MakeSquare
 ([
   3, -2,
-  2, 3
+  2,  3
 ]);
-var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+var x = _.Matrix.MakeCol
+([
+  1,
+  2
+]);
 
-var matrixX = _.Matrix.Solve( null, matrixA, matrixB );
+var y = _.Matrix.Solve( null, A, x );
 
-var x1 = matrixX.scalarGet( [ 0, 0 ] );
-var x2 = matrixX.scalarGet( [ 1, 0 ] );
-console.log( `x1 : ${ x1 },\nx2 : ${ x2 }` );
-/* log :
-x1 : 0.5384615659713745,
-x2 : 0.307692289352417
+console.log( `the unknown values is :\n${ y.toStr() }` );
+/* log : the unknown values is :
+0.538,
+0.308,
 */

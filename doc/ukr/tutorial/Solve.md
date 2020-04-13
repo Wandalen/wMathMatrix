@@ -11,7 +11,7 @@
 2*x1 + 3*x2 = 2;
 ```
 
-Знайти невідомі значення можна використавши метод `solve`.
+Знайти невідомі значення можна використавши статичну рутину `Solve`.
 
 ```js
 var A = _.Matrix.MakeSquare
@@ -27,11 +27,13 @@ var x = _.Matrix.MakeCol
 
 var y = _.Matrix.Solve( null, A, x );
 
-console.log( `...` );
-/* log : ...
+console.log( `the unknown values is :\n${ y.toStr() }` );
+/* log : the unknown values is :
+0.538,
+0.308,
 */
 ```
 
-...
+Рутина `Solve` провела обчислення невідомих. Значення `x1` - `0.538`, a `x2` - `0.308`.
 
 [Повернутись до змісту](../README.md#Туторіали)
