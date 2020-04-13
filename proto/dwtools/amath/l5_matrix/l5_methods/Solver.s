@@ -282,7 +282,7 @@ function triangulateLu()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  logger.log( 'self', self );
+  // logger.log( 'self', self );
 
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
@@ -298,7 +298,7 @@ function triangulateLu()
       row2.eSet( r1, scaler );
     }
 
-    logger.log( 'self', self );
+    // logger.log( 'self', self );
   }
 
   return self;
@@ -414,7 +414,7 @@ function triangulateLuPivoting( pivots )
 
   /* */
 
-  logger.log( 'self', self );
+  // logger.log( 'self', self );
 
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
@@ -433,7 +433,7 @@ function triangulateLuPivoting( pivots )
       row2.eSet( r1, scaler );
     }
 
-    logger.log( 'self', self );
+    // logger.log( 'self', self );
 
   }
 

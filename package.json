@@ -1,35 +1,53 @@
 {
-  "name" : "wmathmatrix", 
-  "version" : "0.3.193", 
-  "engine" : "node >= 8.0.0", 
-  "description" : "Collection of functions for matrix math. MathMatrix introduces the class Matrix. Matrix is a multidimensional structure. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. VectorAdapter is a reference, and it does not contain data but only refers to actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a convenient and efficient data container, and you may use it to store huge an array of arrays or for matrix computation.", 
-  "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
-  "contributors" : 
-  [
-    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@willbe.so" }, 
-    { "name" : "Pablo Garcimartin", "email" : "pablogarcimartinruiz@gmail.com" }
-  ], 
-  "license" : "MIT", 
-  "main" : "proto/dwtools/amath/l5_matrix/module/full/Include.s", 
-  "files" : [ "proto/dwtools/amath/l5_matrix", "proto/dwtools/Tools.s", "out" ], 
-  "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen proto" }, 
-  "repository" : 
-  {
-    "type" : "git", 
-    "url" : "https://github.com/Wandalen/wMathMatrix.git"
-  }, 
-  "bugs" : 
-  {
-    "url" : "https://github.com/Wandalen/wMathMatrix/issues"
-  }, 
-  "dependencies" : 
-  {
-    "wTools" : "alpha", 
-    "wCopyable" : "alpha", 
-    "wmathscalar" : "alpha", 
-    "wmathvector" : "alpha", 
-    "wentitybasic" : "alpha"
-  }, 
-  "devDependencies" : { "wmathmatrix" : "file:.", "wTesting" : "alpha" }, 
-  "keywords" : [ "wTools", "math", "matrix", "matrix math", "convolution" ]
+  "name": "wmathmatrix",
+  "version": "0.3.193",
+  "engine": "node >= 8.0.0",
+  "description": "Collection of functions for matrix math. MathMatrix introduces the class Matrix. Matrix is a multidimensional structure. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. VectorAdapter is a reference, and it does not contain data but only refers to actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a convenient and efficient data container, and you may use it to store huge an array of arrays or for matrix computation.",
+  "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@willbe.so"
+    },
+    {
+      "name": "Pablo Garcimartin",
+      "email": "pablogarcimartinruiz@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "main": "proto/dwtools/amath/l5_matrix/module/full/Include.s",
+  "files": [
+    "proto/dwtools/amath/l5_matrix",
+    "proto/dwtools/Tools.s",
+    "out"
+  ],
+  "scripts": {
+    "test": "wtest .run proto/**",
+    "docgen": "wdocgen proto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wMathMatrix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/wMathMatrix/issues"
+  },
+  "dependencies": {
+    "wTools": "alpha",
+    "wCopyable": "alpha",
+    "wmathscalar": "alpha",
+    "wmathvector": "alpha",
+    "wentitybasic": "alpha"
+  },
+  "devDependencies": {
+    "wmathmatrix": "file:.",
+    "wTesting": "alpha"
+  },
+  "keywords": [
+    "wTools",
+    "math",
+    "matrix",
+    "matrix math",
+    "convolution"
+  ]
 }

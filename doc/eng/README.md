@@ -1,4 +1,3 @@
-<!--
 ## Concepts
 
 <details>
@@ -7,7 +6,6 @@
   </a></summary>
     A vector or set of vectors that is interpreted as a matrix.
 </details>
--->
 
 ## Tutorials
 
@@ -45,4 +43,3 @@
   </a></summary>
     The solving of mathematical problems in the matrix way are considered.
 </details>
-

@@ -9878,6 +9878,25 @@ function SolveSimple( test, rname )
   function _SolveSimple( test, rname )
   {
 
+    /**/
+
+    test.case = rname + ' . y array . Solve 2x2 system';
+
+    var m = _.Matrix.MakeSquare
+    ([
+      1, -2,
+      3,  4
+    ]);
+    var om = m.clone();
+    var y = [ -7, 39 ];
+    var oy = y.slice();
+    var x = _.Matrix.Solve( null, m, y );
+    var ex = [ 5, 6 ];
+    test.equivalent( x, ex );
+    var y2 = _.Matrix.Mul( null, [ om, x ] );
+    test.equivalent( y2, oy );
+    test.identical( y, oy );
+
     /* */
 
     test.case = rname + ' . y array . Solve 3x3 system';
@@ -10105,6 +10124,8 @@ function SolveSimple( test, rname )
   }
 
 }
+
+SolveSimple.accuracy = _.accuracy*1e+1;
 
 //
 
