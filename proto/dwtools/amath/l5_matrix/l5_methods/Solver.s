@@ -301,6 +301,32 @@ function _PivotRook( i, o )
 // Solver
 // --
 
+/**
+ * Static routine Solve() solves system of equations.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.Solve( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.5384615659713745,
+ * // x2 : 0.307692289352417
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If arguments.length is not equal to three.
+ * @function Solve
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function Solve( x, m, y )
 {
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
@@ -350,6 +376,33 @@ function _Solve_pre( args )
 
 //
 
+/**
+ * Static routine SolveWithGausian() solves system of equations by Gaussian method.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGausian( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.538,
+ * // x2 : 0.308
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithGausian
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function SolveWithGausian()
 {
   let o = this._Solve_pre( arguments );
@@ -362,6 +415,32 @@ function SolveWithGausian()
 }
 
 //
+
+/**
+ * Static routine SolveWithGausianPivoting() solves system of equations by Gaussian method with pivoting.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGausianPivoting( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.641,
+ * // x2 : 0.462
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @method SolveWithGausianPivoting
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function SolveWithGausianPivoting()
 {
@@ -448,6 +527,33 @@ function _SolveWithGaussJordan( o )
 
 //
 
+/**
+ * Static routine SolveWithGaussJordan() solves system of equations by Gauss-Jordan method.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGaussJordan( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.641,
+ * // x2 : 0.462
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithGaussJordan
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function SolveWithGaussJordan()
 {
   let o = this._Solve_pre( arguments );
@@ -455,6 +561,33 @@ function SolveWithGaussJordan()
 }
 
 //
+
+/**
+ * Static routine SolveWithGaussJordanPivoting() solves system of equations by Gauss-Jordan method with pivoting.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGaussJordanPivoting( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 1,
+ * // x2 : 2
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithGaussJordanPivoting
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function SolveWithGaussJordanPivoting()
 {
@@ -465,6 +598,28 @@ function SolveWithGaussJordanPivoting()
 }
 
 //
+
+/**
+ * Method InvertWithGaussJordan() inverts the values of matrix by Gauss-Jordan method.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var got = matrix.InvertWithGaussJordan();
+ *
+ * console.log( got.toStr() );
+ * // log :
+ * // 0.231, 0.154,
+ * // -0.154, 0, 231
+ *
+ * @returns { Matrix } - Returns the matrix with inverted values.
+ * @method InvertWithGaussJordan
+ * @throws { Error } If arguments is passed.
+ * @throws { Error } If current matrix is not square matrix.
+ * @function InvertWithGaussJordan
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function InvertWithGaussJordan()
 {
@@ -511,6 +666,38 @@ function InvertWithGaussJordan()
 
 //
 
+/**
+ * Static routine SolveWithTriangles() solves system of equations by triangles method.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   1, 5, 4,
+ *   0, 1, 2,
+ *   0, 0, 1,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
+ * var x = _.Matrix.SolveWithTriangles( null, m, y );
+ * console.log( x.toStr() );
+ * // log :
+ * //  6,
+ * // -2,
+ * //  2,
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithTriangles
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function SolveWithTriangles( x, m, y )
 {
 
@@ -525,6 +712,35 @@ function SolveWithTriangles( x, m, y )
 }
 
 //
+
+/**
+ * Static routine SolveWithTrianglesPivoting() solves system of equations by triangles method with pivoting.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   +1, -1, +2,
+ *   +2, +0, +2,
+ *   -2, +0, -4,
+ * ]);
+ *
+ * var y = [ 7, 4, -10 ];
+ * var x = _.Matrix.SolveWithTrianglesPivoting( null, m, y );
+ * console.log( x );
+ * // log : [ -1, -2, +3 ]
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithTrianglesPivoting
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function SolveWithTrianglesPivoting( x, m, y )
 {
@@ -603,6 +819,38 @@ function _SolveTriangleWithRoutine( args, onSolve )
 
 //
 
+/**
+ * Static routine SolveTriangleLower() solves system of equations with lower triangular matrix.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   2, 0, 0,
+ *   2, 3, 0,
+ *   4, 5, 6,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
+ * var x = _.Matrix.SolveTriangleLower( null, m, y );
+ * console.log( x.toStr() );
+ * // log :
+ * // 1
+ * // 0
+ * // 0
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveTriangleLower
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function SolveTriangleLower( x, m, y )
 {
   let self = this;
@@ -628,6 +876,38 @@ function SolveTriangleLower( x, m, y )
 
 //
 
+/**
+ * Static routine SolveTriangleLowerNormal() solves system of equations with lower triangular matrix.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   1, 0, 0,
+ *   2, 1, 0,
+ *   4, 5, 1,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
+ * var x = _.Matrix.SolveTriangleLowerNormal( null, m, y );
+ * console.log( x.toStr() );
+ * // log :
+ * //  2
+ * // -2
+ * //  6
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveTriangleLowerNormal
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function SolveTriangleLowerNormal( x, m, y )
 {
   let self = this;
@@ -651,6 +931,38 @@ function SolveTriangleLowerNormal( x, m, y )
 }
 
 //
+
+/**
+ * Static routine SolveTriangleUpper() solves system of equations with upper triangular matrix.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   6, 5, 4,
+ *   0, 3, 2,
+ *   0, 0, 2,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
+ * var x = _.Matrix.SolveTriangleUpper( null, m, y );
+ * console.log( x.toStr() );
+ * // log :
+ * // 0
+ * // 0
+ * // 1
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveTriangleUpper
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function SolveTriangleUpper( x, m, y )
 {
@@ -677,6 +989,38 @@ function SolveTriangleUpper( x, m, y )
 
 //
 
+/**
+ * Static routine SolveTriangleUpper() solves system of equations with upper triangular matrix.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   1, 5, 4,
+ *   0, 1, 2,
+ *   0, 0, 1,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
+ * var x = _.Matrix.SolveTriangleUpperNormal( null, m, y );
+ * console.log( x.toStr() );
+ * // log :
+ * //  6
+ * // -2
+ * //  2
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveTriangleUpper
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function SolveTriangleUpperNormal( x, m, y )
 {
   let self = this;
@@ -700,6 +1044,52 @@ function SolveTriangleUpperNormal( x, m, y )
 }
 
 //
+
+/**
+ * Static routine SolveGeneral() solves system of equations in general form.
+ *
+ * @example
+ * 
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   +2, +2, -2,
+ *   -2, -3, +4,
+ *   +4, +3, -2,
+ * ]);
+ * 
+ * var me = _.Matrix.MakeSquare
+ * ([
+ *   +1, +0, +1,
+ *   +0, +1, -2,
+ *   +0, +0, +0,
+ * ]);
+ * 
+ * var y = _.Matrix.MakeCol([ 0, 3, 3 ]);
+ * var r = _.Matrix.SolveGeneral({ m, y, pivoting : 0 });
+  * var re =
+ * {
+ *   nsolutions : Infinity,
+ *   base : _.Matrix.MakeCol([ +3, -3, +0 ]),
+ *   nkernel : 1,
+ *   kernel : _.Matrix.MakeSquare
+ *   ([
+ *     +0, +0, -1,
+ *     +0, +0, +2,
+ *     +0, +0, +1,
+ *   ]),
+ * }* 
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveGeneral
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function SolveGeneral( o )
 {
