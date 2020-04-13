@@ -14,8 +14,16 @@
 Знайти невідомі значення можна використавши рутину `solve`.
 
 ```js
-var matrixA = _.Matrix.MakeSquare( [ 3, -2, 2, 3 ] );
-var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+var matrixA = _.Matrix.MakeSquare
+([
+  3, -2,
+  2,  3
+]);
+var matrixB = _.Matrix.MakeCol
+([
+  1,
+  2
+]);
 
 var matrixX = _.Matrix.Solve( null, matrixA, matrixB );
 

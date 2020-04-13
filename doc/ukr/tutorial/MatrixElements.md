@@ -7,7 +7,11 @@
 Для того, щоб отримати значення рядка використовуйте метод `rowGet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -25,7 +29,11 @@ console.log( `first row :\n${ row.toStr() }` );
 Щоб встановити значення для рядка використовуйте метод `rowSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -46,7 +54,11 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 Для того, щоб отримати значення колонки використовуйте метод `colGet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -63,7 +75,11 @@ console.log( `first column :\n${ row.toStr() }` );
 Щоб встановити значення для колонки використовуйте метод `colSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -84,7 +100,11 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 Для доступу до елемента за індексами рядка і колонки використовуються методи `scalarGet` i `scalarSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -112,7 +132,11 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 Метод `eGet` повертає елемент матриці. Елементом типової 2-во вмиірної матриці є колонка. Якщо ж матриця має 3-ри виміри то елементом буде типова 2-во вимірна матриця. Якщо матриця має 4-ри виміри то елементом буде типова 3-х вимірна матриця.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -128,7 +152,11 @@ console.log( `the second column of matrix :\n${ el.toStr() }` );
 Для встановлення значення елемента матриці використовуйте метод `eSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -142,41 +170,93 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-Методу `eSet` передається номер елемента ( колонки ) `0` та вектор нових значен. Вектор може бути заданий в форматі масива, типізованого масива чи вектора адаптера.
+Методу `eSet` передається номер елемента ( колонки ) `0` та вектор нових значень. Вектор може бути заданий в форматі масива, типізованого масива чи вектор адаптера.
+
+### Як отримати або встановити дагональ
+
+Метод `diagonalGet` повертає вектор з діагоналі матриці.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+var diagonal = matrix.diagonalGet();
+console.log( `diagonal of matrix :\n${ diagonal.toStr() }` );
+/* log : diagonal of matrix :
+1.000, 4.000
+*/
+```
+
+Для встановлення значення діагоналі матриці використовуйте метод `diagonalSet`.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+matrix.diagonalSet( [ 5, 7 ] );
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log : changed matrix :
++5, +2,
++3, +7,
+*/
+```
+
+Методу `diagonalSet` передається вектор, що записується в діагональ матриці. При передачі скаляра діагональ матриці буде заповнена значенням цього скаляра.
 
 ### Як отримати підматрицю
 
 Для того, щоб отримати підматрицю використовуйте метод `submatrix`.
 
 ```js
-var matrix = _.Matrix.MakeSquare
-([
-  1,  2,  3,  4,
-  5,  6,  7,  8,
-  9,  10, 11, 12,
-  13, 14, 15, 16,
-]);
+var buffer =
+[
+  0,  1,  2,  3,
+  4,  5,  6,  7,
+  8,  9,  10, 11,
+  12, 13, 14, 15,
+];
+var matrix = _.Matrix
+({
+  buffer : buffer,
+  dims : [ 4, 3 ],
+  offset : 1,
+  strides : [ 4, 1 ]
+})
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
-+1,  +2,  +3,  +4,
-+5,  +6,  +7,  +8,
-+9,  +10, +11, +12,
-+13, +14, +15, +16,
++1,  +2,  +3,
++5,  +6,  +7,
++9,  +10, +11,
++13, +14, +15,
 */
-var sub1 = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
+var sub1 = matrix.submatrix( [ 1, 2 ], [ 0, 1 ] );
 console.log( `submatrix1 :\n${ sub1.toStr() }` );
-/* log : submatrix :
-+1, +2,
+/* log : submatrix1 :
 +5, +6,
++9, +10,
 */
-var sub2 = matrix.submatrix( [ [ 2, 4 ], [ 2, 4 ] ] );
+var sub2 = matrix.submatrix( [ 1, 2 ], [ 1, 2 ] );
 console.log( `submatrix2 :\n${ sub2.toStr() }` );
-/* log : submatrix :
-+3, +4,
-+7, +8,
+/* log : submatrix2 :
++6,  +7,
++10, +11,
 */
 ```
 
-Перший ренж вибирає потрібні xxx, другий вибирає xxx.
+Перший ренж вибирає потрібні рядки, другий вибирає колонки. Підматриця `sub1` відділяє рядки 1 і 2 та колонки 0 і 1 включно, а підматриця `sub2` відділяє рядки 1 і 2 та колонки 1 і 2 відповідно. Підматриці мають спільні елементи `6` i `10`.
 
 [Повернутись до змісту](../README.md#Туторіали)
