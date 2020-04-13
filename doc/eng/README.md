@@ -25,3 +25,10 @@
     How to get a row, column, element, scalar, or submatrix of a particular matrix.
 </details>
 
+<details>
+  <summary><a href="./tutorial/MatrixOperations.md">
+    Matrix operations
+  </a></summary>
+    Overview of operations on matrices.
+</details>
+
