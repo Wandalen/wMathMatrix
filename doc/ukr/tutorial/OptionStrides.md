@@ -221,7 +221,7 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 
 ![ZeroCopyTransposingMethodTranspose.png](../../img/ZeroCopyTransposingMethodTranspose.png)
 
-Діаграма показує процес транспонування матриці при використанні методу `transpose`. При використанні методу значення полів `dims` i `strides` змінюються автоматично.
+При використанні методу значення полів `dims` i `strides` змінюються автоматично.
 
 ### Підматриці
 
