@@ -155,25 +155,35 @@ console.log( `dst :\n${ dst.toStr() }` );
 
 ### Множення декількох матриць
 
-...
+Статична рутина `Mul` може перемножити множину матриць.
 
 ```js
-
-var matrix1 = _.Matrix.MakeSquare
+var matrix1 = _.Matrix.Make([ 2, 3 ]).copy
 ([
-  1, 2,
-  3, 4
+  1, 2, -3,
+  3, 4, -2,
 ]);
-var matrix2 = _.Matrix.MakeSquare
+var matrix2 = _.Matrix.Make([ 3, 2 ]).copy
 ([
-  4, 3,
-  2, 1
+  4,  3,
+  2,  1,
+  -1, -2,
 ]);
 
-... множення 3-х матриць різних розмірностей ...
+var matrix3 = _.Matrix.MakeCol
+([
+  -4,
+  5,
+]);
 
+var dst = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
+console.log( `dst : ${ dst.toStr() }` );
+/* log : dst :
++11
+-3
+*/
 ```
 
-...
+Послідовність запису матриць в масиві віповідає порядку множення. Спочатку перемножуються матриці `matrix1` i `matrix2`, а потім отриманий результат множиться на матрицю `matrix3`.
 
 [Повернутись до змісту](../README.md#Туторіали)
