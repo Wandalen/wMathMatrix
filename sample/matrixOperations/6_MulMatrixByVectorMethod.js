@@ -6,16 +6,12 @@ let _ = wTools;
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4,
+  3, 4
 ]);
 var vector = [ 1, 1 ];
 
-var got = matrix.matrixApplyTo( vector );
-console.log( `got :\n${ got }` );
-/* log : got :
+matrix.matrixApplyTo( vector );
+console.log( `vector :\n${ vector }` );
+/* log : vector :
 [ 3, 7 ]
-*/
-console.log( `got === vector :\n${ got === vector }` );
-/* log : got === vector :
-true
 */

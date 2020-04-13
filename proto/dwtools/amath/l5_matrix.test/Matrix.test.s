@@ -8193,6 +8193,40 @@ MulSubmatiricesExperiment.experimental = 1;
 
 //
 
+function MulSeveralExperiment( test )
+{
+  test.case = 'mul several matrices with different dimensions';
+  var matrix1 = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, -3,
+    3, 4, -2,
+  ]);
+  var matrix2 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    4,  3,
+    2,  1,
+    -1, -2,
+  ]);
+
+  var matrix3 = _.Matrix.Make([ 1, 2 ]).copy
+  ([
+    -4,
+    5,
+  ]);
+
+  var got = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
+  var exp = _.Matrix.MakeCol
+  ([
+    11,
+    -3
+  ]);
+  test.identical( got, exp );
+}
+
+MulSeveralExperiment.experimental = 1;
+
+//
+
 function AddBasic( test )
 {
 
@@ -11093,6 +11127,7 @@ var Self =
     mul,
     MulBasic, /* qqq : extend. add extreme cases. give me a link, please */
     MulSubmatiricesExperiment,
+    MulSeveralExperiment,
     AddBasic, /* qqq : extend. add extreme cases */
 
     addAtomWise,

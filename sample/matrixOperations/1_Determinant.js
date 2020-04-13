@@ -9,8 +9,8 @@ var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
   4, 5, 6,
   7, 8, -9
 ]);
-var got = matrix.determinant();
-console.log( `determinant :\n${ got }` );
+var result = matrix.determinant();
+console.log( `determinant :\n${ result }` );
 /* log : determinant :
 54
 */
