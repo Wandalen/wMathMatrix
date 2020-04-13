@@ -280,6 +280,9 @@ function _equalAre( it )
   _.assert( _.routineIs( it.onNumbersAreEqual ) );
   _.assert( _.lookIterationIs( it ) );
 
+  if( _global_.debugger )
+  debugger;
+
   it.continue = false;
 
   if( !( it.src2 instanceof Self ) )
@@ -296,6 +299,7 @@ function _equalAre( it )
     return it.result;
   }
 
+  if( it.strictTyping )
   if( it.src.buffer.constructor !== it.src2.buffer.constructor )
   {
     it.result = false;
@@ -1687,8 +1691,8 @@ function _adjustAct()
   if( self.scalarsPerMatrix )
   if( self.buffer.length )
   {
-    _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length );
-    _.assert( 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length );
+    _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length, 'Bad buffer for such dimensions and stride' );
+    _.assert( 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length, 'Bad buffer for such dimensions and stride' ); /* qqq : improve error message */
   }
 
   /* done */

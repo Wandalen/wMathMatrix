@@ -10805,12 +10805,21 @@ function compare( test )
 
   /* */
 
-  // test.case = 'trivial';
-  //
-  // var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  // var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  // var got = m1.identicalWith( m2 );
-  // test.identical( got, true );
+  test.case = 'trivial';
+
+  var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
 
   /* */
 
@@ -10830,37 +10839,14 @@ function compare( test )
     inputTransposing : 0,
   });
 
-  debugger;
-  _global_.debugger = true;
   test.identical( _.identical( m1, m2 ), false );
-  debugger;
-
-  // test.identical( _.identical( m2, m1 ), false );
-  // test.identical( _.equivalent( m1, m2 ), true );
-  // test.identical( _.equivalent( m2, m1 ), true );
-  // test.equivalent( m1, m2 );
-  // test.equivalent( m2, m1 );
-
-  debugger;
-  _global_.debugger = true;
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
   test.ni( m1, m2 );
-  debugger;
   test.ni( m2, m1 );
-
-  debugger; return; xxx
-
-// m.toStr()
-// "+1, +2, +3,
-// +4, +5, +6,
-// +7, +8, +9, "
-// expected.toStr()
-// "+1, +2, +3,
-// +4, +5, +6,
-// +7, +8, +9, "
-// m.buffer
-// Uint32Array(9) [1, 2, 3, 4, 5, 6, 7, 8, 9]
-// expected.buffer
-// Float32Array(9) [1, 4, 7, 2, 5, 8, 3, 6, 9]
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
 
   /* */
 
@@ -10882,8 +10868,16 @@ function compare( test )
     dims : [ 3, 1 ],
   });
 
-  var got = m1.identicalWith( m2 );
-  test.identical( got, true );
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
 
   /* */
 
@@ -10903,8 +10897,45 @@ function compare( test )
     inputTransposing : 0,
   });
 
-  var got = m1.identicalWith( m2 );
-  test.identical( got, true );
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'with different strides';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
+    dims : [ 2, 3 ],
+    strides : [ 1, 2 ],
+  });
+
+  var m2 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5, 2, 4, 6 ]),
+    dims : [ 2, 3 ],
+    strides : [ 3, 1 ],
+  });
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
 
   /* */
 
@@ -10922,7 +10953,10 @@ function compare( test )
   test.identical( _.identical( v1, m1 ), false );
   test.identical( _.equivalent( m1, v1 ), true );
   test.identical( _.equivalent( v1, m1 ), true );
+  test.ni( m1, v1 );
+  test.ni( v1, m1 );
   test.equivalent( m1, v1 );
+  test.equivalent( v1, m1 );
 
   /* */
 
@@ -10940,7 +10974,10 @@ function compare( test )
   test.identical( _.identical( v1, m1 ), false );
   test.identical( _.equivalent( m1, v1 ), true );
   test.identical( _.equivalent( v1, m1 ), true );
+  test.ni( m1, v1 );
+  test.ni( v1, m1 );
   test.equivalent( m1, v1 );
+  test.equivalent( v1, m1 );
 
   /* */
 
@@ -10956,8 +10993,12 @@ function compare( test )
 
   test.identical( _.identical( m1, v1 ), false );
   test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), false );
-  test.identical( _.equivalent( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), true );
+  test.identical( _.equivalent( v1, m1 ), true );
+  test.ni( m1, v1 );
+  test.ni( v1, m1 );
+  test.equivalent( m1, v1 );
+  test.equivalent( v1, m1 );
 
   /* */
 
@@ -10975,7 +11016,10 @@ function compare( test )
   test.identical( _.identical( v1, m1 ), false );
   test.identical( _.equivalent( m1, v1 ), true );
   test.identical( _.equivalent( v1, m1 ), true );
+  test.ni( m1, v1 );
+  test.ni( v1, m1 );
   test.equivalent( m1, v1 );
+  test.equivalent( v1, m1 );
 
   /* */
 
@@ -10993,7 +11037,10 @@ function compare( test )
   test.identical( _.identical( v1, m1 ), false );
   test.identical( _.equivalent( m1, v1 ), true );
   test.identical( _.equivalent( v1, m1 ), true );
+  test.ni( m1, v1 );
+  test.ni( v1, m1 );
   test.equivalent( m1, v1 );
+  test.equivalent( v1, m1 );
 
   /* */
 
@@ -11011,7 +11058,10 @@ function compare( test )
   test.identical( _.identical( v1, m1 ), false );
   test.identical( _.equivalent( m1, v1 ), false );
   test.identical( _.equivalent( v1, m1 ), false );
-  test.equivalent( m1, v1 );
+  test.ni( m1, v1 );
+  test.ni( v1, m1 );
+  test.ne( m1, v1 );
+  test.ne( v1, m1 );
 
   /* */
 
