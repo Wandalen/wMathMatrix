@@ -7,7 +7,11 @@
 Для того, щоб отримати значення рядка використовуйте метод `rowGet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -25,7 +29,11 @@ console.log( `first row :\n${ row.toStr() }` );
 Щоб встановити значення для рядка використовуйте метод `rowSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -46,7 +54,11 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 Для того, щоб отримати значення колонки використовуйте метод `colGet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -63,7 +75,11 @@ console.log( `first column :\n${ row.toStr() }` );
 Щоб встановити значення для колонки використовуйте метод `colSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -84,7 +100,11 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 Для доступу до елемента за індексами рядка і колонки використовуються методи `scalarGet` i `scalarSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -112,7 +132,11 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 Метод `eGet` повертає елемент матриці. Елементом типової 2-во вмиірної матриці є колонка. Якщо ж матриця має 3-ри виміри то елементом буде типова 2-во вимірна матриця. Якщо матриця має 4-ри виміри то елементом буде типова 3-х вимірна матриця.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
@@ -128,7 +152,11 @@ console.log( `the second column of matrix :\n${ el.toStr() }` );
 Для встановлення значення елемента матриці використовуйте метод `eSet`.
 
 ```js
-var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
