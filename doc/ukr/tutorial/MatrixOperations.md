@@ -20,6 +20,30 @@ console.log( `determinant :\n${ result }` );
 */
 ```
 
+### Транспонування матриці методом `transpose`
+
+Матрицю можливо транспонувати методом `transpose`.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+
+matrix.transpose();
+console.log( `transposed matrix :\n${ matrix.toStr() }` );
+/* log : transposed matrix :
++1, +3,
++2, +4,
+*/
+```
+
 Метод `determinant` знаходить детермінант матирці.
 
 ### Множення матриці на скаляр
@@ -151,29 +175,5 @@ var matrix2 = _.Matrix.MakeSquare
 ```
 
 ...
-
-### Транспонування матриці методом `transpose`
-
-Створену матрицю можна транспонувати методом `transpose`, дані зберігаються в оригінальному контейнері.
-
-```js
-var matrix = _.Matrix.MakeSquare
-([
-  1, 2,
-  3, 4
-]);
-console.log( `matrix :\n${ matrix.toStr() }` );
-/* log : matrix :
-+1, +2,
-+3, +4,
-*/
-
-matrix.transpose();
-console.log( `transposed matrix :\n${ matrix.toStr() }` );
-/* log : transposed matrix :
-+1, +3,
-+2, +4,
-*/
-```
 
 [Повернутись до змісту](../README.md#Туторіали)
