@@ -39,3 +39,10 @@
     How to use the option <code>stride</code> to interpret the buffer as a matrix.
 </details>
 
+<details>
+  <summary><a href="./tutorial/Solve.md">
+    Matrix solving
+  </a></summary>
+    The solving of mathematical problems in the matrix way are considered.
+</details>
+
