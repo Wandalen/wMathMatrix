@@ -24,6 +24,38 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // implementation
 // --
 
+function isCol()
+{
+  let self = this;
+  if( self.dims[ 1 ] !== 1 )
+  return false;
+  if( self.dims.length !== 2 )
+  {
+    for( let i = 2 ; i < self.dims.length ; i++ )
+    if( self.dims[ i ] !== 1 )
+    return false;
+  }
+  return true;
+}
+
+//
+
+function isRow()
+{
+  let self = this;
+  if( self.dims[ 0 ] !== 1 )
+  return false;
+  if( self.dims.length !== 2 )
+  {
+    for( let i = 2 ; i < self.dims.length ; i++ )
+    if( self.dims[ i ] !== 1 )
+    return false;
+  }
+  return true;
+}
+
+//
+
 /**
  * Method isSquare() checks the equality of matrix dimensions.
  *
@@ -249,6 +281,8 @@ let Extension =
 
   //
 
+  isCol, /* qqq : cover and document, please */
+  isRow, /* qqq : cover and document, please */
   isSquare,
   isDiagonal,
   isUpperTriangle,

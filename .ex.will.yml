@@ -2,7 +2,7 @@
 about :
 
   name : 'wMathMatrix'
-  description : 'Collection of functions for matrix math. MathMatrix introduces class Matrix which is a multidimensional structure which in the most trivial case is Matrix of scalars. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorImage. VectorImage is a reference, it does not contain data but only refer on actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container, you may use it to continuously store huge an array of arrays or for matrix computation.'
+  description : 'Collection of functions for matrix math. MathMatrix introduces the class Matrix. Matrix is a multidimensional structure. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. VectorAdapter is a reference, and it does not contain data but only refers to actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a convenient and efficient data container, and you may use it to store huge an array of arrays or for matrix computation.'
   version : '0.4.0'
   enabled : 1
   interpreters :

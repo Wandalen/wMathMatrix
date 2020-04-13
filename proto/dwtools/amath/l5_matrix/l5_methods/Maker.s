@@ -82,7 +82,7 @@ function Make( dims )
 
   // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
-  _.assert( arguments.length === 1, 'Expects single argument array (-dims-)' );
+  _.assert( arguments.length === 1, 'Expects single argument array {-dims-}' );
 
   if( _.numberIs( dims ) )
   dims = [ dims, dims ];
@@ -778,7 +778,7 @@ function ConvertToClass( cls, src )
       array = new src.buffer.constructor( scalarsPerMatrix );
       result = self.vectorAdapter.fromLong( array );
     }
-    else _.assert( 0, 'unknown class (-cls-)', cls.name );
+    else _.assert( 0, 'Unknown class {-cls-}', cls.name );
 
     for( let i = 0 ; i < result.length ; i += 1 )
     array[ i ] = src.scalarGet([ i, 0 ]);
@@ -815,7 +815,7 @@ function ConvertToClass( cls, src )
       for( let i = 0 ; i < src.length ; i += 1 )
       array[ i ] = src.eGet( i );
     }
-    else _.assert( 0, 'unknown class (-cls-)', cls.name );
+    else _.assert( 0, 'Unknown class {-cls-}', cls.name );
 
   }
 
@@ -931,7 +931,6 @@ function FromScalar( scalar, dims )
 function FromScalarForReading( scalar, dims )
 {
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.arrayIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.numberIs( scalar );

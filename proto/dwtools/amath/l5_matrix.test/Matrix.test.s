@@ -4357,48 +4357,6 @@ function copy( test )
   test.identical( dst, expected );
   test.is( dst.buffer === buffer );
 
-  test.case = 'copy from matrix with different srides'; /* */
-
-  var src1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    1, 4,
-    2, 5,
-    3, 6,
-  ]);
-
-  var src2 = src1.submatrix([ [ 0, src1.dims[ 0 ]-1 ], [ 0, src1.dims[ 1 ]-1 ] ]);
-
-  var dst = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    11,
-    22,
-  ]);
-
-  test.identical( src1._stridesEffective, [ 1, 3 ] );
-  test.identical( src2._stridesEffective, [ 1, 3 ] );
-  test.identical( dst._stridesEffective, [ 1, 2 ] );
-
-  test.identical( src1.dims, [ 3, 2 ] );
-  test.identical( src2.dims, [ 2, 1 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-
-  console.log( 'src1', src1.toStr() );
-  console.log( 'src2', src2.toStr() );
-  console.log( 'dst', dst.toStr() );
-
-  dst.copy( src2 );
-
-  test.identical( src1._stridesEffective, [ 1, 3 ] );
-  test.identical( src2._stridesEffective, [ 1, 3 ] );
-  test.identical( dst._stridesEffective, [ 1, 2 ] );
-
-  test.identical( src1.dims, [ 3, 2 ] );
-  test.identical( src2.dims, [ 2, 1 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-
-  console.log( 'src1', src1.toStr() );
-  console.log( 'src2', src2.toStr() );
-
   test.case = 'copy different size'; /* */
 
   var src = _.Matrix.Make([ 3, 2 ]).copy
@@ -4461,6 +4419,55 @@ function copy( test )
   // test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).copy( _.Matrix.Make([ 2, 2 ]) ) );
   // test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).copy( _.Matrix.Make([ 3, 1 ]) ) );
   // test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).copy( _.Matrix.Make([ 0, 0 ]) ) );
+
+}
+
+//
+
+function copySubmatrix( test )
+{
+
+  test.case = 'copy from matrix with different srides'; /* */
+
+  var src1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 4,
+    2, 5,
+    3, 6,
+  ]);
+
+  var src2 = src1.submatrix( [ 0, src1.dims[ 0 ]-2 ], [ 0, src1.dims[ 1 ]-2 ] );
+
+  var dst = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    11,
+    22,
+  ]);
+
+  test.identical( src1._stridesEffective, [ 1, 3 ] );
+  test.identical( src2._stridesEffective, [ 1, 3 ] );
+  test.identical( dst._stridesEffective, [ 1, 2 ] );
+
+  test.identical( src1.dims, [ 3, 2 ] );
+  test.identical( src2.dims, [ 2, 1 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+
+  console.log( 'src1', src1.toStr() );
+  console.log( 'src2', src2.toStr() );
+  console.log( 'dst', dst.toStr() );
+
+  dst.copy( src2 );
+
+  test.identical( src1._stridesEffective, [ 1, 3 ] );
+  test.identical( src2._stridesEffective, [ 1, 3 ] );
+  test.identical( dst._stridesEffective, [ 1, 2 ] );
+
+  test.identical( src1.dims, [ 3, 2 ] );
+  test.identical( src2.dims, [ 2, 1 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+
+  console.log( 'src1', src1.toStr() );
+  console.log( 'src2', src2.toStr() );
 
 }
 
@@ -6791,24 +6798,27 @@ function submatrix( test )
   o.transposing = 0;
   _submatrix( o )
 
-  // xxx
-  // o.offset = 0;
-  // o.transposing = 1;
-  // _submatrix( o )
-  //
-  // o.offset = 10;
-  // o.transposing = 0;
-  // _submatrix( o )
-  //
-  // o.offset = 10;
-  // o.transposing = 1;
-  // _submatrix( o )
+  o.offset = 0;
+  o.transposing = 1;
+  _submatrix( o )
+
+  o.offset = 10;
+  o.transposing = 0;
+  _submatrix( o )
+
+  o.offset = 10;
+  o.transposing = 1;
+  _submatrix( o )
 
   /* */
 
   function _submatrix( o )
   {
     var test = o.test;
+
+    /* */
+
+    test.case = 'verification';
 
     var expected = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -6817,19 +6827,19 @@ function submatrix( test )
       +9, +10, +11, +12,
     ]);
 
-    debugger;
     var m = make();
     test.identical( m, expected );
     test.identical( m.offset, o.offset );
-    debugger;
 
-    test.case = 'simple submatrix'; /* */
+    /* */
+
+    test.case = 'simple submatrix';
 
     var m = make();
-    var c1 = m.submatrix([ _.all, 0 ]);
-    var c2 = m.submatrix([ _.all, 3 ]);
-    var r1 = m.submatrix([ 0, _.all ]);
-    var r2 = m.submatrix([ 2, _.all ]);
+    var c1 = m.submatrix( _.all, 0 );
+    var c2 = m.submatrix( _.all, 3 );
+    var r1 = m.submatrix( 0, _.all );
+    var r2 = m.submatrix( 2, _.all );
 
     var expected = _.Matrix.MakeCol([ 1, 5, 9 ]);
     test.identical( c1, expected );
@@ -6843,8 +6853,6 @@ function submatrix( test )
     var expected = _.Matrix.MakeRow([ 9, 10, 11, 12 ]);
     test.identical( r2, expected );
 
-    test.case = 'modify submatrixs'; /* */
-
     var expected = _.Matrix.Make([ 3, 4 ]).copy
     ([
       +11, +3, +4, +401,
@@ -6854,92 +6862,14 @@ function submatrix( test )
 
     c1.mul( 10 );
     c2.mul( 100 );
-    debugger;
     r1.add( 1 );
     r2.add( 3 );
 
-    // c1.mulScalar( 10 );
-    // c2.mulScalar( 100 );
-    // r1.addScalar( 1 );
-    // r2.addScalar( 3 );
-
     test.identical( m, expected );
 
-    test.case = 'submatrix several columns'; /* */
+    /* */
 
-    var m = make();
-    var expected = _.Matrix.Make([ 3, 2 ]).copy
-    ([
-      +2, +3,
-      +6, +7,
-      +10, +11,
-    ]);
-
-    var sub = m.submatrix([ _.all, [ 1, 3 ] ]);
-    test.identical( sub, expected );
-
-      test.case = 'modify submatrixs'; /* */
-
-    var expected = _.Matrix.Make([ 3, 4 ]).copy
-    ([
-      +1, +20, +30, +4,
-      +5, +60, +70, +8,
-      +9, +100, +110, +12,
-    ]);
-
-    sub.mul( 10 );
-    test.identical( m, expected );
-
-    test.case = 'submatrix several columns'; /* */
-
-    var m = make();
-    var expected = _.Matrix.Make([ 3, 2 ]).copy
-    ([
-      +3, +4,
-      +7, +8,
-      +11, +12,
-    ]);
-
-    var sub = m.submatrix([ _.all, [ 2, 4 ] ]);
-    test.identical( sub, expected );
-
-      test.case = 'modify submatrixs'; /* */
-
-    var expected = _.Matrix.Make([ 3, 4 ]).copy
-    ([
-      +1, +2, +30, +40,
-      +5, +6, +70, +80,
-      +9, +10, +110, +120,
-    ]);
-
-    sub.mul( 10 );
-    test.identical( m, expected );
-
-    test.case = 'submatrix several rows'; /* */
-
-    var m = make();
-    var expected = _.Matrix.Make([ 2, 4 ]).copy
-    ([
-      +1, +2, +3, +4,
-      +5, +6, +7, +8,
-    ]);
-
-    var sub = m.submatrix([ [ 0, 2 ], _.all ]);
-    test.identical( sub, expected );
-
-    test.case = 'modify submatrixs'; /* */
-
-    var expected = _.Matrix.Make([ 3, 4 ]).copy
-    ([
-      +10, +20, +30, +40,
-      +50, +60, +70, +80,
-      +9, +10, +11, +12,
-    ]);
-
-    sub.mul( 10 );
-    test.identical( m, expected );
-
-    test.case = 'submatrix several rows'; /* */
+    test.case = 'submatrix [ 1, 2 ], null';
 
     var m = make();
     var expected = _.Matrix.Make([ 2, 4 ]).copy
@@ -6948,10 +6878,8 @@ function submatrix( test )
       +9, +10, +11, +12,
     ]);
 
-    var sub = m.submatrix([ [ 1, 3 ], _.all ]);
+    var sub = m.submatrix( [ 1, 2 ], null );
     test.identical( sub, expected );
-
-    test.case = 'modify submatrix'; /* */
 
     var expected = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -6963,7 +6891,230 @@ function submatrix( test )
     sub.mul( 10 );
     test.identical( m, expected );
 
-    test.case = 'complex submatrix'; /* */
+    /* */
+
+    test.case = 'submatrix [ 1, 2 ], _.all';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +5, +6, +7, +8,
+      +9, +10, +11, +12,
+    ]);
+
+    var sub = m.submatrix( [ 1, 2 ], _.all );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +50, +60, +70, +80,
+      +90, +100, +110, +120,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'submatrix null, [ 1, 2 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +2, +3,
+      +6, +7,
+      +10, +11,
+    ]);
+
+    var sub = m.submatrix( null, [ 1, 2 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +20, +30, +4,
+      +5, +60, +70, +8,
+      +9, +100, +110, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'submatrix _.all, [ 1, 2 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +2, +3,
+      +6, +7,
+      +10, +11,
+    ]);
+
+    var sub = m.submatrix( _.all, [ 1, 2 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +20, +30, +4,
+      +5, +60, +70, +8,
+      +9, +100, +110, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'columns [ 1, 2 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +2, +3,
+      +6, +7,
+      +10, +11,
+    ]);
+
+    var sub = m.submatrix( _.all, [ 1, 2 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +20, +30, +4,
+      +5, +60, +70, +8,
+      +9, +100, +110, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'columns [ 2, 3 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +3, +4,
+      +7, +8,
+      +11, +12,
+    ]);
+
+    var sub = m.submatrix( _.all, [ 2, 3 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +30, +40,
+      +5, +6, +70, +80,
+      +9, +10, +110, +120,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'columns [ 0, 1 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +1, +2,
+      +5, +6,
+      +9, +10,
+    ]);
+
+    var sub = m.submatrix( _.all, [ 0, 1 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +10, +20, +3, +4,
+      +50, +60, +7, +8,
+      +90, +100, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'rows [ 0, 1 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +5, +6, +7, +8,
+    ]);
+
+    var sub = m.submatrix( [ 0, 1 ], _.all );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +10, +20, +30, +40,
+      +50, +60, +70, +80,
+      +9, +10, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'rows [ 1, 2 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +5, +6, +7, +8,
+      +9, +10, +11, +12,
+    ]);
+
+
+    var sub = m.submatrix( [ 1, 2 ], _.all );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +50, +60, +70, +80,
+      +90, +100, +110, +120,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'rows [ 1, 1 ]';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 1, 4 ]).copy
+    ([
+      +5, +6, +7, +8,
+    ]);
+
+    var sub = m.submatrix( [ 1, 1 ], _.all );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +50, +60, +70, +80,
+      +9, +10, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'submatrix [ 0, 1 ], [ 0, 1 ] ';
 
     var m = make();
     var expected = _.Matrix.Make([ 2, 2 ]).copy
@@ -6972,10 +7123,8 @@ function submatrix( test )
       +5, +6,
     ]);
 
-    var sub = m.submatrix([ [ 0, 2 ], [ 0, 2 ] ]);
+    var sub = m.submatrix( [ 0, 1 ], [ 0, 1 ] );
     test.identical( sub, expected );
-
-    test.case = 'modify complex submatrix'; /* */
 
     var expected = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -6987,7 +7136,57 @@ function submatrix( test )
     sub.mul( 10 );
     test.identical( m, expected );
 
-    test.case = 'complex submatrix'; /* */
+    /* */
+
+    test.case = 'submatrix [ 0, 1 ], [ 2, 3 ] ';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +3, +4,
+      +7, +8,
+    ]);
+
+    var sub = m.submatrix( [ 0, 1 ], [ 2, 3 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +30, +40,
+      +5, +6, +70, +80,
+      +9, +10, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'submatrix [ 1, 2 ], [ 0, 1 ] ';
+
+    var m = make();
+    var expected = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +5, +6,
+      +9, +10,
+    ]);
+
+    var sub = m.submatrix( [ 1, 2 ], [ 0, 1 ] );
+    test.identical( sub, expected );
+
+    var expected = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +3, +4,
+      +50, +60, +7, +8,
+      +90, +100, +11, +12,
+    ]);
+
+    sub.mul( 10 );
+    test.identical( m, expected );
+
+    /* */
+
+    test.case = 'submatrix [ 1, 2 ], [ 2, 3 ] ';
 
     var m = make();
     var expected = _.Matrix.Make([ 2, 2 ]).copy
@@ -6996,10 +7195,8 @@ function submatrix( test )
       +11, +12,
     ]);
 
-    var sub = m.submatrix([ [ 2, 4 ], [ 1, 3 ] ]);
+    var sub = m.submatrix( [ 1, 2 ], [ 2, 3 ] );
     test.identical( sub, expected );
-
-    test.case = 'modify complex submatrix'; /* */
 
     var expected = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -7010,6 +7207,8 @@ function submatrix( test )
 
     sub.mul( 10 );
     test.identical( m, expected );
+
+    /* */
 
     function make()
     {
@@ -7046,412 +7245,8 @@ function submatrix( test )
 }
 
 // --
-// etc
+// operation
 // --
-
-function addAtomWise( test )
-{
-
-  var m1, m2, m3, m4, m5, v1, a1;
-  function remake()
-  {
-
-    m1 = _.Matrix.Make([ 2, 3 ]).copy
-    ([
-      +1, +2, +3,
-      +4, +5, +6,
-    ]);
-
-    m2 = _.Matrix.Make([ 2, 3 ]).copy
-    ([
-      +10, +20, +30,
-      +40, +50, +60,
-    ]);
-
-    m3 = _.Matrix.Make([ 2, 3 ]).copy
-    ([
-      +100, +200, +300,
-      +400, +500, +600,
-    ]);
-
-    m4 = _.Matrix.Make([ 2, 1 ]).copy
-    ([
-      1,
-      2,
-    ]);
-
-    m5 = _.Matrix.Make([ 2, 1 ]).copy
-    ([
-      3,
-      4,
-    ]);
-
-    v1 = vad.fromLong([ 9, 8 ]);
-    a1 = [ 6, 5 ];
-
-  }
-
-  test.case = 'addAtomWise 2 matrixs'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +11, +22, +33,
-    +44, +55, +66,
-  ]);
-
-  var r = _.Matrix.addAtomWise( m1, m2 );
-  test.equivalent( r, expected );
-  test.is( r === m1 );
-
-  test.case = 'addAtomWise 2 matrixs with null'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +11, +22, +33,
-    +44, +55, +66,
-  ]);
-
-  var r = _.Matrix.addAtomWise( null, m1, m2 );
-  test.equivalent( r, expected );
-  test.is( r !== m1 );
-
-  test.case = 'addAtomWise 3 matrixs into the first src'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +111, +222, +333,
-    +444, +555, +666,
-  ]);
-
-  var r = _.Matrix.addAtomWise( null, m1, m2, m3 );
-  test.equivalent( r, expected );
-  test.is( r !== m1 );
-
-  test.case = 'addAtomWise 3 matrixs into the first src'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +111, +222, +333,
-    +444, +555, +666,
-  ]);
-
-  var r = _.Matrix.addAtomWise( m1, m2, m3 );
-  test.equivalent( r, expected );
-  test.is( r === m1 );
-
-  test.case = 'addAtomWise matrix and scalar'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +11, +12, +13,
-    +14, +15, +16,
-  ]);
-
-  var r = _.Matrix.addAtomWise( null, m1, 10 );
-  test.equivalent( r, expected );
-  test.is( r !== m1 );
-
-  test.case = 'addAtomWise _.all sort of arguments'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    13,
-    14,
-  ]);
-
-  var r = _.Matrix.addAtomWise( null, m5, 10 );
-  test.equivalent( r, expected );
-  test.is( r !== m5 );
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    22,
-    22,
-  ]);
-
-  var r = _.Matrix.addAtomWise( null, m5, 10, v1 );
-  test.equivalent( r, expected );
-  test.is( r !== m5 );
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    28,
-    27,
-  ]);
-
-  var r = _.Matrix.addAtomWise( null, m5, 10, v1, a1 );
-  test.equivalent( r, expected );
-  test.is( r !== m5 );
-
-  test.case = 'addAtomWise _.all sort of arguments'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    22,
-    22,
-  ]);
-
-  var r = _.Matrix.addAtomWise( m5, 10, v1 );
-  test.equivalent( r, expected );
-  test.is( r === m5 );
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    28,
-    27,
-  ]);
-
-  var r = _.Matrix.addAtomWise( m5, 10, v1, a1 );
-  test.equivalent( r, expected );
-  test.is( r === m5 );
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    29,
-    29,
-  ]);
-
-  var r = _.Matrix.addAtomWise( m5, 10, v1, a1, m4 );
-  test.equivalent( r, expected );
-  test.is( r === m5 );
-
-  test.case = 'addAtomWise rewriting src argument'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    27,
-    27,
-  ]);
-
-  var r = _.Matrix.addAtomWise( m4, 10, v1, a1, m4 );
-  test.equivalent( r, expected );
-  test.is( r === m4 );
-
-}
-
-//
-
-function subAtomWise( test )
-{
-
-  var m1, m2, m3, m4, m5, v1, a1;
-  function remake()
-  {
-
-    m1 = _.Matrix.Make([ 2, 3 ]).copy
-    ([
-      +1, +2, +3,
-      +4, +5, +6,
-    ]);
-
-    m2 = _.Matrix.Make([ 2, 3 ]).copy
-    ([
-      +10, +20, +30,
-      +40, +50, +60,
-    ]);
-
-    m3 = _.Matrix.Make([ 2, 3 ]).copy
-    ([
-      +100, +200, +300,
-      +400, +500, +600,
-    ]);
-
-    m4 = _.Matrix.Make([ 2, 1 ]).copy
-    ([
-      1,
-      2,
-    ]);
-
-    m5 = _.Matrix.Make([ 2, 1 ]).copy
-    ([
-      3,
-      4,
-    ]);
-
-    v1 = vad.fromLong([ 9, 8 ]);
-    a1 = [ 6, 5 ];
-
-  }
-
-  test.case = '2 matrixs'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    -9, -18, -27,
-    -36, -45, -54,
-  ]);
-
-  var r = _.Matrix.subAtomWise( m1, m2 );
-  test.equivalent( r, expected );
-  test.is( r === m1 );
-
-  test.case = '2 matrixs with null'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    -9, -18, -27,
-    -36, -45, -54,
-  ]);
-
-  var r = _.Matrix.subAtomWise( null, m1, m2 );
-  test.equivalent( r, expected );
-  test.is( r !== m1 );
-
-  test.case = '3 matrixs into the first src'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    -109, -218, -327,
-    -436, -545, -654,
-  ]);
-
-  var r = _.Matrix.subAtomWise( null, m1, m2, m3 );
-  test.equivalent( r, expected );
-  test.is( r !== m1 );
-
-  test.case = '3 matrixs into the first src'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    -109, -218, -327,
-    -436, -545, -654,
-  ]);
-
-  var r = _.Matrix.subAtomWise( m1, m2, m3 );
-  test.equivalent( r, expected );
-  test.is( r === m1 );
-
-  test.case = 'matrix and scalar'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    -9, -8, -7,
-    -6, -5, -4,
-  ]);
-
-  var r = _.Matrix.subAtomWise( null, m1, 10 );
-  test.equivalent( r, expected );
-  test.is( r !== m1 );
-
-  test.case = '_.all sort of arguments'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -7,
-    -6,
-  ]);
-
-  var r = _.Matrix.subAtomWise( null, m5, 10 );
-  test.equivalent( r, expected );
-  test.is( r !== m5 );
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -16,
-    -14,
-  ]);
-
-  var r = _.Matrix.subAtomWise( null, m5, 10, v1 );
-  test.equivalent( r, expected );
-  test.is( r !== m5 );
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -22,
-    -19,
-  ]);
-
-  var r = _.Matrix.subAtomWise( null, m5, 10, v1, a1 );
-  test.equivalent( r, expected );
-  test.is( r !== m5 );
-
-  test.case = '_.all sort of arguments'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -16,
-    -14,
-  ]);
-
-  var r = _.Matrix.subAtomWise( m5, 10, v1 );
-  test.equivalent( r, expected );
-  test.is( r === m5 );
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -22,
-    -19,
-  ]);
-
-  var r = _.Matrix.subAtomWise( m5, 10, v1, a1 );
-  test.equivalent( r, expected );
-  test.is( r === m5 );
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -23,
-    -21,
-  ]);
-
-  var r = _.Matrix.subAtomWise( m5, 10, v1, a1, m4 );
-  test.equivalent( r, expected );
-  test.is( r === m5 );
-
-  test.case = 'rewriting src argument'; /* */
-
-  remake();
-
-  var expected = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    -25,
-    -23,
-  ]);
-
-  var r = _.Matrix.subAtomWise( m4, 10, v1, a1, m4 );
-  test.equivalent( r, expected );
-  test.is( r === m4 );
-
-}
-
-//
 
 function colRowWiseOperations( test )
 {
@@ -7916,7 +7711,7 @@ function mul( test )
   expected.buffer = new I32x([ 10, 5, 0 ]);
   test.equivalent( mul, expected );
 
-  //
+  /* */
 
   test.case = 'rowA * colA';
   var mul = _.Matrix.Mul( null, [ rowA, colA ] );
@@ -8138,8 +7933,67 @@ function mul( test )
 
 //
 
-function Mul( test )
+function MulBasic( test )
 {
+
+  /* */
+
+  test.case = 'matrix1 mul matrix2';
+  var matrix1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  var matrix2 = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+     10, -20, 30,
+     40, -50, 60,
+  ]);
+  var got = _.Matrix.Mul( null, [ matrix1, matrix2 ] );
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +170, -220, +270,
+    -220, +290, -360,
+    +270, -360, +450,
+  ]);
+  test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  test.identical( matrix1, original );
+  var original = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+     10, -20, 30,
+     40, -50, 60,
+  ]);
+  test.identical( matrix2, original );
+
+  /* */
+
+  test.case = 'empty matrix1 mul empty matrix2';
+  var matrix1 = _.Matrix.Make([ 0, 2 ]).copy
+  ([
+  ]);
+  var matrix2 = _.Matrix.Make([ 2, 0 ]).copy
+  ([
+  ]);
+  var got = _.Matrix.Mul( null, [ matrix1, matrix2 ] );
+  var exp = _.Matrix.Make([ 0, 0 ]).copy
+  ([
+  ]);
+  test.identical( got, exp );
+  var original = _.Matrix.Make([ 0, 2 ]).copy
+  ([
+  ]);
+  test.identical( matrix1, original );
+  var original = _.Matrix.Make([ 2, 0 ]).copy
+  ([
+  ]);
+  test.identical( matrix2, original );
 
   /* */
 
@@ -8159,6 +8013,13 @@ function Mul( test )
      6,  12,
   ]);
   test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  test.identical( matrix, original );
 
   /* */
 
@@ -8178,6 +8039,14 @@ function Mul( test )
      6,  12,
   ]);
   test.identical( got, exp );
+  test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  test.identical( matrix, original );
 
   /* */
 
@@ -8189,7 +8058,8 @@ function Mul( test )
      3,  6,
   ]);
   console.log( matrix.toStr() );
-  var got = _.Matrix.Mul( null, [ matrix, new F32x([ 1, 2 ]) ] );
+  var vector = new F32x([ 1, 2 ]);
+  var got = _.Matrix.Mul( null, [ matrix, vector ] );
   var exp = new F32x
   ([
      9,
@@ -8197,6 +8067,15 @@ function Mul( test )
      15,
   ]);
   test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  test.identical( matrix, original );
+  var original = new F32x([ 1, 2 ]);
+  test.identical( vector, original );
 
   /* */
 
@@ -8206,7 +8085,8 @@ function Mul( test )
      1,  2,
   ]);
   console.log( matrix.toStr() );
-  var got = _.Matrix.Mul( null, [ new F32x([ 1, 2, 3 ]), matrix ] );
+  var vector = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.Mul( null, [ vector, matrix ] );
   var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1, 2,
@@ -8214,11 +8094,20 @@ function Mul( test )
      3, 6,
   ]);
   test.identical( got, exp );
+  var original = _.Matrix.Make([ 1, 2 ]).copy
+  ([
+     1,  2,
+  ]);
+  test.identical( matrix, original );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector, original );
 
   /* */
 
   test.case = 'vector mul vector';
-  var got = _.Matrix.Mul( null, [ new F32x([ 1, 2, 3 ]), new F32x([ 2 ]) ] );
+  var vector1 = new F32x([ 1, 2, 3 ]);
+  var vector2 = new F32x([ 2 ]);
+  var got = _.Matrix.Mul( null, [ vector1, vector2 ] );
   var exp = new F32x
   ([
      2,
@@ -8226,11 +8115,16 @@ function Mul( test )
      6,
   ]);
   test.identical( got, exp );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector1, original );
+  var original = new F32x([ 2 ]);
+  test.identical( vector2, original );
 
   /* */
 
   test.case = 'vector mul scalar';
-  var got = _.Matrix.Mul( null, [ new F32x([ 1, 2, 3 ]), 2 ] );
+  var vector = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.Mul( null, [ vector, 2 ] );
   var exp = _.Matrix.Make([ 3, 1 ]).copy
   ([
      2,
@@ -8238,11 +8132,14 @@ function Mul( test )
      6,
   ]);
   test.identical( got, exp );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector, original );
 
   /* */
 
   test.case = 'scalar mul vector';
-  var got = _.Matrix.Mul( null, [ 2, new F32x([ 1, 2, 3 ]) ] );
+  var vector = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.Mul( null, [ 2, vector ] );
   var exp = new F32x
   ([
      2,
@@ -8250,6 +8147,8 @@ function Mul( test )
      6,
   ]);
   test.identical( got, exp );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector, original );
 
   /* */
 
@@ -8267,12 +8166,73 @@ function Mul( test )
 
 //
 
-function Add( test )
+function AddBasic( test )
 {
 
   /* */
 
-  test.case = 'matrix mul scalar';
+  test.case = 'matrix mul matrix';
+  var matrix1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  var matrix2 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     10,  40,
+    -20, -50,
+     30,  60,
+  ]);
+  var got = _.Matrix.Add( null, [ matrix1, matrix2 ] );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     11,  44,
+    -22, -55,
+     33,  66,
+  ]);
+  test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  test.identical( matrix1, original );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     10,  40,
+    -20, -50,
+     30,  60,
+  ]);
+  test.identical( matrix2, original );
+
+  /* */
+
+  test.case = 'empty matrix1 add empty matrix2';
+  var matrix1 = _.Matrix.Make([ 0, 0 ]).copy
+  ([
+  ]);
+  var matrix2 = _.Matrix.Make([ 0, 0 ]).copy
+  ([
+  ]);
+  var got = _.Matrix.Add( null, [ matrix1, matrix2 ] );
+  var exp = _.Matrix.Make([ 0, 0 ]).copy
+  ([
+  ]);
+  test.identical( got, exp );
+  var original = _.Matrix.Make([ 0, 0 ]).copy
+  ([
+  ]);
+  test.identical( matrix1, original );
+  var original = _.Matrix.Make([ 0, 0 ]).copy
+  ([
+  ]);
+  test.identical( matrix2, original );
+
+  /* */
+
+  test.case = 'matrix add scalar';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
@@ -8283,15 +8243,22 @@ function Add( test )
   var got = _.Matrix.Add( null, [ matrix, 2 ] );
   var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
-     2,  8,
-    -4, -10,
-     6,  12,
+     3,  6,
+     0, -3,
+     5,  8,
   ]);
   test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+    -2, -5,
+     3,  6,
+  ]);
+  test.identical( matrix, original );
 
   /* */
 
-  test.case = 'scalar mul matrix';
+  test.case = 'scalar add matrix';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
@@ -8302,95 +8269,539 @@ function Add( test )
   var got = _.Matrix.Add( null, [ 2, matrix ] );
   var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
-     2,  8,
-    -4, -10,
-     6,  12,
+     3,  6,
+     0, -3,
+     5,  8,
   ]);
   test.identical( got, exp );
-
-  /* */
-
-  test.case = 'matrix mul vector';
-  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
     -2, -5,
      3,  6,
   ]);
-  console.log( matrix.toStr() );
-  var got = _.Matrix.Add( null, [ matrix, new F32x([ 1, 2 ]) ] );
-  var exp = new F32x
-  ([
-     9,
-    -12,
-     15,
-  ]);
-  test.identical( got, exp );
+  test.identical( matrix, original );
 
   /* */
 
-  test.case = 'vector mul matrix';
-  var matrix = _.Matrix.Make([ 1, 2 ]).copy
+  test.case = 'matrix add vector';
+  var matrix = _.Matrix.Make([ 3, 1 ]).copy
   ([
-     1,  2,
+     1,
+    -2,
+     3,
   ]);
   console.log( matrix.toStr() );
-  var got = _.Matrix.Add( null, [ new F32x([ 1, 2, 3 ]), matrix ] );
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1, 2,
-     2, 4,
-     3, 6,
-  ]);
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = 'vector mul vector';
-  var got = _.Matrix.Add( null, [ new F32x([ 1, 2, 3 ]), new F32x([ 2 ]) ] );
+  var vector = new F32x([ 3, 4, 5 ]);
+  var got = _.Matrix.Add( null, [ matrix, vector ] );
   var exp = new F32x
   ([
-     2,
      4,
-     6,
+     2,
+     8,
   ]);
   test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     1,
+    -2,
+     3,
+  ]);
+  test.identical( matrix, original );
+  var original = new F32x([ 3, 4, 5 ]);
+  test.identical( vector, original );
 
   /* */
 
-  test.case = 'vector mul scalar';
-  var got = _.Matrix.Add( null, [ new F32x([ 1, 2, 3 ]), 2 ] );
+  test.case = 'vector add matrix';
+  var matrix = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     1,
+    -2,
+     3,
+  ]);
+  console.log( matrix.toStr() );
+  var vector = new F32x([ 3, 4, 5 ]);
+  var got = _.Matrix.Add( null, [ vector, matrix ] );
   var exp = _.Matrix.Make([ 3, 1 ]).copy
   ([
-     2,
      4,
-     6,
+     2,
+     8,
   ]);
   test.identical( got, exp );
+  var original = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     1,
+    -2,
+     3,
+  ]);
+  test.identical( matrix, original );
+  var original = new F32x([ 3, 4, 5 ]);
+  test.identical( vector, original );
 
   /* */
 
-  test.case = 'scalar mul vector';
-  var got = _.Matrix.Add( null, [ 2, new F32x([ 1, 2, 3 ]) ] );
+  test.case = 'vector add vector';
+  var vector1 = new F32x([ 1, 2, 3 ]);
+  var vector2 = new F32x([ 2, 3, 4 ]);
+  var got = _.Matrix.Add( null, [ vector1, vector2 ] );
   var exp = new F32x
   ([
-     2,
-     4,
-     6,
+     3,
+     5,
+     7,
   ]);
   test.identical( got, exp );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector1, original );
+  var original = new F32x([ 2, 3, 4 ]);
+  test.identical( vector2, original );
 
   /* */
 
-  test.case = 'scalar mul scalar';
+  test.case = 'vector add scalar';
+  var vector = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.Add( null, [ vector, 2 ] );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     3,
+     4,
+     5,
+  ]);
+  test.identical( got, exp );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector, original );
+
+  /* */
+
+  test.case = 'scalar add vector';
+  var vector = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.Add( null, [ 2, vector ] );
+  var exp = new F32x
+  ([
+     3,
+     4,
+     5,
+  ]);
+  test.identical( got, exp );
+  var original = new F32x([ 1, 2, 3 ]);
+  test.identical( vector, original );
+
+  /* */
+
+  test.case = 'scalar add scalar';
   var got = _.Matrix.Add( null, [ 2, 3 ] );
   var exp = _.Matrix.Make([ 1, 1 ]).copy
   ([
-     6
+     5
   ]);
   test.identical( got, exp );
 
   /* */
+
+}
+
+function addAtomWise( test )
+{
+
+  var m1, m2, m3, m4, m5, v1, a1;
+  function remake()
+  {
+
+    m1 = _.Matrix.Make([ 2, 3 ]).copy
+    ([
+      +1, +2, +3,
+      +4, +5, +6,
+    ]);
+
+    m2 = _.Matrix.Make([ 2, 3 ]).copy
+    ([
+      +10, +20, +30,
+      +40, +50, +60,
+    ]);
+
+    m3 = _.Matrix.Make([ 2, 3 ]).copy
+    ([
+      +100, +200, +300,
+      +400, +500, +600,
+    ]);
+
+    m4 = _.Matrix.Make([ 2, 1 ]).copy
+    ([
+      1,
+      2,
+    ]);
+
+    m5 = _.Matrix.Make([ 2, 1 ]).copy
+    ([
+      3,
+      4,
+    ]);
+
+    v1 = vad.fromLong([ 9, 8 ]);
+    a1 = [ 6, 5 ];
+
+  }
+
+  test.case = 'addAtomWise 2 matrixs'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +11, +22, +33,
+    +44, +55, +66,
+  ]);
+
+  var r = _.Matrix.addAtomWise( m1, m2 );
+  test.equivalent( r, expected );
+  test.is( r === m1 );
+
+  test.case = 'addAtomWise 2 matrixs with null'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +11, +22, +33,
+    +44, +55, +66,
+  ]);
+
+  var r = _.Matrix.addAtomWise( null, m1, m2 );
+  test.equivalent( r, expected );
+  test.is( r !== m1 );
+
+  test.case = 'addAtomWise 3 matrixs into the first src'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +111, +222, +333,
+    +444, +555, +666,
+  ]);
+
+  var r = _.Matrix.addAtomWise( null, m1, m2, m3 );
+  test.equivalent( r, expected );
+  test.is( r !== m1 );
+
+  test.case = 'addAtomWise 3 matrixs into the first src'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +111, +222, +333,
+    +444, +555, +666,
+  ]);
+
+  var r = _.Matrix.addAtomWise( m1, m2, m3 );
+  test.equivalent( r, expected );
+  test.is( r === m1 );
+
+  test.case = 'addAtomWise matrix and scalar'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +11, +12, +13,
+    +14, +15, +16,
+  ]);
+
+  var r = _.Matrix.addAtomWise( null, m1, 10 );
+  test.equivalent( r, expected );
+  test.is( r !== m1 );
+
+  test.case = 'addAtomWise _.all sort of arguments'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    13,
+    14,
+  ]);
+
+  var r = _.Matrix.addAtomWise( null, m5, 10 );
+  test.equivalent( r, expected );
+  test.is( r !== m5 );
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    22,
+    22,
+  ]);
+
+  var r = _.Matrix.addAtomWise( null, m5, 10, v1 );
+  test.equivalent( r, expected );
+  test.is( r !== m5 );
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    28,
+    27,
+  ]);
+
+  var r = _.Matrix.addAtomWise( null, m5, 10, v1, a1 );
+  test.equivalent( r, expected );
+  test.is( r !== m5 );
+
+  test.case = 'addAtomWise _.all sort of arguments'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    22,
+    22,
+  ]);
+
+  var r = _.Matrix.addAtomWise( m5, 10, v1 );
+  test.equivalent( r, expected );
+  test.is( r === m5 );
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    28,
+    27,
+  ]);
+
+  var r = _.Matrix.addAtomWise( m5, 10, v1, a1 );
+  test.equivalent( r, expected );
+  test.is( r === m5 );
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    29,
+    29,
+  ]);
+
+  var r = _.Matrix.addAtomWise( m5, 10, v1, a1, m4 );
+  test.equivalent( r, expected );
+  test.is( r === m5 );
+
+  test.case = 'addAtomWise rewriting src argument'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    27,
+    27,
+  ]);
+
+  var r = _.Matrix.addAtomWise( m4, 10, v1, a1, m4 );
+  test.equivalent( r, expected );
+  test.is( r === m4 );
+
+}
+
+//
+
+function subAtomWise( test )
+{
+
+  var m1, m2, m3, m4, m5, v1, a1;
+  function remake()
+  {
+
+    m1 = _.Matrix.Make([ 2, 3 ]).copy
+    ([
+      +1, +2, +3,
+      +4, +5, +6,
+    ]);
+
+    m2 = _.Matrix.Make([ 2, 3 ]).copy
+    ([
+      +10, +20, +30,
+      +40, +50, +60,
+    ]);
+
+    m3 = _.Matrix.Make([ 2, 3 ]).copy
+    ([
+      +100, +200, +300,
+      +400, +500, +600,
+    ]);
+
+    m4 = _.Matrix.Make([ 2, 1 ]).copy
+    ([
+      1,
+      2,
+    ]);
+
+    m5 = _.Matrix.Make([ 2, 1 ]).copy
+    ([
+      3,
+      4,
+    ]);
+
+    v1 = vad.fromLong([ 9, 8 ]);
+    a1 = [ 6, 5 ];
+
+  }
+
+  test.case = '2 matrixs'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    -9, -18, -27,
+    -36, -45, -54,
+  ]);
+
+  var r = _.Matrix.subAtomWise( m1, m2 );
+  test.equivalent( r, expected );
+  test.is( r === m1 );
+
+  test.case = '2 matrixs with null'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    -9, -18, -27,
+    -36, -45, -54,
+  ]);
+
+  var r = _.Matrix.subAtomWise( null, m1, m2 );
+  test.equivalent( r, expected );
+  test.is( r !== m1 );
+
+  test.case = '3 matrixs into the first src'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    -109, -218, -327,
+    -436, -545, -654,
+  ]);
+
+  var r = _.Matrix.subAtomWise( null, m1, m2, m3 );
+  test.equivalent( r, expected );
+  test.is( r !== m1 );
+
+  test.case = '3 matrixs into the first src'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    -109, -218, -327,
+    -436, -545, -654,
+  ]);
+
+  var r = _.Matrix.subAtomWise( m1, m2, m3 );
+  test.equivalent( r, expected );
+  test.is( r === m1 );
+
+  test.case = 'matrix and scalar'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    -9, -8, -7,
+    -6, -5, -4,
+  ]);
+
+  var r = _.Matrix.subAtomWise( null, m1, 10 );
+  test.equivalent( r, expected );
+  test.is( r !== m1 );
+
+  test.case = '_.all sort of arguments'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -7,
+    -6,
+  ]);
+
+  var r = _.Matrix.subAtomWise( null, m5, 10 );
+  test.equivalent( r, expected );
+  test.is( r !== m5 );
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -16,
+    -14,
+  ]);
+
+  var r = _.Matrix.subAtomWise( null, m5, 10, v1 );
+  test.equivalent( r, expected );
+  test.is( r !== m5 );
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -22,
+    -19,
+  ]);
+
+  var r = _.Matrix.subAtomWise( null, m5, 10, v1, a1 );
+  test.equivalent( r, expected );
+  test.is( r !== m5 );
+
+  test.case = '_.all sort of arguments'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -16,
+    -14,
+  ]);
+
+  var r = _.Matrix.subAtomWise( m5, 10, v1 );
+  test.equivalent( r, expected );
+  test.is( r === m5 );
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -22,
+    -19,
+  ]);
+
+  var r = _.Matrix.subAtomWise( m5, 10, v1, a1 );
+  test.equivalent( r, expected );
+  test.is( r === m5 );
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -23,
+    -21,
+  ]);
+
+  var r = _.Matrix.subAtomWise( m5, 10, v1, a1, m4 );
+  test.equivalent( r, expected );
+  test.is( r === m5 );
+
+  test.case = 'rewriting src argument'; /* */
+
+  remake();
+
+  var expected = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -25,
+    -23,
+  ]);
+
+  var r = _.Matrix.subAtomWise( m4, 10, v1, a1, m4 );
+  test.equivalent( r, expected );
+  test.is( r === m4 );
 
 }
 
@@ -8616,7 +9027,9 @@ function determinant( test )
 
 }
 
-//
+// --
+// solver
+// --
 
 function triangulate( test )
 {
@@ -9055,7 +9468,7 @@ function triangulate( test )
 
   test.case = 'l*u should be same as original m';
 
-  u = u.submatrix([ [ 0, 3 ], _.all ]);
+  u = u.submatrix( [ 0, 2 ], _.all );
   var mul = _.Matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
@@ -9111,7 +9524,7 @@ function triangulate( test )
 
   test.case = 'l*u should be same as original m';
 
-  u = u.submatrix([ [ 0, 3 ], _.all ]);
+  u = u.submatrix( [ 0, 2 ], _.all );
   var mul = _.Matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
@@ -10340,21 +10753,70 @@ function PolynomClosestFor( test )
 
 }
 
-//
+// --
+// equaler
+// --
 
 function identical( test )
 {
 
-  test.case = 'trivial';
-
-  var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  var got = m1.identicalWith( m2 );
-  test.identical( got, true );
+  // /* */
+  //
+  // test.case = 'trivial';
+  //
+  // var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  // var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  // var got = m1.identicalWith( m2 );
+  // test.identical( got, true );
+  //
+  // /* */
+  //
+  // test.case = 'with strides';
+  //
+  // var m1 = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 1, 3, 5 ]),
+  //   dims : [ 3, 1 ],
+  //   inputTransposing : 0,
+  // });
+  //
+  // var m2 = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+  //   offset : 1,
+  //   inputTransposing : 0,
+  //   strides : [ 2, 6 ],
+  //   dims : [ 3, 1 ],
+  // });
+  //
+  // var got = m1.identicalWith( m2 );
+  // test.identical( got, true );
+  //
+  // /* */
+  //
+  // test.case = 'with infinity dim';
+  //
+  // var m1 = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 1, 3, 5 ]),
+  //   dims : [ 3, Infinity ],
+  //   inputTransposing : 0,
+  // });
+  //
+  // var m2 = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 1, 3, 5 ]),
+  //   dims : [ 3, Infinity ],
+  //   inputTransposing : 0,
+  // });
+  //
+  // var got = m1.identicalWith( m2 );
+  // test.identical( got, true );
+  // xxx
 
   /* */
 
-  test.case = 'with strides';
+  test.case = 'Matrix and BufferTyped';
 
   var m1 = new _.Matrix
   ({
@@ -10362,39 +10824,17 @@ function identical( test )
     dims : [ 3, 1 ],
     inputTransposing : 0,
   });
+  var v1 = new F32x([ 1, 3, 5 ]);
 
-  var m2 = new _.Matrix
-  ({
-    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
-    offset : 1,
-    inputTransposing : 0,
-    strides : [ 2, 6 ],
-    dims : [ 3, 1 ],
-  });
+  debugger;
+  test.identical( _.equivalent( m1, v1 ), true );
+  debugger;
+  test.identical( _.equivalent( v1, m1 ), true );
+  test.equivalent( m1, v1 );
+  debugger;
 
-  var got = m1.identicalWith( m2 );
-  test.identical( got, true );
-
-  /* */
-
-  test.case = 'with infinity dim';
-
-  var m1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, Infinity ],
-    inputTransposing : 0,
-  });
-
-  var m2 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, Infinity ],
-    inputTransposing : 0,
-  });
-
-  var got = m1.identicalWith( m2 );
-  test.identical( got, true );
+  // var y2 = _.Matrix.Mul( null, [ om, x ] );
+  // test.identical( y2, oy ); /* xxx : equivalent of equivalent vector and matrix should give true */
 
 }
 
@@ -10424,11 +10864,11 @@ var Self =
   tests :
   {
 
-    /* experiment */
+    // experiment
 
     experiment,
 
-    /* checker */
+    // checker
 
     matrixIs,
     constructorIsMatrix,
@@ -10436,7 +10876,7 @@ var Self =
     isUpperTriangle,
     isSymmetric,
 
-    /* maker */
+    // maker
 
     env,
     clone,
@@ -10451,13 +10891,14 @@ var Self =
     ConvertToClass,
     copyTo,
     copy,
+    copySubmatrix,
 
-    /* structural */
+    // structural
 
     offset,
     stride,
     strideNegative, /* qqq : extend */
-    /* qqq : implement perfecto coverage for field stride */
+    /* qqq : implement perfect coverage for field stride */
     bufferNormalize,
     expand,
     vectorToMatrix,
@@ -10465,22 +10906,24 @@ var Self =
     partialAccessors,
     lineSwap,
     pivot,
+    submatrix,
 
-    submatrix, /* xxx : not ready */
+    // operation
 
-    /* etc */
+    colRowWiseOperations,
+    mul,
+    MulBasic, /* qqq : extend. add extreme cases. give me a link, please */
+    AddBasic, /* qqq : extend. add extreme cases */
 
     addAtomWise,
     subAtomWise,
 
-    colRowWiseOperations,
-    mul,
-    Mul, /* qqq : extend. add extreme cases. give me a link, please */
-    Add, /* qqq : extend. add extreme cases */
     furthestClosest,
     matrixHomogenousApply,
-
     determinant,
+
+    // solver
+
     triangulate,
     SolveTriangulated,
     SolveSimple,
@@ -10492,9 +10935,9 @@ var Self =
     PolynomExactFor,
     PolynomClosestFor,
 
-    identical,
+    // equaler
 
-    /* */
+    identical,
 
   },
 

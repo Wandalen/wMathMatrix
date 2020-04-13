@@ -271,6 +271,8 @@ function _traverseAct( it )
 _traverseAct.iterationDefaults = Object.create( _._cloner.iterationDefaults ); /* xxx */
 _traverseAct.defaults = _.mapSupplementOwn( Object.create( _._cloner.defaults ), _traverseAct.iterationDefaults );
 
+//
+
 function _equalAre( it )
 {
 
@@ -278,7 +280,20 @@ function _equalAre( it )
   _.assert( _.routineIs( it.onNumbersAreEqual ) );
   _.assert( _.lookIterationIs( it ) );
 
-  it.continue = false;
+  it.continue = false; debugger;
+
+  if( !( it.src2 instanceof Self ) )
+  {
+
+    if( !it.strictContainer )
+    if( _.longIs( it.src2 ) || _.vectorAdapterIs( it.src2 ) )
+    if( it.src.isCol() )
+    {
+      debugger;
+      it.src2 = _.Matrix.FromVector( it.src2 );
+    }
+
+  }
 
   if( !( it.src2 instanceof Self ) )
   {
@@ -541,7 +556,7 @@ function CopyTo( dst, src )
   let dstDims = Self.DimsOf( dst );
   let srcDims = Self.DimsOf( src );
 
-  _.assert( _.longIdentical( srcDims, dstDims ), '(-src-) and (-dst-) should have same dimensions' );
+  _.assert( _.longIdentical( srcDims, dstDims ), '{-src-} and {-dst-} should have same dimensions' );
 
   if( !_.matrixIs( src ) )
   {
@@ -556,7 +571,7 @@ function CopyTo( dst, src )
     else if( _.matrixIs( dst ) )
     for( let s = 0 ; s < src.length ; s += 1 )
     dst.scalarSet( [ s, 0 ], src.eGet( s ) )
-    else _.assert( 0, 'unknown type of (-dst-)', _.strType( dst ) );
+    else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
     return odst;
   }
@@ -581,7 +596,7 @@ function CopyTo( dst, src )
     {
       dst[ it.indexFlat ] = it.scalar;
     });
-    else _.assert( 0, 'unknown type of (-dst-)', _.strType( dst ) );
+    else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
   }
 
@@ -1754,7 +1769,7 @@ function _breadthSet( breadth )
   breadth = _.arrayFrom( breadth );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( breadth === null || _.arrayIs( breadth ), 'Expects array (-breadth-) but got', _.strType( breadth ) );
+  _.assert( breadth === null || _.arrayIs( breadth ), 'Expects array {-breadth-} but got', _.strType( breadth ) );
 
   if( breadth === self.breadth )
   return;
@@ -1886,6 +1901,26 @@ function hasShape( src )
   _.assert( _.arrayIs( src ) );
 
   return _.longIdentical( self.dims, src );
+}
+
+//
+
+function dimsExportString( o )
+{
+  let self = this;
+  o = _.routineOptions( dimsExportString, arguments );
+
+  o.dst += self.dims[ 0 ];
+
+  for( let i = 1 ; i < self.dims.length ; i++ )
+  o.dst += `x${self.dims[ i ]}`;
+
+  return o.dst;
+}
+
+dimsExportString.defaults =
+{
+  dst : '',
 }
 
 // --
@@ -2022,7 +2057,7 @@ let ReadOnlyAccessors =
 
   /* size in scalars */
 
-  scalarsPerElement : 'scalarsPerElement', /*  cached*/
+  scalarsPerElement : 'scalarsPerElement', /* cached */
   scalarsPerCol : 'scalarsPerCol',
   scalarsPerRow : 'scalarsPerRow',
   ncol : 'ncol',
@@ -2163,6 +2198,7 @@ let Extension =
 
   ShapesAreSame,
   hasShape,
+  dimsExportString,
 
   // relations
 

@@ -20,6 +20,292 @@ _.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --
+// add
+// --
+
+/**
+ * The static routine Add() add matrices {-srcs-}.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   2,  2, -2,
+ *  -2, -3,  4,
+ *   4,  3, -2,
+ * ]);
+ *
+ * var m = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = _.Matrix.Add( null, [ m, m ] );
+ * console.log( got.toStr() );
+ * // log :  +4,  +4,  -2,
+ * //        -2,  -6,  +8,
+ * //        +8,  +6,  -4,
+ *
+ * @param { Null|Matrix } dst - The container for result.
+ * @param { Array } srcs - Array with matrices.
+ * @returns { Matrix } - Returns {-dst-}.
+ * @function Add
+ * @throws { Error } If (arguments.length) is not 2.
+ * @throws { Error } If {-srcs-} is not an Array.
+ * @throws { Error } If srcs.length is less then 2.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function Add( dst, srcs )
+{
+
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert( _.arrayIs( srcs ) );
+  _.assert( srcs.length >= 2 );
+
+  /* adjust srcs 1 */
+
+  let osrcs = srcs;
+  srcs = srcs.slice();
+
+  let leftMatrix;
+  for( let s = 0 ; s < srcs.length ; s++ )
+  {
+    let src = srcs[ s ]
+
+    if( _.numberIs( src ) )
+    {
+      if( leftMatrix )
+      {
+        let dims = this.DimsOf( leftMatrix );
+        src = srcs[ s ] = this.FromScalarForReading( src, dims );
+      }
+      else
+      {
+        let m = notScalarRight( s );
+        if( !m && dst )
+        m = dst;
+        let dims = m ? this.DimsOf( m ) : [ 1, 1 ];
+        src = srcs[ s ] = this.FromScalarForReading( src, dims );
+      }
+    }
+    else
+    {
+      src = srcs[ s ] = this.From( src );
+    }
+    leftMatrix = src;
+
+  }
+
+  /* adjust dst */
+
+  if( dst === null )
+  {
+    let dims = [ this.NrowOf( srcs[ srcs.length-1 ] ) , this.NcolOf( srcs[ srcs.length-1 ] ) ];
+    let src = _.numberIs( osrcs[ osrcs.length-1 ] ) ? srcs[ osrcs.length-1 ] : osrcs[ osrcs.length-1 ];
+    dst = this.MakeSimilar( src, dims );
+  }
+
+  /* adjust srcs 2 */
+
+  let odst = dst;
+  dst = this.From( dst );
+
+  /* */
+
+  dst = this._Add2( dst , srcs[ 0 ] , srcs[ 1 ] );
+
+  /* */
+
+  if( srcs.length > 2 )
+  {
+    borrow();
+    for( let s = 2 ; s < srcs.length ; s++ )
+    {
+      this._Add2( dst , dst , srcs[ s ] );
+    }
+  }
+
+  this.CopyTo( odst, dst );
+
+  /* */
+
+  return odst;
+
+  /* - */
+
+  function borrow()
+  {
+
+    let dstClone = null;
+    for( let s = 0 ; s < srcs.length ; s++ )
+    {
+
+      if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
+      {
+        if( dstClone === null )
+        {
+          dstClone = dst.tempBorrow1();
+          dstClone.copy( dst );
+        }
+        srcs[ s ] = dstClone;
+      }
+
+      _.assert( dst.buffer !== srcs[ s ].buffer );
+
+    }
+
+  }
+
+  /* */
+
+  function notScalarRight( current )
+  {
+    for( let s = current+1 ; s < srcs.length ; s++ )
+    {
+      let src = srcs[ s ];
+      if( !_.numberIs( src ) )
+      return src;
+    }
+  }
+
+  /* */
+
+}
+
+//
+
+/**
+ * The routine _Add2() add two matrices {-src1-} and {-src2-}.
+ * The result of adding assigned to destination matrix {-dst-}.
+ *
+ * @example
+ * var src1 = new _.Matrix
+ * ({
+ *   buffer : [ 2, 2, 2, 2, 3, 4, 4, 3, -2 ],
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var src2 = new _.Matrix
+ * ({
+ *   buffer : [ 3, 2, 3, 4, 0, 2, 0, 0, 6 ],
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var dst = new _.Matrix
+ * ({
+ *   buffer : new I32x( [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ),
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = _.Matrix._Add2( dst, src1, src2 )
+ * console.log( got )
+ * // log : +14, +4, +22,
+ * //       +18, +4, +36,
+ * //       +24, +8,  +6,
+ *
+ * @param { Null|Matrix } dst - Destination matrix.
+ * @param { Matrix } src1 - Source Matrix.
+ * @param { Matrix } src2 - Source Matrix.
+ * @returns { Matrix } - Returns {-dst-}.
+ * @function _Add2
+ * @throws { Error } If (arguments.length) is not 3.
+ * @throws { Error } If {-dst-} is not a Matrix, not a Null.
+ * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
+ * @throws { Error } If src1.dims or src2.dims length is not 2.
+ * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
+ * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
+ * @throws { Error } If src1.dims[ 1 ] is not equal to src2.dims[ 0 ].
+ * @throws { Error } If src1.dims[ 0 ] is not equal to dst.dims[ 0 ].
+ * @throws { Error } If src1.dims[ 1 ] is not equal to dst.dims[ 1 ].
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function _Add2( dst, src1, src2 )
+{
+
+  src1 = this.FromForReading( src1 );
+  src2 = this.FromForReading( src2 );
+
+  if( dst === null )
+  {
+    dst = this.Make( src1.dims );
+  }
+
+  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
+  _.assert( dst instanceof Self );
+  _.assert( src1 instanceof Self );
+  _.assert( src2 instanceof Self );
+  _.assert( this.ShapesAreSame( src1, src2 ), 'Shapes of matrices should be the same' );
+  _.assert( this.ShapesAreSame( src1, dst ), 'Shapes of matrices should be the same' );
+
+  dst.scalarEach( ( it ) =>
+  {
+    dst.scalarSet( it.indexNd, src1.scalarGet( it.indexNd ) + src2.scalarGet( it.indexNd ) );
+  });
+
+  return dst;
+}
+
+//
+
+/**
+ * The method add() add matrices {-srcs-}.
+ * The result assigned to the current matrix.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   2,  2, -2,
+ *  -2, -3,  4,
+ *   4,  3, -2,
+ * ]);
+ *
+ * var m = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = m.add( [ m, m ] );
+ * console.log( got.toStr() );
+ * // log :  +4,  +4,  -2,
+ * //        -2,  -6,  +8,
+ * //        +8,  +6,  -4,
+ *
+ * @param { Array } srcs - Array with matrices.
+ * @returns { Matrix } - Returns {-this-}.
+ * @method add
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-srcs-} is not array.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function add( srcs )
+{
+  let dst = this;
+
+  if( !_.arrayIs( srcs ) )
+  srcs = [ dst, srcs ]
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.arrayIs( srcs ) );
+
+  return dst.Add( dst, srcs );
+}
+
+// --
 // mul
 // --
 
@@ -93,7 +379,7 @@ function matrixPow( exponent )
  *
  * @param { Null|Matrix } dst - The container for result.
  * @param { Array } srcs - Array with matrices.
- * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
+ * @returns { Matrix } - Returns {-dst-}.
  * @function Mul
  * @throws { Error } If (arguments.length) is not 2.
  * @throws { Error } If {-srcs-} is not an Array.
@@ -158,26 +444,11 @@ function Mul( dst, srcs )
   let odst = dst;
   dst = this.From( dst );
 
-  for( let s = 0 ; s < srcs.length ; s++ )
-  {
-
-    if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
-    {
-      if( dstClone === null )
-      {
-        dstClone = dst.tempBorrow1();
-        dstClone.copy( dst );
-      }
-      srcs[ s ] = dstClone;
-    }
-
-    _.assert( dst.buffer !== srcs[ s ].buffer );
-
-  }
+  borrow();
 
   /* */
 
-  dst = this._Mul2Matrices( dst , srcs[ 0 ] , srcs[ 1 ] );
+  dst = this._Mul2( dst , srcs[ 0 ] , srcs[ 1 ] );
 
   /* */
 
@@ -192,12 +463,12 @@ function Mul( dst, srcs )
       if( s % 2 === 0 )
       {
         dst2 = dst.tempBorrow2([ dst3.dims[ 0 ], src.dims[ 1 ] ]);
-        this._Mul2Matrices( dst2 , dst3 , src );
+        this._Mul2( dst2 , dst3 , src );
       }
       else
       {
         dst3 = dst.tempBorrow3([ dst2.dims[ 0 ], src.dims[ 1 ] ]);
-        this._Mul2Matrices( dst3 , dst2 , src );
+        this._Mul2( dst3 , dst2 , src );
       }
     }
 
@@ -218,6 +489,31 @@ function Mul( dst, srcs )
 
   /* - */
 
+  function borrow()
+  {
+
+    let dstClone = null;
+    for( let s = 0 ; s < srcs.length ; s++ )
+    {
+
+      if( dst === srcs[ s ] || dst.buffer === srcs[ s ].buffer )
+      {
+        if( dstClone === null )
+        {
+          dstClone = dst.tempBorrow1();
+          dstClone.copy( dst );
+        }
+        srcs[ s ] = dstClone;
+      }
+
+      _.assert( dst.buffer !== srcs[ s ].buffer );
+
+    }
+
+  }
+
+  /* - */
+
   function notScalarRight( current )
   {
     for( let s = current+1 ; s < srcs.length ; s++ )
@@ -228,62 +524,14 @@ function Mul( dst, srcs )
     }
   }
 
+  /* - */
+
 }
 
 //
 
 /**
- * The method mul() provides multiplication of matrices {-srcs-}.
- * The result of multiplication assigns to the current matrix.
- *
- * @example
- * var buffer = new I32x
- * ([
- *   2,  2, -2,
- *  -2, -3,  4,
- *   4,  3, -2,
- * ]);
- *
- * var m = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
- *
- * var got = m.mul( [ m, m ] );
- * console.log( got.toStr() );
- * // log :  -8,  -8,  +8,
- * //       +18, +17, -16,
- * //        -6,  -7,  +8,
- *
- * @param { Array } srcs - Array with matrices.
- * @returns { Matrix } - Returns new Matrix instance with multiplies values of buffer.
- * @method mul
- * @throws { Error } If arguments.length is not 1.
- * @throws { Error } If {-srcs-} is not array.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function mul( srcs )
-{
-  let dst = this;
-
-  if( !_.arrayIs( srcs ) )
-  srcs = [ dst, srcs ]
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.arrayIs( srcs ) );
-
-  return dst.Self.Mul( dst, srcs );
-}
-
-//
-
-/**
- * The routine _Mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
+ * The routine _Mul2() multiply two matrices {-src1-} and {-src2-}.
  * The result of multiplication assigns to destination matrix {-dst-}.
  *
  * @example
@@ -308,7 +556,7 @@ function mul( srcs )
  *   inputTransposing : 1,
  * });
  *
- * var got = _.Matrix._Mul2Matrices( dst, src1, src2 )
+ * var got = _.Matrix._Mul2( dst, src1, src2 )
  * console.log( got )
  * // log : +14, +4, +22,
  * //       +18, +4, +36,
@@ -317,8 +565,8 @@ function mul( srcs )
  * @param { Null|Matrix } dst - Destination matrix.
  * @param { Matrix } src1 - Source Matrix.
  * @param { Matrix } src2 - Source Matrix.
- * @returns { Matrix } - Returns instance of destination matrix filled by result of multiplication.
- * @function _Mul2Matrices
+ * @returns { Matrix } - Returns {-dst-}.
+ * @function _Mul2
  * @throws { Error } If (arguments.length) is not 3.
  * @throws { Error } If {-dst-} is not a Matrix, not a Null.
  * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
@@ -333,7 +581,7 @@ function mul( srcs )
  * @module Tools/math/Matrix
  */
 
-function _Mul2Matrices( dst, src1, src2 )
+function _Mul2( dst, src1, src2 )
 {
 
   src1 = this.FromForReading( src1 );
@@ -371,70 +619,60 @@ function _Mul2Matrices( dst, src1, src2 )
   return dst;
 }
 
-// //
 //
-// /**
-//  * The method _mul2Matrices() provides multiplication of two matrices {-src1-} and {-src2-}.
-//  * The result of multiplication assigns to destination matrix {-dst-}.
-//  *
-//  * @example
-//  * var src1 = new _.Matrix
-//  * ({
-//  *   buffer : [ 2, 2, 2, 2, 3, 4, 4, 3, -2 ],
-//  *   dims : [ 3, 3 ],
-//  *   inputTransposing : 1,
-//  * });
-//  *
-//  * var src2 = new _.Matrix
-//  * ({
-//  *   buffer : [ 3, 2, 3, 4, 0, 2, 0, 0, 6 ],
-//  *   dims : [ 3, 3 ],
-//  *   inputTransposing : 1,
-//  * });
-//  *
-//  * var dst = new _.Matrix
-//  * ({
-//  *   buffer : new I32x( [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ),
-//  *   dims : [ 3, 3 ],
-//  *   inputTransposing : 1,
-//  * });
-//  *
-//  * var got = dst._mul2Matrices( src1, src2 )
-//  * console.log( got )
-//  * // log : +14, +4, +22,
-//  * //       +18, +4, +36,
-//  * //       +24, +8,  +6,
-//  *
-//  * @param { Matrix } src1 - Source Matrix.
-//  * @param { Matrix } src2 - Source Matrix.
-//  * @returns { Matrix } - Returns original matrix filled by result of multiplication.
-//  * @method _mul2Matrices
-//  * @throws { Error } If (arguments.length) is not 2.
-//  * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
-//  * @throws { Error } If src1.dims or src2.dims length is not 2.
-//  * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
-//  * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
-//  * @throws { Error } If src1.dims[ 1 ] is not equal to src2.dims[ 0 ].
-//  * @throws { Error } If src1.dims[ 0 ] is not equal to self.dims[ 0 ].
-//  * @throws { Error } If src1.dims[ 1 ] is not equal to self.dims[ 1 ].
-//  * @class Matrix
-//  * @namespace wTools
-//  * @module Tools/math/Matrix
-//  */
-//
-// function _mul2Matrices( src1, src2 )
-// {
-//   let dst = this;
-//
-//   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-//
-//   return dst.Self._mul2Matrices( dst, src1, src2 );
-// }
+
+/**
+ * The method mul() multiply matrices {-srcs-}.
+ * The result of multiplication assigns to the current matrix.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   2,  2, -2,
+ *  -2, -3,  4,
+ *   4,  3, -2,
+ * ]);
+ *
+ * var m = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = m.mul( [ m, m ] );
+ * console.log( got.toStr() );
+ * // log :  -8,  -8,  +8,
+ * //       +18, +17, -16,
+ * //        -6,  -7,  +8,
+ *
+ * @param { Array } srcs - Array with matrices.
+ * @returns { Matrix } - Returns {-this-}.
+ * @method mul
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-srcs-} is not array.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function mul( srcs )
+{
+  let dst = this;
+
+  if( !_.arrayIs( srcs ) )
+  srcs = [ dst, srcs ]
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.arrayIs( srcs ) );
+
+  return dst.Self.Mul( dst, srcs );
+}
 
 //
 
 /**
- * The method mulLeft() provides multiplication of current matrix on source matrix {-src-}.
+ * The method mulLeft() multiply the current matrix and source matrix {-src-}.
  * The result assigns to the current matrix.
  *
  * @example
@@ -483,7 +721,7 @@ function mulLeft( src )
 //
 
 /**
- * The method mulRight() provides multiplication of source matrix {-src-} on current matrix.
+ * The method mulRight() multiply the source matrix {-src-} and the current matrix.
  * The result assigns to the current matrix.
  *
  * @example
@@ -900,10 +1138,15 @@ function determinant()
 let Statics = /* qqq : split static routines. ask how */
 {
 
-  /* mul */
+  // add
+
+  Add,
+  _Add2,
+
+  //
 
   Mul,
-  _Mul2Matrices,
+  _Mul2,
 
 }
 
@@ -921,13 +1164,19 @@ zip
 let Extension =
 {
 
+  // add
+
+  Add,
+  _Add2,
+  add,
+
   // mul
 
   pow : matrixPow,
+
   Mul,
+  _Mul2,
   mul,
-  _Mul2Matrices,
-  // _mul2Matrices,
   mulLeft,
   mulRight,
 
@@ -950,9 +1199,7 @@ let Extension =
 }
 
 _.classExtend( Self, Extension );
-_.assert( Self._Mul2Matrices === _Mul2Matrices );
-_.assert( Self.prototype._Mul2Matrices === _Mul2Matrices );
-// _.assert( Self._mul2Matrices === undefined );
-// _.assert( Self.prototype._mul2Matrices === _mul2Matrices );
+_.assert( Self._Mul2 === _Mul2 );
+_.assert( Self.prototype._Mul2 === _Mul2 );
 
 })();

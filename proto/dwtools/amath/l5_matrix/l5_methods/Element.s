@@ -464,7 +464,7 @@ function expand( expand )
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.submatrix( [ [ 0, 2 ], [ 0, 2 ] ] );
+ * var got = matrix.submatrix( [ [ 0, 1 ], [ 0, 1 ] ] );
  * console.log( got.toStr() );
  * // log : +1, +2,
  * //       +4, +5,
@@ -480,48 +480,54 @@ function expand( expand )
  * @module Tools/math/Matrix
  */
 
-function submatrix( submatrix )
+function submatrix()
 {
   let self = this;
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.arrayIs( submatrix ), 'Expects array (-submatrix-)' );
-  _.assert( submatrix.length <= self.dims.length, 'Expects array (-submatrix-) of length of self.dims' );
+  /* normalize */
 
-  for( let s = submatrix.length ; s < self.dims.length ; s++ )
-  submatrix.unshift( _.all );
+  let ranges = _.longSlice( arguments );
+  for( let s = 0 ; s < self.dims.length ; s++ )
+  if( ranges[ s ] === _.all || ranges[ s ] === null )
+  {
+    ranges[ s ] = [ 0, self.dims[ s ] - 1 ];
+  }
+  else if( _.numberIs( ranges[ s ] ) )
+  {
+    ranges[ s ] = [ ranges[ s ], ranges[ s ] ];
+  }
+
+  /* verify */
+
+  if( Config.debug )
+  {
+    _.assert( _.arrayIs( ranges ), 'Expects array {-ranges-}' );
+    _.assert( ranges.length === self.dims.length, `Matrix ${self.dimsExportString()} expects ${self.dims.length} arguments to return submatrix, but got ${ranges.length}` );
+
+    for( let s = 0 ; s < ranges.length ; s++ )
+    {
+      let range = ranges[ s ];
+      _.assert( _.rangeIsValid( range ), errMsg( range ) );
+      _.assert( range[ 0 ] < self.dims[ s ], errMsg( range ) );
+      _.assert( range[ 0 ] >= 0, errMsg( range ) );
+      _.assert( range[ 1 ] < self.dims[ s ], errMsg( range ) );
+      _.assert( range[ 1 ] >= 0, errMsg( range ) );
+    }
+
+  }
 
   let dims = [];
   let strides = [];
   let stride = 1;
-  let offset = Infinity;
+  let offset = self.offset;
 
-  for( let s = 0 ; s < submatrix.length ; s++ )
+  for( let s = 0 ; s < ranges.length ; s++ )
   {
-    if( submatrix[ s ] === _.all )
-    {
-      dims[ s ] = self.dims[ s ];
-      strides[ s ] = self._stridesEffective[ s ];
-    }
-    else if( _.numberIs( submatrix[ s ] ) )
-    {
-      dims[ s ] = 1;
-      strides[ s ] = self._stridesEffective[ s ];
-      offset = Math.min( self._stridesEffective[ s ]*submatrix[ s ], offset );
-    }
-    else if( _.arrayIs( submatrix[ s ] ) )
-    {
-      _.assert( _.arrayIs( submatrix[ s ] ) && submatrix[ s ].length === 2 );
-      dims[ s ] = submatrix[ s ][ 1 ] - submatrix[ s ][ 0 ];
-      strides[ s ] = self._stridesEffective[ s ];
-      offset = Math.min( self._stridesEffective[ s ]*submatrix[ s ][ 0 ], offset );
-    }
-    else _.assert( 0, 'unknown submatrix request' );
+    _.assert( _.arrayIs( ranges[ s ] ) && ranges[ s ].length === 2 );
+    dims[ s ] = ranges[ s ][ 1 ] - ranges[ s ][ 0 ] + 1;
+    strides[ s ] = self._stridesEffective[ s ];
+    offset += self._stridesEffective[ s ]*ranges[ s ][ 0 ];
   }
-
-  if( offset === Infinity )
-  offset = 0;
-  offset += self.offset;
 
   let result = new Self
   ({
@@ -533,6 +539,12 @@ function submatrix( submatrix )
   });
 
   return result;
+
+  function errMsg( range )
+  {
+    return `Bad range [ ${ range[ 0 ] }, ${ range[ 1 ] } ]. Use _.all or null to pass the dimension.`
+  }
+
 }
 
 //
