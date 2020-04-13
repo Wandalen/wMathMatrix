@@ -22,11 +22,15 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 Створює квадратну матрицю із переданого буферу або заданої розмірності.
 
 ```js
-var matrix1 = _.Matrix.MakeSquare([ 2, 2, 3, 3 ]);
-console.log( `matrix :\n${ matrix1.toStr() }` );
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
-+2, +2,
-+3, +3,
++1, +2,
++3, +4,
 */
 ```
 

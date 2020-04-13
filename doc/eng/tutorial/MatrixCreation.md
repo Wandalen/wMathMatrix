@@ -22,11 +22,15 @@ The created matrix `matrix` has dimension `2x2`, it is specified by the argument
 Creates a square matrix from a passed buffer or a given dimension.
 
 ```js
-var matrix1 = _.Matrix.MakeSquare([ 2, 2, 3, 3 ]);
+var matrix1 = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
 console.log( `matrix :\n${ matrix1.toStr() }` );
 /* log : matrix :
-+2, +2,
-+3, +3,
++1, +2,
++3, +4,
 */
 ```
 
