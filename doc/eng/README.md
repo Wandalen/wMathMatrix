@@ -32,3 +32,10 @@
     Overview of operations on matrices.
 </details>
 
+<details>
+  <summary><a href="./tutorial/MatrixOperations.md">
+    Usage of the option strides
+  </a></summary>
+    How to use the option <code>stride</code> to interpret the buffer as a matrix.
+</details>
+
