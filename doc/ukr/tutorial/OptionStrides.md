@@ -91,7 +91,7 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 
 Останній приклад ілюструється наступною діаграмою.
 
-![StandardStrides.png](../../img/StandardStrides.png)
+![StandardExplicitStrides.png](../../img/StandardExplicitStrides.png)
 
 Приведена діаграма показує як буфер відображається ( map into ) в матрицю. Всі скаляри йдуть послідовно один за одним. За замовчуванням `strides` обраховується так щоб всі скаляри йшли послідовно. В якій же послідовності перебирати розмірності вказує оція `inputTransposing`.
 
@@ -156,7 +156,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 Для транспонування матриці можна змінити порядок значень в опції `strides`.
 
 ```js
-var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
 
 var matrix = _.Matrix
 ({
@@ -176,15 +176,14 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 var matrixTransposed = _.Matrix
 ({
   buffer : buffer1,
-  dims : [ 3, 2 ],
+  dims : [ 2, 3 ],
   strides : [ 1, 3 ],
   offset : 1,
 });
 console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
 /* log : transposed matrix :
-+1, +4,
-+2, +5,
-+3, +6,
++1, +2, +4,
++5, +7, +9,
 */
 ```
 
