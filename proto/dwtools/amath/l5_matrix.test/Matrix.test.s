@@ -10816,26 +10816,69 @@ function identical( test )
 
   /* */
 
-  test.case = 'Matrix and BufferTyped';
+  // test.case = 'Matrix and BufferTyped';
+  //
+  // var m1 = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 1, 3, 5 ]),
+  //   dims : [ 3, 1 ],
+  //   inputTransposing : 0,
+  // });
+  // var v1 = new F32x([ 1, 3, 5 ]);
+  //
+  // test.identical( _.equivalent( m1, v1 ), true );
+  // test.identical( _.equivalent( v1, m1 ), true );
+  // test.equivalent( m1, v1 );
+
+  /* */
+
+  test.case = 'Matrix and Array';
 
   var m1 = new _.Matrix
   ({
-    buffer : new F32x([ 1, 3, 5 ]),
+    buffer : ([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputTransposing : 0,
   });
-  var v1 = new F32x([ 1, 3, 5 ]);
+  var v1 = ([ 1, 3, 5 ]);
 
   debugger;
   test.identical( _.equivalent( m1, v1 ), true );
   debugger;
   test.identical( _.equivalent( v1, m1 ), true );
-  debugger;
   test.equivalent( m1, v1 );
-  debugger;
 
-  // var y2 = _.Matrix.Mul( null, [ om, x ] );
-  // test.identical( y2, oy ); /* xxx : equivalent of equivalent vector and matrix should give true */
+  // /* */
+  //
+  // test.case = 'Matrix and vadapter BufferTyped';
+  //
+  // var m1 = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 1, 3, 5 ]),
+  //   dims : [ 3, 1 ],
+  //   inputTransposing : 0,
+  // });
+  // var v1 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
+  //
+  // test.identical( _.equivalent( m1, v1 ), true );
+  // test.identical( _.equivalent( v1, m1 ), true );
+  // test.equivalent( m1, v1 );
+  //
+  // /* */
+  //
+  // test.case = 'Matrix and vadapter Array';
+  //
+  // var m1 = new _.Matrix
+  // ({
+  //   buffer : [ 1, 3, 5 ],
+  //   dims : [ 3, 1 ],
+  //   inputTransposing : 0,
+  // });
+  // var v1 = _.vectorAdapter.from([ 1, 3, 5 ]);
+  //
+  // test.identical( _.equivalent( m1, v1 ), true );
+  // test.identical( _.equivalent( v1, m1 ), true );
+  // test.equivalent( m1, v1 );
 
 }
 
