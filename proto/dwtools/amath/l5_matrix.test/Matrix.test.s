@@ -8166,6 +8166,29 @@ function MulBasic( test )
 
 //
 
+function MulSubmatiricesExperiment( test )
+{
+  var matrix = _.Matrix.MakeSquare
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+
+  var sub1 = matrix.submatrix( [ 0, 1 ], [ 0, 1 ] );
+  sub1.mul( [ sub1, 2 ] );
+
+  var exp = _.Matrix.MakeSquare
+  ([
+    2, 4,
+    8, 10
+  ]);
+
+  test.identical( sub1, exp );
+}
+
+//
+
 function AddBasic( test )
 {
 
@@ -10999,6 +11022,7 @@ var Self =
     colRowWiseOperations,
     mul,
     MulBasic, /* qqq : extend. add extreme cases. give me a link, please */
+    MulSubmatiricesExperiment,
     AddBasic, /* qqq : extend. add extreme cases */
 
     addAtomWise,

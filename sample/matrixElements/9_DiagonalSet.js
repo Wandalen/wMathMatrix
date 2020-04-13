@@ -13,8 +13,9 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +1, +2,
 +3, +4,
 */
-var row = matrix.rowGet( 0 );
-console.log( `first row :\n${ row.toStr() }` );
-/* log : first row :
-1.000, 2.000
+matrix.diagonalSet( [ 5, 7 ] );
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log : changed matrix :
++5, +2,
++3, +7,
 */
