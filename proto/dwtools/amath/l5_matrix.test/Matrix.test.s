@@ -8184,7 +8184,7 @@ function MulSubmatiricesExperiment( test )
     8, 10
   ]);
 
-  test.identical( got, exp );
+  test.identical( sub1, exp );
 }
 
 //
