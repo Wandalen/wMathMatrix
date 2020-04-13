@@ -1,10 +1,10 @@
 # Матричні операції
 
-Виконується огляд способів оперування матрицями.
+Огляд операцій над матрицями.
 
 ### Виконання простої операції
 
-Для виконання операції з матрицею потрібно викликати відповідний метод у інстанса.
+Операції над матрицями виконуються викликом методів або статичних матриці.
 
 ```js
 var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
@@ -13,16 +13,18 @@ var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
   4, 5, 6,
   7, 8, -9
 ]);
-var got = matrix.determinant();
-console.log( `determinant :\n${ got }` );
+var result = matrix.determinant();
+console.log( `determinant :\n${ result }` );
 /* log : determinant :
 54
 */
 ```
 
+Метод `determinant` знаходить детермінант матирці.
+
 ### Множення матриці на скаляр
 
-Матриця може бути помножена на скаляр з допомогою статичної рутини `Mul`, кожне значення матриці збільшиться в відповідну кількість разів. Рутина поміщає результат виконання операції в контейнер `dst`, якщо `dst` має значення `null`, тоді результат поміщається в новий контейнер.
+Матриця може бути помножена на скаляр за допомогою статичної рутини `Mul`, кожне значення матриці збільшиться в відповідну кількість разів. Рутина поміщає результат виконання операції в контейнер `dst`, якщо `dst` має значення `null`, тоді результат поміщається в новий контейнер.
 
 ```js
 var matrix = _.Matrix.MakeSquare
@@ -31,17 +33,38 @@ var matrix = _.Matrix.MakeSquare
   3, 4
 ]);
 
-var got = _.Matrix.Mul( null, [ matrix, 3 ] );
-console.log( `got :\n${ got.toStr() }` );
+var dst = _.Matrix.Mul( null, [ matrix, 3 ] );
+console.log( `dst :\n${ dst.toStr() }` );
+/* log : dst :
++3, +6,
++9, +12,
+*/
+```
+
+Статична рутина `Mul` множить матрицію `matrix` на скаляр `3`. Так як перший аргумент має значення `null` то під результат свторюється новий контейнер `dst`, який і повертається, як результат виконання рутини.
+
+Альтернативно, замість статичної рутини можливо викликати метод об'єкта.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4
+]);
+
+matrix.mul( 3 );
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +3, +6,
 +9, +12,
 */
 ```
 
+Метод `mul`, множить матрицю `matrix` на скаляр `3`. Результат записується в `matrix`.
+
 ### Множення матриці на вектор
 
-Матриця може бути помножена на вектор з допомогою статичної рутини `Mul`, результатом множення буде вектор.
+Приклад множення матриці на вектор.
 
 ```js
 var matrix = _.Matrix.MakeSquare
@@ -51,14 +74,16 @@ var matrix = _.Matrix.MakeSquare
 ]);
 var vector = [ 1, 1 ];
 
-var got = _.Matrix.Mul( null, [ matrix, vector ] );
-console.log( `got :\n${ got }` );
-/* log : got :
+var dst = _.Matrix.Mul( null, [ matrix, vector ] );
+console.log( `dst :\n${ dst }` );
+/* log : dst :
 [ 3, 7 ]
 */
 ```
 
-Екземпляр класу може бути помножений на вектор з використанням методу `matrixApplyTo`, результат множення записується в вектор.
+Статична рутина `Mul` множить матрицію `matrix` на вектор `vector`. Так як перший аргумент має значення `null` то під результат свторюється новий контейнер `dst`, який і повертається, як результат виконання рутини.
+
+Альтернативно, екземпляр класу може бути помножений на вектор з використанням методу `matrix1pplyTo`.
 
 ```js
 var matrix = _.Matrix.MakeSquare
@@ -68,63 +93,64 @@ var matrix = _.Matrix.MakeSquare
 ]);
 var vector = [ 1, 1 ];
 
-var got = matrix.matrixApplyTo( vector );
-console.log( `got :\n${ got }` );
-/* log : got :
+matrix.matrix1pplyTo( vector );
+console.log( `vector :\n${ vector }` );
+/* log : vector :
 [ 3, 7 ]
 */
-console.log( `got === vector :\n${ got === vector }` );
-/* log : got === vector :
-true
 */
 ```
+
+Метод `mul`, множить матрицю `matrix` на вектор `vector`. Результат записується в вектор `vector`.
 
 ### Множення двох матриць
 
-Перемножити матриці можна з допомогою статичної рутини `Mul`, результатом множення буде матриця.
+За допомогою статичної рутини `Mul` можливо перемножити і декілька матриць.
 
 ```js
-var matrixA = _.Matrix.MakeSquare
+var matrix1 = _.Matrix.MakeSquare
 ([
   1, 2,
   3, 4
 ]);
-var matrixB = _.Matrix.MakeSquare
+var matrix2 = _.Matrix.MakeSquare
 ([
   4, 3,
   2, 1
 ]);
 
-var matrix = _.Matrix.Mul( null, [ matrixA, matrixB ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
-/* log : matrix :
+var dst = _.Matrix.Mul( null, [ matrix1, matrix2 ] );
+console.log( `dst :\n${ dst.toStr() }` );
+/* log : dst :
 +8,  +5,
 +20, +13,
 */
 ```
 
-Екземпляр класу `Matrix` також має метод `mul`, результат множення матриць присвоюється цьому екземпляру.
+Статична рутина `Mul` множить матрицію `matrix1` на матрицю `matrix2`. Так як перший аргумент має значення `null` то під результат свторюється новий контейнер `dst`, який і повертається, як результат виконання рутини.
+
+### Множення декількох матриць
+
+...
 
 ```js
-var matrixA = _.Matrix.MakeSquare
+
+var matrix1 = _.Matrix.MakeSquare
 ([
   1, 2,
   3, 4
 ]);
-var matrixB = _.Matrix.MakeSquare
+var matrix2 = _.Matrix.MakeSquare
 ([
   4, 3,
   2, 1
 ]);
 
-var matrix = _.Matrix.Make( [ 2, 2 ] );
-matrix.mul( [ matrixA, matrixB ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
-/* log : matrix :
-+8,  +5,
-+20, +13,
-*/
+... множення 3-х матриць різних розмірностей ...
+
 ```
+
+...
 
 ### Транспонування матриці методом `transpose`
 
