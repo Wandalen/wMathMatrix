@@ -1,4 +1,4 @@
-# Usage of the option strides
+# How to use option strides
 
 How to use the option <code>stride</code> to interpret the buffer as a matrix.
 

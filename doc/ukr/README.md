@@ -39,7 +39,7 @@
 
 <details>
   <summary><a href="./tutorial/OptionStrides.md">
-    Використання опції strides
+    Як використовувати опцію strides
   </a></summary>
     Як використати опцію <code>stride</code> для інтерпретації буфера в матрицю.
 </details>
