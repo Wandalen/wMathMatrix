@@ -2,40 +2,36 @@ format: outwillfile-2.0
 root:
   - wMathMatrix.out
 consistency:
-  wMathMatrix.out.will.yml: &ref_0
-    hash: 859ba7aee9d63743c23ae87a5bdcd359
-    size: 40921
-  ../.ex.will.yml: &ref_1
-    hash: eb5c1fd09ab21b5335bc958a2a34f292
-    size: 2559
-  ../.im.will.yml: &ref_2
-    hash: 148750fb8fae096c53d58579ea4e3613
-    size: 5244
+  ../.ex.will.yml: &ref_0
+    hash: 1af7646ff5fe78a178db7c817dacf5e1
+    size: 2507
+  ../.im.will.yml: &ref_1
+    hash: 60faa80ce09d0d3e4f2a920aa671026e
+    size: 5256
 module:
   wMathMatrix.out:
     about:
       name: wMathMatrix
       org: noorg
       description: >-
-        Collection of functions for matrix math. MathMatrix introduces class
-        Matrix which is a multidimensional structure which in the most trivial
-        case is Matrix of scalars. A matrix of specific form could also be
-        classified as a vector. MathMatrix heavily relly on MathVector, which
-        introduces VectorImage. VectorImage is a reference, it does not contain
-        data but only refer on actual ( aka Long ) container of lined data.  Use
-        MathMatrix for arithmetic operations with matrices, to triangulate,
-        permutate or transform matrix, to get a specific or the general solution
-        of a system of linear equations, to get LU, QR decomposition, for SVD or
-        PCA. Also, Matrix is a convenient and efficient data container, you may
-        use it to continuously store huge an array of arrays or for matrix
-        computation.
+        Collection of functions for matrix math. MathMatrix introduces the class
+        Matrix. Matrix is a multidimensional structure. A matrix of specific
+        form could also be classified as a vector. MathMatrix heavily relly on
+        MathVector, which introduces VectorAdapter. VectorAdapter is a
+        reference, and it does not contain data but only refers to actual ( aka
+        Long ) container of lined data.  Use MathMatrix for arithmetic
+        operations with matrices, to triangulate, permutate or transform matrix,
+        to get a specific or the general solution of a system of linear
+        equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a
+        convenient and efficient data container, and you may use it to store
+        huge an array of arrays or for matrix computation.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
         - math
         - matrix
@@ -43,11 +39,11 @@ module:
         - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@willbe.so>
         - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -129,7 +125,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/amath/l5_matrix/Include.s
+        path: ../proto/dwtools/amath/l5_matrix/module/full/Include.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -176,19 +172,34 @@ module:
           - ../proto/dwtools/abase
           - ../proto/dwtools/amath
           - ../proto/dwtools/amath/l5_matrix
-          - ../proto/dwtools/amath/l5_matrix/Include.s
+          - ../proto/dwtools/amath/l5_matrix/include
+          - ../proto/dwtools/amath/l5_matrix/include/Basic.s
+          - ../proto/dwtools/amath/l5_matrix/include/Mid.s
           - ../proto/dwtools/amath/l5_matrix/l1
           - ../proto/dwtools/amath/l5_matrix/l1/Basic.s
           - ../proto/dwtools/amath/l5_matrix/l3
           - ../proto/dwtools/amath/l5_matrix/l3/RoutinesFromVector.s
+          - ../proto/dwtools/amath/l5_matrix/l3_methods
+          - ../proto/dwtools/amath/l5_matrix/l3_methods/Element.s
+          - ../proto/dwtools/amath/l5_matrix/l3_methods/Iterator.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Basic.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Advanced.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Checker.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Element.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Iterator.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Maker.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Mid.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Operation.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Pivoting.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Solver.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Svd.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Transformation.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Util.s
+          - ../proto/dwtools/amath/l5_matrix/l7_methods
+          - ../proto/dwtools/amath/l5_matrix/l7_methods/Svd.s
+          - ../proto/dwtools/amath/l5_matrix/module
+          - ../proto/dwtools/amath/l5_matrix/module/compact
+          - ../proto/dwtools/amath/l5_matrix/module/full
+          - ../proto/dwtools/amath/l5_matrix/module/full/Include.s
+          - ../proto/dwtools/amath/l5_matrix/module/minimal
           - ../proto/dwtools/amath/l5_matrix.test
           - ../proto/dwtools/amath/l5_matrix.test/Matrix.test.s
           - ../proto/dwtools/amath/l5_matrix.test/Svd.test.s
@@ -742,24 +753,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          reflector: 'reflector::exported.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          reflector: 'reflector::exported.files.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -848,47 +841,33 @@ module:
           content: proto
           export: 1
     consistency:
-      wMathMatrix.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wMathMatrix
       org: noorg
       description: >-
-        Collection of functions for matrix math. MathMatrix introduces class
-        Matrix which is a multidimensional structure which in the most trivial
-        case is Matrix of scalars. A matrix of specific form could also be
-        classified as a vector. MathMatrix heavily relly on MathVector, which
-        introduces VectorImage. VectorImage is a reference, it does not contain
-        data but only refer on actual ( aka Long ) container of lined data.  Use
-        MathMatrix for arithmetic operations with matrices, to triangulate,
-        permutate or transform matrix, to get a specific or the general solution
-        of a system of linear equations, to get LU, QR decomposition, for SVD or
-        PCA. Also, Matrix is a convenient and efficient data container, you may
-        use it to continuously store huge an array of arrays or for matrix
-        computation.
+        Collection of functions for matrix math. MathMatrix introduces the class
+        Matrix. Matrix is a multidimensional structure. A matrix of specific
+        form could also be classified as a vector. MathMatrix heavily relly on
+        MathVector, which introduces VectorAdapter. VectorAdapter is a
+        reference, and it does not contain data but only refers to actual ( aka
+        Long ) container of lined data.  Use MathMatrix for arithmetic
+        operations with matrices, to triangulate, permutate or transform matrix,
+        to get a specific or the general solution of a system of linear
+        equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a
+        convenient and efficient data container, and you may use it to store
+        huge an array of arrays or for matrix computation.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 8.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
-        - math
-        - matrix
-        - matrix math
-        - convolution
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@willbe.so>
-        - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
+      contributors: *ref_4
       npm.name: wmathmatrix
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -968,7 +947,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/amath/l5_matrix/Include.s
+        path: proto/dwtools/amath/l5_matrix/module/full/Include.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -1571,9 +1550,8 @@ module:
           - 'build::npm'
     consistency:
       ../.ex.will.yml:
-        hash: eb5c1fd09ab21b5335bc958a2a34f292
-        size: 2559
+        hash: 1af7646ff5fe78a178db7c817dacf5e1
+        size: 2507
       ../.im.will.yml:
-        hash: 148750fb8fae096c53d58579ea4e3613
-        size: 5244
-      wMathMatrix.out.will.yml: *ref_0
+        hash: 60faa80ce09d0d3e4f2a920aa671026e
+        size: 5256

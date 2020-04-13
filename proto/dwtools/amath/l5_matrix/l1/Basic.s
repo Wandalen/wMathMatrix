@@ -336,6 +336,28 @@ _.routineExtend( _equalAre, _._equal );
 
 //
 
+function _equalFrom( it )
+{
+
+  if( it.strictContainer )
+  return;
+
+  if( _.longIs( it.src ) || _.vectorAdapterIs( it.src ) )
+  {
+    debugger;
+    it.src = _.Matrix.FromVector( it.src );
+  }
+
+  if( _.longIs( it.src2 ) || _.vectorAdapterIs( it.src2 ) )
+  {
+    debugger;
+    it.src2 = _.Matrix.FromVector( it.src2 );
+  }
+
+}
+
+//
+
 function _longGet()
 {
   let self = this;
@@ -2105,6 +2127,8 @@ let Extension =
   Is,
   _traverseAct,
   _equalAre,
+  _equalFrom,
+
   _longGet,
 
   // import / export
