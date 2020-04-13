@@ -579,15 +579,12 @@ function transpose() /* xxx : check */
   self._changeBegin();
 
   let dims = self.dims.slice();
-  let strides = self._stridesEffective.slice();
+  let strides = self._stridesEffective.slice(); /* xxx : refactor field _stridesEffective */
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( dims.length >= 2 );
   _.assert( strides.length >= 2 );
   _.assert( strides.length === dims.length );
-
-  // _.longSwapElements( dims, dims.length-1, dims.length-2 );
-  // _.longSwapElements( strides, strides.length-1, strides.length-2 );
 
   _.longSwapElements( dims, 0, 1 );
   _.longSwapElements( strides, 0, 1 );

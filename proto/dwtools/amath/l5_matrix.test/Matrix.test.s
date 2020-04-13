@@ -10780,78 +10780,79 @@ function PolynomClosestFor( test )
 // equaler
 // --
 
-function identical( test )
+function compare( test )
 {
-
-  // /* */
-  //
-  // test.case = 'trivial';
-  //
-  // var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  // var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  // var got = m1.identicalWith( m2 );
-  // test.identical( got, true );
-  //
-  // /* */
-  //
-  // test.case = 'with strides';
-  //
-  // var m1 = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 1, 3, 5 ]),
-  //   dims : [ 3, 1 ],
-  //   inputTransposing : 0,
-  // });
-  //
-  // var m2 = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
-  //   offset : 1,
-  //   inputTransposing : 0,
-  //   strides : [ 2, 6 ],
-  //   dims : [ 3, 1 ],
-  // });
-  //
-  // var got = m1.identicalWith( m2 );
-  // test.identical( got, true );
-  //
-  // /* */
-  //
-  // test.case = 'with infinity dim';
-  //
-  // var m1 = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 1, 3, 5 ]),
-  //   dims : [ 3, Infinity ],
-  //   inputTransposing : 0,
-  // });
-  //
-  // var m2 = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 1, 3, 5 ]),
-  //   dims : [ 3, Infinity ],
-  //   inputTransposing : 0,
-  // });
-  //
-  // var got = m1.identicalWith( m2 );
-  // test.identical( got, true );
-  // xxx
 
   /* */
 
-  // test.case = 'Matrix and BufferTyped';
-  //
-  // var m1 = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 1, 3, 5 ]),
-  //   dims : [ 3, 1 ],
-  //   inputTransposing : 0,
-  // });
-  // var v1 = new F32x([ 1, 3, 5 ]);
-  //
-  // test.identical( _.equivalent( m1, v1 ), true );
-  // test.identical( _.equivalent( v1, m1 ), true );
-  // test.equivalent( m1, v1 );
+  test.case = 'trivial';
+
+  var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  var got = m1.identicalWith( m2 );
+  test.identical( got, true );
+
+  /* */
+
+  test.case = 'with strides';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputTransposing : 0,
+  });
+
+  var m2 = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+    offset : 1,
+    inputTransposing : 0,
+    strides : [ 2, 6 ],
+    dims : [ 3, 1 ],
+  });
+
+  var got = m1.identicalWith( m2 );
+  test.identical( got, true );
+
+  /* */
+
+  test.case = 'with infinity dim';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, Infinity ],
+    inputTransposing : 0,
+  });
+
+  var m2 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, Infinity ],
+    inputTransposing : 0,
+  });
+
+  var got = m1.identicalWith( m2 );
+  test.identical( got, true );
+
+  /* */
+
+  test.case = 'Matrix and BufferTyped';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputTransposing : 0,
+  });
+  var v1 = new F32x([ 1, 3, 5 ]);
+
+  test.identical( _.identical( m1, v1 ), false );
+  test.identical( _.identical( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), true );
+  test.identical( _.equivalent( v1, m1 ), true );
+  test.equivalent( m1, v1 );
 
   /* */
 
@@ -10865,43 +10866,84 @@ function identical( test )
   });
   var v1 = ([ 1, 3, 5 ]);
 
-  debugger;
+  test.identical( _.identical( m1, v1 ), false );
+  test.identical( _.identical( v1, m1 ), false );
   test.identical( _.equivalent( m1, v1 ), true );
-  debugger;
   test.identical( _.equivalent( v1, m1 ), true );
   test.equivalent( m1, v1 );
 
-  // /* */
-  //
-  // test.case = 'Matrix and vadapter BufferTyped';
-  //
-  // var m1 = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 1, 3, 5 ]),
-  //   dims : [ 3, 1 ],
-  //   inputTransposing : 0,
-  // });
-  // var v1 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
-  //
-  // test.identical( _.equivalent( m1, v1 ), true );
-  // test.identical( _.equivalent( v1, m1 ), true );
-  // test.equivalent( m1, v1 );
-  //
-  // /* */
-  //
-  // test.case = 'Matrix and vadapter Array';
-  //
-  // var m1 = new _.Matrix
-  // ({
-  //   buffer : [ 1, 3, 5 ],
-  //   dims : [ 3, 1 ],
-  //   inputTransposing : 0,
-  // });
-  // var v1 = _.vectorAdapter.from([ 1, 3, 5 ]);
-  //
-  // test.identical( _.equivalent( m1, v1 ), true );
-  // test.identical( _.equivalent( v1, m1 ), true );
-  // test.equivalent( m1, v1 );
+  /* */
+
+  test.case = 'Matrix and Array different type';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputTransposing : 0,
+  });
+  var v1 = ([ 1, 3, 5 ]);
+
+  test.identical( _.identical( m1, v1 ), false );
+  test.identical( _.identical( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), false );
+  test.identical( _.equivalent( v1, m1 ), false );
+
+  /* */
+
+  test.case = 'Matrix and vadapter BufferTyped';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputTransposing : 0,
+  });
+  var v1 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
+
+  test.identical( _.identical( m1, v1 ), false );
+  test.identical( _.identical( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), true );
+  test.identical( _.equivalent( v1, m1 ), true );
+  test.equivalent( m1, v1 );
+
+  /* */
+
+  test.case = 'Matrix and vadapter Array';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : [ 1, 3, 5 ],
+    dims : [ 3, 1 ],
+    inputTransposing : 0,
+  });
+  var v1 = _.vectorAdapter.from([ 1, 3, 5 ]);
+
+  test.identical( _.identical( m1, v1 ), false );
+  test.identical( _.identical( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), true );
+  test.identical( _.equivalent( v1, m1 ), true );
+  test.equivalent( m1, v1 );
+
+  /* */
+
+  test.case = 'Matrix and vadapter Array different type';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputTransposing : 0,
+  });
+  var v1 = _.vectorAdapter.from([ 1, 3, 5 ]);
+
+  test.identical( _.identical( m1, v1 ), false );
+  test.identical( _.identical( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), false );
+  test.identical( _.equivalent( v1, m1 ), false );
+  test.equivalent( m1, v1 );
+
+  /* */
 
 }
 
@@ -11005,7 +11047,7 @@ var Self =
 
     // equaler
 
-    identical,
+    compare,
 
   },
 
