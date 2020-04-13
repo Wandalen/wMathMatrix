@@ -282,18 +282,18 @@ function _equalAre( it )
 
   it.continue = false; debugger;
 
-  if( !( it.src2 instanceof Self ) )
-  {
-
-    if( !it.strictContainer )
-    if( _.longIs( it.src2 ) || _.vectorAdapterIs( it.src2 ) )
-    if( it.src.isCol() )
-    {
-      debugger;
-      it.src2 = _.Matrix.FromVector( it.src2 );
-    }
-
-  }
+  // if( !( it.src2 instanceof Self ) )
+  // {
+  //
+  //   if( !it.strictContainer )
+  //   if( _.longIs( it.src2 ) || _.vectorAdapterIs( it.src2 ) )
+  //   if( it.src.isCol() )
+  //   {
+  //     debugger;
+  //     it.src2 = _.Matrix.FromVector( it.src2 );
+  //   }
+  //
+  // }
 
   if( !( it.src2 instanceof Self ) )
   {
@@ -341,6 +341,8 @@ function _equalFrom( it )
 
   if( it.strictContainer )
   return;
+
+  debugger;
 
   if( _.longIs( it.src ) || _.vectorAdapterIs( it.src ) )
   {
