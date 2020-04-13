@@ -62,7 +62,7 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 
 Якщо задати значення опції `inputTransposing : 1` тоді ширина кроку заданих прикладу буде [ 2, 1 ]:
 
-![StandardStridesInputTransposing0.png](../../img/StandardStridesInputTransposing0.png)
+![StandardStridesInputTransposing1.png](../../img/StandardStridesInputTransposing1.png)
 
 Опція `inputTransposing` підказує конструктору, які порахувати ширину кроку, альтернативно можливо вказати ширину кроку явно:
 
