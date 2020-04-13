@@ -218,8 +218,8 @@ console.log( `submatrix1 :\n${ sub1.toStr() }` );
 */
 
 var sub2 = matrix.submatrix( [ 1, 2 ], [ 1, 2 ] );
-console.log( `submatrix1 :\n${ sub1.toStr() }` );
-/* log : matrix :
+console.log( `submatrix2 :\n${ sub2.toStr() }` );
+/* log : submatrix2 :
 +6,  +7,
 +10, +11,
 */
