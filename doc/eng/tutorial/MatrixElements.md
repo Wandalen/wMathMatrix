@@ -28,6 +28,7 @@ The method `rowGet` returns a row as a vector adapter, not by copying data, but 
 
 Use the method `rowSet` to set a value for a row.
 
+
 ```js
 var matrix = _.Matrix.MakeSquare
 ([
