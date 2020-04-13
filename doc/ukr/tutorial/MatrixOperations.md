@@ -117,11 +117,10 @@ var matrix = _.Matrix.MakeSquare
 ]);
 var vector = [ 1, 1 ];
 
-matrix.matrix1pplyTo( vector );
+matrix.matrixApplyTo( vector );
 console.log( `vector :\n${ vector }` );
 /* log : vector :
 [ 3, 7 ]
-*/
 */
 ```
 

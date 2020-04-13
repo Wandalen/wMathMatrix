@@ -15,7 +15,3 @@ console.log( `got :\n${ got }` );
 /* log : got :
 [ 3, 7 ]
 */
-console.log( `got === vector :\n${ got === vector }` );
-/* log : got === vector :
-true
-*/
