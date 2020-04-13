@@ -8168,12 +8168,12 @@ function MulBasic( test )
 
 function MulSubmatiricesExperiment( test )
 {
-  var matrix = _.Matrix.MakeSquare
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9
-  ]);
+  var matrix = _.Matrix
+  ({
+    buffer : [ 1, 2, 3, 4, 5, 6,7, 8, 9 ],
+    strides : [ 3, 1 ],
+    dims : [ 3, 3 ],
+  });
 
   var sub1 = matrix.submatrix( [ 0, 1 ], [ 0, 1 ] );
   sub1.mul( [ sub1, 2 ] );
@@ -8186,6 +8186,7 @@ function MulSubmatiricesExperiment( test )
 
   test.identical( sub1, exp );
 }
+MulSubmatiricesExperiment.experimental = 1;
 
 //
 
