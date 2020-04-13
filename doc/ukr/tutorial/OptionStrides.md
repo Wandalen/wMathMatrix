@@ -191,6 +191,38 @@ console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
 
 Приведена діаграма показано як буфер інтерпретується в матрицю. При зміні опції `strides` проходить транспонування матриці без копіювання буфера.
 
+Матрицю можливо транспонувати методом `transpose`.
+
+```js
+var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
+
+var matrix = _.Matrix
+({
+  buffer : buffer1,
+  dims : [ 3, 2 ],
+  strides : [ 3, 1 ],
+  offset : 1,
+});
+
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++4, +5,
++7, +8,
+*/
+
+matrix.transpose();
+console.log( `transposed matrix :\n${ matrix.toStr() }` );
+/* log : transposed matrix :
++1, +2, +4,
++5, +7, +9,
+*/
+```
+
+![ZeroCopyTransposingMethodTranspose.png](../../img/ZeroCopyTransposingMethodTranspose.png)
+
+Діаграма показує процес транспонування матриці при використанні методу `transpose`. При використанні методу значення полів `dims` i `strides` змінюються автоматично.
+
 ### Підматриці
 
 ```js

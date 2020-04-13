@@ -20,6 +20,8 @@ console.log( `determinant :\n${ result }` );
 */
 ```
 
+Метод `determinant` знаходить детермінант матирці.
+
 ### Транспонування матриці методом `transpose`
 
 Матрицю можливо транспонувати методом `transpose`.
@@ -43,8 +45,6 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 +2, +4,
 */
 ```
-
-Метод `determinant` знаходить детермінант матирці.
 
 ### Множення матриці на скаляр
 
