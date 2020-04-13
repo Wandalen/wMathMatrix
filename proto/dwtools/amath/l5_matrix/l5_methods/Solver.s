@@ -114,6 +114,41 @@ _triangulateGausian.defaults =
 
 //
 
+/**
+ * Method triangulateGausian() provides triangulation by Gauss method.
+ * Optionally this transformation can be applied to vector {-y-}.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +1, -2,  +2,
+ *   +5, -15, +8,
+ *   -2, -11, -11,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
+ *
+ * m.triangulateGausian( y );
+ * console.log( m.toStr() );
+ * // log :
+ * // +1, -2, +2,
+ * // +0, -5, -2,
+ * // +0, +0, -1,
+ * console.log( y.toStr() );
+ * // log :
+ * // +1,
+ * // -4,
+ * // +15
+ *
+ * @param { Matrix } y - Column vector to transform.
+ * @returns { Matrix } - Returns triangulated vector, performs triangulation of the matrix.
+ * @method triangulateGausian
+ * @throws { Error } If vector {-y-} has length different to number or rows in current matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function triangulateGausian( y )
 {
   let self = this;
@@ -123,6 +158,41 @@ function triangulateGausian( y )
 }
 
 //
+
+/**
+ * Method triangulateGausianNormal() calculates normal to elements and provides triangulation by Gauss method.
+ * Optionally this transformation can be applied to vector {-y-}.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +1, -2,  +2,
+ *   +5, -15, +8,
+ *   -2, -11, -11,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
+ *
+ * m.triangulateGausianNormal( y );
+ * console.log( m.toStr() );
+ * // log :
+ * // +1, -2, +2,
+ * // +0, +1, 0.4,
+ * // +0, +0, 1,
+ * console.log( y.toStr() );
+ * // log :
+ * // +1,
+ * // +0.8,
+ * // -15
+ *
+ * @param { Matrix } y - Column vector to transform.
+ * @returns { Matrix } - Returns triangulated vector, performs triangulation of the matrix.
+ * @method triangulateGausianNormal
+ * @throws { Error } If vector {-y-} has length different to number or rows in current matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function triangulateGausianNormal( y )
 {
@@ -135,6 +205,38 @@ function triangulateGausianNormal( y )
 
 //
 
+/**
+ * Method triangulateGausianPivoting() provides triangulation with pivoting by Gauss method.
+ * Optionally this transformation can be applied to vector {-y-}.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 4 ]).copy
+ * ([
+ *   +1, +3, +1, +2,
+ *   +2, +6, +4, +8,
+ *   +0, +0, +2, +4,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ +1, +3, +1 ]);
+ * var pivots = m.triangulateGausianPivoting( y );
+ * test.identical( m, em );
+ * console.log( m.toStr() );
+ * // log :
+ * // +3, +2, +1, +1,
+ * // +0, +4, +2, +0,
+ * // +0, +0, +0, +0,
+ * console.log( pivots );
+ * // log : [ [ 0, 1, 2 ], [ 1, 3, 2, 0 ] ]
+ *
+ * @param { Matrix } y - Column vector to transform.
+ * @returns { Matrix } - Returns triangulated vector, performs triangulation of the matrix.
+ * @method triangulateGausianPivoting
+ * @throws { Error } If vector {-y-} has length different to number or rows in current matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function triangulateGausianPivoting( y )
 {
   let self = this;
@@ -145,6 +247,32 @@ function triangulateGausianPivoting( y )
 }
 
 //
+
+/**
+ * Method triangulateGausian() provides triangulation by Lu method.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +1, -2,  +2,
+ *   +5, -15, +8,
+ *   -2, -11, -11,
+ * ]);
+ *
+ * m.triangulateLu();
+ * console.log( m.toStr() );
+ * // log :
+ * // +1, -2, +2,
+ * // +5, -5, -2,
+ * // -2, +3, -1,
+ *
+ * @returns { Matrix } - Returns triangulated matrix.
+ * @method triangulateLu
+ * @throws { Error } If arguments are passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function triangulateLu()
 {
@@ -178,6 +306,32 @@ function triangulateLu()
 
 //
 
+/**
+ * Method triangulateLuNormal() calculates normal to matrix rows and provides triangulation by Lu method.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +1, -2,  +2,
+ *   +5, -15, +8,
+ *   -2, -11, -11,
+ * ]);
+ *
+ * m.triangulateLuNormal();
+ * console.log( m.toStr() );
+ * // log :
+ * // +1, -2,  +2,
+ * // +5, -5,  +0.4,
+ * // -2, -15, -1,
+ *
+ * @returns { Matrix } - Returns triangulated matrix.
+ * @method triangulateLuNormal
+ * @throws { Error } If arguments are passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function triangulateLuNormal()
 {
   let self = this;
@@ -207,6 +361,33 @@ function triangulateLuNormal()
 }
 
 //
+
+/**
+ * Method triangulateLuPivoting() provides triangulation of matrix with pivoting by Lu method.
+ * Optionally, it accepts vector of pivots {-pivots-}.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +1, -2,  +2,
+ *   +5, -15, +8,
+ *   -2, -11, -11,
+ * ]);
+ *
+ * m.triangulateLuPivoting();
+ * console.log( m.toStr() );
+ * // log :
+ * // +5.000, -15.000, +8.000,
+ * // -0.400, -17.000, -7.800,
+ * // -0.200, -0.059,  -0.059,
+ *
+ * @returns { Long } - Returns long with pivots, provides triangulation of matrix.
+ * @method triangulateLuPivoting
+ * @throws { Error } If vector {-y-} has length different to number or rows in current matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function triangulateLuPivoting( pivots )
 {
@@ -1049,41 +1230,45 @@ function SolveTriangleUpperNormal( x, m, y )
  * Static routine SolveGeneral() solves system of equations in general form.
  *
  * @example
- * 
+ *
  * var m = _.Matrix.MakeSquare
  * ([
  *   +2, +2, -2,
  *   -2, -3, +4,
  *   +4, +3, -2,
  * ]);
- * 
+ *
  * var me = _.Matrix.MakeSquare
  * ([
  *   +1, +0, +1,
  *   +0, +1, -2,
  *   +0, +0, +0,
  * ]);
- * 
+ *
  * var y = _.Matrix.MakeCol([ 0, 3, 3 ]);
  * var r = _.Matrix.SolveGeneral({ m, y, pivoting : 0 });
-  * var re =
- * {
- *   nsolutions : Infinity,
- *   base : _.Matrix.MakeCol([ +3, -3, +0 ]),
- *   nkernel : 1,
- *   kernel : _.Matrix.MakeSquare
- *   ([
- *     +0, +0, -1,
- *     +0, +0, +2,
- *     +0, +0, +1,
- *   ]),
- * }* 
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * console.log( r.toStr() );
+ * // log : {
+ * //   nsolutions : Infinity,
+ * //   base : _.Matrix.MakeCol([ +3, -3, +0 ]),
+ * //   nkernel : 1,
+ * //   kernel : _.Matrix.MakeSquare
+ * //   ([
+ * //     +0, +0, -1,
+ * //     +0, +0, +2,
+ * //     +0, +0, +1,
+ * //   ]),
+ * // }
+ *
+ * @param { Map } o - Options map.
+ * @param { Matrix } o.x - Destination matrix.
+ * @param { Matrix } o.m - Matrix of coefficients.
+ * @param { Matrix } o.y - Matrix of results.
+ * @param { Number } o.kernel - Number of kernels.
+ * @param { BoolLike } o.pivoting - Enables pivoting.
+ * @returns { Map } - Returns maps with solved system of equations.
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If options map {-o-} has unknown options.
  * @function SolveGeneral
  * @static
  * @class Matrix
@@ -1192,6 +1377,34 @@ SolveGeneral.defaults =
 
 //
 
+/**
+ * Method invert() inverts current matrix by Gauss-Jordan method.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +2, -3, +4,
+ *   +2, -2, +3,
+ *   +6, -7, +9,
+ * ]);
+ *
+ * m.invert();
+ * console.log( m.toStr() );
+ * // log :
+ * // -1.5, +0.5, +0.5,
+ * // +0,   +3,   -1,
+ * // +1,   +2,   -1,
+ *
+ * @returns { Matrix } - Returns the matrix with inverted values.
+ * @method invert
+ * @throws { Error } If number of dimensions is more then two.
+ * @throws { Error } If current matrix is not a square matrix.
+ * @throws { Error } If arguments are passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function invert()
 {
   let self = this;
@@ -1205,6 +1418,35 @@ function invert()
 
 //
 
+/**
+ * Method invertingClone() inverts copy of current matrix by Gauss-Jordan method.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +2, -3, +4,
+ *   +2, -2, +3,
+ *   +6, -7, +9,
+ * ]);
+ *
+ * var got = m.invertingClone();
+ * console.log( got.toStr() );
+ * // -1.5, +0.5, +0.5,
+ * // +0,   +3,   -1,
+ * // +1,   +2,   -1,
+ * console.log( got !== m );
+ * // log : true
+ *
+ * @returns { Matrix } - Returns a copy of the matrix with inverted values.
+ * @method invertingClone
+ * @throws { Error } If number of dimensions is more then two.
+ * @throws { Error } If current matrix is not a square matrix.
+ * @throws { Error } If arguments are passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function invertingClone()
 {
   let self = this;
@@ -1217,6 +1459,36 @@ function invertingClone()
 }
 
 //
+
+/**
+ * Method copyAndInvert() inverts current matrix by Gauss-Jordan method.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare( 3 );
+ * var src = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   +2, -3, +4,
+ *   +2, -2, +3,
+ *   +6, -7, +9,
+ * ]);
+ *
+ * m.copyAndInvert( src );
+ * console.log( m.toStr() );
+ * // log :
+ * // -1.5, +0.5, +0.5,
+ * // +0,   +3,   -1,
+ * // +1,   +2,   -1,
+ *
+ * @param { Long|VectorAdapter|Matrix } - Source buffer.
+ * @returns { Matrix } - Returns the matrix with inverted values of source buffer.
+ * @method copyAndInvert
+ * @throws { Error } If number of dimensions is more then two.
+ * @throws { Error } If current matrix is not a square matrix.
+ * @throws { Error } If arguments.length is not equal to one.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function copyAndInvert( src )
 {
