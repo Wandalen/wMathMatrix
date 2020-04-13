@@ -1009,12 +1009,11 @@ function make( test )
   o.offset = 0;
   _make( test, o );
 
-  // xxx
-  // o.offset = undefined;
-  // _make( test, o );
-  //
-  // o.offset = 13;
-  // _make( test, o );
+  o.offset = undefined;
+  _make( test, o );
+
+  o.offset = 13;
+  _make( test, o );
 
   /* */
 
