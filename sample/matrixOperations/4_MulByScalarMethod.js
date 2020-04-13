@@ -6,12 +6,12 @@ let _ = wTools;
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4,
+  3, 4
 ]);
-var vector = [ 1, 1 ];
 
-var got = matrix.matrixApplyTo( vector );
-console.log( `got :\n${ got }` );
-/* log : got :
-[ 3, 7 ]
+matrix.mul( 3 );
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++3, +6,
++9, +12,
 */
