@@ -35,6 +35,38 @@ console.log( `got :\n${ got.toStr() }` );
 */
 ```
 
+### Множення матриці на вектор
+
+Матриця може бути помножена на вектор з допомогою статичної рутини `Mul`, результатом множення буде вектор.
+
+```js
+var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+var vector = [ 1, 1 ];
+
+var got = _.Matrix.Mul( null, [ matrix, vector ] );
+console.log( `got :\n${ got }` );
+/* log : got :
+[ 3, 7 ]
+*/
+```
+
+Екземпляр класу може бути помножений на вектор з використанням методу `matrixApplyTo`, результат множення записується в вектор.
+
+```js
+var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+var vector = [ 1, 1 ];
+
+var got = matrix.matrixApplyTo( vector );
+console.log( `got :\n${ got }` );
+/* log : got :
+[ 3, 7 ]
+*/
+console.log( `got === vector :\n${ got === vector }` );
+/* log : got === vector :
+true
+*/
+```
+
 ### Множення двох матриць
 
 Перемножити матриці можна з допомогою статичної рутини `Mul`, результатом множення буде матриця.
@@ -66,35 +98,23 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-### Множення матриці на вектор
+### Транспонування матриці методом `transpose`
 
-Матриця може бути помножена на вектор з допомогою статичної рутини `Mul`, результатом множення буде вектор.
-
-```js
-var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
-var vector = [ 1, 1 ];
-
-var got = _.Matrix.Mul( null, [ matrix, vector ] );
-console.log( `got :\n${ got }` );
-/* log : got :
-[ 3, 7 ]
-*/
-```
-
-Екземпляр класу може бути помножений на вектор з використанням методу `matrixApplyTo`, результат множення записується в вектор.
+Створену матрицю можна транспонувати методом `transpose`, дані зберігаються в оригінальному контейнері.
 
 ```js
 var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
-var vector = [ 1, 1 ];
-
-var got = matrix.matrixApplyTo( vector );
-console.log( `got :\n${ got }` );
-/* log : got :
-[ 3, 7 ]
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
 */
-console.log( `got === vector :\n${ got === vector }` );
-/* log : got === vector :
-true
+
+matrix.transpose();
+console.log( `transposed matrix :\n${ matrix.toStr() }` );
+/* log : transposed matrix :
++1, +3,
++2, +4,
 */
 ```
 
