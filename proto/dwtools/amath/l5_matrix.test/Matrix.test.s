@@ -2300,9 +2300,7 @@ function make( test )
       ]),
     });
 
-    debugger;
-    test.notIdentical( m, expected ); // xxx
-    debugger;
+    test.notIdentical( m, expected );
     test.is( m.buffer.length === 9 );
     test.is( m.offset === 0 );
     test.is( m.buffer instanceof U32x );
@@ -8168,7 +8166,7 @@ function MulBasic( test )
 
 //
 
-function MulSubmatiricesExperiment( test )
+function MulSubmatirices( test )
 {
   var matrix = _.Matrix
   ({
@@ -8188,12 +8186,14 @@ function MulSubmatiricesExperiment( test )
 
   test.identical( sub1, exp );
 }
-MulSubmatiricesExperiment.experimental = 1;
 
 //
 
-function MulSeveralExperiment( test )
+function MulSeveral( test )
 {
+
+  /**/
+
   test.case = 'mul several matrices with different dimensions';
   var matrix1 = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -8206,8 +8206,7 @@ function MulSeveralExperiment( test )
     2,  1,
     -1, -2,
   ]);
-
-  var matrix3 = _.Matrix.Make([ 1, 2 ]).copy
+  var matrix3 = _.Matrix.Make([ 2, 1 ]).copy
   ([
     -4,
     5,
@@ -8220,9 +8219,10 @@ function MulSeveralExperiment( test )
     -3
   ]);
   test.identical( got, exp );
-}
 
-MulSeveralExperiment.experimental = 1;
+  /**/
+
+}
 
 //
 
@@ -11193,8 +11193,8 @@ var Self =
     colRowWiseOperations,
     mul,
     MulBasic, /* qqq : extend. add extreme cases. give me a link, please */
-    MulSubmatiricesExperiment,
-    MulSeveralExperiment,
+    MulSubmatirices,
+    MulSeveral,
     AddBasic, /* qqq : extend. add extreme cases */
 
     addAtomWise,
