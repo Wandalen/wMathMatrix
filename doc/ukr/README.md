@@ -41,7 +41,7 @@
   <summary><a href="./tutorial/OptionStrides.md">
     Як використовувати опцію strides
   </a></summary>
-    Як використати опцію <code>stride</code> для інтерпретації буфера в матрицю.
+    Як використати опцію <code>strides</code> для інтерпретації буфера як матриці.
 </details>
 
 <details>
