@@ -171,8 +171,8 @@ true
 ```js
 var buffer1 = new I32x
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  1.01, 2,
+  3,    4,
 ]);
 var matrixA = _.Matrix
 ({
@@ -183,8 +183,8 @@ var matrixA = _.Matrix
 
 var buffer2 = new F32x
 ([
-  +1.00001, -5, +2,
-  -3,       +4, +7.000001,
+  1.01, 2,
+  3,    4,
 ]);
 var matrixB = _.Matrix
 ({
@@ -193,14 +193,14 @@ var matrixB = _.Matrix
   inputTransposing : 1,
 });
 
-var gotStandard = _.equivalent( matrixA, matrixB );
-console.log( `result of comparison with standard accuracy :\n${ gotStandard }` );
+var equivalent = _.equivalent( matrixA, matrixB );
+console.log( `result of comparison with standard accuracy :\n${ equivalent }` );
 /* log : result of comparison with standard accuracy :
 false
 */
 
-var gotNonStandard = _.equivalent( matrixA, matrixB, { accuracy : 0.0001 } );
-console.log( `result of comparison with non-standard accuracy :\n${ gotNonStandard }` );
+var equivalent = _.equivalent( matrixA, matrixB, { accuracy : 0.01 } );
+console.log( `result of comparison with accuracy 0.01 :\n${ equivalent }` );
 /* log : result of comparison with non-standard accuracy :
 true
 */
