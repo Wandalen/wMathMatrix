@@ -12,41 +12,25 @@
 ### Порівняння двох матриць
 
 ```js
-var buffer1 = new F32x
+var matrixA = _.Matrix.MakeSquare
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  +1, -5,
+  -3, +4,
 ]);
-var matrixA = _.Matrix
-({
-  buffer : buffer1,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
-var buffer2 = new F32x
+var matrixB = _.Matrix.MakeSquare
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  +1, -5,
+  -3, +4,
 ]);
-var matrixB = _.Matrix
-({
-  buffer : buffer2,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
 var identical = _.identical( matrixA, matrixB );
-console.log( `identical :\n${ identical }` );
-/* log : identical :
-true
-*/
+console.log( `identical : ${ identical }` );
+/* log : identical : true */
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent :\n${ identical }` );
-/* log : equivalent :
-true
-*/
+console.log( `equivalent : ${ identical }` );
+/* log : equivalent : true */
 ```
 
 Обидві матриці мають однакові буфери, розмірності і порядок зчитування елементів тому рутини `_.identical` i `_.equivalent` повернули `true`.
@@ -56,40 +40,36 @@ true
 ```js
 var buffer1 = new F32x
 ([
-  +8, -4, +1,
-  +1, -5, +2,
-  -3, +4, +7,
+  1, 2,
+  3, 4,
 ]);
 var matrixA = _.Matrix
 ({
   buffer : buffer1,
-  dims : [ 2, 3 ],
-  strides : [ 3, 1  ],
-  offset : 3
+  dims : [ 2, 2 ],
+  strides : [ 2, 1  ],
 });
 
 var buffer2 = new F32x
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  0, 1, 2, 3,
+  3, 4, 5, 0,
 ]);
+
 var matrixB = _.Matrix
 ({
   buffer : buffer2,
-  dims : [ 2, 3 ],
-  strides : [ 2, 1 ],
+  dims : [ 2, 2 ],
+  strides : [ 3, 1 ],
+  offset : 1,
 });
 var identical = _.identical( matrixA, matrixB );
-console.log( `identical :\n${ identical }` );
-/* log : identical :
-true
-*/
+console.log( `identical : ${ identical }` );
+/* log : identical : true*/
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent :\n${ identical }` );
-/* log : equivalent :
-true
-*/
+console.log( `equivalent : ${ identical }` );
+/* log : equivalent : true */
 ```
 
 Рутини `_.identical` i `_.equivalent` порівнюють значення матриці, при цьому ігноруюються значення таких полів як `strides` i `offset`. Для матриць `matrixA` i `matrixB` результат перевірки - `true`.
@@ -99,38 +79,34 @@ true
 ```js
 var buffer1 = new I32x
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  +1, -5,
+  -3, +4,
 ]);
 var matrixA = _.Matrix
 ({
   buffer : buffer1,
-  dims : [ 2, 3 ],
+  dims : [ 2, 2 ],
   inputTransposing : 1,
 });
 
 var buffer2 = new F32x
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  +1, -5,
+  -3, +4,
 ]);
 var matrixB = _.Matrix
 ({
   buffer : buffer2,
-  dims : [ 2, 3 ],
+  dims : [ 2, 2 ],
   inputTransposing : 1,
 });
 var identical = _.identical( matrixA, matrixB );
-console.log( `identical :\n${ identical }` );
-/* log : identical :
-false
-*/
+console.log( `identical : ${ identical }` );
+/* log : identical : false */
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent :\n${ identical }` );
-/* log : equivalent :
-true
-*/
+console.log( `equivalent : ${ identical }` );
+/* log : equivalent : true */
 ```
 
 Значення матриць, їх розмірність, порядок інтерпретації буфера однаковий, відрізняються лише типи буферів. Рутина `_.identical` порівнює як значення матриці, так і типи буферів, її результат - `false`. Рутина `_.equivalent` порівняла лише значення матриць, її результат - `true`.
@@ -150,16 +126,12 @@ var matrixCol = _.Matrix.MakeCol
 var vector = [ 1, 2, 3 ];
 
 var identical = _.identical( matrixCol, vector );
-console.log( `identical :\n${ identical }` );
-/* log : identical :
-false
-*/
+console.log( `identical : ${ identical }` );
+/* log : identical : false */
 
 var equivalent = _.equivalent( matrixCol, vector );
-console.log( `equivalent :\n${ identical }` );
-/* log : equivalent :
-true
-*/
+console.log( `equivalent : ${ identical }` );
+/* log : equivalent : true */
 ```
 
 Строге порівняння вектора в матричному форматі та в формі масиву повертатиме `false`, бо формати задання відрізняються. Рутина ж `_.equivalent` каже про те, що обидва вектори схожі, ігноруючи різницю в форматах.
@@ -169,43 +141,27 @@ true
 В обчисленнях, що допускають похибку для порівняння використовуйте рутину `_.equivalent`. В рутині `_.equivalent` можливо задати точність порівняння.
 
 ```js
-var buffer1 = new I32x
+var matrixA = _.Matrix.MakeSquare
 ([
   1.01, 2,
   3,    4,
 ]);
-var matrixA = _.Matrix
-({
-  buffer : buffer1,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
-var buffer2 = new F32x
+var matrixB = _.Matrix.MakeSquare
 ([
   1.01, 2,
   3,    4,
 ]);
-var matrixB = _.Matrix
-({
-  buffer : buffer2,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `result of comparison with standard accuracy :\n${ equivalent }` );
-/* log : result of comparison with standard accuracy :
-false
-*/
+console.log( `result of comparison with standard accuracy : ${ equivalent }` );
+/* log : result of comparison with standard accuracy : false */
 
 var equivalent = _.equivalent( matrixA, matrixB, { accuracy : 0.01 } );
-console.log( `result of comparison with accuracy 0.01 :\n${ equivalent }` );
-/* log : result of comparison with non-standard accuracy :
-true
-*/
+console.log( `result of comparison with accuracy 0.01 : ${ equivalent }` );
+/* log : result of comparison with non-standard accuracy :true */
 ```
 
-Матриці мають різний тип буферів та значення які незначно відрізняються. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні більшого відхилення рутина повернула `true`.
+Матриці мають значення які незначно відрізняються. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні більшого відхилення рутина повернула `true`.
 
 [Повернутись до змісту](../README.md#Туторіали)

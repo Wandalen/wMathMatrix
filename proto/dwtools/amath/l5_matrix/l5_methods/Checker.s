@@ -57,7 +57,7 @@ function isRow()
 //
 
 /**
- * Method isSquare() checks the equality of matrix dimensions.
+ * Method isSquare() checks the equality of current matrix dimensions.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 2 ] );
@@ -67,7 +67,7 @@ function isRow()
  *
  * @returns { Boolean } - Returns value whether is the instance square matrix.
  * @method isSquare
- * @throws { Error } If argument is provided.
+ * @throws { Error } If arguments are provided.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -83,33 +83,34 @@ function isSquare()
 //
 
 /**
-  * Check if a matrix is diagonal.
-  *
-  * @example
-  * // returns true;
-  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
-  * ([
-  *   1,   0,   0,
-  *   0, - 1,   0
-  * ]);
-  * matrix.isDiagonal( );
-  *
-  * // returns false;
-  * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
-  * ([
-  *   1,   1,
-  *   0, - 1
-  * ]);
-  * matrix.isDiagonal( );
-  *
-  * @param { this } - The source matrix.
-  * @returns { Boolean } Returns true if the matrix is diagonal and false if not.
-  * @function isDiagonal
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Check if a matrix is diagonal.
+ *
+ * @example
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  2,   3,
+ *   0,  -1,  1,
+ *   4,  -5,  2
+ * ]);
+ * matrix.isDiagonal();
+ * // returns : false;
+ *
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,   0,
+ *   0,  -1,  0,
+ *   0,  0,   2
+ * ]);
+ * matrix.isDiagonal();
+ * // returns : true
+ *
+ * @returns { Boolean } Returns true if the matrix is diagonal and false if not.
+ * @function isDiagonal
+ * @throws { Error } If arguments are provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function isDiagonal()
 {
@@ -125,7 +126,6 @@ function isDiagonal()
   {
     for( let j = 0; j < cols; j++ )
     {
-      // debugger;
       if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
       return false
     }
@@ -137,33 +137,34 @@ function isDiagonal()
 //
 
 /**
-  * Check if a matrix is upper triangular
-  *
-  * @example
-  * // returns true;
-  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
-  * ([
-  *   1,   0,   1,
-  *   0, - 1,   0
-  * ]);
-  * matrix.isUpperTriangle( );
-  *
-  * // returns false;
-  * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
-  * ([
-  *   1,   0,
-  *   1, - 1
-  * ]);
-  * matrix.isUpperTriangle( );
-  *
-  * @param { this } - The source matrix.
-  * @returns { Boolean } Returns true if the matrix is upper triangular and false if not.
-  * @function isUpperTriangle
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Check if a matrix is upper triangular
+ *
+ * @example
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  2,   3,
+ *   0,  -1,  1,
+ *   0,  0,   2
+ * ]);
+ * matrix.isUpperTriangle();
+ * // returns true;
+ *
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  2,   3,
+ *   0,  -1,  1,
+ *   4,  0,   2
+ * ]);
+ * matrix.isUpperTriangle();
+ * // returns false;
+ *
+ * @returns { Boolean } Returns true if the matrix is upper triangular and false if not.
+ * @function isUpperTriangle
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function isUpperTriangle( accuracy )
 {
