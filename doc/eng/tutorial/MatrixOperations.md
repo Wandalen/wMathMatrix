@@ -7,7 +7,7 @@ Overview of operations on matrices.
 Matrix operations are performed by calling methods or static routines.
 
 ```js
-var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+var matrix = _.Matrix.Make([ 3, 3 ]).copy
 ([
   1, 2, 3,
   4, 5, 6,
@@ -20,7 +20,7 @@ console.log( `determinant :\n${ result }` );
 */
 ```
 
-The method `determinant` calculates the determinant of the matrices.
+The method `determinant` calculates the determinant of the matrix.
 
 ### Transposing of a matrix using the method `transpose`
 
@@ -48,7 +48,7 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 
 ### Multiplying a matrix by a scalar
 
-The matrix can be multiplied by a scalar using the static routine `Mul`; each value of the matrix will be increased by an appropriate number of times. The routine places the result of the operation in the container `dst`. If `dst` is set to `null`, then the result is placed in the new container.
+The matrix can be multiplied by a scalar using the static routine `Mul`. Each value of the matrix will be increased in an appropriate number of times. The routine places the result of the operation in the container `dst`. If `dst` is set to `null`, then the result is placed in the new container.
 
 ```js
 var matrix = _.Matrix.MakeSquare
