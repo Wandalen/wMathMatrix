@@ -176,7 +176,7 @@ var matrix3 = _.Matrix.MakeCol
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
-console.log( `dst : ${ dst.toStr() }` );
+console.log( `dst :\n${ dst.toStr() }` );
 /* log : dst :
 +11
 -3

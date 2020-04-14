@@ -1,7 +1,4 @@
-if( typeof 'module' !== undefined )
-require( 'wmathmatrix' );
-
-let _ = wTools;
+let _ =  require( 'wmathmatrix' );
 
 var matrix1 = _.Matrix.Make([ 2, 3 ]).copy
 ([
@@ -22,9 +19,8 @@ var matrix3 = _.Matrix.MakeCol
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
-console.log( `dst : ${ dst.toStr() }` );
+console.log( `dst :\n${ dst.toStr() }` );
 /* log : dst :
 +11
 -3
 */
-
