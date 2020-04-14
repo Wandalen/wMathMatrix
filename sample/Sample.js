@@ -22,6 +22,6 @@ var expected = _.Matrix.Make([ 3,3 ]).copy
   +18, +30, +36,
 ]);
 
-var uxl = _.Matrix.mul( null,[ u,l ] );
+var uxl = _.Matrix.Mul( null,[ u,l ] );
 console.log( 'got\n' + uxl.toStr() );
 console.log( 'expected\n' + expected.toStr() );
