@@ -35,6 +35,7 @@ var matrixB = _.Matrix
   dims : [ 2, 3 ],
   inputTransposing : 1,
 });
+
 var identical = _.identical( matrixA, matrixB );
 console.log( `identical :\n${ identical }` );
 /* log : identical :
