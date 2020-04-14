@@ -257,6 +257,8 @@ function _qrDecompositionHh( q, r )
 
   /* Calculate Q */
 
+  let h; // Dmytro : see below
+
   for( let j = 0; j < cols; j++ )
   {
     let u = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
@@ -284,7 +286,8 @@ function _qrDecompositionHh( q, r )
     let m = _.Matrix.Make( [ rows, cols ] ).fromVectors_( u, u );
     let mi = identity.clone();
     debugger;
-    let h = mi.addAtomWise( m.mul( - 2 ) );
+    // let h = mi.addAtomWise( m.mul( - 2 ) );
+    h = mi.addAtomWise( m.mul( - 2 ) ); // Dmytro : it's local variable, temporary
     debugger;
     q.mulLeft( h );
 
