@@ -45,8 +45,8 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixComparison.md">
-    Matrix comparing
+  <summary><a href="./tutorial/MatricesComparison.md">
+    Matrices comparison
   </a></summary>
-    Described methods and rules for comparing matrices.
+    Instruments to compare matrices.
 </details>

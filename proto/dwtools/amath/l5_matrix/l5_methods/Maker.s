@@ -435,6 +435,8 @@ function MakeSimilar( m , dims )
 
   if( dims === undefined )
   dims = proto.DimsOf( m );
+  if( dims instanceof proto.Self )
+  dims = proto.DimsOf( dims );
 
   /* */
 

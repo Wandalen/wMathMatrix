@@ -12,7 +12,7 @@ var matrix1 = _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
-  strides : [ 2, 1  ],
+  strides : [ 2, 1 ],
 });
 
 var buffer2 = new F32x
