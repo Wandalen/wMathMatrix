@@ -104,7 +104,7 @@ function Add( dst, srcs )
 
   if( dst === null )
   {
-    let dims = [ this.NrowOf( srcs[ srcs.length-1 ] ) , this.NcolOf( srcs[ srcs.length-1 ] ) ];
+    let dims = srcs[ 0 ];
     let src = _.numberIs( osrcs[ osrcs.length-1 ] ) ? srcs[ osrcs.length-1 ] : osrcs[ osrcs.length-1 ];
     dst = this.MakeSimilar( src, dims );
   }
@@ -149,6 +149,7 @@ function Add( dst, srcs )
         if( dstClone === null )
         {
           dstClone = dst.tempBorrow1();
+          // dstClone.strides = dstClone._stridesEffective; /* yyy */
           dstClone.copy( dst );
         }
         srcs[ s ] = dstClone;
@@ -432,7 +433,7 @@ function Mul( dst, srcs )
 
   if( dst === null )
   {
-    let dims = [ this.NrowOf( srcs[ srcs.length-2 ] ) , this.NcolOf( srcs[ srcs.length-1 ] ) ];
+    let dims = [ srcs[ 0 ].dims[ 0 ], srcs[ srcs.length-1 ].dims[ 1 ] ];
     let src = _.numberIs( osrcs[ osrcs.length-1 ] ) ? srcs[ osrcs.length-1 ] : osrcs[ osrcs.length-1 ];
     dst = this.MakeSimilar( src, dims );
   }
@@ -446,17 +447,18 @@ function Mul( dst, srcs )
 
   borrow();
 
-  /* */
-
-  dst = this._Mul2( dst , srcs[ 0 ] , srcs[ 1 ] );
-
-  /* */
-
-  if( srcs.length > 2 )
+  if( srcs.length === 2 )
+  {
+    dst = this._Mul2( dst , srcs[ 0 ] , srcs[ 1 ] );
+    this.CopyTo( odst, dst );
+  }
+  else
   {
 
     let dst2 = null;
-    let dst3 = dst;
+    let dst3 = dst.tempBorrow3([ srcs[ 0 ].dims[ 0 ], srcs[ 1 ].dims[ 1 ] ]);
+    dst3 = this._Mul2( dst3 , srcs[ 0 ] , srcs[ 1 ] );
+
     for( let s = 2 ; s < srcs.length ; s++ )
     {
       let src = srcs[ s ];
@@ -477,10 +479,6 @@ function Mul( dst, srcs )
     else
     this.CopyTo( odst, dst2 );
 
-  }
-  else
-  {
-    this.CopyTo( odst, dst );
   }
 
   /* */
@@ -600,9 +598,9 @@ function _Mul2( dst, src1, src2 )
   _.assert( src2 instanceof Self );
   _.assert( dst !== src1 );
   _.assert( dst !== src2 );
-  _.assert( src1.dims[ 1 ] === src2.dims[ 0 ], 'Expects src1.dims[ 1 ] === src2.dims[ 0 ]' );
-  _.assert( src1.dims[ 0 ] === dst.dims[ 0 ] );
-  _.assert( src2.dims[ 1 ] === dst.dims[ 1 ] );
+  _.assert( src1.dims[ 1 ] === src2.dims[ 0 ], errMsg );
+  _.assert( src1.dims[ 0 ] === dst.dims[ 0 ], errMsg );
+  _.assert( src2.dims[ 1 ] === dst.dims[ 1 ], errMsg );
 
   let nrow = dst.nrow;
   let ncol = dst.ncol;
@@ -617,6 +615,11 @@ function _Mul2( dst, src1, src2 )
   }
 
   return dst;
+
+  function errMsg()
+  {
+    return `Inconsistent dimensions : ${dst.dimsExportString()} = ${src1.dimsExportString()} * ${src2.dimsExportString()}`;
+  }
 }
 
 //

@@ -238,7 +238,7 @@ function _traverseAct( it )
   if( dstIsInstance )
   {
     dst._changeEnd();
-    _.assert( dst._changing[ 0 ] === 0 );
+    // _.assert( dst._changing[ 0 ] === 0 );
   }
 
   if( srcIsInstance )
@@ -329,9 +329,6 @@ _.routineExtend( _equalAre, _.equaler._equal );
 function _secondCoerce( it )
 {
 
-  if( _global_.debugger )
-  debugger;
-
   if( it.strictContainer )
   return;
 
@@ -368,6 +365,29 @@ function _copy( src, resetting )
   let self = this;
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+
+  // xxx
+  // if( _.instanceIs( src ) )
+  // {
+  //   self._changeBegin();
+  //   self.strides = src.strides;
+  //   self[ stridesEffectiveSymbol ] = src._stridesEffective;
+  //   self.buffer = _.longSlice( src.buffer );
+  //   self._changeEnd();
+  // }
+
+  // dims : null,
+  // growingDimension : 1,
+  // inputTransposing : null,
+  //
+  // buffer : null,
+  //
+  // _dimsWas : null,
+  // _changing : [ 1 ],
+  //
+  // strides : null,
+  // offset : 0,
+  // breadth : null,
 
   let it = _._cloner( self._traverseAct, { src, dst : self, /*resetting, */ technique : 'object' } );
 
@@ -1991,7 +2011,6 @@ let Restricts =
 let Medials =
 {
 
-  // buffer : null,
   strides : null,
   offset : 0,
   breadth : null,
