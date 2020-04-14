@@ -288,7 +288,6 @@ function _equalAre( it )
   if( !( it.src2 instanceof Self ) )
   {
     it.result = false;
-    debugger;
     return it.result;
   }
 
@@ -323,12 +322,15 @@ function _equalAre( it )
   return it.result;
 }
 
-_.routineExtend( _equalAre, _._equal );
+_.routineExtend( _equalAre, _.equaler._equal );
 
 //
 
-function _equalFrom( it )
+function _secondCoerce( it )
 {
+
+  if( _global_.debugger )
+  debugger;
 
   if( it.strictContainer )
   return;
@@ -2116,7 +2118,7 @@ let Extension =
   Is,
   _traverseAct,
   _equalAre,
-  _equalFrom,
+  _secondCoerce,
 
   _longGet,
 

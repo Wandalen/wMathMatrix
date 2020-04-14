@@ -5536,7 +5536,10 @@ function partialAccessors( test )
 
   var expected = vec([ 1, 6, 11 ]);
   var diagonal = m.diagonalGet();
+  _global_.debugger = true;
+  debugger;
   test.identical( diagonal, expected );
+  debugger;
 
   test.case = 'diagonalGet 3x4 not transposed'; /* */
 
@@ -11026,7 +11029,10 @@ function compare( test )
 
   test.identical( _.identical( m1, v1 ), false );
   test.identical( _.identical( v1, m1 ), false );
+  _global_.debugger = true;
+  debugger;
   test.identical( _.equivalent( m1, v1 ), true );
+  debugger;
   test.identical( _.equivalent( v1, m1 ), true );
   test.ni( m1, v1 );
   test.ni( v1, m1 );
@@ -11110,12 +11116,12 @@ function compare( test )
 
   test.identical( _.identical( m1, v1 ), false );
   test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), false );
-  test.identical( _.equivalent( v1, m1 ), false );
+  test.identical( _.equivalent( m1, v1 ), true );
+  test.identical( _.equivalent( v1, m1 ), true );
   test.ni( m1, v1 );
   test.ni( v1, m1 );
-  test.ne( m1, v1 );
-  test.ne( v1, m1 );
+  test.equivalent( m1, v1 );
+  test.equivalent( v1, m1 );
 
   /* */
 
