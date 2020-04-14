@@ -85,7 +85,7 @@ var buffer1 = new I32x
 var matrixA = _.Matrix
 ({
   buffer : buffer1,
-  dims : [ 2, 3 ],
+  dims : [ 2, 2 ],
   inputTransposing : 1,
 });
 
@@ -97,7 +97,7 @@ var buffer2 = new F32x
 var matrixB = _.Matrix
 ({
   buffer : buffer2,
-  dims : [ 2, 3 ],
+  dims : [ 2, 2 ],
   inputTransposing : 1,
 });
 var identical = _.identical( matrixA, matrixB );
@@ -162,6 +162,6 @@ console.log( `result of comparison with accuracy 0.01 : ${ equivalent }` );
 /* log : result of comparison with non-standard accuracy :true */
 ```
 
-Матриці мають різний тип буферів та значення які незначно відрізняються. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні більшого відхилення рутина повернула `true`.
+Матриці мають значення які незначно відрізняються. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні більшого відхилення рутина повернула `true`.
 
 [Повернутись до змісту](../README.md#Туторіали)
