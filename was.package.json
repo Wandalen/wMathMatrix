@@ -1,8 +1,8 @@
 {
   "name" : "wmathmatrix", 
-  "version" : "0.3.195", 
+  "version" : "0.3.196", 
   "engine" : "node >= 8.0.0", 
-  "description" : "Collection of functions for matrix math. MathMatrix introduces the class Matrix. Matrix is a multidimensional structure. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. VectorAdapter is a reference, and it does not contain data but only refers to actual ( aka Long ) container of lined data.  Use MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a specific or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a convenient and efficient data container, and you may use it to store huge an array of arrays or for matrix computation.", 
+  "description" : "Collection of functions for matrix math. MathMatrix introduces class Matrix, which is a multidimensional structure which, in the most trivial case, is a 2D matrix. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. A Vector adapter is an implementation of the abstract interface, a kind of link that defines how to interpret data as the vector. An adapter is a special object to make algorithms more abstract and to use the same code for very different formats of vector specifying. Use module MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a particular or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container. You may use it to continuously store multidimensional data.", 
   "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
   "contributors" : 
   [
