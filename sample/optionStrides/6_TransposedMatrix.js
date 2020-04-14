@@ -1,7 +1,4 @@
-if( typeof 'module' !== undefined )
-require( 'wmathmatrix' );
-
-let _ = wTools;
+let _ = require( 'wmathmatrix' );
 
 var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
 

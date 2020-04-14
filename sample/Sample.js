@@ -1,8 +1,5 @@
 
-if( typeof module !== 'undefined' )
-require( 'wmathmatrix' );
-
-var _ = wTools;
+let _ = require( 'wmathmatrix' );
 
 var u = _.Matrix.Make([ 3,3 ]).copy
 ([

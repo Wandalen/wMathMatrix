@@ -1,7 +1,4 @@
-if( typeof 'module' !== undefined )
-require( 'wmathmatrix' );
-
-let _ = wTools;
+let _ = require( 'wmathmatrix' );
 
 var array = [ 1, 2, 3, 4, 5, 6 ];
 console.log( `array :\n${ array }` );
