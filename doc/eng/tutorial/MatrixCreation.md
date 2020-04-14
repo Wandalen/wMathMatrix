@@ -17,6 +17,27 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The created matrix `matrix` has dimension `2x2`, which is specified by the argument in the call of static routine.
 
+### Explicit constructor
+
+Matrix also could be created by explicitly calling the constructor. To do that, at least 3 options should be specified.
+
+```js
+var matrix = _.Matrix
+({
+  buffer : [ 1, 2, 3, 4 ],
+  dims : [ 2, 2 ],
+  inputTransposing : 1,
+});
+
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+```
+
+The constructor receives buffer, dimensions, and hint to calculate effective strides. Created matrix `matrix` has dimensions `2х2`, what is specified explicitly.
+
 ### Static routine `MakeSquare`
 
 Let's create a square matrix from a passed buffer or a given dimension.
