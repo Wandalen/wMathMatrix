@@ -152,7 +152,7 @@ var matrix1 = _.Matrix.MakeSquare
 var matrix2 = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4.01
+  3, 4.001
 ]);
 
 var equivalent = _.equivalent( matrix1, matrix2 );
@@ -167,3 +167,4 @@ console.log( `result of comparison with accuracy 0.01 : ${ equivalent }` );
 The matrices `matrix1` and` matrix2` differ only in the last scalar by `0.01`. When it compared to the standard deviation of `1e-7`, the check failed, and when setting lower accuracy `0.01`, the routine `_.equivalent` returned `true`.
 
 [Back to content](../README.md#Tutorials)
+
