@@ -2,7 +2,7 @@
 
 How to create a matrix.
 
-### Static routine `Make`
+### `Make`
 
 Let's creates a matrix with specified dimensions.
 
@@ -38,7 +38,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The constructor receives buffer, dimensions, and hint to calculate effective strides. Created matrix `matrix` has dimensions `2х2`, what is specified explicitly.
 
-### Static routine `MakeSquare`
+### `MakeSquare`
 
 Let's create a square matrix from a passed buffer or a given dimension.
 
@@ -68,7 +68,7 @@ console.log( `matrix :\n${ matrix2.toStr() }` );
 
 The dimension `2x2` is given by the scalar` 2`. Scalar is sufficient to deduce dimensions because the created matrix is square.
 
-### Static routine `MakeZero`
+### `MakeZero`
 
 Creates a matrix from a given dimension, and fills it with zeros.
 
@@ -94,7 +94,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The dimension `2x2` is given explicitly by a scalar.
 
-### Static routine `MakeIdentity`
+### `MakeIdentity`
 
 Let's create an identity matrix from a provided dimension. Diagonal values of such matrix are `1`.
 
@@ -120,7 +120,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The dimension `2x2` is specified explicitly by the scalar.
 
-### Static routine `MakeDiagonal`
+### `MakeDiagonal`
 
 Let's create a square matrix with specified diagonal values.
 
@@ -136,7 +136,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The dimension `3x3` is deduced from the length of the diagonal that is given as a vector.
 
-### Static routine `MakeCol`
+### `MakeCol`
 
 Let's creates a column vector.
 
@@ -162,7 +162,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The length of the column is specified explicitly `2`. The dimensions of the matrix are `2x1`.
 
-### Static routine `MakeRow`
+### `MakeRow`
 
 Let's creates a row vector.
 
@@ -186,7 +186,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The length of the row is specified explicitly `2`. The dimensions of the matrix are `1x2`.
 
-### Static routine `FromVector`
+### `FromVector`
 
 Let's creates a column vector from the passed vector. Accepts vector in any format
 
@@ -226,7 +226,7 @@ console.log( `matrix2 :\n${ matrix2.toStr() }` );
 */
 ```
 
-### Static routine `FromScalar`
+### `FromScalar`
 
 Creates a matrix with a specified dimension and fills it by the passed value.
 
@@ -241,7 +241,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The dimension of the matrix `2x2` is given by the 2nd argument.
 
-### Static routine `FromTransformations`
+### `FromTransformations`
 
 It creates a homogeneous matrix of 3D transformations by rotations, offsets, and scales. Rotations are specified by the quaternion.
 

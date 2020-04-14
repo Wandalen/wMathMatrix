@@ -9,7 +9,7 @@ The difference between the routines for comparison:
 - `_.identical` compares the type of buffer.
 - `_.equivalent` compares with some accuracy.
 
-### Comparing of two matrices
+### Comparison of two matrices
 
 ```js
 var matrix1 = _.Matrix.MakeSquare
@@ -35,7 +35,7 @@ console.log( `equivalent : ${ equivalent }` );
 
 Both matrices have the same buffers, dimensions, and element values, so both routines `_.identical` and `_.equivalent` return `true`.
 
-### Comparing matrices with different strides widths
+### Comparison matrices with different strides widths
 
 Strides do not affect the result of the matrix comparison.
 
@@ -76,7 +76,7 @@ console.log( `equivalent : ${ equivalent }` );
 
 Routines `_.identical` and` _.equivalent` compare the values of the matrix and both return `true`. As can be seen, the values of such fields as `strides` and` offset` are ignored by both routines for comparison.
 
-### Comparing the matrices with buffers of different types
+### Comparison the matrices with buffers of different types
 
 ```js
 var buffer1 = new I32x
@@ -114,7 +114,7 @@ console.log( `equivalent : ${ equivalent }` );
 
 No difference in values of matrices, their dimension, the way buffer is interpreted. The only difference is the types of buffers. The routine `_.identical` compares both the values of the matrix and the types of buffers. The routine `_.identical` returns `false`. The routine `_.equivalent` compares only values of matrices and ignores types of buffers. It returns `true`.
 
-### Comparing of vector and matrix
+### Comparison of vector and matrix
 
 A column vector can be compared to a vector in the format of either array or typed array.
 
@@ -139,7 +139,7 @@ console.log( `equivalent : ${ equivalent }` );
 
 The strict comparison of the vector `matrixCol` in the matrix format and vector `vector` in the array format returns `false` because formats are different. The routine `_.equivalent` shows that both vectors are similar, ignoring the difference in formats.
 
-### Comparing with a given accuracy
+### Comparison with a given accuracy
 
 If the deviation of float value does have a place to be, then the strict comparison is not the right way. Routine `_.equivalent` compares with some accuracy. Routine `_.equivalent` makes it possible to explicitly specify the accuracy of the comparison.
 

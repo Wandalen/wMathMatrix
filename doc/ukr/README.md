@@ -10,13 +10,6 @@
 ## Туторіали
 
 <details>
-  <summary><a href="./tutorial/Introduction.md">
-    Введення
-  </a></summary>
-    В даній статті виконується огляд концепції матриці та його форматів задання.
-</details>
-
-<details>
   <summary><a href="./tutorial/MatrixCreation.md">
     Створення матриці
   </a></summary>
