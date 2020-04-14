@@ -3,13 +3,13 @@ let _ =  require( 'wmathmatrix' );
 var matrix1 = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4.01
+  3, 4
 ]);
 
 var matrix2 = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4.011
+  3, 4.01
 ]);
 
 var equivalent = _.equivalent( matrix1, matrix2 );

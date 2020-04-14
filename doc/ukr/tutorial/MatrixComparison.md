@@ -4,7 +4,7 @@
 
 Матриці можливо порівняти використовуючи рутини `_.identical` i `_.equivalent`. Рутина `_.identical` виконує строге порівняння, а `_.equivalent` порівнює не строго.
 
-Різниця між рутинами для порівнняня:
+Різниця між рутинами для порівняння:
 - `_.identical` порівнює тип контейнера.
 - `_.identical` порівнює тип буфера.
 - `_.equivalent` порівнює із певною точністю.
@@ -74,7 +74,7 @@ console.log( `equivalent : ${ equivalent }` );
 /* log : equivalent : true */
 ```
 
-Рутини `_.identical` i `_.equivalent` порівнюють значення матриці і обидві повертають `true`. Як видно значення таких полів як `strides` i `offset` ігноруюються.
+Рутини `_.identical` i `_.equivalent` порівнюють значення матриці і обидві повертають `true`. Як видно значення таких полів як `strides` i `offset` ігноруються.
 
 ### Порівняння матриць із буферами різних типів
 
@@ -146,13 +146,13 @@ console.log( `equivalent : ${ equivalent }` );
 var matrix1 = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4.01
+  3, 4
 ]);
 
 var matrix2 = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4.011
+  3, 4.01
 ]);
 
 var equivalent = _.equivalent( matrix1, matrix2 );
@@ -164,6 +164,6 @@ console.log( `result of comparison with accuracy 0.01 : ${ equivalent }` );
 /* log : result of comparison with non-standard accuracy :true */
 ```
 
-Матриці `matrix1` та `matrix2` відрізняються лише в останньому скалярі на `0.01`. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні нищої точності `0.01` рутина `_.equivalent` повернула `true`.
+Матриці `matrix1` та `matrix2` відрізняються лише в останньому скалярі на `0.01`. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні нижчої точності `0.01` рутина `_.equivalent` повернула `true`.
 
 [Повернутись до змісту](../README.md#Туторіали)

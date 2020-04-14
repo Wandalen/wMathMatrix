@@ -39,7 +39,14 @@
 
 <details>
   <summary><a href="./tutorial/Solve.md">
-    Matrix solving
+    Matrix solver
   </a></summary>
-    The solving of mathematical problems in the matrix way are considered.
+    Solving systems of linear equations.
+</details>
+
+<details>
+  <summary><a href="./tutorial/MatrixComparison.md">
+    Matrix comparing
+  </a></summary>
+    Described methods and rules for comparing matrices.
 </details>
