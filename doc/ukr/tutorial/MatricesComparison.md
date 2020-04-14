@@ -1,6 +1,6 @@
 # Порівняння матриць
 
-Описуються способи і правила порівняння матриць.
+Засоби для порівняння матриць.
 
 Матриці можливо порівняти використовуючи рутини `_.identical` i `_.equivalent`. Рутина `_.identical` виконує строге порівняння, а `_.equivalent` порівнює не строго.
 
@@ -49,7 +49,7 @@ var matrix1 = _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
-  strides : [ 2, 1  ],
+  strides : [ 2, 1 ],
 });
 
 var buffer2 = new F32x
@@ -65,6 +65,7 @@ var matrix2 = _.Matrix
   strides : [ 3, 1 ],
   offset : 1,
 });
+
 var identical = _.identical( matrix1, matrix2 );
 console.log( `identical : ${ identical }` );
 /* log : identical : true*/
@@ -102,6 +103,7 @@ var matrix2 = _.Matrix
   dims : [ 2, 2 ],
   inputTransposing : 1,
 });
+
 var identical = _.identical( matrix1, matrix2 );
 console.log( `identical : ${ identical }` );
 /* log : identical : false */
@@ -140,7 +142,7 @@ console.log( `equivalent : ${ equivalent }` );
 
 ### Порівняння із заданою точністю
 
-В обчисленнях, що допускають похибку для порівняння використовуйте рутину `_.equivalent`. За допомогою рутини `_.equivalent` можливо задати точність порівняння.
+Якщо в обчислення допускається відхилення тоді строге порівняння не підходить. Рутина `_.equivalent` порівнює із певною точністю. За допомогою рутини `_.equivalent` можливо задати точність порівняння.
 
 ```js
 var matrix1 = _.Matrix.MakeSquare

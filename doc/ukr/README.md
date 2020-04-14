@@ -59,8 +59,8 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixComparison.md">
+  <summary><a href="./tutorial/MatricesComparison.md">
     Порівняння матриць
   </a></summary>
-    Описуються способи і правила порівняння матриць.
+    Засоби для порівняння матриць.
 </details>
