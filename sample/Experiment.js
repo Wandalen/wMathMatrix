@@ -1,22 +1,37 @@
-if( typeof 'module' !== undefined )
-require( 'wmathmatrix' );
+let _ = require( 'wmathmatrix' );
 
-let _ = wTools;
-
-var matrix = _.Matrix
+var buffer1 = new I32x
+([
+  +1, -5, +2,
+  -3, +4, +7,
+]);
+var matrixA = _.Matrix
 ({
-  buffer : [ 1, 2, 3, 4, 5, 6 ],
-  dims : [ 2, 2 ],
-  inputTransposing : 0,
+  buffer : buffer1,
+  dims : [ 2, 3 ],
+  inputTransposing : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
-/* log : matrix :
-+1, +3,
-+2, +4,
+var buffer2 = new F32x
+([
+  +1.01, -5, +2,
+  -3,    +4, +7.01,
+]);
+var matrixB = _.Matrix
+({
+  buffer : buffer2,
+  dims : [ 2, 3 ],
+  inputTransposing : 1,
+});
+
+var equivalent = _.equivalent( matrixA, matrixB );
+console.log( `result of comparison with standard accuracy :\n${ equivalent }` );
+/* log : result of comparison with standard accuracy :
+false
 */
 
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
-/* log : effective strides :
-[ 1, 2 ]
+var equivalent = _.equivalent( matrixA, matrixB, { accuracy : 0.01 } );
+console.log( `result of comparison with accuracy 0.01 :\n${ equivalent }` );
+/* log : result of comparison with non-standard accuracy :
+true
 */

@@ -117,17 +117,17 @@ true
 
 ### Порівняння вектора та матриці
 
-Матрицю-колонку можна порівняти з вектором.
+Матрицю-колонку можливо порівняти з вектором в форматі масиву чи типізованого масиву.
 
 ```js
 var matrixCol = _.Matrix.MakeCol
 ([
   1,
-  -2,
+  2,
   3
 ]);
 
-var vector = [ 1, -2, 3 ];
+var vector = [ 1, 2, 3 ];
 
 var identical = _.identical( matrixCol, vector );
 console.log( `identical :\n${ identical }` );
@@ -142,17 +142,17 @@ true
 */
 ```
 
-Строге порівняння вектора і матриці колонки завжди повертатиме `false`, бо інстанси мають різні типи. Використовуйте рутину `_.equivalent` для порівняння вектора і матриці-колонки.
+Строге порівняння вектора в матричному форматі та в формі масиву повертатиме `false`, бо формати задання відрізняються. Рутина ж `_.equivalent` каже про те, що обидва вектори схожі, ігноруючи різницю в форматах.
 
 ### Порівняння із заданою точністю
 
-В обчисленнях, що допускають похибку для порівняння використовуйте рутину `_.equivalent`. В рутині `_.equivalent` можна задати точність порівняння.
+В обчисленнях, що допускають похибку для порівняння використовуйте рутину `_.equivalent`. В рутині `_.equivalent` можливо задати точність порівняння.
 
 ```js
 var buffer1 = new I32x
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  1.01, 2,
+  3,    4,
 ]);
 var matrixA = _.Matrix
 ({
@@ -163,8 +163,8 @@ var matrixA = _.Matrix
 
 var buffer2 = new F32x
 ([
-  +1.00001, -5, +2,
-  -3,       +4, +7.000001,
+  1.01, 2,
+  3,    4,
 ]);
 var matrixB = _.Matrix
 ({
@@ -173,14 +173,14 @@ var matrixB = _.Matrix
   inputTransposing : 1,
 });
 
-var gotStandard = _.equivalent( matrixA, matrixB );
-console.log( `result of comparison with standard accuracy :\n${ gotStandard }` );
+var equivalent = _.equivalent( matrixA, matrixB );
+console.log( `result of comparison with standard accuracy :\n${ equivalent }` );
 /* log : result of comparison with standard accuracy :
 false
 */
 
-var gotNonStandard = _.equivalent( matrixA, matrixB, { accuracy : 0.0001 } );
-console.log( `result of comparison with non-standard accuracy :\n${ gotNonStandard }` );
+var equivalent = _.equivalent( matrixA, matrixB, { accuracy : 0.01 } );
+console.log( `result of comparison with accuracy 0.01 :\n${ equivalent }` );
 /* log : result of comparison with non-standard accuracy :
 true
 */
