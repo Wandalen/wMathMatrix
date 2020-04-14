@@ -24,6 +24,23 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // implementation
 // --
 
+/**
+ * Method isCol() checks whether the current matrix is column.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 2, 1 ] );
+ * var got = matrix.isCol();
+ * console.log( got );
+ * // log : true
+ *
+ * @returns { Boolean } - Returns value of whether the matrix is column.
+ * @method isSquare
+ * @throws { Error } If arguments are provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function isCol()
 {
   let self = this;
@@ -39,6 +56,23 @@ function isCol()
 }
 
 //
+
+/**
+ * Method isRow() checks whether the current matrix is row.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 1, 2 ] );
+ * var got = matrix.isCol();
+ * console.log( got );
+ * // log : true
+ *
+ * @returns { Boolean } - Returns value of whether the matrix is row.
+ * @method isSquare
+ * @throws { Error } If arguments are provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function isRow()
 {
@@ -83,7 +117,7 @@ function isSquare()
 //
 
 /**
- * Check if a matrix is diagonal.
+ * Check if current matrix is diagonal.
  *
  * @example
  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
@@ -137,7 +171,7 @@ function isDiagonal()
 //
 
 /**
- * Check if a matrix is upper triangular
+ * Check if current matrix is upper triangular
  *
  * @example
  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
@@ -200,33 +234,33 @@ function isUpperTriangle( accuracy )
 //
 
 /**
-  * Check if a matrix is symmetric.
-  *
-  * @example
-  * // returns true;
-  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
-  * ([
-  *   1,   0,
-  *   0, - 1
-  * ]);
-  * matrix.isSymmetric( );
-  *
-  * // returns false;
-  * var matrix =  _.Matrix.Make( [ 2, 3 ] ).copy
-  * ([
-  *   1,   0,  0,
-  *   1, - 1,  0
-  * ]);
-  * matrix.isSymmetric( );
-  *
-  * @param { this } - The source matrix.
-  * @returns { Boolean } Returns true if the matrix is symmetric and false if not.
-  * @function isSymmetric
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Check if current matrix is symmetric.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  0,
+ *   0, -1
+ * ]);
+ * matrix.isSymmetric();
+ * // returns : true;
+ *
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  0,
+ *   1, -1,
+ * ]);
+ * matrix.isSymmetric();
+ * // returns false;
+ *
+ * @param { this } - The source matrix.
+ * @returns { Boolean } Returns true if the matrix is symmetric and false if not.
+ * @function isSymmetric
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function isSymmetric( accuracy )
 {
