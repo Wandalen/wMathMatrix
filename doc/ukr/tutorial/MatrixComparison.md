@@ -12,30 +12,32 @@
 ### Порівняння двох матриць
 
 ```js
-var matrixA = _.Matrix.MakeSquare
+var matrix1 = _.Matrix.MakeSquare
 ([
   +1, -5,
   -3, +4,
 ]);
 
-var matrixB = _.Matrix.MakeSquare
+var matrix2 = _.Matrix.MakeSquare
 ([
   +1, -5,
   -3, +4,
 ]);
 
-var identical = _.identical( matrixA, matrixB );
+var identical = _.identical( matrix1, matrix2 );
 console.log( `identical : ${ identical }` );
 /* log : identical : true */
 
-var equivalent = _.equivalent( matrixA, matrixB );
+var equivalent = _.equivalent( matrix1, matrix2 );
 console.log( `equivalent : ${ identical }` );
 /* log : equivalent : true */
 ```
 
-Обидві матриці мають однакові буфери, розмірності і порядок зчитування елементів тому рутини `_.identical` i `_.equivalent` повернули `true`.
+Обидві матриці мають однакові буфери, розмірності і значення елементів тому рутини `_.identical` i `_.equivalent` повернули `true`.
 
 ### Порівняння матриць із різною шириною кроку
+
+Ширина кроку ( strides ) ніяк не впливає на результат порівняння матриць.
 
 ```js
 var buffer1 = new F32x
@@ -43,7 +45,7 @@ var buffer1 = new F32x
   1, 2,
   3, 4,
 ]);
-var matrixA = _.Matrix
+var matrix1 = _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
@@ -56,23 +58,23 @@ var buffer2 = new F32x
   3, 4, 5, 0,
 ]);
 
-var matrixB = _.Matrix
+var matrix2 = _.Matrix
 ({
   buffer : buffer2,
   dims : [ 2, 2 ],
   strides : [ 3, 1 ],
   offset : 1,
 });
-var identical = _.identical( matrixA, matrixB );
+var identical = _.identical( matrix1, matrix2 );
 console.log( `identical : ${ identical }` );
 /* log : identical : true*/
 
-var equivalent = _.equivalent( matrixA, matrixB );
+var equivalent = _.equivalent( matrix1, matrix2 );
 console.log( `equivalent : ${ identical }` );
 /* log : equivalent : true */
 ```
 
-Рутини `_.identical` i `_.equivalent` порівнюють значення матриці, при цьому ігноруюються значення таких полів як `strides` i `offset`. Для матриць `matrixA` i `matrixB` результат перевірки - `true`.
+Рутини `_.identical` i `_.equivalent` порівнюють значення матриці і обидві повертають `true`. Як видно значення таких полів як `strides` i `offset` ігноруюються.
 
 ### Порівняння матриць із буферами різних типів
 
@@ -82,7 +84,7 @@ var buffer1 = new I32x
   +1, -5,
   -3, +4,
 ]);
-var matrixA = _.Matrix
+var matrix1 = _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
@@ -94,17 +96,17 @@ var buffer2 = new F32x
   +1, -5,
   -3, +4,
 ]);
-var matrixB = _.Matrix
+var matrix2 = _.Matrix
 ({
   buffer : buffer2,
   dims : [ 2, 2 ],
   inputTransposing : 1,
 });
-var identical = _.identical( matrixA, matrixB );
+var identical = _.identical( matrix1, matrix2 );
 console.log( `identical : ${ identical }` );
 /* log : identical : false */
 
-var equivalent = _.equivalent( matrixA, matrixB );
+var equivalent = _.equivalent( matrix1, matrix2 );
 console.log( `equivalent : ${ identical }` );
 /* log : equivalent : true */
 ```
@@ -134,34 +136,34 @@ console.log( `equivalent : ${ identical }` );
 /* log : equivalent : true */
 ```
 
-Строге порівняння вектора в матричному форматі та в формі масиву повертатиме `false`, бо формати задання відрізняються. Рутина ж `_.equivalent` каже про те, що обидва вектори схожі, ігноруючи різницю в форматах.
+Строге порівняння вектора в матричному форматі `matrixCol` та в форматі масиву `vector` повертатиме `false`, бо формати задання відрізняються. Рутина ж `_.equivalent` каже про те, що обидва вектори схожі, ігноруючи різницю в форматах.
 
 ### Порівняння із заданою точністю
 
-В обчисленнях, що допускають похибку для порівняння використовуйте рутину `_.equivalent`. В рутині `_.equivalent` можливо задати точність порівняння.
+В обчисленнях, що допускають похибку для порівняння використовуйте рутину `_.equivalent`. За допомогою рутини `_.equivalent` можливо задати точність порівняння.
 
 ```js
-var matrixA = _.Matrix.MakeSquare
+var matrix1 = _.Matrix.MakeSquare
 ([
-  1.01, 2,
-  3,    4,
+  1, 2,
+  3, 4.01
 ]);
 
-var matrixB = _.Matrix.MakeSquare
+var matrix2 = _.Matrix.MakeSquare
 ([
-  1.01, 2,
-  3,    4,
+  1, 2,
+  3, 4.01
 ]);
 
-var equivalent = _.equivalent( matrixA, matrixB );
+var equivalent = _.equivalent( matrix1, matrix2 );
 console.log( `result of comparison with standard accuracy : ${ equivalent }` );
 /* log : result of comparison with standard accuracy : false */
 
-var equivalent = _.equivalent( matrixA, matrixB, { accuracy : 0.01 } );
+var equivalent = _.equivalent( matrix1, matrix2, { accuracy : 0.01 } );
 console.log( `result of comparison with accuracy 0.01 : ${ equivalent }` );
 /* log : result of comparison with non-standard accuracy :true */
 ```
 
-Матриці мають значення які незначно відрізняються. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні більшого відхилення рутина повернула `true`.
+Матриці `matrix1` та `matrix2` відрізняються лише в останньому скалярі на `0.01`. При порівнянні зі стандартним відхиленням `1e-7` перевірка провалилась, а при встановленні нищої точності `0.01` рутина `_.equivalent` повернула `true`.
 
 [Повернутись до змісту](../README.md#Туторіали)
