@@ -164,7 +164,7 @@ console.log( `result of comparison with accuracy 0.01 : ${ equivalent }` );
 /* log : result of comparison with non-standard accuracy :true */
 ```
 
-The matrices `matrix1` and` matrix2` differ only in the last scalar by `0.01`. When it compared to the standard deviation of `1e-7`, the check failed, and when setting lower accuracy `0.01`, the routine `_.equivalent` returned `true`.
+The matrices `matrix1` and` matrix2` differ only in the last scalar by `0.001`. When it compared to the standard deviation of `1e-7`, the check failed, and when setting lower accuracy `0.01`, the routine `_.equivalent` returned `true`.
 
 [Back to content](../README.md#Tutorials)
 
