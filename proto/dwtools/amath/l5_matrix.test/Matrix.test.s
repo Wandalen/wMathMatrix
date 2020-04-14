@@ -5536,10 +5536,7 @@ function partialAccessors( test )
 
   var expected = vec([ 1, 6, 11 ]);
   var diagonal = m.diagonalGet();
-  _global_.debugger = true;
-  debugger;
   test.identical( diagonal, expected );
-  debugger;
 
   test.case = 'diagonalGet 3x4 not transposed'; /* */
 
@@ -10839,17 +10836,14 @@ function PolynomClosestFor( test )
 
   test.case = 'PolynomClosestFor for E( i )'; /* */
 
-  debugger;
   var polynom = _.Matrix.PolynomClosestFor
   ({
     order : 2,
     points : [ [ 1, 0.5 ], [ 2, 2.25 ], [ 3, 2 ] ],
   });
-  debugger;
 
   logger.log( polynom );
   test.equivalent( polynom, [ 1/12, 3/4 ] );
-  debugger;
 
 }
 
@@ -11029,10 +11023,7 @@ function compare( test )
 
   test.identical( _.identical( m1, v1 ), false );
   test.identical( _.identical( v1, m1 ), false );
-  _global_.debugger = true;
-  debugger;
   test.identical( _.equivalent( m1, v1 ), true );
-  debugger;
   test.identical( _.equivalent( v1, m1 ), true );
   test.ni( m1, v1 );
   test.ni( v1, m1 );
