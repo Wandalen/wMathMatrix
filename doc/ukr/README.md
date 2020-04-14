@@ -50,3 +50,17 @@
   </a></summary>
     Розглядаються рішення математичних задач матричним способом.
 </details>
+
+<details>
+  <summary><a href="./tutorial/Solve.md">
+    Матричне рішення
+  </a></summary>
+    Розглядаються засоби для рішення систем лінійних рівнянь.
+</details>
+
+<details>
+  <summary><a href="./tutorial/MatrixComparison.md">
+    Порівняння матриць
+  </a></summary>
+    Описуються способи і правила порівняння матриць.
+</details>
