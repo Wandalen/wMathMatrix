@@ -1,4 +1,4 @@
-(function _Element_s_() {
+(function _Component_s_() {
 
 'use strict';
 

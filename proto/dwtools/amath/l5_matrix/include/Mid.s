@@ -16,12 +16,12 @@ if( typeof module !== 'undefined' )
 
   require( '../l3/RoutinesFromVector.s' );
 
-  require( '../l3_methods/Element.s' );
+  require( '../l3_methods/Component.s' );
   require( '../l3_methods/Iterator.s' );
 
   require( '../l5_methods/Advanced.s' );
   require( '../l5_methods/Checker.s' );
-  require( '../l5_methods/Element.s' );
+  require( '../l5_methods/Component.s' );
   require( '../l5_methods/Iterator.s' );
   require( '../l5_methods/Maker.s' );
   require( '../l5_methods/Operation.s' );
