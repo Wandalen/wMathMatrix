@@ -2,13 +2,10 @@ format: outwillfile-2.0
 root:
   - wMathMatrix.out
 consistency:
-  wMathMatrix.out.will.yml: &ref_0
-    hash: d248bb1d466ccc70f6afa40eabef5f0f
-    size: 42254
-  ../.ex.will.yml: &ref_1
-    hash: 1af7646ff5fe78a178db7c817dacf5e1
-    size: 2507
-  ../.im.will.yml: &ref_2
+  ../.ex.will.yml: &ref_0
+    hash: bdbe973daae695436b870333d3746499
+    size: 2690
+  ../.im.will.yml: &ref_1
     hash: 60faa80ce09d0d3e4f2a920aa671026e
     size: 5256
 module:
@@ -17,24 +14,27 @@ module:
       name: wMathMatrix
       org: noorg
       description: >-
-        Collection of functions for matrix math. MathMatrix introduces the class
-        Matrix. Matrix is a multidimensional structure. A matrix of specific
-        form could also be classified as a vector. MathMatrix heavily relly on
-        MathVector, which introduces VectorAdapter. VectorAdapter is a
-        reference, and it does not contain data but only refers to actual ( aka
-        Long ) container of lined data.  Use MathMatrix for arithmetic
-        operations with matrices, to triangulate, permutate or transform matrix,
-        to get a specific or the general solution of a system of linear
-        equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a
-        convenient and efficient data container, and you may use it to store
-        huge an array of arrays or for matrix computation.
+        Collection of functions for matrix math. MathMatrix introduces class
+        Matrix, which is a multidimensional structure which, in the most trivial
+        case, is a 2D matrix. A matrix of specific form could also be classified
+        as a vector. MathMatrix heavily relly on MathVector, which introduces
+        VectorAdapter. A Vector adapter is an implementation of the abstract
+        interface, a kind of link that defines how to interpret data as the
+        vector. An adapter is a special object to make algorithms more abstract
+        and to use the same code for very different formats of vector
+        specifying. Use module MathMatrix for arithmetic operations with
+        matrices, to triangulate, permutate or transform matrix, to get a
+        particular or the general solution of a system of linear equations, to
+        get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient
+        and efficient data container. You may use it to continuously store
+        multidimensional data.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
         - math
         - matrix
@@ -42,11 +42,11 @@ module:
         - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@willbe.so>
         - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -756,24 +756,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          reflector: 'reflector::exported.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          reflector: 'reflector::exported.files.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -862,46 +844,36 @@ module:
           content: proto
           export: 1
     consistency:
-      wMathMatrix.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wMathMatrix
       org: noorg
       description: >-
-        Collection of functions for matrix math. MathMatrix introduces the class
-        Matrix. Matrix is a multidimensional structure. A matrix of specific
-        form could also be classified as a vector. MathMatrix heavily relly on
-        MathVector, which introduces VectorAdapter. VectorAdapter is a
-        reference, and it does not contain data but only refers to actual ( aka
-        Long ) container of lined data.  Use MathMatrix for arithmetic
-        operations with matrices, to triangulate, permutate or transform matrix,
-        to get a specific or the general solution of a system of linear
-        equations, to get LU, QR decomposition, for SVD or PCA. Matrix is a
-        convenient and efficient data container, and you may use it to store
-        huge an array of arrays or for matrix computation.
+        Collection of functions for matrix math. MathMatrix introduces class
+        Matrix, which is a multidimensional structure which, in the most trivial
+        case, is a 2D matrix. A matrix of specific form could also be classified
+        as a vector. MathMatrix heavily relly on MathVector, which introduces
+        VectorAdapter. A Vector adapter is an implementation of the abstract
+        interface, a kind of link that defines how to interpret data as the
+        vector. An adapter is a special object to make algorithms more abstract
+        and to use the same code for very different formats of vector
+        specifying. Use module MathMatrix for arithmetic operations with
+        matrices, to triangulate, permutate or transform matrix, to get a
+        particular or the general solution of a system of linear equations, to
+        get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient
+        and efficient data container. You may use it to continuously store
+        multidimensional data.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 8.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
-        - math
-        - matrix
-        - matrix math
-        - convolution
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@willbe.so>
-        - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
+      contributors: *ref_4
       npm.name: wmathmatrix
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -1584,9 +1556,8 @@ module:
           - 'build::npm'
     consistency:
       ../.ex.will.yml:
-        hash: 1af7646ff5fe78a178db7c817dacf5e1
-        size: 2507
+        hash: bdbe973daae695436b870333d3746499
+        size: 2690
       ../.im.will.yml:
         hash: 60faa80ce09d0d3e4f2a920aa671026e
         size: 5256
-      wMathMatrix.out.will.yml: *ref_0
