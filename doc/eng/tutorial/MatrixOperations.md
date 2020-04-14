@@ -14,10 +14,8 @@ var matrix = _.Matrix.Make([ 3, 3 ]).copy
   7, 8, -9
 ]);
 var result = matrix.determinant();
-console.log( `determinant :\n${ result }` );
-/* log : determinant :
-54
-*/
+console.log( `determinant : ${ result }` );
+/* log : determinant : 54 */
 ```
 
 The method `determinant` calculates the determinant of the matrix.
@@ -48,7 +46,7 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 
 ### Multiplying a matrix by a scalar
 
-The matrix can be multiplied by a scalar using the static routine `Mul`. Each value of the matrix will be increased in an appropriate number of times. The routine puts the result of the operation in the container `dst`. If `dst` is set to `null`, then the result is put in the new container.
+The matrix can be multiplied by a scalar using the static routine `Mul`. Each value of the matrix will be increased in a specified number of times. The routine puts the result of the operation in the container `dst`. If `dst` is set to `null`, then the result is put in the newly created container for that.
 
 ```js
 var matrix = _.Matrix.MakeSquare
@@ -65,7 +63,7 @@ console.log( `dst :\n${ dst.toStr() }` );
 */
 ```
 
-The static routine `Mul` multiplies the matrix `matrix` by the scalar `3`. Since the first argument has a `null` value, a new container `dst` is created. It's returned as the result of executing a routine `Mul`.
+The static routine `Mul` multiplies the matrix `matrix` by the scalar `3`. Because the first argument has a `null` value, a new container `dst` is created. It's returned as the result of executing a routine `Mul`.
 
 Alternatively, instead of a static routine, it is possible to call the object method.
 

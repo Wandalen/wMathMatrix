@@ -38,7 +38,7 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/Solve.md">
+  <summary><a href="./tutorial/Solver.md">
     Matrix solver
   </a></summary>
     Solving systems of linear equations.

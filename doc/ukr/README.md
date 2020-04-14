@@ -45,14 +45,14 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/Solve.md">
+  <summary><a href="./tutorial/Solver.md">
     Матричне рішення
   </a></summary>
     Розглядаються рішення математичних задач матричним способом.
 </details>
 
 <details>
-  <summary><a href="./tutorial/Solve.md">
+  <summary><a href="./tutorial/Solver.md">
     Матричне рішення
   </a></summary>
     Розглядаються засоби для рішення систем лінійних рівнянь.
