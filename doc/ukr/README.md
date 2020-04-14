@@ -24,8 +24,8 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixElements.md">
-    Елементи матриці
+  <summary><a href="./tutorial/MatrixComponents.md">
+    Компоненти матриці
   </a></summary>
     Як отримати рядок, колонку, елемент, скаляр чи підматрицю певної матриці.
 </details>

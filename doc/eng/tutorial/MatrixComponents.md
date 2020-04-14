@@ -1,10 +1,10 @@
-# Matrix elements
+# Matrix components
 
-How to get a row, column, element, scalar, or submatrix of a particular matrix.
+How to get a row, column, element, scalar, or submatrix of a matrix.
 
-### How to work with row
+### Row
 
-Use the method `rowGet` to get the string value.
+Use the method `rowGet` to get a row of a matrix.
 
 ```js
 var matrix = _.Matrix.MakeSquare
@@ -24,10 +24,9 @@ console.log( `first row :\n${ row.toStr() }` );
 */
 ```
 
-The method `rowGet` returns a row as a vector adapter, not by copying data, but only by providing link to it.
+The method `rowGet` returns a row as a vector adapter. This method does not make a copy of data but only provides a link on it.
 
-Use the method `rowSet` to set a value for a row.
-
+Use the method `rowSet` to set a row of a matrix.
 
 ```js
 var matrix = _.Matrix.MakeSquare
@@ -50,7 +49,7 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 
 The method `rowSet` expects a vector in any format: an array, a typical array, or a vector adapter.
 
-### How to work with column
+### Column
 
 Use the method `colGet` to get the column value.
 
@@ -71,7 +70,7 @@ console.log( `first column :\n${ row.toStr() }` );
 1.000, 3.000 */
 ```
 
-The method `colGet` returns a column as a vector adapter, not by copying data, but only by providing link to it.
+The method `colGet` returns a column as a vector adapter. This method does not make a copy of data but only provides a link on it.
 
 Use the method `colSet` to set a value for a column.
 
@@ -96,39 +95,54 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 
 The method `colSet` expects a vector in any format: an array, a typical array, or a vector adapter.
 
-### How to get or set a value of scalar
+### Diagonal
 
-To get access to a scalar element by its row and column index, the methods `scalarGet` and` scalarSet` are used.
+The method `diagonalGet` returns the diagonal of a matrix as a vector.
 
 ```js
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
-+3, +4
++3, +4,
 */
-
-var el = matrix.scalarGet([ 0, 1 ]);
-console.log( `second element of first row :\n${ el }` );
-/* log : second element of first row :
-2
-*/
-
-matrix.scalarSet( [ 0, 1 ], 5 );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
-/* log : changed matrix :
-+1, +5,
-+3, +4
+var diagonal = matrix.diagonalGet();
+console.log( `diagonal of matrix :\n${ diagonal.toStr() }` );
+/* log : diagonal of matrix :
+1.000, 4.000
 */
 ```
 
-The methods `scalarGet` and `scalarSet` expect a multidimensional index. In the case of a higher-order matrix, there will be more than two dimensions.
+The method `diagonalGet` returns the diagonal as a vector adapter. This method does not make a copy of data but only provides a link on it.
 
-### How to get or set the value of an row element
+Use the method `diagonalSet` to set the diagonal of the matrix.
+
+```js
+var matrix = _.Matrix.MakeSquare
+([
+  1, 2,
+  3, 4,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++1, +2,
++3, +4,
+*/
+matrix.diagonalSet([ 5, 7 ]);
+console.log( `changed matrix :\n${ matrix.toStr() }` );
+/* log : changed matrix :
++5, +2,
++3, +7,
+*/
+```
+
+Method `diagonalSet` takes the vector [ 5, 7 ] and rewrites the diagonal of the matrix by the vector. If a scalar passed to the method, then the diagonal of the matrix is filled by that scalar.
+
+### Elements
 
 The method `eGet` returns an element of the matrix. An element of a typical 2-dimensional matrix is a column. If the matrix has 3 dimensions, then the element will be a typical 2-dimensional matrix. If the matrix has 4 dimensions, then the element will be a typical 3-dimensional matrix.
 
@@ -171,72 +185,52 @@ console.log( `changed matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The element number ( column number ) `0` and the vector of new values are passed to the method `eSet`. The vector can be specified as an array, typed array, or adapter vector.
+The element number ( column number ) `0` and the vector to set are passed to the method `eSet`. The vector can be specified as an array, typed array, or adapter vector.
 
-### How to get or set a diagonal
+### Scalars
 
-The method `diagonalGet` returns a vector from the diagonal of a matrix.
-
-```js
-var matrix = _.Matrix.MakeSquare
-([
-  1, 2,
-  3, 4,
-]);
-console.log( `matrix :\n${ matrix.toStr() }` );
-/* log : matrix :
-+1, +2,
-+3, +4,
-*/
-var diagonal = matrix.diagonalGet();
-console.log( `diagonal of matrix :\n${ diagonal.toStr() }` );
-/* log : diagonal of matrix :
-1.000, 4.000
-*/
-```
-
-Use the method `diagonalSet` to set the diagonal of the matrix.
+To get access to a scalar with row and column index, use methods `scalarGet` and `scalarSet`.
 
 ```js
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4,
+  3, 4
 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +2,
-+3, +4,
++3, +4
 */
-matrix.diagonalSet([ 5, 7 ]);
+
+var el = matrix.scalarGet([ 0, 1 ]);
+console.log( `second element of first row :\n${ el }` );
+/* log : second element of first row :
+2
+*/
+
+matrix.scalarSet( [ 0, 1 ], 5 );
 console.log( `changed matrix :\n${ matrix.toStr() }` );
 /* log : changed matrix :
-+5, +2,
-+3, +7,
++1, +5,
++3, +4
 */
 ```
 
-The vector passes in the method `diagonalSet`, it writes as the diagonal of the matrix. When a scalar passes, the diagonal of the matrix fills with the value of that scalar.
+The methods `scalarGet` and `scalarSet` expect a multidimensional index. In the case of a higher-order matrix, there will be more than two dimensions.
 
-### How to get a submatrix
+### Submatrices
 
 Use the method `submatrix` to get a submatrix.
 
 ```js
-var buffer =
-[
+var matrix = _.Matrix.MakeSquare
+([
   0,  1,  2,  3,
   4,  5,  6,  7,
   8,  9,  10, 11,
   12, 13, 14, 15,
-];
-var matrix = _.Matrix
-({
-  buffer : buffer,
-  dims : [ 4, 3 ],
-  offset : 1,
-  strides : [ 4, 1 ]
-})
+])
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1,  +2,  +3,
@@ -258,6 +252,6 @@ console.log( `submatrix2 :\n${ sub2.toStr() }` );
 */
 ```
 
-The first range selects the desired rows, the second selects the columns. The submatrix `sub1` selects the intersection of rows `1, 2` and columns `0, 1` inclusive. The submatrix `sub2` selects the intersection of rows `1, 2` and columns `1, 2`. Submatrices have the common elements `6` and` 10`.
+The first range selects rows of interest. The second range selects columns of interest. The submatrix `sub1` selects the intersection of rows `1, 2` and columns `0, 1`. The submatrix `sub2` selects the intersection of rows `1, 2` and columns `1, 2`. Submatrices have the common scalars `6` and` 10`.
 
 [Back to content](../README.md#Tutorials)

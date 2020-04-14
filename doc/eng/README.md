@@ -17,8 +17,8 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixElements.md">
-    Matrix elements
+  <summary><a href="./tutorial/MatrixComponents.md">
+    Matrix components
   </a></summary>
     How to get a row, column, element, scalar, or submatrix of a particular matrix.
 </details>
