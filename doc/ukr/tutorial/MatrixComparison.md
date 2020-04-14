@@ -29,7 +29,7 @@ console.log( `identical : ${ identical }` );
 /* log : identical : true */
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent : ${ identical }` );
+console.log( `equivalent : ${ equivalent }` );
 /* log : equivalent : true */
 ```
 
@@ -68,7 +68,7 @@ console.log( `identical : ${ identical }` );
 /* log : identical : true*/
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent : ${ identical }` );
+console.log( `equivalent : ${ equivalent }` );
 /* log : equivalent : true */
 ```
 
@@ -105,7 +105,7 @@ console.log( `identical : ${ identical }` );
 /* log : identical : false */
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent : ${ identical }` );
+console.log( `equivalent : ${ equivalent }` );
 /* log : equivalent : true */
 ```
 
@@ -130,7 +130,7 @@ console.log( `identical : ${ identical }` );
 /* log : identical : false */
 
 var equivalent = _.equivalent( matrixCol, vector );
-console.log( `equivalent : ${ identical }` );
+console.log( `equivalent : ${ equivalent }` );
 /* log : equivalent : true */
 ```
 
