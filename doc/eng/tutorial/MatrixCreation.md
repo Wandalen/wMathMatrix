@@ -4,7 +4,7 @@ How to create a matrix.
 
 ### Static routine `Make`
 
-Creates a matrix from specified dimension.
+Let's creates a matrix with specified dimensions.
 
 ```js
 var matrix = _.Matrix.Make([ 2, 2 ]);
@@ -15,11 +15,11 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The created matrix `matrix` has dimension `2x2`, it is specified by the argument in the call of static routine.
+The created matrix `matrix` has dimension `2x2`, which is specified by the argument in the call of static routine.
 
 ### Static routine `MakeSquare`
 
-Creates a square matrix from a passed buffer or a given dimension.
+Let's create a square matrix from a passed buffer or a given dimension.
 
 ```js
 var matrix1 = _.Matrix.MakeSquare
@@ -34,7 +34,7 @@ console.log( `matrix :\n${ matrix1.toStr() }` );
 */
 ```
 
-Static routine `MakeSquare` is deduces dimension `2x2` from the length of the vector that is passed to the input.
+Static routine `MakeSquare` deduces dimension `2x2` from the length of the vector that is passed as the input.
 
 ```js
 var matrix2 = _.Matrix.MakeSquare( 2 );
@@ -45,7 +45,7 @@ console.log( `matrix :\n${ matrix2.toStr() }` );
 */
 ```
 
-The dimension `2x2` is given by the scalar` 2`. Since the created matrix is square, then the scalar is sufficient.
+The dimension `2x2` is given by the scalar` 2`. Scalar is sufficient to deduce dimensions because the created matrix is square.
 
 ### Static routine `MakeZero`
 
@@ -75,10 +75,10 @@ The dimension `2x2` is given explicitly by a scalar.
 
 ### Static routine `MakeIdentity`
 
-Creates an identity matrix from a provided dimension. Diagonal values of such matrix are `1`.
+Let's create an identity matrix from a provided dimension. Diagonal values of such matrix are `1`.
 
 ```js
-var matrix = _.Matrix.MakeIdentity( [ 2, 3 ] );
+var matrix = _.Matrix.MakeIdentity([ 2, 3 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1, +0, +0,
@@ -97,11 +97,11 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The dimension `2x2` is given explicitly by a scalar.
+The dimension `2x2` is specified explicitly by the scalar.
 
 ### Static routine `MakeDiagonal`
 
-Creates a square matrix with specified diagonal values.
+Let's create a square matrix with specified diagonal values.
 
 ```js
 var matrix = _.Matrix.MakeDiagonal( [ 2, 3, 1 ] );
@@ -113,11 +113,11 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The dimension `3x3` is deduced from the length of the diagonal that is given as vector.
+The dimension `3x3` is deduced from the length of the diagonal that is given as a vector.
 
 ### Static routine `MakeCol`
 
-Creates a column vector.
+Let's creates a column vector.
 
 ```js
 var matrix = _.Matrix.MakeCol([ 2, 3 ]);
@@ -128,7 +128,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The static routine `MakeCol` receives a column in the vector format as an argument. The dimension of the matrix `2x1` is deduced from the length of the column.
+The static routine `MakeCol` receives a column in a format of vector as an argument. The dimension of the matrix `2x1` is deduced from the length of the column.
 
 ```js
 var matrix = _.Matrix.MakeCol( 2 );
@@ -139,21 +139,21 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The length of the column is specified explicitly `2`, the dimension of the matrix `2x1`.
+The length of the column is specified explicitly `2`. The dimensions of the matrix are `2x1`.
 
 ### Static routine `MakeRow`
 
-Creates a row vector.
+Let's creates a row vector.
 
 ```js
-var matrix = _.Matrix.MakeRow( [ 2, 3 ] );
+var matrix = _.Matrix.MakeRow([ 2, 3 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +2, +3,
 */
 ```
 
-The static routine `MakeRow` receives a row in the vector format as an argument. The dimension of the matrix `1x2` is deduced from the length of the row.
+The static routine `MakeRow` receives a row in a vector format as an argument. The dimension of the matrix `1x2` is deduced from the length of the row.
 
 ```js
 var matrix = _.Matrix.MakeRow( 2 );
@@ -163,11 +163,11 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The length of the row is specified explicitly `2`, the dimension of the matrix `2x1`.
+The length of the row is specified explicitly `2`. The dimensions of the matrix are `1x2`.
 
 ### Static routine `FromVector`
 
-Creates a column vector from the passed vector. Accepts vector in any format
+Let's creates a column vector from the passed vector. Accepts vector in any format
 
 - vector adapter
 - typed buffer
@@ -207,7 +207,7 @@ console.log( `matrix2 :\n${ matrix2.toStr() }` );
 
 ### Static routine `FromScalar`
 
-Creates a matrix from a given dimension and fills it by the passed value.
+Creates a matrix with a specified dimension and fills it by the passed value.
 
 ```js
 var matrix = _.Matrix.FromScalar( 5, [ 2, 2 ] );
@@ -222,7 +222,7 @@ The dimension of the matrix `2x2` is given by the 2nd argument.
 
 ### Static routine `FromTransformations`
 
-It creates a homogeneous matrix of 3D transformations by pivots, offsets, and scales. Pivots are given by a quaternion.
+It creates a homogeneous matrix of 3D transformations by rotations, offsets, and scales. Rotations are specified by the quaternion.
 
 ```js
 var position = [ 1, 2, 3 ];
@@ -238,6 +238,6 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-Since the offset is the only component with a value different from one, the result is a shift matrix `matrix`.
+Because the offset is the only component with a value different from one, the result is a shift matrix `matrix`.
 
 [Back to content](../README.md#Tutorials)
