@@ -1,7 +1,4 @@
-if( typeof 'module' !== undefined )
-require( 'wmathmatrix' );
-
-let _ = wTools;
+let _ = require( 'wmathmatrix' );
 
 var position = [ 1, 2, 3 ];
 var quaternion = [ 0, 0, 0, 1 ];

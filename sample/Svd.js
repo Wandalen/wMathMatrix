@@ -39,8 +39,8 @@ for( var i = 0; i < 5; i ++ )
 }
 
 
-let iss = _.Matrix._Mul2Matrices( null, s, v.clone().transpose());
-let res = _.Matrix._Mul2Matrices( null, u, iss );
+let iss = _.Matrix._Mul2( null, s, v.clone().transpose());
+let res = _.Matrix._Mul2( null, u, iss );
 logger.log( 'Final Result' );
 for( var i = 0; i < 4; i ++ )
 {
