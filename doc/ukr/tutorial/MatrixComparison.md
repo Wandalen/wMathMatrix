@@ -12,41 +12,25 @@
 ### Порівняння двох матриць
 
 ```js
-var buffer1 = new F32x
+var matrixA = _.Matrix.MakeSquare
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  +1, -5,
+  -3, +4,
 ]);
-var matrixA = _.Matrix
-({
-  buffer : buffer1,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
-var buffer2 = new F32x
+var matrixB = _.Matrix.MakeSquare
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  +1, -5,
+  -3, +4,
 ]);
-var matrixB = _.Matrix
-({
-  buffer : buffer2,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
 var identical = _.identical( matrixA, matrixB );
-console.log( `identical :\n${ identical }` );
-/* log : identical :
-true
-*/
+console.log( `identical : ${ identical }` );
+/* log : identical : true */
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent :\n${ identical }` );
-/* log : equivalent :
-true
-*/
+console.log( `equivalent : ${ identical }` );
+/* log : equivalent : true */
 ```
 
 Обидві матриці мають однакові буфери, розмірності і порядок зчитування елементів тому рутини `_.identical` i `_.equivalent` повернули `true`.
@@ -80,16 +64,12 @@ var matrixB = _.Matrix
   strides : [ 2, 1 ],
 });
 var identical = _.identical( matrixA, matrixB );
-console.log( `identical :\n${ identical }` );
-/* log : identical :
-true
-*/
+console.log( `identical : ${ identical }` );
+/* log : identical : true*/
 
 var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `equivalent :\n${ identical }` );
-/* log : equivalent :
-true
-*/
+console.log( `equivalent : ${ identical }` );
+/* log : equivalent : true */
 ```
 
 Рутини `_.identical` i `_.equivalent` порівнюють значення матриці, при цьому ігноруюються значення таких полів як `strides` i `offset`. Для матриць `matrixA` i `matrixB` результат перевірки - `true`.
