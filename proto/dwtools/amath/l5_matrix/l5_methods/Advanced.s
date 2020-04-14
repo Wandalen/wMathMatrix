@@ -101,6 +101,51 @@ _LinearModel.defaults =
 
 //
 
+/**
+ * Static routine PolynomExactFor() extracts polinoms for model that declared in options map {-o-}.
+ *
+ * @example
+ * // PolynomExactFor for E( n )
+ * // 1, 2, 6, 10, 15, 21, 28, 36
+ * // E = c0 + c1*n + c2*n**2
+ * // E = 0 + 0.5*n + 0.5*n**2
+ * // E = ( n + n**2 ) * 0.5
+ *
+ * var f = function( x )
+ * {
+ *   var r = 0;
+ *   for( var i = 0 ; i < x ; i++ )
+ *   r += i;
+ *   return r;
+ * }
+ *
+ * var polynom = _.Matrix.PolynomExactFor
+ * ({
+ *   order : 3,
+ *   domain : [ 1, 4 ],
+ *   onFunction : f,
+ * });
+ * console.log( polynom.toStr() );
+ * // log :
+ * // 0,
+ * // -0.5,
+ * // +0.5
+ *
+ * @param { Map } o - Options map.
+ * @param { Number } o.npoints - Number of points.
+ * @param { Long } o.points - A Long with points.
+ * @param { Number } o.order - Order of points.
+ * @param { Function } o.onFunction - Function that defines model.
+ * @returns { Matrix } - Returns polynoms of the model.
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If options map {-o-} has unknown options.
+ * @static
+ * @function PolynomExactFor
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function PolynomExactFor( o )
 {
 
@@ -123,6 +168,36 @@ PolynomExactFor.defaults =
 PolynomExactFor.defaults.__proto__ = _LinearModel.defaults;
 
 //
+
+/**
+ * Static routine PolynomClosestFor() calculates closest polynoms for model that declared in options map {-o-}.
+ *
+ * @example
+ * // closest for function E( i )';
+ * var polynom = _.Matrix.PolynomClosestFor
+ * ({
+ *   order : 2,
+ *   points : [ [ 1, 0.5 ], [ 2, 2.25 ], [ 3, 2 ] ],
+ * });
+ * console.log( polynom.toStr() );
+ * // log :
+ * // 1/12,
+ * //  3/4
+ *
+ * @param { Map } o - Options map.
+ * @param { Number } o.npoints - Number of points.
+ * @param { Long } o.points - A Long with points.
+ * @param { Number } o.order - Order of points.
+ * @param { Function } o.onFunction - Function that defines model.
+ * @returns { Matrix } - Returns polynoms of the model.
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If options map {-o-} has unknown options.
+ * @static
+ * @function PolynomClosestFor
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function PolynomClosestFor( o )
 {
@@ -155,7 +230,7 @@ PolynomClosestFor.defaults.__proto__ = _LinearModel.defaults;
 // relations
 // --
 
-let Statics = 
+let Statics =
 {
 
   /* modeler */
