@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wMathMatrix.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wMathMatrix.out.will.yml: &ref_0
+    hash: d248bb1d466ccc70f6afa40eabef5f0f
+    size: 42254
+  ../.ex.will.yml: &ref_1
     hash: 1af7646ff5fe78a178db7c817dacf5e1
     size: 2507
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 60faa80ce09d0d3e4f2a920aa671026e
     size: 5256
 module:
@@ -27,11 +30,11 @@ module:
         huge an array of arrays or for matrix computation.
       enabled: 1
       version: 0.4.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
         - math
         - matrix
@@ -39,11 +42,11 @@ module:
         - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@willbe.so>
         - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -753,6 +756,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          reflector: 'reflector::exported.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          reflector: 'reflector::exported.files.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -841,8 +862,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wMathMatrix.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wMathMatrix
@@ -861,13 +883,25 @@ module:
         huge an array of arrays or for matrix computation.
       enabled: 1
       version: 0.4.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 8.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
+        - math
+        - matrix
+        - matrix math
+        - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@willbe.so>
+        - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1555,3 +1589,6 @@ module:
       ../.im.will.yml:
         hash: 60faa80ce09d0d3e4f2a920aa671026e
         size: 5256
+      wMathMatrix.out.will.yml:
+        hash: d248bb1d466ccc70f6afa40eabef5f0f
+        size: 42254
