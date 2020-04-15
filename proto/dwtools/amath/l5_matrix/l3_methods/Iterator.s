@@ -59,13 +59,6 @@ function scalarWhile( o )
 
   let dims = self.dims;
 
-  function handleEach( indexNd, indexFlat )
-  {
-    let value = self.scalarGet( indexNd );
-    result = o.onScalar.call( self, value, indexNd, indexFlat, o );
-    return result;
-  }
-
   _.eachInMultiRange
   ({
     ranges : dims,
@@ -73,6 +66,14 @@ function scalarWhile( o )
   })
 
   return result;
+
+  function handleEach( indexNd, indexFlat )
+  {
+    let value = self.scalarGet( indexNd );
+    result = o.onScalar.call( self, value, indexNd, indexFlat, o );
+    return result;
+  }
+
 }
 
 scalarWhile.defaults =
@@ -116,34 +117,91 @@ function scalarEach( onScalar, args )
   args = [];
 
   _.assert( arguments.length <= 2 );
-  _.assert( self.dims.length === 2, 'not tested' );
   _.assert( _.arrayIs( args ) );
   _.assert( onScalar.length === 1 );
 
-  args.unshift( null );
-  args.unshift( null );
-
-  let dims0 = dims[ 0 ];
-  let dims1 = dims[ 1 ];
-
-  if( dims1 === Infinity )
-  dims1 = 1;
-
-  let it = Object.create( null );
-  it.args = args;
-  let indexFlat = 0;
-  for( let c = 0 ; c < dims1 ; c++ )
-  for( let r = 0 ; r < dims0 ; r++ )
+  if( self.dims.length === 2 )
   {
-    it.indexNd = [ r, c ];
-    it.indexFlat = indexFlat;
-    it.indexFlatRowFirst = r*dims[ 1 ] + c;
-    it.scalar = self.scalarGet( it.indexNd );
-    onScalar.call( self, it );
-    indexFlat += 1;
+    iterate2();
+  }
+  else
+  {
+
+    _.assert( self.dims.length === 3, 'not implemented' );
+    let dims2 = dims[ 2 ];
+    for( let i = 0 ; i < dims2 ; i++ )
+    {
+      iterate3( i );
+    }
+
   }
 
   return self;
+
+  /* */
+
+  function iterate2()
+  {
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+
+    if( dims0 === Infinity )
+    dims1 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.args = args;
+    it.indexNd = [ 0, 0 ];
+    let indexLogical = 0;
+    for( let c = 0 ; c < dims1 ; c++ )
+    {
+      it.indexNd[ 1 ] = c;
+      for( let r = 0 ; r < dims0 ; r++ )
+      {
+        it.indexNd[ 0 ] = r;
+        it.indexLogical = indexLogical;
+        // it.indexFlat = indexFlat;
+        // it.indexFlatRowFirst = r*dims[ 1 ] + c;
+        it.scalar = self.scalarGet( it.indexNd );
+        onScalar.call( self, it );
+        indexLogical += 1;
+      }
+    }
+  }
+
+  /* */
+
+  function iterate3( i2 )
+  {
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+
+    if( dims0 === Infinity )
+    dims1 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.args = args;
+    it.indexNd = [ 0, 0, i2 ];
+    let indexLogical = 0;
+    for( let c = 0 ; c < dims1 ; c++ )
+    {
+      it.indexNd[ 1 ] = c;
+      for( let r = 0 ; r < dims0 ; r++ )
+      {
+        it.indexNd[ 0 ] = r;
+        it.indexLogical = indexLogical;
+        it.scalar = self.scalarGet( it.indexNd );
+        onScalar.call( self, it );
+        indexLogical += 1;
+      }
+    }
+  }
+
+  /* */
+
 }
 
 // --

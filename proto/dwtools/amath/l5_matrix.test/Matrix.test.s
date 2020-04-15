@@ -4153,6 +4153,10 @@ function copyTo( test )
 function copy( test )
 {
 
+  /* */
+
+  test.case = 'copy buffer without copying strides and offset';
+
   var b1 = new F32x([
     0,
     1, 7,
@@ -4185,9 +4189,17 @@ function copy( test )
   logger.log( 'src', src );
   logger.log( 'dst', dst );
 
-  test.case = 'copy buffer without copying strides and offset'; /* */
+  test.identical( src._stridesEffective, [ 2, 4 ] );
+  test.identical( dst._stridesEffective, [ 1, 2 ] );
+  test.identical( src.inputTransposing, 1 );
+  test.identical( dst.inputTransposing, 0 );
 
   dst.copy( src );
+
+  test.identical( src._stridesEffective, [ 2, 4 ] );
+  test.identical( dst._stridesEffective, [ 3, 1 ] );
+  test.identical( src.inputTransposing, 1 );
+  test.identical( dst.inputTransposing, 1 );
 
   test.identical( dst, src );
   test.is( dst.buffer !== src.buffer );
@@ -4427,7 +4439,9 @@ function copy( test )
 function copySubmatrix( test )
 {
 
-  test.case = 'copy from matrix with different srides'; /* */
+  /* */
+
+  test.case = 'copy from matrix with different srides';
 
   var src1 = _.Matrix.Make([ 3, 2 ]).copy
   ([
@@ -4469,14 +4483,115 @@ function copySubmatrix( test )
   console.log( 'src1', src1.toStr() );
   console.log( 'src2', src2.toStr() );
 
+  /* */
+
 }
 
 //
 
+function makeMultyMatrix( test )
+{
+
+  /* */
+
+  test.case = 'copy from matrix with different srides';
+
+  var simpleMatrix = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+
+  console.log( `\nsimple matrix :\n${ simpleMatrix.toStr() }` );
+
+  var superMatrix = _.Matrix.Make([ 2, 2, 2 ]).copy
+  ([
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+  ]);
+
+  console.log( `\nsuper matrix :\n${ superMatrix.toStr() }` );
+
+  /* */
+
+}
+
+// makeMultyMatrix.experimental = 1;
+
+// --
+// exporter
+// --
+
+function toStr( test )
+{
+
+  /* */
+
+  test.case = '2x3';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var exp =
+`
++1, +2, +3,
++4, +5, +6,
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '3x2';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+  ]);
+  var exp =
+`
++1, +2,
++3, +4,
++5, +6,
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2xInfinity';
+  _global_.debugger = 1;
+  debugger;
+  var matrix = _.Matrix.Make([ 2, Infinity ]);
+  debugger;
+  var matrix = _.Matrix.Make([ 2, Infinity ]).copy
+  ([
+    0, 1
+  ]);
+  var exp =
+`
++1, +2,
+xxx
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+}
+
+// --
+// structural
+// --
+
 function offset( test )
 {
 
-  test.case = 'init'; /* */
+  /* */
+
+  test.case = 'init';
 
   var buffer =
   [
@@ -4499,17 +4614,23 @@ function offset( test )
 
   test.is( m.buffer instanceof Array );
 
-  test.case = 'scalarGet'; /* */
+  /* */
+
+  test.case = 'scalarGet';
 
   test.identical( m.scalarGet([ 0, 0 ]), 1 );
   test.identical( m.scalarGet([ 2, 1 ]), 6 );
 
-  test.case = 'scalarFlatGet'; /* */
+  /* */
+
+  test.case = 'scalarFlatGet';
 
   test.identical( m.scalarFlatGet( 0 ), 1 );
   test.identical( m.scalarFlatGet( 5 ), 6 );
 
-  test.case = 'scalarSet, scalarFlatSet'; /* */
+  /* */
+
+  test.case = 'scalarSet, scalarFlatSet';
 
   var expected = _.Matrix.Make([ 3, 2 ]).copy
   ({
@@ -4526,7 +4647,9 @@ function offset( test )
 
   test.identical( m, expected );
 
-  test.case = 'bad arguments'; /* */
+  /* */
+
+  test.case = 'bad arguments';
 
   if( !Config.debug )
   return;
@@ -8168,9 +8291,10 @@ function MulBasic( test )
 
 function MulSubmatirices( test )
 {
+
   var matrix = _.Matrix
   ({
-    buffer : [ 1, 2, 3, 4, 5, 6,7, 8, 9 ],
+    buffer : new F32x([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]),
     strides : [ 3, 1 ],
     dims : [ 3, 3 ],
   });
@@ -8185,6 +8309,7 @@ function MulSubmatirices( test )
   ]);
 
   test.identical( sub1, exp );
+
 }
 
 //
@@ -11172,6 +11297,11 @@ var Self =
     copyTo,
     copy,
     copySubmatrix,
+    makeMultyMatrix,
+
+    // exporter
+
+    toStr,
 
     // structural
 
