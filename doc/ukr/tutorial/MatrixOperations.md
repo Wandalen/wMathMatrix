@@ -14,10 +14,8 @@ var matrix = _.Matrix.Make([ 3, 3 ]).copy
   7, 8, -9
 ]);
 var result = matrix.determinant();
-console.log( `determinant :\n${ result }` );
-/* log : determinant :
-54
-*/
+console.log( `determinant : ${ result }` );
+/* log : determinant : 54 */
 ```
 
 Метод `determinant` знаходить детермінант матриці.

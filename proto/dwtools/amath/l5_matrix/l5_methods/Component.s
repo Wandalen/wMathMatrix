@@ -1,4 +1,4 @@
-(function _Element_s_() {
+(function _Component_s_() {
 
 'use strict';
 
@@ -429,13 +429,14 @@ function expand( expand )
 
   self.scalarEach( function( it )
   {
+    let indexNd = it.indexNd.slice();
     for( let i = 0 ; i < dims.length ; i++ )
     {
-      it.indexNd[ i ] += expand[ i ][ 0 ];
-      if( it.indexNd[ i ] < 0 || it.indexNd[ i ] >= dims[ i ] )
+      indexNd[ i ] += expand[ i ][ 0 ];
+      if( indexNd[ i ] < 0 || indexNd[ i ] >= dims[ i ] )
       return;
     }
-    let indexFlat = Self._FlatScalarIndexFromIndexNd( it.indexNd , strides );
+    let indexFlat = Self._FlatScalarIndexFromIndexNd( indexNd , strides );
     _.assert( indexFlat >= 0 );
     _.assert( indexFlat < buffer.length );
     buffer[ indexFlat ] = it.scalar;

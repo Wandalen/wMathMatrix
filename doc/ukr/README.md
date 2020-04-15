@@ -10,13 +10,6 @@
 ## Туторіали
 
 <details>
-  <summary><a href="./tutorial/Introduction.md">
-    Введення
-  </a></summary>
-    В даній статті виконується огляд концепції матриці та його форматів задання.
-</details>
-
-<details>
   <summary><a href="./tutorial/MatrixCreation.md">
     Створення матриці
   </a></summary>
@@ -24,8 +17,8 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixElements.md">
-    Елементи матриці
+  <summary><a href="./tutorial/MatrixComponents.md">
+    Компоненти матриці
   </a></summary>
     Як отримати рядок, колонку, елемент, скаляр чи підматрицю певної матриці.
 </details>
@@ -41,18 +34,18 @@
   <summary><a href="./tutorial/OptionStrides.md">
     Як використовувати опцію strides
   </a></summary>
-    Як використати опцію <code>stride</code> для інтерпретації буфера в матрицю.
+    Як використати опцію <code>strides</code> для інтерпретації буфера як матриці.
 </details>
 
 <details>
-  <summary><a href="./tutorial/Solve.md">
+  <summary><a href="./tutorial/Solver.md">
     Матричне рішення
   </a></summary>
     Розглядаються рішення математичних задач матричним способом.
 </details>
 
 <details>
-  <summary><a href="./tutorial/Solve.md">
+  <summary><a href="./tutorial/Solver.md">
     Матричне рішення
   </a></summary>
     Розглядаються засоби для рішення систем лінійних рівнянь.

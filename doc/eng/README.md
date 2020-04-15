@@ -17,8 +17,8 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixElements.md">
-    Matrix elements
+  <summary><a href="./tutorial/MatrixComponents.md">
+    Matrix components
   </a></summary>
     How to get a row, column, element, scalar, or submatrix of a particular matrix.
 </details>
@@ -34,11 +34,11 @@
   <summary><a href="./tutorial/MatrixOperations.md">
     How to use option strides
   </a></summary>
-    How to use the option <code>stride</code> to interpret the buffer as a matrix.
+    How to use the option <code>strides</code> to interpret a buffer as a matrix
 </details>
 
 <details>
-  <summary><a href="./tutorial/Solve.md">
+  <summary><a href="./tutorial/Solver.md">
     Matrix solver
   </a></summary>
     Solving systems of linear equations.

@@ -1,19 +1,12 @@
 let _ = require( 'wmathmatrix' );
 
-var buffer =
-[
+var matrix = _.Matrix.MakeSquare
+([
   0,  1,  2,  3,
   4,  5,  6,  7,
   8,  9,  10, 11,
   12, 13, 14, 15,
-];
-var matrix = _.Matrix
-({
-  buffer : buffer,
-  dims : [ 4, 3 ],
-  offset : 1,
-  strides : [ 4, 1 ]
-})
+])
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1,  +2,  +3,

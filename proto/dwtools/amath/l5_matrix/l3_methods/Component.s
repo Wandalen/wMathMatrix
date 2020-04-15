@@ -1,4 +1,4 @@
-(function _Element_s_() {
+(function _Component_s_() {
 
 'use strict';
 
@@ -396,7 +396,7 @@ function eGet( index )
 {
 
   _.assert( this.dims.length === 2, 'not implemented' );
-  _.assert( 0 <= index && index < this.dims[ this.dims.length-1 ], 'out of bound' );
+  _.assert( 0 <= index && index < this.dims[ this.dims.length-1 ], 'Out of bound' );
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -630,37 +630,63 @@ function linesSwap( d, i1, i2 )
 
 //
 
-/**
- * Method rowOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
- *
- * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.rowOfMatrixGet( [ 0, 0 ], 2 );
- * console.log( got.toStr() );
- * // log : 1.000, 2.000, 3.000
- *
- * @param { Long|VectorAdapter|Matrix } matrixIndex - Index of matrix.
- * @param { Number } rowIndex - Index of the row.
- * @returns { VectorAdapter } - Returns vector with row.
- * @method rowOfMatrixGet
- * @throws { Error } If {-matrixIndex-} is not a Long, not a VectorAdapter, not a Matrix.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
+// /**
+//  * Method rowOfMatrixGet() returns row of matrix taking into account the offset in flat buffer.
+//  *
+//  * @example
+//  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+//  * var got = matrix.rowOfMatrixGet( [ 0, 0 ], 2 );
+//  * console.log( got.toStr() );
+//  * // log : 1.000, 2.000, 3.000
+//  *
+//  * @param { Long|VectorAdapter|Matrix } matrixIndex - Index of matrix.
+//  * @param { Number } rowIndex - Index of the row.
+//  * @returns { VectorAdapter } - Returns vector with row.
+//  * @method rowOfMatrixGet
+//  * @throws { Error } If {-matrixIndex-} is not a Long, not a VectorAdapter, not a Matrix.
+//  * @class Matrix
+//  * @namespace wTools
+//  * @module Tools/math/Matrix
+//  */
+//
+// function rowOfMatrixGet( matrixIndex, rowIndex )
+// {
+//
+//   // debugger;
+//   // throw _.err( 'not tested' );
+//   _.assert( index < this.dims[ 1 ] );
+//
+//   let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
+//   let result = this.vectorAdapter.fromLongLrangeAndStride
+//   (
+//     this.buffer,
+//     this.offset + rowIndex*this.strideOfRow + matrixOffset,
+//     this.scalarsPerRow,
+//     this.strideInRow
+//   );
+//
+//   return result;
+// }
 
-function rowOfMatrixGet( matrixIndex, rowIndex )
+//
+
+function rowNdGet( indexNd )
 {
 
-  debugger;
-  throw _.err( 'not tested' );
-  _.assert( index < this.dims[ 1 ] );
+  _.assert( 0 <= indexNd[ 0 ] && indexNd[ 0 ] < this.dims[ 0 ], 'Out of bound' );
+  _.assert( _.longIs( indexNd ), 'Expects nd index' );
+  _.assert( indexNd.length+1 === this.dims.length );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
+  debugger;
+  // let matrixIndex = [ 0, ... indexNd ];
+  let matrixIndex = [ indexNd[ 0 ], 0, indexNd.slice( 1 ) ];
   let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
   let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
-    this.offset + rowIndex*this.strideOfRow + matrixOffset,
+    this.offset + matrixOffset,
+    // this.offset + index*this.strideOfRow + matrixOffset,
     this.scalarsPerRow,
     this.strideInRow
   );
@@ -695,7 +721,7 @@ function rowGet( index )
 {
 
   _.assert( this.dims.length === 2, 'not implemented' );
-  _.assert( 0 <= index && index < this.dims[ 0 ], 'out of bound' );
+  _.assert( 0 <= index && index < this.dims[ 0 ], 'Out of bound' );
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -807,7 +833,7 @@ function colGet( index )
 {
 
   _.assert( this.dims.length === 2, 'not implemented' );
-  _.assert( 0 <= index && index < this.dims[ 1 ], 'out of bound' );
+  _.assert( 0 <= index && index < this.dims[ 1 ], 'Out of bound' );
   _.assert( _.numberIs( index ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -930,7 +956,8 @@ let Extension =
   lineSet,
   linesSwap,
 
-  rowOfMatrixGet,
+  // rowOfMatrixGet,
+  rowNdGet, /* cover for 2 and many dimensionality */
   rowGet,
   rowSet,
   rowsSwap,

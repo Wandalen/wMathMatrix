@@ -4,6 +4,8 @@
 
 /* zzz :
 
+15:30 Thursday
+
 - implement power
 - implement submatrix
 -- make sure inputTransposing of product set correctly
@@ -360,20 +362,219 @@ function _longGet()
 // import / export
 // --
 
+function ExportStructure( o )
+{
+
+  o = _.routineOptions( ExportStructure, arguments );
+
+  _.assert( o.format === 'object' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  if( o.dst === null )
+  {
+    o.dst = new this.Self( o.src );
+    return o.dst;
+  }
+
+  let srcIsInstance = o.src instanceof Self;
+  let dstIsInstance = o.dst instanceof Self;
+
+  if( o.src === o.dst )
+  return o.dst;
+
+  /* */
+
+  if( _.longIs( o.src ) )
+  {
+    o.dst.copyFromBuffer( o.src );
+    return o.dst;
+  }
+  else if( _.numberIs( o.src ) )
+  {
+    o.dst.copyFromScalar( o.src );
+    return o.dst;
+  }
+
+  _.assert( _.objectIs( o.src ) );
+
+  if( dstIsInstance )
+  o.dst._changeBegin();
+
+  if( !srcIsInstance )
+  {
+    set( 'breadth' );
+  }
+
+  set( 'inputTransposing' );
+  set( 'growingDimension' );
+  set( 'dims' );
+
+  if( o.src.buffer && o.dst.buffer === null )
+  {
+    set( 'buffer' );
+    set( 'strides' );
+    set( 'offset' );
+  }
+
+  if( dstIsInstance )
+  o.dst[ stridesEffectiveSymbol ] = null;
+
+  /* */
+
+  if( dstIsInstance )
+  if( o.src.buffer !== undefined )
+  {
+
+    o.dst.dims = null;
+
+    if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix )
+    {
+    }
+    else if( !srcIsInstance )
+    {
+      o.dst.buffer = o.src.buffer;
+      if( o.src.breadth !== undefined )
+      o.dst.breadth = o.src.breadth;
+      if( o.src.offset !== undefined )
+      o.dst.offset = o.src.offset;
+      if( o.src.strides !== undefined )
+      o.dst.strides = o.src.strides;
+    }
+    else if( o.src.buffer && !o.dst.buffer )
+    {
+      o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+      o.dst.offset = 0;
+      o.dst.strides = null;
+      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesForDimensions( o.src.dims, !!o.dst.inputTransposing );
+    }
+    else if( o.src.buffer && o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix )
+    {
+      o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+      o.dst.offset = 0;
+      o.dst.strides = null;
+      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesForDimensions( o.src.dims, !!o.dst.inputTransposing );
+    }
+    else debugger;
+
+  }
+
+  /* */
+
+  if( o.src.dims )
+  o.dst.dims = o.src.dims;
+
+  if( srcIsInstance )
+  _.assert( _.longIdentical( o.dst.dims , o.src.dims ) );
+
+  if( dstIsInstance )
+  {
+    o.dst._changeEnd();
+    _.assert( o.dst._changing[ 0 ] === 0 );
+  }
+
+  if( srcIsInstance )
+  {
+
+    if( dstIsInstance )
+    {
+      _.assert( o.dst.hasShape( o.src ) );
+      o.src.scalarEach( function( it )
+      {
+        o.dst.scalarSet( it.indexNd, it.scalar );
+      });
+    }
+    else
+    {
+      let extract = o.src.extractNormalized();
+      o.dst.buffer = _.longSlice( extract.buffer );
+      o.dst.offset = extract.offset;
+      o.dst.strides = extract.strides;
+    }
+
+  }
+
+  return o.dst;
+
+  function set( key )
+  {
+    if( o.src[ key ] !== null && o.src[ key ] !== undefined )
+    o.dst[ key ] = o.src[ key ];
+  }
+
+}
+
+ExportStructure.defaults =
+{
+  src : null,
+  dst : null,
+  format : 'object',
+}
+
+//
+
+function exportStructure( o )
+{
+  let self = this;
+
+  o = _.routineOptions( exportStructure, arguments );
+
+  o.src = self;
+
+  return self.ExportStructure( o );
+}
+
+exportStructure.defaults =
+{
+  ... _.mapBut( ExportStructure.defaults, [ 'src' ] ),
+}
+
+//
+
 function _copy( src, resetting )
 {
   let self = this;
 
+  if( 1 )
+  {
+    self.ExportStructure
+    ({
+      src : src,
+      dst : self,
+      format : 'object',
+    });
+    return self;
+  }
+
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  // xxx
-  // if( _.instanceIs( src ) )
+  // // xxx
+  // if( _.instanceIs( src ) && src._stridesEffective )
   // {
   //   self._changeBegin();
+  //   if( src.strides )
   //   self.strides = src.strides;
+  //   if( src._stridesEffective )
   //   self[ stridesEffectiveSymbol ] = src._stridesEffective;
+  //   // if( src.buffer )
+  //   // self.buffer = src.buffer;
+  //   if( src.buffer && !self.buffer )
   //   self.buffer = _.longSlice( src.buffer );
+  //
+  //   let it = _._cloner( self._traverseAct, { src, dst : self, /*resetting, */ technique : 'object' } );
+  //   self._traverseAct( it );
+  //
   //   self._changeEnd();
+  //   return it.dst;
+  // }
+  // else
+  // {
+
+    let it = _._cloner( self._traverseAct, { src, dst : self, /*resetting, */ technique : 'object' } );
+    self._traverseAct( it );
+
+    return it.dst;
+
+  //   return it.dst;
   // }
 
   // dims : null,
@@ -389,11 +590,6 @@ function _copy( src, resetting )
   // offset : 0,
   // breadth : null,
 
-  let it = _._cloner( self._traverseAct, { src, dst : self, /*resetting, */ technique : 'object' } );
-
-  self._traverseAct( it );
-
-  return it.dst;
 }
 
 //
@@ -622,12 +818,12 @@ function CopyTo( dst, src )
     else if( _.vectorAdapterIs( dst ) )
     src.scalarEach( function( it )
     {
-      dst.eSet( it.indexFlat , it.scalar );
+      dst.eSet( it.indexLogical , it.scalar );
     });
     else if( _.longIs( dst ) )
     src.scalarEach( function( it )
     {
-      dst[ it.indexFlat ] = it.scalar;
+      dst[ it.indexLogical ] = it.scalar;
     });
     else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
@@ -681,6 +877,133 @@ function extractNormalized()
 
 //
 
+function ExportString( o )
+{
+
+  o = o || Object.create( null );
+  _.routineOptions( ExportString, o );
+  _.assert( o.format === 'nice' );
+  _.assert( o.src instanceof this.Self );
+  _.assert( _.strIs( o.dst ) );
+  _.assert( _.strIs( o.tab ) );
+  _.assert( _.strIs( o.dtab ) );
+
+  let tab2 = o.tab + o.dtab;
+  let scalarsPerRow = o.src.scalarsPerRow;
+  let scalarsPerCol = o.src.scalarsPerCol;
+
+  let isInt = true;
+  o.src.scalarEach( function( it )
+  {
+    isInt = isInt && _.intIs( it.scalar );
+  });
+
+  if( o.src.dims.length === 2 )
+  {
+
+    matrixToStr();
+
+  }
+  else if( o.src.dims.length === 3 )
+  {
+
+    let l = o.src.dims[ 2 ];
+    for( let m = 0 ; m < l ; m += 1 )
+    {
+      if( m > 0 )
+      o.dst += `\n`;
+      o.dst += `Matrix-${m}\n`;
+      matrixToStr( m );
+    }
+
+  }
+  else _.assert( 0, 'not implemented' );
+
+  return o.dst;
+
+  /* */
+
+  function matrixToStr( m )
+  {
+    let r;
+
+    if( scalarsPerCol === Infinity )
+    {
+      r = 0;
+      rowToStr( m, 0 );
+      o.dst += ' **Infinity';
+    }
+    else for( r = 0 ; r < scalarsPerCol ; r += 1 )
+    {
+      rowToStr( m, r );
+      if( r < scalarsPerCol - 1 )
+      o.dst += '\n' + o.tab;
+    }
+
+  }
+
+  /* */
+
+  function rowToStr( m, r )
+  {
+    let row;
+
+    o.dst += tab2;
+
+    if( m === undefined )
+    row = o.src.rowGet( r );
+    else
+    row = o.src.rowNdGet([ r, m ]);
+
+    if( scalarsPerRow === Infinity )
+    {
+      eToStr( 0 );
+      o.dst += '*Infinity';
+    }
+    else for( let c = 0 ; c < scalarsPerRow ; c += 1 )
+    {
+      eToStr( row.eGet( c ) );
+    }
+
+  }
+
+  /* */
+
+  function eToStr( e )
+  {
+
+    if( isInt )
+    {
+      if( !o.usingSign || e < 0 )
+      o.dst += e.toFixed( 0 );
+      else
+      o.dst += '+' + e.toFixed( 0 );
+    }
+    else
+    {
+      o.dst += e.toFixed( o.precision );
+    }
+
+    o.dst += ', ';
+  }
+
+  /* */
+
+}
+
+ExportString.defaults =
+{
+  src : null,
+  dst : '',
+  format : 'nice',
+  tab : '',
+  dtab : '  ',
+  precision : 3,
+  usingSign : 1,
+}
+
+//
+
 /**
  * Method toStr() converts current matrix to string.
  *
@@ -711,104 +1034,13 @@ function toStr( o )
   o = o || Object.create( null );
   _.routineOptions( toStr, o );
 
-  let l = self.dims[ 0 ];
-  let scalarsPerRow, scalarsPerCol;
-  let col, row;
-  let m, c, r, e;
-
-  let isInt = true;
-  self.scalarEach( function( it )
+  let o2 =
   {
-    isInt = isInt && _.intIs( it.scalar );
-  });
-
-  /* */
-
-  function eToStr()
-  {
-    let e = row.eGet( c );
-
-    if( isInt )
-    {
-      if( !o.usingSign || e < 0 )
-      result += e.toFixed( 0 );
-      else
-      result += '+' + e.toFixed( 0 );
-    }
-    else
-    {
-      result += e.toFixed( o.precision );
-    }
-
-    result += ', ';
-
+    src : self,
+    ... _.mapOnly( o, self.ExportString.defaults ),
   }
 
-  /* */
-
-  function rowToStr()
-  {
-
-    if( m === undefined )
-    row = self.rowGet( r );
-    else
-    row = self.rowVectorOfMatrixGet( [ m ], r );
-
-    if( scalarsPerRow === Infinity )
-    {
-      e = 0;
-      eToStr();
-      result += '*Infinity';
-    }
-    else for( c = 0 ; c < scalarsPerRow ; c += 1 )
-    eToStr();
-
-  }
-
-  /* */
-
-  function matrixToStr( m )
-  {
-
-    scalarsPerRow = self.scalarsPerRow;
-    scalarsPerCol = self.scalarsPerCol;
-
-    if( scalarsPerCol === Infinity )
-    {
-      r = 0;
-      rowToStr( 0 );
-      result += ' **Infinity';
-    }
-    else for( r = 0 ; r < scalarsPerCol ; r += 1 )
-    {
-      rowToStr( r );
-      if( r < scalarsPerCol - 1 )
-      result += '\n' + o.tab;
-    }
-
-  }
-
-  /* */
-
-  if( self.dims.length === 2 )
-  {
-
-    matrixToStr();
-
-  }
-  else if( self.dims.length === 3 )
-  {
-
-    for( m = 0 ; m < l ; m += 1 )
-    {
-      result += 'Slice ' + m + ' :\n';
-      matrixToStr( m );
-    }
-
-  }
-  else _.assert( 0, 'not implemented' );
-
-  return result;
+  return self.ExportString( o2 );
 }
 
 toStr.defaults =
@@ -819,6 +1051,123 @@ toStr.defaults =
 }
 
 toStr.defaults.__proto__ = _.toStr.defaults;
+
+// function toStr( o )
+// {
+//   let self = this;
+//   let result = '';
+//
+//   o = o || Object.create( null );
+//   _.routineOptions( toStr, o );
+//
+//   let l = self.dims[ 0 ];
+//   let scalarsPerRow, scalarsPerCol;
+//   let col, row;
+//   let m, c, r, e;
+//
+//   let isInt = true;
+//   self.scalarEach( function( it )
+//   {
+//     isInt = isInt && _.intIs( it.scalar );
+//   });
+//
+//   /* */
+//
+//   function eToStr()
+//   {
+//     let e = row.eGet( c );
+//
+//     if( isInt )
+//     {
+//       if( !o.usingSign || e < 0 )
+//       result += e.toFixed( 0 );
+//       else
+//       result += '+' + e.toFixed( 0 );
+//     }
+//     else
+//     {
+//       result += e.toFixed( o.precision );
+//     }
+//
+//     result += ', ';
+//
+//   }
+//
+//   /* */
+//
+//   function rowToStr()
+//   {
+//
+//     if( m === undefined )
+//     row = self.rowGet( r );
+//     else
+//     row = self.rowOfMatrixGet( [ m ], r );
+//
+//     if( scalarsPerRow === Infinity )
+//     {
+//       e = 0;
+//       eToStr();
+//       result += '*Infinity';
+//     }
+//     else for( c = 0 ; c < scalarsPerRow ; c += 1 )
+//     eToStr();
+//
+//   }
+//
+//   /* */
+//
+//   function matrixToStr( m )
+//   {
+//
+//     scalarsPerRow = self.scalarsPerRow;
+//     scalarsPerCol = self.scalarsPerCol;
+//
+//     if( scalarsPerCol === Infinity )
+//     {
+//       r = 0;
+//       rowToStr( 0 );
+//       result += ' **Infinity';
+//     }
+//     else for( r = 0 ; r < scalarsPerCol ; r += 1 )
+//     {
+//       rowToStr( r );
+//       if( r < scalarsPerCol - 1 )
+//       result += '\n' + o.tab;
+//     }
+//
+//   }
+//
+//   /* */
+//
+//   if( self.dims.length === 2 )
+//   {
+//
+//     matrixToStr();
+//
+//   }
+//   else if( self.dims.length === 3 )
+//   {
+//
+//     for( m = 0 ; m < l ; m += 1 )
+//     {
+//       result += 'Slice ' + m + ' :\n';
+//       matrixToStr( m );
+//     }
+//
+//   }
+//   else _.assert( 0, 'not implemented' );
+//
+//   return result;
+// }
+//
+// toStr.defaults =
+// {
+//   tab : '',
+//   precision : 3,
+//   usingSign : 1,
+// }
+//
+// toStr.defaults.__proto__ = _.toStr.defaults;
 
 // --
 // size in bytes
@@ -958,7 +1307,6 @@ function _scalarsPerMatrixGet()
 
 //
 
-
 /**
  * Static routine ScalarsPerMatrixForDimensions() calculates quantity of scalars in matrix with defined dimensions.
  *
@@ -985,11 +1333,11 @@ function ScalarsPerMatrixForDimensions( dims )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayIs( dims ) );
-  // _.assert( !_.instanceIs( this ) )
 
   for( let d = dims.length-1 ; d >= 0 ; d-- )
   {
-    _.assert( dims[ d ] >= 0 )
+    _.assert( dims[ d ] >= 0 );
+    if( dims[ d ] !== Infinity )
     result *= dims[ d ];
   }
 
@@ -1294,7 +1642,7 @@ function StridesForDimensions( dims, transposing )
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
 
-  let strides = dims.slice();
+  let strides = dims.slice(); debugger;
 
   if( transposing )
   {
@@ -1303,7 +1651,12 @@ function StridesForDimensions( dims, transposing )
     _.assert( strides[ 1 ] > 0 );
     _.assert( strides[ strides.length-1 ] > 0 );
     for( let i = strides.length-2 ; i >= 0 ; i-- )
-    strides[ i ] = strides[ i ]*strides[ i+1 ];
+    {
+      let stride1 = strides[ i ];
+      let stride2 = strides[ i+1 ];
+      strides[ i ] = normalize( stride1 ) * normalize( stride2 );
+      // strides[ i ] = strides[ i ]*strides[ i+1 ];
+    }
   }
   else
   {
@@ -1312,10 +1665,14 @@ function StridesForDimensions( dims, transposing )
     _.assert( strides[ 0 ] > 0 );
     _.assert( strides[ 1 ] >= 0 );
     for( let i = 1 ; i < strides.length ; i++ )
-    strides[ i ] = strides[ i ]*strides[ i-1 ];
+    {
+      let stride1 = strides[ i ];
+      let stride2 = strides[ i-1 ];
+      strides[ i ] = normalize( stride1 ) * normalize( stride2 );
+    }
+    // for( let i = 1 ; i < strides.length ; i++ )
+    // strides[ i ] = strides[ i ]*strides[ i-1 ];
   }
-
-  /* */
 
   if( dims[ 0 ] === Infinity )
   strides[ 0 ] = 0;
@@ -1323,6 +1680,18 @@ function StridesForDimensions( dims, transposing )
   strides[ 1 ] = 0;
 
   return strides;
+
+  /* */
+
+  function normalize( stride )
+  {
+    if( stride === Infinity )
+    return 1;
+    return stride;
+  }
+
+  /* */
+
 }
 
 //
@@ -1410,7 +1779,12 @@ function _bufferAssign( src )
 
   self.scalarEach( function( it )
   {
-    self.scalarSet( it.indexNd, src[ it.indexFlatRowFirst ] );
+    if( _global_.debugger )
+    debugger;
+    let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, self.StridesForDimensions( self.dims, 1 ) );
+    // debugger;
+    self.scalarSet( it.indexNd, src[ indexFlat ] );
+    // self.scalarSet( it.indexNd, src[ it.indexFlatRowFirst ] );
   });
 
   self._changeEnd();
@@ -1460,7 +1834,7 @@ function bufferCopyTo( dst )
 
   self.scalarEach( function( it )
   {
-    dst[ it.indexFlat ] = it.scalar;
+    dst[ it.indexLogical ] = it.scalar;
   });
 
   return dst;
@@ -1672,7 +2046,7 @@ function _adjustAct()
 
   /* scalars per element */
 
-  _.assert( self.breadth.length === 1, 'not tested' );
+  // _.assert( self.breadth.length === 1, 'not tested' );
   self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
 
   /* buffer region */
@@ -2025,6 +2399,8 @@ let Statics =
   /* */
 
   Is,
+  ExportStructure,
+  ExportString,
   CopyTo,
 
   ScalarsPerMatrixForDimensions,
@@ -2143,6 +2519,8 @@ let Extension =
 
   // import / export
 
+  ExportStructure,
+  exportStructure,
   _copy,
   copy,
 
@@ -2152,6 +2530,7 @@ let Extension =
 
   CopyTo,
   extractNormalized,
+  ExportString,
   toStr,
 
   // size in bytes

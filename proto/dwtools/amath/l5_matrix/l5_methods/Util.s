@@ -59,9 +59,6 @@ function _TempBorrow( src, dims, index )
   if( !src )
   {
 
-    debugger;
-    // bufferConstructor = this.array.ArrayType;
-    // bufferConstructor = this.longDescriptor;
     bufferConstructor = this.long.longDescriptor.type;
     if( !dims )
     dims = src;

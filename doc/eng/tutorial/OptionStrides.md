@@ -1,10 +1,10 @@
 # How to use option strides
 
-How to use the option <code>stride</code> to interpret the buffer as a matrix.
+How to use the option <code>strides</code> to interpret a buffer as a matrix.
 
-### Standard step width
+### Standard strides
 
-An object of the class `Matrix` can be created by one of the option sets that specifies the values of the object fields.
+An object of the class `Matrix` could be created by an explicit call of the constructor.
 
 ```js
 
@@ -29,13 +29,13 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 
 ```
 
-The three options are the minimum amount of information that a matrix constructor needs. Data buffer `Buffer`, information about dimensions `dims` and the option `inputTransposing` - information on whether the input data will be transposed.
+Three options are the minimum amount of information required to call the matrix constructor. Data buffer `buffer`, information about dimensions `dims`, and the option `inputTransposing` - hints on whether the input data will be transposed.
 
-By default, the elements in the buffer are in the following order:
+By default, the elements in the buffer are in such sequence:
 
 ![StandardStridesInputTransposing0.png](../../img/StandardStridesInputTransposing0.png)
 
-If the value of the option is `inputTransposing : 1`, then the step width will be calculated according to an alternative algorithm.
+Option `inputTransposing : 1` alter algorithm of strides calculation.
 
 ```js
 
@@ -60,11 +60,11 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 
 ```
 
-If the value of the option is given by `inputTransposing : 1`, then the step width of this example will be `[ 2, 1 ]`:
+With `inputTransposing : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
 
 ![StandardStridesInputTransposing1.png](../../img/StandardStridesInputTransposing1.png)
 
-The option `inputTransposing` shows the constructor to calculate the width of the step. Alternatively, it is possible to specify the width of the step explicitly:
+The option `inputTransposing` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
 
 ```js
 
@@ -89,17 +89,17 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 
 ```
 
-The last example is illustrated by the following diagram.
+Unlike the previous example, strides in this example are specified explicitly, but the result is the same.
 
 ![StandardExplicitStrides.png](../../img/StandardExplicitStrides.png)
 
-The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` is calculated so that all scalars go one after another. The option `inputTransposing` specifies in which order the dimensions sorts.
+The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `inputTransposing` specifies in which sequence row and column go.
 
-Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*` may be used to create the new matrix.
+Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
 
-### Non-standard step width
+### Non-standard strides
 
-Step widths can have arbitrary values that can be explicitly specified when a matrix creates.
+The value of strides could be specified during construction.
 
 ```js
 var matrix = _.Matrix
@@ -118,13 +118,13 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The value of the first element in the option `strides` determines what indentation you need to make to get the next element of a given column. The value of the second element in the option `strides` determines what indentation you need to make to get the next element of the given string.
+The value of the first element in the option `strides` determines what offset to make to get the next scalar of the given column. The value of the second element in the option `strides` determines what offset to make to get the next scalar of the given string.
 
 ![NonStandardStrides.png](../../img/NonStandardStrides.png)
 
-The diagram shows how the elements of the matrix are placed in the buffer `buffer`. Buffer offset is one element. `strides` has the value `[ 3, 1 ]`.
+The diagram shows how scalars of the matrix are put in the buffer `buffer`. Buffer offset is `1`. `strides` has the value `[ 3, 1 ]`.
 
-### Negative step width
+### Negative strides
 
 ```js
 var matrix = _.Matrix
@@ -143,18 +143,18 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-A negative step width `-2, -1` is given to the matrix `matrix`, it leads to the interpretation of the buffer in the matrix in the opposite direction.
+A negative strides `-2, -1` is given to the matrix `matrix`, it leads to the interpretation of the buffer in the matrix in the opposite direction.
 
 ![NegativeStrides.png](../../img/NegativeStrides.png)
 
-The diagram shows how the elements of the matrix are placed in the buffer `buffer`. The matrix has a maximum offset to the element with index 8. The counting of the elements is done in the opposite direction and starts with the last element of the buffer.
+The diagram shows how the scalars of the matrix are put in the buffer `buffer`. The offset is `8`. Elements in the buffer are reversed.
 
 ### Zero-copy transposing
 
-The matrix can be transposed without moving the data in the matrix buffer. Transposing of a square matrix can only be done by changing the strides width. In the following example, zero-copy transposing of the matrix is shown.
+The matrix can be transposed without copying. It is possible to transpose a matrix by changing only strides. Example demonstrate zero-copy transposing of a matrix.
 
 ```js
-var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
+var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
 
 var matrix = _.Matrix
 ({
@@ -185,12 +185,12 @@ console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
 */
 ```
 
-Both matrices `matrix` and` matrixTransposed` use the same buffer but interpret it differently. The transposing is provided by changing of interpretation of the buffer `buffer1`. The matrix `matrixTransposed` uses another step widths and dimensions, and by it achieves transposing.
+Both matrices `matrix` and` matrixTransposed` use the same buffer but interpret it differently. The transposing is made by changing of interpretation of the buffer `buffer1`. The matrix `matrixTransposed` uses other strides and dimensions. That's how transposing is achieved without copying data.
 
-This is how the method `matrix.transpose ()` works.
+That is how the method `matrix.transpose()` works.
 
 ```js
-var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
+var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
 
 var matrix = _.Matrix
 ({
@@ -215,11 +215,11 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The dimensions and step widths of the matrix `matrix` are changed by the method `matrix.transpose()` in the same way as in the previous example, it has resulted in its transposing.
+The dimensions and strides of the matrix `matrix` are changed by the method `matrix.transpose()` in the same way as in the previous example as the result matrix is transposed.
 
 ![ZeroCopyTransposing.png](../../img/ZeroCopyTransposing.png)
 
-The diagram above shows how the buffer is interpreted into the matrix. When changing the widths of steps and dimensions, the matrix is transposed without changing the data in the buffer `buffer1`.
+The diagram above shows how the buffer is interpreted into the matrix. When changing strides and dimensions, the matrix is transposed without changing the data in the buffer `buffer1`.
 
 ### Submatrices
 
@@ -267,7 +267,7 @@ console.log( matrix.toStr() );
 
 ![Submatrices.png](../../img/Submatrices.png)
 
-The diagram above shows how two submatrices `sub1` and` sub2` of the same matrix `matrix` can be used independently of each other. The dotted lines show how the matrices are placed in the buffer and the corresponding matrix. All matrices use a single buffer, so common elements of submatrices have increased `20` times.
+The diagram above shows how two submatrices `sub1` and` sub2` of the same matrix `matrix` can be used independently of each other. Matrices do not own data buffer but refer to it. The dotted lines show how the matrices are put in the buffer and the corresponding matrix. All matrices use the same buffer, so common scalars of submatrices have increased `20` times.
 
 ### Multidimensional matrix
 
