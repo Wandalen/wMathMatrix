@@ -15,7 +15,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The created matrix `matrix` has dimension `2x2`, which is specified by the argument in the call of static routine.
+The created matrix `matrix` has dimensions `2x2`, what is specified by the argument in the call of static routine.
 
 ### Explicit constructor
 

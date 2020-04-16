@@ -699,12 +699,14 @@ function rowNdGet( indexNd )
   _.assert( indexNd.length+1 === this.dims.length );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let matrixIndex = [ indexNd[ 0 ], 0, indexNd.slice( 1 ) ];
-  let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
+  let matrixIndex = [ indexNd[ 0 ], 0, ... indexNd.slice( 1 ) ];
+  // let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
+  // let offset = this.offset + matrixOffset;
+  let offset = this.flatScalarIndexFrom( matrixIndex );
   let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
-    this.offset + matrixOffset,
+    offset,
     this.scalarsPerRow,
     this.strideInRow
   );

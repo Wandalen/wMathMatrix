@@ -4548,8 +4548,6 @@ function makeMultyMatrix( test )
 
 }
 
-// makeMultyMatrix.experimental = 1;
-
 // --
 // exporter
 // --
@@ -4559,67 +4557,85 @@ function toStr( test )
 
   /* */
 
-  test.case = '2x3';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+//   test.case = '2x3';
+//   var matrix = _.Matrix.Make([ 2, 3 ]).copy
+//   ([
+//     1, 2, 3,
+//     4, 5, 6,
+//   ]);
+//   var exp =
+// `
+// +1 +2 +3
+// +4 +5 +6
+// `
+//   var got = matrix.toStr();
+//   test.equivalent( got, exp );
+//
+//   /* */
+//
+//   test.case = '3x2';
+//   var matrix = _.Matrix.Make([ 3, 2 ]).copy
+//   ([
+//     1, 2,
+//     3, 4,
+//     5, 6,
+//   ]);
+//   var exp =
+// `
+// +1 +2
+// +3 +4
+// +5 +6
+// `
+//   var got = matrix.toStr();
+//   test.equivalent( got, exp );
+//
+//   /* */
+//
+//   test.case = '2xInfinity';
+//   var matrix = _.Matrix.Make([ 2, Infinity ]).copy
+//   ([
+//     0,
+//     1,
+//   ]);
+//   var exp =
+// `
+// +0 ...
+// +1 ...
+// `
+//   var got = matrix.toStr();
+//   test.equivalent( got, exp );
+//
+//   /* */
+//
+//   test.case = 'Infinityx2';
+//   var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
+//   ([
+//     0, 1,
+//   ]);
+//   var exp =
+// `
+// +0 +1
+// ... ...
+// `
+//   var got = matrix.toStr();
+//   test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2x3xInfinity';
+  debugger;
+  var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
   var exp =
 `
-+1 +2 +3
-+4 +5 +6
+xxx
 `
+  debugger;
   var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '3x2';
-  var matrix = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-  ]);
-  var exp =
-`
-+1 +2
-+3 +4
-+5 +6
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '2xInfinity';
-  var matrix = _.Matrix.Make([ 2, Infinity ]).copy
-  ([
-    0,
-    1,
-  ]);
-  var exp =
-`
-+0 ...
-+1 ...
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = 'Infinityx2';
-  var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
-  ([
-    0, 1,
-  ]);
-  var exp =
-`
-+0 +1
-... ...
-`
-  var got = matrix.toStr();
+  debugger;
   test.equivalent( got, exp );
 
   /* */
@@ -4691,6 +4707,25 @@ function offset( test )
 
   test.identical( m, expected );
 
+  /*  */
+
+  test.case = 'scalarGet 0 0 0';
+
+  var m = _.Matrix.Make([ 3, 2 ]).copy
+  ({
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ],
+  });
+
+  var got = m.scalarGet([ 0, 0, 0, 0 ])
+  test.identical( got, 1 );
+  var got = m.scalarGet([ 2, 1, 0, 0 ])
+  test.identical( got, 6 );
+
   /* */
 
   test.case = 'bad arguments';
@@ -4711,7 +4746,7 @@ function offset( test )
   test.shouldThrowErrorSync( () => m.scalarGet( '' ) );
   test.shouldThrowErrorSync( () => m.scalarGet( '0' ) );
   test.shouldThrowErrorSync( () => m.scalarGet( [] ) );
-  test.shouldThrowErrorSync( () => m.scalarGet([ 0, 0, 0 ]) );
+  // test.shouldThrowErrorSync( () => m.scalarGet([ 0, 0, 0 ]) );
   test.shouldThrowErrorSync( () => m.scalarGet([ 3, 0 ]) );
   test.shouldThrowErrorSync( () => m.scalarGet([ 0, 2 ]) );
 

@@ -295,13 +295,6 @@ function _equalAre( it )
     return it.result;
   }
 
-  // if( it.src.length !== it.src2.length )
-  // {
-  //   it.result = false;
-  //   debugger;
-  //   return it.result;
-  // }
-
   if( it.strictTyping )
   if( it.src.buffer.constructor !== it.src2.buffer.constructor )
   {
@@ -1025,7 +1018,7 @@ function ExportString( o )
     matrixToStr();
 
   }
-  else if( o.src.dims.length === 3 )
+  else if( o.src.dims.length > 2 )
   {
 
     let l = o.src.dims[ 2 ];
@@ -1036,6 +1029,14 @@ function ExportString( o )
       o.dst += `Matrix-${m}\n`;
       matrixToStr( m );
     }
+
+    // matrix.matrixEach( ( it ) =>
+    // {
+    //   if( it.indexFlat > 0 )
+    //   o.dst += `\n`;
+    //   o.dst += `Matrix-${m}\n`;
+    //   matrixToStr( m );
+    // });
 
   }
   else _.assert( 0, 'not implemented' );
@@ -1608,12 +1609,17 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
 {
   let result = 0;
 
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.arrayIs( indexNd ) );
-  _.assert( _.arrayIs( strides ) );
-  _.assert( indexNd.length === strides.length );
+  if( Config.debug )
+  {
+    _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+    _.assert( _.arrayIs( indexNd ) );
+    _.assert( _.arrayIs( strides ) );
+    _.assert( indexNd.length >= strides.length );
+    for( let i = strides.length ; i < indexNd.length ; i++ )
+    _.assert( indexNd[ i ] === 0 );
+  }
 
-  for( let i = 0 ; i < indexNd.length ; i++ )
+  for( let i = 0 ; i < strides.length ; i++ )
   {
     result += indexNd[ i ]*strides[ i ];
   }
@@ -1777,7 +1783,6 @@ function StridesFromDimensions( dims, transposing )
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
 
-  // let stridesOld = deprecated();
   let strides = dims.slice();
 
   if( transposing )
@@ -1805,68 +1810,12 @@ function StridesFromDimensions( dims, transposing )
 
   strides = this.StridesEffectiveAdjust( strides, dims );
 
-  // if( dims.length > 2 && dims[ dims.length-1 ] === 1 )
-  // {
-  //   strides.splice( strides.length-1, 1 );
-  //   for( let i = strides.length-1 ; i >= 2 ; i-- )
-  //   if( dims[ i ] === 1 )
-  //   strides.splice( i, 1 );
-  // }
-
-  // strides = deprecated();
-  // debugger;
-
-  // strides.splice( strides.length-1, 1 );
-  // strides.unshift( 1 );
-  // _.assert( strides[ 0 ] > 0 );
-  // _.assert( strides[ 1 ] >= 0 );
-  // for( let i = 1 ; i < strides.length ; i++ )
-  // {
-  //   let stride1 = strides[ i ];
-  //   let stride2 = strides[ i-1 ];
-  //   strides[ i ] = normalize( stride1 ) * normalize( stride2 );
-  // }
-
   if( dims[ 0 ] === Infinity )
   strides[ 0 ] = 0;
   if( dims[ 1 ] === Infinity )
   strides[ 1 ] = 0;
 
   return strides;
-
-  /* */
-
-  // function deprecated()
-  // {
-  //   let strides = dims.slice();
-  //   if( transposing )
-  //   {
-  //     strides.push( 1 );
-  //     strides.splice( 0, 1 );
-  //     _.assert( strides[ 1 ] > 0 );
-  //     _.assert( strides[ strides.length-1 ] > 0 );
-  //     for( let i = strides.length-2 ; i >= 0 ; i-- )
-  //     {
-  //       let stride1 = strides[ i ];
-  //       let stride2 = strides[ i+1 ];
-  //       strides[ i ] = normalize( stride1 ) * normalize( stride2 );
-  //     }
-  //   }
-  //   else
-  //   {
-  //     strides.splice( strides.length-1, 1 );
-  //     strides.unshift( 1 );
-  //     _.assert( strides[ 0 ] > 0 );
-  //     _.assert( strides[ 1 ] >= 0 );
-  //     for( let i = 1 ; i < strides.length ; i++ )
-  //     {
-  //       let stride1 = strides[ i ];
-  //       let stride2 = strides[ i-1 ];
-  //       strides[ i ] = normalize( stride1 ) * normalize( stride2 );
-  //     }
-  //   }
-  //   return strides;
-  // }
 
   /* */
 
@@ -1907,12 +1856,15 @@ function StridesEffectiveAdjust( strides, dims ) /* qqq : jsdoc */
   _.assert( arguments.length === 2 );
   _.assert( strides.length === dims.length );
 
-  if( dims.length > 2 && dims[ dims.length-1 ] === 1 )
+  if( dims.length > 2 )
+  if( dims[ dims.length-1 ] === 1 || dims[ dims.length-1 ] === Infinity )
   {
     strides.splice( strides.length-1, 1 );
     for( let i = strides.length-1 ; i >= 2 ; i-- )
-    if( dims[ i ] === 1 )
+    if( dims[ i ] === 1 || dims[ i ] === Infinity )
     strides.splice( i, 1 );
+    else
+    break;
   }
 
   return strides;
@@ -2004,16 +1956,15 @@ function _bufferAssign( src )
     self.scalarsPerMatrix === src.length,
     `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${src.length}`
   );
-  // _.assert( self.scalarsPerMatrix === src.length, 'matrix', self.dims, 'should have', self.scalarsPerMatrix, 'scalars, but got', src.length );
 
+  let strides = self.StridesFromDimensions( self.dimsEffective, 1 );
   self.scalarEach( function( it )
   {
     let inputTransposing = true;
     if( self.dims.length > 2 )
     inputTransposing = false;
-    let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, self.StridesFromDimensions( self.dimsEffective, 1 ) );
+    let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
     self.scalarSet( it.indexNd, src[ indexFlat ] );
-    // self.scalarSet( it.indexNd, src[ it.indexFlatRowFirst ] );
   });
 
   self._changeEnd();
@@ -2226,7 +2177,6 @@ function _adjustAct()
   // self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
   // return self[ scalarsPerMatrixSymbol ];
   // // let result = self.length === Infinity ? self.scalarsPerElement : self.length * self.scalarsPerElement;
-
 
   /* strides */
 
@@ -2477,12 +2427,15 @@ function DimsEffectiveFrom( dims )
     break;
   }
 
-  if( dims.length > 2 && dims[ dims.length-1 ] === 1 )
+  if( dims.length > 2 )
+  if( dims[ dims.length-1 ] === 1 )
   {
     let dimsEffective = dims.slice( 0, dims.length-1 );
     for( let i = dimsEffective.length-1 ; i >= 2 ; i-- )
     if( dimsEffective[ i ] === 1 )
     dimsEffective.splice( i, 1 );
+    else
+    break;
     dims = dimsEffective;
   }
 
@@ -2502,11 +2455,12 @@ function BreadthFrom( dims )
   if( result.length > 1 )
   if( result[ result.length-1 ] === 1 || result[ result.length-1 ] === Infinity )
   {
-    debugger;
     result.splice( result.length-1, 1 );
     for( let i = result.length-1 ; i >= 1 ; i-- )
     if( result[ i ] === 1 )
     result.splice( i, 1 );
+    else
+    break;
   }
 
   return result;
