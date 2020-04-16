@@ -4,7 +4,7 @@
   <summary><a href="./concept/Matrix.md">
     Matrix
   </a></summary>
-    A vector or set of vectors that is interpreted as a matrix.
+    Matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns.
 </details>
 
 ## Tutorials

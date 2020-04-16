@@ -26,7 +26,15 @@ Vector adapter is an implementation of the abstract interface, a kind of link th
 
 To get more details have a look module MathVector.
 
-### `Make`
+# Concept of Matrix
+
+Matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns.
+
+By default, matrix has two dimensions. In our implementation matrix might have more than two dimensions.
+
+![Matrix](./doc/img/MatrixIndices.png)
+
+### Static routine `Make`
 
 Let's creates a matrix with specified dimensions.
 
@@ -62,7 +70,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 The constructor receives buffer, dimensions, and hint to calculate effective strides. Created matrix `matrix` has dimensions `2х2`, what is specified explicitly.
 
-### `MakeSquare`
+### Static routine `MakeSquare`
 
 Let's create a square matrix from a passed buffer or a given dimension.
 
