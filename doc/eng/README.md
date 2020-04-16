@@ -31,7 +31,7 @@
 </details>
 
 <details>
-  <summary><a href="./tutorial/MatrixOperations.md">
+  <summary><a href="./tutorial/OptionStrides.md">
     How to use option strides
   </a></summary>
     How to use the option <code>strides</code> to interpret a buffer as a matrix
