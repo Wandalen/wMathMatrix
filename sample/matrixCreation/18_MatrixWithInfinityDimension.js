@@ -1,0 +1,11 @@
+let _ = require( 'wmathmatrix' );
+
+var matrix = _.Matrix.Make( [ Infinity, 2 ] ).copy
+([
+  0, 1,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log
++0  +1
+... ...
+*/
