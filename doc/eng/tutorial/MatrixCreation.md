@@ -261,4 +261,29 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 Because the offset is the only component with a value different from one, the result is a shift matrix `matrix`.
 
+### Multidimensional matrix
+
+To create a multidimensional matrix, specify additional dimensions.
+
+```js
+var matrix3D = _.Matrix.Make( [ 2, 3, 2 ] ).copy
+([
+  1,  2,  3,
+  4,  5,  6,
+  7,  8,  9,
+  10, 11, 12,
+]);
+console.log( `3D matrix :\n${ matrix3D.toStr() }` );
+/* log : 3D matrix :
+Matrix-0
++1 +2 +3
++4 +5 +6
+Matrix-1
++7 +8 +9
++10 +11 +12
+*/
+```
+
+An element of a 3D matrix is a 2D matrix. The output shows that matrix `matrix3D` has 2 submatrices `Matrix-0` and `Matrix-1`, which dimensions are `2x3`.
+
 [Back to content](../README.md#Tutorials)
