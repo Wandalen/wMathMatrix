@@ -297,7 +297,8 @@ var matrix = _.Matrix.Make( [ Infinity, 2 ] ).copy
 ]);
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log
-+0 +1
++0  +1
+... ...
 */
 ```
 
