@@ -176,7 +176,7 @@ function diagonalGet()
 {
   let self = this;
   let length = Math.min( self.scalarsPerCol, self.scalarsPerRow );
-  let strides = self._stridesEffective;
+  let strides = self.stridesEffective;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( self.dims.length === 2 );
@@ -526,8 +526,8 @@ function submatrix()
   {
     _.assert( _.arrayIs( ranges[ s ] ) && ranges[ s ].length === 2 );
     dims[ s ] = ranges[ s ][ 1 ] - ranges[ s ][ 0 ] + 1;
-    strides[ s ] = self._stridesEffective[ s ];
-    offset += self._stridesEffective[ s ]*ranges[ s ][ 0 ];
+    strides[ s ] = self.stridesEffective[ s ];
+    offset += self.stridesEffective[ s ]*ranges[ s ][ 0 ];
   }
 
   let result = new Self
@@ -580,7 +580,7 @@ function transpose() /* xxx : check */
   self._changeBegin();
 
   let dims = self.dims.slice();
-  let strides = self._stridesEffective.slice(); /* xxx : refactor field _stridesEffective */
+  let strides = self.stridesEffective.slice(); /* xxx : refactor field stridesEffective */
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( dims.length >= 2 );

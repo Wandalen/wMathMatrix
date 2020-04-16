@@ -98,7 +98,7 @@ function Make( dims )
     /*strides, */
   });
 
-  _.assert( _.longIdentical( strides, result._stridesEffective ) );
+  _.assert( _.longIdentical( strides, result.stridesEffective ) );
 
   return result;
 }
@@ -222,7 +222,7 @@ function MakeZero( dims )
     /*strides, */
   });
 
-  _.assert( _.longIdentical( strides, result._stridesEffective ) );
+  _.assert( _.longIdentical( strides, result.stridesEffective ) );
 
   return result;
 }
@@ -253,10 +253,8 @@ function MakeZero( dims )
 
 function MakeIdentity( dims )
 {
-  // let proto = this ? this.Self.prototype : Self.prototype;
   let proto = this.Self.prototype;
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -271,12 +269,11 @@ function MakeIdentity( dims )
     buffer,
     dims,
     inputTransposing : 0,
-    /*strides, */
   });
 
   result.diagonalSet( 1 );
 
-  _.assert( _.longIdentical( strides, result._stridesEffective ) );
+  _.assert( _.longIdentical( strides, result.stridesEffective ) );
 
   return result;
 }
@@ -426,12 +423,6 @@ function MakeSimilar( m , dims )
 {
   let proto = this;
   let result;
-
-  // if( proto.instanceIs() )
-  // {
-  //   _.assert( arguments.length === 0 || arguments.length === 1 );
-  //   return proto.Self.MakeSimilar( proto , arguments[ 0 ] );
-  // }
 
   if( dims === undefined )
   dims = proto.DimsOf( m );
