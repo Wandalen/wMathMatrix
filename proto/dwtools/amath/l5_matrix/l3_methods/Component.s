@@ -670,6 +670,27 @@ function linesSwap( d, i1, i2 )
 
 //
 
+/**
+ * Method rowNdGet() returns row of the matrix by its node index.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+ * var got = matrix.rowNdGet( [ 1 ] );
+ * console.log( got.toStr() );
+ * // log : 4.000, 5.000, 6.000
+ *
+ * @param { Long } index - Index of the row.
+ * @returns { VectorAdapter } - Returns vector with row of the matrix.
+ * @method rowNdGet
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-index-} is out of range of rows.
+ * @throws { Error } If {-index-} is not a Long.
+ * @throws { Error } If index.length is equal or greater then number of dimensions.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function rowNdGet( indexNd )
 {
 

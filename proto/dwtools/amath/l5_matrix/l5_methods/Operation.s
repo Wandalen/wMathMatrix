@@ -311,7 +311,7 @@ function add( srcs )
 // --
 
 /**
- * The method matrix.pow is short-cut matrixPow returns an instance of Matrix with exponentiation values of provided matrix,
+ * The method pow() is short-cut matrixPow returns an instance of Matrix with exponentiation values of provided matrix,
  * takes destination matrix from context.
  *
  * @example
@@ -775,7 +775,7 @@ function mulRight( src )
 // --
 
 /**
- * The method matrix.closest() returns the closest element to provided element {-insElement-}.
+ * The method closest() returns the closest element to provided element {-insElement-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
@@ -837,7 +837,7 @@ function closest( insElement )
 //
 
 /**
- * The method matrix.furthest() returns the furthest element to provided element {-insElement-}.
+ * The method furthest() returns the furthest element to provided element {-insElement-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
@@ -899,7 +899,7 @@ function furthest( insElement )
 //
 
 /**
- * The method matrix.elementMean() returns medium element values of provided matrix,
+ * The method elementMean() returns medium element values of provided matrix,
  * takes source from context.
  *
  * @example
@@ -936,7 +936,7 @@ function elementMean()
 //
 
 /**
- * The method matrix.minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
+ * The method minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
  * takes source from context.
  *
  * @example
@@ -985,7 +985,7 @@ function minmaxColWise()
 //
 
 /**
- * The method matrix.minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
+ * The method minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
  * takes source from context.
  *
  * @example
@@ -1034,7 +1034,7 @@ function minmaxRowWise()
 //
 
 /**
- * This method returns a determinant value of the provided matrix,
+ * The method determinant() calculates a determinant of the provided matrix,
  * takes source from context.
  *
  * @example

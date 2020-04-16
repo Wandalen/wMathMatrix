@@ -138,7 +138,7 @@ _LinearModel.defaults =
  * @param { Function } o.onFunction - Function that defines model.
  * @returns { Matrix } - Returns polynoms of the model.
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If options map {-o-} has unknown options.
+ * @throws { Error } If options map {-o-} has extra options.
  * @static
  * @function PolynomExactFor
  * @class Matrix
@@ -191,7 +191,7 @@ PolynomExactFor.defaults.__proto__ = _LinearModel.defaults;
  * @param { Function } o.onFunction - Function that defines model.
  * @returns { Matrix } - Returns polynoms of the model.
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If options map {-o-} has unknown options.
+ * @throws { Error } If options map {-o-} has extra options.
  * @static
  * @function PolynomClosestFor
  * @class Matrix
