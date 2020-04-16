@@ -422,7 +422,7 @@ function expand( expand )
   return self;
 
   let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
-  let strides = Self.StridesForDimensions( dims, 0 );
+  let strides = Self.StridesFromDimensions( dims, 0 );
   let buffer = self.long.longMakeZeroed( self.buffer, scalarsPerMatrix );
 
   /* move data */

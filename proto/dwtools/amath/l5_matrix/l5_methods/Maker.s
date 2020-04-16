@@ -88,7 +88,7 @@ function Make( dims )
   dims = [ dims, dims ];
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let strides = proto.StridesForDimensions( dims, 0 );
+  let strides = proto.StridesFromDimensions( dims, 0 );
   let buffer = proto.long.longMake( lengthFlat );
   let result = new proto.Self
   ({
@@ -212,7 +212,7 @@ function MakeZero( dims )
   dims = [ dims, dims ];
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let strides = proto.StridesForDimensions( dims, 0 );
+  let strides = proto.StridesFromDimensions( dims, 0 );
   let buffer = proto.long.longMakeZeroed( lengthFlat );
   let result = new proto.Self
   ({
@@ -262,7 +262,7 @@ function MakeIdentity( dims )
   dims = [ dims, dims ];
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let strides = proto.StridesForDimensions( dims, 0 );
+  let strides = proto.StridesFromDimensions( dims, 0 );
   let buffer = proto.long.longMakeZeroed( lengthFlat ); /* xxx */
   let result = new proto.Self
   ({

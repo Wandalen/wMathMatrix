@@ -188,14 +188,14 @@ function _traverseAct( it )
       dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
-      dst[ stridesEffectiveSymbol ] = dst.StridesForDimensions( src.dims, !!dst.inputTransposing );
+      dst[ stridesEffectiveSymbol ] = dst.StridesFromDimensions( src.dims, !!dst.inputTransposing );
     }
     else if( src.buffer && dst.scalarsPerMatrix !== src.scalarsPerMatrix )
     {
       dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
-      dst[ stridesEffectiveSymbol ] = dst.StridesForDimensions( src.dims, !!dst.inputTransposing );
+      dst[ stridesEffectiveSymbol ] = dst.StridesFromDimensions( src.dims, !!dst.inputTransposing );
     }
     else debugger;
 
@@ -450,14 +450,14 @@ function ExportStructure( o )
       o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
       o.dst.offset = 0;
       o.dst.strides = null;
-      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesForDimensions( o.src.dims, !!o.dst.inputTransposing );
+      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
     }
     else if( o.src.buffer && o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix )
     {
       o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
       o.dst.offset = 0;
       o.dst.strides = null;
-      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesForDimensions( o.src.dims, !!o.dst.inputTransposing );
+      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
     }
     else debugger;
 
@@ -863,7 +863,7 @@ function extractNormalized()
 
   result.buffer = self.long.longMakeUndefined( self.buffer , self.scalarsPerMatrix );
   result.offset = 0;
-  result.strides = self.StridesForDimensions( self.dimsEffective, self.inputTransposing );
+  result.strides = self.StridesFromDimensions( self.dimsEffective, self.inputTransposing );
 
   self.scalarEach( function( it )
   {
@@ -1515,7 +1515,7 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
  * @module Tools/math/Matrix
  */
 
-function flatGranuleIndexFrom( indexNd )
+function flatGranuleIndexFrom( indexNd ) /* xxx : check */
 {
   let self = this;
   let result = 0;
@@ -1527,7 +1527,7 @@ function flatGranuleIndexFrom( indexNd )
   _.assert( indexNd.length <= self.stridesEffective.length );
   _.assert( self.stridesEffective.length === indexNd.length, 'not tested' );
   // _.assert( 0, 'not tested' );
-  debugger;
+  // debugger;
 
   let f = self.stridesEffective.length - indexNd.length;
   // for( let i = indexNd.length-1 ; i >= 0 ; i-- )
@@ -1619,10 +1619,10 @@ function _strideInRowGet()
 //
 
 /**
- * Static routine StridesForDimensions() calculates strides for each dimension taking into account transposing value.
+ * Static routine StridesFromDimensions() calculates strides for each dimension taking into account transposing value.
  *
  * @example
- * var strides = _.Matrix.StridesForDimensions( [ 2, 2 ], true );
+ * var strides = _.Matrix.StridesFromDimensions( [ 2, 2 ], true );
  * console.log( strides );
  * // log : [ 2, 1 ]
  *
@@ -1634,13 +1634,13 @@ function _strideInRowGet()
  * @throws { Error } If {-transposing-} is not BoolLike.
  * @throws { Error } If elements of {-dims-} is negative number.
  * @static
- * @function StridesForDimensions
+ * @function StridesFromDimensions
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function StridesForDimensions( dims, transposing )
+function StridesFromDimensions( dims, transposing )
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -1675,13 +1675,15 @@ function StridesForDimensions( dims, transposing )
     strides[ 0 ] = ex;
   }
 
-  if( dims.length > 2 && dims[ dims.length-1 ] === 1 )
-  {
-    strides.splice( strides.length-1, 1 );
-    for( let i = strides.length-1 ; i >= 2 ; i-- )
-    if( dims[ i ] === 1 )
-    strides.splice( i, 1 );
-  }
+  strides = this.StridesEffectiveAdjust( strides, dims );
+
+  // if( dims.length > 2 && dims[ dims.length-1 ] === 1 )
+  // {
+  //   strides.splice( strides.length-1, 1 );
+  //   for( let i = strides.length-1 ; i >= 2 ; i-- )
+  //   if( dims[ i ] === 1 )
+  //   strides.splice( i, 1 );
+  // }
 
   // strides = deprecated();
   // debugger;
@@ -1767,6 +1769,25 @@ function StridesForDimensions( dims, transposing )
 
   /* */
 
+}
+
+//
+
+function StridesEffectiveAdjust( strides, dims ) /* qqq : jsdoc */
+{
+
+  _.assert( arguments.length === 2 );
+  _.assert( strides.length === dims.length );
+
+  if( dims.length > 2 && dims[ dims.length-1 ] === 1 )
+  {
+    strides.splice( strides.length-1, 1 );
+    for( let i = strides.length-1 ; i >= 2 ; i-- )
+    if( dims[ i ] === 1 )
+    strides.splice( i, 1 );
+  }
+
+  return strides;
 }
 
 //
@@ -1862,7 +1883,7 @@ function _bufferAssign( src )
     let inputTransposing = true;
     if( self.dims.length > 2 )
     inputTransposing = false;
-    let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, self.StridesForDimensions( self.dimsEffective, 1 ) );
+    let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, self.StridesFromDimensions( self.dimsEffective, 1 ) );
     self.scalarSet( it.indexNd, src[ indexFlat ] );
     // self.scalarSet( it.indexNd, src[ it.indexFlatRowFirst ] );
   });
@@ -2052,7 +2073,7 @@ function _adjustAct()
 
   if( self.strides )
   {
-    self[ stridesEffectiveSymbol ] = self.strides;
+    self[ stridesEffectiveSymbol ] = self.StridesEffectiveAdjust( self.strides, self.dims ); /* StridesFrom */
   }
 
   /* dims */
@@ -2065,7 +2086,7 @@ function _adjustAct()
   _.assert( _.arrayIs( self.dims ) );
 
   self._dimsWas = self.dims.slice();
-  self[ dimsEffectiveSymbol ] = self.EffectiveDimsFrom( self.dims );
+  self[ dimsEffectiveSymbol ] = self.DimsEffectiveFrom( self.dims );
   self[ breadthSymbol ] = self.BreadthFrom( self.dims );
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
 
@@ -2088,7 +2109,7 @@ function _adjustAct()
     _.assert( self.dims[ 0 ] >= 0 );
     _.assert( self.dims[ self.dims.length-1 ] >= 0 );
 
-    let strides = self[ stridesEffectiveSymbol ] = self.StridesForDimensions( self.dims, self.inputTransposing );
+    let strides = self[ stridesEffectiveSymbol ] = self.StridesFromDimensions( self.dims, self.inputTransposing );
 
   }
 
@@ -2313,7 +2334,7 @@ function _dimsEffectiveGet()
 
 //
 
-function EffectiveDimsFrom( dims )
+function DimsEffectiveFrom( dims )
 {
 
   for( let i1 = 0 ; i1 < dims.length ; i1++ )
@@ -2350,13 +2371,13 @@ function BreadthFrom( dims )
   if( result[ i ] === Infinity )
   result[ i ] = 1;
 
-  if( dims.length > 2 )
-  if( dims[ dims.length-1 ] === 1 || dims[ dims.length-1 ] === Infinity )
+  if( result.length > 1 )
+  if( result[ result.length-1 ] === 1 || result[ result.length-1 ] === Infinity )
   {
     debugger;
     result.splice( result.length-1, 1 );
     for( let i = result.length-1 ; i >= 1 ; i-- )
-    if( dims[ i+1 ] === 1 )
+    if( result[ i ] === 1 )
     result.splice( i, 1 );
   }
 
@@ -2580,9 +2601,10 @@ let Statics =
   DimsOf, /* qqq : cover routine DimsOf. should work for any vector, matrix and scalar */
   _FlatScalarIndexFromIndexNd,
 
-  StridesForDimensions,
+  StridesFromDimensions,
+  StridesEffectiveAdjust,
   StridesRoll,
-  EffectiveDimsFrom,
+  DimsEffectiveFrom,
   BreadthFrom,
   LengthFrom,
   OccupiedRangeFrom,
@@ -2753,7 +2775,8 @@ let Extension =
   _strideOfRowGet,
   _strideInRowGet,
 
-  StridesForDimensions,
+  StridesFromDimensions,
+  StridesEffectiveAdjust,
   StridesRoll,
 
   // buffer
@@ -2782,7 +2805,7 @@ let Extension =
   _breadthSet,
   _dimsSet, /* cached */
   _dimsEffectiveGet,
-  EffectiveDimsFrom,
+  DimsEffectiveFrom,
   BreadthFrom,
   LengthFrom,
   OccupiedRangeFrom,
