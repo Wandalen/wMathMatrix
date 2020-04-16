@@ -188,6 +188,42 @@ function atomWiseWithAssign( onScalar, args )
 
 //
 
+/**
+ * Method AtomWiseHomogeneous() executes the reducer callback {-onScalar-} on each element of the current matrix.
+ * The call context of callback is current matrix.
+ *
+ * @param { MapLike } o - Options map.
+ * @param { Function } o.onScalar - Callback that executes on each element of matrices.
+ * @param { Function } o.onScalarsBegin - Callback that executes before iteration.
+ * @param { Function } o.onScalarsBegin - Callback that executes after iteration.
+ * @param { Function } o.onVectorsBegin - Callback that executes before iteration.
+ * @param { Function } o.onVectorsEnd - Callback that executes before iteration.
+ * @param { Function } o.onContinue - Callback that defines possibility of next iteration cycle.
+ * @param { Long } o.args - A Long with matrices.
+ * @param { Undefined|Nothing|Matrix } o.dst - Destination matrix.
+ * @param { BoolLike } o.usingDstAsSrc - A flag that defines interpreting {-o.dst-} as source matrix.
+ * @param { BoolLike } o.usingExtraSrcs - A flag that defines using of additional source matrices.
+ * @param { BoolLike } o.reducing - A flag that result of routine.
+ * If {-o.reducing-} is not defined, then returns {-o.dst-} container. Otherwise, the changed copy of src container is returned.
+ * @returns { Matrix } - Returns matrix with homogeneous values.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If routine calls by instance of Matrix.
+ * @throws { Error } If options map {-o-} is not MapLike.
+ * @throws { Error } If options map {-o-} has extra options.
+ * @throws { Error } If {-o.args-} contains not instance of Matrix.
+ * @throws { Error } If any of {-o.args-} element contains scalar, which is not a Number.
+ * @throws { Error } If field dims in {-o.args-} elements is not an Array.
+ * @throws { Error } If {-o.reducing-} and {-o.usingDstAsSrc-} are set to `true` at the same time.
+ * @throws { Error } If {-o.dst-} neither is undefined, nor Nothing, nor a Matrix and at the same time {-o.reducing-} is set to `false`.
+ * @throws { Error } If number of dimensions of {-o.dst-} is greater then two.
+ * @throws { Error } If o.dst.dims are not equivalent to dimensions in {-o.args-} elements.
+ * @static
+ * @routine AtomWiseHomogeneous
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function AtomWiseHomogeneous( o )
 {
   let proto = this;
@@ -215,7 +251,7 @@ function AtomWiseHomogeneous( o )
     if( dims )
     _.assert( _.longIdentical( src.dims, dims ) )
     else
-    dims = src.dims;
+    dims = src.dims; /* Dmytro : if add assertion `_.assert( src.dims.length === 2 );`, then assertion for o.dims and fsrc won't be needed */
   }
 
   _.assert( _.arrayIs( dims ) );
@@ -285,10 +321,10 @@ function AtomWiseHomogeneous( o )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( o.dst instanceof Self || o.reducing );
   _.assert( !o.dst || o.dst.dims.length === 2, 'not implemented' );
-  _.assert( !o.dst || _.longIdentical( o.dst.dims, dims ) )
-  _.assert( fsrc instanceof Self );
-  _.assert( fsrc.dims.length === 2, 'not implemented' );
-  _.assert( _.longIdentical( fsrc.dims, dims ) )
+  _.assert( !o.dst || _.longIdentical( o.dst.dims, dims ) );
+  _.assert( fsrc instanceof Self ); /* Dmytro : it is extra assertion, see cycle above that checks each instance in o.srcs container */
+  _.assert( fsrc.dims.length === 2, 'not implemented' ); /* Dmytro : it is extra assertion, the next assertion should check length because o.dst.dims.length is 2 */
+  _.assert( _.longIdentical( fsrc.dims, dims ) );
 
   /* */
 
