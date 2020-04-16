@@ -4557,6 +4557,51 @@ function makeMultyMatrix( test )
 function toStr( test )
 {
 
+  test.case = 'empty matrix, 3D';
+  var matrix = _.Matrix.Make([ 0, 0, 0 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.open( '2D' );
+
+  test.case = 'empty matrix, 2D';
+  var matrix = _.Matrix.Make([ 0, 0 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, two rows';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = '  \n  ';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, two columns';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'a row 1x3';
+  var matrix = _.Matrix.Make([ 1, 3 ]);
+  var exp = '  +0 +0 +0 ';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'a columt 1x3';
+  var matrix = _.Matrix.Make([ 3, 1 ]);
+  var exp =
+`
++0
++0
++0
+`;
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
   /* */
 
   test.case = '2x3';
@@ -4622,7 +4667,7 @@ function toStr( test )
   var got = matrix.toStr();
   test.equivalent( got, exp );
 
-  /* */
+  test.close( '2D' );
 
 }
 

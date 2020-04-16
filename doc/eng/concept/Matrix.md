@@ -4,6 +4,6 @@ Matrix is a rectangular array of numbers, symbols, or expressions, arranged in r
 
 By default, matrix has two dimensions. In our implementation matrix might have more than two dimensions.
 
-![Matrix](../../img/MatrixIndices.png)
+![Matrix](../../img/MatrixConcept.png)
 
 [Back to content](../README.md#Concepts)
