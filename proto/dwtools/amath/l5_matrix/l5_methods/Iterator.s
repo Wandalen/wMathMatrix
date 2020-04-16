@@ -21,6 +21,30 @@ let Self = _.Matrix;
 // advanced
 // --
 
+/**
+ * Method atomWiseReduceWithFlatVector() applies the flat buffer of current matrix to the callback {-onVector-}.
+ *
+ * @example
+ * var matrix = _.Matrix
+ * ({
+ *   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+ *   dims : [ 2, 2 ],
+ *   strides : [ 1, 2 ],
+ * });
+ * var got = matrix.atomWiseReduceWithFlatVector( ( e ) => e );
+ * console.log( got.toStr() );
+ * // log : 1.000, 2.000, 3.000, 4.000
+ *
+ * @param { Function } onVector - Callback that executes on flat buffer.
+ * @returns { * } - Returns result of callback execution.
+ * @method atomWiseReduceWithFlatVector
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If this.strideOfElement is not identical to this.scalarsPerElement.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function atomWiseReduceWithFlatVector( onVector )
 {
   let self = this;
@@ -38,10 +62,41 @@ function atomWiseReduceWithFlatVector( onVector )
 
 //
 
+/**
+ * Method atomWiseReduceWithAtomHandler() executes the reducer callback {-onElement-} on each element of the current matrix.
+ * Before iteration executes callback {-onBegin-} that prepare data, after iteration executes callback {-onEnd-} that normalize data.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var onBegin = function( o ){ return o };
+ * var onElement = function( o ){ o.container.scalarSet( o.key, o.element + 1 ) };
+ * var onEnd = function( o ){ o.result = o.container.toStr() };
+ * var got = matrix.atomWiseReduceWithAtomHandler( onBegin, onElement, onEnd );
+ * console.log( got );
+ * // log :
+ * // +2, +3,
+ * // +4, +5
+ *
+ * @param { Function } onBegin - Callback that executes before iteration. It executes on options map with next fields : `args`, `container`, `filter`.
+ * @param { Function } onElement - Callback that executes on options map for each element of the matrix.
+ * To options map is added fields `key` and `element`, this fields change for each element.
+ * @param { Function } onEnd - Callback that executes after iteration. It executes on options map with final values.
+ * @returns { * } - Returns the value of field `result` in option map.
+ * @method atomWiseReduceWithAtomHandler
+ * @throws { Error } If arguments.length is not equal to three.
+ * @throws { Error } If number of dimensions is greater then two.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function atomWiseReduceWithAtomHandler( onBegin, onScalar, onEnd )
 {
   let self = this;
-  let result;
 
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
   _.assert( self.dims.length === 2, 'not implemented' );
@@ -67,6 +122,42 @@ function atomWiseReduceWithAtomHandler( onBegin, onScalar, onEnd )
 }
 
 //
+
+/**
+ * Method atomWiseWithAssign() executes the reducer callback {-onScalar-} on each element of the current matrix.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var args = [ 1, 2, 3, 4 ];
+ * var onScalar = function( o )
+ * {
+ *   if( o.args[ o.key[ 0 ] + o.key[ 1 ] ] >= 3 )
+ *   this.scalarSet( o.key, 1 );
+ *   else
+ *   this.scalarSet( o.key, 0 );
+ * };
+ * var got = matrix.atomWiseWithAssign( onScalar, args );
+ * console.log( got );
+ * // log :
+ * // +0, +0,
+ * // +0, +1
+ *
+ * @param { Function } onScalar - Callback that executes on options map for each element of the matrix.
+ * Options map includes next fields : `key`, `args`, `dstContainer`, `dstElement`, `srcElement`.
+ * @param { * } args - Arguments for callback, it is linked to field `args` of options map.
+ * @returns { Matrix } - Returns original matrix.
+ * @method atomWiseWithAssign
+ * @throws { Error } If arguments.length is not equal to two.
+ * @throws { Error } If number of dimensions is greater then two.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function atomWiseWithAssign( onScalar, args )
 {
