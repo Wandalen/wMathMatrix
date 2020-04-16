@@ -261,6 +261,24 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 Because the offset is the only component with a value different from one, the result is a shift matrix `matrix`.
 
+### Infinity matrix
+
+One of the dimensions of the matrix can have infinite value.
+
+```js
+var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
+([
+  0, 1,
+]);
+console.log( `matrix :\n${ matrix.toStr() }` );
+/* log : matrix :
++0  +1
+... ...
+*/
+```
+
+The matrix `matrix` has an infinite number of rows, which is given in its dimension and means that the row `0 1` is repeated infinitely.
+
 ### Multidimensional matrix
 
 To create a multidimensional matrix, specify additional dimensions.
