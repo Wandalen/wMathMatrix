@@ -43,6 +43,33 @@ let Self = function wMatrix( o )
 // inter
 // --
 
+/**
+ * Method init() initializes the instance of matrix and set value for options.
+ *
+ * @example
+ * var matrix = _.Matrix
+ * ({
+ *   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8 ],
+ *   dims : [ 2, 2 ],
+ *   strides : [ 2, 1 ];
+ * });
+ * console.log( matrix.inputTransposing );
+ * // log : null
+ * matrix.init( { inputTransposing : 1 } );
+ * console.log( matrix.inputTransposing );
+ * // log : 1
+ *
+ * @param { MapLike } o - Options map.
+ * @returns { Matrix } - Returns original instance of Matrix with changed options.
+ * @method init
+ * @throws { Error } If arguments.length is more then one.
+ * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} has unknown options.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function init( o )
 {
   let self = this;
@@ -362,6 +389,8 @@ function _longGet()
 // import / export
 // --
 
+
+
 function ExportStructure( o )
 {
 
@@ -511,6 +540,36 @@ ExportStructure.defaults =
 }
 
 //
+
+/**
+ * Method exportStructure() exports data from the current matrix into the destination structure {-dst-}.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
+ * var dst = {};
+ * matrix.exportStructure( { dst : dst } );
+ * console.log( dst );
+ * // log : {
+ * //   inputTransposing: 1,
+ * //   growingDimension: 1,
+ * //   dims: [ 2, 2 ],
+ * //   buffer: Float32Array [ 4, 5, 1, 2 ],
+ * //   offset: 0,
+ * //   strides: [ 2, 1 ]
+ * // }
+ *
+ * @param { MapLike } o - Options map.
+ * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
+ * @param { MapLike|ObjectLike|Matrix } o.format - Format of structure, it should has value 'object' to prevent exception.
+ * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
+ * @method exportStructure
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} has unknown options.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function exportStructure( o )
 {
