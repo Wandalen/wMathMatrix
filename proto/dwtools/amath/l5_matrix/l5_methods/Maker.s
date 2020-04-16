@@ -106,7 +106,7 @@ function Make( dims )
 //
 
 /**
- * The method MakeSquare(), returns the new instance of square Matrix, with provided data {-buffer-}.
+ * Static routine MakeSquare(), returns the new instance of square Matrix, with provided data {-buffer-}.
  *
  * @example
  * var buffer =
@@ -124,11 +124,12 @@ function Make( dims )
  *
  * @param { Long|Number } buffer - source data.
  * @returns { Matrix } - Returns the new instance of Matrix by provided data.
- * @method MakeSquare
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-buffer-} is not array or number.
  * @throws { Error } If {-buffer-} is not square buffer.
  * @throws { Error } If (arguments.length) is not 1.
+ * @static
+ * @function MakeSquare
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -176,7 +177,7 @@ function MakeSquare( buffer )
 //
 
 /**
- * The method MakeZero(), returns the new instance of Matrix filled by zero.
+ * Static routine MakeZero(), returns the new instance of Matrix filled by zero.
  *
  * @example
  * var dims = 3;
@@ -189,11 +190,12 @@ function MakeSquare( buffer )
  *
  * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
- * @method MakeZero
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Long or Number.
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If (arguments.length) is not 1.
+ * @static
+ * @function MakeZero
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -230,7 +232,7 @@ function MakeZero( dims )
 //
 
 /**
- * The method MakeIdentity(), returns the new instance of identity Matrix with dimension {-dims-}.
+ * Static routine MakeIdentity(), returns the new instance of identity Matrix with dimension {-dims-}.
  *
  * @example
  * var dims = 3;
@@ -243,9 +245,10 @@ function MakeZero( dims )
  *
  * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
- * @method MakeIdentity
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-dims-} is not Long or Number.
+ * @static
+ * @function MakeIdentity
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -329,7 +332,7 @@ function MakeIdentity4( src )
 //
 
 /**
- * The method MakeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
+ * Static routine MakeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
  *
  * @example
  * var diagonal = [ 1, 2, 3 ];
@@ -342,10 +345,11 @@ function MakeIdentity4( src )
  *
  * @param { Array } diagonal - Array, source data.
  * @returns { Matrix } - Returns the new instance of Matrix with provided diagonal.
- * @method MakeDiagonal
  * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
  * @throws { Error } If {-diagonal-} is not array.
  * @throws { Error } If (arguments.length) is not 1.
+ * @static
+ * @function MakeDiagonal
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -381,7 +385,7 @@ function MakeDiagonal( diagonal )
 //
 
 /**
- * The method MakeSimilar() makes and returns the similar instance of Matrix {-m-}.
+ * Static routine MakeSimilar() makes and returns the similar instance of Matrix {-m-}.
  * If method executes with single argument, dimension takes from the source.
  *
  * @example
@@ -409,11 +413,12 @@ function MakeDiagonal( diagonal )
  * @param { Matrix } m - provided instance of Matrix.
  * @param { Array } dims - provided dimension of matrix instance.
  * @returns { Matrix } - Returns the instance of Matrix.
- * @method MakeSimilar
  * @throws { Error } If {-m-} is not an instance of Matrix.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If method called without arguments.
+ * @static
+ * @function MakeSimilar
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -589,7 +594,7 @@ MakeLine.defaults =
 //
 
 /**
- * The method MakeCol() makes the new instance of Matrix with single column from provided buffer {-buffer-}.
+ * Static routine MakeCol() makes the new instance of Matrix with single column from provided buffer {-buffer-}.
  * If argument {-buffer-} is number - returns filled zero's column.
  *
  * @example
@@ -620,8 +625,9 @@ MakeLine.defaults =
  *
  * @param { VectorAdapter|BufferTyped|Array|Number } buffer - the instance of VectorAdapter, BufferTyped, Array or Number, provided values.
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
- * @method MakeCol
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, BufferTyped, Array or Number.
+ * @static
+ * @function MakeCol
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -652,7 +658,7 @@ function MakeColZeroed( buffer )
 //
 
 /**
- * The method MakeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
+ * Static routine MakeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
  * If argument {-buffer-} is number - return filled zero's row.
  *
  * @example
@@ -676,8 +682,9 @@ function MakeColZeroed( buffer )
  *
  * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, array or number, provided values.
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided row.
- * @method MakeRow
  * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
+ * @static
+ * @function MakeRow
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -696,7 +703,7 @@ function MakeRow( buffer )
 //
 
 /**
- * The method MakeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
+ * Static routine MakeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
@@ -713,8 +720,9 @@ function MakeRow( buffer )
  *
  * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, Array or Number, dimension and provided values.
  * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
- * @method MakeRowZeroed
  * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
+ * @static
+ * @function MakeRowZeroed
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -818,7 +826,7 @@ function ConvertToClass( cls, src )
 //
 
 /**
- * The method FromVector() converts provided vector {-src-} and return the new instance of Matrix.
+ * Static routine FromVector() converts provided vector {-src-} and return the new instance of Matrix.
  *
  * @example
  * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
@@ -832,11 +840,12 @@ function ConvertToClass( cls, src )
  *
  * @param { VectorAdapter|Long } src - an instance of VectorAdapter or Long.
  * @returns { Matrix } - Returns the new instance of Matrix.
- * @method FromVector
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-src-} is not an instance of VectorAdapter.
  * @throws { Error } If {-src-} is not a Long.
  * @throws { Error } If (arguments.length) is not 1.
+ * @static
+ * @function FromVector
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -876,7 +885,7 @@ function FromVector( src )
 //
 
 /**
- * The method FromScalar() return the new instance of Matrix filled by scalar value {-scalar-}.
+ * Static routine FromScalar() return the new instance of Matrix filled by scalar value {-scalar-}.
  *
  * @example
  * var scalar = 2;
@@ -891,11 +900,12 @@ function FromVector( src )
  * @param { Number } scalar - Number.
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the new instance of Matrix.
- * @method FromScalar
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If {-dims-} length is not 2.
  * @throws { Error } If (arguments.length) is not 2.
+ * @static
+ * @function FromScalar
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -944,7 +954,7 @@ function FromScalarForReading( scalar, dims )
 //
 
 /**
- * The method From() converts provided instance of Matrix or VectorAdapter {-src-} to instance of Matrix.
+ * Static routine From() converts provided instance of Matrix or VectorAdapter {-src-} to instance of Matrix.
  * If provided and returned argument are same type - method returns original argument, in another case - returns the new instance.
  * If method executes without the source {-src-} - return instance of matrix, filled by zero with dimension {-dims-}.
  *
@@ -975,10 +985,11 @@ function FromScalarForReading( scalar, dims )
  * @param { Matrix|VectorAdapter|Number|Null } src - instance of Matrix, VectorAdapter or Number.
  * @param { Array } dims - Array, dimension of matrix.
  * @returns { Matrix } - Returns the instance of Matrix.
- * @method From
  * @throws { Error } If method called by the instance of matrix constructor.
  * @throws { Error } If {-dims-} is not array.
  * @throws { Error } If (arguments.length) is not 1 or 2.
+ * @static
+ * @function From
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1079,7 +1090,7 @@ function FromTransformations( dst, position, quaternion, scale ) /* qqq : add js
 //
 
 /**
- * The method matrix.fromTransformations() converts provided position {-position-}, quaternion {-quaternion-}, scale {-scale-} values
+ * The method fromTransformations() converts provided position {-position-}, quaternion {-quaternion-}, scale {-scale-} values
  * to the new instance of Matrix.
  *
  * @example
@@ -1133,7 +1144,7 @@ function fromTransformations( position, quaternion, scale )
 //
 
 /**
- * The method matrix.fromQuat() converts quaternion values {-quaternion-},
+ * The method fromQuat() converts quaternion values {-quaternion-},
  * to the new instance of Matrix, take the source from context.
  *
  * @example
@@ -1215,7 +1226,7 @@ function fromQuat( q )
 //
 
 /**
- * The method matrix.fromQuatWithScale() converts quaternion values {-q-} with scale,
+ * The method fromQuatWithScale() converts quaternion values {-q-} with scale,
  * to the new instance of Matrix, take the source from context.
  *
  * @example
@@ -1486,9 +1497,7 @@ function normalProjectionMatrixGet( src )
     return self;
   }
 
-  // debugger;
   let sub = src.submatrix([ [ 0, src.dims[ 0 ]-1 ], [ 0, src.dims[ 1 ]-1 ] ]);
-  // debugger;
 
   return self.copy( sub ).invert().transpose();
 }
