@@ -83,7 +83,7 @@ function matrixIs( test )
   test.case = 'instance of _.Matrix';
   var src = new _.Matrix
   ({
-    buffer : new F32x( [ 0, 1, 2, 3, 4, 5, 6, 7 ] ),
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
     offset : 1,
     scalarsPerElement : 3,
     inputTransposing : 0,
@@ -106,7 +106,7 @@ function constructorIsMatrix( test )
   test.case = 'instance of _.Matrix';
   var src = new _.Matrix
   ({
-    buffer : new F32x( [ 0, 1, 2, 3, 4, 5, 6, 7 ] ),
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
     offset : 1,
     scalarsPerElement : 3,
     inputTransposing : 0,
@@ -130,7 +130,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var m1 = _.Matrix.Make( [ 4, 6 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -142,7 +142,7 @@ function isDiagonal( test )
   var gotBool = m1.isDiagonal( );
   test.identical( gotBool, expected );
 
-  var oldMatrix = _.Matrix.Make( [ 4, 6 ] ).copy
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -155,7 +155,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Not diagonal - square';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -171,7 +171,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Not diagonal - Upper Triangular';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -187,7 +187,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Not diagonal - Lower Triangular';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
     1,  - 1,   0,  0,
@@ -203,7 +203,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix not square';
 
-  var m1 = _.Matrix.Make( [ 4, 2 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
   ([
     0.5,  0,
     1,  - 1,
@@ -219,7 +219,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Diagonal';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -235,7 +235,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Diagonal 6x6';
 
-  var m1 = _.Matrix.Make( [ 6, 6 ] ).copy
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
   ([
     0.5, 0, 0, 0, 0, 0,
     0, - 1, 0, 0, 0, 0,
@@ -253,7 +253,7 @@ function isDiagonal( test )
 
   test.description = 'Matrix Diagonal not square';
 
-  var m1 = _.Matrix.Make( [ 4, 3 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 3 ]).copy
   ([
     0.5, 0, 0,
     0, - 1, 0,
@@ -269,7 +269,7 @@ function isDiagonal( test )
 
   test.description = 'Zero matrix ';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
     0,  0, 0, 0,
@@ -294,7 +294,7 @@ function isDiagonal( test )
   test.shouldThrowErrorSync( () => m1.isDiagonal( m1 ));
   var m1 = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => m1.isDiagonal( m1 ));
-  var m1 = _.vectorAdapter.from( [ 0, 0, 0 ] );
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isDiagonal( m1 ));
 
 }
@@ -308,7 +308,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var m1 = _.Matrix.Make( [ 4, 6 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -320,7 +320,7 @@ function isUpperTriangle( test )
   var gotBool = m1.isUpperTriangle( );
   test.identical( gotBool, expected );
 
-  var oldMatrix = _.Matrix.Make( [ 4, 6 ] ).copy
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
     0,   0,   0,   0, - 1,   1,
     1, - 1,   0,   0,   0,   0,
@@ -333,7 +333,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Not triangular - square';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -349,7 +349,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Not diagonal - Lower Triangular';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
     1,  - 1,   0,  0,
@@ -365,7 +365,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix not square';
 
-  var m1 = _.Matrix.Make( [ 4, 2 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
   ([
     0.5,  0,
     1,  - 1,
@@ -381,7 +381,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Upper Triangular';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -397,7 +397,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Diagonal';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -413,7 +413,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Upper Triangular 6x6';
 
-  var m1 = _.Matrix.Make( [ 6, 6 ] ).copy
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
   ([
     0.5, 5, 8, 0, 3, -0.5,
     0, - 1, 0, 8, 0, 2,
@@ -431,7 +431,7 @@ function isUpperTriangle( test )
 
   test.description = 'Matrix Upper Triangular not square';
 
-  var m1 = _.Matrix.Make( [ 4, 3 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 3 ]).copy
   ([
     0.5, 0, 0,
     0, - 1, 0,
@@ -447,7 +447,7 @@ function isUpperTriangle( test )
 
   test.description = 'Zero matrix ';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
     0,  0, 0, 0,
@@ -472,7 +472,7 @@ function isUpperTriangle( test )
   test.shouldThrowErrorSync( () => m1.isUpperTriangle( ));
   var m1 = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => m1.isUpperTriangle( ));
-  var m1 = _.vectorAdapter.from( [ 0, 0, 0 ] );
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isUpperTriangle( ));
 
 }
@@ -486,7 +486,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix remains unchanged';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -498,7 +498,7 @@ function isSymmetric( test )
   var gotBool = m1.isSymmetric( );
   test.identical( gotBool, expected );
 
-  var oldMatrix = _.Matrix.Make( [ 4, 4 ] ).copy
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
     1, - 1,   0,   0,
@@ -511,7 +511,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Not Symmetric';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   2,   0,
     1, - 1,   0,   0,
@@ -527,7 +527,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Lower Triangular';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
     1,  - 1,   0,  0,
@@ -543,7 +543,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Upper Triangular';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -559,7 +559,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Not Squared';
 
-  var m1 = _.Matrix.Make( [ 3, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
@@ -574,7 +574,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Diagonal';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
     0, - 1, 0, 0,
@@ -590,7 +590,7 @@ function isSymmetric( test )
 
   test.description = 'Matrix Symmetric';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 5, 8, 0.1,
     5, - 1, 2, 8,
@@ -606,7 +606,7 @@ function isSymmetric( test )
 
   test.description = 'Zero matrix ';
 
-  var m1 = _.Matrix.Make( [ 4, 4 ] ).copy
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
     0,  0, 0, 0,
@@ -631,7 +631,7 @@ function isSymmetric( test )
   test.shouldThrowErrorSync( () => m1.isSymmetric( ));
   var m1 = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => m1.isSymmetric( ));
-  var m1 = _.vectorAdapter.from( [ 0, 0, 0 ] );
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isSymmetric( ));
 
 }
@@ -679,7 +679,7 @@ function clone( test )
   test.identical( a.dims, [ 3, 2 ] );
   test.identical( a.length, 2 );
 
-  test.identical( a._stridesEffective, [ 1, 3 ] );
+  test.identical( a.stridesEffective, [ 1, 3 ] );
   test.identical( a.strideOfElement, 3 );
   test.identical( a.strideOfCol, 3 );
   test.identical( a.strideInCol, 1 );
@@ -698,7 +698,7 @@ function clone( test )
   test.identical( a.dims, [ 3, 1 ] );
   test.identical( a.length, 1 );
 
-  test.identical( a._stridesEffective, [ 1, 3 ] );
+  test.identical( a.stridesEffective, [ 1, 3 ] );
   test.identical( a.strideOfElement, 3 );
   test.identical( a.strideOfCol, 3 );
   test.identical( a.strideInCol, 1 );
@@ -719,7 +719,7 @@ function clone( test )
   test.identical( a.dims, [ 1, 3 ] );
   test.identical( a.length, 3 );
 
-  test.identical( a._stridesEffective, [ 1, 1 ] );
+  test.identical( a.stridesEffective, [ 1, 1 ] );
   test.identical( a.strideOfElement, 1 );
   test.identical( a.strideOfCol, 1 );
   test.identical( a.strideInCol, 1 );
@@ -741,7 +741,7 @@ function clone( test )
   test.identical( a.dims, [ 3, 1 ] );
   test.identical( a.length, 1 );
 
-  test.identical( a._stridesEffective, [ 1, 3 ] );
+  test.identical( a.stridesEffective, [ 1, 3 ] );
   test.identical( a.strideOfElement, 3 );
   test.identical( a.strideOfCol, 3 );
   test.identical( a.strideInCol, 1 );
@@ -763,7 +763,7 @@ function clone( test )
   test.identical( a.dims, [ 3, 1 ] );
   test.identical( a.length, 1 );
 
-  test.identical( a._stridesEffective, [ 1, 3 ] );
+  test.identical( a.stridesEffective, [ 1, 3 ] );
   test.identical( a.strideOfElement, 3 );
   test.identical( a.strideOfCol, 3 );
   test.identical( a.strideInCol, 1 );
@@ -778,7 +778,9 @@ function clone( test )
 function construct( test )
 {
 
-  test.case = 'creating'; /* */
+  /* */
+
+  test.case = 'creating';
 
   var a = new _.Matrix
   ({
@@ -800,14 +802,16 @@ function construct( test )
   test.identical( a.dims, [ 3, 1 ] );
   test.identical( a.length, 1 );
 
-  test.identical( a._stridesEffective, [ 2, 6 ] );
+  test.identical( a.stridesEffective, [ 2, 6 ] );
   test.identical( a.strideOfElement, 6 );
   test.identical( a.strideOfCol, 6 );
   test.identical( a.strideInCol, 2 );
   test.identical( a.strideOfRow, 2 );
   test.identical( a.strideInRow, 6 );
 
-  test.case = 'serializing clone'; /* */
+  /* */
+
+  test.case = 'serializing clone';
 
   var cloned = a.cloneSerializing();
 
@@ -840,7 +844,9 @@ function construct( test )
 
   test.identical( cloned, expected );
 
-  test.case = 'deserializing clone'; /* */
+  /* */
+
+  test.case = 'deserializing clone';
 
   var b = new _.Matrix({ buffer : new F32x(), inputTransposing : true });
   b.copyDeserializing( cloned );
@@ -857,7 +863,7 @@ function construct( test )
   test.identical( a.offset, 1 );
 
   test.identical( a.strides, [ 2, 6 ] );
-  test.identical( a._stridesEffective, [ 2, 6 ] );
+  test.identical( a.stridesEffective, [ 2, 6 ] );
   test.identical( a.strideOfElement, 6 );
   test.identical( a.strideOfCol, 6 );
   test.identical( a.strideInCol, 2 );
@@ -874,14 +880,16 @@ function construct( test )
   test.identical( b.offset, 0 );
 
   test.identical( b.strides, [ 1, 3 ] );
-  test.identical( b._stridesEffective, [ 1, 3 ] );
+  test.identical( b.stridesEffective, [ 1, 3 ] );
   test.identical( b.strideOfElement, 3 );
   test.identical( b.strideOfCol, 3 );
   test.identical( b.strideInCol, 1 );
   test.identical( b.strideOfRow, 1 );
   test.identical( b.strideInRow, 3 );
 
-  test.case = 'creating'; /* */
+  /* */
+
+  test.case = 'creating';
 
   var a = new _.Matrix
   ({
@@ -890,7 +898,6 @@ function construct( test )
     scalarsPerElement : 3,
     inputTransposing : 1,
     strides : [ 2, 6 ],
-    // dims : [ 3, 1 ],
   });
 
   logger.log( a );
@@ -903,14 +910,16 @@ function construct( test )
   test.identical( a.dims, [ 3, 1 ] );
   test.identical( a.length, 1 );
 
-  test.identical( a._stridesEffective, [ 2, 6 ] );
+  test.identical( a.stridesEffective, [ 2, 6 ] );
   test.identical( a.strideOfElement, 6 );
   test.identical( a.strideOfCol, 6 );
   test.identical( a.strideInCol, 2 );
   test.identical( a.strideOfRow, 2 );
   test.identical( a.strideInRow, 6 );
 
-  test.case = 'serializing clone'; /* */
+  /* */
+
+  test.case = 'serializing clone';
 
   var cloned = a.cloneSerializing();
 
@@ -943,7 +952,9 @@ function construct( test )
 
   test.identical( cloned, expected );
 
-  test.case = 'deserializing clone'; /* */
+  /* */
+
+  test.case = 'deserializing clone';
 
   var b = new _.Matrix({ buffer : new F32x(), inputTransposing : true });
   b.copyDeserializing( cloned );
@@ -960,7 +971,7 @@ function construct( test )
   test.identical( a.offset, 1 );
 
   test.identical( a.strides, [ 2, 6 ] );
-  test.identical( a._stridesEffective, [ 2, 6 ] );
+  test.identical( a.stridesEffective, [ 2, 6 ] );
   test.identical( a.strideOfElement, 6 );
   test.identical( a.strideOfCol, 6 );
   test.identical( a.strideInCol, 2 );
@@ -977,12 +988,14 @@ function construct( test )
   test.identical( b.offset, 0 );
 
   test.identical( b.strides, [ 1, 1 ] );
-  test.identical( b._stridesEffective, [ 1, 1 ] );
+  test.identical( b.stridesEffective, [ 1, 1 ] );
   test.identical( b.strideOfElement, 1 );
   test.identical( b.strideOfCol, 1 );
   test.identical( b.strideInCol, 1 );
   test.identical( b.strideOfRow, 1 );
   test.identical( b.strideInRow, 1 );
+
+  /* */
 
 }
 
@@ -1043,7 +1056,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.stridesEffective, [ 3, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 3 );
@@ -1091,7 +1104,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.stridesEffective, [ 1, 2 ] );
     test.identical( m.strideOfElement, 2 );
     test.identical( m.strideOfCol, 2 );
     test.identical( m.strideInCol, 1 );
@@ -1140,7 +1153,7 @@ function make( test )
     test.identical( m.dims, [ 3, 1 ] );
     test.identical( m.length, 1 );
 
-    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.stridesEffective, [ 1, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 1 );
@@ -1189,7 +1202,7 @@ function make( test )
     test.identical( m.dims, [ 3, 1 ] );
     test.identical( m.length, 1 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -1237,7 +1250,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.stridesEffective, [ 3, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 3 );
@@ -1285,7 +1298,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.stridesEffective, [ 1, 2 ] );
     test.identical( m.strideOfElement, 2 );
     test.identical( m.strideOfCol, 2 );
     test.identical( m.strideInCol, 1 );
@@ -1323,7 +1336,7 @@ function make( test )
     test.identical( m.dims, [ 1, 0 ] );
     test.identical( m.length, 0 );
 
-    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.stridesEffective, [ 1, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 1 );
@@ -1354,7 +1367,7 @@ function make( test )
     test.identical( m.dims, [ 1, 0 ] );
     test.identical( m.length, 0 );
 
-    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.stridesEffective, [ 1, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 1 );
@@ -1400,7 +1413,7 @@ function make( test )
       test.identical( m.breadth, [ 3 ] );
       test.identical( m.length, 0 );
 
-      test.identical( m._stridesEffective, [ 1, 3 ] );
+      test.identical( m.stridesEffective, [ 1, 3 ] );
       test.identical( m.strideOfElement, 3 );
       test.identical( m.strideOfCol, 3 );
       test.identical( m.strideInCol, 1 );
@@ -1473,7 +1486,7 @@ function make( test )
     test.identical( m.dims, [ 3, 1 ] );
     test.identical( m.length, 1 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -1510,7 +1523,7 @@ function make( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.length, 2 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -1547,7 +1560,7 @@ function make( test )
       test.identical( m.dims, [ 3, 0 ] );
       test.identical( m.length, 0 );
 
-      test.identical( m._stridesEffective, [ 0, 1 ] );
+      test.identical( m.stridesEffective, [ 0, 1 ] );
       test.identical( m.strideOfElement, 1 );
       test.identical( m.strideOfCol, 1 );
       test.identical( m.strideInCol, 0 );
@@ -1622,7 +1635,7 @@ function make( test )
     test.identical( m.dims, [ 3, 1 ] );
     test.identical( m.length, 1 );
 
-    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.stridesEffective, [ 1, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 1 );
@@ -1659,7 +1672,7 @@ function make( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.length, 2 );
 
-    test.identical( m._stridesEffective, [ 2, 1 ] );
+    test.identical( m.stridesEffective, [ 2, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 2 );
@@ -1696,7 +1709,7 @@ function make( test )
       test.identical( m.dims, [ 0, 3 ] );
       test.identical( m.length, 3 );
 
-      test.identical( m._stridesEffective, [ 3, 1 ] );
+      test.identical( m.stridesEffective, [ 3, 1 ] );
       test.identical( m.strideOfElement, 1 );
       test.identical( m.strideOfCol, 1 );
       test.identical( m.strideInCol, 3 );
@@ -1773,7 +1786,7 @@ function make( test )
     test.identical( m.dims, [ 1, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.stridesEffective, [ 3, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 3 );
@@ -1810,7 +1823,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 3, 1 ] );
+    test.identical( m.stridesEffective, [ 3, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 3 );
@@ -1847,7 +1860,7 @@ function make( test )
       test.identical( m.dims, [ 0, 3 ] );
       test.identical( m.length, 3 );
 
-      test.identical( m._stridesEffective, [ 1, 0 ] );
+      test.identical( m.stridesEffective, [ 1, 0 ] );
       test.identical( m.strideOfElement, 0 );
       test.identical( m.strideOfCol, 0 );
       test.identical( m.strideInCol, 1 );
@@ -1928,7 +1941,7 @@ function make( test )
     test.identical( m.dims, [ 1, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.stridesEffective, [ 1, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 1 );
@@ -1966,7 +1979,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.stridesEffective, [ 1, 2 ] );
     test.identical( m.strideOfElement, 2 );
     test.identical( m.strideOfCol, 2 );
     test.identical( m.strideInCol, 1 );
@@ -2009,7 +2022,7 @@ function make( test )
     test.identical( m.dims, [ 3, 1 ] );
     test.identical( m.length, 1 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -2076,7 +2089,7 @@ function make( test )
     test.identical( m.dims, [ 3, 0 ] );
     test.identical( m.length, 0 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -2095,7 +2108,7 @@ function make( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.length, 2 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -2138,7 +2151,7 @@ function make( test )
     test.identical( m.dims, [ 3, 0 ] );
     test.identical( m.length, 0 );
 
-    test.identical( m._stridesEffective, [ 0, 1 ] );
+    test.identical( m.stridesEffective, [ 0, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 0 );
@@ -2155,7 +2168,7 @@ function make( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.length, 2 );
 
-    test.identical( m._stridesEffective, [ 2, 1 ] );
+    test.identical( m.stridesEffective, [ 2, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 2 );
@@ -2197,7 +2210,7 @@ function make( test )
     test.identical( m.dims, [ 2, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 1, 2 ] );
+    test.identical( m.stridesEffective, [ 1, 2 ] );
     test.identical( m.strideOfElement, 2 );
     test.identical( m.strideOfCol, 2 );
     test.identical( m.strideInCol, 1 );
@@ -2350,7 +2363,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 2 ] );
   test.identical( m.length, 2 );
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.identical( m.strideOfElement, 3 );
   test.identical( m.strideOfCol, 3 );
   test.identical( m.strideInCol, 1 );
@@ -2379,7 +2392,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 3, 1 ] );
+  test.identical( m.stridesEffective, [ 3, 1 ] );
   test.identical( m.strideOfElement, 1 );
   test.identical( m.strideOfCol, 1 );
   test.identical( m.strideInCol, 3 );
@@ -2431,7 +2444,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.identical( m.strideOfElement, 3 );
   test.identical( m.strideOfCol, 3 );
   test.identical( m.strideInCol, 1 );
@@ -2454,7 +2467,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.identical( m.strideOfElement, 3 );
   test.identical( m.strideOfCol, 3 );
   test.identical( m.strideInCol, 1 );
@@ -2496,7 +2509,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.identical( m.strideOfElement, 3 );
   test.identical( m.strideOfCol, 3 );
   test.identical( m.strideInCol, 1 );
@@ -2538,7 +2551,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 2, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 2 ] );
+  test.identical( m.stridesEffective, [ 1, 2 ] );
   test.identical( m.strideOfElement, 2 );
   test.identical( m.strideOfCol, 2 );
   test.identical( m.strideInCol, 1 );
@@ -2579,7 +2592,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 2 ] );
   test.identical( m.length, 2 );
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.identical( m.strideOfElement, 3 );
   test.identical( m.strideOfCol, 3 );
   test.identical( m.strideInCol, 1 );
@@ -2620,7 +2633,7 @@ function makeHelper( test )
   test.identical( m.dims, [ 3, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.identical( m.strideOfElement, 3 );
   test.identical( m.strideOfCol, 3 );
   test.identical( m.strideInCol, 1 );
@@ -2663,7 +2676,7 @@ function makeHelper( test )
     test.identical( m.dims, [ 0, 0 ] );
     test.identical( m.length, 0 );
 
-    test.identical( m._stridesEffective, [ 1, 0 ] );
+    test.identical( m.stridesEffective, [ 1, 0 ] );
     test.identical( m.strideOfElement, 0 );
     test.identical( m.strideOfCol, 0 );
     test.identical( m.strideInCol, 1 );
@@ -2735,7 +2748,7 @@ function MakeLine( test )
     test.identical( m.dims, [ 3, 1 ] );
     test.identical( m.length, 1 );
 
-    test.identical( m._stridesEffective, [ 1, 3 ] );
+    test.identical( m.stridesEffective, [ 1, 3 ] );
     test.identical( m.strideOfElement, 3 );
     test.identical( m.strideOfCol, 3 );
     test.identical( m.strideInCol, 1 );
@@ -2759,7 +2772,7 @@ function MakeLine( test )
     test.identical( m.dims, [ 1, 3 ] );
     test.identical( m.length, 3 );
 
-    test.identical( m._stridesEffective, [ 1, 1 ] );
+    test.identical( m.stridesEffective, [ 1, 1 ] );
     test.identical( m.strideOfElement, 1 );
     test.identical( m.strideOfCol, 1 );
     test.identical( m.strideInCol, 1 );
@@ -2858,7 +2871,7 @@ function MakeLine( test )
   test.identical( m.dims, [ 3, 1 ] );
   test.identical( m.length, 1 );
 
-  test.identical( m._stridesEffective, [ 2, 2 ] );
+  test.identical( m.stridesEffective, [ 2, 2 ] );
   test.identical( m.strideOfElement, 2 );
   test.identical( m.strideOfCol, 2 );
   test.identical( m.strideInCol, 2 );
@@ -3101,7 +3114,7 @@ function MakeLine( test )
   test.identical( m.dims, [ 1, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 2, 2 ] );
+  test.identical( m.stridesEffective, [ 2, 2 ] );
   test.identical( m.strideOfElement, 2 );
   test.identical( m.strideOfCol, 2 );
   test.identical( m.strideInCol, 2 );
@@ -3293,13 +3306,13 @@ function MakeSimilar( test )
     var got = m.makeSimilar();
     test.is( got.buffer.constructor === m.buffer.constructor );
     test.identical( got.dims, m.dims );
-    test.identical( got._stridesEffective, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.identical( got.strides, null );
 
     var got = _.Matrix.MakeSimilar( m );
     test.is( got.buffer.constructor === m.buffer.constructor );
     test.identical( got.dims, m.dims );
-    test.identical( got._stridesEffective, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.identical( got.strides, null );
 
     /* */
@@ -3326,13 +3339,13 @@ function MakeSimilar( test )
     var got = m.makeSimilar();
     test.is( got.buffer.constructor === m.buffer.constructor );
     test.identical( got.dims, m.dims );
-    test.identical( got._stridesEffective, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.identical( got.strides, null );
 
     var got = _.Matrix.MakeSimilar( m );
     test.is( got.buffer.constructor === m.buffer.constructor );
     test.identical( got.dims, m.dims );
-    test.identical( got._stridesEffective, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.identical( got.strides, null );
 
     /* */
@@ -3356,16 +3369,16 @@ function MakeSimilar( test )
       strides : [ 2, 2 ],
     });
 
-    var got = m.makeSimilar( [ 3, 4 ] );
+    var got = m.makeSimilar([ 3, 4 ]);
     test.is( got.buffer.constructor === m.buffer.constructor );
     test.identical( got.dims, [ 3, 4 ] );
-    test.identical( got._stridesEffective, [ 1, 3 ] );
+    test.identical( got.stridesEffective, [ 1, 3 ] );
     test.identical( got.strides, null );
 
     var got = _.Matrix.MakeSimilar( m, [ 3, 4 ] );
     test.is( got.buffer.constructor === m.buffer.constructor );
     test.identical( got.dims, [ 3, 4 ] );
-    test.identical( got._stridesEffective, [ 1, 3 ] );
+    test.identical( got.stridesEffective, [ 1, 3 ] );
     test.identical( got.strides, null );
 
     /* */
@@ -3493,7 +3506,7 @@ function from( test )
 
   test.identical( m, expected );
   test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m._stridesEffective, [ 0, 0 ] )
+  test.identical( m.stridesEffective, [ 0, 0 ] )
 
   test.case = 'empty matrix FromScalarForReading scalar'; /* */
 
@@ -3501,13 +3514,13 @@ function from( test )
   var m = _.Matrix.FromScalarForReading( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m._stridesEffective, [ 0, 0 ] )
+  test.identical( m.stridesEffective, [ 0, 0 ] )
 
   var expected = _.Matrix.Make([ 3, 0 ]);
   var m = _.Matrix.FromScalarForReading( 1, [ 3, 0 ] );
   test.identical( m, expected );
   test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m._stridesEffective, [ 0, 0 ] )
+  test.identical( m.stridesEffective, [ 0, 0 ] )
   logger.log( m );
 
   test.case = 'FromForReading scalar'; /* */
@@ -3524,7 +3537,7 @@ function from( test )
 
   test.identical( m, expected );
   test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m._stridesEffective, [ 0, 0 ] )
+  test.identical( m.stridesEffective, [ 0, 0 ] )
 
   test.case = 'empty matrix FromForReading scalar'; /* */
 
@@ -3532,13 +3545,13 @@ function from( test )
   var m = _.Matrix.FromForReading( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m._stridesEffective, [ 0, 0 ] )
+  test.identical( m.stridesEffective, [ 0, 0 ] )
 
   var expected = _.Matrix.Make([ 3, 0 ]);
   var m = _.Matrix.FromForReading( 1, [ 3, 0 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m._stridesEffective, [ 0, 0 ] )
+  test.identical( m.stridesEffective, [ 0, 0 ] )
   logger.log( m );
 
   test.case = 'from scalar'; /* */
@@ -3555,7 +3568,7 @@ function from( test )
 
   test.identical( m, expected );
   test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m._stridesEffective, [ 1, 2 ] )
+  test.identical( m.stridesEffective, [ 1, 2 ] )
 
   test.case = 'empty matrix from scalar'; /* */
 
@@ -3563,13 +3576,13 @@ function from( test )
   var m = _.Matrix.From( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m._stridesEffective, [ 1, 0 ] )
+  test.identical( m.stridesEffective, [ 1, 0 ] )
 
   var expected = _.Matrix.Make([ 3, 0 ]);
   var m = _.Matrix.From( 1, [ 3, 0 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m._stridesEffective, [ 1, 3 ] )
+  test.identical( m.stridesEffective, [ 1, 3 ] )
 
   logger.log( m );
 
@@ -3587,7 +3600,7 @@ function from( test )
 
   test.identical( m, expected );
   test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m._stridesEffective, [ 1, 2 ] )
+  test.identical( m.stridesEffective, [ 1, 2 ] )
 
   test.case = 'empty matrix FromScalar scalar'; /* */
 
@@ -3595,13 +3608,13 @@ function from( test )
   var m = _.Matrix.FromScalar( 1, [ 0, 3 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m._stridesEffective, [ 1, 0 ] )
+  test.identical( m.stridesEffective, [ 1, 0 ] )
 
   var expected = _.Matrix.Make([ 3, 0 ]);
   var m = _.Matrix.FromScalar( 1, [ 3, 0 ] );
   test.identical( m, expected )
   test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m._stridesEffective, [ 1, 3 ] )
+  test.identical( m.stridesEffective, [ 1, 3 ] )
 
   logger.log( m );
 
@@ -3682,7 +3695,7 @@ function TempBorrow( test )
   var t1 = m.tempBorrow();
 
   test.identical( t1.dims, [ 3, 2 ] )
-  test.identical( t1._stridesEffective, [ 1, 3 ] )
+  test.identical( t1.stridesEffective, [ 1, 3 ] )
 
   var t2 = m.tempBorrow();
   var t3 = _.Matrix.TempBorrow( m );
@@ -3702,7 +3715,7 @@ function TempBorrow( test )
   var t2 = m.tempBorrow();
 
   test.identical( t2.dims, [ 3, 2 ] )
-  test.identical( t2._stridesEffective, [ 1, 3 ] )
+  test.identical( t2.stridesEffective, [ 1, 3 ] )
 
   var t3 = m.tempBorrow();
   var t4 = _.Matrix.TempBorrow( m );
@@ -4189,15 +4202,15 @@ function copy( test )
   logger.log( 'src', src );
   logger.log( 'dst', dst );
 
-  test.identical( src._stridesEffective, [ 2, 4 ] );
-  test.identical( dst._stridesEffective, [ 1, 2 ] );
+  test.identical( src.stridesEffective, [ 2, 4 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
   test.identical( src.inputTransposing, 1 );
   test.identical( dst.inputTransposing, 0 );
 
   dst.copy( src );
 
-  test.identical( src._stridesEffective, [ 2, 4 ] );
-  test.identical( dst._stridesEffective, [ 3, 1 ] );
+  test.identical( src.stridesEffective, [ 2, 4 ] );
+  test.identical( dst.stridesEffective, [ 3, 1 ] );
   test.identical( src.inputTransposing, 1 );
   test.identical( dst.inputTransposing, 1 );
 
@@ -4215,7 +4228,7 @@ function copy( test )
   test.identical( src.length, 3 );
 
   test.identical( src.strides, [ 2, 4 ] );
-  test.identical( src._stridesEffective, [ 2, 4 ] );
+  test.identical( src.stridesEffective, [ 2, 4 ] );
   test.identical( src.strideOfElement, 4 );
   test.identical( src.strideOfCol, 4 );
   test.identical( src.strideInCol, 2 );
@@ -4234,7 +4247,7 @@ function copy( test )
   test.identical( dst.length, 3 );
 
   test.identical( dst.strides, null );
-  test.identical( dst._stridesEffective, [ 3, 1 ] );
+  test.identical( dst.stridesEffective, [ 3, 1 ] );
   test.identical( dst.strideOfElement, 1 );
   test.identical( dst.strideOfCol, 1 );
   test.identical( dst.strideInCol, 3 );
@@ -4389,12 +4402,12 @@ function copy( test )
   test.identical( dst.buffer, src.buffer );
   test.identical( dst.dims, src.dims );
   test.identical( dst.strides, src.strides );
-  test.identical( dst._stridesEffective, src._stridesEffective );
+  test.identical( dst.stridesEffective, src.stridesEffective );
 
   test.is( dst.buffer !== src.buffer );
   test.is( dst.dims !== src.dims );
   test.is( dst.strides === null );
-  test.is( dst._stridesEffective !== src._stridesEffective );
+  test.is( dst.stridesEffective !== src.stridesEffective );
 
   test.case = 'copy different size, empty'; /* */
 
@@ -4412,12 +4425,12 @@ function copy( test )
   test.identical( dst.buffer, src.buffer );
   test.identical( dst.dims, src.dims );
   test.identical( dst.strides, src.strides );
-  test.identical( dst._stridesEffective, src._stridesEffective );
+  test.identical( dst.stridesEffective, src.stridesEffective );
 
   test.is( dst.buffer !== src.buffer );
   test.is( dst.dims !== src.dims );
   test.is( dst.strides === null );
-  test.is( dst._stridesEffective !== src._stridesEffective );
+  test.is( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -4458,9 +4471,9 @@ function copySubmatrix( test )
     22,
   ]);
 
-  test.identical( src1._stridesEffective, [ 1, 3 ] );
-  test.identical( src2._stridesEffective, [ 1, 3 ] );
-  test.identical( dst._stridesEffective, [ 1, 2 ] );
+  test.identical( src1.stridesEffective, [ 1, 3 ] );
+  test.identical( src2.stridesEffective, [ 1, 3 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
 
   test.identical( src1.dims, [ 3, 2 ] );
   test.identical( src2.dims, [ 2, 1 ] );
@@ -4472,9 +4485,9 @@ function copySubmatrix( test )
 
   dst.copy( src2 );
 
-  test.identical( src1._stridesEffective, [ 1, 3 ] );
-  test.identical( src2._stridesEffective, [ 1, 3 ] );
-  test.identical( dst._stridesEffective, [ 1, 2 ] );
+  test.identical( src1.stridesEffective, [ 1, 3 ] );
+  test.identical( src2.stridesEffective, [ 1, 3 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
 
   test.identical( src1.dims, [ 3, 2 ] );
   test.identical( src2.dims, [ 2, 1 ] );
@@ -4494,7 +4507,7 @@ function makeMultyMatrix( test )
 
   /* */
 
-  test.case = 'copy from matrix with different srides';
+  test.case = 'basic';
 
   var simpleMatrix = _.Matrix.Make([ 2, 2 ]).copy
   ([
@@ -4502,15 +4515,34 @@ function makeMultyMatrix( test )
     3, 4,
   ]);
 
-  console.log( `\nsimple matrix :\n${ simpleMatrix.toStr() }` );
+  console.log( `\n= simple matrix\n${ simpleMatrix.toStr() }` );
 
   var superMatrix = _.Matrix.Make([ 2, 2, 2 ]).copy
   ([
-    1, 2, 3, 4,
-    5, 6, 7, 8,
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8,
   ]);
 
-  console.log( `\nsuper matrix :\n${ superMatrix.toStr() }` );
+  console.log( `\n= super matrix\n${ superMatrix.toStr() }` );
+
+  var subMatrix1 = superMatrix.submatrix( _.all, _.all, 0 );
+  var subMatrix2 = superMatrix.submatrix( _.all, _.all, 1 );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+  test.equivalent( subMatrix1, exp );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    5, 6,
+    7, 8,
+  ]);
+  test.equivalent( subMatrix2, exp );
 
   /* */
 
@@ -4535,8 +4567,8 @@ function toStr( test )
   ]);
   var exp =
 `
-+1, +2, +3,
-+4, +5, +6,
++1 +2 +3
++4 +5 +6
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -4552,9 +4584,9 @@ function toStr( test )
   ]);
   var exp =
 `
-+1, +2,
-+3, +4,
-+5, +6,
++1 +2
++3 +4
++5 +6
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -4562,18 +4594,30 @@ function toStr( test )
   /* */
 
   test.case = '2xInfinity';
-  _global_.debugger = 1;
-  debugger;
-  var matrix = _.Matrix.Make([ 2, Infinity ]);
-  debugger;
   var matrix = _.Matrix.Make([ 2, Infinity ]).copy
   ([
-    0, 1
+    0,
+    1,
   ]);
   var exp =
 `
-+1, +2,
-xxx
++0 ...
++1 ...
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = 'Infinityx2';
+  var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
+  ([
+    0, 1,
+  ]);
+  var exp =
+`
++0 +1
+... ...
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -4667,9 +4711,9 @@ function offset( test )
   test.shouldThrowErrorSync( () => m.scalarGet( '' ) );
   test.shouldThrowErrorSync( () => m.scalarGet( '0' ) );
   test.shouldThrowErrorSync( () => m.scalarGet( [] ) );
-  test.shouldThrowErrorSync( () => m.scalarGet( [ 0, 0, 0 ] ) );
-  test.shouldThrowErrorSync( () => m.scalarGet( [ 3, 0 ] ) );
-  test.shouldThrowErrorSync( () => m.scalarGet( [ 0, 2 ] ) );
+  test.shouldThrowErrorSync( () => m.scalarGet([ 0, 0, 0 ]) );
+  test.shouldThrowErrorSync( () => m.scalarGet([ 3, 0 ]) );
+  test.shouldThrowErrorSync( () => m.scalarGet([ 0, 2 ]) );
 
   test.shouldThrowErrorSync( () => m.scalarSet( [ 3, 0 ], -1 ) );
   test.shouldThrowErrorSync( () => m.scalarSet( [ 0, 2 ], -1 ) );
@@ -4709,7 +4753,7 @@ function stride( test )
   test.identical( m.occupiedRange, [ 1, 6 ] );
   test.identical( m, expected );
   test.identical( m.strides, [ 2, 2 ] );
-  test.identical( m._stridesEffective, [ 2, 2 ] );
+  test.identical( m.stridesEffective, [ 2, 2 ] );
   logger.log( m );
 
   test.case = '2x3 same strides'; /* */
@@ -4739,7 +4783,7 @@ function stride( test )
 
   test.identical( m, expected );
   test.identical( m.strides, [ 2, 2 ] );
-  test.identical( m._stridesEffective, [ 2, 2 ] );
+  test.identical( m.stridesEffective, [ 2, 2 ] );
   logger.log( m );
 
 }
@@ -4797,7 +4841,7 @@ function _bufferNormalize( o )
   test.identical( m.dims, [ 2, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 2 ] );
+  test.identical( m.stridesEffective, [ 1, 2 ] );
   test.identical( m.strideOfElement, 2 );
   test.identical( m.strideOfCol, 2 );
   test.identical( m.strideInCol, 1 );
@@ -4848,7 +4892,7 @@ function _bufferNormalize( o )
   test.identical( m.dims, [ 2, 3 ] );
   test.identical( m.length, 3 );
 
-  test.identical( m._stridesEffective, [ 1, 2 ] );
+  test.identical( m.stridesEffective, [ 1, 2 ] );
   test.identical( m.strideOfElement, 2 );
   test.identical( m.strideOfCol, 2 );
   test.identical( m.strideInCol, 1 );
@@ -5056,7 +5100,7 @@ function expand( test )
   _.Matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ] ]);
   test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand() );
   test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand( [ '1', '1' ] ) );
-  test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand( [ 1, 1, 1 ] ) );
+  test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand([ 1, 1, 1 ]) );
   test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand( [ 1, 1 ], [ 1, 1 ] ) );
   test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ] ]) );
   test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).expand([ [ 1, 1 ], [ 1, 1 ], [ 1, 1 ] ]) );
@@ -5536,10 +5580,10 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.scalarGet( [ 0, undefined ] ) );
     test.shouldThrowErrorSync( () => m23.scalarGet( [ undefined, 0 ] ) );
 
-    test.shouldThrowErrorSync( () => m23.scalarGet( [ 2, 2 ] ) );
-    test.shouldThrowErrorSync( () => m23.scalarGet( [ 1, 3 ] ) );
-    test.shouldThrowErrorSync( () => m32.scalarGet( [ 2, 2 ] ) );
-    test.shouldThrowErrorSync( () => m32.scalarGet( [ 3, 1 ] ) );
+    test.shouldThrowErrorSync( () => m23.scalarGet([ 2, 2 ]) );
+    test.shouldThrowErrorSync( () => m23.scalarGet([ 1, 3 ]) );
+    test.shouldThrowErrorSync( () => m32.scalarGet([ 2, 2 ]) );
+    test.shouldThrowErrorSync( () => m32.scalarGet([ 3, 1 ]) );
 
   }
 
@@ -5632,7 +5676,7 @@ function partialAccessors( test )
   if( Config.debug )
   {
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).zero( 1 ) );
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).zero( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).zero([ 1, 1 ]) );
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).zero( _.Matrix.MakeIdentity( 3 ) ) );
   }
 
@@ -5749,7 +5793,7 @@ function partialAccessors( test )
   if( Config.debug )
   {
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet( 1 ) );
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet([ 1, 1 ]) );
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalGet( _.Matrix.MakeIdentity( 3 ) ) );
   }
 
@@ -5889,19 +5933,19 @@ function partialAccessors( test )
   var m = _.Matrix.Make([ 0, 0 ]);
   var r = m.diagonalSet( 0 );
   test.identical( m.dims, [ 0, 0 ] );
-  test.identical( m._stridesEffective, [ 1, 0 ] );
+  test.identical( m.stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
   var m = _.Matrix.Make([ 0, 0 ]);
   var r = m.diagonalSet( _.Matrix.Make([ 0, 3 ]) );
   test.identical( m.dims, [ 0, 0 ] );
-  test.identical( m._stridesEffective, [ 1, 0 ] );
+  test.identical( m.stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
   var m = _.Matrix.Make([ 0, 0 ]);
   var r = m.diagonalSet( _.Matrix.Make([ 3, 0 ]) );
   test.identical( m.dims, [ 0, 0 ] );
-  test.identical( m._stridesEffective, [ 1, 0 ] );
+  test.identical( m.stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
   test.case = 'diagonalSet bad arguments'; /* */
@@ -5909,7 +5953,7 @@ function partialAccessors( test )
   if( Config.debug )
   {
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalSet() );
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalSet( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalSet([ 1, 1 ]) );
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).diagonalSet( _.Matrix.MakeIdentity( 2 ) ) );
   }
 
@@ -5945,13 +5989,13 @@ function partialAccessors( test )
   var m = _.Matrix.MakeZero([ 0, 3 ]);
   var r = m.identity();
   test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m._stridesEffective, [ 1, 0 ] );
+  test.identical( m.stridesEffective, [ 1, 0 ] );
   test.is( m === r );
 
   var m = _.Matrix.MakeZero([ 3, 0 ]);
   var r = m.identity();
   test.identical( m.dims, [ 3, 0 ] );
-  test.identical( m._stridesEffective, [ 1, 3 ] );
+  test.identical( m.stridesEffective, [ 1, 3 ] );
   test.is( m === r );
 
   test.case = 'identity bad arguments'; /* */
@@ -5959,7 +6003,7 @@ function partialAccessors( test )
   if( Config.debug )
   {
     test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).identity( 1 ) );
-    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).identity( [ 1, 1 ] ) );
+    test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity( 3 ).identity([ 1, 1 ]) );
   }
 
   test.case = 'triangleLowerSet 3x4'; /* */
@@ -7391,15 +7435,15 @@ function colRowWiseOperations( test )
   var empty1 = _.Matrix.Make([ 2, 0 ]);
   empty1.buffer = new F64x();
   test.identical( empty1.dims, [ 2, 0 ] );
-  test.identical( empty1._stridesEffective, [ 1, 2 ] );
+  test.identical( empty1.stridesEffective, [ 1, 2 ] );
 
   var empty2 = _.Matrix.Make([ 0, 2 ]);
   test.identical( empty2.dims, [ 0, 2 ] );
-  test.identical( empty2._stridesEffective, [ 1, 0 ] );
+  test.identical( empty2.stridesEffective, [ 1, 0 ] );
   empty2.growingDimension = 0;
   empty2.buffer = new F64x();
   test.identical( empty2.dims, [ 0, 2 ] );
-  test.identical( empty2._stridesEffective, [ 1, 0 ] );
+  test.identical( empty2.stridesEffective, [ 1, 0 ] );
 
   var matrix1 = new _.Matrix
   ({
@@ -9096,7 +9140,7 @@ function determinant( test )
   var d = m.determinant();
   test.identical( d, -2 );
   test.identical( m.dims, [ 2, 2 ] );
-  test.identical( m._stridesEffective, [ 2, 1 ] );
+  test.identical( m.stridesEffective, [ 2, 1 ] );
 
   test.case = 'matrix with zero determinant'; /* */
 
@@ -9117,7 +9161,7 @@ function determinant( test )
 
   test.identical( d, 0 );
   test.identical( m.dims, [ 3, 3 ] );
-  test.identical( m._stridesEffective, [ 3, 1 ] );
+  test.identical( m.stridesEffective, [ 3, 1 ] );
 
   /* */
 
@@ -10976,7 +11020,7 @@ function PolynomClosestFor( test )
 // equaler
 // --
 
-function compare( test )
+function compareMatrices( test )
 {
 
   /* */
@@ -11115,6 +11159,41 @@ function compare( test )
 
   /* */
 
+  test.case = 'matrix 2x2x1, matrix 2x2';
+
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+  var m2 = _.Matrix.Make([ 2, 2, 1 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+}
+
+//
+
+function compareMatrixAndVector( test )
+{
+
+  /* */
+
   test.case = 'Matrix and BufferTyped';
 
   var m1 = new _.Matrix
@@ -11239,8 +11318,6 @@ function compare( test )
   test.equivalent( m1, v1 );
   test.equivalent( v1, m1 );
 
-  /* */
-
 }
 
 // --
@@ -11349,7 +11426,8 @@ var Self =
 
     // equaler
 
-    compare,
+    compareMatrices,
+    compareMatrixAndVector,
 
   },
 

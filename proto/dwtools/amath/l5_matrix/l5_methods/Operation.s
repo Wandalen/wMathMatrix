@@ -149,7 +149,7 @@ function Add( dst, srcs )
         if( dstClone === null )
         {
           dstClone = dst.tempBorrow1();
-          // dstClone.strides = dstClone._stridesEffective; /* yyy */
+          // dstClone.strides = dstClone.stridesEffective; /* yyy */
           dstClone.copy( dst );
         }
         srcs[ s ] = dstClone;

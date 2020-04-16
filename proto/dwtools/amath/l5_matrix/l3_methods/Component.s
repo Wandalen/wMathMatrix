@@ -269,8 +269,8 @@ function granuleGet( index )
   debugger;
   _.assert( 0, 'not imlemented' );
 
-  if( index.length < self._stridesEffective.length+1 )
-  scalarsPerGranule = _.avector.reduceToProduct( self._stridesEffective.slice( index.length-1 ) );
+  if( index.length < self.stridesEffective.length+1 )
+  scalarsPerGranule = _.avector.reduceToProduct( self.stridesEffective.slice( index.length-1 ) );
   else
   scalarsPerGranule = 1;
 
@@ -403,9 +403,9 @@ function eGet( index )
   let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
-    this.offset + index*this._stridesEffective[ this._stridesEffective.length-1 ],
+    this.offset + index*this.stridesEffective[ this.stridesEffective.length-1 ],
     this.dims[ this.dims.length-2 ],
-    this._stridesEffective[ this._stridesEffective.length-2 ]
+    this.stridesEffective[ this.stridesEffective.length-2 ]
   );
 
   return result;
@@ -699,15 +699,12 @@ function rowNdGet( indexNd )
   _.assert( indexNd.length+1 === this.dims.length );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  debugger;
-  // let matrixIndex = [ 0, ... indexNd ];
-  let matrixIndex = [ indexNd[ 0 ], 0, indexNd.slice( 1 ) ]; /* Dmytro : maybe need to unroll copy - ... indexNd.slice( 1 ) */
+  let matrixIndex = [ indexNd[ 0 ], 0, indexNd.slice( 1 ) ];
   let matrixOffset = this.flatGranuleIndexFrom( matrixIndex );
   let result = this.vectorAdapter.fromLongLrangeAndStride
   (
     this.buffer,
     this.offset + matrixOffset,
-    // this.offset + index*this.strideOfRow + matrixOffset,
     this.scalarsPerRow,
     this.strideInRow
   );

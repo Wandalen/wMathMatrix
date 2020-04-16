@@ -112,7 +112,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +6,
 */
 
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 1, 3 ]
 */
@@ -143,7 +143,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +5, +6,
 */
 
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
@@ -172,7 +172,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +5, +6,
 */
 
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */

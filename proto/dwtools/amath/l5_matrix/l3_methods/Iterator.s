@@ -57,7 +57,7 @@ function scalarWhile( o )
   _.routineOptions( scalarWhile, o );
   _.assert( _.routineIs( o.onScalar ) );
 
-  let dims = self.dims;
+  let dims = self.dimsEffective;
 
   _.eachInMultiRange
   ({
@@ -111,7 +111,7 @@ scalarWhile.defaults =
 function scalarEach( onScalar, args )
 {
   let self = this;
-  let dims = self.dims;
+  let dims = self.dimsEffective;
 
   if( args === undefined )
   args = [];
@@ -120,14 +120,14 @@ function scalarEach( onScalar, args )
   _.assert( _.arrayIs( args ) );
   _.assert( onScalar.length === 1 );
 
-  if( self.dims.length === 2 )
+  if( dims.length === 2 )
   {
     iterate2();
   }
   else
   {
 
-    _.assert( self.dims.length === 3, 'not implemented' );
+    _.assert( dims.length === 3, 'not implemented' );
     let dims2 = dims[ 2 ];
     for( let i = 0 ; i < dims2 ; i++ )
     {
