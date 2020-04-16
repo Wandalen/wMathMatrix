@@ -2003,7 +2003,7 @@ let Extension =
 
   ConvertToClass,
 
-  FromVector,
+  FromVector, /* xxx : deprecate */
   FromScalar,
   FromScalarForReading,
   From,
