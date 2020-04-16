@@ -1268,7 +1268,7 @@ function SolveTriangleUpperNormal( x, m, y )
  * @param { BoolLike } o.pivoting - Enables pivoting.
  * @returns { Map } - Returns maps with solved system of equations.
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If options map {-o-} has unknown options.
+ * @throws { Error } If options map {-o-} has extra options.
  * @function SolveGeneral
  * @static
  * @class Matrix

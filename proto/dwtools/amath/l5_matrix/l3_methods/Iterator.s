@@ -39,7 +39,7 @@ let Self = _.Matrix;
  * @method scalarWhile
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
- * @throws { Error } If options map {-o-} has unknown options.
+ * @throws { Error } If options map {-o-} has extra options.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix

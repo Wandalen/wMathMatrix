@@ -64,7 +64,7 @@ let Self = function wMatrix( o )
  * @method init
  * @throws { Error } If arguments.length is more then one.
  * @throws { Error } If {-o-} is not a MapLike.
- * @throws { Error } If {-o-} has unknown options.
+ * @throws { Error } If {-o-} has extra options.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -389,7 +389,38 @@ function _longGet()
 // import / export
 // --
 
-
+/**
+ * Static routine ExportStructure() exports data from the source matrix {-src-} into the destination structure {-dst-}.
+ *
+ * @example
+ * var src = _.Matrix.Make( [ 2, 2 ] );
+ * var dst = {};
+ * _.Matrix.exportStructure( { src : src, dst : dst } );
+ * console.log( dst );
+ * // log : {
+ * //   inputTransposing: 1,
+ * //   growingDimension: 1,
+ * //   dims: [ 2, 2 ],
+ * //   buffer: Float32Array [ 4, 5, 1, 2 ],
+ * //   offset: 0,
+ * //   strides: [ 2, 1 ]
+ * // }
+ *
+ * @param { MapLike } o - Options map.
+ * @param { Matrix } o.src - Source matrix.
+ * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
+ * @param { String } o.format - Format of structure, it should have value 'object' to prevent exception.
+ * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} has extra options.
+ * @throws { Error } If {-o.src-} and {-o.dst-} are instance of Matrix and have different dimensions.
+ * @static
+ * @function ExportStructure
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function ExportStructure( o )
 {
@@ -560,12 +591,12 @@ ExportStructure.defaults =
  *
  * @param { MapLike } o - Options map.
  * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
- * @param { MapLike|ObjectLike|Matrix } o.format - Format of structure, it should has value 'object' to prevent exception.
+ * @param { String } o.format - Format of structure, it should have value 'object' to prevent exception.
  * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
  * @method exportStructure
- * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If arguments are not provided.
  * @throws { Error } If {-o-} is not a MapLike.
- * @throws { Error } If {-o-} has unknown options.
+ * @throws { Error } If {-o-} has extra options.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -908,7 +939,7 @@ function CopyTo( dst, src )
  *
  * @returns { Map } - Returns map with matrix data.
  * @method extractNormalized
- * @throws { Error } If arguments is passed.
+ * @throws { Error } If arguments are passed.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -935,6 +966,38 @@ function extractNormalized()
 }
 
 //
+
+/**
+ * Method ExportString() converts source matrix to string.
+ *
+ * @example
+ * var src = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var got = _.Matrix.ExportString( { src : src } );
+ * console.log( got );
+ * // log :
+ * +1, +2,
+ * +3, +4,
+ *
+ * @param { Map } o - Options map.
+ * @param { Matrix } o.src - Source matrix.
+ * @param { String } o.dst - Destination string, result of conversion appends to it.
+ * @param { String } o.format - Returned format, should have value 'nice' to prevent exception.
+ * @param { String } o.tab - String inserted before each new line.
+ * @param { String } o.dtab - String inserted before each new row.
+ * @param { Number } o.precision -  Precision of scalar values.
+ * @param { BoolLike } o.usingSign - Prepend sign to scalar values.
+ * @returns { String } - Returns formatted string that represents matrix of scalars.
+ * @throws { Error } If options map {-o-} has extra options.
+ * @throws { Error } If options map {-o-} is not map like.
+ * @throws { Error } If {-o.src-} is not an instance of Matrix.
+ * @throws { Error } If {-o.dst-} is not a String.
+ * @throws { Error } If {-o.tab-} is not a String.
+ * @throws { Error } If {-o.dtab-} is not a String.
+ * @function ExportString
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function ExportString( o )
 {
@@ -1070,16 +1133,22 @@ ExportString.defaults =
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
  * var got = matrix.toStr();
  * console.log( got );
- * // log : +1, +2,\n+3, +4,
+ * // log :
+ * +1, +2,
+ * +3, +4,
  *
  * @param { Map } o - Options map.
  * @param { String } o.tab - String inserted before each new line.
+ * @param { String } o.dtab - String inserted before each new row.
  * @param { Number } o.precision -  Precision of scalar values.
- * @param { Boolean } o.usingSign - Prepend sign to scalar values.
+ * @param { BoolLike } o.usingSign - Prepend sign to scalar values.
  * @returns { String } - Returns formatted string that represents matrix of scalars.
  * @method toStr
- * @throws { Error } If options map {-o-} has unknown options.
+ * @throws { Error } If options map {-o-} has extra options.
  * @throws { Error } If options map {-o-} is not map like.
+ * @throws { Error } If {-o.dst-} is not a String.
+ * @throws { Error } If {-o.tab-} is not a String.
+ * @throws { Error } If {-o.dtab-} is not a String.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -2370,6 +2439,26 @@ function hasShape( src )
 }
 
 //
+
+/**
+ * Method dimsExportString() converts dimensions values to string.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 4 ] );
+ * var got = matrix.dimsExportString( { dst : 'dims of matrix : ' } );
+ * console.log( got );
+ * // log : dims of matrix : 3x4
+ *
+ * @param { MapLike } o - Options map.
+ * @param { String } o.dst - Destination string, the result of conversion appends to it.
+ * @returns { String } - Returns value whether are dimensions of two matrices the same.
+ * @method dimsExportString
+ * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} has extra options.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function dimsExportString( o )
 {
