@@ -263,7 +263,7 @@ Because the offset is the only component with a value different from one, the re
 
 ### Infinity matrix
 
-One of the dimensions of the matrix can have infinite value.
+One of dimensions of the matrix can have infinite value.
 
 ```js
 var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
@@ -277,7 +277,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 */
 ```
 
-The matrix `matrix` has an infinite number of rows, which is given in its dimension and means that the row `0 1` is repeated infinitely.
+The matrix `matrix` has an infinite number of rows. That is specified with its dimension and means that the row `0 1` is repeated infinitely many times.
 
 ### Multidimensional matrix
 
