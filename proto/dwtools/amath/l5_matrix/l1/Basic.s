@@ -1021,22 +1021,22 @@ function ExportString( o )
   else if( o.src.dims.length > 2 )
   {
 
-    let l = o.src.dims[ 2 ];
-    for( let m = 0 ; m < l ; m += 1 )
-    {
-      if( m > 0 )
-      o.dst += `\n`;
-      o.dst += `Matrix-${m}\n`;
-      matrixToStr( m );
-    }
-
-    // matrix.matrixEach( ( it ) =>
+    // let l = o.src.dims[ 2 ];
+    // for( let m = 0 ; m < l ; m += 1 )
     // {
-    //   if( it.indexFlat > 0 )
+    //   if( m > 0 )
     //   o.dst += `\n`;
     //   o.dst += `Matrix-${m}\n`;
     //   matrixToStr( m );
-    // });
+    // }
+
+    o.src.matrixEach( ( it ) =>
+    {
+      if( it.indexFlat > 0 )
+      o.dst += `\n`;
+      o.dst += `Matrix ${it.indexNd.join( ' ' )}\n`;
+      matrixToStr( it.indexNd );
+    });
 
   }
   else _.assert( 0, 'not implemented' );
@@ -1045,13 +1045,13 @@ function ExportString( o )
 
   /* */
 
-  function matrixToStr( m )
+  function matrixToStr( matrixIndexNd )
   {
     let r;
 
     for( r = 0 ; r < scalarsPerCol ; r += 1 )
     {
-      rowToStr( m, r );
+      rowToStr( matrixIndexNd, r );
       if( r < scalarsPerCol - 1 )
       o.dst += '\n' + o.tab;
     }
@@ -1067,16 +1067,16 @@ function ExportString( o )
 
   /* */
 
-  function rowToStr( m, r )
+  function rowToStr( matrixIndexNd, r )
   {
     let row;
 
     o.dst += tab2;
 
-    if( m === undefined )
+    if( matrixIndexNd === undefined )
     row = o.src.rowGet( r );
     else
-    row = o.src.rowNdGet([ r, m ]);
+    row = o.src.rowNdGet([ r, ... matrixIndexNd ]);
 
     for( let c = 0 ; c < scalarsPerRow ; c += 1 )
     {

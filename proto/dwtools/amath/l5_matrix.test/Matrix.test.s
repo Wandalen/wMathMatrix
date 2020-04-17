@@ -4555,12 +4555,6 @@ function makeMultyMatrix( test )
 function toStr( test )
 {
 
-  test.case = 'empty matrix, 3D';
-  var matrix = _.Matrix.Make([ 0, 0, 0 ]);
-  var exp = '';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
   test.case = 'empty matrix, 2D';
   var matrix = _.Matrix.Make([ 0, 0 ]);
   var exp = '';
@@ -4663,25 +4657,148 @@ function toStr( test )
   var got = matrix.toStr();
   test.equivalent( got, exp );
 
+  /* - */
+
+  test.case = 'empty matrix, 3d';
+  var matrix = _.Matrix.Make([ 0, 0, 0 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, 4d';
+  var matrix = _.Matrix.Make([ 0, 0, 0, 0 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, 4d';
+  var matrix = _.Matrix.Make([ 0, 0, 0, 1 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, 4d';
+  var matrix = _.Matrix.Make([ 0, 0, 1, 0 ]);
+  var exp = '';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
   /* */
 
-//   test.case = '2x3xInfinity';
-//   debugger;
-//   var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
-//   ([
-//     1, 2, 3,
-//     4, 5, 6,
-//   ]);
-//   var exp =
-// `
-// xxx
-// `
-//   debugger;
-//   var got = matrix.toStr();
-//   debugger;
-//   test.equivalent( got, exp );
-//
-//   test.close( '2D' );
+  test.case = '2x3x4';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+  var exp =
+`
+Matrix 0
+  +1 +2 +3
+  +4 +5 +6
+Matrix 1
+  +7 +8 +9
+  +10 +11 +12
+Matrix 2
+  +13 +14 +15
+  +16 +17 +18
+Matrix 3
+  +19 +20 +21
+  +22 +23 +24
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '1x1x2x3x4';
+  var matrix = _.Matrix.Make([ 1, 1, 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+  var exp =
+`
+Matrix 0 0 0
+  +1
+Matrix 1 0 0
+  +2
+Matrix 0 1 0
+  +3
+Matrix 1 1 0
+  +4
+Matrix 0 2 0
+  +5
+Matrix 1 2 0
+  +6
+Matrix 0 0 1
+  +7
+Matrix 1 0 1
+  +8
+Matrix 0 1 1
+  +9
+Matrix 1 1 1
+  +10
+Matrix 0 2 1
+  +11
+Matrix 1 2 1
+  +12
+Matrix 0 0 2
+  +13
+Matrix 1 0 2
+  +14
+Matrix 0 1 2
+  +15
+Matrix 1 1 2
+  +16
+Matrix 0 2 2
+  +17
+Matrix 1 2 2
+  +18
+Matrix 0 0 3
+  +19
+Matrix 1 0 3
+  +20
+Matrix 0 1 3
+  +21
+Matrix 1 1 3
+  +22
+Matrix 0 2 3
+  +23
+Matrix 1 2 3
+  +24
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2x3xInfinity';
+  var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var exp =
+`
+Matrix
+  +1 +2 +3
+  +4 +5 +6
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
 
 }
 
@@ -7487,6 +7604,21 @@ function submatrix( test )
 
   }
 
+}
+
+//
+
+function subspace( test )
+{
+  debugger;
+
+  var expected = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    +7, +8,
+    +11, +12,
+  ]);
+
+  debugger;
 }
 
 // --
@@ -11472,6 +11604,7 @@ var Self =
     lineSwap,
     pivot,
     submatrix,
+    // subspace,
 
     // operation
 

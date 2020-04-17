@@ -696,7 +696,7 @@ function rowNdGet( indexNd )
 
   _.assert( 0 <= indexNd[ 0 ] && indexNd[ 0 ] < this.dims[ 0 ], 'Out of bound' );
   _.assert( _.longIs( indexNd ), 'Expects nd index' );
-  _.assert( indexNd.length+1 === this.dims.length );
+  // _.assert( indexNd.length+1 === this.dims.length );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   let matrixIndex = [ indexNd[ 0 ], 0, ... indexNd.slice( 1 ) ];

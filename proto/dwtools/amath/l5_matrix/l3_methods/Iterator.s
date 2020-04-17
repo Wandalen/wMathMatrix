@@ -124,16 +124,15 @@ function scalarEach( onScalar, args )
   {
     iterate2();
   }
-  else
+  else if( dims.length === 3 )
   {
-
-    _.assert( dims.length === 3, 'not implemented' );
     let dims2 = dims[ 2 ];
     for( let i = 0 ; i < dims2 ; i++ )
-    {
-      iterate3( i );
-    }
-
+    iterate3( i );
+  }
+  else
+  {
+    iterateN();
   }
 
   return self;
@@ -202,6 +201,106 @@ function scalarEach( onScalar, args )
 
   /* */
 
+  function iterateN()
+  {
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+
+    if( dims0 === Infinity )
+    dims1 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.args = args;
+    it.indexNd = _.dup( 0, dims.length );
+    let indexLogical = 0;
+
+    self.matrixEach( ( it2 ) =>
+    {
+
+      for( let i = 2 ; i < dims.length ; i++ )
+      it.indexNd[ i ] = it2.indexNd[ i-2 ];
+
+      for( let c = 0 ; c < dims1 ; c++ )
+      {
+        it.indexNd[ 1 ] = c;
+        for( let r = 0 ; r < dims0 ; r++ )
+        {
+          it.indexNd[ 0 ] = r;
+          it.indexLogical = indexLogical;
+          it.scalar = self.scalarGet( it.indexNd );
+          onScalar.call( self, it );
+          indexLogical += 1;
+        }
+      }
+
+    });
+
+  }
+
+  /* */
+
+}
+
+//
+
+function matrixEach( onMatrix, args )
+{
+  let self = this;
+  let dims = self.dimsEffective;
+
+  if( args === undefined )
+  args = [];
+
+  _.assert( arguments.length <= 2 );
+  _.assert( _.arrayIs( args ) );
+  _.assert( onMatrix.length === 1 );
+
+  let it = Object.create( null );
+  it.args = args;
+  it.indexNd = _.dup( 0, dims.length - 2 );
+  it.indexFlat = 0;
+
+  if( !it.indexNd.length )
+  {
+    onMatrix( it );
+  }
+  else
+  {
+
+    for( let i = 2 ; i < dims.length ; i++ )
+    if( dims[ i ] === 0 )
+    return self;
+
+    do
+    {
+      onMatrix( it );
+    }
+    while( inc() );
+  }
+
+  return self;
+
+  function inc()
+  {
+    let d = 0;
+
+    while( d < dims.length-2 )
+    {
+      it.indexNd[ d ] += 1;
+      if( it.indexNd[ d ] < dims[ d+2 ] )
+      {
+        it.indexFlat += 1;
+        return true;
+      }
+      it.indexNd[ d ] = 0;
+      d += 1;
+    }
+
+    return false;
+  }
+
 }
 
 // --
@@ -234,6 +333,7 @@ let Extension =
 
   scalarWhile,
   scalarEach,
+  matrixEach, /* qqq : cover */
 
   //
 
