@@ -51,24 +51,19 @@ function _BufferFrom( src )
 // --
 
 /**
- * Static routine Make(), returns the new instance of Matrix, with provided dimensions {-dims-}.
+ * Static routine Make(), creates a new instance of Matrix with defined dimensions {-dims-}.
  *
  * @example
- * var got = new _.Matrix.Make( [ 3, 3 ] ).copy
- * ([
- *   +2, +2, +2,
- *   +2, +3, +4,
- *   +4, +3, -2,
- * ]);
- * console.log( got.buffer )
- * //log
- *  Float32Array [ 2, 2, 4, 2, 3, 3, 2, 4, -2 ]
+ * var got = new _.Matrix.Make( [ 2, 3 ] );
+ * console.log( got.toStr() );
+ * //log :
+ * // +0 +0 +0
+ * // +0 +0 +0
  *
- * @param { Array|Number } dims - Array or Number, dimension of matrix.
- * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
- * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
+ * @param { Array|Number } dims - Defines dimensions of a matrix. If {-dims-} is a Number, then the square matrix is returned.
+ * @returns { Matrix } - Returns the new instance of Matrix with defined dimensions.
  * @throws { Error } If {-dims-} is not Array or Number.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
  * @static
  * @function Make
  * @class Matrix
@@ -106,28 +101,27 @@ function Make( dims )
 //
 
 /**
- * Static routine MakeSquare(), returns the new instance of square Matrix, with provided data {-buffer-}.
+ * Static routine MakeSquare() creates a new square matrix with data provided in buffer {-buffer-}.
  *
  * @example
- * var buffer =
- * [
- *  1, 3, 5,
- *  2, 4, 6,
- *  3, 6, 8,
- * ];
- * var got = _.Matrix.MakeSquare( buffer );
- * logger.log( got )
- * //log
- *   +1, +3, +5,
- *   +2, +4, +6,
- *   +3, +6, +8,
+ * var got = _.Matrix.MakeSquare
+ * ([
+ *   1, 3, 5,
+ *   2, 4, 6,
+ *   3, 6, 8,
+ * ]);
+ * console.log( got.toStr() );
+ * //log :
+ * // +1 +3 +5
+ * // +2 +4 +6
+ * // +3 +6 +8
  *
- * @param { Long|Number } buffer - source data.
- * @returns { Matrix } - Returns the new instance of Matrix by provided data.
- * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
- * @throws { Error } If {-buffer-} is not array or number.
+ * @param { Long|Number } buffer - Source data.
+ * @returns { Matrix } - Returns a new square matrix with provided data.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-buffer-} is not a Long or a Number.
  * @throws { Error } If {-buffer-} is not square buffer.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If method called by instance of Matrix.
  * @static
  * @function MakeSquare
  * @class Matrix
@@ -177,23 +171,20 @@ function MakeSquare( buffer )
 //
 
 /**
- * Static routine MakeZero(), returns the new instance of Matrix filled by zero.
+ * Static routine MakeZero() creates a new instance of Matrix filled by zero.
  *
  * @example
- * var dims = 3;
- * var got = new _.Matrix.MakeZero( dims );
- * logger.log( got )
- * //log
- *   +0, +0, +0,
- *   +0, +0, +0,
- *   +0, +0, +0,
+ * var got = new _.Matrix.MakeZero( 3 );
+ * console.log( got.toStr() );
+ * //log :
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * // +0 +0 +0
  *
- * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
- * @returns { Matrix } - Returns the new instance of Matrix by provided dimension.
- * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
- * @throws { Error } If {-dims-} is not Long or Number.
- * @throws { Error } If {-dims-} length is not 2.
- * @throws { Error } If (arguments.length) is not 1.
+ * @param { Long|Number } dims - Defines dimensions of a matrix. If {-dims-} is a Number, then the square matrix is returned.
+ * @returns { Matrix } - Returns a new matrix with defined dimensions. The matrix is filled by zeros.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-dims-} is not a Long or a Number.
  * @static
  * @function MakeZero
  * @class Matrix
@@ -232,21 +223,20 @@ function MakeZero( dims )
 //
 
 /**
- * Static routine MakeIdentity(), returns the new instance of identity Matrix with dimension {-dims-}.
+ * Static routine MakeIdentity() creates a new identity matrix with defined dimensions {-dims-}.
  *
  * @example
- * var dims = 3;
- * var got = new _.Matrix.MakeIdentity( dims );
- * logger.log( got )
- * //log
- *   +1, +0, +0,
- *   +0, +1, +0,
- *   +0, +0, +1,
+ * var got = new _.Matrix.MakeIdentity( 3 );
+ * console.log( got.toStr() );
+ * //log :
+ * // +1 +0 +0
+ * // +0 +1 +0
+ * // +0 +0 +1
  *
- * @param { Long|Number } dims - Long or Number, provided dimension instance of matrix.
- * @returns { Matrix } - Returns the new instance of Matrix by provided argument.
- * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
- * @throws { Error } If {-dims-} is not Long or Number.
+ * @param { Long|Number } dims - Defines dimensions of a matrix. If {-dims-} is Number, then the square matrix is returned.
+ * @returns { Matrix } - Returns a new identity matrix with defined dimensions.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-dims-} is not a Long or a Number.
  * @static
  * @function MakeIdentity
  * @class Matrix
@@ -283,6 +273,29 @@ function MakeIdentity( dims )
 
 //
 
+/**
+ * Static routine MakeIdentity2() creates a new identity matrix with dimensions `2x2`.
+ * The matrix can be filled by content of source buffer {-src-}.
+ *
+ * @example
+ * var got = new _.Matrix.MakeIdentity2();
+ * console.log( got.toStr() );
+ * //log :
+ * // +1 +0
+ * // +0 +1
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source buffer.
+ * @returns { Matrix } - Returns a new `2x2` identity matrix.
+ * @throws { Error } If arguments.length is greater then 1.
+ * @throws { Error } If src.length is not 4 or {-src-} is not a Number.
+ * @throws { Error } If {-src-} neither is a Long, nor a VectorAdapter, nor a Matrix, nor a Number.
+ * @static
+ * @function MakeIdentity2
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function MakeIdentity2( src )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
@@ -299,6 +312,30 @@ function MakeIdentity2( src )
 
 //
 
+/**
+ * Static routine MakeIdentity3() creates a new identity matrix with dimensions `3x3`.
+ * The matrix can be filled by content of source buffer {-src-}.
+ *
+ * @example
+ * var got = new _.Matrix.MakeIdentity3();
+ * console.log( got.toStr() );
+ * //log :
+ * // +1 +0 +0
+ * // +0 +1 +0
+ * // +0 +0 +1
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source buffer.
+ * @returns { Matrix } - Returns a new `3x3` identity matrix.
+ * @throws { Error } If arguments.length is greater then 1.
+ * @throws { Error } If src.length is not 9 or {-src-} is not a Number.
+ * @throws { Error } If {-src-} neither is a Long, nor a VectorAdapter, nor a Matrix, nor a Number.
+ * @static
+ * @function MakeIdentity3
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function MakeIdentity3( src )
 {
   let proto = this ? this.Self.prototype : Self.prototype;
@@ -314,6 +351,31 @@ _.assert( arguments.length === 0 || arguments.length === 1 );
 }
 
 //
+
+/**
+ * Static routine MakeIdentity4() creates a new identity matrix with dimensions `4x4`.
+ * The matrix can be filled by content of source buffer {-src-}.
+ *
+ * @example
+ * var got = new _.Matrix.MakeIdentity4();
+ * console.log( got.toStr() );
+ * //log :
+ * // +1 +0 +0 +0
+ * // +0 +1 +0 +0
+ * // +0 +0 +1 +0
+ * // +0 +0 +0 +1
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source buffer.
+ * @returns { Matrix } - Returns a new `4x4` identity matrix.
+ * @throws { Error } If arguments.length is greater then 1.
+ * @throws { Error } If src.length is not 16 or {-src-} is not a Number.
+ * @throws { Error } If {-src-} neither is a Long, nor a VectorAdapter, nor a Matrix, nor a Number.
+ * @static
+ * @function MakeIdentity4
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function MakeIdentity4( src )
 {
@@ -337,7 +399,7 @@ function MakeIdentity4( src )
  * @example
  * var diagonal = [ 1, 2, 3 ];
  * var got = new _.Matrix.MakeDiagonal( diagonal );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1, +0, +0,
  *   +0, +2, +0,
@@ -404,7 +466,7 @@ function MakeDiagonal( diagonal )
  * });
  *
  * var got = new _.Matrix.MakeSimilar( m );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1, +2, +0,
  *   +0, +4, +1,
@@ -599,7 +661,7 @@ MakeLine.defaults =
  *
  * @example
  * var got = _.Matrix.MakeCol( 3 );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +0,
  *   +0,
@@ -608,7 +670,7 @@ MakeLine.defaults =
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
  * var got = _.Matrix.MakeCol( buffer );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1,
  *   +2,
@@ -617,7 +679,7 @@ MakeLine.defaults =
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeCol( buffer );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   -2.000,
  *    0.000,
@@ -663,20 +725,20 @@ function MakeColZeroed( buffer )
  *
  * @example
  * var got = _.Matrix.MakeRow( 3 );
- * logger.log( got )
+ * console.log( got )
  * //log +0, +0, +0,
  *
  * @example
  * var buffer = new I32x( [ 1, 2, 0 ] );
  * var got = _.Matrix.MakeRow( buffer );
- * logger.log( got )
+ * console.log( got )
  * //log
  *    +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRow( buffer );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   -2.000, 0.000, -0.250,
  *
@@ -709,13 +771,13 @@ function MakeRow( buffer )
  * var buffer = new I32x( [ 1, 2, 0 ] );
  *
  * var got = _.Matrix.MakeRowZeroed( buffer );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +0, +0, +0,
  *
  * @example
  * var got = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
- * logger.log( got )
+ * console.log( got )
  * //log 0.000, 0.000, 0.000,
  *
  * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, Array or Number, dimension and provided values.
@@ -831,7 +893,7 @@ function ConvertToClass( cls, src )
  * @example
  * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
  * var got = new _.Matrix.FromVector( src );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1,
  *   +2,
@@ -891,7 +953,7 @@ function FromVector( src )
  * var scalar = 2;
  * var dims = [ 3, 3 ];
  * var got = _.Matrix.FromScalar( scalar, dims )
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +2, +2, +2,
  *   +2, +2, +2,
@@ -961,7 +1023,7 @@ function FromScalarForReading( scalar, dims )
  * @example
  * var dims = [ 3, 3 ];
  * var got = new _.Matrix.From( dims );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +0, +0, +0,
  *   +0, +0, +0,
@@ -976,7 +1038,7 @@ function FromScalarForReading( scalar, dims )
  * ]);
  * var dims = [ 3, 3 ];
  * var got = new _.Matrix.From( src, dims );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1, +2, +3,
  *   +0, +4, +5,
@@ -1106,7 +1168,7 @@ function FromTransformations( dst, position, quaternion, scale ) /* qqq : add js
  * var quaternion = [ 0, 0, 0, 1 ];
  * var scale = [ 1, 1, 1 ];
  * var got = matrix.fromTransformations( position, quaternion, scale );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1, +0, +0, +1,
  *   +0, +1, +0, +2,
@@ -1158,7 +1220,7 @@ function fromTransformations( position, quaternion, scale )
  *
  * var quaternion = [ 0, 0, 0, 1 ];
  * var got = matrix.fromQuat( quaternion );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   +1, +0, +0, +0,
  *   +0, +1, +0, +0,
@@ -1240,7 +1302,7 @@ function fromQuat( q )
  *
  * var quaternion = [ 0, 2, 1, 1 ];
  * var got = matrix.fromQuatWithScale( quaternion );
- * logger.log( got )
+ * console.log( got )
  * //log
  *   -1.633, -0.816, 1.633, 0.000,
  *   0.816, 1.633, 1.633, 0.000,
@@ -1541,7 +1603,7 @@ function formPerspective( fov, size, depth )
 
   }
 
-  /* logger.log({ xmin, xmax, ymin, ymax }); */
+  /* console.log({ xmin, xmax, ymin, ymax }); */
 
   return self.formFrustum( [ xmin, xmax ], [ ymin, ymax ], depth );
 }
