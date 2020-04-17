@@ -558,7 +558,7 @@ function subspace()
 
   _.assert( strides.length === dims.length );
 
-  for( let i = 0 ; i < arguments.length ; i++ )
+  for( let i = arguments.length-1 ; i >= 0 ; i-- )
   {
     let inc = arguments[ i ];
     _.assert( _.boolLike( inc ) );
@@ -583,7 +583,7 @@ function subspace()
 
 //
 
-function toLong()
+function toLong() /* xxx : move. cover */
 {
   let self = this;
   let strides = self.stridesEffective.slice();

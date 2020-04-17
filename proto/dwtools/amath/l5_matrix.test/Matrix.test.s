@@ -7611,26 +7611,40 @@ function submatrix( test )
 function subspace( test )
 {
 
-  var expected = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    +7, +8,
-    +11, +12,
-  ]);
-
   var buffer = [];
   var dims = [ 1, 3, 1, 3, 1, 3 ];
   for( let i = _.avector.reduceToProduct( dims )-1 ; i >= 0 ; i-- )
   buffer[ i ] = i;
   var matrix = _.Matrix.Make( dims ).copy( buffer );
   console.log( matrix.toStr() );
+  console.log( '' );
 
   var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
-  console.log( subspace.toStr() );
   test.is( matrix.buffer === subspace.buffer );
-  debugger;
-  var long = subspace.toLong();
-  console.log( long );
-  debugger;
+  test.identical( subspace.dims, [ 3, 3, 3 ] );
+  test.identical( subspace.stridesEffective, [ 1, 3, 9 ] );
+
+  var exp = _.Matrix.Make([ 3, 3, 3 ]).copy
+  ([
+  +0, +3, +6,
+  +1, +4, +7,
+  +2, +5, +8,
+  +9, +12, +15,
+  +10, +13, +16,
+  +11, +14, +17,
+  +18, +21, +24,
+  +19, +22, +25,
+  +20, +23, +26,
+  ]);
+  test.identical( subspace, exp );
+
+  console.log( subspace.toStr() );
+  console.log( '' );
+
+  // debugger;
+  // var long = subspace.toLong();
+  // console.log( long );
+  // debugger;
 
 }
 
@@ -11617,7 +11631,7 @@ var Self =
     lineSwap,
     pivot,
     submatrix,
-    subspace,
+    subspace, /* qqq : extend, please */
 
     // operation
 
