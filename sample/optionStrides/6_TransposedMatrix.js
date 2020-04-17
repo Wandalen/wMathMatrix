@@ -2,7 +2,7 @@ let _ = require( 'wmathmatrix' );
 
 var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
 
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -17,7 +17,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +7, +8,
 */
 
-var matrixTransposed = _.Matrix
+var matrixTransposed = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 3 ],

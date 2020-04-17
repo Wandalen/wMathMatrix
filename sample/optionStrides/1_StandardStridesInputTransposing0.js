@@ -1,6 +1,6 @@
 let _ =  require( 'wmathmatrix' );
 
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -14,7 +14,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +6,
 */
 
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 1, 3 ]
 */
