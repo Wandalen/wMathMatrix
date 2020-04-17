@@ -530,7 +530,7 @@ function submatrix()
     offset += self.stridesEffective[ s ]*ranges[ s ][ 0 ];
   }
 
-  let result = new Self
+  let result = new self.Self
   ({
     buffer : self.buffer,
     offset,
@@ -546,6 +546,57 @@ function submatrix()
     return `Bad range [ ${ range[ 0 ] }, ${ range[ 1 ] } ]. Use _.all or null to pass the dimension.`
   }
 
+}
+
+//
+
+function subspace()
+{
+  let self = this;
+  let strides = self.stridesEffective.slice();
+  let dims = self.dimsEffective.slice();
+
+  _.assert( strides.length === dims.length );
+
+  for( let i = 0 ; i < arguments.length ; i++ )
+  {
+    let inc = arguments[ i ];
+    _.assert( _.boolLike( inc ) );
+    if( !inc )
+    {
+      strides.splice( i, 1 );
+      dims.splice( i, 1 );
+    }
+  }
+
+  let result = new self.Self
+  ({
+    buffer : self.buffer,
+    offset : self.offset,
+    strides,
+    dims,
+    inputTransposing : self.inputTransposing,
+  });
+
+  return result;
+}
+
+//
+
+function toLong()
+{
+  let self = this;
+  let strides = self.stridesEffective.slice();
+  let dims = self.dimsEffective.slice();
+
+  let result = _.longMake( self.buffer, self.scalarsPerMatrix );
+
+  self.scalarEach( ( it ) =>
+  {
+    result[ it.indexLogical ] = it.scalar;
+  });
+
+  return result;
 }
 
 //
@@ -626,6 +677,8 @@ let Extension =
 
   expand,
   submatrix,
+  subspace,
+  toLong,
   transpose,
 
   //
