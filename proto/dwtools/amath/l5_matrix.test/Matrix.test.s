@@ -4602,88 +4602,88 @@ function toStr( test )
 
   /* */
 
-//   test.case = '2x3';
-//   var matrix = _.Matrix.Make([ 2, 3 ]).copy
-//   ([
-//     1, 2, 3,
-//     4, 5, 6,
-//   ]);
-//   var exp =
-// `
-// +1 +2 +3
-// +4 +5 +6
-// `
-//   var got = matrix.toStr();
-//   test.equivalent( got, exp );
-//
-//   /* */
-//
-//   test.case = '3x2';
-//   var matrix = _.Matrix.Make([ 3, 2 ]).copy
-//   ([
-//     1, 2,
-//     3, 4,
-//     5, 6,
-//   ]);
-//   var exp =
-// `
-// +1 +2
-// +3 +4
-// +5 +6
-// `
-//   var got = matrix.toStr();
-//   test.equivalent( got, exp );
-//
-//   /* */
-//
-//   test.case = '2xInfinity';
-//   var matrix = _.Matrix.Make([ 2, Infinity ]).copy
-//   ([
-//     0,
-//     1,
-//   ]);
-//   var exp =
-// `
-// +0 ...
-// +1 ...
-// `
-//   var got = matrix.toStr();
-//   test.equivalent( got, exp );
-//
-//   /* */
-//
-//   test.case = 'Infinityx2';
-//   var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
-//   ([
-//     0, 1,
-//   ]);
-//   var exp =
-// `
-// +0 +1
-// ... ...
-// `
-//   var got = matrix.toStr();
-//   test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '2x3xInfinity';
-  debugger;
-  var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  test.case = '2x3';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
   var exp =
 `
-xxx
++1 +2 +3
++4 +5 +6
 `
-  debugger;
   var got = matrix.toStr();
-  debugger;
   test.equivalent( got, exp );
 
-  test.close( '2D' );
+  /* */
+
+  test.case = '3x2';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+  ]);
+  var exp =
+`
++1 +2
++3 +4
++5 +6
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2xInfinity';
+  var matrix = _.Matrix.Make([ 2, Infinity ]).copy
+  ([
+    0,
+    1,
+  ]);
+  var exp =
+`
++0 ...
++1 ...
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = 'Infinityx2';
+  var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
+  ([
+    0, 1,
+  ]);
+  var exp =
+`
++0 +1
+... ...
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+//   test.case = '2x3xInfinity';
+//   debugger;
+//   var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
+//   ([
+//     1, 2, 3,
+//     4, 5, 6,
+//   ]);
+//   var exp =
+// `
+// xxx
+// `
+//   debugger;
+//   var got = matrix.toStr();
+//   debugger;
+//   test.equivalent( got, exp );
+//
+//   test.close( '2D' );
 
 }
 
