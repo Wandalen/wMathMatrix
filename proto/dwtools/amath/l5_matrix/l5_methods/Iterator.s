@@ -63,7 +63,7 @@ function atomWiseReduceWithFlatVector( onVector )
 //
 
 /**
- * Method atomWiseReduceWithAtomHandler() executes the reducer callback {-onElement-} on each element of the current matrix.
+ * Method atomWiseReduceWithAtomHandler() executes the reducer callback {-onElement-} on each scalar of the current matrix.
  * Before iteration executes callback {-onBegin-} that prepare data, after iteration executes callback {-onEnd-} that normalize data.
  *
  * @example
@@ -82,7 +82,7 @@ function atomWiseReduceWithFlatVector( onVector )
  * // +4, +5
  *
  * @param { Function } onBegin - Callback that executes before iteration. It executes on options map with next fields : `args`, `container`, `filter`.
- * @param { Function } onElement - Callback that executes on options map for each element of the matrix.
+ * @param { Function } onElement - Callback that executes on options map for each scalar of the matrix.
  * To options map is added fields `key` and `element`, this fields change for each element.
  * @param { Function } onEnd - Callback that executes after iteration. It executes on options map with final values.
  * @returns { * } - Returns the value of field `result` in option map.
@@ -124,7 +124,7 @@ function atomWiseReduceWithAtomHandler( onBegin, onScalar, onEnd )
 //
 
 /**
- * Method atomWiseWithAssign() executes the reducer callback {-onScalar-} on each element of the current matrix.
+ * Method atomWiseWithAssign() executes the reducer callback {-onScalar-} on each scalar of the current matrix.
  * The call context of callback is current matrix.
  *
  * @example
@@ -147,7 +147,7 @@ function atomWiseReduceWithAtomHandler( onBegin, onScalar, onEnd )
  * // +0, +0,
  * // +0, +1
  *
- * @param { Function } onScalar - Callback that executes on options map for each element of the matrix.
+ * @param { Function } onScalar - Callback that executes on options map for each scalar of the matrix.
  * Options map includes next fields : `key`, `args`, `dstContainer`, `dstElement`, `srcElement`.
  * @param { * } args - Arguments for callback, it is linked to field `args` of options map.
  * @returns { Matrix } - Returns original matrix.
@@ -189,11 +189,11 @@ function atomWiseWithAssign( onScalar, args )
 //
 
 /**
- * Method AtomWiseHomogeneous() executes the reducer callback {-onScalar-} on each element of the current matrix.
+ * Method AtomWiseHomogeneous() executes the reducer callback {-onScalar-} on each scalar of the current matrix.
  * The call context of callback is current matrix.
  *
  * @param { MapLike } o - Options map.
- * @param { Function } o.onScalar - Callback that executes on each element of matrices.
+ * @param { Function } o.onScalar - Callback that executes on each scalar of matrices.
  * @param { Function } o.onScalarsBegin - Callback that executes before iteration.
  * @param { Function } o.onScalarsBegin - Callback that executes after iteration.
  * @param { Function } o.onVectorsBegin - Callback that executes before iteration.
@@ -411,23 +411,8 @@ AtomWiseHomogeneous.defaults =
 
 //
 
-function atomWiseZip( onScalar, dst, srcs )
-{
-  let self = this;
-  let o =
-  {
-    onScalar,
-    dst,
-    dstContainer : self,
-    srcs,
-  }
-  return self.AtomWiseZip( o )
-}
-
-//
-
 /**
- * Static routine AtomWiseZip() executes the reducer callback {-o.onScalar-} on each element of the description matrix {-o.dstContainer-} and the matrices in container {-o.srcs}.
+ * Method atomWiseZip() executes the reducer callback {-onScalar-} on each scalar of the current matrix and the matrices in container {-srcs-}.
  * The call context of callback is current matrix.
  *
  * @example
@@ -444,10 +429,71 @@ function atomWiseZip( onScalar, dst, srcs )
  * var onScalar = function( o )
  * {
  *   this.scalarSet( o.key, 0 );
+ *   o.dst.push( 1 )
  * };
- * var got = matrix.AtomWiseZip
+ * var dst = [];
+ * var got = matrix.atomWiseZip( onScalar, dst, [ src ] );
+ * console.log( got.toStr() );
+ * // log :
+ * // +0, +0,
+ * // +0, +0
+ * console.log( dst );
+ * // log : [ 1, 1, 1, 1 ]
+ *
+ * @param { Function } onScalar - Callback that executes for each scalar of matrix {-o.dstContainer-}.
+ * @param { * } dst - Destination instance, a part of field `args`.
+ * @param { Long } srcs - Container with source matrices.
+ * Callback accepts options map with next fields : `key`, `args`, `dstContainer`, `dstElement`, `srcContainers`, `srcElements`.
+ * @returns { Matrix } - Returns original matrix.
+ * @method atomWiseZip
+ * @throws { Error } If {-onScalar-} is not a routine.
+ * @throws { Error } If {-dst-} has undefined value.
+ * @throws { Error } If number of dimensions of current matrix is greater then two.
+ * @throws { Error } If {-srcs-} has undefined value.
+ * @throws { Error } If {-srcs-} contains not instance of Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function atomWiseZip( onScalar, dst, srcs )
+{
+  let self = this;
+  let o =
+  {
+    onScalar,
+    dst,
+    dstContainer : self,
+    srcs,
+  }
+  return self.AtomWiseZip( o )
+}
+
+//
+
+/**
+ * Static routine AtomWiseZip() executes the reducer callback {-o.onScalar-} on each scalar of the destination matrix {-o.dstContainer-} and the matrices in container {-o.srcs}.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   5, 5,
+ *   5, 5
+ * ]);
+ * var onScalar = function( o )
+ * {
+ *   this.scalarSet( o.key, 0 );
+ *   o.dst.push( 1 );
+ * };
+ * var got = _.Matrix.AtomWiseZip
  * ({
- *   dst : 1,
+ *   dst : [],
  *   dstContainer : matrix,
  *   srcs : [ src ],
  *   onScalar : onScalar,
@@ -456,14 +502,16 @@ function atomWiseZip( onScalar, dst, srcs )
  * // log :
  * // +0, +0,
  * // +0, +0
+ * console.log( dst );
+ * // log : [ 1, 1, 1, 1 ]
  *
  * @param { MapLike } o - Options map.
  * @param { * } o.dst - Destination instance, a part of field `args`.
  * @param { Matrix } o.dstContainer - Destination matrix.
  * @param { Long } o.srcs - Container with source matrices.
- * @param { Long } o.onScalar - Callback that executes for each element of matrix {-o.dstContainer-}.
+ * @param { Function } o.onScalar - Callback that executes for each scalar of matrix {-o.dstContainer-}.
  * Callback accepts options map with next fields : `key`, `args`, `dstContainer`, `dstElement`, `srcContainers`, `srcElements`.
- * @returns { Matrix } - Returns original matrix.
+ * @returns { Matrix } - Returns matrix {-o.dstContainer-}.
  * @throws { Error } If options map {-o-} is not MapLike.
  * @throws { Error } If options map {-o-} has extra options.
  * @throws { Error } If {-o.dst-} has undefined value.
@@ -537,6 +585,36 @@ AtomWiseZip.defaults =
 
 //
 
+/**
+ * Method elementEach() executes callback {-onElement-} on each element of the current matrix.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var onElement = function( e, i )
+ * {
+ *   if( i >= 1 )
+ *   e.mul( 2 );
+ * };
+ * var got = matrix.elementEach( onElement );
+ * console.log( got.toStr() );
+ * // log :
+ * // +1, +4,
+ * // +3, +8
+ *
+ * @param { Function } onElement - Callback that executes for each element of the matrix.
+ * It applies element, element index, arguments without callback.
+ * @returns { Matrix } - Returns original matrix.
+ * @method elementEach
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function elementEach( onElement )
 {
   let self = this;
@@ -559,6 +637,40 @@ function elementEach( onElement )
 }
 
 //
+
+/**
+ * Method elementsZip() executes callback {-onEach-} on each element of the current matrix and the matrix in argument {-matrix-}.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   5, 5,
+ *   5, 5
+ * ]);
+ * var onEach = function( e1, e2 )
+ * {
+ *   e1.add( e2 );
+ * };
+ * var got = matrix.elementsZip( onEach, src );
+ * console.log( got.toStr() );
+ * // log :
+ * // +6, +7,
+ * // +8, +9
+ *
+ * @param { Function } onEach - Callback that executes for each element of the matrix.
+ * It applies element, element index, arguments without callback.
+ * @returns { Matrix } - Returns original matrix.
+ * @method elementsZip
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function elementsZip( onEach, matrix )
 {
@@ -641,6 +753,50 @@ _lineEachCollecting.defaults =
 
 //
 
+/**
+ * Method colEachCollecting() executes callback {-onEach-} on argument {-args-}.
+ * Each iteration the first element of {-args-} changes to the next column of current matrix.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   5, 5,
+ *   5, 5
+ * ]);
+ * var onEach = function( e, m )
+ * {
+ *   m.eGet( 0 ).add( e );
+ *   return e.eGet( 0 );
+ * };
+ * var got = matrix.colEachCollecting( onEach, [ [], src ], 0 );
+ * console.log( got );
+ * // log : [ 1, 2 ]
+ * console.log( src.toStr() );
+ * // log :
+ * // +8,  +5,
+ * // +12, +5
+ *
+ * @param { Function } onEach - Callback that executes for container {-args-},
+ * the first element of {-args-} is column that corresponds to number of iteration.
+ * @param { Long } args - The container with arguments for {-onEach-} callback.
+ * @param { BoolLike } returningNumber - Defines type of result. If true, then routine returns VectorAdapter, otherwise, it returns original container type.
+ * @returns { VectorAdapter|Long } - Returns vector from first element of {-args-}.
+ * @method colEachCollecting
+ * @throws { Error } If arguments.length is not 3.
+ * @throws { Error } If {-onEach-} is not a Function.
+ * @throws { Error } If {-args-} is not a Long.
+ * @throws { Error } If {-returningNumber-} is not a BoolLike.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function colEachCollecting( onEach , args , returningNumber )
 {
   let self = this;
@@ -660,6 +816,50 @@ function colEachCollecting( onEach , args , returningNumber )
 }
 
 //
+
+/**
+ * Method rowEachCollecting() executes callback {-onEach-} on argument {-args-}.
+ * Each iteration the first element of {-args-} changes to the next row of current matrix.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   5, 5,
+ *   5, 5
+ * ]);
+ * var onEach = function( e, m )
+ * {
+ *   m.eGet( 0 ).add( e );
+ *   return e.eGet( 0 );
+ * };
+ * var got = matrix.rowEachCollecting( onEach, [ [], src ], 0 );
+ * console.log( got );
+ * // log : [ 1, 3 ]
+ * console.log( src.toStr() );
+ * // log :
+ * // +9,  +5,
+ * // +11, +5
+ *
+ * @param { Function } onEach - Callback that executes for container {-args-},
+ * the first element of {-args-} is row that corresponds to number of iteration.
+ * @param { Long } args - The container with arguments for {-onEach-} callback.
+ * @param { BoolLike } returningNumber - Defines type of result. If true, then routine returns VectorAdapter, otherwise, it returns original container type.
+ * @returns { VectorAdapter|Long } - Returns vector from first element of {-args-}.
+ * @method rowEachCollecting
+ * @throws { Error } If arguments.length is not 3.
+ * @throws { Error } If {-onEach-} is not a Function.
+ * @throws { Error } If {-args-} is not a Long.
+ * @throws { Error } If {-returningNumber-} is not a BoolLike.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function rowEachCollecting( onEach , args , returningNumber )
 {
