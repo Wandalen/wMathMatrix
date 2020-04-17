@@ -7,7 +7,7 @@
 Об'єкт класу `Matrix` можливо створити явним викилком конструктора.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -19,7 +19,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +2, +5,
 +3, +6,
 */
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 1, 3 ]
 */
@@ -34,7 +34,7 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 Якщо задати значення опції `inputTransposing : 1`, тоді ширина кроку буде порахована за альтернативним алгоритмом.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -46,7 +46,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +4,
 +5, +6,
 */
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
@@ -59,7 +59,7 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 Опція `inputTransposing` підказує конструктору, які порахувати ширину кроку, альтернативно можливо вказати ширину кроку явно:
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -71,7 +71,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +4,
 +5, +6,
 */
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
@@ -90,7 +90,7 @@ console.log( `effective strides :\n${ matrix._stridesEffective }` );
 Можливо задати будь-які значення ширини кроку ( в межах допустимих ) при її конструюванні.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -114,7 +114,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 ### Негативна ширина кроку
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -141,7 +141,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 
 ```js
 var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -154,7 +154,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +4, +5,
 +7, +8,
 */
-var matrixTransposed = _.Matrix
+var matrixTransposed = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 3 ],
@@ -174,7 +174,7 @@ console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
 
 ```js
 var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -204,7 +204,7 @@ console.log( `transposed matrix :\n${ matrix.toStr() }` );
 ### Підматриці
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ],
   dims : [ 4, 3 ],

@@ -7,7 +7,7 @@ How to use the option <code>strides</code> to interpret a buffer as a matrix.
 An object of the class `Matrix` could be created by an explicit call of the constructor.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -19,7 +19,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +2, +5,
 +3, +6,
 */
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 1, 3 ]
 */
@@ -34,7 +34,7 @@ By default, the elements in the buffer are in such sequence:
 Option `inputTransposing : 1` alter algorithm of strides calculation.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -46,7 +46,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +4,
 +5, +6,
 */
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
@@ -59,7 +59,7 @@ With `inputTransposing : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the
 The option `inputTransposing` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -71,7 +71,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +3, +4,
 +5, +6,
 */
-console.log( `effective strides :\n${ matrix._stridesEffective }` );
+console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
@@ -90,7 +90,7 @@ Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*
 The value of strides could be specified during construction.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -114,7 +114,7 @@ The diagram shows how scalars of the matrix are put in the buffer `buffer`. Buff
 ### Negative strides
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -141,7 +141,7 @@ The matrix can be transposed without copying. It is possible to transpose a matr
 
 ```js
 var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -154,7 +154,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 +4, +5,
 +7, +8,
 */
-var matrixTransposed = _.Matrix
+var matrixTransposed = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 3 ],
@@ -174,7 +174,7 @@ That is how the method `matrix.transpose()` works.
 
 ```js
 var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -204,7 +204,7 @@ The diagram above shows how the buffer is interpreted into the matrix. When chan
 ### Submatrices
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ],
   dims : [ 4, 3 ],
