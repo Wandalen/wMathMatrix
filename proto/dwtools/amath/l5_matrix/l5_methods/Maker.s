@@ -1708,10 +1708,10 @@ function fromAxisAndAngle( axis, angle )
 //
 
 /**
- * The method fromEuler() transforms euler groups and applies it to current matrix.
+ * The method fromAxisAndAngleWithScale() calculates 3D coordinates of a dot by using axis values {-axis-} and angle {-angle-}.
+ * The routine calculates scale from {-axis-} and uses it in calculation of coordinates.
  *
  * @example
- * var euler = [ -1.1460587579332022, 0.42747914557614075, -2.8632929945846817, 0, 1, 2 ];
  * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3,
@@ -1719,34 +1719,24 @@ function fromAxisAndAngle( axis, angle )
  *   +0, +0, +6,
  * ]);
  *
- * var got = matrix.fromEuler( axis, 30 );
+ * var axis = [ 1, 4, 5 ];
+ * var got = matrix.fromAxisAndAngleWithScale( axis, 30 );
  * console.log( got.toStr() );
  * // log :
- * // -0.875  0.250  0.415
- * //  0.250 -0.500  0.829
- * //  0.415  0.829  0.375
+ * //  1.130 5.462 -3.300
+ * // -4.418 3.088 3.598
+ * //  4.605 1.622 4.262
  *
- * @param { Long } euler - The euler group.
+ * @param { VectorAdapter|Long } axis - The value for each axis.
+ * @param { Number } angle - An angle in 3D space.
  * @returns { Matrix } - Returns original matrix with transformed scalars.
- * @method fromEuler
- * @throws { Error } If arguments.length is not 1.
+ * @method fromAxisAndAngleWithScale
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If axis.length is not 3.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
-
-function fromEuler( euler )
-{
-  let self = this;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  _.euler.toMatrix( euler, self );
-
-  return self;
-}
-
-//
 
 function fromAxisAndAngleWithScale( axis, angle )
 {
@@ -1804,9 +1794,75 @@ function fromAxisAndAngleWithScale( axis, angle )
   return self;
 }
 
+//
+
+/**
+ * The method fromEuler() transforms euler groups and applies it to current matrix.
+ *
+ * @example
+ * var euler = [ -1.1460587579332022, 0.42747914557614075, -2.8632929945846817, 0, 1, 2 ];
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ * ]);
+ *
+ * var got = matrix.fromEuler( axis, 30 );
+ * console.log( got.toStr() );
+ * // log :
+ * // -0.875  0.250  0.415
+ * //  0.250 -0.500  0.829
+ * //  0.415  0.829  0.375
+ *
+ * @param { Long } euler - The euler group.
+ * @returns { Matrix } - Returns original matrix with transformed scalars.
+ * @method fromEuler
+ * @throws { Error } If arguments.length is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function fromEuler( euler )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  _.euler.toMatrix( euler, self );
+
+  return self;
+}
+
 // --
 // projector
 // --
+
+/**
+ * The method normalProjectionMatrixMake() creates new matrix that is a normal projection to current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ * ]);
+ *
+ * var got = matrix.normalProjectionMatrixMake();
+ * console.log( got.toStr() );
+ * // log :
+ * // 1.000   0.000  0.000
+ * // -0.500  0.250  0.000
+ * // -0.083 -0.208  0.167
+ *
+ * @returns { Matrix } - Returns cloned matrix that is a normal projection to current matrix.
+ * @method normalProjectionMatrixMake
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function normalProjectionMatrixMake()
 {
@@ -1816,6 +1872,39 @@ function normalProjectionMatrixMake()
 }
 
 //
+
+/**
+ * The method normalProjectionMatrixGet() calculates the normal projection of source matrix {-src-} to current matrix.
+ * The result of calculation applies to current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2, 3,
+ *   0, 4, 5,
+ *   0, 0, 6,
+ * ]);
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   0,  1,  2,  3,
+ *   4,  5,  6,  7,
+ *   8,  9,  10, 11,
+ *   12, 13, 14, 15,
+ * ]);
+ *
+ * matrix.normalProjectionMatrixGet( src );
+ * console.log( matrix.toStr() );
+ * // log :
+ * // 1.000 -0.500 -0.083
+ * // 0.000  0.250 -0.208
+ * // 0.000  0.000  0.167
+ *
+ * @returns { Matrix } - Returns cloned matrix that is a normal projection to current matrix.
+ * @method normalProjectionMatrixGet
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function normalProjectionMatrixGet( src )
 {
@@ -2385,6 +2474,7 @@ let Extension =
   fromQuatWithScale,
 
   fromAxisAndAngle,
+  fromAxisAndAngleWithScale,
 
   fromEuler,
 
