@@ -7610,7 +7610,6 @@ function submatrix( test )
 
 function subspace( test )
 {
-  debugger;
 
   var expected = _.Matrix.Make([ 2, 2 ]).copy
   ([
