@@ -398,7 +398,7 @@ function MakeIdentity4( src )
  *
  * @example
  * var got = new _.Matrix.MakeDiagonal( [ 1, 2, 3 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +1 +0 +0
  * // +0 +2 +0
@@ -465,7 +465,7 @@ function MakeDiagonal( diagonal )
  * });
  *
  * var got = _.Matrix.MakeSimilar( matrix );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +0 +0 +0
  * // +0 +0 +0
@@ -564,7 +564,7 @@ function MakeSimilar( m, dims )
  * });
  *
  * var got = matrix.makeSimilar();
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +0 +0 +0
  * // +0 +0 +0
@@ -605,7 +605,7 @@ function makeSimilar( dims ) /* aaa : jsdoc */ /* Dmytro : documented */
  *   zeroing : 0,
  * });
  *
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +1
  * // +2
@@ -845,18 +845,18 @@ function MakeColZeroed( buffer )
  *
  * @example
  * var got = _.Matrix.MakeRow( 3 );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log : +0, +0, +0,
  *
  * @example
  * var got = _.Matrix.MakeRow( [ 1, 2, 0 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log : +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRow( buffer );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log : -2.000, 0.000, -0.250,
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
@@ -888,18 +888,18 @@ function MakeRow( buffer )
  *
  * @example
  * var got = _.Matrix.MakeRowZeroed( 3 );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log : +0, +0, +0,
  *
  * @example
  * var got = _.Matrix.MakeRowZeroed( [ 1, 2, 0 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log : +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRowZeroed( buffer );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log : -2.000, 0.000, -0.250,
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
@@ -1099,7 +1099,7 @@ function FromVector( src )
  *
  * @example
  * var got = _.Matrix.FromScalar( 2, [ 3, 3 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +2 +2 +2
  * // +2 +2 +2
@@ -1144,7 +1144,7 @@ function FromScalar( scalar, dims )
  *
  * @example
  * var got = _.Matrix.FromScalarForReading( 2, [ 3, 3 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +2 +2 +2
  * // +2 +2 +2
@@ -1209,7 +1209,7 @@ function FromScalarForReading( scalar, dims )
  *   +0, +0, +6,
  * ]);
  * var got = _.Matrix.From( src, [ 3, 3 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +1 +2 +3
  * // +0 +4 +5
@@ -1278,7 +1278,7 @@ function From( src, dims )
  * // +0 +0 +0
  *
  * var got = _.Matrix.FromForReading( 2, [ 3, 3 ] );
- * console.log( got );
+ * console.log( got.toStr() );
  * // log :
  * // +2 +2 +2
  * // +2 +2 +2
@@ -1329,6 +1329,46 @@ function FromForReading( src, dims )
 
 //
 
+/**
+ * The method FromTransformations() converts provided position {-position-}, quaternion {-quaternion-}, scale {-scale-} values
+ * and applies it to destination matrix {-dst-}.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   +1, +2, +3, +1,
+ *   +0, +4, +5, +1,
+ *   +0, +0, +6, +1,
+ *   +0, +0, +6, +1,
+ * ]);
+ *
+ * var position = [ 1, 2, 3 ];
+ * var quaternion = [ 0, 0, 0, 1 ];
+ * var scale = [ 1, 1, 1 ];
+ * var got = _.Matrix.FromTransformations( matrix, position, quaternion, scale );
+ * console.log( got.toStr() );
+ * // log :
+ * // +1 +0 +0 +1
+ * // +0 +1 +0 +2
+ * // +0 +0 +1 +3
+ * // +0 +0 +0 +1
+ *
+ * @param { Matrix|Null } dst - Destination matrix.
+ * @param { VectorAdapter|Long } position - Position.
+ * @param { VectorAdapter|Long } quaternion - Quaternion.
+ * @param { VectorAdapter|Long } scale - Scale.
+ * @returns { Matrix } - Returns destination matrix with result of transformation by quaternion, scale and position.
+ * @method FromTransformations
+ * @throws { Error } If arguments.length is less then 3 or greater then 4.
+ * @throws { Error } If {-dst-} is not square matrix `4x4`.
+ * @throws { Error } If quaternion.length is not 4.
+ * @throws { Error } If scale.length is not 3.
+ * @throws { Error } If position.length is not 3.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function FromTransformations( dst, position, quaternion, scale ) /* qqq : add jsdoc */
 {
 
@@ -1365,7 +1405,7 @@ function FromTransformations( dst, position, quaternion, scale ) /* qqq : add js
  * to the new instance of Matrix.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3, +1,
  *   +0, +4, +5, +1,
@@ -1377,21 +1417,22 @@ function FromTransformations( dst, position, quaternion, scale ) /* qqq : add js
  * var quaternion = [ 0, 0, 0, 1 ];
  * var scale = [ 1, 1, 1 ];
  * var got = matrix.fromTransformations( position, quaternion, scale );
- * console.log( got );
- * // log
- *   +1, +0, +0, +1,
- *   +0, +1, +0, +2,
- *   +0, +0, +1, +3,
- *   +0, +0, +0, +1,
+ * console.log( got.toStr() );
+ * // log :
+ * // +1 +0 +0 +1
+ * // +0 +1 +0 +2
+ * // +0 +0 +1 +3
+ * // +0 +0 +0 +1
  *
- * @param { VectorAdapter|Long } position - the instance of VectorAdapter or Long.
- * @param { VectorAdapter|Long } quaternion - the instance of VectorAdapter or Long.
- * @param { VectorAdapter|Long } scale - the instance of VectorAdapter or Long.
- * @returns { Matrix } - Returns the new instance of Matrix.
+ * @param { VectorAdapter|Long } position - Position.
+ * @param { VectorAdapter|Long } quaternion - Quaternion.
+ * @param { VectorAdapter|Long } scale - Scale.
+ * @returns { Matrix } - Returns current matrix with result of transformation by quaternion, scale and position.
  * @method fromTransformations
- * @throws { Error } If method called by not an instance of matrix constructor.
- * @throws { Error } If {-quaternion-} length is not 4.
- * @throws { Error } If (arguments.length) is not 3.
+ * @throws { Error } If current matrix is not square matrix `4x4`.
+ * @throws { Error } If quaternion.length is not 4.
+ * @throws { Error } If scale.length is not 3.
+ * @throws { Error } If position.length is not 3.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1415,11 +1456,10 @@ function fromTransformations( position, quaternion, scale )
 //
 
 /**
- * The method fromQuat() converts quaternion values {-quaternion-},
- * to the new instance of Matrix, take the source from context.
+ * The method fromQuat() transforms current matrix by using quaternion {-quaternion-} transformation.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3, +1,
  *   +0, +4, +5, +1,
@@ -1429,20 +1469,20 @@ function fromTransformations( position, quaternion, scale )
  *
  * var quaternion = [ 0, 0, 0, 1 ];
  * var got = matrix.fromQuat( quaternion );
- * console.log( got );
- * // log
- *   +1, +0, +0, +0,
- *   +0, +1, +0, +0,
- *   +0, +0, +1, +0,
- *   +0, +0, +0, +1,
+ * console.log( got.toStr() );
+ * // log :
+ * // +1 +0 +0 +0
+ * // +0 +1 +0 +0
+ * // +0 +0 +1 +0
+ * // +0 +0 +0 +1
  *
- * @param { VectorAdapter|Long } quaternion - the instance of VectorAdapter or Long.
- * @returns { Matrix } - Returns the new instance of Matrix.
+ * @param { VectorAdapter|Long } quaternion - The quaternion to make transformation.
+ * @returns { Matrix } - Returns original matrix with transformed scalars.
  * @method fromQuat
- * @throws { Error } If (scalarsPerElement) of source matrix is less than 3.
- * @throws { Error } If (self.length) of source matrix is less than 3.
- * @throws { Error } If {-quaternion-} length is not 4.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If length of a row of current matrix is less than 3.
+ * @throws { Error } If number of columns of current matrix is less than 3.
+ * @throws { Error } If quaternion.length is not 4.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1497,11 +1537,11 @@ function fromQuat( q )
 //
 
 /**
- * The method fromQuatWithScale() converts quaternion values {-q-} with scale,
- * to the new instance of Matrix, take the source from context.
+ * The method fromQuatWithScale() transforms current matrix by using quaternion {-quaternion-} transformation.
+ * The scalars are transformed by using scale calculated from quaternion.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3, +1,
  *   +0, +4, +5, +1,
@@ -1511,19 +1551,20 @@ function fromQuat( q )
  *
  * var quaternion = [ 0, 2, 1, 1 ];
  * var got = matrix.fromQuatWithScale( quaternion );
- * console.log( got );
- * // log
- *   -1.633, -0.816, 1.633, 0.000,
- *   0.816, 1.633, 1.633, 0.000,
- *   -1.633, 1.633, -0.816, 0.000,
- *   0.000, 0.000, 0.000, 1.000,
+ * console.log( got.toStr() );
+ * // log :
+ * // -1.633 -0.816 +1.633 +0.000
+ * // +0.816 +1.633 +1.633 +0.000
+ * // -1.633 +1.633 -0.816 +0.000
+ * // +0.000 +0.000 +0.000 +1.000
  *
- * @param { VectorAdapter|Long } q - the instance of VectorAdapter or Long.
- * @returns { Matrix } - Returns the new instance of Matrix.
+ * @param { VectorAdapter|Long } q - The quaternion to make transformation.
+ * @returns { Matrix } - Returns original matrix with transformed scalars.
  * @method fromQuatWithScale
- * @throws { Error } If (scalarsPerElement) of source matrix is less than 3.
- * @throws { Error } If {-q-} length is not 4.
- * @throws { Error } If count of arguments less or more than one.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If length of a row of current matrix is less than 3.
+ * @throws { Error } If number of columns of current matrix is less than 3.
+ * @throws { Error } If quaternion.length is not 4.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1577,6 +1618,36 @@ function fromQuatWithScale( q )
 }
 
 //
+
+/**
+ * The method fromAxisAndAngle() calculates 3D coordinates of a dot by using axis values {-axis-} and angle {-angle-}.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ * ]);
+ *
+ * var axis = [ 1, 4, 5 ];
+ * var got = matrix.fromAxisAndAngle( axis, 30 );
+ * console.log( got.toStr() );
+ * // log :
+ * //  1.000 8.323  0.277
+ * // -1.557 13.686 17.903
+ * //  8.181 15.927 21.298
+ *
+ * @param { VectorAdapter|Long } axis - The value for each axis.
+ * @param { Number } angle - An angle in 3D space.
+ * @returns { Matrix } - Returns original matrix with transformed scalars.
+ * @method fromAxisAndAngle
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If axis.length is not 3.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function fromAxisAndAngle( axis, angle )
 {
@@ -1635,6 +1706,34 @@ function fromAxisAndAngle( axis, angle )
 }
 
 //
+
+/**
+ * The method fromEuler() transforms euler groups and applies it to current matrix.
+ *
+ * @example
+ * var euler = [ -1.1460587579332022, 0.42747914557614075, -2.8632929945846817, 0, 1, 2 ];
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   +1, +2, +3,
+ *   +0, +4, +5,
+ *   +0, +0, +6,
+ * ]);
+ *
+ * var got = matrix.fromEuler( axis, 30 );
+ * console.log( got.toStr() );
+ * // log :
+ * // -0.875  0.250  0.415
+ * //  0.250 -0.500  0.829
+ * //  0.415  0.829  0.375
+ *
+ * @param { Long } euler - The euler group.
+ * @returns { Matrix } - Returns original matrix with transformed scalars.
+ * @method fromEuler
+ * @throws { Error } If arguments.length is not 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function fromEuler( euler )
 {
