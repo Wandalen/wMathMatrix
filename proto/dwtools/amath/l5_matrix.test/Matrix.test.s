@@ -4561,8 +4561,6 @@ function toStr( test )
   var got = matrix.toStr();
   test.identical( got, exp );
 
-  test.open( '2D' );
-
   test.case = 'empty matrix, 2D';
   var matrix = _.Matrix.Make([ 0, 0 ]);
   var exp = '';
