@@ -409,7 +409,7 @@ AtomWiseHomogeneous.defaults =
   reducing : 0,
 }
 
-// }
+//
 
 function atomWiseZip( onScalar, dst, srcs )
 {
@@ -425,6 +425,59 @@ function atomWiseZip( onScalar, dst, srcs )
 }
 
 //
+
+/**
+ * Static routine AtomWiseZip() executes the reducer callback {-o.onScalar-} on each element of the description matrix {-o.dstContainer-} and the matrices in container {-o.srcs}.
+ * The call context of callback is current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   5, 5,
+ *   5, 5
+ * ]);
+ * var onScalar = function( o )
+ * {
+ *   this.scalarSet( o.key, 0 );
+ * };
+ * var got = matrix.AtomWiseZip
+ * ({
+ *   dst : 1,
+ *   dstContainer : matrix,
+ *   srcs : [ src ],
+ *   onScalar : onScalar,
+ * });
+ * console.log( got.toStr() );
+ * // log :
+ * // +0, +0,
+ * // +0, +0
+ *
+ * @param { MapLike } o - Options map.
+ * @param { * } o.dst - Destination instance, a part of field `args`.
+ * @param { Matrix } o.dstContainer - Destination matrix.
+ * @param { Long } o.srcs - Container with source matrices.
+ * @param { Long } o.onScalar - Callback that executes for each element of matrix {-o.dstContainer-}.
+ * Callback accepts options map with next fields : `key`, `args`, `dstContainer`, `dstElement`, `srcContainers`, `srcElements`.
+ * @returns { Matrix } - Returns original matrix.
+ * @throws { Error } If options map {-o-} is not MapLike.
+ * @throws { Error } If options map {-o-} has extra options.
+ * @throws { Error } If {-o.dst-} has undefined value.
+ * @throws { Error } If {-o.dstContainer-} is not a Matrix.
+ * @throws { Error } If number of dimensions of {-o.dstContainer-} is greater then two.
+ * @throws { Error } If {-o.srcs-} has undefined value.
+ * @throws { Error } If {-o.srcs-} contains not instance of Matrix.
+ * @throws { Error } If {-o.onScalar-} is not a routine.
+ * @static
+ * @function AtomWiseZip
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function AtomWiseZip( o )
 {
@@ -442,19 +495,19 @@ function AtomWiseZip( o )
 
   let op = Object.create( null );
   op.key = -1;
-  op.args = [ dst, srcs ];
+  op.args = [ o.dst, o.srcs ];
   op.dstContainer = self;
   op.dstElement = null;
-  op.srcContainers = srcs;
+  op.srcContainers = o.srcs;
   op.srcElements = [];
   Object.preventExtensions( op );
 
   /* */
 
-  for( let s = 0 ; s < srcs.length ; s++ )
+  for( let s = 0 ; s < o.srcs.length ; s++ )
   {
-    let src = srcs[ s ];
-    _.assert( srcs[ s ] instanceof Self );
+    let src = o.srcs[ s ];
+    _.assert( src instanceof Self );
   }
 
   /* */
@@ -465,10 +518,10 @@ function AtomWiseZip( o )
     op.key = [ c, r ];
     op.dstElement = self.scalarGet( op.key );
 
-    for( let s = 0 ; s < srcs.length ; s++ )
-    op.srcElements[ s ] = srcs[ s ].scalarGet( op.key );
+    for( let s = 0 ; s < o.srcs.length ; s++ )
+    op.srcElements[ s ] = o.srcs[ s ].scalarGet( op.key ); /* Dmytro : maybe it needs to push each element in array but not replace in cycle */
 
-    onScalar.call( self, op );
+    o.onScalar.call( self, op );
   }
 
   return self;
