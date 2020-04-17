@@ -51,12 +51,12 @@ function _BufferFrom( src )
 // --
 
 /**
- * Static routine Make(), creates a new instance of Matrix with defined dimensions {-dims-}.
+ * Static routine Make() creates a new instance of Matrix with defined dimensions {-dims-}.
  *
  * @example
  * var got = new _.Matrix.Make( [ 2, 3 ] );
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +0 +0 +0
  * // +0 +0 +0
  *
@@ -111,7 +111,7 @@ function Make( dims )
  *   3, 6, 8,
  * ]);
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +1 +3 +5
  * // +2 +4 +6
  * // +3 +6 +8
@@ -176,7 +176,7 @@ function MakeSquare( buffer )
  * @example
  * var got = new _.Matrix.MakeZero( 3 );
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +0 +0 +0
  * // +0 +0 +0
  * // +0 +0 +0
@@ -228,7 +228,7 @@ function MakeZero( dims )
  * @example
  * var got = new _.Matrix.MakeIdentity( 3 );
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +1 +0 +0
  * // +0 +1 +0
  * // +0 +0 +1
@@ -280,7 +280,7 @@ function MakeIdentity( dims )
  * @example
  * var got = new _.Matrix.MakeIdentity2();
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +1 +0
  * // +0 +1
  *
@@ -319,7 +319,7 @@ function MakeIdentity2( src )
  * @example
  * var got = new _.Matrix.MakeIdentity3();
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +1 +0 +0
  * // +0 +1 +0
  * // +0 +0 +1
@@ -359,7 +359,7 @@ _.assert( arguments.length === 0 || arguments.length === 1 );
  * @example
  * var got = new _.Matrix.MakeIdentity4();
  * console.log( got.toStr() );
- * //log :
+ * // log :
  * // +1 +0 +0 +0
  * // +0 +1 +0 +0
  * // +0 +0 +1 +0
@@ -394,22 +394,20 @@ function MakeIdentity4( src )
 //
 
 /**
- * Static routine MakeDiagonal() returns the new instance of Matrix with diagonal values provided by argument.
+ * Static routine MakeDiagonal() creates a new instance of Matrix with diagonal values defined by buffer {-diagonal-}.
  *
  * @example
- * var diagonal = [ 1, 2, 3 ];
- * var got = new _.Matrix.MakeDiagonal( diagonal );
+ * var got = new _.Matrix.MakeDiagonal( [ 1, 2, 3 ] );
  * console.log( got )
- * //log
- *   +1, +0, +0,
- *   +0, +2, +0,
- *   +0, +0, +3,
+ * // log :
+ * // +1 +0 +0
+ * // +0 +2 +0
+ * // +0 +0 +3
  *
- * @param { Array } diagonal - Array, source data.
- * @returns { Matrix } - Returns the new instance of Matrix with provided diagonal.
- * @throws { Error } If method called by not a matrix constructor and not a prototype of matrix constructor.
- * @throws { Error } If {-diagonal-} is not array.
- * @throws { Error } If (arguments.length) is not 1.
+ * @param { Array } diagonal - Source data.
+ * @returns { Matrix } - Returns a new instance of Matrix with provided diagonal.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-diagonal-} is not an Array.
  * @static
  * @function MakeDiagonal
  * @class Matrix
@@ -447,8 +445,9 @@ function MakeDiagonal( diagonal )
 //
 
 /**
- * Static routine MakeSimilar() makes and returns the similar instance of Matrix {-m-}.
- * If method executes with single argument, dimension takes from the source.
+ * Static routine MakeSimilar() makes a new instance of source instance {-m-}.
+ * The new instance has the same type of buffer as source buffer.
+ * If method executes with single argument, dimensions take from the source.
  *
  * @example
  * var buffer = new I32x
@@ -458,27 +457,32 @@ function MakeDiagonal( diagonal )
  *   1, 0, 0,
  * ]);
  *
- * var m = new _.Matrix
+ * var matrix = new _.Matrix
  * ({
- * buffer,
- * dims : [ 3, 3 ],
- * inputTransposing : 1,
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
  * });
  *
- * var got = new _.Matrix.MakeSimilar( m );
+ * var got = _.Matrix.MakeSimilar( matrix );
  * console.log( got )
- * //log
- *   +1, +2, +0,
- *   +0, +4, +1,
- *   +1, +0, +0,
+ * // log :
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * console.log( got !== matrix );
+ * // log : true
+ * console.log( got.buffer instanceof I32x );
+ * // log : true
  *
- * @param { Matrix } m - provided instance of Matrix.
- * @param { Array } dims - provided dimension of matrix instance.
- * @returns { Matrix } - Returns the instance of Matrix.
- * @throws { Error } If {-m-} is not an instance of Matrix.
- * @throws { Error } If {-dims-} is not array.
- * @throws { Error } If {-dims-} length is not 2.
- * @throws { Error } If method called without arguments.
+ * @param { Matrix|Long|VectorAdapter } m - Source instance.
+ * @param { Array } dims - Dimensions of new instance.
+ * @returns { Matrix|Long|VectorAdapter } - Returns the instance of source container with similar buffer.
+ * @throws { Error } If {-m-} neither is a Matrix, nor a Long, nor a VectorAdapter.
+ * @throws { Error } If {-dims-} is not an Array.
+ * @throws { Error } If {-dims-} length is not two.
+ * @throws { Error } If arguments.length is less then one and greater then two.
+ * @throws { Error } If {-m-} is a VectorAdapter and dims[ 0 ] is not 1.
  * @static
  * @function MakeSimilar
  * @class Matrix
@@ -486,7 +490,7 @@ function MakeDiagonal( diagonal )
  * @module Tools/math/Matrix
  */
 
-function MakeSimilar( m , dims )
+function MakeSimilar( m, dims )
 {
   let proto = this;
   let result;
@@ -539,14 +543,90 @@ function MakeSimilar( m , dims )
 
 //
 
-function makeSimilar( dims ) /* qqq : jsdoc */
+/**
+ * Method makeSimilar() makes a new instance of Matrix with initialized buffer.
+ * The buffer has the same type as the matrix buffer.
+ * If method executes with single argument, dimensions take from the matrix.
+ *
+ * @example
+ * var buffer = new I32x
+ * ([
+ *   1, 2, 0,
+ *   0, 4, 1,
+ *   1, 0, 0,
+ * ]);
+ *
+ * var matrix = new _.Matrix
+ * ({
+ *   buffer,
+ *   dims : [ 3, 3 ],
+ *   inputTransposing : 1,
+ * });
+ *
+ * var got = matrix.makeSimilar();
+ * console.log( got )
+ * // log :
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * console.log( got !== matrix );
+ * // log : true
+ * console.log( got.buffer instanceof I32x );
+ * // log : true
+ *
+ * @param { Array } dims - Dimensions of new instance.
+ * @returns { Matrix } - Returns a new instance of Matrix with initialized buffer.
+ * @method makeSimilar
+ * @throws { Error } If {-dims-} is not an Array.
+ * @throws { Error } If {-dims-} length is not two.
+ * @throws { Error } If arguments.length is greater then one.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function makeSimilar( dims ) /* aaa : jsdoc */ /* Dmytro : documented */
 {
   let self = this;
   _.assert( arguments.length === 0 || arguments.length === 1 );
-  return self.MakeSimilar( self , dims );
+  return self.MakeSimilar( self, dims );
 }
 
 //
+
+/**
+ * Static routine MakeLine() creates a new row matrix or a new column matrix
+ * in accordance to length and type of destination matrix.
+ *
+ * var got = _.Matrix.MakeLine
+ * ({
+ *   buffer : [ 1, 2, 3 ],
+ *   dimension : 0,
+ *   zeroing : 0,
+ * });
+ *
+ * console.log( got )
+ * // log :
+ * // +1
+ * // +2
+ * // +3
+ *
+ * @param { MapLike } o - Options map.
+ * @param { Array|BufferTyped|VectorAdapter|Matrix|Number } o.buffer - Source buffer.
+ * @param { Number } o.dimension - The index of dimension : 0 - column, 1 - row.
+ * @param { BoolLike } o.zeroing - Enables initializing of the buffer.
+ * @returns { Matrix } - Returns a row matrix or a column matrix.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If options map {-o-} is not a MapLike.
+ * @throws { Error } If options map {-o-} has extra options.
+ * @throws { Error } If {-o.buffer-} has not valid type.
+ * @throws { Error } If {-o.buffer-} is a Matrix and the o.buffer.dims[ o.dimension ] is not 1.
+ * @static
+ * @function MakeLine
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function MakeLine( o )
 {
@@ -656,38 +736,37 @@ MakeLine.defaults =
 //
 
 /**
- * Static routine MakeCol() makes the new instance of Matrix with single column from provided buffer {-buffer-}.
- * If argument {-buffer-} is number - returns filled zero's column.
+ * Static routine MakeCol() creates new column matrix from buffer {-buffer-}.
+ * If {-buffer-} is a Number, then it defines length of new column matrix.
  *
  * @example
  * var got = _.Matrix.MakeCol( 3 );
- * console.log( got )
- * //log
- *   +0,
- *   +0,
- *   +0,
+ * console.log( got.toStr() );
+ * // log :
+ * // +0
+ * // +0
+ * // +0
  *
  * @example
- * var buffer = new I32x( [ 1, 2, 0 ] );
- * var got = _.Matrix.MakeCol( buffer );
- * console.log( got )
- * //log
- *   +1,
- *   +2,
- *   +0,
+ * var got = _.Matrix.MakeCol( [ 1, 2, 0 ] );
+ * console.log( got.toStr() );
+ * // log :
+ * // +1
+ * // +2
+ * // +0
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeCol( buffer );
- * console.log( got )
- * //log
- *   -2.000,
- *    0.000,
- *   -0.250,
+ * console.log( got.toStr() );
+ * // log :
+ * // -2.000
+ * //  0.000
+ * // -0.250
  *
- * @param { VectorAdapter|BufferTyped|Array|Number } buffer - the instance of VectorAdapter, BufferTyped, Array or Number, provided values.
- * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
- * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, BufferTyped, Array or Number.
+ * @param { VectorAdapter|BufferTyped|Matrix|Array|Number } buffer - Source buffer.
+ * @returns { Matrix|VectorAdapter } - Returns a new column matrix.
+ * @throws { Error } If {-buffer-} has not valid type.
  * @static
  * @function MakeCol
  * @class Matrix
@@ -707,6 +786,47 @@ function MakeCol( buffer )
 
 //
 
+/**
+ * Static routine MakeColZeroed() creates new column matrix with initialized buffer.
+ * The column matrix creates from source buffer {-buffer-}.
+ * If {-buffer-} is a Number, then it defines length of new column matrix.
+
+ *
+ * @example
+ * var got = _.Matrix.MakeColZeroed( 3 );
+ * console.log( got.toStr() );
+ * // log :
+ * // +0
+ * // +0
+ * // +0
+ *
+ * @example
+ * var got = _.Matrix.MakeColZeroed( [ 1, 2, 0 ] );
+ * console.log( got.toStr() );
+ * // log :
+ * // +0
+ * // +0
+ * // +0
+ *
+ * @example
+ * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
+ * var got = _.Matrix.MakeColZeroed( buffer );
+ * console.log( got.toStr() );
+ * // log :
+ * // +0
+ * // +0
+ * // +0
+ *
+ * @param { VectorAdapter|BufferTyped|Matrix|Array|Number } buffer - Source buffer.
+ * @returns { Matrix } - Returns a new column matrix with initialized buffer.
+ * @throws { Error } If {-buffer-} has not valid type.
+ * @static
+ * @function MakeColZeroed
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function MakeColZeroed( buffer )
 {
   return this.MakeLine
@@ -720,31 +840,28 @@ function MakeColZeroed( buffer )
 //
 
 /**
- * Static routine MakeRow() makes row from provided buffer {-buffer-} and returns the new instance of Matrix or Vector.
- * If argument {-buffer-} is number - return filled zero's row.
+ * Static routine MakeRow() creates a new row matrix from source buffer {-buffer-}.
+ * If {-buffer-} is a Number, then it defines length of new row matrix.
  *
  * @example
  * var got = _.Matrix.MakeRow( 3 );
  * console.log( got )
- * //log +0, +0, +0,
+ * // log : +0, +0, +0,
  *
  * @example
- * var buffer = new I32x( [ 1, 2, 0 ] );
- * var got = _.Matrix.MakeRow( buffer );
+ * var got = _.Matrix.MakeRow( [ 1, 2, 0 ] );
  * console.log( got )
- * //log
- *    +1, +2, +0,
+ * // log : +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRow( buffer );
  * console.log( got )
- * //log
- *   -2.000, 0.000, -0.250,
+ * // log : -2.000, 0.000, -0.250,
  *
- * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, array or number, provided values.
- * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided row.
- * @throws { Error } If {-buffer-} is not instance of VectorAdapter, Array or Number.
+ * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
+ * @returns { Matrix|VectorAdapter } - Returns a new row matrix.
+ * @throws { Error } If {-buffer-} has not valid type.
  * @static
  * @function MakeRow
  * @class Matrix
@@ -765,24 +882,29 @@ function MakeRow( buffer )
 //
 
 /**
- * Static routine MakeRowZeroed() makes row from provided buffer {-buffer-} filled by zero and return new instance of Matrix or Vector.
+ * Static routine MakeRowZeroed() creates a new row matrix with initialized buffer.
+ * The row matrix creates from source buffer {-buffer-}.
+ * If {-buffer-} is a Number, then it defines length of new row matrix.
  *
  * @example
- * var buffer = new I32x( [ 1, 2, 0 ] );
+ * var got = _.Matrix.MakeRowZeroed( 3 );
+ * console.log( got )
+ * // log : +0, +0, +0,
  *
+ * @example
+ * var got = _.Matrix.MakeRowZeroed( [ 1, 2, 0 ] );
+ * console.log( got )
+ * // log : +1, +2, +0,
+ *
+ * @example
+ * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRowZeroed( buffer );
  * console.log( got )
- * //log
- *   +0, +0, +0,
+ * // log : -2.000, 0.000, -0.250,
  *
- * @example
- * var got = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
- * console.log( got )
- * //log 0.000, 0.000, 0.000,
- *
- * @param { VectorAdapter|Array|Number } buffer - the instance of VectorAdapter, Array or Number, dimension and provided values.
- * @returns { Matrix|VectorAdapter } - Returns the new instance of Matrix or VectorAdapter by provided column.
- * @throws { Error } If {-buffer-} is not an instance of VectorAdapter, Array or Number.
+ * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
+ * @returns { Matrix|VectorAdapter } - Returns a new row matrix with initialized buffer.
+ * @throws { Error } If {-buffer-} has not valid type.
  * @static
  * @function MakeRowZeroed
  * @class Matrix
@@ -803,6 +925,34 @@ function MakeRowZeroed( buffer )
 // --
 // converter
 // --
+
+/**
+ * Static routine ConvertToClass() converts source instance {-src-} to instance of destination class {-cls-}.
+ * If constructor of {-src-} and constructor {-cls-} are the same constructor, then routine returns instance without conversion.
+ * If {-src-} is an instance of Matrix, then it can be converted to Array, BufferTyped, VectorAdapter. Other instances can be
+ * converted to Matrix, Array, BufferTyped, VectorAdapter.
+ *
+ * @example
+ * var src = [ 1, 2 ];
+ * var got = _.Matrix.ConvertToClass( _.Matrix, src );
+ * console.log( got.toStr() );
+ * // log :
+ * // +1
+ * // +2
+ *
+ * @param { Function } cls - Constructor of destination class.
+ * @param { Matrix|VectorAdapter|Long } src - An instance for converting.
+ * @returns { Matrix|VectorAdapter|Array|BufferTyped } - Returns converted instance.
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-cls-} is not a constructor of class.
+ * @throws { Error } If {-cls-} is not valid constructor.
+ * @throws { Error } If {-src-} has incompatible type.
+ * @static
+ * @function ConvertToClass
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function ConvertToClass( cls, src )
 {
@@ -894,7 +1044,7 @@ function ConvertToClass( cls, src )
  * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
  * var got = new _.Matrix.FromVector( src );
  * console.log( got )
- * //log
+ * // log
  *   +1,
  *   +2,
  *   +3,
@@ -954,7 +1104,7 @@ function FromVector( src )
  * var dims = [ 3, 3 ];
  * var got = _.Matrix.FromScalar( scalar, dims )
  * console.log( got )
- * //log
+ * // log
  *   +2, +2, +2,
  *   +2, +2, +2,
  *   +2, +2, +2,
@@ -1024,7 +1174,7 @@ function FromScalarForReading( scalar, dims )
  * var dims = [ 3, 3 ];
  * var got = new _.Matrix.From( dims );
  * console.log( got )
- * //log
+ * // log
  *   +0, +0, +0,
  *   +0, +0, +0,
  *   +0, +0, +0,
@@ -1039,7 +1189,7 @@ function FromScalarForReading( scalar, dims )
  * var dims = [ 3, 3 ];
  * var got = new _.Matrix.From( src, dims );
  * console.log( got )
- * //log
+ * // log
  *   +1, +2, +3,
  *   +0, +4, +5,
  *   +0, +0, +6,
@@ -1169,7 +1319,7 @@ function FromTransformations( dst, position, quaternion, scale ) /* qqq : add js
  * var scale = [ 1, 1, 1 ];
  * var got = matrix.fromTransformations( position, quaternion, scale );
  * console.log( got )
- * //log
+ * // log
  *   +1, +0, +0, +1,
  *   +0, +1, +0, +2,
  *   +0, +0, +1, +3,
@@ -1221,7 +1371,7 @@ function fromTransformations( position, quaternion, scale )
  * var quaternion = [ 0, 0, 0, 1 ];
  * var got = matrix.fromQuat( quaternion );
  * console.log( got )
- * //log
+ * // log
  *   +1, +0, +0, +0,
  *   +0, +1, +0, +0,
  *   +0, +0, +1, +0,
@@ -1303,7 +1453,7 @@ function fromQuat( q )
  * var quaternion = [ 0, 2, 1, 1 ];
  * var got = matrix.fromQuatWithScale( quaternion );
  * console.log( got )
- * //log
+ * // log
  *   -1.633, -0.816, 1.633, 0.000,
  *   0.816, 1.633, 1.633, 0.000,
  *   -1.633, 1.633, -0.816, 0.000,
