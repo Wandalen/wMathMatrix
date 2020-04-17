@@ -7623,11 +7623,14 @@ function subspace( test )
   buffer[ i ] = i;
   var matrix = _.Matrix.Make( dims ).copy( buffer );
   console.log( matrix.toStr() );
-  debugger;
 
   var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
   console.log( subspace.toStr() );
   test.is( matrix.buffer === subspace.buffer );
+  debugger;
+  var long = subspace.toLong();
+  console.log( long );
+  debugger;
 
 }
 

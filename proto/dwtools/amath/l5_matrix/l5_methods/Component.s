@@ -583,6 +583,24 @@ function subspace()
 
 //
 
+function toLong()
+{
+  let self = this;
+  let strides = self.stridesEffective.slice();
+  let dims = self.dimsEffective.slice();
+
+  let result = _.longMake( self.buffer, self.scalarsPerMatrix );
+
+  self.scalarEach( ( it ) =>
+  {
+    result[ it.indexLogical ] = it.scalar;
+  });
+
+  return result;
+}
+
+//
+
 /**
  * Method transpose() transposes the matrix.
  *
@@ -660,6 +678,7 @@ let Extension =
   expand,
   submatrix,
   subspace,
+  toLong,
   transpose,
 
   //
