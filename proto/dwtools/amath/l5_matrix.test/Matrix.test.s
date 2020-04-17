@@ -7618,7 +7618,18 @@ function subspace( test )
     +11, +12,
   ]);
 
+  var buffer = [];
+  var dims = [ 1, 3, 1, 3, 1, 3 ];
+  for( let i = _.avector.reduceToProduct( dims )-1 ; i >= 0 ; i-- )
+  buffer[ i ] = i;
+  var matrix = _.Matrix.Make( dims ).copy( buffer );
+  console.log( matrix.toStr() );
   debugger;
+
+  var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
+  console.log( subspace.toStr() );
+  test.is( matrix.buffer === subspace.buffer );
+
 }
 
 // --
@@ -11604,7 +11615,7 @@ var Self =
     lineSwap,
     pivot,
     submatrix,
-    // subspace,
+    subspace,
 
     // operation
 
