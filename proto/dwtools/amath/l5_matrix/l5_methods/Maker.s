@@ -398,7 +398,7 @@ function MakeIdentity4( src )
  *
  * @example
  * var got = new _.Matrix.MakeDiagonal( [ 1, 2, 3 ] );
- * console.log( got )
+ * console.log( got );
  * // log :
  * // +1 +0 +0
  * // +0 +2 +0
@@ -465,7 +465,7 @@ function MakeDiagonal( diagonal )
  * });
  *
  * var got = _.Matrix.MakeSimilar( matrix );
- * console.log( got )
+ * console.log( got );
  * // log :
  * // +0 +0 +0
  * // +0 +0 +0
@@ -564,7 +564,7 @@ function MakeSimilar( m, dims )
  * });
  *
  * var got = matrix.makeSimilar();
- * console.log( got )
+ * console.log( got );
  * // log :
  * // +0 +0 +0
  * // +0 +0 +0
@@ -605,7 +605,7 @@ function makeSimilar( dims ) /* aaa : jsdoc */ /* Dmytro : documented */
  *   zeroing : 0,
  * });
  *
- * console.log( got )
+ * console.log( got );
  * // log :
  * // +1
  * // +2
@@ -845,18 +845,18 @@ function MakeColZeroed( buffer )
  *
  * @example
  * var got = _.Matrix.MakeRow( 3 );
- * console.log( got )
+ * console.log( got );
  * // log : +0, +0, +0,
  *
  * @example
  * var got = _.Matrix.MakeRow( [ 1, 2, 0 ] );
- * console.log( got )
+ * console.log( got );
  * // log : +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRow( buffer );
- * console.log( got )
+ * console.log( got );
  * // log : -2.000, 0.000, -0.250,
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
@@ -888,18 +888,18 @@ function MakeRow( buffer )
  *
  * @example
  * var got = _.Matrix.MakeRowZeroed( 3 );
- * console.log( got )
+ * console.log( got );
  * // log : +0, +0, +0,
  *
  * @example
  * var got = _.Matrix.MakeRowZeroed( [ 1, 2, 0 ] );
- * console.log( got )
+ * console.log( got );
  * // log : +1, +2, +0,
  *
  * @example
  * var buffer = _.vectorAdapter.fromLong( [ -2, +0, -0.25 ] )
  * var got = _.Matrix.MakeRowZeroed( buffer );
- * console.log( got )
+ * console.log( got );
  * // log : -2.000, 0.000, -0.250,
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
@@ -1038,24 +1038,21 @@ function ConvertToClass( cls, src )
 //
 
 /**
- * Static routine FromVector() converts provided vector {-src-} and return the new instance of Matrix.
+ * Static routine FromVector() converts provided vector {-src-} to a column matrix.
  *
  * @example
- * var src = _.vectorAdapter.fromLong( [ 1, 2, 3, 4 ] );
- * var got = new _.Matrix.FromVector( src );
- * console.log( got )
- * // log
- *   +1,
- *   +2,
- *   +3,
- *   +4,
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3 ] );
+ * var got = _.Matrix.FromVector( src );
+ * console.log( got.toStr() );
+ * // log :
+ * // +1
+ * // +2
+ * // +3
  *
- * @param { VectorAdapter|Long } src - an instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } src - Source vector.
  * @returns { Matrix } - Returns the new instance of Matrix.
- * @throws { Error } If method called by the instance of matrix constructor.
- * @throws { Error } If {-src-} is not an instance of VectorAdapter.
- * @throws { Error } If {-src-} is not a Long.
- * @throws { Error } If (arguments.length) is not 1.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-src-} is not a VectorAdapter or Long.
  * @static
  * @function FromVector
  * @class Matrix
@@ -1097,25 +1094,23 @@ function FromVector( src )
 //
 
 /**
- * Static routine FromScalar() return the new instance of Matrix filled by scalar value {-scalar-}.
+ * Static routine FromScalar() creates new instance of matrix with defined dimensions {-dims-}.
+ * The matrix fills by scalar {-scalar-}.
  *
  * @example
- * var scalar = 2;
- * var dims = [ 3, 3 ];
- * var got = _.Matrix.FromScalar( scalar, dims )
- * console.log( got )
- * // log
- *   +2, +2, +2,
- *   +2, +2, +2,
- *   +2, +2, +2,
+ * var got = _.Matrix.FromScalar( 2, [ 3, 3 ] );
+ * console.log( got );
+ * // log :
+ * // +2 +2 +2
+ * // +2 +2 +2
+ * // +2 +2 +2
  *
- * @param { Number } scalar - Number.
- * @param { Array } dims - Array, dimension of matrix.
- * @returns { Matrix } - Returns the new instance of Matrix.
- * @throws { Error } If method called by the instance of matrix constructor.
- * @throws { Error } If {-dims-} is not array.
- * @throws { Error } If {-dims-} length is not 2.
- * @throws { Error } If (arguments.length) is not 2.
+ * @param { Number } scalar - Source scalar.
+ * @param { Array } dims - Dimensions of matrix.
+ * @returns { Matrix } - Returns a new instance of Matrix filled by scalar value.
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-scalar-} is not a Number.
+ * @throws { Error } If {-dims-} is not an Array.
  * @static
  * @function FromScalar
  * @class Matrix
@@ -1143,6 +1138,34 @@ function FromScalar( scalar, dims )
 
 //
 
+/**
+ * Static routine FromScalarForReading() creates new instance of matrix filled by scalar {-scalar-}.
+ * The instance does not contain equivalent buffer but only a single element buffer for reading.
+ *
+ * @example
+ * var got = _.Matrix.FromScalarForReading( 2, [ 3, 3 ] );
+ * console.log( got );
+ * // log :
+ * // +2 +2 +2
+ * // +2 +2 +2
+ * // +2 +2 +2
+ * console.log( got.buffer.length );
+ * // log : 1
+ *
+ * @param { Number } scalar - Source scalar.
+ * @param { Array } dims - Dimensions of matrix.
+ * @returns { Matrix } - Returns a new instance of Matrix with specified dimension.
+ * The matrix is read-only, it contains a single element buffer.
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-scalar-} is not a Number.
+ * @throws { Error } If {-dims-} is not an Array.
+ * @static
+ * @function FromScalarForReading
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function FromScalarForReading( scalar, dims )
 {
 
@@ -1166,40 +1189,40 @@ function FromScalarForReading( scalar, dims )
 //
 
 /**
- * Static routine From() converts provided instance of Matrix or VectorAdapter {-src-} to instance of Matrix.
- * If provided and returned argument are same type - method returns original argument, in another case - returns the new instance.
- * If method executes without the source {-src-} - return instance of matrix, filled by zero with dimension {-dims-}.
+ * Static routine From() converts source instance {-src-} to instance of Matrix.
+ * If {-src-} is an instance of Matrix, then routine returns original source matrix.
+ * If {-src-} is null, then routine returns instance of matrix filled by zeros.
  *
  * @example
- * var dims = [ 3, 3 ];
- * var got = new _.Matrix.From( dims );
- * console.log( got )
- * // log
- *   +0, +0, +0,
- *   +0, +0, +0,
- *   +0, +0, +0,
+ * var got = _.Matrix.From( null, [ 3, 3 ] );
+ * console.log( got.toStr() );
+ * // log :
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * // +0 +0 +0
  *
  * @example
- * var src = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5,
  *   +0, +0, +6,
  * ]);
- * var dims = [ 3, 3 ];
- * var got = new _.Matrix.From( src, dims );
- * console.log( got )
- * // log
- *   +1, +2, +3,
- *   +0, +4, +5,
- *   +0, +0, +6,
+ * var got = _.Matrix.From( src, [ 3, 3 ] );
+ * console.log( got );
+ * // log :
+ * // +1 +2 +3
+ * // +0 +4 +5
+ * // +0 +0 +6
  *
- * @param { Matrix|VectorAdapter|Number|Null } src - instance of Matrix, VectorAdapter or Number.
- * @param { Array } dims - Array, dimension of matrix.
- * @returns { Matrix } - Returns the instance of Matrix.
- * @throws { Error } If method called by the instance of matrix constructor.
- * @throws { Error } If {-dims-} is not array.
- * @throws { Error } If (arguments.length) is not 1 or 2.
+ * @param { Matrix|VectorAdapter|Long|Number|Null } src - Source instance.
+ * @param { Array|Undefined } dims - Dimension of matrix.
+ * @returns { Matrix } - Returns an instance of Matrix converted from source instance {-src-}.
+ * @throws { Error } If arguments.length is less then 1 or greater then 2.
+ * @throws { Error } If {-dims-} neither is an Array nor Undefined.
+ * @throws { Error } If {-src-} is Null and {-dims-} is Undefined.
+ * @throws { Error } If {-src-} is a Number and {-dims-} is Undefined.
+ * @throws { Error } If {-src-} has not valid type.
  * @static
  * @function From
  * @class Matrix
@@ -1240,6 +1263,42 @@ function From( src, dims )
 }
 
 //
+
+/**
+ * Static routine FromForReading() converts source instance {-src-} to instance of Matrix.
+ * If {-src-} is an instance of Matrix, then routine returns original source matrix.
+ * If {-src-} is a Number, then routine returns read-only instance of matrix.
+ *
+ * @example
+ * var got = _.Matrix.FromForReading( null, [ 3, 3 ] );
+ * console.log( got.toStr() );
+ * // log :
+ * // +0 +0 +0
+ * // +0 +0 +0
+ * // +0 +0 +0
+ *
+ * var got = _.Matrix.FromForReading( 2, [ 3, 3 ] );
+ * console.log( got );
+ * // log :
+ * // +2 +2 +2
+ * // +2 +2 +2
+ * // +2 +2 +2
+ * console.log( got.buffer.length );
+ * // log : 1
+ *
+ * @param { Matrix|VectorAdapter|Long|Number } src - Source instance.
+ * @param { Array|Undefined } dims - Dimension of matrix.
+ * @returns { Matrix } - Returns an instance of Matrix converted from source instance {-src-}.
+ * @throws { Error } If arguments.length is less then 1 or greater then 2.
+ * @throws { Error } If {-dims-} neither is an Array nor Undefined.
+ * @throws { Error } If {-src-} is a Number and {-dims-} is Undefined.
+ * @throws { Error } If {-src-} has not valid type.
+ * @static
+ * @function FromForReading
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function FromForReading( src, dims )
 {
@@ -1318,7 +1377,7 @@ function FromTransformations( dst, position, quaternion, scale ) /* qqq : add js
  * var quaternion = [ 0, 0, 0, 1 ];
  * var scale = [ 1, 1, 1 ];
  * var got = matrix.fromTransformations( position, quaternion, scale );
- * console.log( got )
+ * console.log( got );
  * // log
  *   +1, +0, +0, +1,
  *   +0, +1, +0, +2,
@@ -1370,7 +1429,7 @@ function fromTransformations( position, quaternion, scale )
  *
  * var quaternion = [ 0, 0, 0, 1 ];
  * var got = matrix.fromQuat( quaternion );
- * console.log( got )
+ * console.log( got );
  * // log
  *   +1, +0, +0, +0,
  *   +0, +1, +0, +0,
@@ -1452,7 +1511,7 @@ function fromQuat( q )
  *
  * var quaternion = [ 0, 2, 1, 1 ];
  * var got = matrix.fromQuatWithScale( quaternion );
- * console.log( got )
+ * console.log( got );
  * // log
  *   -1.633, -0.816, 1.633, 0.000,
  *   0.816, 1.633, 1.633, 0.000,
