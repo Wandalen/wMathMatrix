@@ -22,7 +22,7 @@ The created matrix `matrix` has dimensions `2x2`, what is specified by the argum
 Matrix also could be created by explicitly calling the constructor. To do that, at least 3 options should be specified.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4 ],
   dims : [ 2, 2 ],

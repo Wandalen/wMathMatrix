@@ -22,7 +22,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 Матрицю можливо створити і за допомогою явного виклику конструктора. При цьому необхідно задати принаймні 3 поля.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4 ],
   dims : [ 2, 2 ],

@@ -5,7 +5,7 @@ var buffer1 = new I32x
   +1, -5, +2,
   -3, +4, +7,
 ]);
-var matrixA = _.Matrix
+var matrixA = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 3 ],
@@ -17,7 +17,7 @@ var buffer2 = new F32x
   +1.01, -5, +2,
   -3,    +4, +7.01,
 ]);
-var matrixB = _.Matrix
+var matrixB = new _.Matrix
 ({
   buffer : buffer2,
   dims : [ 2, 3 ],

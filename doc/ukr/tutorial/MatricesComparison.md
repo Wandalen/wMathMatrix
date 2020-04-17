@@ -45,7 +45,7 @@ var buffer1 = new F32x
   1, 2,
   3, 4,
 ]);
-var matrix1 = _.Matrix
+var matrix1 = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
@@ -58,7 +58,7 @@ var buffer2 = new F32x
   3, 4, 5, 0,
 ]);
 
-var matrix2 = _.Matrix
+var matrix2 = new _.Matrix
 ({
   buffer : buffer2,
   dims : [ 2, 2 ],
@@ -85,7 +85,7 @@ var buffer1 = new I32x
   +1, -5,
   -3, +4,
 ]);
-var matrix1 = _.Matrix
+var matrix1 = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
@@ -97,7 +97,7 @@ var buffer2 = new F32x
   +1, -5,
   -3, +4,
 ]);
-var matrix2 = _.Matrix
+var matrix2 = new _.Matrix
 ({
   buffer : buffer2,
   dims : [ 2, 2 ],
