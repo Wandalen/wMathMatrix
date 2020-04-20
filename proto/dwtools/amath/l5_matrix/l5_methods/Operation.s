@@ -740,6 +740,56 @@ function mulRight( src )
   return dst;
 }
 
+//
+// etc
+//
+
+/**
+  * Outer product of two vectors. Vectors stay unchanged.
+  *
+  * @param { v1 } - The first source vector.
+  * @param { v2 } - The second source vector.
+  * @function fromVectors_
+  * @throws { Error } An Error if ( this ) is not a matrix.
+  * @throws { Error } An Error if ( q ) is not a matrix.
+  * @throws { Error } An Error if ( r ) is not a matrix.
+  * @class Matrix
+  * @namespace wTools
+  * @module Tools/math/Matrix
+  */
+
+function OuterPorductOfVectors( v1, v2 )
+{
+  _.assert( arguments.length === 2 );
+  let matrix = _.Matrix.Make([ v1.length, v2.length ]);
+  matrix.outerPorductOfVectors( ... arguments );
+  return matrix;
+}
+
+//
+
+function outerPorductOfVectors( v1, v2 ) /* qqq : jsdoc */
+{
+  let self = this;
+
+  _.assert( _.vectorIs( v1 ) );
+  _.assert( _.vectorIs( v2 ) );
+  _.assert( arguments.length === 2 );
+
+  v1 = _.vectorAdapter.from( v1 );
+  v2 = _.vectorAdapter.from( v2 );
+
+  for( let i = 0; i < v1.length; i ++ )
+  {
+    for( let j = 0; j < v2.length; j ++ )
+    {
+      self.scalarSet( [ i, j ], v1.eGet( i )*v2.eGet( j ) );
+    }
+  }
+
+  return self;
+}
+
 // --
 // reducer
 // --
@@ -1148,6 +1198,11 @@ let Extension =
   mul,
   mulLeft,
   mulRight,
+
+  // etc
+
+  OuterPorductOfVectors,
+  outerPorductOfVectors,
 
   // reducer
 

@@ -79,8 +79,9 @@ function init( o )
   self[ stridesEffectiveSymbol ] = null;
   self[ lengthSymbol ] = null;
   self[ scalarsPerElementSymbol ] = null;
-  self[ scalarsPerSliceSymbol ] = null;
+  self[ scalarsPerSliceSymbol ] = null
   self[ scalarsPerMatrixSymbol ] = null;
+  self[ slicesPerMatrixSymbol ] = null;
   self[ occupiedRangeSymbol ] = null;
   self[ breadthSymbol ] = null;
   self[ dimsEffectiveSymbol ] = null;
@@ -503,7 +504,7 @@ function ExportStructure( o )
 
     o.dst.dims = null;
 
-    if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix ) /* xxx : check */
+    if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix ) /* zzz : check */
     {
     }
     else if( !srcIsInstance )
@@ -1313,6 +1314,24 @@ toStr.defaults.__proto__ = _.toStr.defaults;
 //
 // toStr.defaults.__proto__ = _.toStr.defaults;
 
+//
+
+function toLong() /* qqq : cover and jsdoc */
+{
+  let self = this;
+  let strides = self.stridesEffective.slice();
+  let dims = self.dimsEffective.slice();
+
+  let result = _.longMake( self.buffer, self.scalarsPerMatrix );
+
+  self.scalarEach( ( it ) =>
+  {
+    result[ it.indexLogical ] = it.scalar;
+  });
+
+  return result;
+}
+
 // --
 // size in bytes
 // --
@@ -1465,6 +1484,22 @@ function _scalarsPerMatrixGet()
 {
   let self = this;
   return self[ scalarsPerMatrixSymbol ];
+}
+
+//
+
+function _slicesPerMatrixGet()
+{
+  let self = this;
+  return self[ slicesPerMatrixSymbol ];
+}
+
+//
+
+function _nsliceGet()
+{
+  let self = this;
+  return self[ slicesPerMatrixSymbol ];
 }
 
 //
@@ -1677,7 +1712,7 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
 //  * @module Tools/math/Matrix
 //  */
 //
-// function flatGranuleIndexFrom( indexNd ) /* xxx : check */
+// function flatGranuleIndexFrom( indexNd )
 // {
 //   let self = this;
 //   let result = 0;
@@ -2201,7 +2236,7 @@ function _adjustAct()
 
   if( self.strides )
   {
-    self[ stridesEffectiveSymbol ] = self.StridesEffectiveAdjust( self.strides, self.dims ); /* StridesFrom */
+    self[ stridesEffectiveSymbol ] = self.StridesEffectiveAdjust( self.strides, self.dims );
   }
 
   /* dims */
@@ -2218,11 +2253,20 @@ function _adjustAct()
   self[ breadthSymbol ] = self.BreadthFrom( self.dims );
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
 
-  self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
-  self[ scalarsPerSliceSymbol ] = self.dimsEffective.length > 2 ? _.avector.reduceToProduct( self.dimsEffective.slice( 2 ) ) : 1;
   self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
+  self[ scalarsPerSliceSymbol ] = self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ];
+  self[ slicesPerMatrixSymbol ] = self.scalarsPerMatrix / ( self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ] );
 
-  /* xxx : optimize */
+  let lastDim = self.dims[ self.dims.length-1 ];
+  if( lastDim === Infinity || lastDim === 0 )
+  self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
+  else
+  self[ scalarsPerElementSymbol ] = self.scalarsPerMatrix / lastDim;
+
+  // self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
+  // self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
+  // self[ scalarsPerSliceSymbol ] = self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ];
+  // self[ slicesPerMatrixSymbol ] = self.dimsEffective.length > 2 ? _.avector.reduceToProduct( self.dimsEffective.slice( 2 ) ) : 1;
 
   // self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
   // return self[ scalarsPerMatrixSymbol ];
@@ -2241,7 +2285,7 @@ function _adjustAct()
 
   }
 
-  _.assert( self.stridesEffective.length >= 2 ); /* xxx : refactor the routine */
+  _.assert( self.stridesEffective.length >= 2 );
 
   /* buffer region */
 
@@ -2764,6 +2808,7 @@ let stridesEffectiveSymbol = Symbol.for( 'stridesEffective' );
 let lengthSymbol = Symbol.for( 'length' );
 let scalarsPerMatrixSymbol = Symbol.for( 'scalarsPerMatrix' );
 let scalarsPerSliceSymbol = Symbol.for( 'scalarsPerSlice' );
+let slicesPerMatrixSymbol = Symbol.for( 'slicesPerMatrix' );
 let scalarsPerElementSymbol = Symbol.for( 'scalarsPerElement' );
 let occupiedRangeSymbol = Symbol.for( 'occupiedRange' );
 
@@ -2895,8 +2940,10 @@ let ReadOnlyAccessors =
   scalarsPerRow : 'scalarsPerRow',
   ncol : 'ncol',
   nrow : 'nrow',
-  scalarsPerSlice : 'scalarsPerSlice',
+  scalarsPerSlice : 'scalarsPerSlice', /* qqq : cover */
   scalarsPerMatrix : 'scalarsPerMatrix',
+  slicesPerMatrix : 'slicesPerMatrix', /* qqq : cover */
+  nslice : 'nslice', /* qqq : cover */
 
   /* length */
 
@@ -2958,6 +3005,7 @@ let Extension =
   extractNormalized,
   ExportString,
   toStr,
+  toLong,
 
   // size in bytes
 
@@ -2984,6 +3032,8 @@ let Extension =
   _ncolGet,
   _scalarsPerSliceGet,
   _scalarsPerMatrixGet,
+  _slicesPerMatrixGet,
+  _nsliceGet,
 
   ScalarsPerMatrixForDimensions,
   NrowOf,
@@ -3081,6 +3131,11 @@ Object.defineProperty( Self, 'accuracySqr',
   get : function() { return this.vectorAdapter.accuracySqr },
 });
 
+Object.defineProperty( Self, 'accuracySqrt',
+{
+  get : function() { return this.vectorAdapter.accuracySqrt },
+});
+
 Object.defineProperty( Self.prototype, 'accuracy',
 {
   get : function() { return this.vectorAdapter.accuracy },
@@ -3089,6 +3144,11 @@ Object.defineProperty( Self.prototype, 'accuracy',
 Object.defineProperty( Self.prototype, 'accuracySqr',
 {
   get : function() { return this.vectorAdapter.accuracySqr },
+});
+
+Object.defineProperty( Self.prototype, 'accuracySqrt',
+{
+  get : function() { return this.vectorAdapter.accuracySqrt },
 });
 
 _.accessor.readOnly( Self.prototype, ReadOnlyAccessors );

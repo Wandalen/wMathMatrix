@@ -694,7 +694,7 @@ function elementsZip( onEach, matrix )
 
 //
 
-function _lineEachCollecting( o ) /* xxx : move out? */
+function _lineEachCollecting( o )
 {
   let self = this;
 
