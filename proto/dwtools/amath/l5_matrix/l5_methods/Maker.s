@@ -1363,7 +1363,7 @@ function FromForReading( src, dims )
  * @module Tools/math/Matrix
  */
 
-function FromTransformations( dst, position, quaternion, scale ) /* qqq : add jsdoc */
+function FromTransformations( dst, position, quaternion, scale ) /* aaa : add jsdoc */
 {
 
   if( arguments.length === 3 )

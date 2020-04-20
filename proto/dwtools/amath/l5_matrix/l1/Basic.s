@@ -1316,7 +1316,28 @@ toStr.defaults.__proto__ = _.toStr.defaults;
 
 //
 
-function toLong() /* qqq : cover and jsdoc */
+/**
+ * Method toLong() converts current matrix to a Long.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var got = matrix.toLong();
+ * console.log( got );
+ * // log : Float32Array [ 1, 3, 2, 4 ]
+ *
+ * @returns { Long } - Returns Long filled by scalars of current matrix.
+ * @method toLong
+ * @throws { Error } If method calls by not instance of Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function toLong() /* qqq : cover and jsdoc */ /* Dmytro : documented */
 {
   let self = this;
   let strides = self.stridesEffective.slice();
