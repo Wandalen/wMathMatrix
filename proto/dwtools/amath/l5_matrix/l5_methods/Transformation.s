@@ -50,7 +50,11 @@ let Self = _.Matrix;
  * The result of multiplication applies to destination vector.
  *
  * @example
- * var matrix = _.Matrix.makeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var dstVector = [ 1, 1 ];
  *
  * var got = matrix.matrixApplyTo( dstVector );
@@ -117,7 +121,7 @@ function matrixApplyTo( dstVector )
  * of current matrix and applies it to the destination vector {-dst-}.
  *
  * @example
- * var matrix = _.Matrix.make( [ 4, 4 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   1, 0, 0, 0,
  *   0, 1, 0, 0,
@@ -182,7 +186,7 @@ function matrixHomogenousApply( dstVector )
  * destination vector {-dstVector-}.
  *
  * @example
- * var matrix = _.Matrix.Make([ 3, 3 ]).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   4, 0, 1,
  *   0, 5, 2,
@@ -192,7 +196,7 @@ function matrixHomogenousApply( dstVector )
  * var dst = _.vectorAdapter.fromLong( [ 1, 1 ] );
  *
  * var got = matrix.matrixDirectionsApply( dstVector );
- * console.log
+ * console.log :
  * // log : [ 4, 5 ]
  * console.log( got === dst );
  * // log : true
@@ -235,7 +239,7 @@ function matrixDirectionsApply( dstVector )
  * The vector has length equivalent to row length decremented by one.
  *
  * @example
- * var buffer = _.Matrix.makeSquare
+ * var buffer = _.Matrix.MakeSquare
  * ([
  *   +2, +2, +2,
  *   +2, +3, +4,
@@ -279,7 +283,7 @@ function positionGet()
  * of the matrix. The column does not include last element.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +6, +4, +6,
  *   +8, +0, +4
@@ -290,7 +294,7 @@ function positionGet()
  *
  * var got = matrix.positionSet( src );
  * console.log( got );
- * // log 4.000, 4.000
+ * // log : 4.000, 4.000
  *
  * @param { Long|VectorAdapter } src - Source vector.
  * @returns { VectorAdapter } - Returns vector specified by the matrix.
@@ -319,7 +323,7 @@ function positionSet( src )
  * The method scaleMaxGet() returns maximum value of scale of the matrix.
  *
  * @example
- * var buffer = _.Matrix.make( [ 3, 3 ] ).copy
+ * var buffer = _.Matrix.MakeSquare
  * ([
  *   2,  2,  2,
  *   2,  3,  4,
@@ -329,7 +333,7 @@ function positionSet( src )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMaxGet( dst )
- * console.log( got )
+ * console.log( got);
  * // log : 3.605551275463989
  *
  * @param { Long|VectorAdapter } dst - Destination vector for scales.
@@ -355,7 +359,7 @@ function scaleMaxGet( dst )
  * The method scaleMeanGet() returns medium value of scale of the matrix.
  *
  * @example
- * var buffer = _.Matrix.make( [ 3, 3 ] ).copy
+ * var buffer = _.Matrix.MakeSquare
  * ([
  *   2,  2,  2,
  *   2,  3,  4,
@@ -365,7 +369,7 @@ function scaleMaxGet( dst )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMeanGet( dst )
- * console.log( got )
+ * console.log( got);
  * // log : 3.2169892001050897
  *
  * @param { VectorAdapter } dst - Destination vector for scales.
@@ -391,7 +395,7 @@ function scaleMeanGet( dst )
  * The method scaleMagGet() returns magnitude of matrix scale.
  *
  * @example
- * var buffer = _.Matrix.makeSquare
+ * var buffer = _.Matrix.MakeSquare
  * ([
  *   2,  2,  2,
  *   2,  3,  4,
@@ -401,8 +405,8 @@ function scaleMeanGet( dst )
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleMagGet( dst )
- * console.log( got )
- * // log : 4.58257569495584
+ * console.log( got);
+ * // log : 4.58257569495*-584
  *
  * @param { Long|VectorAdapter } dst - Destination vector for scales.
  * @returns { Number } - Returns magnitude of scale specified by the matrix.
@@ -428,11 +432,11 @@ function scaleMagGet( dst )
  * The method scaleGet() returns scale of the matrix.
  *
  * @example
- * var buffer = _.Matrix.makeSquare
+ * var buffer = _.Matrix.MakeSquare
  * ([
- *   +2, +2, +2,
- *   +2, +3, +4,
- *   +4, +3, -2,
+ *   2, 2, 2,
+ *   2, 3, 4,
+ *   4, 3, -2,
  * ]);
  *
  * var dst = _.vectorAdapter.fromLong( [ 0, 0 ] );
@@ -451,7 +455,7 @@ function scaleMagGet( dst )
  * @module Tools/math/Matrix
  */
 
-  function scaleGet( dst )
+function scaleGet( dst )
 {
   let self = this;
   let l = self.length-1;
@@ -484,7 +488,7 @@ function scaleMagGet( dst )
  * The method matrix.scaleSet() returns scaled instance of Matrix, takes source from context.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -494,11 +498,11 @@ function scaleMagGet( dst )
  * var src = _.vectorAdapter.fromLong( [ 0, 0 ] );
  *
  * var got = matrix.scaleSet( src );
- * console.log( got )
- * // log
- *  +0, +0,  +0.5,
- *  +0, +0, +0.33,
- *  +0, +0,    +1,
+ * console.log( got);
+ * // log :
+ * // +0 +0 +0.5
+ * // +0 +0 +0.33
+ * // +0 +0 +1
  *
  * @param { VectorAdapter|Long } src - Source vector.
  * @returns { Matrix } - Returns scaled instance of Matrix.
@@ -535,28 +539,22 @@ function scaleSet( src )
  * The method matrix.scaleAroundSet() returns scaled matrix instance of around provided vector {-center-}, takes source from context.
  *
  * @example
- * var buffer = new I32x
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   1, 2, 0,
  *   0, 4, 1,
  *   1, 0, 0,
  * ]);
- * var matrix = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
  *
  * var scale = _.vectorAdapter.fromLong( [ 0, 0 ] );
  * var center = _.vectorAdapter.fromLong( [ 2, 3 ] );
  *
  * var got = matrix.scaleAroundSet( src );
- * console.log( got )
- * // log
- *  +0, +0, +2,
- *  +0, +0, +3,
- *  +0, +0, +0,
+ * console.log( got);
+ * // log :
+ * // +0 +0 +2
+ * // +0 +0 +3
+ * // +0 +0 +0
  *
  * @param { VectorAdapter|Long } scale - the instance of VectorAdapter or Long.
  * @param { VectorAdapter|Long } center - the instance of VectorAdapter or Long.
@@ -609,25 +607,18 @@ function scaleAroundSet( scale, center )
  * The method matrix.scaleApply() changes source vector {-src-}, takes source from context.
  *
  * @example
- * var buffer = new I32x
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   1, 2, 0,
  *   0, 4, 1,
  *   1, 0, 0,
  * ]);
- * var matrix = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
  *
  * var src = _.vectorAdapter.fromLong( [ 2, 3 ] );
  *
  * var got = matrix.scaleApply( src );
- * console.log( got )
- * // log
- * undefined
+ * console.log( got);
+ * // log : undefined
  *
  * @param { VectorAdapter|Long } src - the instance of VectorAdapter or Long.
  * @returns { Undefined } - Returns not a value, change source vector {-src-}.
