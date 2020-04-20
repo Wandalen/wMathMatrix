@@ -3,7 +3,7 @@
 'use strict';
 
 let _ = _global_.wTools;
-let abs = Math.abs; /* xxx */
+let abs = Math.abs; /* zzz */
 let min = Math.min;
 let max = Math.max;
 let pow = Math.pow;
@@ -283,7 +283,8 @@ function _qrDecompositionHh( q, r )
     u = self.vectorAdapter.add( col, e.mul( c*col.mag() ) ).normalize();
 
     debugger;
-    let m = _.Matrix.Make( [ rows, cols ] ).fromVectors_( u, u );
+    // let m = _.Matrix.Make( [ rows, cols ] ).OuterPorductOfVectors( u, u );
+    let m = _.Matrix.OuterPorductOfVectors( u, u );
     let mi = identity.clone();
     debugger;
     // let h = mi.addAtomWise( m.mul( - 2 ) );
@@ -306,65 +307,18 @@ function _qrDecompositionHh( q, r )
   {
     for( let j = 0; j < cols; j++ )
     {
-      if( m.scalarGet( [ i, j ] ) < self.scalarGet( [ i, j ] ) - 1E-4 ) /* xxx */
+      debuggr;
+      if( m.scalarGet( [ i, j ] ) < self.scalarGet( [ i, j ] ) - m.accuracySqrt )
       {
         throw _.err( 'QR decomposition failed' );
       }
-      if( m.scalarGet( [ i, j ] ) > self.scalarGet( [ i, j ] ) + 1E-4 )
+      if( m.scalarGet( [ i, j ] ) > self.scalarGet( [ i, j ] ) + m.accuracySqrt )
       {
         throw _.err( 'QR decomposition failed' );
       }
     }
   }
 
-}
-
-//
-
-
-/**
-  * Create a matrix out of a two vectors multiplication. Vectors stay unchanged.
-  *
-  * @example
-  * // returns M = _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   0, 0, 0,
-  *   3, 3, 3,
-  *   6, 6, 6
-  * ]);
-  *
-  * var v1 =  self.vectorAdapter.from( [ 0, 1, 2 ] );
-  * var v2 =  self.vectorAdapter.from( [ 3, 3, 3 ] );
-  * matrix.fromVectors_( v1, v2 );
-  *
-  * @param { v1 } - The first source vector.
-  * @param { v2 } - The second source vector.
-  * @function fromVectors_
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @throws { Error } An Error if ( q ) is not a matrix.
-  * @throws { Error } An Error if ( r ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
-
-function fromVectors_( v1, v2 ) /* xxx : remove? */
-{
-
-  _.assert( _.vectorAdapterIs( v1 ) );
-  _.assert( _.vectorAdapterIs( v2 ) );
-
-  let matrix = _.Matrix.Make( [ v1.length, v2.length ] );
-
-  for( let i = 0; i < v1.length; i ++ )
-  {
-    for( let j = 0; j < v2.length; j ++ )
-    {
-      matrix.scalarSet( [ i, j ], v1.eGet( i )*v2.eGet( j ) );
-    }
-  }
-
-  return matrix;
 }
 
 //
@@ -511,8 +465,6 @@ let Extension =
   _qrIteration,
   _qrDecompositionGS,
   _qrDecompositionHh,
-
-  fromVectors_,
 
   svd,
 

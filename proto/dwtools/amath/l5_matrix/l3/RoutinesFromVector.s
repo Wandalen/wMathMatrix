@@ -147,8 +147,17 @@ function declareAtomWiseReducingRoutine( routine , rname )
   // if( op.kind !== 'atomWiseReducing' )
   // return;
 
-  if( op.generator.name !== '__operationReduceToScalar_functor' ) /* xxx */
-  return;
+  // if( op.generator.name !== '__operationReduceToScalar_functor' )
+  // {
+    if( op.returningBoolean )
+    return;
+
+  //   debugger;
+  //   _.assert( 0 );
+  //   return;
+  // }
+
+  _.assert( !op.returningBoolean );
 
   if( _.longIdentical( op.takingArguments, [ 1, 1 ] ) )
   return;

@@ -210,7 +210,7 @@ function isUpperTriangle( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = 1E-5;
+  accuracy = self.accuracySqrt;
 
   let cols = self.length;
   let rows = self.scalarsPerElement;
@@ -275,7 +275,7 @@ function isSymmetric( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = 1E-5; /* xxx */
+  accuracy = self.accuracySqrt;
 
   let cols = self.length;
   let rows = self.scalarsPerElement;

@@ -131,14 +131,12 @@ function Make( dims )
 
 function MakeSquare( buffer )
 {
-  // let proto = this ? this.Self.prototype : Self.prototype; /* xxx */
-  let proto = this.Self.prototype; /* xxx */
+  let proto = this.Self.prototype;
 
   let length = buffer;
   if( _.longIs( buffer ) )
   length = Math.sqrt( buffer.length );
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
   _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
@@ -194,10 +192,8 @@ function MakeSquare( buffer )
 
 function MakeZero( dims )
 {
-  // let proto = this ? this.Self.prototype : Self.prototype;
   let proto = this.Self.prototype;
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -256,7 +252,7 @@ function MakeIdentity( dims )
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesFromDimensions( dims, 0 );
-  let buffer = proto.long.longMakeZeroed( lengthFlat ); /* xxx */
+  let buffer = proto.long.longMakeZeroed( lengthFlat );
   let result = new proto.Self
   ({
     buffer,
@@ -298,7 +294,7 @@ function MakeIdentity( dims )
 
 function MakeIdentity2( src )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = this.Self.prototype;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
@@ -338,7 +334,7 @@ function MakeIdentity2( src )
 
 function MakeIdentity3( src )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = this.Self.prototype;
 
 _.assert( arguments.length === 0 || arguments.length === 1 );
 
@@ -379,7 +375,7 @@ _.assert( arguments.length === 0 || arguments.length === 1 );
 
 function MakeIdentity4( src )
 {
-  let proto = this ? this.Self.prototype : Self.prototype;
+  let proto = this.Self.prototype;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
@@ -550,14 +546,12 @@ function makeSimilar( dims ) /* qqq : jsdoc */
 
 function MakeLine( o )
 {
-  // let proto = this ? this.Self.prototype : Self.prototype;
   let proto = this.Self.prototype;
   let strides = null;
   let offset = 0;
   let length = ( _.longIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) ) ? o.buffer.length : o.buffer;
   let dims = null;
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( MakeLine, o );
@@ -2065,7 +2059,7 @@ let Extension =
 
   ConvertToClass,
 
-  FromVector, /* xxx : deprecate */
+  FromVector, /* zzz : deprecate */
   FromScalar,
   FromScalarForReading,
   From,
