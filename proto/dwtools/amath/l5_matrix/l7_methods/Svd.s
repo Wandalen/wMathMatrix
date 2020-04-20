@@ -30,14 +30,14 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * the eigenvectors of M. Returns the eigenvalues of M. Matrix stays unchanged.
  *
  * @example
- * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix =  _.Matrix.MakeSquare
  * ([
- *   1, -3,   3,
- *   3, - 5,  3,
- *   6, - 6,  4
+ *   1, 2,
+ *   2, 1,
  * ]);
- * matrix._qrIteration( q, r );
- * // returns : self.vectorAdapter.from( [ 4, -2, -2 ] );
+ * var got = matrix._qrIteration();
+ * console.log( got.toStr() );
+ * // returns : 3.000 -1.000
  *
  * @param { Matrix } q - The destination Q matrix.
  * @param { Matrix } r - The destination R matrix.
