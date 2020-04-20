@@ -125,29 +125,29 @@ function _qrIteration( q, r )
  * upper triangular, and Q is orthogonal. Matrix stays unchanged.
  *
  * @example
- * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
- * ([
- *   12, -51,  4,
- *   6,   167, -68,
- *   -4, -24,  -41,
- * ]);
- * matrix._qrDecompositionGS( q, r );
+ * test.description = 'Matrix with one repeated eigenvalue 3x3';
  *
- * // returns R :
- * // _.Matrix.Make( [ 3, 3 ] ).copy
- * // ([
- * //   14, 34.714287,   -14,
- * //   0,  172.803116,  -58.390148,
- * //   0,  0,           52.111328,
- * // ]);
- * //
- * // returns Q :
- * // _.Matrix.Make( [ 3, 3 ] ).copy
- * // ([
- * //   0.857143,  -0.467324, -0.216597,
- * //   0.428571,  0.880322,  -0.203369,
- * //   -0.285714, -0.081489, -0.954844
- * // ]);
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   12, -51, 4,
+ *   6,  167, -68,
+ *   -4, -24, -41,
+ * ]);
+ * var q = _.Matrix.Make( [ 3, 3 ] );
+ * var r = _.Matrix.Make( [ 3, 3 ] );
+ * matrix.qrDecompositionGS( q, r );
+ *
+ * console.log( q.toStr() );
+ * // log :
+ * // 0.857143, -0.467324, -0.216597,
+ * // 0.428571, 0.880322, -0.203369,
+ * // -0.285714, -0.081489, -0.954844
+ *
+ * console.log( q.toStr() );
+ * // log :
+ * // 14, 34.714287,  -14,
+ * // 0,  172.803116, -58.390148,
+ * // 0,  0,          52.111328
  *
  * @param { Matrix } q - The destination Q matrix.
  * @param { Matrix } r - The destination R matrix.
