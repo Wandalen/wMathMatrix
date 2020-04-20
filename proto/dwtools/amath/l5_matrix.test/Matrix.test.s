@@ -730,8 +730,11 @@ function clone( test )
 
   test.case = 'copy buffer and dims'; /* */
 
+  _global_.debugger = true;
+  debugger;
   a.dims = [ 1, 3 ];
-  a./*copyResetting*/copy({ buffer : new F32x([ 3, 4, 5 ]), dims : [ 3, 1 ] });
+  a.copy({ buffer : new F32x([ 3, 4, 5 ]), dims : [ 3, 1 ] });
+  debugger;
 
   test.identical( a.size, 12 );
   test.identical( a.sizeOfElementStride, 12 );
@@ -753,7 +756,7 @@ function clone( test )
   test.case = 'copy dims and buffer'; /* */
 
   a.dims = [ 1, 3 ];
-  a./*copyResetting*/copy({ dims : [ 3, 1 ], buffer : new F32x([ 3, 4, 5 ]) });
+  a.copy({ dims : [ 3, 1 ], buffer : new F32x([ 3, 4, 5 ]) });
 
   test.identical( a.size, 12 );
   test.identical( a.sizeOfElementStride, 12 );
@@ -1035,6 +1038,8 @@ function make( test )
 
     test.case = 'matrix with dimensions without stride, transposing'; /* */
 
+    debugger;
+    _global_.debugger = 1;
     var m = new _.Matrix
     ({
       inputTransposing : 1,
@@ -1046,6 +1051,7 @@ function make( test )
         4, 5, 6,
       ]),
     });
+    debugger;
 
     logger.log( 'm\n' + _.toStr( m ) );
 
@@ -1400,7 +1406,9 @@ function make( test )
 
     }
 
-    test.case = 'construct empty matrix with long column, non transposing'; /* */
+    /* */
+
+    test.case = 'construct empty matrix with long column, non transposing';
 
     function checkEmptyMatrixWithLongColNonTransposing( m )
     {
@@ -1462,19 +1470,22 @@ function make( test )
     checkEmptyMatrixWithLongColNonTransposing( m );
     test.identical( m.strides, null );
 
-    test.case = 'change by empty buffer of empty matrix with long column, non transposing'; /* */
+    test.description = 'change by empty buffer of empty matrix with long column, non transposing';
 
     m.buffer = new I32x();
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
 
-    test.case = 'change by empty buffer of empty matrix with long column, non transposing, with copy'; /* */
+    test.description = 'change by empty buffer of empty matrix with long column, non transposing, with copy';
 
+    debugger;
+    _global_.debugger = true;
     m.copy({ buffer : o.arrayMake(), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
+    debugger;
 
-    test.case = 'change buffer of empty matrix with long column, non transposing'; /* */
+    test.description = 'change buffer of empty matrix with long column, non transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1511,7 +1522,7 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 6 );
     test.identical( m.reduceToProductAtomWise(), 6 );
 
-    test.case = 'change buffer of not empty matrix with long column, non transposing'; /* */
+    test.description = 'change buffer of not empty matrix with long column, non transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1548,7 +1559,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 21 );
     test.identical( m.reduceToProductAtomWise(), 720 );
 
-    test.case = 'construct empty matrix with long column, transposing'; /* */
+    /* */
+
+    test.case = 'construct empty matrix with long column, transposing';
 
     function checkEmptyMatrixWithLongColTransposing( m )
     {
@@ -1605,7 +1618,9 @@ function make( test )
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
-    test.case = 'change by empty buffer of empty matrix with long column, transposing'; /* */
+    /* */
+
+    test.description = 'change by empty buffer of empty matrix with long column, transposing';
 
     var m = new _.Matrix
     ({
@@ -1617,13 +1632,17 @@ function make( test )
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
-    test.case = 'change by empty buffer of empty matrix with long column, transposing, by copy'; /* */
+    /* */
+
+    test.description = 'change by empty buffer of empty matrix with long column, transposing, by copy';
 
     m.copy({ buffer : o.arrayMake([]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
-    test.case = 'change buffer of empty matrix with long column, transposing'; /* */
+    /* */
+
+    test.description = 'change buffer of empty matrix with long column, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1660,7 +1679,7 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 6 );
     test.identical( m.reduceToProductAtomWise(), 6 );
 
-    test.case = 'change buffer of empty matrix with long column, transposing'; /* */
+    test.description = 'change buffer of empty matrix with long column, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1697,7 +1716,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 21 );
     test.identical( m.reduceToProductAtomWise(), 720 );
 
-    test.case = 'construct empty matrix with long row, transposing'; /* */
+    /* */
+
+    test.case = 'construct empty matrix with long row, transposing';
 
     function checkEmptyMatrixWithLongRowTransposing( m )
     {
@@ -1756,7 +1777,9 @@ function make( test )
     checkEmptyMatrixWithLongRowTransposing( m );
     test.shouldThrowErrorSync( () => m.buffer = new I32x() );
 
-    test.case = 'change by empty buffer of empty matrix with long row, transposing'; /* */
+    /* */
+
+    test.case = 'change by empty buffer of empty matrix with long row, transposing';
 
     var m = new _.Matrix
     ({
@@ -1774,7 +1797,7 @@ function make( test )
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongRowTransposing( m );
 
-    test.case = 'change by non empty buffer of empty matrix with long row, transposing'; /* */
+    test.description = 'change by non empty buffer of empty matrix with long row, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1811,7 +1834,7 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 6 );
     test.identical( m.reduceToProductAtomWise(), 6 );
 
-    test.case = 'change by non empty buffer of non empty matrix with long row, transposing'; /* */
+    test.description = 'change by non empty buffer of non empty matrix with long row, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -1848,7 +1871,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 21 );
     test.identical( m.reduceToProductAtomWise(), 720 );
 
-    test.case = 'construct empty matrix with long row, non transposing'; /* */
+    /* */
+
+    test.case = 'construct empty matrix with long row, non transposing';
 
     function checkEmptyMatrixWithLongRowNonTransposing( m )
     {
@@ -1914,7 +1939,9 @@ function make( test )
     var m = _.Matrix.Make([ 0, 3 ]);
     test.shouldThrowErrorSync( () => m.buffer = new I32x() );
 
-    test.case = 'change by empty buffer of empty matrix with long row, non transposing'; /* */
+    /* */
+
+    test.case = 'change by empty buffer of empty matrix with long row, non transposing';
 
     var m = _.Matrix.Make([ 0, 3 ]);
     m.growingDimension = 0;
@@ -1922,13 +1949,13 @@ function make( test )
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
-    test.case = 'change by empty buffer of empty matrix with long row, non transposing, by copy'; /* */
+    test.description = 'change by empty buffer of empty matrix with long row, non transposing, by copy';
 
     m.copy({ buffer : o.arrayMake([]), offset : o.offset });
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
-    test.case = 'change by non empty buffer of empty matrix with long row, non transposing'; /* */
+    test.description = 'change by non empty buffer of empty matrix with long row, non transposing';
 
     m.growingDimension = 0;
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset });
@@ -1966,7 +1993,7 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 6 );
     test.identical( m.reduceToProductAtomWise(), 6 );
 
-    test.case = 'change by non empty buffer of non empty matrix with long row, non transposing'; /* */
+    test.description = 'change by non empty buffer of non empty matrix with long row, non transposing';
 
     m.growingDimension = 0;
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset });
@@ -2004,7 +2031,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 21 );
     test.identical( m.reduceToProductAtomWise(), 720 );
 
-    test.case = 'construct matrix with only buffer'; /* */
+    /* */
+
+    test.case = 'construct matrix with only buffer';
 
     var m = new _.Matrix
     ({
@@ -2047,7 +2076,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 6 );
     test.identical( m.reduceToProductAtomWise(), 6 );
 
-    test.case = 'construct matrix without buffer'; /* */
+    /* */
+
+    test.case = 'construct matrix without buffer';
 
     if( Config.debug )
     {
@@ -2056,7 +2087,9 @@ function make( test )
 
     }
 
-    test.case = 'construct matrix with buffer and strides'; /* */
+    /* */
+
+    test.case = 'construct matrix with buffer and strides';
 
     if( Config.debug )
     {
@@ -2070,7 +2103,9 @@ function make( test )
 
     }
 
-    test.case = 'construct empty matrix with dimensions, non transposing'; /* */
+    /* */
+
+    test.case = 'construct empty matrix with dimensions, non transposing';
 
     var m = new _.Matrix
     ({
@@ -2133,7 +2168,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 21 );
     test.identical( m.reduceToProductAtomWise(), 720 );
 
-    test.case = 'construct empty matrix with dimensions, transposing'; /* */
+    /* */
+
+    test.case = 'construct empty matrix with dimensions, transposing';
 
     var m = new _.Matrix
     ({
@@ -2193,7 +2230,9 @@ function make( test )
     test.identical( m.reduceToSumAtomWise(), 21 );
     test.identical( m.reduceToProductAtomWise(), 720 );
 
-    test.case = 'make then copy'; /* */
+    /* */
+
+    test.case = 'make then copy';
 
     var m = _.Matrix.Make([ 2, 3 ]).copy
     ([
@@ -2238,7 +2277,9 @@ function make( test )
     test.identical( m.strides, null );
     test.is( m.buffer instanceof F32x );
 
-    test.case = 'copy buffer from scalar'; /* */
+    /* */
+
+    test.case = 'copy buffer from scalar';
 
     var m = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
     var expected = _.Matrix.MakeSquare([ 13, 13, 13, 13 ]);
@@ -2252,7 +2293,9 @@ function make( test )
     m.copy( 13 );
     test.identical( m, expected );
 
-    test.case = 'copy buffer of different type'; /* */
+    /* */
+
+    test.case = 'copy buffer of different type';
 
     var b = new F32x
     ([
@@ -2318,7 +2361,9 @@ function make( test )
     test.is( m.offset === 0 );
     test.is( m.buffer instanceof U32x );
 
-    test.case = 'bad buffer'; /* */
+    /* */
+
+    test.case = 'bad buffer';
 
     test.shouldThrowErrorSync( function()
     {
@@ -4533,12 +4578,14 @@ function constructWithScalarsPerElement( test )
 
   test.case = 'non empty, inputTransposing : 0';
 
+  debugger;
   var m1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
     inputTransposing : 0,
     scalarsPerElement : 3,
   });
+  debugger;
 
   test.identical( m1.dims, [ 3, 2 ] );
   test.identical( m1.dimsEffective, [ 3, 2 ] );
@@ -4599,6 +4646,23 @@ function constructWithScalarsPerElement( test )
 
   /* */
 
+  if( !Config.debug )
+  return;
+
+  test.case = 'throwing';
+
+  test.shouldThrowErrorSync( () =>
+  {
+    var m1 = new _.Matrix
+    ({
+      buffer : new F32x([ 1, 2, 3 ]),
+      inputTransposing : 1,
+      atomsPerElement : 3,
+    });
+  });
+
+  /* */
+
 //   "dims" : [ 1, Infinity ],
 //   "name" : ``,
 //   "divisor" : 0,
@@ -4610,6 +4674,108 @@ function constructWithScalarsPerElement( test )
 //   "buffer" : ( new Float32Array([ 1 ]) ),
 //   "offset" : 0,
 //   "strides" : [ 1, 1 ]
+
+}
+
+//
+
+function constructWithBreadth( test )
+{
+
+  /* */
+
+  test.case = 'matrix with breadth, transposing';
+
+  _global_.debugger = 1;
+  debugger;
+
+  var m = new _.Matrix
+  ({
+    inputTransposing : 1,
+    breadth : [ 2 ],
+    buffer :
+    [
+      1, 2, 3,
+      4, 5, 6,
+    ],
+  });
+
+  logger.log( 'm\n' + _.toStr( m ) ); debugger;
+
+  test.identical( m.dims, [ 2, 3 ] );
+  test.identical( m.length, 3 );
+
+  test.identical( m.stridesEffective, [ 3, 1 ] );
+  test.identical( m.strideOfElement, 1 );
+  test.identical( m.strideOfCol, 1 );
+  test.identical( m.strideInCol, 3 );
+  test.identical( m.strideOfRow, 3 );
+  test.identical( m.strideInRow, 1 );
+
+  var r1 = m.rowGet( 1 );
+  var r2 = m.lineGet( 1, 1 );
+  var c1 = m.colGet( 2 );
+  var c2 = m.lineGet( 0, 2 );
+  var e = m.eGet( 2 );
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
+
+  test.identical( r1, _.vectorAdapter.from([ 4, 5, 6 ]) );
+  test.identical( r1, r2 );
+  test.identical( c1, _.vectorAdapter.from([ 3, 6 ]) );
+  test.identical( c1, c2 );
+  test.identical( e, _.vectorAdapter.from([ 3, 6 ]) );
+  test.identical( a1, 6 );
+  test.identical( a2, 5 );
+  test.identical( m.reduceToSumAtomWise(), 21 );
+  test.identical( m.reduceToProductAtomWise(), 720 );
+
+  /* */
+
+  test.case = 'matrix with breadth, non transposing';
+
+  var m = new _.Matrix
+  ({
+    inputTransposing : 0,
+    breadth : [ 2 ],
+    buffer :
+    [
+      1, 2, 3,
+      4, 5, 6,
+    ],
+  });
+
+  logger.log( 'm\n' + _.toStr( m ) );
+
+  test.identical( m.dims, [ 2, 3 ] );
+  test.identical( m.length, 3 );
+
+  test.identical( m.stridesEffective, [ 1, 2 ] );
+  test.identical( m.strideOfElement, 2 );
+  test.identical( m.strideOfCol, 2 );
+  test.identical( m.strideInCol, 1 );
+  test.identical( m.strideOfRow, 1 );
+  test.identical( m.strideInRow, 2 );
+
+  var r1 = m.rowGet( 1 );
+  var r2 = m.lineGet( 1, 1 );
+  var c1 = m.colGet( 2 );
+  var c2 = m.lineGet( 0, 2 );
+  var e = m.eGet( 2 );
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
+
+  test.identical( r1, _.vectorAdapter.from([ 2, 4, 6 ]) );
+  test.identical( r1, r2 );
+  test.identical( c1, _.vectorAdapter.from([ 5, 6 ]) );
+  test.identical( c1, c2 );
+  test.identical( e, _.vectorAdapter.from([ 5, 6 ]) );
+  test.identical( a1, 6 );
+  test.identical( a2, 4 );
+  test.identical( m.reduceToSumAtomWise(), 21 );
+  test.identical( m.reduceToProductAtomWise(), 720 );
+
+  /* */
 
 }
 
@@ -12353,6 +12519,7 @@ var Self =
     copySubmatrix,
     constructWithInfinity,
     constructWithScalarsPerElement,
+    constructWithBreadth,
     makeMultyMatrix,
 
     // exporter

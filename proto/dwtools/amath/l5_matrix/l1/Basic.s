@@ -469,101 +469,84 @@ function ExportStructure( o )
   let srcIsInstance = o.src instanceof Self;
   let dstIsInstance = o.dst instanceof Self;
 
-  _.assert( _.objectIs( o.src ) );
-
-  if( !srcIsInstance )
-  mapAdjust();
-
-  if( dstIsInstance )
-  o.dst._changeBegin();
+  _.assert( _.mapIs( o.src ) || o.src instanceof Self );
 
   if( !srcIsInstance )
   {
-    set( 'breadth' );
-  }
-
-  set( 'inputTransposing' );
-  set( 'growingDimension' );
-  set( 'dims' );
-
-  if( o.src.buffer && o.dst.buffer === null )
-  {
-    set( 'buffer' );
-    set( 'strides' );
-    set( 'offset' );
+    if( Config.debug )
+    _.assertMapHasOnly( o.src, this.FieldsOfInputGroups );
   }
 
   if( dstIsInstance )
-  o.dst[ stridesEffectiveSymbol ] = null;
-
-  /* */
-
-  if( dstIsInstance )
-  if( o.src.buffer !== undefined )
   {
+    o.dst._changeBegin();
 
-    o.dst.dims = null;
+    o.dst[ stridesEffectiveSymbol ] = null;
 
-    if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix ) /* zzz : check */
+    set( 'inputTransposing' );
+    set( 'growingDimension' );
+
+    if( srcIsInstance )
     {
+
+      o.dst.dims = this.DimsDeduceFrom( o.src, o.dst.dims );
+
+      if( o.src.scalarsPerMatrix !== o.dst.scalarsPerMatrix )
+      {
+        o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+        o.dst.offset = 0;
+        o.dst.strides = null;
+        o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
+      }
+
     }
-    else if( !srcIsInstance )
+    else
     {
+
       set( 'buffer' );
-      set( 'breadth' );
       set( 'offset' );
       set( 'strides' );
+
+      if( o.dst.dims )
+      {
+        let dims = this.DimsDeduceFrom( o.src, false );
+        if( !dims )
+        {
+          o.dst.dims = null;
+          dims = o.dst._dimsDeduceGrowing();
+        }
+        o.dst.dims = dims;
+      }
+      else
+      {
+        o.dst.dims = this.DimsDeduceFrom( o.src, o.dst.dims );
+      }
+
     }
-    else if( o.src.buffer && !o.dst.buffer )
-    {
-      o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
-      o.dst.offset = 0;
-      o.dst.strides = null;
-      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
-    }
-    else if( o.src.buffer && o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix )
-    {
-      o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
-      o.dst.offset = 0;
-      o.dst.strides = null;
-      o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
-    }
-    else debugger;
 
-  }
-
-  /* */
-
-  if( o.src.dims )
-  o.dst.dims = o.src.dims;
-
-  if( srcIsInstance )
-  _.assert( _.longIdentical( o.dst.dims , o.src.dims ) );
-
-  if( dstIsInstance )
-  {
     o.dst._changeEnd();
     _.assert( o.dst._changing[ 0 ] === 0 );
-  }
 
-  if( srcIsInstance )
-  {
-
-    if( dstIsInstance )
+    if( srcIsInstance )
     {
-      _.assert( o.dst.hasShape( o.src ) );
       o.src.scalarEach( function( it )
       {
         o.dst.scalarSet( it.indexNd, it.scalar );
       });
     }
-    else
-    {
-      let extract = o.src.extractNormalized();
-      o.dst.buffer = _.longSlice( extract.buffer );
-      o.dst.offset = extract.offset;
-      o.dst.strides = extract.strides;
-    }
+
+  }
+  else
+  {
+
+    set( 'inputTransposing' );
+    set( 'growingDimension' );
+    set( 'dims' );
+
+    let extract = o.src.extractNormalized(); debugger;
+    o.dst.buffer = _.longSlice( extract.buffer );
+    o.dst.offset = extract.offset;
+    o.dst.strides = extract.strides;
 
   }
 
@@ -575,29 +558,6 @@ function ExportStructure( o )
     o.dst[ key ] = o.src[ key ];
   }
 
-  function mapAdjust()
-  {
-
-    if( o.src.scalarsPerElement !== undefined && o.src.scalarsPerElement !== null )
-    {
-      _.assert( _.longIs( o.src.buffer ) );
-      if( !o.src.offset )
-      o.src.offset = 0;
-      if( !o.src.dims )
-      {
-        if( o.src.strides )
-        o.src.dims = [ o.src.scalarsPerElement, ( o.src.buffer.length - o.src.offset ) / o.src.strides[ 1 ] ];
-        else
-        o.src.dims = [ o.src.scalarsPerElement, ( o.src.buffer.length - o.src.offset ) / o.src.scalarsPerElement ];
-        o.src.dims[ 1 ] = Math.floor( o.src.dims[ 1 ] );
-      }
-      _.assert( _.intIs( o.src.dims[ 0 ] ) );
-      _.assert( _.intIs( o.src.dims[ 1 ] ) );
-      delete o.src.scalarsPerElement;
-    }
-
-  }
-
 }
 
 ExportStructure.defaults =
@@ -606,6 +566,153 @@ ExportStructure.defaults =
   dst : null,
   format : 'object',
 }
+
+// function ExportStructure( o )
+// {
+//
+//   o = _.routineOptions( ExportStructure, arguments );
+//
+//   _.assert( o.format === 'object' );
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   if( o.dst === null )
+//   {
+//     o.dst = new this.Self( o.src );
+//     return o.dst;
+//   }
+//
+//   if( o.src === o.dst )
+//   return o.dst;
+//
+//   /* */
+//
+//   if( _global_.debugger )
+//   debugger;
+//
+//   if( _.longIs( o.src ) )
+//   {
+//     o.dst.copyFromBuffer( o.src );
+//     return o.dst;
+//   }
+//   else if( _.numberIs( o.src ) )
+//   {
+//     o.dst.copyFromScalar( o.src );
+//     return o.dst;
+//   }
+//
+//   let srcIsInstance = o.src instanceof Self;
+//   let dstIsInstance = o.dst instanceof Self;
+//
+//   _.assert( _.mapIs( o.src ) || o.src instanceof Self );
+//
+//   if( dstIsInstance )
+//   o.dst._changeBegin();
+//
+//   if( dstIsInstance )
+//   o.dst[ stridesEffectiveSymbol ] = null;
+//
+//   if( !srcIsInstance )
+//   {
+//     o.dst.dims = this.DimsDeduceFrom( o.src );
+//     set( 'breadth' );
+//     _.assertMapHasOnly( o.src, this.FieldsOfInputGroups );
+//   }
+//
+//   set( 'inputTransposing' );
+//   set( 'growingDimension' );
+//   set( 'dims' );
+//
+//   if( dstIsInstance && o.src.buffer !== undefined && o.src.buffer !== null )
+//   {
+//
+//     o.dst.dims = null;
+//
+//     if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix ) /* zzz : check */
+//     {
+//     }
+//     else if( !srcIsInstance )
+//     {
+//       set( 'buffer' );
+//       set( 'breadth' );
+//       set( 'offset' );
+//       set( 'strides' );
+//     }
+//     else if( o.src.buffer && ( !o.dst.buffer || o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix ) )
+//     {
+//       o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+//       o.dst.offset = 0;
+//       o.dst.strides = null;
+//       o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
+//     }
+//     // else if( o.src.buffer && o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix )
+//     // {
+//     //   o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+//     //   o.dst.offset = 0;
+//     //   o.dst.strides = null;
+//     //   o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputTransposing );
+//     // }
+//     // else debugger;
+//
+//   }
+//   else if( o.src.buffer && o.dst.buffer === null )
+//   {
+//     debugger; /* xxx */
+//     set( 'buffer' );
+//     set( 'strides' );
+//     set( 'offset' );
+//   }
+//
+//   /* */
+//
+//   if( o.src.dims )
+//   o.dst.dims = o.src.dims;
+//
+//   if( srcIsInstance )
+//   _.assert( _.longIdentical( o.dst.dims , o.src.dims ) );
+//
+//   if( dstIsInstance )
+//   {
+//     o.dst._changeEnd();
+//     _.assert( o.dst._changing[ 0 ] === 0 );
+//   }
+//
+//   if( srcIsInstance )
+//   {
+//
+//     if( dstIsInstance )
+//     {
+//       _.assert( o.dst.hasShape( o.src ) );
+//       o.src.scalarEach( function( it )
+//       {
+//         o.dst.scalarSet( it.indexNd, it.scalar );
+//       });
+//     }
+//     else
+//     {
+//       let extract = o.src.extractNormalized();
+//       o.dst.buffer = _.longSlice( extract.buffer );
+//       o.dst.offset = extract.offset;
+//       o.dst.strides = extract.strides;
+//     }
+//
+//   }
+//
+//   return o.dst;
+//
+//   function set( key )
+//   {
+//     if( o.src[ key ] !== null && o.src[ key ] !== undefined )
+//     o.dst[ key ] = o.src[ key ];
+//   }
+//
+// }
+//
+// ExportStructure.defaults =
+// {
+//   src : null,
+//   dst : null,
+//   format : 'object',
+// }
 
 //
 
@@ -1453,8 +1560,6 @@ function _scalarsPerColGet()
 {
   let self = this;
   let result = self.dimsEffective[ 0 ];
-  // if( result === Infinity )
-  // result = 1;
   _.assert( result >= 0 );
   return result;
 }
@@ -1465,8 +1570,6 @@ function _scalarsPerRowGet()
 {
   let self = this;
   let result = self.dimsEffective[ 1 ];
-  // if( result === Infinity )
-  // result = 1;
   _.assert( result >= 0 );
   return result;
 }
@@ -1711,53 +1814,6 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
   return result;
 }
 
-// //
-//
-// /**
-//  * Method flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
-//  * Method takes into account values of definition of element position {-indexNd-}.
-//  *
-//  * @example
-//  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
-//  * var got = matrix.flatGranuleIndexFrom( [ 1, 1 ] );
-//  * console.log( got );
-//  * // log : 3
-//  *
-//  * @param { Long|VectorAdapter|Matrix } indexNd - The position of element.
-//  * @returns { Number } - Returns index offset of element.
-//  * @method flatGranuleIndexFrom
-//  * @throws { Error } If arguments.length is not equal to one.
-//  * @throws { Error } If indexNd.length is not equal to strides length.
-//  * @class Matrix
-//  * @namespace wTools
-//  * @module Tools/math/Matrix
-//  */
-//
-// function flatGranuleIndexFrom( indexNd )
-// {
-//   let self = this;
-//   let result = 0;
-//   let stride = 1;
-//   // let d = self.stridesEffective.length-indexNd.length; /* Dmytro : duplicated below, not used */
-//   // debugger;
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.assert( indexNd.length <= self.stridesEffective.length );
-//   _.assert( self.stridesEffective.length === indexNd.length, 'not tested' );
-//   // _.assert( 0, 'not tested' );
-//   // debugger;
-//
-//   let f = self.stridesEffective.length - indexNd.length;
-//   // for( let i = indexNd.length-1 ; i >= 0 ; i-- )
-//   for( let i = f ; i < indexNd.length ; i++ )
-//   {
-//     stride = self.stridesEffective[ i ];
-//     result += indexNd[ i-f ]*stride;
-//   }
-//
-//   return result;
-// }
-
 // --
 // stride
 // --
@@ -1958,6 +2014,8 @@ function StridesFromDimensions( dims, transposing )
 function StridesEffectiveAdjust( strides, dims ) /* aaa : jsdoc */ /* Dmytro : documented */
 {
 
+  _.assert( !!strides );
+  _.assert( !!dims );
   _.assert( arguments.length === 2 );
   _.assert( strides.length === dims.length );
 
@@ -2229,7 +2287,7 @@ function _adjust()
 function _adjustAct()
 {
   let self = this;
-  let changed = false;
+  // let changed = false;
 
   self._changing[ 0 ] += 1;
 
@@ -2239,7 +2297,7 @@ function _adjustAct()
   {
     debugger;
     self.breadth = [ self.breadth ];
-    changed = true;
+    // changed = true;
   }
 
   /* strides */
@@ -2250,7 +2308,7 @@ function _adjustAct()
     let strides = _.dup( 1, self.breadth.length+1 );
     strides[ strides.length-1 ] = self.strides;
     self.strides = self.StridesRoll( strides );
-    changed = true;
+    // changed = true;
   }
 
   self[ stridesEffectiveSymbol ] = null;
@@ -2265,7 +2323,8 @@ function _adjustAct()
   _.assert( self.dims === null || _.longIs( self.dims ) );
 
   if( !self.dims )
-  dimsDeduce();
+  self._dimsDeduceGrowing();
+  // dimsDeduce();
 
   _.assert( _.arrayIs( self.dims ) );
 
@@ -2331,48 +2390,50 @@ function _adjustAct()
 
   /* */
 
-  function dimsDeduce()
-  {
-    if( self._dimsWas )
-    {
-      _.assert( _.arrayIs( self._dimsWas ) );
-      _.assert( _.arrayIs( self._dimsWas ) );
-      _.assert( _.longIs( self.buffer ) );
-      _.assert( self.offset >= 0 );
-
-      let dims = self._dimsWas.slice();
-      dims[ self.growingDimension ] = 1;
-      let ape = _.avector.reduceToProduct( dims );
-      let l = ( self.buffer.length - self.offset ) / ape;
-      dims[ self.growingDimension ] = l;
-      self[ dimsSymbol ] = dims;
-
-      _.assert( l >= 0 );
-      _.assert( _.intIs( l ) );
-
-    }
-    else if( self.strides )
-    {
-      _.assert( 0, 'Cant deduce dimensions from only strides' );
-    }
-    else
-    {
-      _.assert( _.longIs( self.buffer ), 'Expects buffer' );
-      if( self.buffer.length - self.offset > 0 )
-      {
-        self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
-        if( !self.stridesEffective )
-        self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
-      }
-      else
-      {
-        self[ dimsSymbol ] = [ 1, 0 ];
-        if( !self.stridesEffective )
-        self[ stridesEffectiveSymbol ] = [ 1, 1 ];
-      }
-      changed = true;
-    }
-  }
+  // function dimsDeduce()
+  // {
+  //   // _.assert( 0, 'not tested' ); /* xxx */
+  //   debugger;
+  //   if( self._dimsWas )
+  //   {
+  //     _.assert( _.arrayIs( self._dimsWas ) );
+  //     _.assert( _.arrayIs( self._dimsWas ) );
+  //     _.assert( _.longIs( self.buffer ) );
+  //     _.assert( self.offset >= 0 );
+  //
+  //     let dims = self._dimsWas.slice();
+  //     dims[ self.growingDimension ] = 1;
+  //     let ape = _.avector.reduceToProduct( dims );
+  //     let l = ( self.buffer.length - self.offset ) / ape;
+  //     dims[ self.growingDimension ] = l;
+  //     self[ dimsSymbol ] = dims;
+  //
+  //     _.assert( l >= 0 );
+  //     _.assert( _.intIs( l ) );
+  //
+  //   }
+  //   else if( self.strides )
+  //   {
+  //     _.assert( 0, 'Cant deduce dimensions from only strides' );
+  //   }
+  //   else
+  //   {
+  //     _.assert( _.longIs( self.buffer ), 'Expects buffer' );
+  //     if( self.buffer.length - self.offset > 0 )
+  //     {
+  //       self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
+  //       if( !self.stridesEffective )
+  //       self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
+  //     }
+  //     else
+  //     {
+  //       self[ dimsSymbol ] = [ 1, 0 ];
+  //       if( !self.stridesEffective )
+  //       self[ stridesEffectiveSymbol ] = [ 1, 1 ];
+  //     }
+  //     // changed = true;
+  //   }
+  // }
 
 }
 
@@ -2573,6 +2634,162 @@ function DimsEffectiveFrom( dims )
   }
 
   return dims;
+}
+
+//
+
+function _dimsDeduceGrowing()
+{
+  let self = this;
+
+  _.assert( arguments.length === 0 );
+  _.assert( self.dims === null );
+
+  // _.assert( 0, 'not tested' ); /* xxx */
+  debugger;
+  if( self._dimsWas )
+  {
+    _.assert( _.arrayIs( self._dimsWas ) );
+    _.assert( _.longIs( self.buffer ) );
+    _.assert( self.offset >= 0 );
+
+    let dims = self._dimsWas.slice();
+    dims[ self.growingDimension ] = 1;
+    let ape = _.avector.reduceToProduct( dims );
+    let l = ( self.buffer.length - self.offset ) / ape;
+    dims[ self.growingDimension ] = l;
+    self[ dimsSymbol ] = dims;
+
+    _.assert( l >= 0 );
+    _.assert( _.intIs( l ) );
+
+  }
+  else if( self.strides )
+  {
+    _.assert( 0, 'Cant deduce dimensions from only strides' );
+  }
+  else
+  {
+    _.assert( _.longIs( self.buffer ), 'Expects buffer' );
+    if( self.buffer.length - self.offset > 0 )
+    {
+      self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
+      if( !self.stridesEffective )
+      self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
+    }
+    else
+    {
+      self[ dimsSymbol ] = [ 1, 0 ];
+      if( !self.stridesEffective )
+      self[ stridesEffectiveSymbol ] = [ 1, 1 ];
+    }
+    // changed = true;
+  }
+
+}
+
+//
+
+function DimsDeduceFrom( src, fallbackDims )
+{
+
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+  if( fallbackDims === undefined )
+  fallbackDims = true;
+
+  if( src.dims )
+  {
+    _.assert( _.intIs( src.dims[ 0 ] ) );
+    _.assert( _.intIs( src.dims[ 1 ] ) );
+    return src.dims;
+  }
+
+  let dim0, dim1;
+  let offset = src.offset || 0;
+
+  if( src.scalarsPerCol !== undefined && src.scalarsPerCol !== null )
+  dim0 = src.scalarsPerCol;
+  else if( src.scalarsPerElement !== undefined && src.scalarsPerElement !== null )
+  dim0 = src.scalarsPerElement;
+  else if( src.breadth !== undefined && src.breadth !== null )
+  dim0 = src.breadth[ 0 ];
+  if( src.scalarsPerRow !== undefined && src.scalarsPerRow !== null )
+  dim1 = src.scalarsPerRow;
+
+  if( src.buffer )
+  if( dim0 == undefined )
+  {
+    if( src.strides )
+    dim0 = Math.floor( ( src.buffer.length - offset ) / src.strides[ 0 ] );
+    else if( dim1 !== undefined )
+    dim0 = Math.floor( ( src.buffer.length - offset ) / dim1 );
+  }
+
+  if( src.buffer )
+  if( dim1 == undefined )
+  {
+    if( src.strides )
+    dim1 = Math.floor( ( src.buffer.length - offset ) / src.strides[ 1 ] );
+    else if( dim0 !== undefined )
+    dim1 = Math.floor( ( src.buffer.length - offset ) / dim0 );
+  }
+
+  if( dim0 === undefined || dim1 === undefined )
+  {
+    _.assert( dim0 === undefined );
+    _.assert( dim1 === undefined );
+
+    if( !fallbackDims )
+    return;
+
+    if( _.arrayIs( fallbackDims ) )
+    {
+      dim0 = fallbackDims[ 0 ];
+      dim1 = fallbackDims[ 1 ];
+    }
+    else if( src.buffer && src.inputTransposing )
+    {
+      dim0 = src.buffer.length;
+      dim1 = 1;
+    }
+    else
+    {
+      dim0 = 1;
+      dim1 = src.buffer.length;
+    }
+
+  }
+
+  let result = [ dim0, dim1 ];
+
+  _.assert( _.intIs( result[ 0 ] ), 'Cant deduce {- dims -} of the matrix' );
+  _.assert( _.intIs( result[ 1 ] ), 'Cant deduce {- dims -} of the matrix' );
+
+  return result;
+
+  // if( src.scalarsPerElement !== undefined && src.scalarsPerElement !== null )
+  // {
+  //   _.assert( _.longIs( src.buffer ) );
+  //   let offset = src.offset || 0;
+  //   // if( !src.offset )
+  //   // src.offset = 0;
+  //   if( !src.dims )
+  //   {
+  //     if( src.strides )
+  //     src.dims = [ src.scalarsPerElement, ( src.buffer.length - offset ) / src.strides[ 1 ] ];
+  //     else
+  //     src.dims = [ src.scalarsPerElement, ( src.buffer.length - offset ) / src.scalarsPerElement ];
+  //     src.dims[ 1 ] = Math.floor( src.dims[ 1 ] );
+  //   }
+  //   _.assert( _.intIs( src.dims[ 0 ] ) );
+  //   _.assert( _.intIs( src.dims[ 1 ] ) );
+  //   // delete src.scalarsPerElement;
+  // }
+
+  // scalarsPerElement : null, /* xxx */
+  // scalarsPerCol : null,
+  // scalarsPerRow : null,
+
 }
 
 //
@@ -2876,6 +3093,10 @@ let Medials =
   offset : 0,
   breadth : null,
 
+  scalarsPerElement : null, /* xxx */
+  scalarsPerCol : null,
+  scalarsPerRow : null,
+
 }
 
 //
@@ -2900,6 +3121,7 @@ let Statics =
   StridesEffectiveAdjust,
   StridesRoll,
   DimsEffectiveFrom,
+  DimsDeduceFrom,
   BreadthFrom,
   LengthFrom,
   OccupiedRangeFrom,
@@ -3063,7 +3285,6 @@ let Extension =
 
   flatScalarIndexFrom,
   _FlatScalarIndexFromIndexNd,
-  // flatGranuleIndexFrom,
 
   // stride
 
@@ -3110,6 +3331,8 @@ let Extension =
   _dimsSet, /* cached */
   _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
+  _dimsDeduceGrowing,
+  DimsDeduceFrom,
   BreadthFrom,
   LengthFrom,
   OccupiedRangeFrom,
