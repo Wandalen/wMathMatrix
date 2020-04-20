@@ -745,18 +745,35 @@ function mulRight( src )
 //
 
 /**
-  * Outer product of two vectors. Vectors stay unchanged.
-  *
-  * @param { v1 } - The first source vector.
-  * @param { v2 } - The second source vector.
-  * @function fromVectors_
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @throws { Error } An Error if ( q ) is not a matrix.
-  * @throws { Error } An Error if ( r ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Static routine OuterProductOfVectors() multiplies of two vectors. The result applies to a new Matrix.
+ * Vectors stay unchanged.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var v1 = [ -1, 5 ];
+ * var v2 = [ 2, -4 ];
+ *
+ * var got = _.Matrix.OuterProductOfVectors( v1, v2 );
+ * console.log( got.toStr() );
+ * // log :
+ * // -2,  +4
+ * // +10, -20
+ *
+ * @param { Long|VectorAdapter } v1 - The first source vector.
+ * @param { Long|VectorAdapter } v2 - The second source vector.
+ * @returns { Matrix } - Returns original matrix with result of operation.
+ * @method OuterProductOfVectors
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-v1-} is not a vector.
+ * @throws { Error } If {-v2-} is not a vector.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function OuterProductOfVectors( v1, v2 )
 {
@@ -768,7 +785,38 @@ function OuterProductOfVectors( v1, v2 )
 
 //
 
-function outerProductOfVectors( v1, v2 ) /* qqq : jsdoc */
+/**
+ * Method outerProductOfVectors() multiplies of two vectors. The result applies to current matrix.
+ * Vectors stay unchanged.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var v1 = [ -1, 5 ];
+ * var v2 = [ 2, -4 ];
+ *
+ * var got = matrix.outerProductOfVectors( v1, v2 );
+ * console.log( got.toStr() );
+ * // log :
+ * // -2,  +4
+ * // +10, -20
+ *
+ * @param { Long|VectorAdapter } v1 - The first source vector.
+ * @param { Long|VectorAdapter } v2 - The second source vector.
+ * @returns { Matrix } - Returns original matrix with result of operation.
+ * @method outerProductOfVectors
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-v1-} is not a vector.
+ * @throws { Error } If {-v2-} is not a vector.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function outerProductOfVectors( v1, v2 ) /* aaa : jsdoc */ /* Dmytro : documented */
 {
   let self = this;
 
