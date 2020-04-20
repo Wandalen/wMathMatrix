@@ -139,15 +139,15 @@ function _qrIteration( q, r )
  *
  * console.log( q.toStr() );
  * // log :
- * // 0.857143, -0.467324, -0.216597,
- * // 0.428571, 0.880322, -0.203369,
- * // -0.285714, -0.081489, -0.954844
+ * // 0.857  -0.467 -0.216
+ * // 0.428  0.880  -0.203
+ * // -0.285 -0.081 -0.954
  *
- * console.log( q.toStr() );
+ * console.log( r.toStr() );
  * // log :
- * // 14, 34.714287,  -14,
- * // 0,  172.803116, -58.390148,
- * // 0,  0,          52.111328
+ * // 14.000 34.714  -14.000
+ * // 0.000  172.803 -58.390
+ * // 0.000  0.000   52.111
  *
  * @param { Matrix } q - The destination Q matrix.
  * @param { Matrix } r - The destination R matrix.
@@ -215,20 +215,17 @@ function _qrDecompositionGS( q, r )
  * ]);
  * matrix._qrDecompositionHh( q, r );
  *
- * // returns Q :
- * // _.Matrix.Make( [ 3, 3 ] ).copy
- * // ([
- * //   -0.857143, 0.467324,  -0.216597,
- * //   -0.428571, -0.880322, -0.203369,
- * //   0.285714,  0.081489,  -0.954844
+ * console.log( q.toStr() );
+ * // log :
+ * // -0.857 0.467  -0.216
+ * // -0.428 -0.880 -0.203
+ * // 0.285  0.081  -0.954
  * // ]);
- * // returns R :
- * // _.Matrix.Make( [ 3, 3 ] ).copy
- * // ([
- * //   -14, -34.714287,  14,
- * //   0,   -172.803116, 58.390148,
- * //   0,   0,           52.111328
- * // ]);
+ * console.log( r.toStr() );
+ * // log :
+ * //   -14.000 -34.714  14.000
+ * //   0.000   -172.803 58.390
+ * //   0.000   0.000    52.111
  *
  * @param { Matrix } q - The destination Q matrix.
  * @param { Matrix } r - The destination R matrix.
@@ -329,34 +326,32 @@ function _qrDecompositionHh( q, r )
  * Matrix stays unchanged.
  *
  * @example
- * var u =  _.Matrix.Make( [ 2, 2 ] ).copy
- * ([
- *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
- *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
- * ]);
- * var s =  _.Matrix.Make( [ 2, 2 ] ).copy
- * ([
- *   6.000, 0.000,
- *   0.000, 2.000,
- * ]);
- * var v =  _.Matrix.Make( [ 2, 2 ] ).copy
- * ([
- *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2,
- *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2
- * ]);
+ *  var matrix =  _.Matrix.MakeSquare
+ *  ([
+ *    2, 4,
+ *    4, 2,
+ *  ]);
  *
- * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
- * ([
- *   2, 4,
- *   4, 2
- * ]);
- * matrix.svd( u, s, v );
- * // Matrix u :
- * // _.Matrix.Make( [ 2, 2 ] ).copy
- * // ([
- * //   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
- * //   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
- * // ]);
+ *  var u = _.Matrix.Make( [ 2, 2 ] );
+ *  var s = _.Matrix.Make( [ 2, 2 ] );
+ *  var v = _.Matrix.Make( [ 2, 2 ] );
+ *
+ *  matrix.svd( u, s, v );
+ *
+ * console.log( u.toStr() );
+ * // log :
+ * // -0.707, -0.707
+ * // -0.707  0.707
+ *
+ * console.log( s.toStr() );
+ * // log :
+ * // 6.000 0.000
+ * // 0.000 2.000
+ *
+ * console.log( v.toStr() );
+ * // log :
+ * // -0.707, 0.707
+ * // -0.707  -0.707
  *
  * @param { Matrix } u - The destination U matrix.
  * @param { Matrix } s - The destination S matrix.
