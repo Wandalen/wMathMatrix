@@ -126,9 +126,7 @@ function scalarEach( onScalar, args )
   }
   else if( dims.length === 3 )
   {
-    let dims2 = dims[ 2 ];
-    for( let i = 0 ; i < dims2 ; i++ )
-    iterate3( i );
+    iterate3();
   }
   else
   {
@@ -171,10 +169,11 @@ function scalarEach( onScalar, args )
 
   /* */
 
-  function iterate3( i2 )
+  function iterate3()
   {
     let dims0 = dims[ 0 ];
     let dims1 = dims[ 1 ];
+    let dims2 = dims[ 2 ];
 
     if( dims0 === Infinity )
     dims1 = 1;
@@ -183,18 +182,23 @@ function scalarEach( onScalar, args )
 
     let it = Object.create( null );
     it.args = args;
-    it.indexNd = [ 0, 0, i2 ];
+    it.indexNd = [ 0, 0, 0 ];
     let indexLogical = 0;
-    for( let c = 0 ; c < dims1 ; c++ )
+
+    for( let d2 = 0 ; d2 < dims2 ; d2++ )
     {
-      it.indexNd[ 1 ] = c;
-      for( let r = 0 ; r < dims0 ; r++ )
+      it.indexNd[ 2 ] = d2;
+      for( let c = 0 ; c < dims1 ; c++ )
       {
-        it.indexNd[ 0 ] = r;
-        it.indexLogical = indexLogical;
-        it.scalar = self.scalarGet( it.indexNd );
-        onScalar.call( self, it );
-        indexLogical += 1;
+        it.indexNd[ 1 ] = c;
+        for( let r = 0 ; r < dims0 ; r++ )
+        {
+          it.indexNd[ 0 ] = r;
+          it.indexLogical = indexLogical;
+          it.scalar = self.scalarGet( it.indexNd );
+          onScalar.call( self, it );
+          indexLogical += 1;
+        }
       }
     }
   }
