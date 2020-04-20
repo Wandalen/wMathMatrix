@@ -1899,7 +1899,7 @@ function StridesFromDimensions( dims, transposing )
  * @module Tools/math/Matrix
  */
 
-function StridesEffectiveAdjust( strides, dims ) /* qqq : jsdoc */
+function StridesEffectiveAdjust( strides, dims ) /* aaa : jsdoc */ /* Dmytro : documented */
 {
 
   _.assert( arguments.length === 2 );
