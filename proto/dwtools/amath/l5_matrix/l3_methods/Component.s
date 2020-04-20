@@ -584,8 +584,19 @@ function lineNdGet( d, indexNd )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.longIs( indexNd ) );
+  _.assert( d < self.dims.length );
 
+  let indexFull = [ ... indexNd.slice( 0, d ), 0, ... indexNd.slice( d, indexNd.length ) ];
+  let indexFlat = self.flatScalarIndexFrom( indexFull );
+  let line = _.vectorAdapter.fromLongLrangeAndStride
+  (
+    self.buffer,
+    self.offset + indexFlat,
+    self.dimsEffective[ d ] || 1,
+    self.stridesEffective[ d ]
+  );
 
+  return line;
 }
 
 //
