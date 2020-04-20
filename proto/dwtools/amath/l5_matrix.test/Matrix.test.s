@@ -4449,6 +4449,172 @@ function copy( test )
 
 //
 
+function constructWithInfinity( test )
+{
+
+  /* */
+
+  test.case = 'dims : [ 3, Infinity ] ; inputTransposing : 0';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3 ]),
+    inputTransposing : 0,
+    dims : [ 3, Infinity ],
+  });
+
+  test.identical( m1.dims, [ 3, Infinity ] );
+  test.identical( m1.dimsEffective, [ 3, 1 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 1, 0 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+  test.case = 'dims : [ 3, Infinity ] ; inputTransposing : 1';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3 ]),
+    inputTransposing : 1,
+    dims : [ 3, Infinity ],
+  });
+
+  test.identical( m1.dims, [ 3, Infinity ] );
+  test.identical( m1.dimsEffective, [ 3, 1 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 1, 0 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+  test.case = 'dims : [ Infinity, 3 ] ; inputTransposing : 0';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3 ]),
+    inputTransposing : 0,
+    dims : [ Infinity, 3 ],
+  });
+
+  test.identical( m1.dims, [ Infinity, 3 ] );
+  test.identical( m1.dimsEffective, [ 1, 3 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 0, 1 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+  test.case = 'dims : [ Infinity, 3 ] ; inputTransposing : 1';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3 ]),
+    inputTransposing : 1,
+    dims : [ Infinity, 3 ],
+  });
+
+  test.identical( m1.dims, [ Infinity, 3 ] );
+  test.identical( m1.dimsEffective, [ 1, 3 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 0, 1 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+}
+
+//
+
+function constructWithScalarsPerElement( test )
+{
+
+  /* */
+
+  test.case = 'non empty, inputTransposing : 0';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
+    inputTransposing : 0,
+    scalarsPerElement : 3,
+  });
+
+  test.identical( m1.dims, [ 3, 2 ] );
+  test.identical( m1.dimsEffective, [ 3, 2 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 1, 3 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+  test.case = 'non empty, inputTransposing : 1';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
+    inputTransposing : 1,
+    scalarsPerElement : 3,
+  });
+
+  test.identical( m1.dims, [ 3, 2 ] );
+  test.identical( m1.dimsEffective, [ 3, 2 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 2, 1 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+  test.case = 'empty, inputTransposing : 0';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([]),
+    inputTransposing : 0,
+    scalarsPerElement : 3,
+  });
+
+  test.identical( m1.dims, [ 3, 0 ] );
+  test.identical( m1.dimsEffective, [ 3, 0 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 1, 3 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+  test.case = 'empty, inputTransposing : 1';
+
+  var m1 = new _.Matrix
+  ({
+    buffer : new F32x([]),
+    inputTransposing : 1,
+    scalarsPerElement : 3,
+  });
+
+  test.identical( m1.dims, [ 3, 0 ] );
+  test.identical( m1.dimsEffective, [ 3, 0 ] );
+  test.identical( m1.strides, null );
+  test.identical( m1.stridesEffective, [ 0, 1 ] );
+  console.log( m1.toStr() );
+
+  /* */
+
+//   "dims" : [ 1, Infinity ],
+//   "name" : ``,
+//   "divisor" : 0,
+//   "isDerived" : false,
+//   "isDynamic" : false,
+//   "_webgl" : null,
+//   "growingDimension" : 1,
+//   "inputTransposing" : 0,
+//   "buffer" : ( new Float32Array([ 1 ]) ),
+//   "offset" : 0,
+//   "strides" : [ 1, 1 ]
+
+}
+
+//
+
 function copySubmatrix( test )
 {
 
@@ -12185,6 +12351,8 @@ var Self =
     copyTo,
     copy,
     copySubmatrix,
+    constructWithInfinity,
+    constructWithScalarsPerElement,
     makeMultyMatrix,
 
     // exporter
