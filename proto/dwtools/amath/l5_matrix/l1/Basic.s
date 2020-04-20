@@ -79,6 +79,7 @@ function init( o )
   self[ stridesEffectiveSymbol ] = null;
   self[ lengthSymbol ] = null;
   self[ scalarsPerElementSymbol ] = null;
+  self[ scalarsPerSliceSymbol ] = null;
   self[ scalarsPerMatrixSymbol ] = null;
   self[ occupiedRangeSymbol ] = null;
   self[ breadthSymbol ] = null;
@@ -210,7 +211,7 @@ function _traverseAct( it )
       if( src.strides !== undefined )
       dst.strides = src.strides;
     }
-    else if( src.buffer && !dst.buffer )
+    else if( src.buffer && !dst.buffer && src.scalarsPerMatrix !== undefined )
     {
       dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
@@ -302,14 +303,6 @@ function _equalAre( it )
     return it.result;
   }
 
-  // if( !_.longIdentical( it.src.breadth, it.src2.breadth )  )
-  // {
-  //   it.result = false;
-  //   debugger;
-  //   return it.result;
-  // }
-
-  /* xxx : check infinity in 3rd dimension */
   if( it.strictContainer )
   {
     if( !_.longIdentical( it.src.dims, it.src2.dims )  )
@@ -321,10 +314,15 @@ function _equalAre( it )
   }
   else
   {
-    if( !_.longIdentical( it.src.dimsEffective, it.src2.dimsEffective )  )
+    if( it.src.scalarsPerMatrix )
+    if( it.src.dims.length < it.src2.dims.length )
     {
-      it.result = false;
-      debugger;
+      if( !dimsCompare( it.src.dims, it.src2.dims ) )
+      return it.result;
+    }
+    else
+    {
+      if( !dimsCompare( it.src2.dims, it.src.dims ) )
       return it.result;
     }
   }
@@ -337,6 +335,30 @@ function _equalAre( it )
 
   _.assert( _.boolIs( it.result ) );
   return it.result;
+
+  /* */
+
+  function dimsCompare( src1, src2 )
+  {
+    for( let i = src1.length-1 ; i >= 0 ; i-- )
+    {
+      if( src1[ i ] !== src2[ i ] )
+      {
+        it.result = false;
+        return it.result;
+      }
+    }
+    for( let i = src2.length-1 ; i >= src1.length ; i-- )
+    {
+      if( src2[ i ] !== 1 )
+      {
+        it.result = false;
+        return it.result;
+      }
+    }
+    return true;
+  }
+
 }
 
 _.routineExtend( _equalAre, _.equaler._equal );
@@ -490,13 +512,6 @@ function ExportStructure( o )
       set( 'breadth' );
       set( 'offset' );
       set( 'strides' );
-      // o.dst.buffer = o.src.buffer;
-      // if( o.src.breadth !== undefined )
-      // o.dst.breadth = o.src.breadth;
-      // if( o.src.offset !== undefined )
-      // o.dst.offset = o.src.offset;
-      // if( o.src.strides !== undefined )
-      // o.dst.strides = o.src.strides;
     }
     else if( o.src.buffer && !o.dst.buffer )
     {
@@ -1030,7 +1045,7 @@ function ExportString( o )
     //   matrixToStr( m );
     // }
 
-    o.src.matrixEach( ( it ) =>
+    o.src.sliceEach( ( it ) =>
     {
       if( it.indexFlat > 0 )
       o.dst += `\n`;
@@ -1311,6 +1326,15 @@ function _sizeGet()
 
 //
 
+function _sizeOfSliceGet()
+{
+  let result = this.sizeOfAtom*this.scalarsPerSlice;
+  _.assert( result >= 0 );
+  return result;
+}
+
+//
+
 function _sizeOfElementGet()
 {
   let result = this.sizeOfAtom*this.scalarsPerElement;
@@ -1429,14 +1453,18 @@ function _ncolGet()
 
 //
 
+function _scalarsPerSliceGet()
+{
+  let self = this;
+  return self[ scalarsPerSliceSymbol ];
+}
+
+//
+
 function _scalarsPerMatrixGet()
 {
   let self = this;
   return self[ scalarsPerMatrixSymbol ];
-  // let result = self.length === Infinity ? self.scalarsPerElement : self.length * self.scalarsPerElement;
-  // _.assert( _.numberIsFinite( result ) );
-  // _.assert( result >= 0 );
-  // return result;
 }
 
 //
@@ -1627,52 +1655,52 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
   return result;
 }
 
+// //
 //
-
-/**
- * Method flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
- * Method takes into account values of definition of element position {-indexNd-}.
- *
- * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
- * var got = matrix.flatGranuleIndexFrom( [ 1, 1 ] );
- * console.log( got );
- * // log : 3
- *
- * @param { Long|VectorAdapter|Matrix } indexNd - The position of element.
- * @returns { Number } - Returns index offset of element.
- * @method flatGranuleIndexFrom
- * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If indexNd.length is not equal to strides length.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function flatGranuleIndexFrom( indexNd ) /* xxx : check */
-{
-  let self = this;
-  let result = 0;
-  let stride = 1;
-  // let d = self.stridesEffective.length-indexNd.length; /* Dmytro : duplicated below, not used */
-  // debugger;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( indexNd.length <= self.stridesEffective.length );
-  _.assert( self.stridesEffective.length === indexNd.length, 'not tested' );
-  // _.assert( 0, 'not tested' );
-  // debugger;
-
-  let f = self.stridesEffective.length - indexNd.length;
-  // for( let i = indexNd.length-1 ; i >= 0 ; i-- )
-  for( let i = f ; i < indexNd.length ; i++ )
-  {
-    stride = self.stridesEffective[ i ];
-    result += indexNd[ i-f ]*stride;
-  }
-
-  return result;
-}
+// /**
+//  * Method flatGranuleIndexFrom() finds the index offset of element in the matrix buffer.
+//  * Method takes into account values of definition of element position {-indexNd-}.
+//  *
+//  * @example
+//  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+//  * var got = matrix.flatGranuleIndexFrom( [ 1, 1 ] );
+//  * console.log( got );
+//  * // log : 3
+//  *
+//  * @param { Long|VectorAdapter|Matrix } indexNd - The position of element.
+//  * @returns { Number } - Returns index offset of element.
+//  * @method flatGranuleIndexFrom
+//  * @throws { Error } If arguments.length is not equal to one.
+//  * @throws { Error } If indexNd.length is not equal to strides length.
+//  * @class Matrix
+//  * @namespace wTools
+//  * @module Tools/math/Matrix
+//  */
+//
+// function flatGranuleIndexFrom( indexNd ) /* xxx : check */
+// {
+//   let self = this;
+//   let result = 0;
+//   let stride = 1;
+//   // let d = self.stridesEffective.length-indexNd.length; /* Dmytro : duplicated below, not used */
+//   // debugger;
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( indexNd.length <= self.stridesEffective.length );
+//   _.assert( self.stridesEffective.length === indexNd.length, 'not tested' );
+//   // _.assert( 0, 'not tested' );
+//   // debugger;
+//
+//   let f = self.stridesEffective.length - indexNd.length;
+//   // for( let i = indexNd.length-1 ; i >= 0 ; i-- )
+//   for( let i = f ; i < indexNd.length ; i++ )
+//   {
+//     stride = self.stridesEffective[ i ];
+//     result += indexNd[ i-f ]*stride;
+//   }
+//
+//   return result;
+// }
 
 // --
 // stride
@@ -2191,6 +2219,7 @@ function _adjustAct()
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
 
   self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
+  self[ scalarsPerSliceSymbol ] = self.dimsEffective.length > 2 ? _.avector.reduceToProduct( self.dimsEffective.slice( 2 ) ) : 1;
   self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
 
   /* xxx : optimize */
@@ -2218,7 +2247,6 @@ function _adjustAct()
 
   let occupiedRange = self.OccupiedRangeFrom( self.dims, self.stridesEffective, self.offset );
   self[ occupiedRangeSymbol ] = occupiedRange;
-
   if( self.scalarsPerMatrix )
   if( self.buffer.length )
   {
@@ -2731,12 +2759,11 @@ let bufferSymbol = Symbol.for( 'buffer' );
 let breadthSymbol = Symbol.for( 'breadth' );
 let dimsSymbol = Symbol.for( 'dims' );
 let dimsEffectiveSymbol = Symbol.for( 'dimsEffective' );
-
 let stridesSymbol = Symbol.for( 'strides' );
-let lengthSymbol = Symbol.for( 'length' );
 let stridesEffectiveSymbol = Symbol.for( 'stridesEffective' );
-
+let lengthSymbol = Symbol.for( 'length' );
 let scalarsPerMatrixSymbol = Symbol.for( 'scalarsPerMatrix' );
+let scalarsPerSliceSymbol = Symbol.for( 'scalarsPerSlice' );
 let scalarsPerElementSymbol = Symbol.for( 'scalarsPerElement' );
 let occupiedRangeSymbol = Symbol.for( 'occupiedRange' );
 
@@ -2852,6 +2879,7 @@ let ReadOnlyAccessors =
   /* size in bytes */
 
   size : 'size',
+  sizeOfSlice : 'sizeOfSlice',
   sizeOfElement : 'sizeOfElement',
   sizeOfElementStride : 'sizeOfElementStride',
   sizeOfCol : 'sizeOfCol',
@@ -2867,6 +2895,7 @@ let ReadOnlyAccessors =
   scalarsPerRow : 'scalarsPerRow',
   ncol : 'ncol',
   nrow : 'nrow',
+  scalarsPerSlice : 'scalarsPerSlice',
   scalarsPerMatrix : 'scalarsPerMatrix',
 
   /* length */
@@ -2885,7 +2914,7 @@ let ReadOnlyAccessors =
 
 //
 
-let Accessors =
+let Accessors = /* qqq : move all accessor into this map. ask how to */
 {
 
   buffer : 'buffer',
@@ -2933,6 +2962,7 @@ let Extension =
   // size in bytes
 
   _sizeGet,
+  _sizeOfSliceGet,
 
   _sizeOfElementGet,
   _sizeOfElementStrideGet,
@@ -2952,6 +2982,7 @@ let Extension =
   _scalarsPerRowGet,
   _nrowGet,
   _ncolGet,
+  _scalarsPerSliceGet,
   _scalarsPerMatrixGet,
 
   ScalarsPerMatrixForDimensions,
@@ -2961,7 +2992,7 @@ let Extension =
 
   flatScalarIndexFrom,
   _FlatScalarIndexFromIndexNd,
-  flatGranuleIndexFrom,
+  // flatGranuleIndexFrom,
 
   // stride
 
@@ -3006,7 +3037,7 @@ let Extension =
   _breadthGet, /* cached */
   _breadthSet,
   _dimsSet, /* cached */
-  _dimsEffectiveGet,
+  _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
   BreadthFrom,
   LengthFrom,
@@ -3060,6 +3091,10 @@ Object.defineProperty( Self.prototype, 'accuracySqr',
   get : function() { return this.vectorAdapter.accuracySqr },
 });
 
+_.accessor.readOnly( Self.prototype, ReadOnlyAccessors );
+_.accessor.readOnly( Self, { long : { getter : _longGet, setter : false } } );
+_.accessor.readOnly( Self.prototype, { long : { getter : _longGet, setter : false } } );
+
 _.Matrix = Self;
 
 //
@@ -3069,10 +3104,6 @@ _.assert( !!_.vectorAdapter.long );
 
 _.assert( _.objectIs( _.withDefaultLong ) );
 _.assert( _.objectIs( _.withDefaultLong.Fx ) );
-
-_.accessor.readOnly( Self.prototype, ReadOnlyAccessors );
-_.accessor.readOnly( Self, { long : { getter : _longGet, setter : false } } );
-_.accessor.readOnly( Self.prototype, { long : { getter : _longGet, setter : false } } );
 
 _.assert( Self.prototype.vectorAdapter.long === Self.vectorAdapter.long );
 _.assert( Self.long === Self.vectorAdapter.long );
