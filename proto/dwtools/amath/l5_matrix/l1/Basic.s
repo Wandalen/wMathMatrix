@@ -1850,6 +1850,27 @@ function StridesFromDimensions( dims, transposing )
 
 //
 
+/**
+ * Static routine StridesEffectiveAdjust() analyzes dimensions in argument {-dims-} and normalize strides of a matrix.
+ * If the last dimensions of 3D matrix or higher is 1 or Infinity, then strides removes removes.
+ *
+ * @example
+ * var got = _.Matrix.StridesEffectiveAdjust( [ 2, 1, 3, 2 ], [ 2, 2, 1, Infinity ] );
+ * console.log( got );
+ * // log : [ 2, 1 ]
+ *
+ * @param { Long } strides - Strides of a matrix.
+ * @param { Long } dims - Dimensions of a matrix.
+ * @returns { Long } - Returns effective dimensions of a matrix.
+ * @throws { Error } If {-strides-} has not valid type.
+ * @throws { Error } If {-dims-} has not valid type.
+ * @static
+ * @function StridesEffectiveAdjust
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function StridesEffectiveAdjust( strides, dims ) /* qqq : jsdoc */
 {
 
@@ -2412,6 +2433,25 @@ function _dimsEffectiveGet()
 
 //
 
+/**
+ * Static routine DimsEffectiveFrom() analyzes dimensions in argument {-dims-} and normalize it.
+ * If the last dimensions of 3D matrix or higher is 1 or Infinity, it removes.
+ *
+ * @example
+ * var got = _.Matrix.DimsEffectiveFrom( [ 2, 1, 1, Infinity ] );
+ * console.log( got );
+ * // log : [ 2, 1 ]
+ *
+ * @param { Long } dims - Dimensions of a matrix.
+ * @returns { Long } - Returns effective dimensions of a matrix.
+ * @throws { Error } If {-dims-} has not valid type.
+ * @static
+ * @function DimsEffectiveFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function DimsEffectiveFrom( dims )
 {
 
@@ -2444,6 +2484,26 @@ function DimsEffectiveFrom( dims )
 
 //
 
+/**
+ * Static routine BreadthFrom() analyzes dimensions in argument {-dims-} and finds breadth of matrix.
+ * If dimensions with index 2 and higher have Infinity value, then it replace to 1.
+ * If all higher dimensions have value 1, then it removes.
+ *
+ * @example
+ * var got = _.Matrix.BreadthFrom( [ 2, 2, 1, Infinity ] );
+ * console.log( got );
+ * // log : [ 2 ]
+ *
+ * @param { Long } dims - Dimensions of a matrix.
+ * @returns { Long } - Returns breadth of a matrix.
+ * @throws { Error } If {-dims-} has not valid type.
+ * @static
+ * @function BreadthFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function BreadthFrom( dims )
 {
   let result = [ dims[ 0 ], ... dims.slice( 2 ) ];
@@ -2468,6 +2528,25 @@ function BreadthFrom( dims )
 
 //
 
+/**
+ * Static routine LengthFrom() returns length of last dimension of a matrix.
+ * If dimension has value Infinity, then it replaces to 1.
+ *
+ * @example
+ * var got = _.Matrix.LengthFrom( [ 2, 2, Infinity ] );
+ * console.log( got );
+ * // log : 1
+ *
+ * @param { Long } dims - Dimensions of a matrix.
+ * @returns { Long } - Returns length of last dimension of a matrix.
+ * @throws { Error } If {-dims-} has not valid type.
+ * @static
+ * @function LengthFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function LengthFrom( dims )
 {
   let result = dims[ dims.length-1 ];
@@ -2477,6 +2556,27 @@ function LengthFrom( dims )
 }
 
 //
+
+/**
+ * Static routine OccupiedRangeFrom() calculates the part of buffer that occupied matrix.
+ *
+ * @example
+ * var got = _.Matrix.OccupiedRangeFrom( [ 2, 2 ], [ 3, 1 ], 5 );
+ * console.log( got );
+ * // log : [ 5, 10 ]
+ *
+ * @param { Long } dims - Dimensions of a matrix.
+ * @param { Long } strides - Strides of a matrix.
+ * @param { Number } offset - Offset of a matrix.
+ * @returns { Long } - Returns length of last dimension of a matrix.
+ * @throws { Error } If {-dims-} has not valid type.
+ * @throws { Error } If {-strides-} has not valid type.
+ * @static
+ * @function OccupiedRangeFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function OccupiedRangeFrom( dims, strides, offset )
 {
