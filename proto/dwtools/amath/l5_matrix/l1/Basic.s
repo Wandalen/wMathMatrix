@@ -1314,6 +1314,24 @@ toStr.defaults.__proto__ = _.toStr.defaults;
 //
 // toStr.defaults.__proto__ = _.toStr.defaults;
 
+//
+
+function toLong() /* qqq : cover and jsdoc */
+{
+  let self = this;
+  let strides = self.stridesEffective.slice();
+  let dims = self.dimsEffective.slice();
+
+  let result = _.longMake( self.buffer, self.scalarsPerMatrix );
+
+  self.scalarEach( ( it ) =>
+  {
+    result[ it.indexLogical ] = it.scalar;
+  });
+
+  return result;
+}
+
 // --
 // size in bytes
 // --
@@ -2887,6 +2905,7 @@ let Extension =
   extractNormalized,
   ExportString,
   toStr,
+  toLong,
 
   // size in bytes
 
