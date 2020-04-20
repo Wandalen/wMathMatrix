@@ -24,36 +24,31 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // --
 
 /**
- * The static routine Add() add matrices {-srcs-}.
+ * The static routine Add() adds matrices {-srcs-}.
  *
  * @example
- * var buffer = new I32x
+ * var m = _.Matrix.MakeSquare
  * ([
  *   2,  2, -2,
  *  -2, -3,  4,
  *   4,  3, -2,
  * ]);
  *
- * var m = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
- *
  * var got = _.Matrix.Add( null, [ m, m ] );
  * console.log( got.toStr() );
- * // log :  +4,  +4,  -2,
- * //        -2,  -6,  +8,
- * //        +8,  +6,  -4,
+ * // log :
+ * // +4,  +4,  -4,
+ * // -4,  -6,  +8,
+ * // +8,  +6,  -4,
  *
  * @param { Null|Matrix } dst - The container for result.
  * @param { Array } srcs - Array with matrices.
- * @returns { Matrix } - Returns {-dst-}.
- * @function Add
- * @throws { Error } If (arguments.length) is not 2.
+ * @returns { Matrix } - Returns destination matrix.
+ * @throws { Error } If arguments.length is not 2.
  * @throws { Error } If {-srcs-} is not an Array.
  * @throws { Error } If srcs.length is less then 2.
+ * @static
+ * @function Add
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -180,51 +175,43 @@ function Add( dst, srcs )
 //
 
 /**
- * The routine _Add2() add two matrices {-src1-} and {-src2-}.
- * The result of adding assigned to destination matrix {-dst-}.
+ * The static routine _Add2() add two matrices {-src1-} and {-src2-}.
+ * The result of assigned to destination matrix {-dst-}.
  *
  * @example
- * var src1 = new _.Matrix
- * ({
- *   buffer : [ 2, 2, 2, 2, 3, 4, 4, 3, -2 ],
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
+ * var src1 = _.Matrix.MakeSquare
+ * ([
+ *   2, 2, 2,
+ *   2, 3, 4,
+ *   4, 3, -2
+ * ]);
  *
- * var src2 = new _.Matrix
- * ({
- *   buffer : [ 3, 2, 3, 4, 0, 2, 0, 0, 6 ],
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
+ * var src2 = _.Matrix.MakeSquare
+ * ([
+ *   3, 2, 3,
+ *   4, 0, 2,
+ *   0, 0, 6
+ * ]);
  *
- * var dst = new _.Matrix
- * ({
- *   buffer : new I32x( [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ),
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
+ * var dst = _.Matrix.Make( [ 3, 3 ] );
  *
  * var got = _.Matrix._Add2( dst, src1, src2 )
  * console.log( got )
- * // log : +14, +4, +22,
- * //       +18, +4, +36,
- * //       +24, +8,  +6,
+ * // log :
+ * // +14, +4, +22,
+ * // +18, +4, +36,
+ * // +24, +8,  +6,
  *
  * @param { Null|Matrix } dst - Destination matrix.
  * @param { Matrix } src1 - Source Matrix.
  * @param { Matrix } src2 - Source Matrix.
  * @returns { Matrix } - Returns {-dst-}.
- * @function _Add2
- * @throws { Error } If (arguments.length) is not 3.
+ * @throws { Error } If arguments.length is not 3.
  * @throws { Error } If {-dst-} is not a Matrix, not a Null.
  * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
- * @throws { Error } If src1.dims or src2.dims length is not 2.
- * @throws { Error } If {-dst-} and {-src1-} are the same instance of matrix.
- * @throws { Error } If {-dst-} and {-src2-} are the same instance of matrix.
- * @throws { Error } If src1.dims[ 1 ] is not equal to src2.dims[ 0 ].
- * @throws { Error } If src1.dims[ 0 ] is not equal to dst.dims[ 0 ].
- * @throws { Error } If src1.dims[ 1 ] is not equal to dst.dims[ 1 ].
+ * @throws { Error } If matrices have different shapes.
+ * @static
+ * @function _Add2
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -263,31 +250,26 @@ function _Add2( dst, src1, src2 )
  * The result assigned to the current matrix.
  *
  * @example
- * var buffer = new I32x
+ * var m = _.Matrix.MakeSquare
  * ([
  *   2,  2, -2,
  *  -2, -3,  4,
  *   4,  3, -2,
  * ]);
  *
- * var m = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
- *
  * var got = m.add( [ m, m ] );
  * console.log( got.toStr() );
- * // log :  +4,  +4,  -2,
- * //        -2,  -6,  +8,
- * //        +8,  +6,  -4,
+ * // log :
+ * // +4,  +4,  -4,
+ * // -4,  -6,  +8,
+ * // +8,  +6,  -4,
  *
  * @param { Array } srcs - Array with matrices.
  * @returns { Matrix } - Returns {-this-}.
  * @method add
  * @throws { Error } If arguments.length is not 1.
- * @throws { Error } If {-srcs-} is not array.
+ * @throws { Error } If {-srcs-} is not array and Matrix.
+ * @throws { Error } If {-srcs-} is a Matrix, and current matrix and {-srcs-} have different shapes.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -311,28 +293,27 @@ function add( srcs )
 // --
 
 /**
- * The method pow() is short-cut matrixPow returns an instance of Matrix with exponentiation values of provided matrix,
- * takes destination matrix from context.
+ * The method matrixPow() returns an instance of Matrix with exponentiation values of provided matrix.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   3, 2, 3,
  *   4, 0, 2
  *   0, 0, 6,
  * ]);
  *
- * var got = matrix.pow( 2 );
+ * var got = matrix.matrixPow( 2 );
  * console.log( got );
- * // log :  +17, +6, +31,
- * //        +12, +8, +24,
- * //        +0,  +0, +36,
+ * // log :
+ * // +17, +6, +31,
+ * // +12, +8, +24,
+ * // +0,  +0, +36,
  *
  * @param { Number } exponent - The power of elements.
- * @returns { Matrix } - Returns instance of Matrix.
- * @method pow
- * @throws { Error } If method called by not an instance of matrix constructor.
- * @throws { Error } If (arguments.length) is not 1.
+ * @returns { Matrix } - Returns the current matrix.
+ * @method matrixPow
+ * @throws { Error } If arguments.length is not 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -355,36 +336,31 @@ function matrixPow( exponent )
 //
 
 /**
- * The static routine Mul() returns the result of multiplication of matrices {-srcs-}.
+ * The static routine Mul() multiplies matrices {-srcs-} and applies result to destination matrix {-dst-}.
  *
  * @example
- * var buffer = new I32x
+ * var m = _.Matrix.MakeSquare
  * ([
  *   2,  2, -2,
  *  -2, -3,  4,
  *   4,  3, -2,
  * ]);
  *
- * var m = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
- *
  * var got = _.Matrix.Mul( null, [ m, m ] );
  * console.log( got.toStr() );
- * // log :  -8,  -8,  +8,
- * //       +18, +17, -16,
- * //        -6,  -7,  +8,
+ * // log :
+ * // -8,  -8,  +8,
+ * // +18, +17, -16,
+ * // -6,  -7,  +8,
  *
  * @param { Null|Matrix } dst - The container for result.
  * @param { Array } srcs - Array with matrices.
- * @returns { Matrix } - Returns {-dst-}.
- * @function Mul
- * @throws { Error } If (arguments.length) is not 2.
+ * @returns { Matrix } - Returns destination matrix.
+ * @throws { Error } If arguments.length is not 2.
  * @throws { Error } If {-srcs-} is not an Array.
  * @throws { Error } If srcs.length is less then 2.
+ * @static
+ * @function Mul
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -529,43 +505,38 @@ function Mul( dst, srcs )
 //
 
 /**
- * The routine _Mul2() multiply two matrices {-src1-} and {-src2-}.
+ * The static routine _Mul2() multiplies two matrices {-src1-} and {-src2-}.
  * The result of multiplication assigns to destination matrix {-dst-}.
  *
  * @example
- * var src1 = new _.Matrix
- * ({
- *   buffer : [ 2, 2, 2, 2, 3, 4, 4, 3, -2 ],
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
+ * var src1 = _.Matrix.MakeSquare
+ * ([
+ *   2, 2, 2,
+ *   2, 3, 4,
+ *   4, 3, -2
+ * ]);
  *
- * var src2 = new _.Matrix
- * ({
- *   buffer : [ 3, 2, 3, 4, 0, 2, 0, 0, 6 ],
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
+ * var src2 = _.Matrix.MakeSquare
+ * ([
+ *   3, 2, 3,
+ *   4, 0, 2,
+ *   0, 0, 6
+ * ]);
  *
- * var dst = new _.Matrix
- * ({
- *   buffer : new I32x( [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ),
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
+ * var dst = _.Matrix.Make([ 3, 3 ]);
  *
  * var got = _.Matrix._Mul2( dst, src1, src2 )
  * console.log( got )
- * // log : +14, +4, +22,
- * //       +18, +4, +36,
- * //       +24, +8,  +6,
+ * // log :
+ * // +14, +4, +22,
+ * // +18, +4, +36,
+ * // +24, +8,  +6,
  *
  * @param { Null|Matrix } dst - Destination matrix.
  * @param { Matrix } src1 - Source Matrix.
  * @param { Matrix } src2 - Source Matrix.
- * @returns { Matrix } - Returns {-dst-}.
- * @function _Mul2
- * @throws { Error } If (arguments.length) is not 3.
+ * @returns { Matrix } - Returns destination matrix.
+ * @throws { Error } If arguments.length is not 3.
  * @throws { Error } If {-dst-} is not a Matrix, not a Null.
  * @throws { Error } If {-src1-} or {-src2-} is not instance of Matrix.
  * @throws { Error } If src1.dims or src2.dims length is not 2.
@@ -574,6 +545,8 @@ function Mul( dst, srcs )
  * @throws { Error } If src1.dims[ 1 ] is not equal to src2.dims[ 0 ].
  * @throws { Error } If src1.dims[ 0 ] is not equal to dst.dims[ 0 ].
  * @throws { Error } If src1.dims[ 1 ] is not equal to dst.dims[ 1 ].
+ * @static
+ * @function _Mul2
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -625,35 +598,30 @@ function _Mul2( dst, src1, src2 )
 //
 
 /**
- * The method mul() multiply matrices {-srcs-}.
+ * The method mul() multiplies matrices {-srcs-}.
  * The result of multiplication assigns to the current matrix.
  *
  * @example
- * var buffer = new I32x
+ * var m = _.Matrix.MakeSquare
  * ([
  *   2,  2, -2,
  *  -2, -3,  4,
  *   4,  3, -2,
  * ]);
  *
- * var m = new _.Matrix
- * ({
- *   buffer,
- *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
- * });
- *
  * var got = m.mul( [ m, m ] );
  * console.log( got.toStr() );
- * // log :  -8,  -8,  +8,
- * //       +18, +17, -16,
- * //        -6,  -7,  +8,
+ * // log :
+ * // -8,  -8,  +8,
+ * // +18, +17, -16,
+ * // -6,  -7,  +8,
  *
  * @param { Array } srcs - Array with matrices.
  * @returns { Matrix } - Returns {-this-}.
  * @method mul
  * @throws { Error } If arguments.length is not 1.
- * @throws { Error } If {-srcs-} is not array.
+ * @throws { Error } If {-srcs-} is not array or Matrix.
+ * @throws { Error } If {-srcs-} is a Matrix, and {-srcs-} and current matrix have different shapes.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -679,14 +647,14 @@ function mul( srcs )
  * The result assigns to the current matrix.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   1, 2, 3,
  *   0, 4, 5
  *   0, 0, 6,
  * ]);
  *
- * var src = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.MakeSquare
  * ([
  *   1, 2, 3,
  *   4, 1, 2,
@@ -695,9 +663,10 @@ function mul( srcs )
  *
  * var got = matrix.mulLeft( src );
  * console.log( matrix );
- * // log :  +9, +4, +10,
- * //       +16, +4, +13
- * //        +0, +0,  +6,
+ * // log :
+ * // +9,  +4, +10,
+ * // +16, +4, +13
+ * // +0,  +0, +6,
  *
  * @param { Matrix } src - Source Matrix.
  * @returns { Matrix } - Returns original matrix filled by result of multiplication.
@@ -728,14 +697,14 @@ function mulLeft( src )
  * The result assigns to the current matrix.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   1, 2, 3,
  *   0, 4, 5
  *   0, 0, 6,
  * ]);
  *
- * var src = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var src = _.Matrix.MakeSquare
  * ([
  *   1, 2, 3,
  *   4, 1, 2,
@@ -744,11 +713,12 @@ function mulLeft( src )
  *
  * var got = matrix.mulRight( src );
  * console.log( got );
- * // log :  +9, +4, +10,
- * //       +16, +4, +13
- * //        +0, +0,  +6,
+ * // log :
+ * // +9,  +4, +10,
+ * // +16, +4, +13
+ * // +0,  +0, +6,
  *
- * @param { Matrix } src - Source Matrix.
+ * @param { Matrix } src - Source matrix.
  * @returns { Matrix } - Returns original matrix filled by result of multiplication.
  * @method mulRight
  * @throws { Error } If arguments.length is not 1.
@@ -775,30 +745,78 @@ function mulRight( src )
 //
 
 /**
-  * Outer product of two vectors. Vectors stay unchanged.
-  *
-  * @param { v1 } - The first source vector.
-  * @param { v2 } - The second source vector.
-  * @function fromVectors_
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @throws { Error } An Error if ( q ) is not a matrix.
-  * @throws { Error } An Error if ( r ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Static routine OuterProductOfVectors() multiplies of two vectors. The result applies to a new Matrix.
+ * Vectors stay unchanged.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var v1 = [ -1, 5 ];
+ * var v2 = [ 2, -4 ];
+ *
+ * var got = _.Matrix.OuterProductOfVectors( v1, v2 );
+ * console.log( got.toStr() );
+ * // log :
+ * // -2,  +4
+ * // +10, -20
+ *
+ * @param { Long|VectorAdapter } v1 - The first source vector.
+ * @param { Long|VectorAdapter } v2 - The second source vector.
+ * @returns { Matrix } - Returns original matrix with result of operation.
+ * @method OuterProductOfVectors
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-v1-} is not a vector.
+ * @throws { Error } If {-v2-} is not a vector.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
-function OuterPorductOfVectors( v1, v2 )
+function OuterProductOfVectors( v1, v2 )
 {
   _.assert( arguments.length === 2 );
   let matrix = _.Matrix.Make([ v1.length, v2.length ]);
-  matrix.outerPorductOfVectors( ... arguments );
+  matrix.outerProductOfVectors( ... arguments );
   return matrix;
 }
 
 //
 
-function outerPorductOfVectors( v1, v2 ) /* qqq : jsdoc */
+/**
+ * Method outerProductOfVectors() multiplies of two vectors. The result applies to current matrix.
+ * Vectors stay unchanged.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var v1 = [ -1, 5 ];
+ * var v2 = [ 2, -4 ];
+ *
+ * var got = matrix.outerProductOfVectors( v1, v2 );
+ * console.log( got.toStr() );
+ * // log :
+ * // -2,  +4
+ * // +10, -20
+ *
+ * @param { Long|VectorAdapter } v1 - The first source vector.
+ * @param { Long|VectorAdapter } v2 - The second source vector.
+ * @returns { Matrix } - Returns original matrix with result of operation.
+ * @method outerProductOfVectors
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-v1-} is not a vector.
+ * @throws { Error } If {-v2-} is not a vector.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function outerProductOfVectors( v1, v2 ) /* aaa : jsdoc */ /* Dmytro : documented */
 {
   let self = this;
 
@@ -828,7 +846,7 @@ function outerPorductOfVectors( v1, v2 ) /* qqq : jsdoc */
  * The method closest() returns the closest element to provided element {-insElement-}.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -839,17 +857,17 @@ function outerPorductOfVectors( v1, v2 ) /* qqq : jsdoc */
  *
  * var got = matrix.closest( insElement );
  * console.log( got )
- * // log
- * {
- *  index: 1,
- *  distance: 2.23606797749979
- * }
+ * // log :
+ * // {
+ * //  index: 1,
+ * //  distance: 2.23606797749979
+ * // }
  *
- * @param { VectorAdapter|Long } insElement - provided element, an instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } insElement - Source element, to find closest element.
  * @returns { Map } - Returns index and distance of the closest element.
  * @method closest
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
- * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -890,7 +908,7 @@ function closest( insElement )
  * The method furthest() returns the furthest element to provided element {-insElement-}.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
@@ -901,17 +919,17 @@ function closest( insElement )
  *
  * var got = matrix.furthest( insElement );
  * console.log( got )
- * // log
- * {
- *  index: 2,
- *  distance: 5.0990195135927845
- * }
+ * // log :
+ * // {
+ * //  index: 2,
+ * //  distance: 5.0990195135927845
+ * // }
  *
- * @param { VectorAdapter|Long } insElement - provided element, an instance of VectorAdapter or Long.
+ * @param { VectorAdapter|Long } insElement - Source element, to find furthest element.
  * @returns { Map } - Returns index and distance of the furthest element.
  * @method furthest
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-insElement-} is not an instance of VectorAdapter or Long.
- * @throws { Error } If (arguments.length) is not 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -949,22 +967,21 @@ function furthest( insElement )
 //
 
 /**
- * The method elementMean() returns medium element values of provided matrix,
- * takes source from context.
+ * The method elementMean() returns medium element values of provided matrix.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   3, 2, 3,
  *   4, 0, 2,
  *   0, 0, 6,
  * ]);
  *
- * var got = matrix.elementMean( );
+ * var got = matrix.elementMean();
  * console.log( got )
- * // log 2.333, 0.666, 3.666
+ * // log : 2.333, 0.666, 3.666
  *
- * @returns { Number } - Returns medium element values of provided matrix.
+ * @returns { VectorAdapter } - Returns medium element values of current matrix.
  * @method elementMean
  * @throws { Error } If argument exist.
  * @class Matrix
@@ -986,11 +1003,10 @@ function elementMean()
 //
 
 /**
- * The method minmaxColWise() compares columns values of matrix and returns min and max buffer instance with these values,
- * takes source from context.
+ * The method minmaxColWise() calculates minimal and maximal distribution values of columns.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5
@@ -999,13 +1015,13 @@ function elementMean()
  *
  * var got = matrix.minmaxColWise();
  * console.log( got );
- * // log
- * {
- *   min: Float32Array [ 0, 0, 3 ],
- *   max: Float32Array [ 1, 4, 6 ]
- * }
+ * // log :
+ * // {
+ * //   min: Float32Array [ 0, 0, 3 ],
+ * //   max: Float32Array [ 1, 4, 6 ]
+ * // }
  *
- * @returns { TypedArrays } - Returns two instances of F32x buffers.
+ * @returns { Map } - Returns minimal and maximal distribution values of columns.
  * @method minmaxColWise
  * @throws { Error } If argument exist.
  * @class Matrix
@@ -1035,11 +1051,10 @@ function minmaxColWise()
 //
 
 /**
- * The method minmaxRowWise() compares rows values of matrix and returns min and max buffer instance with these values,
- * takes source from context.
+ * The method minmaxRowWise() calculates minimal and maximal distribution values of rows.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5
@@ -1048,13 +1063,13 @@ function minmaxColWise()
  *
  * var got = matrix.minmaxRowWise();
  * console.log( got );
- * // log
- * {
- *   min: Float32Array [ 1, 0, 0 ],
- *   max: Float32Array [ 3, 5, 6 ]
- * }
+ * // log :
+ * // {
+ * //   min: Float32Array [ 1, 0, 0 ],
+ * //   max: Float32Array [ 3, 5, 6 ]
+ * // }
  *
- * @returns { TypedArrays } - Returns two instances of F32x buffers.
+ * @returns { Map } - Returns minimal and maximal distribution values of rows.
  * @method minmaxRowWise
  * @throws { Error } If argument exist.
  * @class Matrix
@@ -1084,11 +1099,10 @@ function minmaxRowWise()
 //
 
 /**
- * The method determinant() calculates a determinant of the provided matrix,
- * takes source from context.
+ * The method determinant() calculates a determinant of the current matrix.
  *
  * @example
- * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * var matrix = _.Matrix.MakeSquare
  * ([
  *   +1, +2, +3,
  *   +0, +4, +5
@@ -1097,11 +1111,11 @@ function minmaxRowWise()
  *
  * var got = matrix.determinant();
  * console.log( got );
- * // log 24
+ * // log : 24
  *
- * @returns { Number } - Returns a determinant value of the provided matrix.
+ * @returns { Number } - Returns a determinant of the matrix.
  * @method determinant
- * @throws { Error } If argument exist.
+ * @throws { Error } If the matrix is not a square.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1201,6 +1215,8 @@ let Statics = /* qqq : split static routines. ask how */
   Mul,
   _Mul2,
 
+  OuterProductOfVectors,
+
 }
 
 /*
@@ -1235,8 +1251,8 @@ let Extension =
 
   // etc
 
-  OuterPorductOfVectors,
-  outerPorductOfVectors,
+  OuterProductOfVectors,
+  outerProductOfVectors,
 
   // reducer
 

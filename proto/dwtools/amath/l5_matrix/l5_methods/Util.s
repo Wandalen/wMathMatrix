@@ -64,12 +64,38 @@ function _TempBorrow( src, dims, index )
 //
 
 /**
- * Static routine TempBorrow0() provides temporary caching of source matrix {-src-} with index 0.
+ * Static routine TempBorrow0() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine TempBorrow0() uses container with index 0.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
  *
- * @param { Matrix } src - Source matrix.
- * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = _.Matrix.TempBorrow0( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  _.Matrix.TempBorrow0( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
  * @throws { Error } If arguments.length is not equal to 1.
- * @throws { Error } If {-src-} is not instance of Matrix.
+ * @throws { Error } If {-src-} has not valid type.
  * @static
  * @function TempBorrow0
  * @class Matrix
@@ -88,7 +114,46 @@ function TempBorrow0( src )
 
 //
 
-function tempBorrow0( src ) /* qqq : improve jsdoc */
+/**
+ * Method tempBorrow0() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine tempBorrow0() uses container with index 0.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
+ *
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = src.tempBorrow0( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  src.tempBorrow0( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Undefined|Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
+ * @method tempBorrow0
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function tempBorrow0( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
@@ -99,12 +164,38 @@ function tempBorrow0( src ) /* qqq : improve jsdoc */
 //
 
 /**
- * Static routine TempBorrow1() provides temporary caching of source matrix {-src-} with index 1.
+ * Static routine TempBorrow1() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine TempBorrow1() uses container with index 1.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
  *
- * @param { Matrix } src - Source matrix.
- * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = _.Matrix.TempBorrow1( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  _.Matrix.TempBorrowr1( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
  * @throws { Error } If arguments.length is not equal to 1.
- * @throws { Error } If {-src-} is not instance of Matrix.
+ * @throws { Error } If {-src-} has not valid type.
  * @static
  * @function TempBorrow1
  * @class Matrix
@@ -123,7 +214,46 @@ function TempBorrow1( src )
 
 //
 
-function tempBorrow1( src ) /* qqq : improve jsdoc */
+/**
+ * Method tempBorrow1() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine tempBorrow1() uses container with index 1.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
+ *
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = src.tempBorrow1( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  src.tempBorrow1( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Undefined|Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
+ * @method tempBorrow1
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function tempBorrow1( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
@@ -134,12 +264,38 @@ function tempBorrow1( src ) /* qqq : improve jsdoc */
 //
 
 /**
- * Static routine TempBorrow2() provides temporary caching of source matrix {-src-} with index 2.
+ * Static routine TempBorrow2() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine TempBorrow2() uses container with index 2.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
  *
- * @param { Matrix } src - Source matrix.
- * @returns { Matrix } - Returns instance of Matrix based on provided arguments.
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = _.Matrix.TempBorrow2( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  _.Matrix.TempBorrowr2( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
  * @throws { Error } If arguments.length is not equal to 1.
- * @throws { Error } If {-src-} is not instance of Matrix.
+ * @throws { Error } If {-src-} has not valid type.
  * @static
  * @function TempBorrow2
  * @class Matrix
@@ -158,7 +314,46 @@ function TempBorrow2( src )
 
 //
 
-function tempBorrow2( src ) /* qqq : improve jsdoc */
+/**
+ * Method tempBorrow2() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine tempBorrow2() uses container with index 2.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
+ *
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = src.tempBorrow2( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  src.tempBorrow2( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Undefined|Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
+ * @method tempBorrow2
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function tempBorrow2( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
@@ -167,6 +362,46 @@ function tempBorrow2( src ) /* qqq : improve jsdoc */
 }
 
 //
+
+/**
+ * Static routine TempBorrow3() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine TempBorrow3() uses container with index 3.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
+ *
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = _.Matrix.TempBorrow3( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  _.Matrix.TempBorrowr3( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @static
+ * @function TempBorrow3
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function TempBorrow3( src )
 {
@@ -179,7 +414,46 @@ function TempBorrow3( src )
 
 //
 
-function tempBorrow3( src ) /* qqq : improve jsdoc */
+/**
+ * Method tempBorrow3() provides temporary caching of source matrix {-src-}.
+ * The cache has 4 containers with matrices. Each container has index, and the routine tempBorrow3() uses container with index 3.
+ * If the cache has matrix with dimensions equivalent to {-src-}, then routine returns cached matrix, otherwise, it creates
+ * new initialized matrix.
+ *
+ * @example
+ * var src = _.Matrix.Make([ 2, 2 ]);
+ * var cachedSrc = src.tempBorrow3( src );
+ * console.log( cachedSrc.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ * cachedSrc.copy
+ * ([
+ *   1, 2,
+ *   3, 4,
+ * ]);
+ *
+ * var fromCache =  src.tempBorrow3( src );
+ * console.log( fromCache.toStr() );
+ * // log :
+ * // +1 +2
+ * // +3 +4
+ * console.log( src.toStr() );
+ * // log :
+ * // +0 +0
+ * // +0 +0
+ *
+ * @param { Undefined|Matrix|Long } src - Source matrix or dimensions.
+ * @returns { Matrix } - Returns instance of cached matrix or creates new matrix.
+ * @method tempBorrow3
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function tempBorrow3( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )

@@ -38,9 +38,10 @@ function _pivotDimension( d, current, expected )
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.pivotForward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
  * console.log( got.toStr() );
- * // log : +5, +4, +6,
- * //       +2, +1, +3,
- * //       +8, +7, +9,
+ * // log :
+ * // +5, +4, +6,
+ * // +2, +1, +3,
+ * // +8, +7, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
  * @method pivotForward
@@ -81,9 +82,10 @@ function pivotForward( pivots )
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.pivotBackward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
  * console.log( got.toStr() );
- * // log : +5, +4, +6,
- * //       +2, +1, +3,
- * //       +8, +7, +9,
+ * // log :
+ * // +5, +4, +6,
+ * // +2, +1, +3,
+ * // +8, +7, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
  * @method pivotBackward
@@ -145,9 +147,10 @@ function _vectorPivotDimension( v, current, expected )
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.VectorPivotForward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
- * // log : +4, +5, +6,
- * //       +1, +2, +3,
- * //       +7, +8, +9,
+ * // log :
+ * // +4, +5, +6,
+ * // +1, +2, +3,
+ * // +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
  * @throws { Error } If arguments.length is not equal to one.
@@ -189,9 +192,10 @@ function VectorPivotForward( vector, pivot )
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var got = matrix.VectorPivotBackward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
- * // log : +4, +5, +6,
- * //       +1, +2, +3,
- * //       +7, +8, +9,
+ * // log :
+ * // +4, +5, +6,
+ * // +1, +2, +3,
+ * // +7, +8, +9,
  *
  * @param { Array } pivots - Array than defines the order of pivoting.
  * @throws { Error } If arguments.length is not equal to one.
