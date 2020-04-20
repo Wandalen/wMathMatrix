@@ -113,7 +113,11 @@ function init( o )
  * Static routine Is() checks whether the provided argument is an instance of Matrix.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var got = _.Matrix.Is( matrix );
  * console.log( got );
  * // log : true
@@ -810,7 +814,11 @@ function copyFromBuffer( src )
  * Method clone() makes copy of the matrix.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * console.log( matrix.toStr() );
  * // log : +1, +2,
  * //       +3, +4,
@@ -936,14 +944,19 @@ function CopyTo( dst, src )
  * Method extractNormalized() extracts data from the Matrix instance and saves it in new map.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var extract = matrix.extractNormalized();
  * console.log( extract );
- * // log : {
- * //         buffer : [ 1, 2, 3, 4 ],
- * //         offset : 0,
- * //         strides : 1, 2,
- * //        }
+ * // log :
+ * // {
+ * //  buffer : [ 1, 2, 3, 4 ],
+ * //  offset : 0,
+ * //  strides : 1, 2,
+ * // }
  *
  * @returns { Map } - Returns map with matrix data.
  * @method extractNormalized
@@ -979,7 +992,11 @@ function extractNormalized()
  * Method ExportString() converts source matrix to string.
  *
  * @example
- * var src = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var src = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var got = _.Matrix.ExportString( { src : src } );
  * console.log( got );
  * // log :
@@ -1147,7 +1164,11 @@ ExportString.defaults =
  * Method toStr() converts current matrix to string.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var got = matrix.toStr();
  * console.log( got );
  * // log :
@@ -1661,7 +1682,11 @@ function DimsOf( src )
  * Method flatScalarIndexFrom() finds the index of element in the matrix buffer.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var got = matrix.flatScalarIndexFrom( [ 1, 1 ] );
  * console.log( got );
  * // log : 4
@@ -1718,7 +1743,11 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
 //  * Method takes into account values of definition of element position {-indexNd-}.
 //  *
 //  * @example
-//  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+//  * var matrix = _.Matrix.MakeSquare
+//  * ([
+//  *   1, 2,
+//  *   3, 4
+//  * ]);
 //  * var got = matrix.flatGranuleIndexFrom( [ 1, 1 ] );
 //  * console.log( got );
 //  * // log : 3
@@ -2082,7 +2111,11 @@ function _bufferAssign( src )
  * Method bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var dst = [ 0, 0, 0, 0 ];
  * var got = matrix.bufferCopyTo( dst );
  * console.log( got );
@@ -2714,7 +2747,11 @@ function OccupiedRangeFrom( dims, strides, offset )
  * Static routine ShapesAreSame() compares dimensions of two matrices {-ins1-} and {-ins-}.
  *
  * @example
- * var matrix1 = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix1 = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var matrix2 = _.Matrix.Make( [ 2, 2 ] );
  * var got = _.Matrix.ShapesAreSame( matrix1, matrix2 );
  * console.log( got );
@@ -2747,7 +2784,11 @@ function ShapesAreSame( ins1, ins2 )
  * Method hasShape() compares dimensions of instance with dimensions of source container {-src-}.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
  * var got = matrix.hasShape( [ 2, 2 ] );
  * console.log( got );
  * // log : true
