@@ -758,17 +758,17 @@ function mulRight( src )
   * @module Tools/math/Matrix
   */
 
-function OuterPorductOfVectors( v1, v2 )
+function OuterProductOfVectors( v1, v2 )
 {
   _.assert( arguments.length === 2 );
   let matrix = _.Matrix.Make([ v1.length, v2.length ]);
-  matrix.outerPorductOfVectors( ... arguments );
+  matrix.outerProductOfVectors( ... arguments );
   return matrix;
 }
 
 //
 
-function outerPorductOfVectors( v1, v2 ) /* qqq : jsdoc */
+function outerProductOfVectors( v1, v2 ) /* qqq : jsdoc */
 {
   let self = this;
 
@@ -1167,6 +1167,8 @@ let Statics = /* qqq : split static routines. ask how */
   Mul,
   _Mul2,
 
+  OuterProductOfVectors,
+
 }
 
 /*
@@ -1201,8 +1203,8 @@ let Extension =
 
   // etc
 
-  OuterPorductOfVectors,
-  outerPorductOfVectors,
+  OuterProductOfVectors,
+  outerProductOfVectors,
 
   // reducer
 
