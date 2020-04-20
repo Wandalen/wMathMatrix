@@ -220,7 +220,7 @@ function scalarEach( onScalar, args )
     it.indexNd = _.dup( 0, dims.length );
     let indexLogical = 0;
 
-    self.matrixEach( ( it2 ) =>
+    self.sliceEach( ( it2 ) =>
     {
 
       for( let i = 2 ; i < dims.length ; i++ )
@@ -249,7 +249,7 @@ function scalarEach( onScalar, args )
 
 //
 
-function matrixEach( onMatrix, args )
+function sliceEach( onMatrix, args )
 {
   let self = this;
   let dims = self.dimsEffective;
@@ -337,7 +337,7 @@ let Extension =
 
   scalarWhile,
   scalarEach,
-  matrixEach, /* qqq : cover */
+  sliceEach, /* qqq : cover and document */
 
   //
 

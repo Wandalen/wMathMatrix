@@ -4800,6 +4800,8 @@ Matrix
   var got = matrix.toStr();
   test.equivalent( got, exp );
 
+  /* */
+
 }
 
 // --
@@ -5806,6 +5808,40 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.scalarSet( [ 0, 0 ], 0, 0 ) );
     test.shouldThrowErrorSync( () => m23.scalarSet( [ 0, 0 ], [ 0 ] ) );
   }
+
+}
+
+//
+
+function lineNdGet( test )
+{
+
+  test.case = '2x3';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+
+  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
+  var line = matrix.lineGet( 0, 0 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 0 ] );
+  test.identical( line, exp );
+
+  // test.case = '2x3x4';
+  // var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  // ([
+  //   1, 2, 3,
+  //   4, 5, 6,
+  //   7, 8, 9,
+  //   10, 11, 12,
+  //   13, 14, 15,
+  //   16, 17, 18,
+  //   19, 20, 21,
+  //   22, 23, 24,
+  // ]);
+  // var line = matrix.lineNdGet( 0 );
 
 }
 
@@ -11310,7 +11346,241 @@ function compareMatrices( test )
   var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
 
   test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
   test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'single 2d';
+
+  var m1 = _.Matrix.MakeZero([ 1, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'single 3d';
+
+  var m1 = _.Matrix.MakeZero([ 1, 1, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 1, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'single 4d';
+
+  var m1 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'empty 0x1 - 0x1';
+
+  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 0, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+/* */
+
+test.case = 'empty 1x0 - 1x0';
+
+var m1 = _.Matrix.MakeZero([ 1, 0 ]);
+var m2 = _.Matrix.MakeZero([ 1, 0 ]);
+
+test.identical( m1.identicalWith( m2 ), true );
+test.identical( m2.identicalWith( m1 ), true );
+test.identical( m1.equivalentWith( m2 ), true );
+test.identical( m2.equivalentWith( m1 ), true );
+test.identical( _.identical( m1, m2 ), true );
+test.identical( _.identical( m2, m1 ), true );
+test.identical( _.equivalent( m1, m2 ), true );
+test.identical( _.equivalent( m2, m1 ), true );
+test.identical( m1, m2 );
+test.identical( m2, m1 );
+test.equivalent( m1, m2 );
+test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'empty 0x1 - 1x0';
+
+  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 0 ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  test.case = 'empty 0x1 - 1x1x0';
+
+  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 1, 0 ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  test.case = 'empty 0x1 - 1x0x1';
+
+  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  test.case = 'empty 1x0 - 1x0x1';
+
+  var m1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  test.case = 'empty 1x0 - 1x1x1x0';
+
+  var m1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 1, 1, 0 ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'row';
+
+  var m1 = _.Matrix.MakeZero([ 1, 3 ]);
+  var m2 = _.Matrix.MakeZero([ 1, 3 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'col';
+
+  var m1 = _.Matrix.MakeZero([ 3, 1 ]);
+  var m2 = _.Matrix.MakeZero([ 3, 1 ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
   test.identical( _.identical( m1, m2 ), true );
   test.identical( _.identical( m2, m1 ), true );
   test.identical( _.equivalent( m1, m2 ), true );
@@ -11368,7 +11638,9 @@ function compareMatrices( test )
   });
 
   test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
   test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
   test.identical( _.identical( m1, m2 ), true );
   test.identical( _.identical( m2, m1 ), true );
   test.identical( _.equivalent( m1, m2 ), true );
@@ -11397,7 +11669,9 @@ function compareMatrices( test )
   });
 
   test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
   test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
   test.identical( _.identical( m1, m2 ), true );
   test.identical( _.identical( m2, m1 ), true );
   test.identical( _.equivalent( m1, m2 ), true );
@@ -11426,7 +11700,9 @@ function compareMatrices( test )
   });
 
   test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
   test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
   test.identical( _.identical( m1, m2 ), true );
   test.identical( _.identical( m2, m1 ), true );
   test.identical( _.equivalent( m1, m2 ), true );
@@ -11461,6 +11737,108 @@ function compareMatrices( test )
   test.ni( m2, m1 );
   test.equivalent( m1, m2 );
   test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'matrix 2x3xInfinity and 2x3xInfinity';
+  var m1 = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var m2 = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+
+  test.identical( m1.identicalWith( m2 ), true );
+  test.identical( m2.identicalWith( m1 ), true );
+  test.identical( m1.equivalentWith( m2 ), true );
+  test.identical( m2.equivalentWith( m1 ), true );
+  test.identical( _.identical( m1, m2 ), true );
+  test.identical( _.identical( m2, m1 ), true );
+  test.identical( _.equivalent( m1, m2 ), true );
+  test.identical( _.equivalent( m2, m1 ), true );
+  test.identical( m1, m2 );
+  test.identical( m2, m1 );
+  test.equivalent( m1, m2 );
+  test.equivalent( m2, m1 );
+
+  /* */
+
+  test.case = 'matrix Infinityx1 and 1x1';
+  var m1 = _.Matrix.Make([ Infinity, 1 ]).copy
+  ([
+    1
+  ]);
+  var m2 = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    1
+  ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), false );
+  test.identical( m2.equivalentWith( m1 ), false );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), false );
+  test.identical( _.equivalent( m2, m1 ), false );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.ne( m1, m2 );
+  test.ne( m2, m1 );
+
+  /* */
+
+  test.case = 'matrix 1xInfinity and 1x1';
+  var m1 = _.Matrix.Make([ 1, Infinity ]).copy
+  ([
+    1
+  ]);
+  var m2 = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    1
+  ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), false );
+  test.identical( m2.equivalentWith( m1 ), false );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), false );
+  test.identical( _.equivalent( m2, m1 ), false );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.ne( m1, m2 );
+  test.ne( m2, m1 );
+
+  /* */
+
+  test.case = 'matrix 1x1xInfinity and 1x1x1';
+  var m1 = _.Matrix.Make([ 1, 1, Infinity ]).copy
+  ([
+    1
+  ]);
+  var m2 = _.Matrix.Make([ 1, 1, 1 ]).copy
+  ([
+    1
+  ]);
+
+  test.identical( m1.identicalWith( m2 ), false );
+  test.identical( m2.identicalWith( m1 ), false );
+  test.identical( m1.equivalentWith( m2 ), false );
+  test.identical( m2.equivalentWith( m1 ), false );
+  test.identical( _.identical( m1, m2 ), false );
+  test.identical( _.identical( m2, m1 ), false );
+  test.identical( _.equivalent( m1, m2 ), false );
+  test.identical( _.equivalent( m2, m1 ), false );
+  test.ni( m1, m2 );
+  test.ni( m2, m1 );
+  test.ne( m1, m2 );
+  test.ne( m2, m1 );
 
   /* */
 
@@ -11669,6 +12047,7 @@ var Self =
     expand,
     vectorToMatrix,
     accessors,
+    lineNdGet,
     partialAccessors,
     lineSwap,
     pivot,

@@ -247,42 +247,42 @@ function asVector()
   return result;
 }
 
+// //
 //
-
-/**
- * Method granuleGet() returns vector extracted from original buffer.
- *
- * @param { Array } index - Position of element.
- * @returns { VectorAdapter } - Returns the vector from matrix buffer.
- * @method granuleGet
- * @throws { Error } If {-index-} is not an Array.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function granuleGet( index )
-{
-  let self = this;
-  let scalarsPerGranule;
-
-  debugger;
-  _.assert( 0, 'not imlemented' );
-
-  if( index.length < self.stridesEffective.length+1 )
-  scalarsPerGranule = _.avector.reduceToProduct( self.stridesEffective.slice( index.length-1 ) );
-  else
-  scalarsPerGranule = 1;
-
-  let result = self.vectorAdapter.fromLongLrange
-  (
-    this.buffer,
-    this.offset + this.flatGranuleIndexFrom( index ),
-    scalarsPerGranule
-  );
-
-  return result;
-}
+// /**
+//  * Method granuleGet() returns vector extracted from original buffer.
+//  *
+//  * @param { Array } index - Position of element.
+//  * @returns { VectorAdapter } - Returns the vector from matrix buffer.
+//  * @method granuleGet
+//  * @throws { Error } If {-index-} is not an Array.
+//  * @class Matrix
+//  * @namespace wTools
+//  * @module Tools/math/Matrix
+//  */
+//
+// function granuleGet( index )
+// {
+//   let self = this;
+//   let scalarsPerGranule;
+//
+//   debugger;
+//   _.assert( 0, 'not imlemented' );
+//
+//   if( index.length < self.stridesEffective.length+1 )
+//   scalarsPerGranule = _.avector.reduceToProduct( self.stridesEffective.slice( index.length-1 ) );
+//   else
+//   scalarsPerGranule = 1;
+//
+//   let result = self.vectorAdapter.fromLongLrange
+//   (
+//     this.buffer,
+//     this.offset + this.flatGranuleIndexFrom( index ),
+//     scalarsPerGranule
+//   );
+//
+//   return result;
+// }
 
 //
 
@@ -573,6 +573,18 @@ function lineSet( d, index, src )
   return self.rowSet( index, src );
   else
   _.assert( 0, 'unknown dimension' );
+
+}
+
+//
+
+function lineNdGet( d, indexNd )
+{
+  let self = this;
+
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert( _.longIs( indexNd ) );
+
 
 }
 
@@ -965,7 +977,7 @@ let Extension =
   scalarsGet,
   asVector,
 
-  granuleGet,
+  // granuleGet,
   elementSlice,
   elementsInRangeGet,
   eGet,
@@ -974,6 +986,7 @@ let Extension =
 
   lineGet,
   lineSet,
+  lineNdGet,
   linesSwap,
 
   // rowOfMatrixGet,
