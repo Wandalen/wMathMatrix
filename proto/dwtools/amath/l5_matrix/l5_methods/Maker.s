@@ -1963,6 +1963,41 @@ function normalProjectionMatrixGet( src )
 
 //
 
+/**
+ * The method formPerspective() transforms provided arguments {-fov-}, {-size-} and {-depth-} to perspective projection.
+ * The result applies to current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2, 3, 4,
+ *   0, 4, 5, 6,
+ *   0, 0, 6, 7,
+ *   1, 2, 3, 8,
+ * ]);
+ *
+ * matrix.formPerspective( 60, [ 3, 4 ], [ 5, 6 ] );
+ * console.log( matrix.toStr() );
+ * // log :
+ * // 1.732  0.000   0.000   0.000
+ * // 0.000  1.299   0.000   0.000
+ * // 0.000  0.000 -11.000 -60.000
+ * // 0.000  0.000  -1.000   0.000
+ *
+ * @param { Number } fov - Field of view, an angle of view.
+ * @param { Long } size - The x and y coordinates.
+ * @param { Long } depth - Depth vector.
+ * @returns { Matrix } - Returns current matrix with result of transformation.
+ * @method formPerspective
+ * @throws { Error } If arguments.length is not 3.
+ * @throws { Error } If size.length is not 2.
+ * @throws { Error } If depth.length is not 2.
+ * @throws { Error } If current matrix is not square matrix, and it length is not 4.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 // function formPerspective( fov, width, height, near, far )
 function formPerspective( fov, size, depth )
 {
@@ -2006,6 +2041,42 @@ function formPerspective( fov, size, depth )
 }
 
 //
+
+/**
+ * The method formFrustum() transforms provided arguments {-horizontal-}, {-vertical-} and {-depth-} to frustum.
+ * The result applies to current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2, 3, 4,
+ *   0, 4, 5, 6,
+ *   0, 0, 6, 7,
+ *   1, 2, 3, 8,
+ * ]);
+ *
+ * matrix.formFrustum( [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] );
+ * console.log( matrix.toStr() );
+ * // log :
+ * // +10 +0  +3  +0
+ * // +0  +10 +7  +0
+ * // +0  +0  -11 -60
+ * // +0  +0  -1  +0
+ *
+ * @param { Long } horizontal - Horizontal vector.
+ * @param { Long } vertical - Vertical vector.
+ * @param { Long } depth - Depth vector.
+ * @returns { Matrix } - Returns current matrix with result of transformation.
+ * @method formFrustum
+ * @throws { Error } If arguments.length is not 3.
+ * @throws { Error } If horizontal.length is not 2.
+ * @throws { Error } If vertical.length is not 2.
+ * @throws { Error } If depth.length is not 2.
+ * @throws { Error } If current matrix is not square matrix, and it length is not 4.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 // function formFrustum( left, right, bottom, top, near, far )
 function formFrustum( horizontal, vertical, depth )
@@ -2055,6 +2126,42 @@ function formFrustum( horizontal, vertical, depth )
 }
 
 //
+
+/**
+ * The method formOrthographic() transforms provided arguments {-horizontal-}, {-vertical-} and {-depth-} to orthogonal system.
+ * The result applies to current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2, 3, 4,
+ *   0, 4, 5, 6,
+ *   0, 0, 6, 7,
+ *   1, 2, 3, 8,
+ * ]);
+ *
+ * matrix.formOrthographic( [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] );
+ * console.log( matrix.toStr() );
+ * // log :
+ * // +2 +0 +0 -3
+ * // +0 +2 +0 -7
+ * // +0 +0 -2 -11
+ * // +0 +0 +0 +1
+ *
+ * @param { Long } horizontal - Horizontal vector.
+ * @param { Long } vertical - Vertical vector.
+ * @param { Long } depth - Depth vector.
+ * @returns { Matrix } - Returns current matrix with result of transformation.
+ * @method formOrthographic
+ * @throws { Error } If arguments.length is not 3.
+ * @throws { Error } If horizontal.length is not 2.
+ * @throws { Error } If vertical.length is not 2.
+ * @throws { Error } If depth.length is not 2.
+ * @throws { Error } If current matrix is not square matrix, and it length is not 4.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 // function formOrthographic( left, right, top, bottom, near, far )
 function formOrthographic( horizontal, vertical, depth )
@@ -2108,6 +2215,40 @@ function formOrthographic( horizontal, vertical, depth )
 
 //
 
+/**
+ * The method lookAt() calculates projection using coordinates of dot {-eye-}, object {-target-} and vector {-up1-}.
+ * The result applies to current matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2, 3,
+ *   4, 0, 4,
+ *   5, 6, 0,
+ * ]);
+ *
+ * matrix.lookAt( [ 1, 0, 1 ], [ 2, 3, 2 ], [ 1, 1, 1 ] );
+ * console.log( matrix.toStr() );
+ * // log :
+ * //  0.000 0.707 -0.707
+ * //  4.000 0.816 -0.408
+ * // -0.408 6.000 -0.577
+ *
+ * @param { Long|VectorAdapter } eye - The dot in space.
+ * @param { Long|VectorAdapter } target - Target object.
+ * @param { Long|VectorAdapter } up1 - Vector.
+ * @returns { Matrix } - Returns current matrix with result of transformation.
+ * @method lookAt
+ * @throws { Error } If arguments.length is not 3.
+ * @throws { Error } If horizontal.length is not 2.
+ * @throws { Error } If vertical.length is not 2.
+ * @throws { Error } If depth.length is not 2.
+ * @throws { Error } If current matrix is not square matrix, and it length is not 4.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 let lookAt = ( function lookAt()
 {
 
@@ -2125,7 +2266,8 @@ let lookAt = ( function lookAt()
     let te = this.buffer;
 
     debugger;
-    _.avector.sub( z, eye, target ).normalize();
+    // _.avector.sub( z, eye, target ).normalize(); /* Dmytro : normalize() is not the method of an instance, it is routine */
+    _.avector.normalize( _.avector.sub( z, eye, target ) );
     // _.avector.subVectors( z, eye, target ).normalize();
 
     if ( _.avector.mag( z ) === 0 )
@@ -2282,26 +2424,26 @@ let lookAt = ( function lookAt()
 //
 // //
 //
-
-function minmaxRowWise()
-{
-  let self = this;
-
-  let minmax = self.distributionRangeSummaryValueRowWise();
-  let result = Object.create( null );
-
-  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-
-  for( let i = 0 ; i < minmax.length ; i += 1 )
-  {
-    result.min[ i ] = minmax[ i ][ 0 ];
-    result.max[ i ] = minmax[ i ][ 1 ];
-  }
-
-  return result;
-}
-
+//
+// function minmaxRowWise()
+// {
+//   let self = this;
+//
+//   let minmax = self.distributionRangeSummaryValueRowWise();
+//   let result = Object.create( null );
+//
+//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
+//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+//
+//   for( let i = 0 ; i < minmax.length ; i += 1 )
+//   {
+//     result.min[ i ] = minmax[ i ][ 0 ];
+//     result.max[ i ] = minmax[ i ][ 1 ];
+//   }
+//
+//   return result;
+// }
+/*  */
 // //
 //
 // function determinant()
