@@ -25,30 +25,29 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // --
 
 /**
-  * Split a M matrix into a Q and a R matrices, where M = Q*R, R is upper triangular
-  * and the values of its diagonal are the eigenvalues of M, and Q is orthogonal and its columns are
-  * the eigenvectors of M. Returns the eigenvalues of M. Matrix stays unchanged.
-  *
-  * @example
-  * // returns self.vectorAdapter.from( [ 4, -2, -2 ] );
-  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   1,  -3,  3,
-  *   3, - 5,  3,
-  *   6, - 6,  4
-  * ]);
-  * matrix._qrIteration( q, r );
-  *
-  * @param { this } - The source matrix.
-  * @param { q } - The destination Q matrix.
-  * @param { r } - The destination R matrix.
-  * @returns { Array } Returns a vector with the values of the diagonal of R.
-  * @function _qrIteration
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Method _qrIteration() splits a M matrix into a Q and a R matrices, where M = Q*R, R is upper triangular
+ * and the values of its diagonal are the eigenvalues of M, and Q is orthogonal and its columns are
+ * the eigenvectors of M. Returns the eigenvalues of M. Matrix stays unchanged.
+ *
+ * @example
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   1, -3,   3,
+ *   3, - 5,  3,
+ *   6, - 6,  4
+ * ]);
+ * matrix._qrIteration( q, r );
+ * // returns : self.vectorAdapter.from( [ 4, -2, -2 ] );
+ *
+ * @param { Matrix } q - The destination Q matrix.
+ * @param { Matrix } r - The destination R matrix.
+ * @returns { Long|VectorAdapter } - Returns a vector with the values of the diagonal of R.
+ * @method _qrIteration
+ * @throws { Error } If arguments.length is 0.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function _qrIteration( q, r )
 {
@@ -122,42 +121,43 @@ function _qrIteration( q, r )
 //
 
 /**
-  * Perform the QR Gram-Schmidt decomposition of a M matrix into a Q and a R matrices, where M = Q*R, R is
-  * upper triangular, and Q is orthogonal. Matrix stays unchanged.
-  *
-  * @example
-  * // returns Q = _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   0.857143, -0.467324, -0.216597,
-  *   0.428571, 0.880322, -0.203369,
-  *   -0.285714, -0.081489, -0.954844
-  * ]);
-  * returns R = _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   14, 34.714287, -14,
-  *   0, 172.803116, -58.390148,
-  *   0, 0, 52.111328
-  * ]);
-  *
-  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   12, -51, 4,
-  *   6, 167, -68,
-  *   -4, -24, -41,
-  * ]);
-  * matrix._qrDecompositionGS( q, r );
-  *
-  * @param { this } - The source matrix.
-  * @param { q } - The destination Q matrix.
-  * @param { r } - The destination R matrix.
-  * @function _qrDecompositionGS
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @throws { Error } An Error if ( q ) is not a matrix.
-  * @throws { Error } An Error if ( r ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Method _qrDecompositionGS() performs the QR Gram-Schmidt decomposition of a M matrix into a Q and a R matrices, where M = Q*R, R is
+ * upper triangular, and Q is orthogonal. Matrix stays unchanged.
+ *
+ * @example
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   12, -51,  4,
+ *   6,   167, -68,
+ *   -4, -24,  -41,
+ * ]);
+ * matrix._qrDecompositionGS( q, r );
+ *
+ * // returns R :
+ * // _.Matrix.Make( [ 3, 3 ] ).copy
+ * // ([
+ * //   14, 34.714287,   -14,
+ * //   0,  172.803116,  -58.390148,
+ * //   0,  0,           52.111328,
+ * // ]);
+ * //
+ * // returns Q :
+ * // _.Matrix.Make( [ 3, 3 ] ).copy
+ * // ([
+ * //   0.857143,  -0.467324, -0.216597,
+ * //   0.428571,  0.880322,  -0.203369,
+ * //   -0.285714, -0.081489, -0.954844
+ * // ]);
+ *
+ * @param { Matrix } q - The destination Q matrix.
+ * @param { Matrix } r - The destination R matrix.
+ * @method _qrDecompositionGS
+ * @throws { Error } If {-q-} s not a Matrix.
+ * @throws { Error } If {-r-} is not a Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function _qrDecompositionGS( q, r )
 {
@@ -203,42 +203,42 @@ function _qrDecompositionGS( q, r )
 //
 
 /**
-  * Perform the QR Householder decomposition of a M matrix into a Q and a R matrices, where M = Q*R, R is
-  * upper triangular, and Q is orthogonal. Matrix stays unchanged.
-  *
-  * @example
-  * // returns Q = _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   -0.857143, 0.467324, -0.216597,
-  *   -0.428571, -0.880322, -0.203369,
-  *   0.285714, 0.081489, -0.954844
-  * ]);
-  * returns R = _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   -14, -34.714287, 14,
-  *   0, -172.803116, 58.390148,
-  *   0, 0, 52.111328
-  * ]);
-  *
-  * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
-  * ([
-  *   12, -51, 4,
-  *   6, 167, -68,
-  *   -4, -24, -41,
-  * ]);
-  * matrix._qrDecompositionHh( q, r );
-  *
-  * @param { this } - The source matrix.
-  * @param { q } - The destination Q matrix.
-  * @param { r } - The destination R matrix.
-  * @function _qrDecompositionHh
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @throws { Error } An Error if ( q ) is not a matrix.
-  * @throws { Error } An Error if ( r ) is not a matrix.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Perform the QR Householder decomposition of a M matrix into a Q and a R matrices, where M = Q*R, R is
+ * upper triangular, and Q is orthogonal. Matrix stays unchanged.
+ *
+ * @example
+ * var matrix =  _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   12, -51, 4,
+ *   6,  167, -68,
+ *   -4, -24, -41,
+ * ]);
+ * matrix._qrDecompositionHh( q, r );
+ *
+ * // returns Q :
+ * // _.Matrix.Make( [ 3, 3 ] ).copy
+ * // ([
+ * //   -0.857143, 0.467324,  -0.216597,
+ * //   -0.428571, -0.880322, -0.203369,
+ * //   0.285714,  0.081489,  -0.954844
+ * // ]);
+ * // returns R :
+ * // _.Matrix.Make( [ 3, 3 ] ).copy
+ * // ([
+ * //   -14, -34.714287,  14,
+ * //   0,   -172.803116, 58.390148,
+ * //   0,   0,           52.111328
+ * // ]);
+ *
+ * @param { Matrix } q - The destination Q matrix.
+ * @param { Matrix } r - The destination R matrix.
+ * @function _qrDecompositionHh
+ * @throws { Error } If {-q-} s not a Matrix.
+ * @throws { Error } If {-r-} is not a Matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function _qrDecompositionHh( q, r )
 {
@@ -283,8 +283,8 @@ function _qrDecompositionHh( q, r )
     u = self.vectorAdapter.add( col, e.mul( c*col.mag() ) ).normalize();
 
     debugger;
-    // let m = _.Matrix.Make( [ rows, cols ] ).OuterPorductOfVectors( u, u );
-    let m = _.Matrix.OuterPorductOfVectors( u, u );
+    // let m = _.Matrix.Make( [ rows, cols ] ).OuterProductOfVectors( u, u );
+    let m = _.Matrix.OuterProductOfVectors( u, u );
     let mi = identity.clone();
     debugger;
     // let h = mi.addAtomWise( m.mul( - 2 ) );
@@ -307,7 +307,7 @@ function _qrDecompositionHh( q, r )
   {
     for( let j = 0; j < cols; j++ )
     {
-      debuggr;
+      debugger;
       if( m.scalarGet( [ i, j ] ) < self.scalarGet( [ i, j ] ) - m.accuracySqrt )
       {
         throw _.err( 'QR decomposition failed' );
@@ -324,46 +324,49 @@ function _qrDecompositionHh( q, r )
 //
 
 /**
-  * Split a M matrix into a U, a S and a V matrices, where M = U*S*Vt, S is diagonal
-  * and the values of its diagonal are the eigenvalues of M, and U and V is orthogonal.
-  * Matrix stays unchanged.
-  *
-  * @example
-  * // returns:
-  * var u =  _.Matrix.Make( [ 2, 2 ] ).copy
-  * ([
-  *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
-  *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
-  * ]);
-  * var s =  _.Matrix.Make( [ 2, 2 ] ).copy
-  * ([
-  *   6.000, 0.000,
-  *   0.000, 2.000,
-  * ]);
-  * var v =  _.Matrix.Make( [ 2, 2 ] ).copy
-  * ([
-  *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2,
-  *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2
-  * ]);
-  *
-  * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
-  * ([
-  *   2, 4,
-  *   4, 2
-  * ]);
-  * matrix.svd( u, s, v );
-  *
-  * @param { this } - The source matrix.
-  * @param { u } - The destination U matrix.
-  * @param { s } - The destination S matrix.
-  * @param { v } - The destination V matrix.
-  * @function svd
-  * @throws { Error } An Error if ( this ) is not a matrix.
-  * @throws { Error } An Error if ( arguments.length ) is not three.
-  * @class Matrix
-  * @namespace wTools
-  * @module Tools/math/Matrix
-  */
+ * Method svd() splits a M matrix into a U, a S and a V matrices, where M = U*S*Vt, S is diagonal
+ * and the values of its diagonal are the eigenvalues of M, and U and V is orthogonal.
+ * Matrix stays unchanged.
+ *
+ * @example
+ * var u =  _.Matrix.Make( [ 2, 2 ] ).copy
+ * ([
+ *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
+ *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
+ * ]);
+ * var s =  _.Matrix.Make( [ 2, 2 ] ).copy
+ * ([
+ *   6.000, 0.000,
+ *   0.000, 2.000,
+ * ]);
+ * var v =  _.Matrix.Make( [ 2, 2 ] ).copy
+ * ([
+ *   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2,
+ *   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2
+ * ]);
+ *
+ * var matrix =  _.Matrix.Make( [ 2, 2 ] ).copy
+ * ([
+ *   2, 4,
+ *   4, 2
+ * ]);
+ * matrix.svd( u, s, v );
+ * // Matrix u :
+ * // _.Matrix.Make( [ 2, 2 ] ).copy
+ * // ([
+ * //   -Math.sqrt( 2 ) / 2, -Math.sqrt( 2 ) / 2,
+ * //   -Math.sqrt( 2 ) / 2, Math.sqrt( 2 ) / 2
+ * // ]);
+ *
+ * @param { Matrix } u - The destination U matrix.
+ * @param { Matrix } s - The destination S matrix.
+ * @param { Matrix } v - The destination V matrix.
+ * @function svd
+ * @throws { Error } If arguments.length is not 3.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function svd( u, s, v )
 {
