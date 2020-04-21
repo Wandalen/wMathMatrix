@@ -640,17 +640,6 @@ function isSymmetric( test )
 //
 // --
 
-function env( test )
-{
-
-  test.is( _.routineIs( _.Matrix ) );
-  test.is( _.objectIs( vad ) );
-  test.is( _.objectIs( avector ) );
-
-}
-
-//
-
 function clone( test )
 {
 
@@ -997,6 +986,145 @@ function construct( test )
 
   /* */
 
+}
+
+//
+
+function Make2D( test )
+{
+  test.case = 'dims - [ 0, 0 ]';
+  var got = _.Matrix.Make([ 0, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 0, 3 ]';
+  var got = _.Matrix.Make([ 0, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 0, Infinity ]';
+  var got = _.Matrix.Make([ 0, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  /* */
+
+  test.case = 'dims - [ 3, 0 ]';
+  var got = _.Matrix.Make([ 3, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, 1 ]';
+  var got = _.Matrix.Make([ 3, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, 3 ]';
+  var got = _.Matrix.Make([ 3, 3 ]);
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, Infinity ]';
+  var got = _.Matrix.Make([ 3, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 3, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  /* */
+
+  test.case = 'dims - [ 1, 0 ]';
+  var got = _.Matrix.Make([ 1, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, 1 ]';
+  var got = _.Matrix.Make([ 1, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, 3 ]';
+  var got = _.Matrix.Make([ 1, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, Infinity ]';
+  var got = _.Matrix.Make([ 1, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ 1, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  /* */
+
+  test.case = 'dims - [ Infinity, 0 ]';
+  var got = _.Matrix.Make([ Infinity, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, 1 ]';
+  var got = _.Matrix.Make([ Infinity, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ Infinity, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, 3 ]';
+  var got = _.Matrix.Make([ Infinity, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ Infinity, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, Infinity ]';
+  var got = _.Matrix.Make([ Infinity, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ Infinity, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 0 ] );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'negative dims element';
+  test.shouldThrowErrorSync( () => _.Matrix.Make([ -1, 2 ]) );
+  test.shouldThrowErrorSync( () => _.Matrix.Make([ 2, -1 ]) );
 }
 
 //
@@ -12171,9 +12299,11 @@ var Self =
 
     // maker
 
-    env,
     clone,
     construct,
+
+    Make2D,
+
     make,
     makeHelper,
     MakeLine,
