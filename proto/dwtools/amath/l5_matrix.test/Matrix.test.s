@@ -5390,6 +5390,73 @@ function exportStructureToStructure( test )
 
   /* */
 
+  test.case = 'dims : ( 3, Infinity )';
+  var exp =
+  {
+    'inputTransposing' : 0,
+    'growingDimension' : 1,
+    'dims' : [ 3, Infinity ],
+    'buffer' : ( new Float32Array([ 1, 2, 3 ]) ),
+    'offset' : 0,
+    'strides' : [ 1, 0 ]
+  }
+  var matrix = _.Matrix
+  ({
+    dims : [ 3, Infinity ],
+    buffer : new Float32Array([ 1, 2, 3 ]),
+    inputTransposing : 0,
+  });
+  test.identical( matrix.dims, [ 3, Infinity ] );
+  test.identical( matrix.dimsEffective, [ 3, 1 ] );
+  test.identical( matrix.strides, null );
+  test.identical( matrix.stridesEffective, [ 1, 0 ] );
+  logger.log( matrix.toStr() );
+  var got = matrix.exportStructure({ dst : Object.create( null ) });
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'dims : ( Infinity, 3 )';
+  var exp =
+  {
+    'inputTransposing' : 0,
+    'growingDimension' : 1,
+    'dims' : [ Infinity, 3 ],
+    'buffer' : ( new Float32Array([ 1, 2, 3 ]) ),
+    'offset' : 0,
+    'strides' : [ 0, 1 ]
+  }
+  var matrix = _.Matrix
+  ({
+    dims : [ Infinity, 3 ],
+    buffer : new Float32Array([ 1, 2, 3 ]),
+    inputTransposing : 0,
+  });
+  test.identical( matrix.dims, [ Infinity, 3 ] );
+  test.identical( matrix.dimsEffective, [ 1, 3 ] );
+  test.identical( matrix.strides, null );
+  test.identical( matrix.stridesEffective, [ 0, 1 ] );
+  logger.log( matrix.toStr() );
+  var got = matrix.exportStructure({ dst : Object.create( null ) });
+  test.identical( got, exp );
+
+  /* */
+
+// var matrix = _.Matrix
+// ({
+//   dims : [ 1,Infinity ],
+//   buffer : new F32x( 1 ),
+//   inputTransposing : 0
+// })
+// matrix.stridesEffective
+// [1, 0]
+// matrix.extractNormalized()
+// {
+//     buffer: Float32Array [0]
+//     inputTransposing: 0
+//     offset: 0
+//     strides: [1, 1]
+
 }
 
 //

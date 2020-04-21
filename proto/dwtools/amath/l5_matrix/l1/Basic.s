@@ -1055,7 +1055,8 @@ function extractNormalized()
   result.offset = 0;
   // result.strides = self.StridesFromDimensions( self.dimsEffective, self.inputTransposing );
   // result.inputTransposing = self.inputTransposing;
-  result.strides = self.StridesFromDimensions( self.dimsEffective, 0 );
+  // result.strides = self.StridesFromDimensions( self.dimsEffective, 0 );
+  result.strides = self.StridesFromDimensions( self.dims, 0 );
   result.inputTransposing = 0;
 
   self.scalarEach( function( it )
