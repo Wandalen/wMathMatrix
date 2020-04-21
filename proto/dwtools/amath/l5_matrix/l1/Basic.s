@@ -527,18 +527,12 @@ function ExportStructure( o )
   else
   {
 
-    // _.assert( 0, 'not tested' ); /* xxx */
-
-    set( 'inputTransposing' );
     set( 'growingDimension' );
     set( 'dims' );
 
     let extract = o.src.extractNormalized();
-    o.dst.buffer = _.longSlice( extract.buffer );
-    o.dst.offset = extract.offset;
-    o.dst.strides = extract.strides;
+    _.mapExtend( o.dst, extract );
 
-    debugger;
   }
 
   return o.dst;
@@ -886,9 +880,9 @@ function copyFromScalar( src )
  *
  * @param { Long } src - A Long for assigning to the matrix.
  * @returns { Matrix } - Returns original instance of Matrix filled by values from {-src-}.
- * @method copyFromBuffer
  * @throws { Error } If arguments.length is less then one.
  * @throws { Error } If {-src-} is not a Long.
+ * @method copyFromBuffer
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1060,6 +1054,9 @@ function extractNormalized()
   result.buffer = self.long.longMakeUndefined( self.buffer , self.scalarsPerMatrix );
   result.offset = 0;
   result.strides = self.StridesFromDimensions( self.dimsEffective, self.inputTransposing );
+  result.inputTransposing = self.inputTransposing;
+  // result.strides = self.StridesFromDimensions( self.dimsEffective, 0 );
+  // result.inputTransposing = 0;
 
   self.scalarEach( function( it )
   {
@@ -2380,7 +2377,6 @@ function _adjustVerify()
 {
   let self = this;
 
-  // _.assert( _.longIs( self.buffer ), 'Matrix needs buffer' );
   _.assert( _.longIs( self.strides ) || self.strides === null );
   _.assert( _.numberIs( self.offset ), 'Matrix needs offset' );
 
@@ -2646,13 +2642,29 @@ function DimsDeduceFrom( src, fallbackDims )
   let offset = src.offset || 0;
 
   if( src.scalarsPerCol !== undefined && src.scalarsPerCol !== null )
-  dim0 = src.scalarsPerCol;
+  {
+    dim0 = src.scalarsPerCol;
+  }
   else if( src.scalarsPerElement !== undefined && src.scalarsPerElement !== null )
-  dim0 = src.scalarsPerElement;
+  {
+    dim0 = src.scalarsPerElement;
+  }
   else if( src.breadth !== undefined && src.breadth !== null )
-  dim0 = src.breadth[ 0 ];
+  {
+    if( _.numberIs( src.breadth ) )
+    {
+      dim0 = src.breadth;
+    }
+    else
+    {
+      _.assert( src.breadth.length === 1 );
+      dim0 = src.breadth[ 0 ];
+    }
+  }
   if( src.scalarsPerRow !== undefined && src.scalarsPerRow !== null )
-  dim1 = src.scalarsPerRow;
+  {
+    dim1 = src.scalarsPerRow;
+  }
 
   if( src.buffer )
   if( dim0 == undefined )

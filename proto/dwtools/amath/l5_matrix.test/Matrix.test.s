@@ -787,12 +787,12 @@ function clone( test )
 
 //
 
-function construct( test )
+function serializing( test ) /* xxx */
 {
 
   /* */
 
-  test.case = 'creating';
+  test.case = 'inputTransposing : 0';
 
   var a = new _.Matrix
   ({
@@ -803,27 +803,6 @@ function construct( test )
     strides : [ 2, 6 ],
     dims : [ 3, 1 ],
   });
-
-  logger.log( a );
-
-  test.identical( a.size, 12 );
-  test.identical( a.sizeOfElementStride, 24 );
-  test.identical( a.sizeOfElement, 12 );
-  test.identical( a.sizeOfCol, 12 );
-  test.identical( a.sizeOfRow, 4 );
-  test.identical( a.dims, [ 3, 1 ] );
-  test.identical( a.length, 1 );
-
-  test.identical( a.stridesEffective, [ 2, 6 ] );
-  test.identical( a.strideOfElement, 6 );
-  test.identical( a.strideOfCol, 6 );
-  test.identical( a.strideInCol, 2 );
-  test.identical( a.strideOfRow, 2 );
-  test.identical( a.strideInRow, 6 );
-
-  /* */
-
-  test.case = 'serializing clone';
 
   var cloned = a.cloneSerializing();
 
@@ -856,9 +835,7 @@ function construct( test )
 
   test.identical( cloned, expected );
 
-  /* */
-
-  test.case = 'deserializing clone';
+  test.description = 'deserializing clone';
 
   var b = new _.Matrix({ buffer : new F32x(), inputTransposing : true });
   b.copyDeserializing( cloned );
@@ -901,7 +878,7 @@ function construct( test )
 
   /* */
 
-  test.case = 'creating';
+  test.case = 'inputTransposing : 1';
 
   var a = new _.Matrix
   ({
@@ -911,27 +888,6 @@ function construct( test )
     inputTransposing : 1,
     strides : [ 2, 6 ],
   });
-
-  logger.log( a );
-
-  test.identical( a.size, 12 );
-  test.identical( a.sizeOfElementStride, 24 );
-  test.identical( a.sizeOfElement, 12 );
-  test.identical( a.sizeOfCol, 12 );
-  test.identical( a.sizeOfRow, 4 );
-  test.identical( a.dims, [ 3, 1 ] );
-  test.identical( a.length, 1 );
-
-  test.identical( a.stridesEffective, [ 2, 6 ] );
-  test.identical( a.strideOfElement, 6 );
-  test.identical( a.strideOfCol, 6 );
-  test.identical( a.strideInCol, 2 );
-  test.identical( a.strideOfRow, 2 );
-  test.identical( a.strideInRow, 6 );
-
-  /* */
-
-  test.case = 'serializing clone';
 
   var cloned = a.cloneSerializing();
 
@@ -964,9 +920,7 @@ function construct( test )
 
   test.identical( cloned, expected );
 
-  /* */
-
-  test.case = 'deserializing clone';
+  test.description = 'deserializing clone';
 
   var b = new _.Matrix({ buffer : new F32x(), inputTransposing : true });
   b.copyDeserializing( cloned );
@@ -1008,6 +962,74 @@ function construct( test )
   test.identical( b.strideInRow, 1 );
 
   /* */
+
+}
+
+//
+
+function constructBasic( test )
+{
+
+  /* */
+
+  test.case = 'inputTransposing : 0';
+
+  var a = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+    offset : 1,
+    scalarsPerElement : 3,
+    inputTransposing : 0,
+    strides : [ 2, 6 ],
+    dims : [ 3, 1 ],
+  });
+
+  logger.log( a );
+
+  test.identical( a.size, 12 );
+  test.identical( a.sizeOfElementStride, 24 );
+  test.identical( a.sizeOfElement, 12 );
+  test.identical( a.sizeOfCol, 12 );
+  test.identical( a.sizeOfRow, 4 );
+  test.identical( a.dims, [ 3, 1 ] );
+  test.identical( a.length, 1 );
+
+  test.identical( a.stridesEffective, [ 2, 6 ] );
+  test.identical( a.strideOfElement, 6 );
+  test.identical( a.strideOfCol, 6 );
+  test.identical( a.strideInCol, 2 );
+  test.identical( a.strideOfRow, 2 );
+  test.identical( a.strideInRow, 6 );
+
+  /* */
+
+  test.case = 'inputTransposing : 1';
+
+  var a = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+    offset : 1,
+    scalarsPerElement : 3,
+    inputTransposing : 1,
+    strides : [ 2, 6 ],
+  });
+
+  logger.log( a );
+
+  test.identical( a.size, 12 );
+  test.identical( a.sizeOfElementStride, 24 );
+  test.identical( a.sizeOfElement, 12 );
+  test.identical( a.sizeOfCol, 12 );
+  test.identical( a.sizeOfRow, 4 );
+  test.identical( a.dims, [ 3, 1 ] );
+  test.identical( a.length, 1 );
+
+  test.identical( a.stridesEffective, [ 2, 6 ] );
+  test.identical( a.strideOfElement, 6 );
+  test.identical( a.strideOfCol, 6 );
+  test.identical( a.strideInCol, 2 );
+  test.identical( a.strideOfRow, 2 );
+  test.identical( a.strideInRow, 6 );
 
 }
 
@@ -4142,7 +4164,7 @@ function constructWithBreadth( test )
 
   /* */
 
-  test.case = 'matrix with breadth, transposing';
+  test.case = 'inputTransposing : 1, breadth is array';
 
   var m = new _.Matrix
   ({
@@ -4187,12 +4209,102 @@ function constructWithBreadth( test )
 
   /* */
 
-  test.case = 'matrix with breadth, non transposing';
+  test.case = 'transposing : 0, breadth is array';
 
   var m = new _.Matrix
   ({
     inputTransposing : 0,
     breadth : [ 2 ],
+    buffer :
+    [
+      1, 2, 3,
+      4, 5, 6,
+    ],
+  });
+
+  logger.log( 'm\n' + _.toStr( m ) );
+
+  test.identical( m.dims, [ 2, 3 ] );
+  test.identical( m.length, 3 );
+
+  test.identical( m.stridesEffective, [ 1, 2 ] );
+  test.identical( m.strideOfElement, 2 );
+  test.identical( m.strideOfCol, 2 );
+  test.identical( m.strideInCol, 1 );
+  test.identical( m.strideOfRow, 1 );
+  test.identical( m.strideInRow, 2 );
+
+  var r1 = m.rowGet( 1 );
+  var r2 = m.lineGet( 1, 1 );
+  var c1 = m.colGet( 2 );
+  var c2 = m.lineGet( 0, 2 );
+  var e = m.eGet( 2 );
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
+
+  test.identical( r1, _.vectorAdapter.from([ 2, 4, 6 ]) );
+  test.identical( r1, r2 );
+  test.identical( c1, _.vectorAdapter.from([ 5, 6 ]) );
+  test.identical( c1, c2 );
+  test.identical( e, _.vectorAdapter.from([ 5, 6 ]) );
+  test.identical( a1, 6 );
+  test.identical( a2, 4 );
+  test.identical( m.reduceToSumAtomWise(), 21 );
+  test.identical( m.reduceToProductAtomWise(), 720 );
+
+  /* */
+
+  test.case = 'inputTransposing : 1, breadth is number';
+
+  var m = new _.Matrix
+  ({
+    inputTransposing : 1,
+    breadth : 2,
+    buffer :
+    [
+      1, 2, 3,
+      4, 5, 6,
+    ],
+  });
+
+  logger.log( 'm\n' + _.toStr( m ) );
+
+  test.identical( m.dims, [ 2, 3 ] );
+  test.identical( m.length, 3 );
+
+  test.identical( m.stridesEffective, [ 3, 1 ] );
+  test.identical( m.strideOfElement, 1 );
+  test.identical( m.strideOfCol, 1 );
+  test.identical( m.strideInCol, 3 );
+  test.identical( m.strideOfRow, 3 );
+  test.identical( m.strideInRow, 1 );
+
+  var r1 = m.rowGet( 1 );
+  var r2 = m.lineGet( 1, 1 );
+  var c1 = m.colGet( 2 );
+  var c2 = m.lineGet( 0, 2 );
+  var e = m.eGet( 2 );
+  var a1 = m.scalarFlatGet( 5 );
+  var a2 = m.scalarGet([ 1, 1 ]);
+
+  test.identical( r1, _.vectorAdapter.from([ 4, 5, 6 ]) );
+  test.identical( r1, r2 );
+  test.identical( c1, _.vectorAdapter.from([ 3, 6 ]) );
+  test.identical( c1, c2 );
+  test.identical( e, _.vectorAdapter.from([ 3, 6 ]) );
+  test.identical( a1, 6 );
+  test.identical( a2, 5 );
+  test.identical( m.reduceToSumAtomWise(), 21 );
+  test.identical( m.reduceToProductAtomWise(), 720 );
+
+  /* */
+
+  test.case = 'transposing : 0, breadth is number';
+
+  var m = new _.Matrix
+  ({
+    inputTransposing : 0,
+    breadth : 2,
     buffer :
     [
       1, 2, 3,
@@ -8600,21 +8712,18 @@ function subspace( test )
   var buffer = [];
   var dims = [ 1, 3, 1, 3, 1, 3 ];
   var inputTransposing = 1;
-  for( let i = _.avector.reduceToProduct( dims )-1 ; i >= 0 ; i-- )
-  buffer[ i ] = i;
-  var matrix = _.Matrix({ dims, inputTransposing }).copy( buffer ); debugger;
 
   var matrix = _.Matrix({ dims, inputTransposing }).copy
   ([
-    +0, +3, +6,
-    +1, +4, +7,
-    +2, +5, +8,
-    +9, +12, +15,
-    +10, +13, +16,
-    +11, +14, +17,
-    +18, +21, +24,
-    +19, +22, +25,
-    +20, +23, +26,
+    +0, +1, +2,
+    +3, +4, +5,
+    +6, +7, +8,
+    +9, +10, +11,
+    +12, +13, +14,
+    +15, +16, +17,
+    +18, +19, +20,
+    +21, +22, +23,
+    +24, +25, +26,
   ]);
 
   console.log( matrix.toStr() );
@@ -8643,41 +8752,52 @@ function subspace( test )
   console.log( subspace.toStr() );
   console.log( '' );
 
-  // /* */
-  //
-  // test.case = 'inputTransposing : 0';
-  //
-  // var buffer = [];
-  // var dims = [ 1, 3, 1, 3, 1, 3 ];
-  // var inputTransposing = 0;
-  // for( let i = _.avector.reduceToProduct( dims )-1 ; i >= 0 ; i-- )
-  // buffer[ i ] = i;
-  // var matrix = _.Matrix({ dims, inputTransposing }).copy( buffer );
-  // console.log( matrix.toStr() );
-  // console.log( '' );
-  //
-  // var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
-  // test.is( matrix.buffer === subspace.buffer );
-  // test.identical( subspace.dims, [ 3, 3, 3 ] );
-  // test.identical( subspace.stridesEffective, [ 1, 3, 9 ] );
-  // test.identical( subspace.inputTransposing, matrix.inputTransposing );
-  //
-  // var exp = _.Matrix.Make([ 3, 3, 3 ]).copy
-  // ([
-  //   +0, +3, +6,
-  //   +1, +4, +7,
-  //   +2, +5, +8,
-  //   +9, +12, +15,
-  //   +10, +13, +16,
-  //   +11, +14, +17,
-  //   +18, +21, +24,
-  //   +19, +22, +25,
-  //   +20, +23, +26,
-  // ]);
-  // test.identical( subspace, exp );
-  //
-  // console.log( subspace.toStr() );
-  // console.log( '' );
+  /* */
+
+  test.case = 'inputTransposing : 0';
+
+  var buffer = [];
+  var dims = [ 1, 3, 1, 3, 1, 3 ];
+  var inputTransposing = 0;
+
+  var matrix = _.Matrix({ dims, inputTransposing }).copy
+  ([
+    +0, +1, +2,
+    +3, +4, +5,
+    +6, +7, +8,
+    +9, +10, +11,
+    +12, +13, +14,
+    +15, +16, +17,
+    +18, +19, +20,
+    +21, +22, +23,
+    +24, +25, +26,
+  ]);
+
+  console.log( matrix.toStr() );
+  console.log( '' );
+
+  var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
+  test.is( matrix.buffer === subspace.buffer );
+  test.identical( subspace.dims, [ 3, 3, 3 ] );
+  test.identical( subspace.stridesEffective, [ 1, 3, 9 ] );
+  test.identical( subspace.inputTransposing, matrix.inputTransposing );
+
+  var exp = _.Matrix.Make([ 3, 3, 3 ]).copy
+  ([
+    +0, +3, +6,
+    +1, +4, +7,
+    +2, +5, +8,
+    +9, +12, +15,
+    +10, +13, +16,
+    +11, +14, +17,
+    +18, +21, +24,
+    +19, +22, +25,
+    +20, +23, +26,
+  ]);
+  test.identical( subspace, exp );
+
+  console.log( subspace.toStr() );
+  console.log( '' );
 
   /* */
 
@@ -13123,7 +13243,7 @@ var Self =
     // maker
 
     env,
-    construct,
+    constructBasic,
     make,
     makeHelper,
     MakeLine,
@@ -13144,6 +13264,7 @@ var Self =
     copy,
     copySubmatrix,
     clone,
+    serializing,
     exportStructureToStructure,
 
     toStr,
