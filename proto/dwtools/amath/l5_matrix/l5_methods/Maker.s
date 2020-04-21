@@ -75,7 +75,6 @@ function Make( dims )
 {
   let proto = Self.prototype;
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument array {-dims-}' );
 
@@ -83,17 +82,13 @@ function Make( dims )
   dims = [ dims, dims ];
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let strides = proto.StridesFromDimensions( dims, 0 );
   let buffer = proto.long.longMake( lengthFlat );
   let result = new proto.Self
   ({
     buffer,
     dims,
     inputTransposing : 0,
-    /*strides, */
   });
-
-  _.assert( _.longIdentical( strides, result.stridesEffective ) );
 
   return result;
 }
@@ -201,17 +196,13 @@ function MakeZero( dims )
   dims = [ dims, dims ];
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let strides = proto.StridesFromDimensions( dims, 0 );
   let buffer = proto.long.longMakeZeroed( lengthFlat );
   let result = new proto.Self
   ({
     buffer,
     dims,
     inputTransposing : 0,
-    /*strides, */
   });
-
-  _.assert( _.longIdentical( strides, result.stridesEffective ) );
 
   return result;
 }

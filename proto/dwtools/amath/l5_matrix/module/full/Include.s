@@ -7,6 +7,13 @@
   @module Tools/math/Matrix
 */
 
+/* zzz :
+
+- implement power
+- implement compose
+
+*/
+
 if( typeof module !== 'undefined' )
 {
 

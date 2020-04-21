@@ -1,37 +1,19 @@
 let _ = require( 'wmathmatrix' );
 
-var buffer1 = new I32x
+var matrix1 = _.Matrix.MakeSquare
 ([
-  +1, -5, +2,
-  -3, +4, +7,
+  1, 2,
+  3, 4
 ]);
-var matrixA = new _.Matrix
-({
-  buffer : buffer1,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
-
-var buffer2 = new F32x
+var matrix2 = _.Matrix.MakeSquare
 ([
-  +1.01, -5, +2,
-  -3,    +4, +7.01,
+  4, 3,
+  2, 1
 ]);
-var matrixB = new _.Matrix
-({
-  buffer : buffer2,
-  dims : [ 2, 3 ],
-  inputTransposing : 1,
-});
 
-var equivalent = _.equivalent( matrixA, matrixB );
-console.log( `result of comparison with standard accuracy :\n${ equivalent }` );
-/* log : result of comparison with standard accuracy :
-false
-*/
-
-var equivalent = _.equivalent( matrixA, matrixB, { accuracy : 0.01 } );
-console.log( `result of comparison with accuracy 0.01 :\n${ equivalent }` );
-/* log : result of comparison with non-standard accuracy :
-true
+matrix1.mulAtomWise( matrix2 );
+console.log( matrix1.toStr() );
+/* log : dst :
+  +4 +6
+  +6 +4
 */
