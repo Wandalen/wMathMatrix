@@ -1199,6 +1199,38 @@ function MakeChangeDimsLength( test )
 {
   test.open( '2D' );
 
+  test.case = 'dims - 0';
+  var got = _.Matrix.Make( 0 );
+  test.identical( got.length, 0 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 0, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - 1';
+  var got = _.Matrix.Make( 1 );
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - 2';
+  var got = _.Matrix.Make( 2 );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 4 ) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - Infinity';
+  var got = _.Matrix.Make( Infinity );
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ Infinity, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 0 ] );
+
   test.case = 'dims - [ Infinity, Infinity ]';
   var got = _.Matrix.Make([ Infinity, Infinity ]);
   test.identical( got.length, 1 );
