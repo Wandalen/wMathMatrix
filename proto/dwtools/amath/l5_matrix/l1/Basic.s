@@ -2,17 +2,6 @@
 
 'use strict';
 
-/* zzz :
-
-15:30 Thursday
-
-- implement power
-- implement submatrix
--- make sure inputTransposing of product set correctly
-- implement compose
-
-*/
-
 //
 
 let _ = _global_.wTools;
@@ -482,7 +471,6 @@ function ExportStructure( o )
     o.dst._changeBegin();
 
     o.dst[ stridesEffectiveSymbol ] = null;
-
     set( 'inputTransposing' );
     set( 'growingDimension' );
 
@@ -539,15 +527,18 @@ function ExportStructure( o )
   else
   {
 
+    // _.assert( 0, 'not tested' ); /* xxx */
+
     set( 'inputTransposing' );
     set( 'growingDimension' );
     set( 'dims' );
 
-    let extract = o.src.extractNormalized(); debugger;
+    let extract = o.src.extractNormalized();
     o.dst.buffer = _.longSlice( extract.buffer );
     o.dst.offset = extract.offset;
     o.dst.strides = extract.strides;
 
+    debugger;
   }
 
   return o.dst;
@@ -656,7 +647,6 @@ ExportStructure.defaults =
 //   }
 //   else if( o.src.buffer && o.dst.buffer === null )
 //   {
-//     debugger; /* xxx */
 //     set( 'buffer' );
 //     set( 'strides' );
 //     set( 'offset' );
@@ -2173,7 +2163,7 @@ function bufferCopyTo( dst )
   _.assert( _.longIs( dst ) );
   _.assert( scalarsPerMatrix === dst.length, `Matrix ${self.dimsExportString()} should have ${scalarsPerMatrix} scalars, but got ${dst.length}` );
 
-  throw _.err( 'not tested' );
+  throw _.err( 'not tested' ); /* xxx */
 
   self.scalarEach( function( it )
   {
@@ -2287,7 +2277,6 @@ function _adjust()
 function _adjustAct()
 {
   let self = this;
-  // let changed = false;
 
   self._changing[ 0 ] += 1;
 
@@ -2297,7 +2286,6 @@ function _adjustAct()
   {
     debugger;
     self.breadth = [ self.breadth ];
-    // changed = true;
   }
 
   /* strides */
@@ -2308,7 +2296,6 @@ function _adjustAct()
     let strides = _.dup( 1, self.breadth.length+1 );
     strides[ strides.length-1 ] = self.strides;
     self.strides = self.StridesRoll( strides );
-    // changed = true;
   }
 
   self[ stridesEffectiveSymbol ] = null;
@@ -2323,10 +2310,17 @@ function _adjustAct()
   _.assert( self.dims === null || _.longIs( self.dims ) );
 
   if( !self.dims )
-  self._dimsDeduceGrowing();
-  // dimsDeduce();
+  {
+    self._dimsDeduceGrowing();
+  }
 
   _.assert( _.arrayIs( self.dims ) );
+
+  if( self.buffer === null )
+  {
+    let lengthFlat = self.ScalarsPerMatrixForDimensions( self.dims );
+    self.buffer = self.long.longMake( lengthFlat );
+  }
 
   self._dimsWas = self.dims.slice();
   self[ dimsEffectiveSymbol ] = self.DimsEffectiveFrom( self.dims );
@@ -2342,15 +2336,6 @@ function _adjustAct()
   self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
   else
   self[ scalarsPerElementSymbol ] = self.scalarsPerMatrix / lastDim;
-
-  // self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
-  // self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
-  // self[ scalarsPerSliceSymbol ] = self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ];
-  // self[ slicesPerMatrixSymbol ] = self.dimsEffective.length > 2 ? _.avector.reduceToProduct( self.dimsEffective.slice( 2 ) ) : 1;
-
-  // self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.breadth );
-  // return self[ scalarsPerMatrixSymbol ];
-  // // let result = self.length === Infinity ? self.scalarsPerElement : self.length * self.scalarsPerElement;
 
   /* strides */
 
@@ -2387,54 +2372,6 @@ function _adjustAct()
   _.entityFreeze( self.stridesEffective );
 
   self._changing[ 0 ] -= 1;
-
-  /* */
-
-  // function dimsDeduce()
-  // {
-  //   // _.assert( 0, 'not tested' ); /* xxx */
-  //   debugger;
-  //   if( self._dimsWas )
-  //   {
-  //     _.assert( _.arrayIs( self._dimsWas ) );
-  //     _.assert( _.arrayIs( self._dimsWas ) );
-  //     _.assert( _.longIs( self.buffer ) );
-  //     _.assert( self.offset >= 0 );
-  //
-  //     let dims = self._dimsWas.slice();
-  //     dims[ self.growingDimension ] = 1;
-  //     let ape = _.avector.reduceToProduct( dims );
-  //     let l = ( self.buffer.length - self.offset ) / ape;
-  //     dims[ self.growingDimension ] = l;
-  //     self[ dimsSymbol ] = dims;
-  //
-  //     _.assert( l >= 0 );
-  //     _.assert( _.intIs( l ) );
-  //
-  //   }
-  //   else if( self.strides )
-  //   {
-  //     _.assert( 0, 'Cant deduce dimensions from only strides' );
-  //   }
-  //   else
-  //   {
-  //     _.assert( _.longIs( self.buffer ), 'Expects buffer' );
-  //     if( self.buffer.length - self.offset > 0 )
-  //     {
-  //       self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
-  //       if( !self.stridesEffective )
-  //       self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
-  //     }
-  //     else
-  //     {
-  //       self[ dimsSymbol ] = [ 1, 0 ];
-  //       if( !self.stridesEffective )
-  //       self[ stridesEffectiveSymbol ] = [ 1, 1 ];
-  //     }
-  //     // changed = true;
-  //   }
-  // }
-
 }
 
 //
@@ -2443,9 +2380,9 @@ function _adjustVerify()
 {
   let self = this;
 
-  _.assert( _.longIs( self.buffer ), 'matrix needs buffer' );
+  // _.assert( _.longIs( self.buffer ), 'Matrix needs buffer' );
   _.assert( _.longIs( self.strides ) || self.strides === null );
-  _.assert( _.numberIs( self.offset ), 'matrix needs offset' );
+  _.assert( _.numberIs( self.offset ), 'Matrix needs offset' );
 
 }
 
@@ -2465,7 +2402,10 @@ function _adjustValidate()
   _.assert( self.length >= 0 );
   _.assert( self.scalarsPerElement >= 0 );
 
-  _.assert( _.longIs( self.buffer ) );
+  _.assert( _.longIs( self.buffer ), 'Matrix needs buffer' );
+  _.assert( _.longIs( self.strides ) || self.strides === null );
+  _.assert( self.offset >= 0, 'Matrix needs proper offset' );
+
   _.assert( _.longIs( self.breadth ) );
 
   _.assert( _.longIs( self.stridesEffective ) );
@@ -2645,8 +2585,6 @@ function _dimsDeduceGrowing()
   _.assert( arguments.length === 0 );
   _.assert( self.dims === null );
 
-  // _.assert( 0, 'not tested' ); /* xxx */
-  debugger;
   if( self._dimsWas )
   {
     _.assert( _.arrayIs( self._dimsWas ) );
@@ -2766,30 +2704,6 @@ function DimsDeduceFrom( src, fallbackDims )
   _.assert( _.intIs( result[ 1 ] ), 'Cant deduce {- dims -} of the matrix' );
 
   return result;
-
-  // if( src.scalarsPerElement !== undefined && src.scalarsPerElement !== null )
-  // {
-  //   _.assert( _.longIs( src.buffer ) );
-  //   let offset = src.offset || 0;
-  //   // if( !src.offset )
-  //   // src.offset = 0;
-  //   if( !src.dims )
-  //   {
-  //     if( src.strides )
-  //     src.dims = [ src.scalarsPerElement, ( src.buffer.length - offset ) / src.strides[ 1 ] ];
-  //     else
-  //     src.dims = [ src.scalarsPerElement, ( src.buffer.length - offset ) / src.scalarsPerElement ];
-  //     src.dims[ 1 ] = Math.floor( src.dims[ 1 ] );
-  //   }
-  //   _.assert( _.intIs( src.dims[ 0 ] ) );
-  //   _.assert( _.intIs( src.dims[ 1 ] ) );
-  //   // delete src.scalarsPerElement;
-  // }
-
-  // scalarsPerElement : null, /* xxx */
-  // scalarsPerCol : null,
-  // scalarsPerRow : null,
-
 }
 
 //
@@ -3092,8 +3006,7 @@ let Medials =
   strides : null,
   offset : 0,
   breadth : null,
-
-  scalarsPerElement : null, /* xxx */
+  scalarsPerElement : null,
   scalarsPerCol : null,
   scalarsPerRow : null,
 

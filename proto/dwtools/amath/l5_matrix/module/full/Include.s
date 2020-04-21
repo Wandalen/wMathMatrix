@@ -7,6 +7,15 @@
   @module Tools/math/Matrix
 */
 
+/* zzz :
+
+- implement power
+- implement submatrix
+-- make sure inputTransposing of product set correctly
+- implement compose
+
+*/
+
 if( typeof module !== 'undefined' )
 {
 
