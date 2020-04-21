@@ -1129,6 +1129,497 @@ function Make2D( test )
 
 //
 
+function Make3D( test )
+{
+  test.case = 'dims - [ 0, 0, 0 ]';
+  var got = _.Matrix.Make([ 0, 0, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 0, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 0 ] );
+
+  test.case = 'dims - [ 0, 3, 0 ]';
+  var got = _.Matrix.Make([ 0, 3, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 3, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 0 ] );
+
+  test.case = 'dims - [ 0, Infinity, 0 ]';
+  var got = _.Matrix.Make([ 0, Infinity, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, Infinity, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 0 ] );
+
+  test.case = 'dims - [ 1, 0, 0 ]';
+  var got = _.Matrix.Make([ 1, 0, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 0, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1, 0 ] );
+
+  test.case = 'dims - [ 1, 1, 0 ]';
+  var got = _.Matrix.Make([ 1, 1, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 1, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1, 1 ] );
+
+  test.case = 'dims - [ 1, 3, 0 ]';
+  var got = _.Matrix.Make([ 1, 3, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 3, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1, 3 ] );
+
+  test.case = 'dims - [ 1, Infinity, 0 ]';
+  var got = _.Matrix.Make([ 1, Infinity, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, Infinity, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 1 ] );
+
+  test.case = 'dims - [ 3, 0, 0 ]';
+  var got = _.Matrix.Make([ 3, 0, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 0, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3, 0 ] );
+
+  test.case = 'dims - [ 3, 1, 0 ]';
+  var got = _.Matrix.Make([ 3, 1, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 1, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3, 3 ] );
+
+  test.case = 'dims - [ 3, 3, 0 ]';
+  var got = _.Matrix.Make([ 3, 3, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 3, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3, 9 ] );
+
+  test.case = 'dims - [ 3, Infinity, 0 ]';
+  var got = _.Matrix.Make([ 3, Infinity, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, Infinity, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 3 ] );
+
+  test.case = 'dims - [ Infinity, 0, 0 ]';
+  var got = _.Matrix.Make([ Infinity, 0, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 0, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1, 0 ] );
+
+  test.case = 'dims - [ Infinity, 1, 0 ]';
+  var got = _.Matrix.Make([ Infinity, 1, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 1, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1, 1 ] );
+
+  test.case = 'dims - [ Infinity, 3, 0 ]';
+  var got = _.Matrix.Make([ Infinity, 3, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 3, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1, 3 ] );
+
+  test.case = 'dims - [ Infinity, Infinity, 0 ]';
+  var got = _.Matrix.Make([ Infinity, Infinity, 0 ]);
+  test.identical( got.length, 0 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, Infinity, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 0, 1 ] );
+
+  /* */
+
+  test.case = 'dims - [ 0, 0, 1 ]';
+  var got = _.Matrix.Make([ 0, 0, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 0, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 0, 3, 1 ]';
+  var got = _.Matrix.Make([ 0, 3, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 0, Infinity, 1 ]';
+  var got = _.Matrix.Make([ 0, Infinity, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, Infinity, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 1, 0, 1 ]';
+  var got = _.Matrix.Make([ 1, 0, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 0, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, 1, 1 ]';
+  var got = _.Matrix.Make([ 1, 1, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ 1, 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, 3, 1 ]';
+  var got = _.Matrix.Make([ 1, 3, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 1, 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, Infinity, 1 ]';
+  var got = _.Matrix.Make([ 1, Infinity, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ 1, Infinity, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 3, 0, 1 ]';
+  var got = _.Matrix.Make([ 3, 0, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 0, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, 1, 1 ]';
+  var got = _.Matrix.Make([ 3, 1, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 3, 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, 3, 1 ]';
+  var got = _.Matrix.Make([ 3, 3, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ 3, 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, Infinity, 1 ]';
+  var got = _.Matrix.Make([ 3, Infinity, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 3, Infinity, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ Infinity, 0, 1 ]';
+  var got = _.Matrix.Make([ Infinity, 0, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 0, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, 1, 1 ]';
+  var got = _.Matrix.Make([ Infinity, 1, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ Infinity, 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, 3, 1 ]';
+  var got = _.Matrix.Make([ Infinity, 3, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ Infinity, 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, Infinity, 1 ]';
+  var got = _.Matrix.Make([ Infinity, Infinity, 1 ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ Infinity, Infinity, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 0 ] );
+
+  /* */
+
+  test.case = 'dims - [ 0, 0, 3 ]';
+  var got = _.Matrix.Make([ 0, 0, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 0, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 0 ] );
+
+  test.case = 'dims - [ 0, 3, 3 ]';
+  var got = _.Matrix.Make([ 0, 3, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 3, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 0 ] );
+
+  test.case = 'dims - [ 0, Infinity, 3 ]';
+  var got = _.Matrix.Make([ 0, Infinity, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, Infinity, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 0 ] );
+
+  test.case = 'dims - [ 1, 0, 3 ]';
+  var got = _.Matrix.Make([ 1, 0, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 0, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1, 0 ] );
+
+  test.case = 'dims - [ 1, 1, 3 ]';
+  var got = _.Matrix.Make([ 1, 1, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 1, 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1, 1 ] );
+
+  test.case = 'dims - [ 1, 3, 3 ]';
+  var got = _.Matrix.Make([ 1, 3, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ 1, 3, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1, 3 ] );
+
+  test.case = 'dims - [ 1, Infinity, 3 ]';
+  var got = _.Matrix.Make([ 1, Infinity, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 1, Infinity, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 1 ] );
+
+  test.case = 'dims - [ 3, 0, 3 ]';
+  var got = _.Matrix.Make([ 3, 0, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 0, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3, 0 ] );
+
+  test.case = 'dims - [ 3, 1, 3 ]';
+  var got = _.Matrix.Make([ 3, 1, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ 3, 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3, 3 ] );
+
+  test.case = 'dims - [ 3, 3, 3 ]';
+  var got = _.Matrix.Make([ 3, 3, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 27 );
+  test.identical( got.dims, [ 3, 3, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3, 9 ] );
+
+  test.case = 'dims - [ 3, Infinity, 3 ]';
+  var got = _.Matrix.Make([ 3, Infinity, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ 3, Infinity, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0, 3 ] );
+
+  test.case = 'dims - [ Infinity, 0, 3 ]';
+  var got = _.Matrix.Make([ Infinity, 0, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 0, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1, 0 ] );
+
+  test.case = 'dims - [ Infinity, 1, 3 ]';
+  var got = _.Matrix.Make([ Infinity, 1, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ Infinity, 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1, 1 ] );
+
+  test.case = 'dims - [ Infinity, 3, 3 ]';
+  var got = _.Matrix.Make([ Infinity, 3, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ Infinity, 3, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1, 3 ] );
+
+  test.case = 'dims - [ Infinity, Infinity, 3 ]';
+  var got = _.Matrix.Make([ Infinity, Infinity, 3 ]);
+  test.identical( got.length, 3 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ Infinity, Infinity, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 0, 1 ] );
+
+  /* */
+
+  test.case = 'dims - [ 0, 0, Infinity ]';
+  var got = _.Matrix.Make([ 0, 0, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 0, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 0, 3, Infinity ]';
+  var got = _.Matrix.Make([ 0, 3, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, 3, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 0, Infinity, Infinity ]';
+  var got = _.Matrix.Make([ 0, Infinity, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 0, Infinity, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 1, 0, Infinity ]';
+  var got = _.Matrix.Make([ 1, 0, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 1, 0, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, 1, Infinity ]';
+  var got = _.Matrix.Make([ 1, 1, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ 1, 1, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, 3, Infinity ]';
+  var got = _.Matrix.Make([ 1, 3, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 1, 3, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'dims - [ 1, Infinity, Infinity ]';
+  var got = _.Matrix.Make([ 1, Infinity, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ 1, Infinity, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ 3, 0, Infinity ]';
+  var got = _.Matrix.Make([ 3, 0, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ 3, 0, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, 1, Infinity ]';
+  var got = _.Matrix.Make([ 3, 1, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 3, 1, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, 3, Infinity ]';
+  var got = _.Matrix.Make([ 3, 3, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 9 );
+  test.identical( got.dims, [ 3, 3, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - [ 3, Infinity, Infinity ]';
+  var got = _.Matrix.Make([ 3, Infinity, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ 3, Infinity, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'dims - [ Infinity, 0, Infinity ]';
+  var got = _.Matrix.Make([ Infinity, 0, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 0 );
+  test.identical( got.dims, [ Infinity, 0, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, 1, Infinity ]';
+  var got = _.Matrix.Make([ Infinity, 1, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ Infinity, 1, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, 3, Infinity ]';
+  var got = _.Matrix.Make([ Infinity, 3, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 3 );
+  test.identical( got.dims, [ Infinity, 3, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 1 ] );
+
+  test.case = 'dims - [ Infinity, Infinity, Infinity ]';
+  var got = _.Matrix.Make([ Infinity, Infinity, Infinity ]);
+  test.identical( got.length, 1 );
+  test.identical( got.buffer.length, 1 );
+  test.identical( got.dims, [ Infinity, Infinity, Infinity ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 0, 0 ] );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -12303,6 +12794,7 @@ var Self =
     construct,
 
     Make2D,
+    Make3D,
 
     make,
     makeHelper,
