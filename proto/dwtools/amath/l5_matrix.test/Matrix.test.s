@@ -8593,14 +8593,16 @@ function submatrix( test )
 function subspace( test )
 {
 
-  test.case = 'basic';
+  /* */
+
+  test.case = 'inputTransposing : 1';
 
   var buffer = [];
   var dims = [ 1, 3, 1, 3, 1, 3 ];
   var inputTransposing = 1;
   for( let i = _.avector.reduceToProduct( dims )-1 ; i >= 0 ; i-- )
   buffer[ i ] = i;
-  var matrix = _.Matrix({ dims, inputTransposing }).copy( buffer ); xxx
+  var matrix = _.Matrix({ dims, inputTransposing }).copy( buffer );
   console.log( matrix.toStr() );
   console.log( '' );
 
@@ -8626,6 +8628,44 @@ function subspace( test )
 
   console.log( subspace.toStr() );
   console.log( '' );
+
+  /* */
+
+  test.case = 'inputTransposing : 0';
+
+  var buffer = [];
+  var dims = [ 1, 3, 1, 3, 1, 3 ];
+  var inputTransposing = 0;
+  for( let i = _.avector.reduceToProduct( dims )-1 ; i >= 0 ; i-- )
+  buffer[ i ] = i;
+  var matrix = _.Matrix({ dims, inputTransposing }).copy( buffer );
+  console.log( matrix.toStr() );
+  console.log( '' );
+
+  var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
+  test.is( matrix.buffer === subspace.buffer );
+  test.identical( subspace.dims, [ 3, 3, 3 ] );
+  test.identical( subspace.stridesEffective, [ 1, 3, 9 ] );
+  test.identical( subspace.inputTransposing, matrix.inputTransposing );
+
+  var exp = _.Matrix.Make([ 3, 3, 3 ]).copy
+  ([
+    +0, +3, +6,
+    +1, +4, +7,
+    +2, +5, +8,
+    +9, +12, +15,
+    +10, +13, +16,
+    +11, +14, +17,
+    +18, +21, +24,
+    +19, +22, +25,
+    +20, +23, +26,
+  ]);
+  test.identical( subspace, exp );
+
+  console.log( subspace.toStr() );
+  console.log( '' );
+
+  /* */
 
 }
 
