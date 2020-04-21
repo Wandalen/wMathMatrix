@@ -612,7 +612,7 @@ ExportStructure.defaults =
 //
 //     o.dst.dims = null;
 //
-//     if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix ) /* zzz : check */
+//     if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix )
 //     {
 //     }
 //     else if( !srcIsInstance )
@@ -1053,10 +1053,10 @@ function extractNormalized()
 
   result.buffer = self.long.longMakeUndefined( self.buffer , self.scalarsPerMatrix );
   result.offset = 0;
-  result.strides = self.StridesFromDimensions( self.dimsEffective, self.inputTransposing );
-  result.inputTransposing = self.inputTransposing;
-  // result.strides = self.StridesFromDimensions( self.dimsEffective, 0 );
-  // result.inputTransposing = 0;
+  // result.strides = self.StridesFromDimensions( self.dimsEffective, self.inputTransposing );
+  // result.inputTransposing = self.inputTransposing;
+  result.strides = self.StridesFromDimensions( self.dimsEffective, 0 );
+  result.inputTransposing = 0;
 
   self.scalarEach( function( it )
   {

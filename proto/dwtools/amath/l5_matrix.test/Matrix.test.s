@@ -787,7 +787,7 @@ function clone( test )
 
 //
 
-function serializing( test ) /* xxx */
+function serializing( test )
 {
 
   /* */
@@ -902,7 +902,7 @@ function serializing( test ) /* xxx */
       "inputTransposing" : 1,
       "buffer" : `--buffer-->0<--buffer--`,
       "offset" : 0,
-      "strides" : [ 1, 1 ]
+      "strides" : [ 1, 3 ],
     },
     "descriptorsMap" :
     {
@@ -953,13 +953,184 @@ function serializing( test ) /* xxx */
   test.identical( b.length, 1 );
   test.identical( b.offset, 0 );
 
-  test.identical( b.strides, [ 1, 1 ] );
-  test.identical( b.stridesEffective, [ 1, 1 ] );
-  test.identical( b.strideOfElement, 1 );
-  test.identical( b.strideOfCol, 1 );
+  test.identical( b.strides, [ 1, 3 ] );
+  test.identical( b.stridesEffective, [ 1, 3 ] );
+  test.identical( b.strideOfElement, 3 );
+  test.identical( b.strideOfCol, 3 );
   test.identical( b.strideInCol, 1 );
   test.identical( b.strideOfRow, 1 );
-  test.identical( b.strideInRow, 1 );
+  test.identical( b.strideInRow, 3 );
+
+  /* */
+
+  // test.case = 'inputTransposing : 0';
+  //
+  // var a = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+  //   offset : 1,
+  //   scalarsPerElement : 3,
+  //   inputTransposing : 0,
+  //   strides : [ 2, 6 ],
+  //   dims : [ 3, 1 ],
+  // });
+  //
+  // var cloned = a.cloneSerializing();
+  //
+  // test.identical( cloned.data.inputTransposing, 0 );
+  //
+  // var expected =
+  // {
+  //   "data" :
+  //   {
+  //     "dims" : [ 3, 1 ],
+  //     "growingDimension" : 1,
+  //     "inputTransposing" : 0,
+  //     "buffer" : `--buffer-->0<--buffer--`,
+  //     "offset" : 0,
+  //     "strides" : [ 1, 3 ]
+  //   },
+  //   "descriptorsMap" :
+  //   {
+  //     "--buffer-->0<--buffer--" :
+  //     {
+  //       "bufferConstructorName" : `F32x`,
+  //       "sizeOfScalar" : 4,
+  //       "offset" : 0,
+  //       "size" : 12,
+  //       "index" : 0
+  //     }
+  //   },
+  //   "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
+  // }
+  //
+  // test.identical( cloned, expected );
+  //
+  // test.description = 'deserializing clone';
+  //
+  // var b = new _.Matrix({ buffer : new F32x(), inputTransposing : true });
+  // b.copyDeserializing( cloned );
+  // test.identical( b, a );
+  // test.is( a.buffer !== b.buffer );
+  //
+  // test.identical( a.buffer.length, 8 );
+  // test.identical( a.size, 12 );
+  // test.identical( a.sizeOfElement, 12 );
+  // test.identical( a.sizeOfCol, 12 );
+  // test.identical( a.sizeOfRow, 4 );
+  // test.identical( a.dims, [ 3, 1 ] );
+  // test.identical( a.length, 1 );
+  // test.identical( a.offset, 1 );
+  //
+  // test.identical( a.strides, [ 2, 6 ] );
+  // test.identical( a.stridesEffective, [ 2, 6 ] );
+  // test.identical( a.strideOfElement, 6 );
+  // test.identical( a.strideOfCol, 6 );
+  // test.identical( a.strideInCol, 2 );
+  // test.identical( a.strideOfRow, 2 );
+  // test.identical( a.strideInRow, 6 );
+  //
+  // test.identical( b.buffer.length, 3 );
+  // test.identical( b.size, 12 );
+  // test.identical( b.sizeOfElement, 12 );
+  // test.identical( b.sizeOfCol, 12 );
+  // test.identical( b.sizeOfRow, 4 );
+  // test.identical( b.dims, [ 3, 1 ] );
+  // test.identical( b.length, 1 );
+  // test.identical( b.offset, 0 );
+  //
+  // test.identical( b.strides, [ 1, 3 ] );
+  // test.identical( b.stridesEffective, [ 1, 3 ] );
+  // test.identical( b.strideOfElement, 3 );
+  // test.identical( b.strideOfCol, 3 );
+  // test.identical( b.strideInCol, 1 );
+  // test.identical( b.strideOfRow, 1 );
+  // test.identical( b.strideInRow, 3 );
+  //
+  // /* */
+  //
+  // test.case = 'inputTransposing : 1';
+  //
+  // var a = new _.Matrix
+  // ({
+  //   buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+  //   offset : 1,
+  //   scalarsPerElement : 3,
+  //   inputTransposing : 1,
+  //   strides : [ 2, 6 ],
+  // });
+  //
+  // var cloned = a.cloneSerializing();
+  //
+  // test.identical( cloned.data.inputTransposing, 1 );
+  //
+  // var expected =
+  // {
+  //   "data" :
+  //   {
+  //     "dims" : [ 3, 1 ],
+  //     "growingDimension" : 1,
+  //     "inputTransposing" : 1,
+  //     "buffer" : `--buffer-->0<--buffer--`,
+  //     "offset" : 0,
+  //     "strides" : [ 1, 1 ],
+  //   },
+  //   "descriptorsMap" :
+  //   {
+  //     "--buffer-->0<--buffer--" :
+  //     {
+  //       "bufferConstructorName" : `F32x`,
+  //       "sizeOfScalar" : 4,
+  //       "offset" : 0,
+  //       "size" : 12,
+  //       "index" : 0
+  //     }
+  //   },
+  //   "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
+  // }
+  //
+  // test.identical( cloned, expected );
+  //
+  // test.description = 'deserializing clone';
+  //
+  // var b = new _.Matrix({ buffer : new F32x(), inputTransposing : true });
+  // b.copyDeserializing( cloned );
+  // test.identical( b, a );
+  // test.is( a.buffer !== b.buffer );
+  //
+  // test.identical( a.buffer.length, 8 );
+  // test.identical( a.size, 12 );
+  // test.identical( a.sizeOfElement, 12 );
+  // test.identical( a.sizeOfCol, 12 );
+  // test.identical( a.sizeOfRow, 4 );
+  // test.identical( a.dims, [ 3, 1 ] );
+  // test.identical( a.length, 1 );
+  // test.identical( a.offset, 1 );
+  //
+  // test.identical( a.strides, [ 2, 6 ] );
+  // test.identical( a.stridesEffective, [ 2, 6 ] );
+  // test.identical( a.strideOfElement, 6 );
+  // test.identical( a.strideOfCol, 6 );
+  // test.identical( a.strideInCol, 2 );
+  // test.identical( a.strideOfRow, 2 );
+  // test.identical( a.strideInRow, 6 );
+  //
+  // test.identical( b.buffer.length, 3 );
+  // test.identical( b.size, 12 );
+  // test.identical( b.sizeOfElement, 12 );
+  // test.identical( b.sizeOfCol, 12 );
+  // test.identical( b.sizeOfRow, 4 );
+  // test.identical( b.dims, [ 3, 1 ] );
+  // test.identical( b.length, 1 );
+  // test.identical( b.offset, 0 );
+  //
+  // test.identical( b.strides, [ 1, 1 ] );
+  // test.identical( b.stridesEffective, [ 1, 1 ] );
+  // test.identical( b.strideOfElement, 1 );
+  // test.identical( b.strideOfCol, 1 );
+  // test.identical( b.strideInCol, 1 );
+  // test.identical( b.strideOfRow, 1 );
+  // test.identical( b.strideInRow, 1 );
 
   /* */
 
