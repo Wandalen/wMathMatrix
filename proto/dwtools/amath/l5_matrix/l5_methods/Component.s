@@ -447,11 +447,11 @@ function expand( expand )
   // self.copyResetting
   self.copy
   ({
-    inputTransposing : 0,
+    rowMajorInput : 1,
     offset : 0,
     buffer,
     dims,
-    strides : null,
+    strides,
   });
 
   return self;
@@ -536,7 +536,7 @@ function submatrix()
     offset,
     strides,
     dims,
-    inputTransposing : self.inputTransposing,
+    // rowMajorInput : self.rowMajorInput,
   });
 
   return result;
@@ -575,7 +575,7 @@ function subspace()
     offset : self.offset,
     strides,
     dims,
-    inputTransposing : self.inputTransposing,
+    // rowMajorInput : self.rowMajorInput,
   });
 
   return result;
@@ -623,6 +623,7 @@ function transpose()
   _.longSwapElements( dims, 0, 1 );
   _.longSwapElements( strides, 0, 1 );
 
+  self[ stridesEffectiveSymbol ] = null;
   self.strides = strides;
   self.dims = dims;
 
@@ -633,6 +634,8 @@ function transpose()
 // --
 // relations
 // --
+
+let stridesEffectiveSymbol = Symbol.for( 'stridesEffective' );
 
 let Statics =
 {

@@ -4,13 +4,15 @@ Abstract implementation of matrix math. MathMatrix introduces class Matrix, whic
 
 ### Why?
 
+Because this implementation of linear algebra abstracts algorithms and data thanks smart data structures, minimizing the need to write extensive code and enabling building up more complex systems on top of it. The instance of the matrix does not own data buffer, but only information on how to interpret ( map ) the buffer into K-dimensional space. The matrix, as an advanced link, enables the zero-copy principle. The matrix can be used with either arithmetic purposes or to orchestrate multidimensional data.
+
 Features of this implementation of matrix mathematics are:
 
 - **Cleanliness**: the module does not inject methods, does not contaminate or alter the standard interface.
 - **Zero-copy principle**: the module makes it possible to avoid redundant moving of memory thanks to the concept of the adapter.
 - **Simplicity**: a regular array or typed buffer could be interpreted as a vector, no need to use special classes.
 - **Usability**: the readability and conciseness of the code which uses the module are as important for us as the performance of the module.
-- **Flexibility**: it's highly flexible, thanks to the ability to specify a vector with the help of an adapter and concept of strides.
+- **Flexibility**: it's highly flexible, thanks to strides.
 - **Reliability**: the module has good test coverage.
 - **Accessibility**: the module has documentation.
 - **Functional programming principles**: the module uses some principles of functional programming.
@@ -58,7 +60,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4 ],
   dims : [ 2, 2 ],
-  inputTransposing : 1,
+  rowMajorInput : 1,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -110,7 +112,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  inputTransposing : 0,
+  rowMajorInput : 0,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -127,13 +129,13 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 ```
 
-Three options are the minimum amount of information required to call the matrix constructor. Data buffer `buffer`, information about dimensions `dims`, and the option `inputTransposing` - hints on whether the input data will be transposed.
+Three options are the minimum amount of information required to call the matrix constructor. Data buffer `buffer`, information about dimensions `dims`, and the option `rowMajorInput` - hints on whether the input data will be transposed.
 
 By default, the elements in the buffer are in such sequence:
 
 ![StandardStridesInputTransposing0.png](doc/img/StandardStridesInputTransposing0.png)
 
-Option `inputTransposing : 1` alter algorithm of strides calculation.
+Option `rowMajorInput : 1` alter algorithm of strides calculation.
 
 ```js
 
@@ -141,7 +143,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  inputTransposing : 1,
+  rowMajorInput : 1,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -158,11 +160,11 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 ```
 
-With `inputTransposing : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
+With `rowMajorInput : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
 
 ![StandardStridesInputTransposing1.png](doc/img/StandardStridesInputTransposing1.png)
 
-The option `inputTransposing` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
+The option `rowMajorInput` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
 
 ```js
 
@@ -191,7 +193,7 @@ Unlike the previous example, strides in this example are specified explicitly, b
 
 ![StandardExplicitStrides.png](doc/img/StandardExplicitStrides.png)
 
-The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `inputTransposing` specifies in which sequence row and column go.
+The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `rowMajorInput` specifies in which sequence row and column go.
 
 Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
 
