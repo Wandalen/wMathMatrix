@@ -447,7 +447,7 @@ function expand( expand )
   // self.copyResetting
   self.copy
   ({
-    rowMajorInput : 1,
+    inputRowMajor : 1,
     offset : 0,
     buffer,
     dims,
@@ -536,7 +536,7 @@ function submatrix()
     offset,
     strides,
     dims,
-    // rowMajorInput : self.rowMajorInput,
+    // inputRowMajor : self.inputRowMajor,
   });
 
   return result;
@@ -575,7 +575,7 @@ function subspace()
     offset : self.offset,
     strides,
     dims,
-    // rowMajorInput : self.rowMajorInput,
+    // inputRowMajor : self.inputRowMajor,
   });
 
   return result;

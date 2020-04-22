@@ -89,7 +89,7 @@ function Make( dims )
     buffer,
     dims,
     strides,
-    rowMajorInput : 1,
+    inputRowMajor : 1,
   });
 
   return result;
@@ -142,10 +142,10 @@ function MakeSquare( buffer )
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
 
-  let rowMajorInput = scalarsPerMatrix > 0 ? 1 : 0;
+  let inputRowMajor = scalarsPerMatrix > 0 ? 1 : 0;
   if( _.numberIs( buffer ) )
   {
-    rowMajorInput = 0;
+    inputRowMajor = 0;
     buffer = this.long.longMake( scalarsPerMatrix );
   }
   else
@@ -157,7 +157,7 @@ function MakeSquare( buffer )
   ({
     buffer,
     dims,
-    rowMajorInput,
+    inputRowMajor,
   });
 
   return result;
@@ -205,7 +205,7 @@ function MakeZero( dims )
     buffer,
     dims,
     strides,
-    rowMajorInput : 1,
+    inputRowMajor : 1,
   });
 
   return result;
@@ -253,7 +253,7 @@ function MakeIdentity( dims )
     buffer,
     dims,
     strides,
-    rowMajorInput : 1,
+    inputRowMajor : 1,
   });
 
   result.diagonalSet( 1 );
@@ -421,7 +421,7 @@ function MakeDiagonal( diagonal )
   ({
     buffer,
     dims,
-    rowMajorInput : 1,
+    inputRowMajor : 1,
     strides : [ 1, length ],
   });
 
@@ -449,7 +449,7 @@ function MakeDiagonal( diagonal )
  * ({
  *   buffer,
  *   dims : [ 3, 3 ],
- *   rowMajorInput : 1,
+ *   inputRowMajor : 1,
  * });
  *
  * var got = _.Matrix.MakeSimilar( matrix );
@@ -507,7 +507,7 @@ function MakeSimilar( m, dims )
       buffer,
       dims,
       strides,
-      rowMajorInput : 1,
+      inputRowMajor : 1,
     });
 
   }
@@ -549,7 +549,7 @@ function MakeSimilar( m, dims )
  * ({
  *   buffer,
  *   dims : [ 3, 3 ],
- *   rowMajorInput : 1,
+ *   inputRowMajor : 1,
  * });
  *
  * var got = matrix.makeSimilar();
@@ -715,8 +715,8 @@ function MakeLine( o )
     dims,
     strides,
     offset,
-    rowMajorInput : 0,
-    // rowMajorInput : 1,
+    inputRowMajor : 0,
+    // inputRowMajor : 1,
   });
 
   return result;
@@ -1008,7 +1008,7 @@ function ConvertToClass( cls, src )
         dims,
         buffer,
         strides,
-        rowMajorInput : 1,
+        inputRowMajor : 1,
       });
       for( let i = 0 ; i < src.length ; i += 1 )
       result.scalarSet( [ i, 0 ], src.eGet( i ) );
@@ -1072,7 +1072,7 @@ function FromVector( src )
       buffer : src._vectorBuffer,
       dims : [ src.length, 1 ],
       strides : src.stride > 1 ? [ 1, src.stride ] : [ 1, src.length ],
-      rowMajorInput : 1,
+      inputRowMajor : 1,
     });
   }
   else if( _.longIs( src ) )
@@ -1082,7 +1082,7 @@ function FromVector( src )
       buffer : src,
       dims : [ src.length, 1 ],
       strides : [ 1, src.length ],
-      rowMajorInput : 1,
+      inputRowMajor : 1,
     });
   }
   else _.assert( 0, 'cant convert', _.strType( src ), 'to Matrix' );
@@ -1132,7 +1132,7 @@ function FromScalar( scalar, dims )
     buffer,
     dims,
     strides,
-    rowMajorInput : 1,
+    inputRowMajor : 1,
   });
 
   return result;
