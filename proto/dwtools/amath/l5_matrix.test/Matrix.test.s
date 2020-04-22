@@ -1879,6 +1879,104 @@ function MakeZeroChangeDimsLength( test )
 
 //
 
+function MakeZeroChangeDimsType( test )
+{
+  test.case = 'dims - Array';
+  var got = _.Matrix.MakeZero([ 3, 2 ]);
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - Unroll';
+  var got = _.Matrix.MakeZero( _.unrollMake([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - ArgumentsArray';
+  var got = _.Matrix.MakeZero( _.argumentsArrayMake([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - U8x';
+  var got = _.Matrix.MakeZero( new U8x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - I16x';
+  var got = _.Matrix.MakeZero( new I16x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - F32x';
+  var got = _.Matrix.MakeZero( new F32x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - F64x';
+  var got = _.Matrix.MakeZero( new F64x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - avector';
+  var got = _.Matrix.MakeZero( _.avector.make([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - VectorAdapter';
+  var got = _.Matrix.MakeZero( _.vectorAdapter.from([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeZero() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeZero( [ 1, 2 ], [ 1, 2 ] ) );
+
+  test.case = 'wrong type of dims';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeZero( { a : 1 } ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeZero( 'wrong' ) );
+
+  test.case = 'wrong length of dims';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeZero([ 1 ]) );
+
+  test.case = 'negative value in dims';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeZero([ -1, 2 ]) );
+}
+
+//
+
 function MakeSquare( test )
 {
   test.case = 'buffer - 0';
@@ -14230,6 +14328,7 @@ var Self =
     MakeChangeDimsLength,
     MakeChangeDimsType,
     MakeZeroChangeDimsLength,
+    MakeZeroChangeDimsType,
     MakeSquare,
 
     make,
