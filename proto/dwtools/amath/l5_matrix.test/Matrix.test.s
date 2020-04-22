@@ -1977,77 +1977,6 @@ function MakeZeroChangeDimsType( test )
 
 //
 
-function MakeSquare( test )
-{
-  test.case = 'buffer - 0';
-  var got = _.Matrix.MakeSquare( 0 );
-  test.identical( got.length, 0 );
-  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
-  test.identical( got.dims, [ 0, 0 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 0 ] );
-
-  test.case = 'buffer - 1';
-  var got = _.Matrix.MakeSquare( 1 );
-  test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
-  test.identical( got.dims, [ 1, 1 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 1 ] );
-
-  test.case = 'buffer - 2';
-  var got = _.Matrix.MakeSquare( 2 );
-  test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( 4 ) );
-  test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 2 ] );
-
-  test.case = 'buffer - Infinity';
-  var got = _.Matrix.MakeSquare( Infinity );
-  test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
-  test.identical( got.dims, [ Infinity, Infinity ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 0, 0 ] );
-
-  test.case = 'buffer - []';
-  var got = _.Matrix.MakeSquare
-  ([
-  ]);
-  test.identical( got.length, 0 );
-  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
-  test.identical( got.dims, [ 0, 0 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 0 ] );
-
-  test.case = 'buffer - [ 1 ]';
-  var got = _.Matrix.MakeSquare
-  ([
-    1
-  ]);
-  test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1 ]) );
-  test.identical( got.dims, [ 1, 1 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 1 ] );
-
-  test.case = 'buffer - [ 1, -2, 3, -4, 5, 6, 0, 0, 2 ]';
-  var got = _.Matrix.MakeSquare
-  ([
-     1, -2,  3,
-    -4,  5,  6,
-     0,  0,  2
-  ]);
-  test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, 3, -4, 5, 6, 0, 0, 2 ]) );
-  test.identical( got.dims, [ 3, 3 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 3, 1 ] );
-}
-
-//
-
 function make( test )
 {
   let context = this;
@@ -14327,9 +14256,9 @@ var Self =
 
     MakeChangeDimsLength,
     MakeChangeDimsType,
+    MakeSquare,
     MakeZeroChangeDimsLength,
     MakeZeroChangeDimsType,
-    MakeSquare,
 
     make,
     makeHelper,
