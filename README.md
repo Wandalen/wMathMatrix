@@ -28,7 +28,7 @@ Vector adapter is an implementation of the abstract interface, a kind of link th
 
 To get more details have a look module MathVector.
 
-# Concept of Matrix
+### Concept of Matrix
 
 Matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns.
 
