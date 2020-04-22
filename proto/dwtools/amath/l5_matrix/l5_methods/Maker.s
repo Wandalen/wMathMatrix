@@ -198,11 +198,20 @@ function MakeZero( dims )
 {
   let proto = this.Self.prototype;
 
-  _.assert( _.longIs( dims ) || _.numberIs( dims ) );
-  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument array {-dims-}' );
+  // _.assert( _.longIs( dims ) || _.numberIs( dims ) || _.vectorAdapterIs( dims ) );
 
-  if( _.numberIs( dims ) )
-  dims = [ dims, dims ];
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.numberIs( dims ) )
+    dims = [ dims, dims ];
+    else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = dims.toLong();
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let buffer = proto.long.longMakeZeroed( lengthFlat );
