@@ -453,6 +453,11 @@ function ExportStructure( o )
     o.dst.copyFromBuffer( o.src );
     return o.dst;
   }
+  else if( _.vectorAdapterIs( o.src ) )
+  {
+    o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* Dmytro : temporary, needs analyze */
+    return o.dst;
+  }
   else if( _.numberIs( o.src ) )
   {
     o.dst.copyFromScalar( o.src );
