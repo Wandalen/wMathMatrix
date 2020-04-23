@@ -28,7 +28,7 @@ Vector adapter is an implementation of the abstract interface, a kind of link th
 
 To get more details have a look module MathVector.
 
-# Concept of Matrix
+### Concept of Matrix
 
 Matrix is a rectangular array of numbers, symbols, or expressions, arranged in rows and columns.
 
@@ -60,7 +60,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4 ],
   dims : [ 2, 2 ],
-  rowMajorInput : 1,
+  inputRowMajor : 1,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -112,7 +112,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  rowMajorInput : 0,
+  inputRowMajor : 0,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -129,13 +129,13 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 ```
 
-Three options are the minimum amount of information required to call the matrix constructor. Data buffer `buffer`, information about dimensions `dims`, and the option `rowMajorInput` - hints on whether the input data will be transposed.
+Three options are the minimum amount of information required to call the matrix constructor. Data buffer `buffer`, information about dimensions `dims`, and the option `inputRowMajor` - hints on whether the input data will be transposed.
 
 By default, the elements in the buffer are in such sequence:
 
-![StandardStridesInputTransposing0.png](doc/img/StandardStridesInputTransposing0.png)
+![StandardStridesInputRowMajor0.png](doc/img/StandardStridesInputRowMajor0.png)
 
-Option `rowMajorInput : 1` alter algorithm of strides calculation.
+Option `inputRowMajor : 1` alter algorithm of strides calculation.
 
 ```js
 
@@ -143,7 +143,7 @@ var matrix = _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  rowMajorInput : 1,
+  inputRowMajor : 1,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
@@ -160,11 +160,11 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 ```
 
-With `rowMajorInput : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
+With `inputRowMajor : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
 
-![StandardStridesInputTransposing1.png](doc/img/StandardStridesInputTransposing1.png)
+![StandardStridesInputRowMajor1.png](doc/img/StandardStridesInputRowMajor1.png)
 
-The option `rowMajorInput` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
+The option `inputRowMajor` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
 
 ```js
 
@@ -193,7 +193,7 @@ Unlike the previous example, strides in this example are specified explicitly, b
 
 ![StandardExplicitStrides.png](doc/img/StandardExplicitStrides.png)
 
-The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `rowMajorInput` specifies in which sequence row and column go.
+The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `inputRowMajor` specifies in which sequence row and column go.
 
 Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
 
@@ -356,7 +356,7 @@ console.log( `submatrix2 :\n${ sub2.toStr() }` );
 
 sub1.mul( [ sub1, 2 ] );
 sub2.mul( [ sub2, 10 ] );
-console.log( matrix.toStr() );
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1,  +2,   +3,
 +10, +120, +70,
