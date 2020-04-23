@@ -278,7 +278,7 @@ function MakeIdentity( dims )
     inputRowMajor : 1,
   });
 
-  result.diagonalSet( 1 );
+  result.identity();
 
   return result;
 }
