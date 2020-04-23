@@ -12,7 +12,7 @@ var matrix1 = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 2 ],
-  rowMajorInput : 1,
+  inputRowMajor : 1,
 });
 
 var buffer2 = new F32x
@@ -24,7 +24,7 @@ var matrix2 = new _.Matrix
 ({
   buffer : buffer2,
   dims : [ 2, 2 ],
-  rowMajorInput : 1,
+  inputRowMajor : 1,
 });
 var identical = _.identical( matrix1, matrix2 );
 console.log( `identical : ${ identical }` );
