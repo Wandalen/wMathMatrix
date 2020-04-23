@@ -3167,6 +3167,209 @@ function MakeIdentity4( test )
 
 //
 
+function MakeDiagonal( test )
+{
+  test.open( 'change length of diagonal' );
+
+  test.case = 'diagonal - empty array';
+  var diagonal = [];
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 0 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ));
+  test.identical( got.dims, [ 0, 0 ] );
+  test.identical( got.strides, [ 1, 0 ] );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+
+  test.case = 'diagonal - single element';
+  var diagonal = [ 4 ];
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 4 ]) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'diagonal - four elements';
+  var diagonal = [ 4, 3, -1, 0 ];
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 4 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+    4,  0,  0,  0,
+    0,  3,  0,  0,
+    0,  0, -1,  0,
+    0,  0,  0,  0,
+  ]));
+  test.identical( got.dims, [ 4, 4 ] );
+  test.identical( got.strides, [ 1, 4 ] );
+  test.identical( got.stridesEffective, [ 1, 4 ] );
+
+  test.close( 'change length of diagonal' );
+
+  /* - */
+
+  test.open( 'change type of diagonal' );
+
+  test.case = 'diagonal - Array';
+  var diagonal = [ 1, 3, -2 ];
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - Unroll';
+  var diagonal = _.unrollMake([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - ArgumentsArray';
+  var diagonal = _.argumentsArrayMake([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - BufferTyped, U8x';
+  var diagonal = new U8x([ 1, 3, 3 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0,  3,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - BufferTyped, I16x';
+  var diagonal = new I16x([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - BufferTyped, F32x';
+  var diagonal = new F32x([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - BufferTyped, F64x';
+  var diagonal = new F32x([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - avector';
+  var diagonal = _.avector.make([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - VectorAdapter';
+  var diagonal = _.vectorAdapter.from([ 1, 3, -2 ]);
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'diagonal - VectorAdapter, routine fromLongLrangeAndStride';
+  var diagonal = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 3, 0, -2, 0 ], 1, 3, 2 );
+  var got = _.Matrix.MakeDiagonal( diagonal );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+     1,  0,  0,
+     0,  3,  0,
+     0,  0, -2,
+  ]));
+  test.identical( got.dims, [ 3, 3 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.close( 'change type of diagonal' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeDiagonal() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeDiagonal( [ 1, 3, 3 ], 2 ) );
+
+  test.case = 'wrong type of diagonal';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeDiagonal( { a : 1 } ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeDiagonal( 'wrong' ) );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -16775,6 +16978,7 @@ var Self =
     MakeIdentity2,
     MakeIdentity3,
     MakeIdentity4,
+    MakeDiagonal,
 
     make,
     makeHelper,
