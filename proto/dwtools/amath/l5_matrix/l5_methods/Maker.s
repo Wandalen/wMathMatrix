@@ -92,11 +92,13 @@ function Make( dims )
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let buffer = proto.long.longMake( lengthFlat );
+  let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
     buffer,
     dims,
-    inputTransposing : 0,
+    strides,
+    inputRowMajor : 1,
   });
 
   return result;
@@ -149,10 +151,10 @@ function MakeSquare( buffer )
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
 
-  let inputTransposing = scalarsPerMatrix > 0 ? 1 : 0;
+  let inputRowMajor = scalarsPerMatrix > 0 ? 1 : 0;
   if( _.numberIs( buffer ) )
   {
-    inputTransposing = 0;
+    inputRowMajor = 0;
     buffer = this.long.longMake( scalarsPerMatrix );
   }
   else
@@ -164,7 +166,7 @@ function MakeSquare( buffer )
   ({
     buffer,
     dims,
-    inputTransposing,
+    inputRowMajor,
   });
 
   return result;
@@ -215,11 +217,13 @@ function MakeZero( dims )
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let buffer = proto.long.longMakeZeroed( lengthFlat );
+  let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
     buffer,
     dims,
-    inputTransposing : 0,
+    strides,
+    inputRowMajor : 1,
   });
 
   return result;
@@ -266,12 +270,11 @@ function MakeIdentity( dims )
   ({
     buffer,
     dims,
-    inputTransposing : 0,
+    strides,
+    inputRowMajor : 1,
   });
 
   result.diagonalSet( 1 );
-
-  _.assert( _.longIdentical( strides, result.stridesEffective ) );
 
   return result;
 }
@@ -423,8 +426,6 @@ function MakeIdentity4( src )
 function MakeDiagonal( diagonal )
 {
 
-  // _.assert( !this.instanceIs() );
-  // _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.arrayIs( diagonal ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
@@ -438,8 +439,8 @@ function MakeDiagonal( diagonal )
   ({
     buffer,
     dims,
-    inputTransposing : 0,
-    // strides : [ 1, length ],
+    inputRowMajor : 1,
+    strides : [ 1, length ],
   });
 
   result.diagonalSet( diagonal );
@@ -466,7 +467,7 @@ function MakeDiagonal( diagonal )
  * ({
  *   buffer,
  *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
+ *   inputRowMajor : 1,
  * });
  *
  * var got = _.Matrix.MakeSimilar( matrix );
@@ -516,14 +517,15 @@ function MakeSimilar( m, dims )
   {
 
     let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
-    let buffer = proto.long.longMakeZeroed( m.buffer, scalarsPerMatrix ); /* yyy */
-    /* could possibly be not zeroed */
+    let buffer = proto.long.longMake( m.buffer, scalarsPerMatrix );
+    let strides = proto.StridesFromDimensions( dims, 0 );
 
     result = new m.constructor
     ({
       buffer,
       dims,
-      inputTransposing : 0,
+      strides,
+      inputRowMajor : 1,
     });
 
   }
@@ -531,7 +533,7 @@ function MakeSimilar( m, dims )
   {
 
     _.assert( dims[ 1 ] === 1 );
-    result = proto.long.longMakeUndefined( m, dims[ 0 ] ); /* yyy */
+    result = proto.long.longMakeUndefined( m, dims[ 0 ] );
 
   }
   else if( _.vectorAdapterIs( m ) )
@@ -565,7 +567,7 @@ function MakeSimilar( m, dims )
  * ({
  *   buffer,
  *   dims : [ 3, 3 ],
- *   inputTransposing : 1,
+ *   inputRowMajor : 1,
  * });
  *
  * var got = matrix.makeSimilar();
@@ -685,13 +687,21 @@ function MakeLine( o )
     offset = o.buffer.offset;
     length = o.buffer.length;
 
-    if( o.buffer.stride !== 1 )
-    {
-      if( o.dimension === 0 )
-      strides = [ o.buffer.stride, o.buffer.stride ];
-      else
-      strides = [ o.buffer.stride, o.buffer.stride ];
-    }
+    // if( o.buffer.stride !== 1 )
+    // {
+    //   _.assert( 0, 'not tested' );
+    //   if( o.dimension === 0 )
+    //   strides = [ o.buffer.stride, o.buffer.stride ];
+    //   else
+    //   strides = [ o.buffer.stride, o.buffer.stride ];
+    // }
+
+    // _.assert( 0, 'not tested' );
+    // debugger;
+    if( o.dimension === 0 )
+    strides = [ o.buffer.stride, length ];
+    else
+    strides = [ length, o.buffer.stride ];
 
     o.buffer = o.buffer._vectorBuffer;
 
@@ -721,9 +731,10 @@ function MakeLine( o )
   ({
     buffer : o.buffer,
     dims,
-    inputTransposing : 0,
     strides,
     offset,
+    inputRowMajor : 0,
+    // inputRowMajor : 1,
   });
 
   return result;
@@ -959,9 +970,8 @@ function MakeRowZeroed( buffer )
 
 function ConvertToClass( cls, src )
 {
-  let self = this;
+  let proto = this;
 
-  // _.assert( !_.instanceIs( this ) );
   _.assert( _.constructorIs( cls ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
@@ -992,7 +1002,7 @@ function ConvertToClass( cls, src )
     else if( _.constructorIsVector( cls ) )
     {
       array = new src.buffer.constructor( scalarsPerMatrix );
-      result = self.vectorAdapter.fromLong( array );
+      result = proto.vectorAdapter.fromLong( array );
     }
     else _.assert( 0, 'Unknown class {-cls-}', cls.name );
 
@@ -1004,16 +1014,19 @@ function ConvertToClass( cls, src )
   {
 
     let scalarsPerMatrix = src.length;
-    src = self.vectorAdapter.from( src );
+    src = proto.vectorAdapter.from( src );
 
     if( _.constructorIsMatrix( cls ) )
     {
-      let array = new src._vectorBuffer.constructor( scalarsPerMatrix );
+      let buffer = new src._vectorBuffer.constructor( scalarsPerMatrix );
+      let dims = [ src.length, 1 ];
+      let strides = proto.StridesFromDimensions( dims, 0 );
       result = new cls
       ({
-        dims : [ src.length, 1 ],
-        buffer : array,
-        inputTransposing : 0,
+        dims,
+        buffer,
+        strides,
+        inputRowMajor : 1,
       });
       for( let i = 0 ; i < src.length ; i += 1 )
       result.scalarSet( [ i, 0 ], src.eGet( i ) );
@@ -1027,7 +1040,7 @@ function ConvertToClass( cls, src )
     else if( _.constructorIsVector( cls ) )
     {
       let array = new src._vectorBuffer.constructor( scalarsPerMatrix );
-      result = self.vectorAdapter.fromLong( array );
+      result = proto.vectorAdapter.fromLong( array );
       for( let i = 0 ; i < src.length ; i += 1 )
       array[ i ] = src.eGet( i );
     }
@@ -1072,12 +1085,12 @@ function FromVector( src )
 
   if( _.vectorAdapterIs( src ) )
   {
-    result = new this.Self
+    result = new this.Self /* qqq : cover for all kind of vector adapters */
     ({
       buffer : src._vectorBuffer,
       dims : [ src.length, 1 ],
-      strides : src.stride > 1 ? [ src.stride, 1 ] : undefined,
-      inputTransposing : 0,
+      strides : src.stride > 1 ? [ 1, src.stride ] : [ 1, src.length ],
+      inputRowMajor : 1,
     });
   }
   else if( _.longIs( src ) )
@@ -1086,7 +1099,8 @@ function FromVector( src )
     ({
       buffer : src,
       dims : [ src.length, 1 ],
-      inputTransposing : 0,
+      strides : [ 1, src.length ],
+      inputRowMajor : 1,
     });
   }
   else _.assert( 0, 'cant convert', _.strType( src ), 'to Matrix' );
@@ -1124,16 +1138,19 @@ function FromVector( src )
 function FromScalar( scalar, dims )
 {
 
-  // _.assert( !this.instanceIs() );
   _.assert( _.arrayIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.numberIs( scalar );
 
+  let buffer = this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
+  let strides = this.StridesFromDimensions( dims, 0 );
+
   let result = new this.Self
   ({
-    buffer : this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) ),
+    buffer,
     dims,
-    inputTransposing : 0,
+    strides,
+    inputRowMajor : 1,
   });
 
   return result;
@@ -2307,226 +2324,6 @@ let lookAt = ( function lookAt()
 })();
 
 // --
-// reducer
-// --
-
-// function closest( insElement )
-// {
-//   let self = this;
-//   insElement = self.vectorAdapter.fromLong( insElement );
-//   let result =
-//   {
-//     index : null,
-//     distance : +Infinity,
-//   }
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   for( let i = 0 ; i < self.length ; i += 1 )
-//   {
-//
-//     let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
-//     if( d < result.distance )
-//     {
-//       result.distance = d;
-//       result.index = i;
-//     }
-//
-//   }
-//
-//   result.distance = sqrt( result.distance );
-//
-//   return result;
-// }
-//
-// //
-//
-// function furthest( insElement )
-// {
-//   let self = this;
-//   insElement = self.vectorAdapter.fromLong( insElement );
-//   let result =
-//   {
-//     index : null,
-//     distance : -Infinity,
-//   }
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   for( let i = 0 ; i < self.length ; i += 1 )
-//   {
-//
-//     let d = self.vectorAdapter.distanceSqr( insElement, self.eGet( i ) );
-//     if( d > result.distance )
-//     {
-//       result.distance = d;
-//       result.index = i;
-//     }
-//
-//   }
-//
-//   result.distance = sqrt( result.distance );
-//
-//   return result;
-// }
-//
-// //
-//
-// function elementMean()
-// {
-//   let self = this;
-//
-//   let result = self.elementAdd();
-//
-//   self.vectorAdapter.div( result, self.length );
-//
-//   return result;
-// }
-//
-// //
-//
-// function minmaxColWise()
-// {
-//   let self = this;
-//
-//   let minmax = self.distributionRangeSummaryValueColWise();
-//   let result = Object.create( null );
-//
-//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-//
-//   for( let i = 0 ; i < minmax.length ; i += 1 )
-//   {
-//     result.min[ i ] = minmax[ i ][ 0 ];
-//     result.max[ i ] = minmax[ i ][ 1 ];
-//   }
-//
-//   return result;
-// }
-//
-// //
-//
-// function minmaxRowWise()
-// {
-//   let self = this;
-//
-//   let minmax = self.distributionRangeSummaryValueRowWise();
-//   let result = Object.create( null );
-//
-//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-//
-//   for( let i = 0 ; i < minmax.length ; i += 1 )
-//   {
-//     result.min[ i ] = minmax[ i ][ 0 ];
-//     result.max[ i ] = minmax[ i ][ 1 ];
-//   }
-//
-//   return result;
-// }
-//
-// //
-//
-//
-// function minmaxRowWise()
-// {
-//   let self = this;
-//
-//   let minmax = self.distributionRangeSummaryValueRowWise();
-//   let result = Object.create( null );
-//
-//   result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-//   result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
-//
-//   for( let i = 0 ; i < minmax.length ; i += 1 )
-//   {
-//     result.min[ i ] = minmax[ i ][ 0 ];
-//     result.max[ i ] = minmax[ i ][ 1 ];
-//   }
-//
-//   return result;
-// }
-/*  */
-// //
-//
-// function determinant()
-// {
-//   let self = this;
-//   let l = self.length;
-//
-//   if( l === 0 )
-//   return 0;
-//
-//   let iterations = _.math.factorial( l );
-//   let result = 0;
-//
-//   _.assert( l === self.scalarsPerElement );
-//
-//   /* */
-//
-//   let sign = 1;
-//   let index = [];
-//   for( let i = 0 ; i < l ; i += 1 )
-//   index[ i ] = i;
-//
-//   /* */
-//
-//   function add()
-//   {
-//     let r = 1;
-//     for( let i = 0 ; i < l ; i += 1 )
-//     r *= self.scalarGet([ index[ i ], i ]);
-//     r *= sign;
-//     // console.log( index );
-//     // console.log( r );
-//     result += r;
-//     return r;
-//   }
-//
-//   /* */
-//
-//   function swap( a, b )
-//   {
-//     let v = index[ a ];
-//     index[ a ] = index[ b ];
-//     index[ b ] = v;
-//     sign *= -1;
-//   }
-//
-//   /* */
-//
-//   let i = 0;
-//   while( i < iterations )
-//   {
-//
-//     for( let s = 0 ; s < l-1 ; s++ )
-//     {
-//       let r = add();
-//       //console.log( 'add', i, index, r );
-//       swap( s, l-1 );
-//       i += 1;
-//     }
-//
-//   }
-//
-//   /* */
-//
-//   // 00
-//   // 01
-//   //
-//   // 012
-//   // 021
-//   // 102
-//   // 120
-//   // 201
-//   // 210
-//
-//   // console.log( 'determinant', result );
-//
-//   return result;
-// }
-
-// --
 // relations
 // --
 
@@ -2628,10 +2425,10 @@ let Extension =
   normalProjectionMatrixMake,
   normalProjectionMatrixGet,
 
-  formPerspective, /* qqq : static */
-  formFrustum, /* qqq : static */
-  formOrthographic, /* qqq : static */
-  lookAt, /* qqq : static */
+  formPerspective, /* qqq : implement static */
+  formFrustum, /* qqq : implement static */
+  formOrthographic, /* qqq : implement static */
+  lookAt, /* qqq : implement static */
 
   //
 

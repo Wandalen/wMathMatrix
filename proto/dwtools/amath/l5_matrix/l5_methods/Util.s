@@ -55,7 +55,7 @@ function _TempBorrow( src, dims, index )
   ({
     dims,
     buffer : new bufferConstructor( this.ScalarsPerMatrixForDimensions( dims ) ),
-    inputTransposing : 0,
+    inputRowMajor : 0,
   });
 
   return result;

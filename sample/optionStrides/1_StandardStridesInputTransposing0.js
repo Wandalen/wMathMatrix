@@ -4,7 +4,7 @@ var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  inputTransposing : 0,
+  rowMajorInput : 0,
 });
 
 console.log( `matrix :\n${ matrix.toStr() }` );
