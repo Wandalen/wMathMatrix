@@ -521,13 +521,14 @@ function MakeSimilar( m, dims )
 
   if( dims === undefined )
   dims = proto.DimsOf( m );
-  if( dims instanceof proto.Self )
+  else if( dims instanceof proto.Self )
   dims = proto.DimsOf( dims );
-
-  /* */
+  else if( _.vectorAdapterIs( dims ) )
+  dims = dims.toLong();
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.arrayIs( dims ) && dims.length === 2 );
+  _.assert( _.longIs( dims ) );
+  // _.assert( _.arrayIs( dims ) && dims.length === 2 );
 
   /* */
 
