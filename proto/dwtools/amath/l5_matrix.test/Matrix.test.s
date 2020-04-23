@@ -17796,7 +17796,6 @@ var Self =
     make,
     makeHelper,
     MakeLine,
-    MakeSimilar,
     from,
     TempBorrow,
     bufferSetGrowing,
