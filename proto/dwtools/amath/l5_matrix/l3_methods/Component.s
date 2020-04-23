@@ -185,7 +185,7 @@ function scalarsGet( range )
 
   _.assert( _.longIs( range ) );
   _.assert( range.length === 2 );
-  _.assert( self.breadth.length === 1 );
+  // _.assert( self.breadth.length === 1 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( range[ 1 ] >= range[ 0 ] );
 
@@ -352,7 +352,7 @@ function elementsInRangeGet( range )
 
   _.assert( _.longIs( range ) );
   _.assert( range.length === 2 );
-  _.assert( self.breadth.length === 1 );
+  // _.assert( self.breadth.length === 1 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( range[ 1 ] >= range[ 0 ] );
   _.assert( self.strideOfElement === self.scalarsPerElement, 'elementsInRangeGet :', 'cant make single row for elements with extra stride' );

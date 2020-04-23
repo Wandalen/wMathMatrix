@@ -286,6 +286,8 @@ function sliceEach( onMatrix, args )
 
   return self;
 
+
+
   function inc()
   {
     let d = 0;
