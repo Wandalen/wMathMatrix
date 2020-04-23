@@ -425,7 +425,7 @@ function MakeIdentity4( src )
  * // +0 +2 +0
  * // +0 +0 +3
  *
- * @param { Array } diagonal - Source data.
+ * @param { Long|VectorAdapter } diagonal - Source data.
  * @returns { Matrix } - Returns a new instance of Matrix with provided diagonal.
  * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-diagonal-} is not an Array.
@@ -439,8 +439,13 @@ function MakeIdentity4( src )
 function MakeDiagonal( diagonal )
 {
 
-  _.assert( _.arrayIs( diagonal ) );
+  // _.assert( _.arrayIs( diagonal ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
+
+  if( _.vectorAdapterIs( diagonal ) )
+  diagonal = diagonal.toLong();
+  else
+  _.assert( _.longIs( diagonal ) );
 
   /* */
 
