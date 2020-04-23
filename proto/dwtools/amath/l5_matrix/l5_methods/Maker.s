@@ -75,11 +75,20 @@ function Make( dims )
 {
   let proto = Self.prototype;
 
-  _.assert( _.longIs( dims ) || _.numberIs( dims ) );
   _.assert( arguments.length === 1, 'Expects single argument array {-dims-}' );
+  // _.assert( _.longIs( dims ) || _.numberIs( dims ) || _.vectorAdapterIs( dims ) );
 
-  if( _.numberIs( dims ) )
-  dims = [ dims, dims ];
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.numberIs( dims ) )
+    dims = [ dims, dims ];
+    else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = dims.toLong();
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let buffer = proto.long.longMake( lengthFlat );
@@ -130,14 +139,18 @@ function MakeSquare( buffer )
 {
   let proto = this.Self.prototype;
 
-  let length = buffer;
-  if( _.longIs( buffer ) )
+  let length;
+  if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) )
   length = Math.sqrt( buffer.length );
+  else if( _.numberIs( buffer ) )
+  length = buffer;
+  else
+  _.assert( 0, 'Unexpected buffer type' );
 
-  _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
-  _.assert( _.longIs( buffer ) || _.numberIs( buffer ) );
-  _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
   _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
+  _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
+  // _.assert( _.longIs( buffer ) || _.numberIs( buffer ) || _.vectorAdapterIs( buffer ) );
 
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
@@ -191,11 +204,20 @@ function MakeZero( dims )
 {
   let proto = this.Self.prototype;
 
-  _.assert( _.longIs( dims ) || _.numberIs( dims ) );
-  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument array {-dims-}' );
+  // _.assert( _.longIs( dims ) || _.numberIs( dims ) || _.vectorAdapterIs( dims ) );
 
-  if( _.numberIs( dims ) )
-  dims = [ dims, dims ];
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.numberIs( dims ) )
+    dims = [ dims, dims ];
+    else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = dims.toLong();
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let buffer = proto.long.longMakeZeroed( lengthFlat );
