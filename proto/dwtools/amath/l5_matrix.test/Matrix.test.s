@@ -4200,6 +4200,53 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.is( got.buffer !== m.buffer );
 
   test.close( '4D' );
+
+  /* - */
+
+  test.open( 'different dims.length' );
+
+  test.case = 'dims.length - 2';
+  var m = new _.Matrix.Make([ 2, 2 ]).copy( 5 );
+  var got = _.Matrix.MakeSimilar( m, [ 0, 0 ] );
+  test.identical( got.length, 0 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 0, 0 ] );
+  test.identical( got.strides, [ 1, 0 ] );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'dims.length - 3';
+  var m = new _.Matrix.Make([ 2, 2 ]).copy( 5 );
+  var got = _.Matrix.MakeSimilar( m, [ 3, 3, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+    5, 5, 5, 5, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]));
+  test.identical( got.dims, [ 3, 3, 2 ] );
+  test.identical( got.strides, [ 1, 3, 9 ] );
+  test.identical( got.stridesEffective, [ 1, 3, 9 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'dims.length - 4';
+  var m = new _.Matrix.Make([ 2, 2 ]).copy( 5 );
+  var got = _.Matrix.MakeSimilar( m, [ 3, 3, 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+    5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]));
+  test.identical( got.dims, [ 3, 3, 2, 2 ] );
+  test.identical( got.strides, [ 1, 3, 9, 18 ] );
+  test.identical( got.stridesEffective, [ 1, 3, 9, 18 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.close( 'different dims.length' );
 }
 
 //
