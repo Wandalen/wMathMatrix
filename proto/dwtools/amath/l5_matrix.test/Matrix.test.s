@@ -1967,7 +1967,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - Unroll';
@@ -1975,7 +1975,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - ArgumentsArray';
@@ -1983,7 +1983,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - U8x';
@@ -1991,7 +1991,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - I16x';
@@ -1999,7 +1999,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - F32x';
@@ -2007,7 +2007,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - F64x';
@@ -2015,7 +2015,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - avector';
@@ -2023,7 +2023,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - VectorAdapter';
@@ -2031,7 +2031,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - VectorAdapter, lrange and stride';
@@ -2039,7 +2039,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - VectorAdapter, lrange and stride';
@@ -2047,7 +2047,7 @@ function MakeZeroChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   /* - */
