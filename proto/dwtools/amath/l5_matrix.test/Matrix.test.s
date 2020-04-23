@@ -2767,6 +2767,18 @@ function MakeIdentity2( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity2( [ 1, 2, 3, 4 ], 2 ) );
+
+  test.case = 'wrong type of src';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity2( { a : 1 } ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeIdentity2( 'wrong' ) );
 }
 
 //
