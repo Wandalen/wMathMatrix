@@ -4204,6 +4204,139 @@ function MakeSimilarMIsMatrixWithDims( test )
 
 //
 
+function MakeSimilarDifferentBufferTypes( test )
+{
+  test.case = 'buffer - Array';
+  var m = new _.Matrix
+  ({
+    buffer : [ 1, 2, 3, 4 ],
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, [ 1, 2, 3, 4 ] );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - Unroll';
+  var m = new _.Matrix
+  ({
+    buffer : _.unrollMake([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.unrollMake([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - ArgumentsArray';
+  var m = new _.Matrix
+  ({
+    buffer : _.argumentsArrayMake([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - BufferTyped, U8x';
+  var m = new _.Matrix
+  ({
+    buffer : new U8x([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new U8x([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - BufferTyped, I16x';
+  var m = new _.Matrix
+  ({
+    buffer : new I16x([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new I16x([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - BufferTyped, F32x';
+  var m = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new F32x([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - BufferTyped, F64x';
+  var m = new _.Matrix
+  ({
+    buffer : new F64x([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new F64x([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+
+  test.case = 'buffer - BufferTyped, F64x';
+  var m = new _.Matrix
+  ({
+    buffer : _.avector.make([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 1,
+  });
+  var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.is( got !== m );
+  test.is( got.buffer !== m.buffer );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -17815,6 +17948,7 @@ var Self =
     MakeDiagonal,
     MakeSimilarMIsMatrixWithoutDims,
     MakeSimilarMIsMatrixWithDims,
+    MakeSimilarDifferentBufferTypes,
 
     make,
     makeHelper,
