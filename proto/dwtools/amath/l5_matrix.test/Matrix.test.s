@@ -1667,6 +1667,153 @@ function MakeSquareChangeBufferLength( test )
 
 //
 
+function MakeSquareChangeBufferType( test )
+{
+  test.case = 'buffer - Array';
+  var got = _.Matrix.MakeSquare
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - Unroll';
+  var buffer = _.unrollMake
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - ArgumentsArray';
+  var buffer = _.unrollMake
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - BufferTyped, U8x';
+  var buffer = new U8x
+  ([
+    1,  2,
+    4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new U8x([ 1, 2, 4, 5 ]) );
+
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - BufferTyped, I16x';
+  var buffer = new I16x
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new I16x([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - BufferTyped, F32x';
+  var buffer = new F32x
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new F32x([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - BufferTyped, F64x';
+  var buffer = new F64x
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, new F64x([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - avector';
+  var buffer = _.avector.make
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - VectorAdapter';
+  var buffer = _.vectorAdapter.from
+  ([
+     1, -2,
+    -4,  5,
+  ]);
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
+  var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0,  1,  2, -2, 1, -4,  3,  5 ], 1, 4, 2 );
+  var got = _.Matrix.MakeSquare( buffer );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 2, 1 ] );
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSquare() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSquare( [ 1, 2, 3, 4 ], 2 ) );
+
+  test.case = 'wrong type of buffer';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSquare( { 'wrong' : 1 } ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSquare( 'wrong' ) );
+
+  test.case = 'wrong length of buffer';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSquare([ 1, 2, 3 ]) );
+}
+
+//
+
 function MakeZeroChangeDimsLength( test )
 {
   test.open( '2D' );
@@ -15674,6 +15821,7 @@ var Self =
     MakeChangeDimsLength,
     MakeChangeDimsType,
     MakeSquareChangeBufferLength,
+    MakeSquareChangeBufferType,
     MakeZeroChangeDimsLength,
     MakeZeroChangeDimsType,
 
