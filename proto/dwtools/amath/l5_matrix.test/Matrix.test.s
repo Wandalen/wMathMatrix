@@ -1497,7 +1497,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - Unroll';
@@ -1505,7 +1505,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - ArgumentsArray';
@@ -1513,7 +1513,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - U8x';
@@ -1521,7 +1521,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - I16x';
@@ -1529,7 +1529,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - F32x';
@@ -1537,7 +1537,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - F64x';
@@ -1545,7 +1545,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - avector';
@@ -1553,7 +1553,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - VectorAdapter';
@@ -1561,7 +1561,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   test.case = 'dims - VectorAdapter, lrange and stride';
@@ -1569,7 +1569,7 @@ function MakeChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( 6 ) );
   test.identical( got.dims, [ 3, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
 
   /* - */
