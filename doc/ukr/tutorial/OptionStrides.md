@@ -11,7 +11,7 @@ var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  rowMajorInput : 0,
+  inputRowMajor : 0,
 });
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
@@ -25,20 +25,20 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 */
 ```
 
-Три опції - це мінімальний обсяг інформації, котрий потрібен конструктору матриці. Буфер із даними `buffer`, інформація про виміри `dims` та опція `rowMajorInput` - інформація про те чи вхідні дані є в транспонованій формі.
+Три опції - це мінімальний обсяг інформації, котрий потрібен конструктору матриці. Буфер із даними `buffer`, інформація про виміри `dims` та опція `inputRowMajor` - інформація про те чи вхідні дані є в транспонованій формі.
 
 За замовчуванням в буфері елементи йдуть в такій послідовності:
 
 ![StandardStridesInputRowMajor0.png](../../img/StandardStridesInputRowMajor0.png)
 
-Якщо задати значення опції `rowMajorInput : 1`, тоді ширина кроку буде порахована за альтернативним алгоритмом.
+Якщо задати значення опції `inputRowMajor : 1`, тоді ширина кроку буде порахована за альтернативним алгоритмом.
 
 ```js
 var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  rowMajorInput : 1,
+  inputRowMajor : 1,
 });
 console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
@@ -52,11 +52,11 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 */
 ```
 
-Із `rowMajorInput : 1` ширина кроку буде `[ 2, 1 ]`, а не `[ 1, 2 ]` як в попередньому прикладі. Послідовність виглядає так:
+Із `inputRowMajor : 1` ширина кроку буде `[ 2, 1 ]`, а не `[ 1, 2 ]` як в попередньому прикладі. Послідовність виглядає так:
 
 ![StandardStridesInputRowMajor1.png](../../img/StandardStridesInputRowMajor1.png)
 
-Опція `rowMajorInput` підказує конструктору, які порахувати ширину кроку, альтернативно можливо вказати ширину кроку явно:
+Опція `inputRowMajor` підказує конструктору, які порахувати ширину кроку, альтернативно можливо вказати ширину кроку явно:
 
 ```js
 var matrix = new _.Matrix
@@ -81,7 +81,7 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 ![StandardExplicitStrides.png](../../img/StandardExplicitStrides.png)
 
-Приведена діаграма показує як буфер відображається ( map into ) в матрицю. Всі скаляри йдуть послідовно один за одним. За замовчуванням `strides` обраховується так щоб всі скаляри йшли послідовно. В якій же послідовності йдуть рядок та колонка вказує опція `rowMajorInput`.
+Приведена діаграма показує як буфер відображається ( map into ) в матрицю. Всі скаляри йдуть послідовно один за одним. За замовчуванням `strides` обраховується так щоб всі скаляри йшли послідовно. В якій же послідовності йдуть рядок та колонка вказує опція `inputRowMajor`.
 
 Альтернативно для створення нової матриці можливо використати одну із [статичних рутин](./MatrixCreation.md) `_.Matrix.Make*`.
 
@@ -232,7 +232,7 @@ console.log( `submatrix2 :\n${ sub2.toStr() }` );
 */
 sub1.mul( [ sub1, 2 ] );
 sub2.mul( [ sub2, 10 ] );
-console.log( matrix.toStr() );
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1,  +2,   +3,
 +10, +120, +70,

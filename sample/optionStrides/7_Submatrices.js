@@ -32,7 +32,7 @@ console.log( `submatrix2 :\n${ sub2.toStr() }` );
 
 sub1.mul( [ sub1, 2 ] );
 sub2.mul( [ sub2, 10 ] );
-console.log( matrix.toStr() );
+console.log( `matrix :\n${ matrix.toStr() }` );
 /* log : matrix :
 +1,  +2,   +3,
 +10, +120, +70,
