@@ -29,7 +29,7 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 За замовчуванням в буфері елементи йдуть в такій послідовності:
 
-![StandardStridesInputTransposing0.png](../../img/StandardStridesInputTransposing0.png)
+![StandardStridesInputRowMajor0.png](../../img/StandardStridesInputRowMajor0.png)
 
 Якщо задати значення опції `rowMajorInput : 1`, тоді ширина кроку буде порахована за альтернативним алгоритмом.
 
@@ -54,7 +54,7 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 Із `rowMajorInput : 1` ширина кроку буде `[ 2, 1 ]`, а не `[ 1, 2 ]` як в попередньому прикладі. Послідовність виглядає так:
 
-![StandardStridesInputTransposing1.png](../../img/StandardStridesInputTransposing1.png)
+![StandardStridesInputRowMajor1.png](../../img/StandardStridesInputRowMajor1.png)
 
 Опція `rowMajorInput` підказує конструктору, які порахувати ширину кроку, альтернативно можливо вказати ширину кроку явно:
 

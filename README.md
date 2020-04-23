@@ -133,7 +133,7 @@ Three options are the minimum amount of information required to call the matrix 
 
 By default, the elements in the buffer are in such sequence:
 
-![StandardStridesInputTransposing0.png](doc/img/StandardStridesInputTransposing0.png)
+![StandardStridesInputRowMajor0.png](doc/img/StandardStridesInputRowMajor0.png)
 
 Option `rowMajorInput : 1` alter algorithm of strides calculation.
 
@@ -162,7 +162,7 @@ console.log( `effective strides :\n${ matrix.stridesEffective }` );
 
 With `rowMajorInput : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
 
-![StandardStridesInputTransposing1.png](doc/img/StandardStridesInputTransposing1.png)
+![StandardStridesInputRowMajor1.png](doc/img/StandardStridesInputRowMajor1.png)
 
 The option `rowMajorInput` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
 
