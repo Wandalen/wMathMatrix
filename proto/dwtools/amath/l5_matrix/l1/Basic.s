@@ -521,7 +521,7 @@ function ExportStructure( o )
         let dims = this.DimsDeduceFrom( o.src, false );
         if( !dims )
         {
-          dims = o.dst._dimsDeduceGrowing();
+          dims = o.dst._dimsDeduceGrowing( dimsWas );
         }
         else
         {
@@ -533,7 +533,7 @@ function ExportStructure( o )
       {
         o.dst.dims = this.DimsDeduceFrom( o.src, dimsWas );
         if( !o.dst.dims && o.dst.buffer )
-        this._dimsDeduceGrowing();
+        this._dimsDeduceGrowing( dimsWas );
         o.dst[ stridesEffectiveSymbol ] = o.dst.StridesEffectiveFrom( o.dst.dims, o.dst.strides, o.src.inputRowMajor );
       }
 
@@ -2136,7 +2136,7 @@ function StridesRoll( strides )
 // buffer
 // --
 
-function _bufferSet( src )
+function bufferSet( src )
 {
   let self = this;
 
@@ -2148,21 +2148,35 @@ function _bufferSet( src )
 
   _.assert( _.longIs( src ) || src === null );
 
-  self[ bufferSymbol ] = src;
+  debugger;
+  self._.buffer = src;
+  debugger;
 
   if( !self._changing[ 0 ] )
   {
-    self[ offsetSymbol ] = 0; /* yyy */
-    self[ dimsSymbol ] = null;
-    self[ stridesEffectiveSymbol ] = null; /* yyy */
+    self._.offset = 0;
+    self._.stridesEffective = null;
+    debugger;
+    self._.dims = null;
+    debugger;
+    // self._.dims = self._dimsDeduceGrowing( self._.dims );
   }
+
+  // self[ bufferSymbol ] = src;
+  //
+  // if( !self._changing[ 0 ] )
+  // {
+  //   self[ offsetSymbol ] = 0; /* yyy */
+  //   self[ dimsSymbol ] = null;
+  //   self[ stridesEffectiveSymbol ] = null; /* yyy */
+  // }
 
   self._sizeChanged();
 }
 
 //
 
-function _offsetSet( src )
+function offsetSet( src )
 {
   let self = this;
 
@@ -2404,7 +2418,7 @@ function _adjustAct()
     self.buffer = self.long.longMake( lengthFlat );
   }
 
-  self._dimsWas = self.dims.slice();
+  // self._dimsWas = self.dims.slice();
   self[ dimsEffectiveSymbol ] = self.DimsEffectiveFrom( self.dims );
   // self[ breadthSymbol ] = self.BreadthFrom( self.dims );
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
@@ -2441,7 +2455,7 @@ function _adjustAct()
 
   /* done */
 
-  _.entityFreeze( self._dimsWas );
+  // _.entityFreeze( self._dimsWas );
   _.entityFreeze( self.dimsEffective );
   _.entityFreeze( self.dims );
   // _.entityFreeze( self.breadth );
@@ -2655,20 +2669,22 @@ function DimsEffectiveFrom( dims )
 
 //
 
-function _dimsDeduceGrowing()
+function _dimsDeduceGrowing( dimsWas )
 {
   let self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( self.dims === null );
 
-  if( self._dimsWas )
+  // if( self._dimsWas ) /* yyy */
+  if( dimsWas )
   {
-    _.assert( _.arrayIs( self._dimsWas ) );
+    // _.assert( _.arrayIs( self._dimsWas ) );
     _.assert( _.longIs( self.buffer ) );
     _.assert( self.offset >= 0 );
 
-    let dims = self._dimsWas.slice();
+    // let dims = self._dimsWas.slice();
+    let dims = dimsWas.slice();
     dims[ self.growingDimension ] = 1;
     let ape = _.avector.reduceToProduct( dims );
     let l = ( self.buffer.length - self.offset ) / ape;
@@ -3047,10 +3063,10 @@ dimsExportString.defaults =
 // relations
 // --
 
-let offsetSymbol = Symbol.for( 'offset' );
 let bufferSymbol = Symbol.for( 'buffer' );
-// let breadthSymbol = Symbol.for( 'breadth' );
 
+let offsetSymbol = Symbol.for( 'offset' );
+// let breadthSymbol = Symbol.for( 'breadth' );
 let dimsSymbol = Symbol.for( 'dims' );
 let dimsEffectiveSymbol = Symbol.for( 'dimsEffective' );
 let stridesSymbol = Symbol.for( 'strides' );
@@ -3090,7 +3106,7 @@ let Associates =
 let Restricts =
 {
 
-  _dimsWas : null,
+  // _dimsWas : null,
   _changing : [ 1 ],
 
 }
@@ -3164,10 +3180,14 @@ let Forbids =
   array : 'array',
   inputRowMajor : 'inputRowMajor',
   inputTransposing : 'inputTransposing',
+  breadth : 'breadth',
+  _dimsWas : '_dimsWas',
 
 }
 
 //
+
+let sp = { setter : false, putter : _.accessor.putter.symbol };
 
 let Accessors =
 {
@@ -3175,7 +3195,7 @@ let Accessors =
   /* etc */
 
   _ : { getter : _.accessor.getter.toValue, setter : 0, strict : 0 }, /* xxx */
-  buffer : {},
+  buffer : { addingMethods : 1 },
   offset : {},
 
   /* vectors */
@@ -3311,8 +3331,8 @@ let Extension =
 
   // buffer
 
-  _bufferSet, /* cached */
-  _offsetSet, /* cached */
+  bufferSet, /* cached */
+  offsetSet, /* cached */
 
   _bufferAssign,
   bufferCopyTo, /* qqq : cover */
@@ -3405,8 +3425,6 @@ _.accessor.readOnly( Self.prototype, { long : { getter : _longGet, setter : fals
 
 _.Matrix = Self;
 
-//
-
 _.assert( !!_.vectorAdapter );
 _.assert( !!_.vectorAdapter.long );
 
@@ -3417,5 +3435,8 @@ _.assert( Self.prototype.vectorAdapter.long === Self.vectorAdapter.long );
 _.assert( Self.long === Self.vectorAdapter.long );
 _.assert( Self.prototype.long === Self.vectorAdapter.long );
 _.assert( Self.long === _.vectorAdapter.long );
+_.assert( _.routineIs( Self.prototype.bufferGet ) );
+_.assert( _.routineIs( Self.prototype.bufferSet ) );
+_.assert( _.routineIs( Self.prototype.bufferPut ) );
 
 })();
