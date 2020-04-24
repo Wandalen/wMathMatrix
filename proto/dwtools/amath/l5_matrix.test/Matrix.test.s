@@ -4472,6 +4472,414 @@ function MakeSimilarWithVectors( test )
 
 //
 
+function MakeLineOptionZeroing0( test )
+{
+  test.case = 'o.buffer - Number, dimension - 0';
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : 3,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 0, 0, 0 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'o.buffer - Number, dimension - 1';
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : 3,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 0, 0, 0 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  /* */
+
+  test.case = 'o.buffer - Array, dimension - 0';
+  var buffer = [ 1, 2, 3 ];
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - Array, dimension - 1';
+  var buffer = [ 1, 2, 3 ];
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - Unroll, dimension - 0';
+  var buffer = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - Unroll, dimension - 1';
+  var buffer = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - ArgumentsArray, dimension - 0';
+  var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - ArgumentsArray, dimension - 1';
+  var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - BufferTyped, U8x, dimension - 0';
+  var buffer = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, new U8x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - BufferTyped, U8x, dimension - 1';
+  var buffer = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new U8x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - BufferTyped, I16x, dimension - 0';
+  var buffer = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, new I16x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - BufferTyped, I16x, dimension - 1';
+  var buffer = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new I16x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - BufferTyped, F32x, dimension - 0';
+  var buffer = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, new F32x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - BufferTyped, F32x, dimension - 1';
+  var buffer = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new F32x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - BufferTyped, F64x, dimension - 0';
+  var buffer = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, new F64x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - BufferTyped, F64x, dimension - 1';
+  var buffer = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new F64x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - avector, dimension - 0';
+  var buffer = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - avector, dimension - 1';
+  var buffer = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - VectorAdapter, dimension - 0';
+  var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - VectorAdapter, dimension - 1';
+  var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - VectorAdapter, routine fromLongLrangeAndStride, dimension - 0';
+  var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'o.buffer - VectorAdapter, routine fromLongLrangeAndStride, dimension - 1';
+  var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  /* */
+
+  test.case = 'o.buffer - matrix, dimension - 0';
+  var buffer = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3,
+  ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 3, 1 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  test.case = 'o.buffer - matrix, dimension - 1';
+  var buffer = _.Matrix.Make([ 1, 3 ]).copy([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -17881,6 +18289,7 @@ var Self =
     MakeSimilarMIsMatrixWithDims,
     MakeSimilarDifferentBufferTypes,
     MakeSimilarWithVectors,
+    MakeLineOptionZeroing0,
 
     make,
     makeHelper,
