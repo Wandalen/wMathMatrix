@@ -4876,6 +4876,76 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.stridesEffective, [ 1, 1 ] );
   test.is( got === buffer );
   test.is( got.buffer === buffer.buffer );
+
+  /* - */
+
+  test.open( 'different length of line' );
+
+  test.case = 'length - 0, dimension - 0';
+  var buffer = _.Matrix.Make([ 0, 1 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 0, 1 ] );
+  test.identical( got.strides, [ 1, 0 ] );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  test.case = 'length - 0, dimension - 1';
+  var buffer = _.Matrix.Make([ 1, 0 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 0 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 1, 0 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  test.case = 'length - 1, dimension - 0';
+  var buffer = _.Matrix.Make([ 1, 1 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  test.case = 'length - 1, dimension - 1';
+  var buffer = _.Matrix.Make([ 1, 1 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 0,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  test.close( 'different length of line' );
 }
 
 //
@@ -5284,6 +5354,77 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.stridesEffective, [ 1, 1 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
+
+  /* - */
+
+  test.open( 'different length of line' );
+
+  test.case = 'length - 0, dimension - 0';
+  var buffer = _.Matrix.Make([ 0, 1 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 1,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 0, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 0 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'length - 0, dimension - 1';
+  var buffer = _.Matrix.Make([ 1, 0 ]);
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 1,
+  });
+  test.identical( got.length, 0 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 1, 0 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'length - 1, dimension - 0';
+  var buffer = _.Matrix.Make([ 1, 1 ]).copy( 2 );
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 0,
+    zeroing : 1,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'length - 1, dimension - 1';
+  var buffer = _.Matrix.Make([ 1, 1 ]).copy( 2 );
+  var got = _.Matrix.MakeLine
+  ({
+    buffer : buffer,
+    dimension : 1,
+    zeroing : 1,
+  });
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.close( 'different length of line' );
+
 }
 
 //

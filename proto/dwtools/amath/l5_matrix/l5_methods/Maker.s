@@ -638,7 +638,7 @@ function makeSimilar( dims ) /* aaa : jsdoc */ /* Dmytro : documented */
  * // +3
  *
  * @param { MapLike } o - Options map.
- * @param { Array|BufferTyped|VectorAdapter|Matrix|Number } o.buffer - Source buffer.
+ * @param { Long|VectorAdapter|Matrix|Number } o.buffer - Source buffer.
  * @param { Number } o.dimension - The index of dimension : 0 - column, 1 - row.
  * @param { BoolLike } o.zeroing - Enables initializing of the buffer.
  * @returns { Matrix } - Returns a row matrix or a column matrix.
@@ -800,7 +800,7 @@ MakeLine.defaults =
  * //  0.000
  * // -0.250
  *
- * @param { VectorAdapter|BufferTyped|Matrix|Array|Number } buffer - Source buffer.
+ * @param { VectorAdapter|Matrix|Long|Number } buffer - Source buffer.
  * @returns { Matrix|VectorAdapter } - Returns a new column matrix.
  * @throws { Error } If {-buffer-} has not valid type.
  * @static
