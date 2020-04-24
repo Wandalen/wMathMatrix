@@ -6864,6 +6864,237 @@ function ConvertToClassSrcIsNotMatrix( test )
 
 //
 
+function FromVector( test )
+{
+  test.open( 'src is a VectorAdapter' );
+
+  test.case = 'routine make';
+  var src = _.vectorAdapter.make([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine makeFilling';
+  var src = _.vectorAdapter.makeFilling([ 1, 2, 3 ], 5 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+    5,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine from';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLong';
+  var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongLrange';
+  var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongWithStride';
+  var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    0,
+    2,
+    4,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongLrangeAndStride';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    3,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromNumber, number';
+  var src = _.vectorAdapter.fromNumber( 5, 3 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+    5,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer !== src._vectorBuffer );
+
+  test.case = 'routine fromMaybeNumber, number';
+  var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+    5,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer !== src._vectorBuffer );
+
+  test.case = 'routine fromMaybeNumber, Long';
+  var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.close( 'src is a VectorAdapter' );
+
+  /* - */
+
+  test.open( 'src is a Long' );
+
+  test.case = 'Array';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'Unroll';
+  var src = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'ArgumentsArray';
+  var src = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, U8x';
+  var src = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, I16x';
+  var src = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, F32x';
+  var src = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, F64x';
+  var src = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'avector';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.close( 'src is a Long' );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -20172,6 +20403,8 @@ var Self =
 
     ConvertToClassSrcIsMatrix,
     ConvertToClassSrcIsNotMatrix,
+
+    FromVector,
 
     make,
     makeHelper,
