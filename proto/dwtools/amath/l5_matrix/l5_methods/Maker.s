@@ -815,6 +815,7 @@ MakeLine.defaults =
 function MakeCol( buffer )
 {
   _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
@@ -856,10 +857,11 @@ function MakeCol( buffer )
  * // +0
  * // +0
  *
- * @param { VectorAdapter|BufferTyped|Matrix|Array|Number } buffer - Source buffer.
+ * @param { VectorAdapter|Matrix|Long|Number } buffer - Source buffer.
  * @returns { Matrix } - Returns a new column matrix with initialized buffer.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
- * @static
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 1 ] is not 1.* @static
  * @function MakeColZeroed
  * @class Matrix
  * @namespace wTools
@@ -868,6 +870,8 @@ function MakeCol( buffer )
 
 function MakeColZeroed( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
