@@ -802,7 +802,9 @@ MakeLine.defaults =
  *
  * @param { VectorAdapter|Matrix|Long|Number } buffer - Source buffer.
  * @returns { Matrix|VectorAdapter } - Returns a new column matrix.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 1 ] is not 1.
  * @static
  * @function MakeCol
  * @class Matrix
@@ -812,6 +814,7 @@ MakeLine.defaults =
 
 function MakeCol( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
   return this.MakeLine
   ({
     buffer,
