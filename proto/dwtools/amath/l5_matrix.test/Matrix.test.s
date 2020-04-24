@@ -4620,103 +4620,103 @@ function make( test )
 
     /* */
 
-    test.case = 'matrix with breadth, transposing';
-
-    var m = new _.Matrix
-    ({
-      inputRowMajor : 1,
-      breadth : [ 2 ],
-      offset : o.offset,
-      buffer : o.arrayMake
-      ([
-        1, 2, 3,
-        4, 5, 6,
-      ]),
-    });
-
-    logger.log( 'm\n' + _.toStr( m ) );
-
-    test.identical( m.size, 24 );
-    test.identical( m.sizeOfElement, 8 );
-    test.identical( m.sizeOfCol, 8 );
-    test.identical( m.sizeOfRow, 12 );
-    test.identical( m.dims, [ 2, 3 ] );
-    test.identical( m.length, 3 );
-
-    test.identical( m.stridesEffective, [ 3, 1 ] );
-    test.identical( m.strideOfElement, 1 );
-    test.identical( m.strideOfCol, 1 );
-    test.identical( m.strideInCol, 3 );
-    test.identical( m.strideOfRow, 3 );
-    test.identical( m.strideInRow, 1 );
-
-    var r1 = m.rowGet( 1 );
-    var r2 = m.lineGet( 1, 1 );
-    var c1 = m.colGet( 2 );
-    var c2 = m.lineGet( 0, 2 );
-    var e = m.eGet( 2 );
-    var a1 = m.scalarFlatGet( 5 );
-    var a2 = m.scalarGet([ 1, 1 ]);
-
-    test.identical( r1, o.vec([ 4, 5, 6 ]) );
-    test.identical( r1, r2 );
-    test.identical( c1, o.vec([ 3, 6 ]) );
-    test.identical( c1, c2 );
-    test.identical( e, o.vec([ 3, 6 ]) );
-    test.identical( a1, 6 );
-    test.identical( a2, 5 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
-
-    /* */
-
-    test.case = 'matrix with breadth, non transposing';
-
-    var m = new _.Matrix
-    ({
-      inputRowMajor : 0,
-      breadth : [ 2 ],
-      offset : o.offset,
-      buffer : o.arrayMake
-      ([
-        1, 2, 3,
-        4, 5, 6,
-      ]),
-    });
-
-    logger.log( 'm\n' + _.toStr( m ) );
-
-    test.identical( m.size, 24 );
-    test.identical( m.sizeOfElement, 8 );
-    test.identical( m.sizeOfCol, 8 );
-    test.identical( m.sizeOfRow, 12 );
-    test.identical( m.dims, [ 2, 3 ] );
-    test.identical( m.length, 3 );
-
-    test.identical( m.stridesEffective, [ 1, 2 ] );
-    test.identical( m.strideOfElement, 2 );
-    test.identical( m.strideOfCol, 2 );
-    test.identical( m.strideInCol, 1 );
-    test.identical( m.strideOfRow, 1 );
-    test.identical( m.strideInRow, 2 );
-
-    var r1 = m.rowGet( 1 );
-    var r2 = m.lineGet( 1, 1 );
-    var c1 = m.colGet( 2 );
-    var c2 = m.lineGet( 0, 2 );
-    var e = m.eGet( 2 );
-    var a1 = m.scalarFlatGet( 5 );
-    var a2 = m.scalarGet([ 1, 1 ]);
-
-    test.identical( r1, o.vec([ 2, 4, 6 ]) );
-    test.identical( r1, r2 );
-    test.identical( c1, o.vec([ 5, 6 ]) );
-    test.identical( c1, c2 );
-    test.identical( e, o.vec([ 5, 6 ]) );
-    test.identical( a1, 6 );
-    test.identical( a2, 4 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    // test.case = 'matrix with breadth, transposing';
+    //
+    // var m = new _.Matrix
+    // ({
+    //   inputRowMajor : 1,
+    //   breadth : [ 2 ],
+    //   offset : o.offset,
+    //   buffer : o.arrayMake
+    //   ([
+    //     1, 2, 3,
+    //     4, 5, 6,
+    //   ]),
+    // });
+    //
+    // logger.log( 'm\n' + _.toStr( m ) );
+    //
+    // test.identical( m.size, 24 );
+    // test.identical( m.sizeOfElement, 8 );
+    // test.identical( m.sizeOfCol, 8 );
+    // test.identical( m.sizeOfRow, 12 );
+    // test.identical( m.dims, [ 2, 3 ] );
+    // test.identical( m.length, 3 );
+    //
+    // test.identical( m.stridesEffective, [ 3, 1 ] );
+    // test.identical( m.strideOfElement, 1 );
+    // test.identical( m.strideOfCol, 1 );
+    // test.identical( m.strideInCol, 3 );
+    // test.identical( m.strideOfRow, 3 );
+    // test.identical( m.strideInRow, 1 );
+    //
+    // var r1 = m.rowGet( 1 );
+    // var r2 = m.lineGet( 1, 1 );
+    // var c1 = m.colGet( 2 );
+    // var c2 = m.lineGet( 0, 2 );
+    // var e = m.eGet( 2 );
+    // var a1 = m.scalarFlatGet( 5 );
+    // var a2 = m.scalarGet([ 1, 1 ]);
+    //
+    // test.identical( r1, o.vec([ 4, 5, 6 ]) );
+    // test.identical( r1, r2 );
+    // test.identical( c1, o.vec([ 3, 6 ]) );
+    // test.identical( c1, c2 );
+    // test.identical( e, o.vec([ 3, 6 ]) );
+    // test.identical( a1, 6 );
+    // test.identical( a2, 5 );
+    // test.identical( m.reduceToSumAtomWise(), 21 );
+    // test.identical( m.reduceToProductAtomWise(), 720 );
+    //
+    // /* */
+    //
+    // test.case = 'matrix with breadth, non transposing';
+    //
+    // var m = new _.Matrix
+    // ({
+    //   inputRowMajor : 0,
+    //   breadth : [ 2 ],
+    //   offset : o.offset,
+    //   buffer : o.arrayMake
+    //   ([
+    //     1, 2, 3,
+    //     4, 5, 6,
+    //   ]),
+    // });
+    //
+    // logger.log( 'm\n' + _.toStr( m ) );
+    //
+    // test.identical( m.size, 24 );
+    // test.identical( m.sizeOfElement, 8 );
+    // test.identical( m.sizeOfCol, 8 );
+    // test.identical( m.sizeOfRow, 12 );
+    // test.identical( m.dims, [ 2, 3 ] );
+    // test.identical( m.length, 3 );
+    //
+    // test.identical( m.stridesEffective, [ 1, 2 ] );
+    // test.identical( m.strideOfElement, 2 );
+    // test.identical( m.strideOfCol, 2 );
+    // test.identical( m.strideInCol, 1 );
+    // test.identical( m.strideOfRow, 1 );
+    // test.identical( m.strideInRow, 2 );
+    //
+    // var r1 = m.rowGet( 1 );
+    // var r2 = m.lineGet( 1, 1 );
+    // var c1 = m.colGet( 2 );
+    // var c2 = m.lineGet( 0, 2 );
+    // var e = m.eGet( 2 );
+    // var a1 = m.scalarFlatGet( 5 );
+    // var a2 = m.scalarGet([ 1, 1 ]);
+    //
+    // test.identical( r1, o.vec([ 2, 4, 6 ]) );
+    // test.identical( r1, r2 );
+    // test.identical( c1, o.vec([ 5, 6 ]) );
+    // test.identical( c1, c2 );
+    // test.identical( e, o.vec([ 5, 6 ]) );
+    // test.identical( a1, 6 );
+    // test.identical( a2, 4 );
+    // test.identical( m.reduceToSumAtomWise(), 21 );
+    // test.identical( m.reduceToProductAtomWise(), 720 );
 
     /* */
 
@@ -4811,7 +4811,7 @@ function make( test )
       test.identical( m.sizeOfCol, 12 );
       test.identical( m.sizeOfRow, 0 );
       test.identical( m.dims, [ 3, 0 ] );
-      test.identical( m.breadth, [ 3 ] );
+      // test.identical( m.breadth, [ 3 ] );
       test.identical( m.length, 0 );
 
       test.identical( m.stridesEffective, [ 1, 3 ] );
@@ -7760,194 +7760,194 @@ function constructWithScalarsPerElement( test )
 
 }
 
+// //
 //
-
-function constructWithBreadth( test )
-{
-
-  /* */
-
-  test.case = 'inputRowMajor : 1, breadth is array';
-
-  var m = new _.Matrix
-  ({
-    inputRowMajor : 1,
-    breadth : [ 2 ],
-    buffer :
-    [
-      1, 2, 3,
-      4, 5, 6,
-    ],
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m.stridesEffective, [ 3, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 2 );
-  var c2 = m.lineGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, _.vectorAdapter.from([ 4, 5, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, _.vectorAdapter.from([ 3, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, _.vectorAdapter.from([ 3, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  /* */
-
-  test.case = 'transposing : 0, breadth is array';
-
-  var m = new _.Matrix
-  ({
-    inputRowMajor : 0,
-    breadth : [ 2 ],
-    buffer :
-    [
-      1, 2, 3,
-      4, 5, 6,
-    ],
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m.stridesEffective, [ 1, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 2 );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 2 );
-  var c2 = m.lineGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, _.vectorAdapter.from([ 2, 4, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, _.vectorAdapter.from([ 5, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, _.vectorAdapter.from([ 5, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 4 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  /* */
-
-  test.case = 'inputRowMajor : 1, breadth is number';
-
-  var m = new _.Matrix
-  ({
-    inputRowMajor : 1,
-    breadth : 2,
-    buffer :
-    [
-      1, 2, 3,
-      4, 5, 6,
-    ],
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m.stridesEffective, [ 3, 1 ] );
-  test.identical( m.strideOfElement, 1 );
-  test.identical( m.strideOfCol, 1 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 1 );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 2 );
-  var c2 = m.lineGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, _.vectorAdapter.from([ 4, 5, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, _.vectorAdapter.from([ 3, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, _.vectorAdapter.from([ 3, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  /* */
-
-  test.case = 'transposing : 0, breadth is number';
-
-  var m = new _.Matrix
-  ({
-    inputRowMajor : 0,
-    breadth : 2,
-    buffer :
-    [
-      1, 2, 3,
-      4, 5, 6,
-    ],
-  });
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m.stridesEffective, [ 1, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 1 );
-  test.identical( m.strideOfRow, 1 );
-  test.identical( m.strideInRow, 2 );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 2 );
-  var c2 = m.lineGet( 0, 2 );
-  var e = m.eGet( 2 );
-  var a1 = m.scalarFlatGet( 5 );
-  var a2 = m.scalarGet([ 1, 1 ]);
-
-  test.identical( r1, _.vectorAdapter.from([ 2, 4, 6 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, _.vectorAdapter.from([ 5, 6 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, _.vectorAdapter.from([ 5, 6 ]) );
-  test.identical( a1, 6 );
-  test.identical( a2, 4 );
-  test.identical( m.reduceToSumAtomWise(), 21 );
-  test.identical( m.reduceToProductAtomWise(), 720 );
-
-  /* */
-
-}
+// function constructWithBreadth( test )
+// {
+//
+//   /* */
+//
+//   test.case = 'inputRowMajor : 1, breadth is array';
+//
+//   var m = new _.Matrix
+//   ({
+//     inputRowMajor : 1,
+//     breadth : [ 2 ],
+//     buffer :
+//     [
+//       1, 2, 3,
+//       4, 5, 6,
+//     ],
+//   });
+//
+//   logger.log( 'm\n' + _.toStr( m ) );
+//
+//   test.identical( m.dims, [ 2, 3 ] );
+//   test.identical( m.length, 3 );
+//
+//   test.identical( m.stridesEffective, [ 3, 1 ] );
+//   test.identical( m.strideOfElement, 1 );
+//   test.identical( m.strideOfCol, 1 );
+//   test.identical( m.strideInCol, 3 );
+//   test.identical( m.strideOfRow, 3 );
+//   test.identical( m.strideInRow, 1 );
+//
+//   var r1 = m.rowGet( 1 );
+//   var r2 = m.lineGet( 1, 1 );
+//   var c1 = m.colGet( 2 );
+//   var c2 = m.lineGet( 0, 2 );
+//   var e = m.eGet( 2 );
+//   var a1 = m.scalarFlatGet( 5 );
+//   var a2 = m.scalarGet([ 1, 1 ]);
+//
+//   test.identical( r1, _.vectorAdapter.from([ 4, 5, 6 ]) );
+//   test.identical( r1, r2 );
+//   test.identical( c1, _.vectorAdapter.from([ 3, 6 ]) );
+//   test.identical( c1, c2 );
+//   test.identical( e, _.vectorAdapter.from([ 3, 6 ]) );
+//   test.identical( a1, 6 );
+//   test.identical( a2, 5 );
+//   test.identical( m.reduceToSumAtomWise(), 21 );
+//   test.identical( m.reduceToProductAtomWise(), 720 );
+//
+//   /* */
+//
+//   test.case = 'transposing : 0, breadth is array';
+//
+//   var m = new _.Matrix
+//   ({
+//     inputRowMajor : 0,
+//     breadth : [ 2 ],
+//     buffer :
+//     [
+//       1, 2, 3,
+//       4, 5, 6,
+//     ],
+//   });
+//
+//   logger.log( 'm\n' + _.toStr( m ) );
+//
+//   test.identical( m.dims, [ 2, 3 ] );
+//   test.identical( m.length, 3 );
+//
+//   test.identical( m.stridesEffective, [ 1, 2 ] );
+//   test.identical( m.strideOfElement, 2 );
+//   test.identical( m.strideOfCol, 2 );
+//   test.identical( m.strideInCol, 1 );
+//   test.identical( m.strideOfRow, 1 );
+//   test.identical( m.strideInRow, 2 );
+//
+//   var r1 = m.rowGet( 1 );
+//   var r2 = m.lineGet( 1, 1 );
+//   var c1 = m.colGet( 2 );
+//   var c2 = m.lineGet( 0, 2 );
+//   var e = m.eGet( 2 );
+//   var a1 = m.scalarFlatGet( 5 );
+//   var a2 = m.scalarGet([ 1, 1 ]);
+//
+//   test.identical( r1, _.vectorAdapter.from([ 2, 4, 6 ]) );
+//   test.identical( r1, r2 );
+//   test.identical( c1, _.vectorAdapter.from([ 5, 6 ]) );
+//   test.identical( c1, c2 );
+//   test.identical( e, _.vectorAdapter.from([ 5, 6 ]) );
+//   test.identical( a1, 6 );
+//   test.identical( a2, 4 );
+//   test.identical( m.reduceToSumAtomWise(), 21 );
+//   test.identical( m.reduceToProductAtomWise(), 720 );
+//
+//   /* */
+//
+//   test.case = 'inputRowMajor : 1, breadth is number';
+//
+//   var m = new _.Matrix
+//   ({
+//     inputRowMajor : 1,
+//     breadth : 2,
+//     buffer :
+//     [
+//       1, 2, 3,
+//       4, 5, 6,
+//     ],
+//   });
+//
+//   logger.log( 'm\n' + _.toStr( m ) );
+//
+//   test.identical( m.dims, [ 2, 3 ] );
+//   test.identical( m.length, 3 );
+//
+//   test.identical( m.stridesEffective, [ 3, 1 ] );
+//   test.identical( m.strideOfElement, 1 );
+//   test.identical( m.strideOfCol, 1 );
+//   test.identical( m.strideInCol, 3 );
+//   test.identical( m.strideOfRow, 3 );
+//   test.identical( m.strideInRow, 1 );
+//
+//   var r1 = m.rowGet( 1 );
+//   var r2 = m.lineGet( 1, 1 );
+//   var c1 = m.colGet( 2 );
+//   var c2 = m.lineGet( 0, 2 );
+//   var e = m.eGet( 2 );
+//   var a1 = m.scalarFlatGet( 5 );
+//   var a2 = m.scalarGet([ 1, 1 ]);
+//
+//   test.identical( r1, _.vectorAdapter.from([ 4, 5, 6 ]) );
+//   test.identical( r1, r2 );
+//   test.identical( c1, _.vectorAdapter.from([ 3, 6 ]) );
+//   test.identical( c1, c2 );
+//   test.identical( e, _.vectorAdapter.from([ 3, 6 ]) );
+//   test.identical( a1, 6 );
+//   test.identical( a2, 5 );
+//   test.identical( m.reduceToSumAtomWise(), 21 );
+//   test.identical( m.reduceToProductAtomWise(), 720 );
+//
+//   /* */
+//
+//   test.case = 'transposing : 0, breadth is number';
+//
+//   var m = new _.Matrix
+//   ({
+//     inputRowMajor : 0,
+//     breadth : 2,
+//     buffer :
+//     [
+//       1, 2, 3,
+//       4, 5, 6,
+//     ],
+//   });
+//
+//   logger.log( 'm\n' + _.toStr( m ) );
+//
+//   test.identical( m.dims, [ 2, 3 ] );
+//   test.identical( m.length, 3 );
+//
+//   test.identical( m.stridesEffective, [ 1, 2 ] );
+//   test.identical( m.strideOfElement, 2 );
+//   test.identical( m.strideOfCol, 2 );
+//   test.identical( m.strideInCol, 1 );
+//   test.identical( m.strideOfRow, 1 );
+//   test.identical( m.strideInRow, 2 );
+//
+//   var r1 = m.rowGet( 1 );
+//   var r2 = m.lineGet( 1, 1 );
+//   var c1 = m.colGet( 2 );
+//   var c2 = m.lineGet( 0, 2 );
+//   var e = m.eGet( 2 );
+//   var a1 = m.scalarFlatGet( 5 );
+//   var a2 = m.scalarGet([ 1, 1 ]);
+//
+//   test.identical( r1, _.vectorAdapter.from([ 2, 4, 6 ]) );
+//   test.identical( r1, r2 );
+//   test.identical( c1, _.vectorAdapter.from([ 5, 6 ]) );
+//   test.identical( c1, c2 );
+//   test.identical( e, _.vectorAdapter.from([ 5, 6 ]) );
+//   test.identical( a1, 6 );
+//   test.identical( a2, 4 );
+//   test.identical( m.reduceToSumAtomWise(), 21 );
+//   test.identical( m.reduceToProductAtomWise(), 720 );
+//
+//   /* */
+//
+// }
 
 //
 
@@ -17802,7 +17802,7 @@ var Self =
     constructTransposing,
     constructWithInfinity,
     constructWithScalarsPerElement,
-    constructWithBreadth,
+    // constructWithBreadth,
     constructWithoutBuffer,
     constructWithoutDims,
     makeMultyMatrix,
