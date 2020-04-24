@@ -904,7 +904,9 @@ function MakeColZeroed( buffer )
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
  * @returns { Matrix|VectorAdapter } - Returns a new row matrix.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 1 ] is not 1.
  * @static
  * @function MakeRow
  * @class Matrix
@@ -914,6 +916,8 @@ function MakeColZeroed( buffer )
 
 function MakeRow( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
