@@ -2148,18 +2148,18 @@ function bufferSet( src )
 
   _.assert( _.longIs( src ) || src === null );
 
-  debugger;
+  // debugger;
   self._.buffer = src;
-  debugger;
+  // debugger;
 
   if( !self._changing[ 0 ] )
   {
     self._.offset = 0;
     self._.stridesEffective = null;
-    debugger;
-    self._.dims = null;
-    debugger;
-    // self._.dims = self._dimsDeduceGrowing( self._.dims );
+    // debugger;
+    // self._.dims = null;
+    // debugger;
+    self._.dims = self._dimsDeduceGrowing( self._.dims );
   }
 
   // self[ bufferSymbol ] = src;
@@ -2674,7 +2674,7 @@ function _dimsDeduceGrowing( dimsWas )
   let self = this;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
-  _.assert( self.dims === null );
+  // _.assert( self.dims === null );
 
   // if( self._dimsWas ) /* yyy */
   if( dimsWas )
@@ -3187,57 +3187,58 @@ let Forbids =
 
 //
 
-let sp = { setter : false, putter : _.accessor.putter.symbol };
+let writable = { put : _.accessor.putter.symbol, addingMethods : 1 };
+let readOnly = { setter : false, put : _.accessor.putter.symbol, addingMethods : 1 };
 
 let Accessors =
 {
 
   /* etc */
 
-  _ : { getter : _.accessor.getter.toValue, setter : 0, strict : 0 }, /* xxx */
-  buffer : { addingMethods : 1 },
-  offset : {},
+  _ : { getter : _.accessor.getter.toValue, setter : 0, put : 0, strict : 0 }, /* xxx */
+  buffer : writable,
+  offset : writable,
 
   /* vectors */
 
-  strides : {},
-  dims : {},
+  strides : writable,
+  dims : writable,
   dimsEffective : { getter : _dimsEffectiveGet, setter : false },
   // breadth : {},
-  occupiedRange : { setter : false }, /* cached */
-  stridesEffective : { setter : false }, /* cached */
+  occupiedRange : readOnly, /* cached */
+  stridesEffective : readOnly, /* cached */
 
   /* size in bytes */
 
-  size : { setter : false },
-  sizeOfSlice : { setter : false },
-  sizeOfElement : { setter : false },
-  sizeOfElementStride : { setter : false },
-  sizeOfCol : { setter : false },
-  sizeOfColStride : { setter : false },
-  sizeOfRow : { setter : false },
-  sizeOfRowStride : { setter : false },
-  sizeOfScalar : { setter : false },
+  size : readOnly,
+  sizeOfSlice : readOnly,
+  sizeOfElement : readOnly,
+  sizeOfElementStride : readOnly,
+  sizeOfCol : readOnly,
+  sizeOfColStride : readOnly,
+  sizeOfRow : readOnly,
+  sizeOfRowStride : readOnly,
+  sizeOfScalar : readOnly,
 
   /* length in scalars */
 
-  scalarsPerElement : { setter : false }, /* cached */
-  scalarsPerCol : { setter : false },
-  scalarsPerRow : { setter : false },
-  ncol : { setter : false },
-  nrow : { setter : false },
-  scalarsPerSlice : { setter : false }, /* qqq : cover */
-  scalarsPerMatrix : { setter : false },
-  slicesPerMatrix : { setter : false }, /* qqq : cover */
-  nslice : { setter : false }, /* qqq : cover */
+  scalarsPerElement : readOnly, /* cached */
+  scalarsPerCol : readOnly,
+  scalarsPerRow : readOnly,
+  ncol : readOnly,
+  nrow : readOnly,
+  scalarsPerSlice : readOnly, /* qqq : cover */
+  scalarsPerMatrix : readOnly,
+  slicesPerMatrix : readOnly, /* qqq : cover */
+  nslice : readOnly, /* qqq : cover */
 
-  length : { setter : false }, /* cached */
+  length : readOnly, /* cached */
 
-  strideOfElement : { setter : false },
-  strideOfCol : { setter : false },
-  strideInCol : { setter : false },
-  strideOfRow : { setter : false },
-  strideInRow : { setter : false },
+  strideOfElement : readOnly,
+  strideOfCol : readOnly,
+  strideInCol : readOnly,
+  strideOfRow : readOnly,
+  strideInRow : readOnly,
 
 }
 
