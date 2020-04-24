@@ -662,7 +662,8 @@ function MakeLine( o )
   let length = ( _.longIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) ) ? o.buffer.length : o.buffer;
   let dims = null;
 
-  _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
+  // _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
+  _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.longIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( MakeLine, o );
 
@@ -729,6 +730,8 @@ function MakeLine( o )
   o.buffer = o.zeroing ? this.long.longMakeZeroed( length ) : this.long.longMake( length );
   else if( o.zeroing )
   o.buffer = this.long.longMakeZeroed( length )
+  else if( _.argumentsArrayIs( o.buffer ) )
+  o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
   else
   o.buffer = proto.constructor._BufferFrom( o.buffer );
 
