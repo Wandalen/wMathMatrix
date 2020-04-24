@@ -5425,6 +5425,30 @@ function MakeLineOptionZeroing1( test )
 
   test.close( 'different length of line' );
 
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine( { buffer : [ 1, 2 ], dimension : 0 }, 'extra' ) );
+
+  test.case = 'wrong type of o';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine( [ [ 'buffer', [ 1, 2 ] ], [ 'dimension', 0 ] ] ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine( 'wrong' ) );
+
+  test.case = 'unknown options in o';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine({ buffer : [ 1, 2 ], dimension : 0, extra : 1 }) );
+
+  test.case = 'wrong type of o.buffer';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine({ buffer : { 1 : 2 }, dimension : 0 }) );
+
+  test.case = 'o.buffer with dimensions that is greater than 1';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine({ buffer : _.Matrix.Make([ 2, 3 ]), dimension : 0 }) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeLine({ buffer : _.Matrix.Make([ 2, 3 ]), dimension : 1 }) );
 }
 
 //
