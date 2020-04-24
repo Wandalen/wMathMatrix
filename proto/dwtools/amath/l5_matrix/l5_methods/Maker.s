@@ -551,14 +551,14 @@ function MakeSimilar( m, dims )
   else if( _.longIs( m ) )
   {
 
-    _.assert( dims[ 1 ] === 1 );
+    _.assert( dims.length === 2 && dims[ 1 ] === 1 );
     result = proto.long.longMakeUndefined( m, dims[ 0 ] );
 
   }
   else if( _.vectorAdapterIs( m ) )
   {
 
-    _.assert( dims[ 1 ] === 1 );
+    _.assert( dims.length === 2 && dims[ 1 ] === 1 );
     result = m.MakeSimilar( dims[ 0 ] );
 
   }
