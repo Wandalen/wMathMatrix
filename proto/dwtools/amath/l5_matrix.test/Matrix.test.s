@@ -4384,6 +4384,94 @@ function MakeSimilarDifferentBufferTypes( test )
 
 //
 
+function MakeSimilarWithVectors( test )
+{
+  test.case = 'm - Array';
+  var m = [ 1, 2, 3 ];
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, [ undefined, undefined ] );
+  test.is( got !== m );
+
+  test.case = 'm - Unroll';
+  var m = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, _.unrollMake([ undefined, undefined ]) );
+  test.is( got !== m );
+
+  test.case = 'm - ArgumentsArray';
+  var m = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, _.longDescriptor.make([ 0, 0 ]) );
+  test.is( got !== m );
+
+  test.case = 'm - BufferTyped, U8x';
+  var m = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, new U8x([ 0, 0 ]) );
+  test.is( got !== m );
+
+  test.case = 'm - BufferTyped, I16x';
+  var m = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, new I16x([ 0, 0 ]) );
+  test.is( got !== m );
+
+  test.case = 'm - BufferTyped, F32x';
+  var m = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, new F32x([ 0, 0 ]) );
+  test.is( got !== m );
+
+  test.case = 'm - BufferTyped, F64x';
+  var m = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, new F64x([ 0, 0 ]) );
+  test.is( got !== m );
+
+  test.case = 'm - avector';
+  var m = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got, _.longDescriptor.make([ 0, 0 ]) );
+  test.is( got !== m );
+
+  test.case = 'm - VectorAdapter';
+  var m = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got.toLong(), [ undefined, undefined ] );
+  test.is( got !== m );
+
+  test.case = 'm - VectorAdapter, routine fromLongLrangeAndStride';
+  var m = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 2, 2 );
+  var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
+  test.identical( got.toLong(), [ undefined, undefined ] );
+  test.is( got !== m );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( _.Matrix.Make([ 2, 2 ]), [ 1, 2 ], 1 ) );
+
+  test.case = 'wrong type of m';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( 'wrong' ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( 2 ) );
+
+  test.case = 'wrong type of dims';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( _.Matrix.Make([ 2, 2 ]), 'wrong' ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( _.Matrix.Make([ 2, 2 ]), { a : 2 } ) );
+
+  test.case = 'wrong dims for vectors';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( [ 1, 2 ], [ 2, 3 ] ) );
+  test.shouldThrowErrorSync( () => _.Matrix.MakeSimilar( [ 1, 2 ], [ 2, 2, 3 ] ) );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -17792,6 +17880,7 @@ var Self =
     MakeSimilarMIsMatrixWithoutDims,
     MakeSimilarMIsMatrixWithDims,
     MakeSimilarDifferentBufferTypes,
+    MakeSimilarWithVectors,
 
     make,
     makeHelper,
