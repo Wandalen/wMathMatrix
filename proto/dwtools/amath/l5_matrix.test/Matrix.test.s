@@ -6503,6 +6503,367 @@ function ConvertToClassSrcIsMatrix( test )
 
 //
 
+function ConvertToClassSrcIsNotMatrix( test )
+{
+  test.open( 'src is an Array' );
+
+  test.case = 'cls - Matrix';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( _.Matrix, src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  test.equivalent( got, exp );
+
+  test.case = 'cls - Array';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( Array, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'cls - U8x';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( U8x, src );
+  var exp = new U8x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - I16x';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( I16x, src );
+  var exp = new I16x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - F32x';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( F32x, src );
+  var exp = new F32x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - avector';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - VectorAdapter';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - VectorAdapter';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.close( 'src is an Array' );
+
+  /* - */
+
+  test.open( 'src is a BufferTyped' );
+
+  test.case = 'cls - Matrix';
+  var src = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.Matrix, src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  test.equivalent( got, exp );
+
+  test.case = 'cls - Array';
+  var src = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( Array, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - U8x';
+  var src = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( U8x, src );
+  var exp = new U8x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - I16x';
+  var src = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( I16x, src );
+  var exp = new I16x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - F32x';
+  var src = new I8x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( F32x, src );
+  var exp = new F32x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - avector';
+  var src = new U16x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - VectorAdapter';
+  var src = new I32x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
+  var exp = new I32x([ 1, 2, 3 ]);
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - VectorAdapter';
+  var src = new U32x([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
+  var exp = new U32x([ 1, 2, 3 ]);
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.close( 'src is a BufferTyped' );
+
+  /* - */
+
+  test.open( 'src is an avector' );
+
+  test.case = 'cls - Matrix';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.Matrix, src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  test.equivalent( got, exp );
+
+  test.case = 'cls - Array';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( Array, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - U8x';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( U8x, src );
+  var exp = new U8x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - I16x';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( I16x, src );
+  var exp = new I16x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - F32x';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( F32x, src );
+  var exp = new F32x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'constructor - avector';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'cls - VectorAdapter';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - VectorAdapter';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.close( 'src is an avector' );
+
+  /* - */
+
+  test.open( 'src is a VectorAdapter' );
+
+  test.case = 'cls - Matrix';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.Matrix, src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  test.equivalent( got, exp );
+
+  test.case = 'cls - Array';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( Array, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - U8x';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( U8x, src );
+  var exp = new U8x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - I16x';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( I16x, src );
+  var exp = new I16x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - F32x';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( F32x, src );
+  var exp = new F32x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - avector';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - VectorAdapter';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - VectorAdapter';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got.toLong(), exp );
+  test.is( got === src );
+
+  test.close( 'src is a VectorAdapter' );
+
+  /* - */
+
+  test.open( 'src is a VectorAdapter with stride and offset' );
+
+  test.case = 'cls - Matrix';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( _.Matrix, src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  test.equivalent( got, exp );
+
+  test.case = 'cls - Array';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( Array, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - U8x';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( U8x, src );
+  var exp = new U8x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - I16x';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( I16x, src );
+  var exp = new I16x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - F32x';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( F32x, src );
+  var exp = new F32x([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - avector';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
+  var exp = _.longDescriptor.make([ 1, 2, 3 ]);
+  test.identical( got, exp );
+  test.is( got !== src );
+
+  test.case = 'cls - VectorAdapter';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.case = 'constructor - VectorAdapter';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got.toLong(), exp );
+  test.is( got !== src );
+
+  test.close( 'src is a VectorAdapter with stride and offset' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass() );
+
+  test.case = 'not enough arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( Array ) );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( Array, _.Matrix.Make([ 2, 1 ]), Array ) );
+
+  test.case = 'wrong type of cls';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( null, _.Matrix.Make([ 2, 1 ]) ) );
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( [], _.Matrix.Make([ 2, 1 ]) ) );
+
+  test.case = 'wrong type of src';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( _.Matrix, null ) );
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( _.Matrix, _.argumentsArrayMake([ 1, 2 ]) ) );
+
+  test.case = 'wrong length of dims[ 1 ] if src is a matrix';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( Array, _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'wrong length of dims.length if src is a matrix';
+  test.shouldThrowErrorSync( () => _.Matrix.ConvertToClass( Array, _.Matrix.Make([ 2, 1, 2 ]) ) );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -11014,118 +11375,6 @@ function copyClone( test )
 
   test.identical( m1, exp );
   test.identical( m1.dims, [ 0, 0 ] );
-
-}
-
-//
-
-function ConvertToClass( test )
-{
-
-  var o = Object.create( null );
-  o.name = 'Array';
-  o.arrayMake = function( a ){ return _.longMake( Array, a ) };
-  _ConvertToClass( o );
-
-  var o = Object.create( null );
-  o.name = 'F32x';
-  o.arrayMake = function( a ){ return _.longMake( F32x, a ) };
-  _ConvertToClass( o );
-
-  var o = Object.create( null );
-  o.name = 'U32x';
-  o.arrayMake = function( a ){ return _.longMake( U32x, a ) };
-  _ConvertToClass( o );
-
-  /* - */
-
-  function _ConvertToClass( o )
-  {
-
-    test.case = o.name + ' . ' + 'matrix to matrix with class'; // /* xxx : make global replacement */
-
-    var src = _.Matrix.Make([ 2, 2 ]);
-    src.buffer = o.arrayMake([ 1, 2, 3, 4 ]);
-    var got = _.Matrix.ConvertToClass( _.Matrix, src );
-    test.is( got === src );
-
-    test.case = o.name + ' . ' + 'matrix to vector with class'; //
-
-    var src = _.Matrix.MakeCol( 3 );
-    src.buffer = o.arrayMake([ 1, 2, 3 ]);
-    var got = _.Matrix.ConvertToClass( vad.fromLong( o.arrayMake([]) ).constructor, src );
-    var exp = vad.fromLong( o.arrayMake([ 1, 2, 3 ]) );
-    test.identical( got, exp );
-
-    test.case = o.name + ' . ' + 'matrix to array with class'; //
-
-    var src = _.Matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
-    var got = _.Matrix.ConvertToClass( o.arrayMake([]).constructor, src );
-    var exp = o.arrayMake([ 1, 2, 3 ]);
-    test.identical( got, exp );
-
-    test.case = o.name + ' . ' + 'array to matrix with class'; //
-
-    var src = o.arrayMake([ 1, 2, 3 ]);
-    var exp = _.Matrix.Make([ 3, 1 ]);
-    exp.buffer = o.arrayMake([ 1, 2, 3 ]);
-    var got = _.Matrix.ConvertToClass( _.Matrix, src );
-    test.identical( got, exp );
-
-    test.case = o.name + ' . ' + 'array to vector with class'; //
-
-    var src = o.arrayMake([ 1, 2, 3 ]);
-    var exp = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var got = _.Matrix.ConvertToClass( vec([]).constructor, src );
-    test.identical( got, exp );
-
-    test.case = o.name + ' . ' + 'array to array with class'; //
-
-    var src = o.arrayMake([ 1, 2, 3 ]);
-    var exp = o.arrayMake([ 1, 2, 3 ]);
-    var got = _.Matrix.ConvertToClass( o.arrayMake([]).constructor, src );
-    test.identical( got, exp );
-    test.is( got === src );
-
-    test.case = o.name + ' . ' + 'vector to matrix with class'; //
-
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var exp = _.Matrix.Make([ 3, 1 ]);
-    exp.buffer = o.arrayMake([ 1, 2, 3 ]);
-    var got = _.Matrix.ConvertToClass( _.Matrix, src );
-    test.identical( got, exp );
-
-    test.case = o.name + ' . ' + 'vector to vector with class'; //
-
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var exp = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var got = _.Matrix.ConvertToClass( vec([]).constructor, src );
-    test.identical( got, exp );
-    test.is( got === src );
-
-    test.case = o.name + ' . ' + 'vector to array with class'; //
-
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var exp = o.arrayMake([ 1, 2, 3 ]);
-    var got = _.Matrix.ConvertToClass( o.arrayMake([]).constructor, src );
-    test.identical( got, exp );
-
-    test.case = o.name + ' . ' + 'bad arguments'; //
-
-    if( !Config.debug )
-    return;
-
-    test.shouldThrowErrorSync( () => _.Matrix.Make([ 2, 1 ]).ConvertToClass() );
-    test.shouldThrowErrorSync( () => _.Matrix.Make([ 2, 1 ]).ConvertToClass( [].constructor ) );
-    test.shouldThrowErrorSync( () => _.Matrix.Make([ 2, 1 ]).ConvertToClass( vec([]).constructor ) );
-
-    test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor, _.Matrix.Make([ 2, 1 ]), 1 ) );
-    test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor ) );
-    test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor, null ) );
-    test.shouldThrowErrorSync( () => matrix.ConvertToClass( null, _.Matrix.Make([ 2, 1 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.ConvertToClass( [].constructor, 1 ) );
-
-  }
 
 }
 
@@ -19891,10 +20140,10 @@ var Self =
     isUpperTriangle,
     isSymmetric,
 
-    // maker
-
     clone,
     constructBasic,
+
+    // maker
 
     MakeChangeDimsLength,
     MakeChangeDimsType,
@@ -19919,7 +20168,10 @@ var Self =
     MakeRow,
     MakeRowZeroed,
 
+    // converter
+
     ConvertToClassSrcIsMatrix,
+    ConvertToClassSrcIsNotMatrix,
 
     make,
     makeHelper,
@@ -19939,7 +20191,6 @@ var Self =
 
     copyTransposing,
     copyClone,
-    ConvertToClass,
     copyTo,
     copy,
     copySubmatrix,
