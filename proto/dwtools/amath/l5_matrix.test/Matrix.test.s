@@ -5813,6 +5813,181 @@ function MakeColZeroed( test )
 
 //
 
+function MakeRow( test )
+{
+  test.case = 'buffer - Number';
+  var got = _.Matrix.MakeRow( 3 );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 0, 0, 0 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
+  test.case = 'buffer - Array';
+  var buffer = [ 1, 2, 3 ];
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - Unroll';
+  var buffer = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - ArgumentsArray';
+  var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - BufferTyped, U8x';
+  var buffer = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new U8x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - BufferTyped, I16x';
+  var buffer = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new I16x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - BufferTyped, F32x';
+  var buffer = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new F32x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - BufferTyped, F64x';
+  var buffer = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, new F64x([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - avector';
+  var buffer = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - VectorAdapter';
+  var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
+  var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got !== buffer );
+  test.is( got.buffer !== buffer.buffer );
+
+  test.case = 'buffer - matrix';
+  var buffer = _.Matrix.Make([ 1, 3 ]).copy([ 1, 2, 3 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 3 );
+  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.dims, [ 1, 3 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  /* */
+
+  test.case = 'length - 0';
+  var buffer = _.Matrix.Make([ 1, 0 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 0 );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.dims, [ 1, 0 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  test.case = 'length - 1';
+  var buffer = _.Matrix.Make([ 1, 1 ]);
+  var got = _.Matrix.MakeRow( buffer );
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make( 1 ) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.strides, [ 1, 1 ] );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.is( got === buffer );
+  test.is( got.buffer === buffer.buffer );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeRow() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeRow( [ 1, 2 ], 0 ) );
+
+  test.case = 'wrong type of buffer';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeRow({ buffer : [ 1, 2 ] }) );
+
+  test.case = 'buffer with dimensions that is greater than 1';
+  test.shouldThrowErrorSync( () => _.Matrix.MakeRow( _.Matrix.Make([ 2, 3 ]) ) );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -19226,6 +19401,7 @@ var Self =
     MakeLineOptionZeroing1,
     MakeCol,
     MakeColZeroed,
+    MakeRow,
 
     make,
     makeHelper,
