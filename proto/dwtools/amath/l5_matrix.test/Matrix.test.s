@@ -7912,7 +7912,8 @@ function ConvertToClass( test )
 
     test.case = o.name + ' . ' + 'matrix to matrix with class'; // /* xxx : make global replacement */
 
-    var src = _.Matrix.Make([ 2, 2 ]);
+    var src0;
+    var src = src0 = _.Matrix.Make([ 2, 2 ]);
     src.buffer = o.arrayMake([ 1, 2, 3, 4 ]);
     var got = _.Matrix.ConvertToClass( _.Matrix, src );
     test.is( got === src );
