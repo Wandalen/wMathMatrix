@@ -85,7 +85,7 @@ function Make( dims )
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = dims.toLong();
+    dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -214,7 +214,7 @@ function MakeZero( dims )
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = dims.toLong();
+    dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -271,7 +271,7 @@ function MakeIdentity( dims )
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = dims.toLong();
+    dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -425,7 +425,7 @@ function MakeIdentity4( src )
  * // +0 +2 +0
  * // +0 +0 +3
  *
- * @param { Array } diagonal - Source data.
+ * @param { Long|VectorAdapter } diagonal - Source data.
  * @returns { Matrix } - Returns a new instance of Matrix with provided diagonal.
  * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-diagonal-} is not an Array.
@@ -439,8 +439,13 @@ function MakeIdentity4( src )
 function MakeDiagonal( diagonal )
 {
 
-  _.assert( _.arrayIs( diagonal ) );
+  // _.assert( _.arrayIs( diagonal ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
+
+  if( _.vectorAdapterIs( diagonal ) )
+  diagonal = diagonal.toLong();
+  else
+  _.assert( _.longIs( diagonal ) );
 
   /* */
 
@@ -516,13 +521,14 @@ function MakeSimilar( m, dims )
 
   if( dims === undefined )
   dims = proto.DimsOf( m );
-  if( dims instanceof proto.Self )
+  else if( dims instanceof proto.Self )
   dims = proto.DimsOf( dims );
-
-  /* */
+  else if( _.vectorAdapterIs( dims ) )
+  dims = _.arrayFrom( dims.toLong() );
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.arrayIs( dims ) && dims.length === 2 );
+  _.assert( _.longIs( dims ) );
+  // _.assert( _.arrayIs( dims ) && dims.length === 2 );
 
   /* */
 
@@ -545,14 +551,14 @@ function MakeSimilar( m, dims )
   else if( _.longIs( m ) )
   {
 
-    _.assert( dims[ 1 ] === 1 );
+    _.assert( dims.length === 2 && dims[ 1 ] === 1 );
     result = proto.long.longMakeUndefined( m, dims[ 0 ] );
 
   }
   else if( _.vectorAdapterIs( m ) )
   {
 
-    _.assert( dims[ 1 ] === 1 );
+    _.assert( dims.length === 2 && dims[ 1 ] === 1 );
     result = m.MakeSimilar( dims[ 0 ] );
 
   }
@@ -632,7 +638,7 @@ function makeSimilar( dims ) /* aaa : jsdoc */ /* Dmytro : documented */
  * // +3
  *
  * @param { MapLike } o - Options map.
- * @param { Array|BufferTyped|VectorAdapter|Matrix|Number } o.buffer - Source buffer.
+ * @param { Long|VectorAdapter|Matrix|Number } o.buffer - Source buffer.
  * @param { Number } o.dimension - The index of dimension : 0 - column, 1 - row.
  * @param { BoolLike } o.zeroing - Enables initializing of the buffer.
  * @returns { Matrix } - Returns a row matrix or a column matrix.
@@ -656,7 +662,8 @@ function MakeLine( o )
   let length = ( _.longIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) ) ? o.buffer.length : o.buffer;
   let dims = null;
 
-  _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
+  // _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
+  _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.longIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( MakeLine, o );
 
@@ -723,6 +730,8 @@ function MakeLine( o )
   o.buffer = o.zeroing ? this.long.longMakeZeroed( length ) : this.long.longMake( length );
   else if( o.zeroing )
   o.buffer = this.long.longMakeZeroed( length )
+  else if( _.argumentsArrayIs( o.buffer ) )
+  o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
   else
   o.buffer = proto.constructor._BufferFrom( o.buffer );
 
@@ -791,9 +800,11 @@ MakeLine.defaults =
  * //  0.000
  * // -0.250
  *
- * @param { VectorAdapter|BufferTyped|Matrix|Array|Number } buffer - Source buffer.
+ * @param { VectorAdapter|Matrix|Long|Number } buffer - Source buffer.
  * @returns { Matrix|VectorAdapter } - Returns a new column matrix.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 1 ] is not 1.
  * @static
  * @function MakeCol
  * @class Matrix
@@ -803,6 +814,8 @@ MakeLine.defaults =
 
 function MakeCol( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
@@ -844,10 +857,11 @@ function MakeCol( buffer )
  * // +0
  * // +0
  *
- * @param { VectorAdapter|BufferTyped|Matrix|Array|Number } buffer - Source buffer.
+ * @param { VectorAdapter|Matrix|Long|Number } buffer - Source buffer.
  * @returns { Matrix } - Returns a new column matrix with initialized buffer.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
- * @static
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 1 ] is not 1.* @static
  * @function MakeColZeroed
  * @class Matrix
  * @namespace wTools
@@ -856,6 +870,8 @@ function MakeCol( buffer )
 
 function MakeColZeroed( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
@@ -888,7 +904,9 @@ function MakeColZeroed( buffer )
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
  * @returns { Matrix|VectorAdapter } - Returns a new row matrix.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 0 ] is not 1.
  * @static
  * @function MakeRow
  * @class Matrix
@@ -898,6 +916,8 @@ function MakeColZeroed( buffer )
 
 function MakeRow( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
@@ -931,7 +951,9 @@ function MakeRow( buffer )
  *
  * @param { VectorAdapter|Array|BufferTyped|Matrix|Number } buffer - Source buffer.
  * @returns { Matrix|VectorAdapter } - Returns a new row matrix with initialized buffer.
+ * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If {-buffer-} has not valid type.
+ * @throws { Error } If {-buffer-} is a Matrix, and buffer.dims[ 0 ] is not 1.
  * @static
  * @function MakeRowZeroed
  * @class Matrix
@@ -941,6 +963,8 @@ function MakeRow( buffer )
 
 function MakeRowZeroed( buffer )
 {
+  _.assert( arguments.length === 1, 'Expects single argument {-buffer-}' );
+
   return this.MakeLine
   ({
     buffer,
@@ -1100,9 +1124,11 @@ function FromVector( src )
   {
     result = new this.Self /* qqq : cover for all kind of vector adapters */
     ({
-      buffer : src._vectorBuffer,
+      buffer : src.length > src._vectorBuffer.length ? _.dup( src._vectorBuffer, src.length ) : src._vectorBuffer, /* Dmytro : duplicates buffer VectorAdapter is maiden by fromNumber */
       dims : [ src.length, 1 ],
-      strides : src.stride > 1 ? [ 1, src.stride ] : [ 1, src.length ],
+      offset : src.offset !== 0 ? src.offset : 0, /* Dmytro : missed */
+      // strides : src.stride > 1 ? [ 1, src.stride ] : [ 1, src.length ], /* Dmytro : wrong order of strides, the strides[ 0 ] defines stride between row elements */
+      strides : src.stride > 1 ? [ src.stride, 1 ] : [ 1, src.length ],
       inputRowMajor : 1,
     });
   }
@@ -1151,9 +1177,19 @@ function FromVector( src )
 function FromScalar( scalar, dims )
 {
 
-  _.assert( _.arrayIs( dims ) );
+  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.numberIs( scalar );
+  _.assert( _.numberIs( scalar ) );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let buffer = this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
   let strides = this.StridesFromDimensions( dims, 0 );
@@ -1202,9 +1238,19 @@ function FromScalar( scalar, dims )
 function FromScalarForReading( scalar, dims )
 {
 
-  _.assert( _.arrayIs( dims ) );
+  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.numberIs( scalar );
+  _.assert( _.numberIs( scalar ) );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let buffer = this.long.longMake( 1 );
   buffer[ 0 ] = scalar;
