@@ -1238,9 +1238,19 @@ function FromScalar( scalar, dims )
 function FromScalarForReading( scalar, dims )
 {
 
-  _.assert( _.arrayIs( dims ) );
+  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.numberIs( scalar );
+  _.assert( _.numberIs( scalar ) );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let buffer = this.long.longMake( 1 );
   buffer[ 0 ] = scalar;
