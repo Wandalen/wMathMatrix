@@ -3187,26 +3187,27 @@ let Forbids =
 
 //
 
-let writable = { put : _.accessor.putter.symbol, addingMethods : 1 };
-let readOnly = { setter : false, put : _.accessor.putter.symbol, addingMethods : 1 };
+let write = { put : _.accessor.putter.symbol, addingMethods : 1 };
+let readPut = { put : _.accessor.putter.symbol, addingMethods : 1, set : 0 };
+let readOnly = { put : 0, set : 0, addingMethods : 1 };
 
 let Accessors =
 {
 
   /* etc */
 
-  _ : { getter : _.accessor.getter.toValue, setter : 0, put : 0, strict : 0 }, /* xxx */
-  buffer : writable,
-  offset : writable,
+  _ : { get : _.accessor.getter.toValue, set : 0, put : 0, strict : 0 }, /* xxx */
+  buffer : write,
+  offset : write,
 
   /* vectors */
 
-  strides : writable,
-  dims : writable,
-  dimsEffective : { getter : _dimsEffectiveGet, setter : false },
+  strides : write,
+  dims : write,
+  dimsEffective : { get : _dimsEffectiveGet, set : false },
   // breadth : {},
-  occupiedRange : readOnly, /* cached */
-  stridesEffective : readOnly, /* cached */
+  occupiedRange : readPut, /* cached */
+  stridesEffective : readPut, /* cached */
 
   /* size in bytes */
 
@@ -3222,17 +3223,17 @@ let Accessors =
 
   /* length in scalars */
 
-  scalarsPerElement : readOnly, /* cached */
+  scalarsPerElement : readPut, /* cached */
   scalarsPerCol : readOnly,
   scalarsPerRow : readOnly,
   ncol : readOnly,
   nrow : readOnly,
-  scalarsPerSlice : readOnly, /* qqq : cover */
+  scalarsPerSlice : readPut, /* qqq : cover */
   scalarsPerMatrix : readOnly,
-  slicesPerMatrix : readOnly, /* qqq : cover */
-  nslice : readOnly, /* qqq : cover */
+  slicesPerMatrix : readPut, /* qqq : cover */
+  nslice : readPut, /* qqq : cover */
 
-  length : readOnly, /* cached */
+  length : readPut, /* cached */
 
   strideOfElement : readOnly,
   strideOfCol : readOnly,
@@ -3340,6 +3341,8 @@ let Extension =
 
   bufferNormalize,
 
+  // buffer : _.define.accessor({ put : _.accessor.putter.symbol, addingMethods : 1 }),
+
   // reshaping
 
   _changeBegin,
@@ -3421,8 +3424,8 @@ Object.defineProperty( Self.prototype, 'accuracySqrt',
   get : function() { return this.vectorAdapter.accuracySqrt },
 });
 
-_.accessor.readOnly( Self, { long : { getter : _longGet, setter : false } } );
-_.accessor.readOnly( Self.prototype, { long : { getter : _longGet, setter : false } } );
+_.accessor.readOnly( Self, { long : { get : _longGet, set : false } } );
+_.accessor.readOnly( Self.prototype, { long : { get : _longGet, set : false } } );
 
 _.Matrix = Self;
 

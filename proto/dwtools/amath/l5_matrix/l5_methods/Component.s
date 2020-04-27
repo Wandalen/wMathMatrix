@@ -79,7 +79,10 @@ function identity()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  self.scalarEach( ( it ) => it.indexNd[ 0 ] === it.indexNd[ 1 ] ? self.scalarSet( it.indexNd, 1 ) : self.scalarSet( it.indexNd, 0 ) );
+  self.scalarEach( ( it ) =>
+  {
+    it.indexNd[ 0 ] === it.indexNd[ 1 ] ? self.scalarSet( it.indexNd, 1 ) : self.scalarSet( it.indexNd, 0 )
+  });
 
   return self;
 }
@@ -651,8 +654,8 @@ let Extension =
 
   // partial accessors
 
-  zero,
-  identity,
+  zero, /* qqq : cover please */
+  identity, /* qqq : cover please */
   diagonalSet,
   diagonalGet,
   triangleLowerSet,
