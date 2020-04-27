@@ -7095,6 +7095,113 @@ function FromVector( test )
 
 //
 
+function FromScalarChangeDimsType( test )
+{
+  test.case = 'dims - Array';
+  var dims = [ 2, 2 ];
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - Unroll';
+  var dims = _.unrollMake([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - ArgumentsArray';
+  var dims = _.argumentsArrayMake([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - BufferTyped, U8x';
+  var dims = new U8x([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - BufferTyped, I16x';
+  var dims = new I16x([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - BufferTyped, F32x';
+  var dims = new F32x([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - BufferTyped, F64x';
+  var dims = new F64x([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - avector';
+  var dims = _.avector.make([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - VectorAdapter';
+  var dims = _.vectorAdapter.from([ 2, 2 ]);
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+
+  test.case = 'dims - VectorAdapter, routine fromLongLrangeAndStride';
+  var dims = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 2, 0, 2, 0 ], 1, 2, 2 );
+  var got = _.Matrix.FromScalar( 3, dims );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.avector.make([ 3, 3, 3, 3 ]) );
+  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+  test.identical( got.stridesEffective, [ 1, 2 ] );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -20405,6 +20512,7 @@ var Self =
     ConvertToClassSrcIsNotMatrix,
 
     FromVector,
+    FromScalarChangeDimsType,
 
     make,
     makeHelper,
