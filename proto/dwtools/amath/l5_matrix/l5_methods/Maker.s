@@ -85,7 +85,7 @@ function Make( dims )
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = dims.toLong();
+    dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -214,7 +214,7 @@ function MakeZero( dims )
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = dims.toLong();
+    dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -271,7 +271,7 @@ function MakeIdentity( dims )
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = dims.toLong();
+    dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -524,7 +524,7 @@ function MakeSimilar( m, dims )
   else if( dims instanceof proto.Self )
   dims = proto.DimsOf( dims );
   else if( _.vectorAdapterIs( dims ) )
-  dims = dims.toLong();
+  dims = _.arrayFrom( dims.toLong() );
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.assert( _.longIs( dims ) );
@@ -1177,9 +1177,19 @@ function FromVector( src )
 function FromScalar( scalar, dims )
 {
 
-  _.assert( _.arrayIs( dims ) );
+  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.numberIs( scalar );
+  _.assert( _.numberIs( scalar ) );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else
+    _.assert( 0, 'Expects vector {-dims-}' );
+  }
 
   let buffer = this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
   let strides = this.StridesFromDimensions( dims, 0 );
