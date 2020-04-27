@@ -6881,7 +6881,7 @@ function FromVector( test )
   test.is( got.buffer === src._vectorBuffer );
 
   test.case = 'routine makeFilling';
-  var src = _.vectorAdapter.makeFilling([ 1, 2, 3 ], 5 );
+  var src = _.vectorAdapter.makeFilling( 3, 5 );
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeCol
   ([
