@@ -7870,7 +7870,7 @@ function FromScalarForReadingChangeDimsType( test )
 
 //
 
-function FromSrcZeroChangeDimsLength( test )
+function FromSrcNullChangeDimsLength( test )
 {
   test.open( '2D' );
 
@@ -8127,6 +8127,91 @@ function FromSrcZeroChangeDimsLength( test )
   test.identical( got.stridesEffective, [ 1, 2, 6 ] );
 
   test.close( '4D' );
+}
+
+//
+
+function FromSrcNullChangeDimsType( test )
+{
+  test.case = 'dims - Array';
+  var got = _.Matrix.From( null, [ 3, 2 ] );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - Unroll';
+  var got = _.Matrix.From( null,  _.unrollMake([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - ArgumentsArray';
+  var got = _.Matrix.From( null,  _.argumentsArrayMake([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - U8x';
+  var got = _.Matrix.From( null,  new U8x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - I16x';
+  var got = _.Matrix.From( null,  new I16x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - F32x';
+  var got = _.Matrix.From( null,  new F32x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - F64x';
+  var got = _.Matrix.From( null,  new F64x([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - avector';
+  var got = _.Matrix.From( null,  _.avector.make([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - VectorAdapter';
+  var got = _.Matrix.From( null,  _.vectorAdapter.from([ 3, 2 ]) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
+
+  test.case = 'dims - VectorAdapter, routine fromLongLrangeAndStride';
+  var got = _.Matrix.From( null,  _.vectorAdapter.fromLongLrangeAndStride( [ 1, 2, 3, 1, 2 ], 2, 2, 2 ) );
+  test.identical( got.length, 2 );
+  test.identical( got.buffer, _.longDescriptor.make( 6 ) );
+  test.identical( got.dims, [ 3, 2 ] );
+  test.identical( got.strides, [ 1, 3 ] );
+  test.identical( got.stridesEffective, [ 1, 3 ] );
 }
 
 //
@@ -21445,7 +21530,8 @@ var Self =
     FromScalarChangeDimsType,
     FromScalarForReadingChangeDimsLength,
     FromScalarForReadingChangeDimsType,
-    FromSrcZeroChangeDimsLength,
+    FromSrcNullChangeDimsLength,
+    FromSrcNullChangeDimsType,
 
     make,
     makeHelper,
