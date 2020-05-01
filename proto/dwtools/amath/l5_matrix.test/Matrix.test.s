@@ -8216,6 +8216,326 @@ function FromSrcNullChangeDimsType( test )
 
 //
 
+function FromSrcMatrix( test )
+{
+  test.case = 'routine Make';
+  var src = _.Matrix.Make([ 2, 2 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeSquare';
+  var src = _.Matrix.MakeSquare
+  ([
+    1, -2,
+    3, -4,
+  ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeSquare
+  ([
+    1, -2,
+    3, -4,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeZero';
+  var src = _.Matrix.MakeZero([ 2, 2 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeZero([ 2, 2 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeIdentity';
+  var src = _.Matrix.MakeIdentity([ 2, 2 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeIdentity([ 2, 2 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeIdentity2';
+  var src = _.Matrix.MakeIdentity2();
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeIdentity2();
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeIdentity3';
+  var src = _.Matrix.MakeIdentity3();
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeIdentity3();
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeIdentity4';
+  var src = _.Matrix.MakeIdentity4();
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeIdentity4();
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeDiagonal';
+  var src = _.Matrix.MakeDiagonal([ 1, -2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.MakeDiagonal([ 1, -2, 3 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeSimilar';
+  var matrix = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+     1, -2,
+    -3,  4
+  ]);
+  var src = _.Matrix.MakeSimilar( matrix );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+     1, -2,
+    -3,  4
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'method makeSimilar';
+  var matrix = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+     1, -2,
+    -3,  4
+  ]);
+  var src = matrix.makeSimilar( matrix );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+     1, -2,
+    -3,  4
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeLine';
+  var src = _.Matrix.MakeLine
+  ({
+    buffer : [ 1, -2, 3 ],
+    dimension : 0,
+    zeroing : 0,
+  });
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     1,
+    -2,
+     3,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeCol';
+  var src = _.Matrix.MakeCol([ 1, -2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     1,
+    -2,
+     3,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeColZeroed';
+  var src = _.Matrix.MakeColZeroed([ 1, -2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 3, 1 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeRow';
+  var src = _.Matrix.MakeRow([ 1, -2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 1, 3 ]).copy([ 1, -2, 3 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine MakeRowZeroed';
+  var src = _.Matrix.MakeRowZeroed([ 1, -2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 1, 3 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine FromVector';
+  var src = _.Matrix.FromVector([ 1, -2, 3 ]);
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+     1,
+    -2,
+     3
+  ]);
+  test.equivalent( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine FromScalar';
+  var src = _.Matrix.FromScalar( 1, [ 2, 2 ] );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 1,
+    1, 1,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine FromScalarForReading';
+  var src = _.Matrix.FromScalarForReading( 1, [ 2, 2 ] );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 1,
+    1, 1,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine From';
+  var src = _.Matrix.From( null, [ 2, 2 ] );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine FromForReading';
+  var src = _.Matrix.FromForReading( 1, [ 2, 2 ] );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 1,
+    1, 1,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'routine FromTransformations';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 2, 3 ];
+  var quaternion = [ 0, 0, 0, 1 ];
+  var scale = [ 1, 1, 1 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1, 0, 0, 1,
+    0, 1, 0, 2,
+    0, 0, 1, 3,
+    0, 0, 0, 1,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'method fromTransformations';
+  var matrix = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 2, 3 ];
+  var quaternion = [ 0, 0, 0, 1 ];
+  var scale = [ 1, 1, 1 ];
+  var src = matrix.fromTransformations( position, quaternion, scale );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1, 0, 0, 1,
+    0, 1, 0, 2,
+    0, 0, 1, 3,
+    0, 0, 0, 1,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'method fromQuat';
+  var matrix = _.Matrix.MakeSquare
+  ([
+    1, 2, 3, 1,
+    0, 4, 5, 1,
+    0, 0, 6, 1,
+    0, 0, 6, 1,
+  ]);
+  var quaternion = [ 0, 0, 0, 1 ];
+  var src = matrix.fromQuat( quaternion );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1,
+  ]);
+  test.identical( got, exp );
+  test.is( got === src );
+
+  test.case = 'method fromQuatWithScale';
+  var matrix = _.Matrix.MakeSquare
+  ([
+    1, 2, 3, 1,
+    0, 4, 5, 1,
+    0, 0, 6, 1,
+    0, 0, 6, 1,
+  ]);
+  var quaternion = [ 0, 0, 1, 1 ];
+  var src = matrix.fromQuatWithScale( quaternion );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.000, -1.414,  0.000,  0.000,
+    1.414,  0.000,  0.000,  0.000,
+    0.000,  0.000,  1.414,  0.000,
+    0.000,  0.000,  0.000,  1.000,
+
+  ]);
+  test.equivalent( got, exp );
+  test.is( got === src );
+
+  test.case = 'method fromAxisAndAngle';
+  var matrix = _.Matrix.MakeSquare
+  ([
+    1, 2, 3,
+    0, 4, 5,
+    0, 0, 6,
+  ]);
+  var axis = [ 1, 4, 5 ];
+  var src = matrix.fromAxisAndAngle( axis, 30 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+     1.000,   8.323,   0.277,
+    -1.557,  13.686,  17.903,
+     8.181,  15.927,  21.298,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got === src );
+
+  test.case = 'method fromAxisAndAngleWithScale';
+  var matrix = _.Matrix.MakeSquare
+  ([
+    1, 2, 3,
+    0, 4, 5,
+    0, 0, 6,
+  ]);
+  var axis = [ 1, 4, 5 ];
+  var src = matrix.fromAxisAndAngleWithScale( axis, 30 );
+  var got = _.Matrix.From( src );
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+     1.130,  5.462,  -3.300,
+    -4.418,  3.088,   3.598,
+     4.605,  1.622,   4.262,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got === src );
+}
+
+FromSrcMatrix.accuracy = 1e-3;
+
+//
+
 function make( test )
 {
   let context = this;
@@ -21532,6 +21852,7 @@ var Self =
     FromScalarForReadingChangeDimsType,
     FromSrcNullChangeDimsLength,
     FromSrcNullChangeDimsType,
+    FromSrcMatrix,
 
     make,
     makeHelper,

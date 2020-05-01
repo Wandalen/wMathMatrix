@@ -135,7 +135,7 @@ function Make( dims )
  * @module Tools/math/Matrix
  */
 
-function MakeSquare( buffer )
+function MakeSquare( buffer ) /* Dmytro : maybe needs add option strides. The absence of option affects result of MakeSimilar */
 {
   let proto = this.Self.prototype;
 
@@ -1898,7 +1898,7 @@ function fromAxisAndAngleWithScale( axis, angle )
  *   +0, +0, +6,
  * ]);
  *
- * var got = matrix.fromEuler( axis, 30 );
+ * var got = matrix.fromEuler( euler );
  * console.log( got.toStr() );
  * // log :
  * // -0.875  0.250  0.415
