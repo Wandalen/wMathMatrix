@@ -1412,7 +1412,8 @@ function FromForReading( src, dims )
     let result = this.FromVector( src );
   }
 
-  _.assert( !dims || result.hasShape( dims ) );
+  // _.assert( !dims || result.hasShape( dims ) );
+  _.assert( !dims || _.longIdentical( result.dims, dims ) );
 
   return result;
 }
