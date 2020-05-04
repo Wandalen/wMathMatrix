@@ -1419,7 +1419,7 @@ function FromForReading( src, dims )
   }
   else
   {
-    let result = this.FromVector( src );
+    result = this.FromVector( src );
   }
 
   // _.assert( !dims || result.hasShape( dims ) );
