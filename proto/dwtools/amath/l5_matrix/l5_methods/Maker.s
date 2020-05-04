@@ -1395,8 +1395,18 @@ function FromForReading( src, dims )
   let result;
 
   // _.assert( !this.instanceIs() );
-  _.assert( _.arrayIs( dims ) || dims == undefined );
+  // _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else if( dims !== undefined )
+    _.assert( 0, 'Expects vector {-dims-} or undefined' );
+  }
 
   if( src instanceof Self )
   {
