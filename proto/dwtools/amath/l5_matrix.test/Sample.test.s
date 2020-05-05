@@ -22,36 +22,6 @@ if( typeof module !== 'undefined' )
 var _ = _global_.wTools.withDefaultLong.Fx;
 
 // --
-// context
-// --
-
-function assetFor( test )
-{
-  let self = this;
-  let a = Object.create( null );
-
-  a.test = test;
-  a.originalSamplePath = _.path.join( __dirname, '../../../../sample' );
-  a.routinePath = _.path.join( a.originalSamplePath, test.name );
-  a.fileProvider = _.fileProvider;
-  a.path = _.fileProvider.path;
-  a.ready = _.Consequence().take( null );
-
-  a.appStart = _.process.starter
-  ({
-    execPath : self.appJsPath || null,
-    currentPath : a.routinePath,
-    outputCollecting : 1,
-    throwingExitCode : 1,
-    outputGraying : 1,
-    ready : a.ready,
-    mode : 'fork',
-  })
-
-  return a;
-}
-
-// --
 // test
 // --
 
@@ -85,7 +55,6 @@ function sample( test )
     .then( () =>
     {
       test.case = found[ i ].relative;
-      debugger;
       return null;
     })
 
@@ -116,11 +85,6 @@ var Self =
   name : 'Tools.Math.Sample',
   silencing : 1,
   enabled : 1,
-
-  context :
-  {
-    assetFor,
-  },
 
   tests :
   {
