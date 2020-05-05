@@ -704,6 +704,146 @@ function matrixElements( test )
   return a.ready;
 }
 
+//
+
+function matrixOperations( test )
+{
+  let self = this;
+  let a = self.assetFor( test );
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '1_Determinant.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '1_Determinant.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '2_Transpose.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '2_Transpose.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '3_MulByScalarStaticRoutine.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '3_MulByScalarStaticRoutine.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '4_MulByScalarMethod.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '4_MulByScalarMethod.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '5_MulMatrixByVectorStaticRoutine.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '5_MulMatrixByVectorStaticRoutine.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '6_MulMatrixByVectorMethod.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '6_MulMatrixByVectorMethod.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '7_MulTwoMatricesStaticRoutine.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '7_MulTwoMatricesStaticRoutine.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '8_MulSeveralMatrices.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '8_MulSeveralMatrices.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  return a.ready;
+}
+
 // --
 // declare
 // --
@@ -728,6 +868,7 @@ var Self =
     matrixComparison,
     matrixCreation,
     matrixElements,
+    matrixOperations,
 
   },
 
