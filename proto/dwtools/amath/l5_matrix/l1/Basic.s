@@ -2260,6 +2260,7 @@ function _adjustAct()
   else
   self[ scalarsPerElementSymbol ] = self.scalarsPerMatrix / lastDim;
 
+
   /* strides */
 
   if( !self.stridesEffective )
