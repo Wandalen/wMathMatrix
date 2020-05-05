@@ -3016,7 +3016,7 @@ function hasShape( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayIs( src ) );
 
-  return _.longIdentical( self.dimsEffective, src ); /* Dmytro : why real dims is compared with effective dims ? */
+  return _.longIdentical( self.dimsEffective, src ); /* qqq : add test routine to explain */
 }
 
 //
