@@ -84,6 +84,8 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -100,6 +102,8 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -116,6 +120,8 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -132,6 +138,8 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -160,6 +168,8 @@ function matrixComparison( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -176,6 +186,8 @@ function matrixComparison( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -192,6 +204,8 @@ function matrixComparison( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -208,6 +222,8 @@ function matrixComparison( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -224,6 +240,8 @@ function matrixComparison( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -252,6 +270,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -268,6 +288,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -284,6 +306,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -300,6 +324,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -316,6 +342,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -332,6 +360,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -348,6 +378,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -364,6 +396,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -380,6 +414,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -396,6 +432,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -412,6 +450,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -428,6 +468,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -444,6 +486,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -460,6 +504,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -476,6 +522,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -492,6 +540,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -508,6 +558,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -524,6 +576,8 @@ function matrixCreation( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -552,6 +606,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -568,6 +624,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -584,6 +642,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -600,6 +660,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -616,6 +678,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -632,6 +696,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -648,6 +714,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -664,6 +732,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -680,6 +750,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -696,6 +768,8 @@ function matrixElements( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -724,6 +798,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -740,6 +816,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -756,6 +834,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -772,6 +852,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -788,6 +870,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -804,6 +888,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -820,6 +906,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -836,6 +924,8 @@ function matrixOperations( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -864,6 +954,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -880,6 +972,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -896,6 +990,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -912,6 +1008,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -928,6 +1026,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -944,6 +1044,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -960,6 +1062,8 @@ function optionStrides( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
@@ -988,6 +1092,8 @@ function solve( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
+    test.identical( _.strCount( got.output, 'ncaught' ), 0 );
+    test.identical( _.strCount( got.output, 'rror' ), 0 );
     return null;
   })
 
