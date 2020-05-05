@@ -135,6 +135,8 @@ function sample( test )
     return null;
   })
 
+  /* */
+
   return a.ready;
 }
 
@@ -164,7 +166,6 @@ function matrixComparison( test )
   /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = '2_ComparisonWithStridesAndOffset.js';
@@ -181,7 +182,6 @@ function matrixComparison( test )
   /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = '3_DifferentBuffers.js';
@@ -198,7 +198,6 @@ function matrixComparison( test )
   /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = '4_MatrixAndVector.js';
@@ -215,7 +214,6 @@ function matrixComparison( test )
   /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = '5_EquivalentWithAccuracy.js';
@@ -228,6 +226,308 @@ function matrixComparison( test )
     test.identical( got.exitCode, 0 );
     return null;
   })
+
+  /* */
+
+  return a.ready;
+}
+
+//
+
+function matrixCreation( test )
+{
+  let self = this;
+  let a = self.assetFor( test );
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '1_Make.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '1_Make.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '2_ExplicitConstructor.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '2_ExplicitConstructor.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '3_MakeSquareFromLong.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '3_MakeSquareFromLong.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '4_MakeSquareFromNumber.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '4_MakeSquareFromNumber.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '5_MakeZeroFromDims.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '5_MakeZeroFromDims.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '6_MakeZeroFromNumber.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '6_MakeZeroFromNumber.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '7_MakeIdentityFromDims.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '7_MakeIdentityFromDims.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '8_MakeIdentityFromNumber.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '8_MakeIdentityFromNumber.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '9_MakeDiagonal.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '9_MakeDiagonal.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '10_MakeColFromLong.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '10_MakeColFromLong.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '11_MakeColFromNumber.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '11_MakeColFromNumber.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '12_MakeRowFromLong.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '12_MakeRowFromLong.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '13_MakeRowFromNumber.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '13_MakeRowFromNumber.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '14_FromVector.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '14_FromVector.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '15_FromScalar.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '15_FromScalar.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '16_FromTransformations.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '16_FromTransformations.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '17_InfinityMatrix.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '17_InfinityMatrix.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '18_3dMatrix.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '18_3dMatrix.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
 
   return a.ready;
 }
@@ -242,7 +542,7 @@ var Self =
   name : 'Tools.Math.Sample',
   silencing : 1,
   enabled : 1,
-  routineTimeOut : 15000,
+  routineTimeOut : 20000,
 
   context :
   {
@@ -254,6 +554,7 @@ var Self =
 
     sample,
     matrixComparison,
+    matrixCreation,
 
   },
 
