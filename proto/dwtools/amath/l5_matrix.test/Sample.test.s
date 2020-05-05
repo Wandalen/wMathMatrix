@@ -49,18 +49,24 @@ function sample( test )
 
   /* */
 
+  let startTime, spentTime;
+
   for( let i = 0 ; i < found.length ; i++ )
   {
     ready
     .then( () =>
     {
       test.case = found[ i ].relative;
+      startTime = _.time.now();
       return null;
     })
 
     sampleStart({ execPath : found[ i ].relative })
     .then( ( got ) =>
     {
+      spentTime = _.time.spent( startTime );
+      console.log( spentTime );
+
       test.identical( got.exitCode, 0 );
       test.identical( _.strCount( got.output, 'ncaught' ), 0 );
       test.identical( _.strCount( got.output, 'rror' ), 0 );
