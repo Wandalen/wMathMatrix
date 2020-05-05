@@ -532,6 +532,178 @@ function matrixCreation( test )
   return a.ready;
 }
 
+//
+
+function matrixElements( test )
+{
+  let self = this;
+  let a = self.assetFor( test );
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '1_RowGet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '1_RowGet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '2_RowSet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '2_RowSet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '3_ColGet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '3_ColGet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '4_ColSet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '4_ColSet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '5_ScalarGetSet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '5_ScalarGetSet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '6_EGet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '6_EGet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '7_ESet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '7_ESet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '8_DiagonalGet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '8_DiagonalGet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '9_DiagonalSet.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '9_DiagonalSet.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '10_Submatrix.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '10_Submatrix.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  return a.ready;
+}
+
 // --
 // declare
 // --
@@ -555,6 +727,7 @@ var Self =
     sample,
     matrixComparison,
     matrixCreation,
+    matrixElements,
 
   },
 
