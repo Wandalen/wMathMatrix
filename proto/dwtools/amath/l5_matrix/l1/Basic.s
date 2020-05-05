@@ -72,7 +72,6 @@ function init( o )
   self[ scalarsPerMatrixSymbol ] = null;
   self[ slicesPerMatrixSymbol ] = null;
   self[ occupiedRangeSymbol ] = null;
-  // self[ breadthSymbol ] = null;
   self[ dimsEffectiveSymbol ] = null;
   self[ stridesSymbol ] = null;
   self[ offsetSymbol ] = 0;
@@ -198,8 +197,6 @@ function _traverseAct( it ) /* zzz : deprecate */
     else if( !srcIsInstance )
     {
       dst.buffer = src.buffer;
-      // if( src.breadth !== undefined )
-      // dst.breadth = src.breadth;
       if( src.offset !== undefined )
       dst.offset = src.offset;
       if( src.strides !== undefined )
@@ -579,152 +576,6 @@ ExportStructure.defaults =
   format : 'object',
 }
 
-// function ExportStructure( o )
-// {
-//
-//   o = _.routineOptions( ExportStructure, arguments );
-//
-//   _.assert( o.format === 'object' );
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   if( o.dst === null )
-//   {
-//     o.dst = new this.Self( o.src );
-//     return o.dst;
-//   }
-//
-//   if( o.src === o.dst )
-//   return o.dst;
-//
-//   /* */
-//
-//   if( _global_.debugger )
-//   debugger;
-//
-//   if( _.longIs( o.src ) )
-//   {
-//     o.dst.copyFromBuffer( o.src );
-//     return o.dst;
-//   }
-//   else if( _.numberIs( o.src ) )
-//   {
-//     o.dst.copyFromScalar( o.src );
-//     return o.dst;
-//   }
-//
-//   let srcIsInstance = o.src instanceof Self;
-//   let dstIsInstance = o.dst instanceof Self;
-//
-//   _.assert( _.mapIs( o.src ) || o.src instanceof Self );
-//
-//   if( dstIsInstance )
-//   o.dst._changeBegin();
-//
-//   if( dstIsInstance )
-//   o.dst[ stridesEffectiveSymbol ] = null;
-//
-//   if( !srcIsInstance )
-//   {
-//     o.dst.dims = this.DimsDeduceFrom( o.src );
-//     set( 'breadth' );
-//     _.assertMapHasOnly( o.src, this.FieldsOfInputGroups );
-//   }
-//
-//   set( 'inputRowMajor' );
-//   set( 'growingDimension' );
-//   set( 'dims' );
-//
-//   if( dstIsInstance && o.src.buffer !== undefined && o.src.buffer !== null )
-//   {
-//
-//     o.dst.dims = null;
-//
-//     if( srcIsInstance && o.dst.buffer && o.dst.scalarsPerMatrix === o.src.scalarsPerMatrix )
-//     {
-//     }
-//     else if( !srcIsInstance )
-//     {
-//       set( 'buffer' );
-//       set( 'breadth' );
-//       set( 'offset' );
-//       set( 'strides' );
-//     }
-//     else if( o.src.buffer && ( !o.dst.buffer || o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix ) )
-//     {
-//       o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
-//       o.dst.offset = 0;
-//       o.dst.strides = null;
-//       o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputRowMajor );
-//     }
-//     // else if( o.src.buffer && o.dst.scalarsPerMatrix !== o.src.scalarsPerMatrix )
-//     // {
-//     //   o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
-//     //   o.dst.offset = 0;
-//     //   o.dst.strides = null;
-//     //   o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputRowMajor );
-//     // }
-//     // else debugger;
-//
-//   }
-//   else if( o.src.buffer && o.dst.buffer === null )
-//   {
-//     set( 'buffer' );
-//     set( 'strides' );
-//     set( 'offset' );
-//   }
-//
-//   /* */
-//
-//   if( o.src.dims )
-//   o.dst.dims = o.src.dims;
-//
-//   if( srcIsInstance )
-//   _.assert( _.longIdentical( o.dst.dims , o.src.dims ) );
-//
-//   if( dstIsInstance )
-//   {
-//     o.dst._changeEnd();
-//     _.assert( o.dst._changing[ 0 ] === 0 );
-//   }
-//
-//   if( srcIsInstance )
-//   {
-//
-//     if( dstIsInstance )
-//     {
-//       _.assert( o.dst.hasShape( o.src ) );
-//       o.src.scalarEach( function( it )
-//       {
-//         o.dst.scalarSet( it.indexNd, it.scalar );
-//       });
-//     }
-//     else
-//     {
-//       let extract = o.src.extractNormalized();
-//       o.dst.buffer = _.longSlice( extract.buffer );
-//       o.dst.offset = extract.offset;
-//       o.dst.strides = extract.strides;
-//     }
-//
-//   }
-//
-//   return o.dst;
-//
-//   function set( key )
-//   {
-//     if( o.src[ key ] !== null && o.src[ key ] !== undefined )
-//     o.dst[ key ] = o.src[ key ];
-//   }
-//
-// }
-//
-// ExportStructure.defaults =
-// {
-//   src : null,
-//   dst : null,
-//   format : 'object',
-// }
-
 //
 
 /**
@@ -1087,11 +938,8 @@ function extractNormalized()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  result.buffer = self.long.longMakeUndefined( self.buffer , self.scalarsPerMatrix );
+  result.buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
   result.offset = 0;
-  // result.strides = self.StridesFromDimensions( self.dimsEffective, self.inputRowMajor );
-  // result.inputRowMajor = self.inputRowMajor;
-  // result.strides = self.StridesFromDimensions( self.dimsEffective, 0 );
   result.strides = self.StridesFromDimensions( self.dims, 0 );
   result.inputRowMajor = 0;
 
@@ -2203,12 +2051,7 @@ function _bufferAssign( src )
     `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${src.length}`
   );
 
-  // debugger;
-  // let inputRowMajor = self.inputRowMajor; /* yyy */
   let inputRowMajor = 1;
-  // if( self.dims.length > 2 )
-  // inputRowMajor = 0;
-
   let strides = self.StridesFromDimensions( self.dimsEffective, inputRowMajor );
   self.scalarEach( function( it )
   {
@@ -2377,29 +2220,15 @@ function _adjustAct()
 
   self._changing[ 0 ] += 1;
 
-  // /* adjust breadth */ /* yyy */
-  //
-  // if( _.numberIs( self.breadth ) )
-  // {
-  //   debugger;
-  //   self.breadth = [ self.breadth ];
-  // }
-
   /* strides */
 
   if( _.numberIs( self.strides ) )
   {
     debugger;
-    // let strides = _.dup( 1, self.breadth.length+1 ); /* yyy */
     let strides = [ 1, 1 ];
     strides[ strides.length-1 ] = self.strides;
     self.strides = self.StridesRoll( strides );
   }
-
-  // self[ stridesEffectiveSymbol ] = null; /* yyy */
-
-  // if( self.strides )
-  // self[ stridesEffectiveSymbol ] = self.StridesEffectiveAdjust( self.strides, self.dims );
 
   /* dims */
 
@@ -2418,9 +2247,7 @@ function _adjustAct()
     self.buffer = self.long.longMake( lengthFlat );
   }
 
-  // self._dimsWas = self.dims.slice();
   self[ dimsEffectiveSymbol ] = self.DimsEffectiveFrom( self.dims );
-  // self[ breadthSymbol ] = self.BreadthFrom( self.dims );
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
 
   self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
@@ -2429,7 +2256,7 @@ function _adjustAct()
 
   let lastDim = self.dims[ self.dims.length-1 ];
   if( lastDim === Infinity || lastDim === 0 )
-  self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.dimsEffective.slice( 0, self.dimsEffective.length-1 ) );
+  self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.DimsNormalize( self.dims.slice( 0, self.dims.length-1 ) ) );
   else
   self[ scalarsPerElementSymbol ] = self.scalarsPerMatrix / lastDim;
 
@@ -2455,10 +2282,8 @@ function _adjustAct()
 
   /* done */
 
-  // _.entityFreeze( self._dimsWas );
   _.entityFreeze( self.dimsEffective );
   _.entityFreeze( self.dims );
-  // _.entityFreeze( self.breadth );
   _.entityFreeze( self.stridesEffective );
 
   self._changing[ 0 ] -= 1;
@@ -2470,8 +2295,8 @@ function _adjustVerify()
 {
   let self = this;
 
-  _.assert( _.longIs( self.strides ) || self.strides === null );
-  _.assert( _.numberIs( self.offset ), 'Matrix needs offset' );
+  _.assert( _.longIs( self.strides ) || self.strides === null, 'Bad strides' );
+  _.assert( _.numberIs( self.offset ) && self.offset >= 0, 'Matrix expects defined non-negative offset' );
 
 }
 
@@ -2484,18 +2309,13 @@ function _adjustValidate()
   if( !Config.debug )
   return
 
-  // _.assert( _.arrayIs( self.breadth ) );
   _.assert( _.arrayIs( self.dims ) );
-  // _.assert( _.arrayIs( self.breadth ) );
-
   _.assert( self.length >= 0 );
   _.assert( self.scalarsPerElement >= 0 );
 
   _.assert( _.longIs( self.buffer ), 'Matrix needs buffer' );
   _.assert( _.longIs( self.strides ) || self.strides === null );
   _.assert( self.offset >= 0, 'Matrix needs proper offset' );
-
-  // _.assert( _.longIs( self.breadth ) );
 
   _.assert( _.longIs( self.stridesEffective ) );
   _.assert( _.numbersAreInt( self.stridesEffective ) );
@@ -2507,10 +2327,6 @@ function _adjustValidate()
   _.assert( _.intIs( self.length ) );
   _.assert( self.length >= 0 );
   _.assert( self.dims[ self.dims.length-1 ] === self.length || self.dims[ self.dims.length-1 ] === Infinity );
-  // _.assert( self.dimsEffective[ self.dims.length-1 ] === self.length );
-
-  // _.assert( self.breadth.length+1 === self.dimsEffective.length );
-  // _.assert( self.breadth.length+1 === self.stridesEffective.length );
 
   for( let d = 0 ; d < self.dims.length-1 ; d++ )
   _.assert( self.dims[ d ] >= 0 );
@@ -2520,58 +2336,6 @@ function _adjustValidate()
   _.assert( self.offset + ( self.dimsEffective[ d ]-1 )*self.stridesEffective[ d ] <= self.buffer.length, 'out of bound' );
 
 }
-
-// //
-//
-// function _breadthGet()
-// {
-//   let self = this;
-//   return self[ breadthSymbol ];
-// }
-//
-// //
-//
-// function _breadthSet( breadth )
-// {
-//   let self = this;
-//
-//   if( _.numberIs( breadth ) )
-//   breadth = [ breadth ];
-//   else if( _.bufferTypedIs( breadth ) )
-//   breadth = _.arrayFrom( breadth );
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.assert( breadth === null || _.arrayIs( breadth ), 'Expects array {-breadth-} but got', _.strType( breadth ) );
-//
-//   if( breadth === self.breadth )
-//   return;
-//
-//   if( breadth !== null && self.breadth !== null )
-//   if( _.longIdentical( self.breadth, breadth ) )
-//   return;
-//
-//   self._changeBegin();
-//
-//   if( breadth === null )
-//   {
-//     debugger;
-//     if( self[ dimsSymbol ] === null )
-//     debugger;
-//     self[ breadthSymbol ] = null
-//     if( self[ dimsSymbol ] === null )
-//     self._dimsWas = null;
-//   }
-//   else
-//   {
-//     let _dimsWas = breadth.slice();
-//     _dimsWas.push( self._dimsWas ? self._dimsWas[ self._dimsWas.length-1 ] : 0 );
-//     self[ breadthSymbol ] = _.entityFreeze( breadth.slice() );
-//     self[ dimsSymbol ] = null;
-//     self._dimsWas = _dimsWas;
-//   }
-//
-//   self._changeEnd();
-// }
 
 //
 
@@ -2590,18 +2354,16 @@ function _dimsSet( src )
     _.assert( src[ 0 ] >= 0 );
     _.assert( src[ src.length-1 ] >= 0 );
     self[ dimsSymbol ] = _.entityFreeze( src.slice() );
-    // self[ breadthSymbol ] = _.entityFreeze( src.slice( 0, src.length-1 ) );
 
   }
   else
   {
     self[ dimsSymbol ] = null;
-    // self[ breadthSymbol ] = null;
   }
 
   _.assert( self[ dimsSymbol ] === null || _.numbersAreInt( self[ dimsSymbol ] ) );
 
-  self[ stridesEffectiveSymbol ] = null; /* yyy */
+  self[ stridesEffectiveSymbol ] = null;
 
   self._sizeChanged();
 
@@ -2669,21 +2431,37 @@ function DimsEffectiveFrom( dims )
 
 //
 
+function DimsNormalize( dims )
+{
+
+  for( let i1 = 0 ; i1 < dims.length ; i1++ )
+  if( dims[ i1 ] === Infinity )
+  {
+    let dimsEffective = dims.slice();
+    dimsEffective[ i1 ] = 1;
+    for( let i2 = i1+1 ; i2 < dimsEffective.length ; i2++ )
+    if( dimsEffective[ i2 ] === Infinity )
+    dimsEffective[ i2 ] = 1;
+    dims = dimsEffective;
+    break;
+  }
+
+  return dims;
+}
+
+//
+
 function _dimsDeduceGrowing( dimsWas )
 {
   let self = this;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
-  // _.assert( self.dims === null );
 
-  // if( self._dimsWas ) /* yyy */
   if( dimsWas )
   {
-    // _.assert( _.arrayIs( self._dimsWas ) );
     _.assert( _.longIs( self.buffer ) );
     _.assert( self.offset >= 0 );
 
-    // let dims = self._dimsWas.slice();
     let dims = dimsWas.slice();
     dims[ self.growingDimension ] = 1;
     let ape = _.avector.reduceToProduct( dims );
@@ -2747,18 +2525,7 @@ function DimsDeduceFrom( src, fallbackDims )
   {
     dim0 = src.scalarsPerElement;
   }
-  // else if( src.breadth !== undefined && src.breadth !== null )
-  // {
-  //   if( _.numberIs( src.breadth ) )
-  //   {
-  //     dim0 = src.breadth;
-  //   }
-  //   else
-  //   {
-  //     _.assert( src.breadth.length === 1 );
-  //     dim0 = src.breadth[ 0 ];
-  //   }
-  // }
+
   if( src.scalarsPerRow !== undefined && src.scalarsPerRow !== null )
   {
     dim1 = src.scalarsPerRow;
@@ -2815,50 +2582,6 @@ function DimsDeduceFrom( src, fallbackDims )
 
   return result;
 }
-
-// //
-//
-// /**
-//  * Static routine BreadthFrom() analyzes dimensions in argument {-dims-} and finds breadth of matrix.
-//  * If dimensions with index 2 and higher have Infinity value, then it replace to 1.
-//  * If all higher dimensions have value 1, then it removes.
-//  *
-//  * @example
-//  * var got = _.Matrix.BreadthFrom( [ 2, 2, 1, Infinity ] );
-//  * console.log( got );
-//  * // log : [ 2 ]
-//  *
-//  * @param { Long } dims - Dimensions of a matrix.
-//  * @returns { Long } - Returns breadth of a matrix.
-//  * @throws { Error } If {-dims-} has not valid type.
-//  * @static
-//  * @function BreadthFrom
-//  * @class Matrix
-//  * @namespace wTools
-//  * @module Tools/math/Matrix
-//  */
-//
-// function BreadthFrom( dims )
-// {
-//   let result = [ dims[ 0 ], ... dims.slice( 2 ) ];
-//
-//   for( let i = 0 ; i < result.length ; i++ )
-//   if( result[ i ] === Infinity )
-//   result[ i ] = 1;
-//
-//   if( result.length > 1 )
-//   if( result[ result.length-1 ] === 1 || result[ result.length-1 ] === Infinity )
-//   {
-//     result.splice( result.length-1, 1 );
-//     for( let i = result.length-1 ; i >= 1 ; i-- )
-//     if( result[ i ] === 1 )
-//     result.splice( i, 1 );
-//     else
-//     break;
-//   }
-//
-//   return result;
-// }
 
 //
 
@@ -3064,9 +2787,7 @@ dimsExportString.defaults =
 // --
 
 let bufferSymbol = Symbol.for( 'buffer' );
-
 let offsetSymbol = Symbol.for( 'offset' );
-// let breadthSymbol = Symbol.for( 'breadth' );
 let dimsSymbol = Symbol.for( 'dims' );
 let dimsEffectiveSymbol = Symbol.for( 'dimsEffective' );
 let stridesSymbol = Symbol.for( 'strides' );
@@ -3118,7 +2839,6 @@ let Medials =
 
   strides : null,
   offset : 0,
-  // breadth : null,
   scalarsPerElement : null,
   scalarsPerCol : null,
   scalarsPerRow : null,
@@ -3148,8 +2868,8 @@ let Statics =
   StridesEffectiveAdjust,
   StridesRoll,
   DimsEffectiveFrom,
+  DimsNormalize,
   DimsDeduceFrom,
-  // BreadthFrom,
   LengthFrom,
   OccupiedRangeFrom,
   ShapesAreSame,
@@ -3205,7 +2925,6 @@ let Accessors =
   strides : write,
   dims : write,
   dimsEffective : { get : _dimsEffectiveGet, set : false },
-  // breadth : {},
   occupiedRange : readPut, /* cached */
   stridesEffective : readPut, /* cached */
 
@@ -3230,16 +2949,18 @@ let Accessors =
   nrow : readOnly,
   scalarsPerSlice : readPut, /* qqq : cover */
   scalarsPerMatrix : readOnly,
-  slicesPerMatrix : readPut, /* qqq : cover */
-  nslice : readPut, /* qqq : cover */
-
-  length : readPut, /* cached */
 
   strideOfElement : readOnly,
   strideOfCol : readOnly,
   strideInCol : readOnly,
   strideOfRow : readOnly,
   strideInRow : readOnly,
+
+  /* other metrics */
+
+  slicesPerMatrix : readPut, /* qqq : cover */
+  nslice : readPut, /* qqq : cover */
+  length : readPut, /* cached */
 
 }
 
@@ -3355,14 +3076,12 @@ let Extension =
   _adjustVerify,
   _adjustValidate,
 
-  // _breadthGet, /* cached */
-  // _breadthSet,
   _dimsSet, /* cached */
   _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
+  DimsNormalize,
   _dimsDeduceGrowing,
   DimsDeduceFrom,
-  // BreadthFrom,
   LengthFrom,
   OccupiedRangeFrom,
 

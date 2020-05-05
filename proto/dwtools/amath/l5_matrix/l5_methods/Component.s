@@ -447,7 +447,6 @@ function expand( expand )
 
   /* copy */
 
-  // self.copyResetting
   self.copy
   ({
     inputRowMajor : 1,
@@ -529,8 +528,8 @@ function submatrix()
   {
     _.assert( _.arrayIs( ranges[ s ] ) && ranges[ s ].length === 2 );
     dims[ s ] = ranges[ s ][ 1 ] - ranges[ s ][ 0 ] + 1;
-    strides[ s ] = self.stridesEffective[ s ];
-    offset += self.stridesEffective[ s ]*ranges[ s ][ 0 ];
+    strides[ s ] = self.stridesEffective[ s ] || 0;
+    offset += strides[ s ]*ranges[ s ][ 0 ];
   }
 
   let result = new self.Self
@@ -539,7 +538,6 @@ function submatrix()
     offset,
     strides,
     dims,
-    // inputRowMajor : self.inputRowMajor,
   });
 
   return result;
@@ -578,7 +576,6 @@ function subspace()
     offset : self.offset,
     strides,
     dims,
-    // inputRowMajor : self.inputRowMajor,
   });
 
   return result;
