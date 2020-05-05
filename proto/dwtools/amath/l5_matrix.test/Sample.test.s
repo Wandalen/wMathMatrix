@@ -968,6 +968,34 @@ function optionStrides( test )
   return a.ready;
 }
 
+//
+
+function solve( test )
+{
+  let self = this;
+  let a = self.assetFor( test );
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '1_Solve.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '1_Solve.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  return a.ready;
+}
+
 // --
 // declare
 // --
@@ -994,6 +1022,7 @@ var Self =
     matrixElements,
     matrixOperations,
     optionStrides,
+    solve,
 
   },
 
