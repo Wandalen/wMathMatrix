@@ -71,10 +71,9 @@ function sample( test )
     mode : 'fork',
   })
 
-  /* - */
+  /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = 'Determinant.js';
@@ -85,16 +84,12 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
-    test.identical( _.strCount( got.output, 'determinant of matrix :' ), 1 );
-    test.identical( _.strCount( got.output, '24' ), 1 );
-
     return null;
   })
 
-  /* - */
+  /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = 'Experiment.js';
@@ -105,14 +100,12 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
-
     return null;
   })
 
-  /* - */
+  /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = 'Sample.js';
@@ -123,19 +116,12 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
-    test.identical( _.strCount( got.output, 'got' ), 1 );
-    test.identical( _.strCount( got.output, 'expected' ), 1 );
-    test.identical( _.strCount( got.output, '+14 +23 +18' ), 2 );
-    test.identical( _.strCount( got.output, '+23 +41 +30' ), 2 );
-    test.identical( _.strCount( got.output, '+18 +30 +36' ), 2 );
-
     return null;
   })
 
-  /* - */
+  /* */
 
   a.ready
-
   .then( () =>
   {
     test.case = 'Svd.js';
@@ -146,10 +132,100 @@ function sample( test )
   .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
-    test.identical( _.strCount( got.output, 'Final U' ), 1 );
-    test.identical( _.strCount( got.output, 'Final S' ), 1 );
-    test.identical( _.strCount( got.output, 'Final V' ), 1 );
+    return null;
+  })
 
+  return a.ready;
+}
+
+//
+
+function matrixComparison( test )
+{
+  let self = this;
+  let a = self.assetFor( test );
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '1_CompareIdenticalMatrices.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '1_CompareIdenticalMatrices.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+
+  .then( () =>
+  {
+    test.case = '2_ComparisonWithStridesAndOffset.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '2_ComparisonWithStridesAndOffset.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+
+  .then( () =>
+  {
+    test.case = '3_DifferentBuffers.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '3_DifferentBuffers.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+
+  .then( () =>
+  {
+    test.case = '4_MatrixAndVector.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '4_MatrixAndVector.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+
+  .then( () =>
+  {
+    test.case = '5_EquivalentWithAccuracy.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '5_EquivalentWithAccuracy.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
     return null;
   })
 
@@ -166,7 +242,7 @@ var Self =
   name : 'Tools.Math.Sample',
   silencing : 1,
   enabled : 1,
-  // routineTimeOut : 60000,
+  routineTimeOut : 15000,
 
   context :
   {
@@ -177,6 +253,7 @@ var Self =
   {
 
     sample,
+    matrixComparison,
 
   },
 
