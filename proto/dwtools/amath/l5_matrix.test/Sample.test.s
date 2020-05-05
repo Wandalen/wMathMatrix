@@ -844,6 +844,130 @@ function matrixOperations( test )
   return a.ready;
 }
 
+//
+
+function optionStrides( test )
+{
+  let self = this;
+  let a = self.assetFor( test );
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '1_StandardStridesInputTransposing0.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '1_StandardStridesInputTransposing0.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '2_StandardStridesInputTransposing1.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '2_StandardStridesInputTransposing1.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '3_StandardExplicitStrides.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '3_StandardExplicitStrides.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '4_NonStandardStrides.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '4_NonStandardStrides.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '5_NegativeStrides.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '5_NegativeStrides.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '6_TransposedMatrix.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '6_TransposedMatrix.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( () =>
+  {
+    test.case = '7_Submatrices.js';
+    return null;
+  })
+
+  a.appStart({ execPath : '7_Submatrices.js' })
+  .then( ( got ) =>
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+
+  /* */
+
+  return a.ready;
+}
+
 // --
 // declare
 // --
@@ -869,6 +993,7 @@ var Self =
     matrixCreation,
     matrixElements,
     matrixOperations,
+    optionStrides,
 
   },
 
