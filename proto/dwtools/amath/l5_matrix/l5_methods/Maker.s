@@ -135,7 +135,7 @@ function Make( dims )
  * @module Tools/math/Matrix
  */
 
-function MakeSquare( buffer )
+function MakeSquare( buffer ) /* Dmytro : maybe needs add option strides. The absence of option affects result of MakeSimilar */
 {
   let proto = this.Self.prototype;
 
@@ -1314,8 +1314,18 @@ function From( src, dims )
   let result;
 
   // _.assert( !this.instanceIs() );
-  _.assert( _.arrayIs( dims ) || dims == undefined );
+  // _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else if( dims !== undefined )
+    _.assert( 0, 'Expects vector {-dims-} or undefined' );
+  }
 
   if( src === null )
   {
@@ -1336,7 +1346,8 @@ function From( src, dims )
     result = this.FromVector( src );
   }
 
-  _.assert( !dims || result.hasShape( dims ) );
+  // _.assert( !dims || result.hasShape( dims ) );
+  _.assert( !dims || _.longIdentical( result.dims, dims ) );
 
   return result;
 }
@@ -1384,8 +1395,18 @@ function FromForReading( src, dims )
   let result;
 
   // _.assert( !this.instanceIs() );
-  _.assert( _.arrayIs( dims ) || dims == undefined );
+  // _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
+
+  if( !_.arrayIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = _.arrayMake( dims );
+    else if( _.vectorAdapterIs( dims ) )
+    dims = _.arrayFrom( dims.toLong() );
+    else if( dims !== undefined )
+    _.assert( 0, 'Expects vector {-dims-} or undefined' );
+  }
 
   if( src instanceof Self )
   {
@@ -1398,10 +1419,11 @@ function FromForReading( src, dims )
   }
   else
   {
-    let result = this.FromVector( src );
+    result = this.FromVector( src );
   }
 
-  _.assert( !dims || result.hasShape( dims ) );
+  // _.assert( !dims || result.hasShape( dims ) );
+  _.assert( !dims || _.longIdentical( result.dims, dims ) );
 
   return result;
 }
@@ -1887,7 +1909,7 @@ function fromAxisAndAngleWithScale( axis, angle )
  *   +0, +0, +6,
  * ]);
  *
- * var got = matrix.fromEuler( axis, 30 );
+ * var got = matrix.fromEuler( euler );
  * console.log( got.toStr() );
  * // log :
  * // -0.875  0.250  0.415
