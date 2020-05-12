@@ -47,7 +47,7 @@ function _triangulateGausian( o )
 
   let popts;
   if( o.onPivot )
-  popts = _.mapOnly( o, o.onPivot );
+  popts = _.mapOnly( o, o.onPivot.defaults );
 
   /* */
 
@@ -454,68 +454,6 @@ function triangulateLuPivoting( pivots )
   // return pivots;
 }
 
-//
-
-// function _pivotRook( i, o )
-function _pivotRook( o ) /* qqq2 : cover pelase */
-{
-  let self = this;
-
-  // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( arguments.length === 1 );
-  _.assert( o.pivots );
-  _.assert( o.lineIndex >= 0 );
-  _.routineOptions( _pivotRook, o );
-
-  let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
-  let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
-  let value = row1.eGet( 0 );
-  let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
-  let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
-
-  if( maxr.value > maxc.value )
-  {
-    // if( maxr.value === value )
-    // {
-    //   debugger;
-    //   return false;
-    // }
-    let i2 = maxr.index + o.lineIndex;
-    if( o.lineIndex === i2 )
-    return false;
-    _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
-    self.colsSwap( o.lineIndex, i2 );
-    o.npermutations += 1;
-    o.nColPermutations += 1;
-  }
-  else
-  {
-    // if( maxc.value === value )
-    // return false;
-    let i2 = maxc.index + o.lineIndex;
-    if( o.lineIndex === i2 )
-    return false;
-    _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
-    self.rowsSwap( o.lineIndex, i2 );
-    if( o.y )
-    o.y.rowsSwap( o.lineIndex, i2 );
-    o.npermutations += 1;
-    o.nRowPermutations += 1;
-  }
-
-  return true;
-}
-
-_pivotRook.defaults =
-{
-  y : null,
-  pivots : null,
-  lineIndex : null,
-  npermutations : 0,
-  nRowPermutations : 0,
-  nColPermutations : 0,
-}
-
 // --
 // Solver
 // --
@@ -686,7 +624,7 @@ function _SolveWithGaussJordan( o )
 
   let popts;
   if( o.onPivot )
-  popts = _.mapOnly( o, o.onPivot );
+  popts = _.mapOnly( o, o.onPivot.defaults );
 
   /* */
 
@@ -975,15 +913,15 @@ function SolveWithTrianglesPivoting( x, m, y )
 {
 
   let o = this._Solve_pre( arguments );
-  let pivots = m.triangulateLuPivoting();
+  let triangulated = m.triangulateLuPivoting();
 
-  o.y = Self.VectorPivotForward( o.y, pivots[ 0 ] );
+  o.y = Self.VectorPivotForward( o.y, triangulated.pivots[ 0 ] );
 
   o.x = this.SolveTriangleLowerNormal( o.x, o.m, o.y );
   o.x = this.SolveTriangleUpper( o.x, o.m, o.x );
 
-  Self.VectorPivotBackward( o.x, pivots[ 1 ] );
-  Self.VectorPivotBackward( o.y, pivots[ 0 ] );
+  Self.VectorPivotBackward( o.x, triangulated.pivots[ 1 ] );
+  Self.VectorPivotBackward( o.y, triangulated.pivots[ 0 ] );
 
   // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
@@ -1581,8 +1519,6 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* Solve */
 
-  // _pivotRook,
-
   Solve,
 
   _Solve_pre,
@@ -1632,8 +1568,6 @@ let Extension =
   triangulateLu,
   triangulateLuNormal,
   triangulateLuPivoting,
-
-  _pivotRook,
 
   // Solver
 
