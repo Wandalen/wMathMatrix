@@ -24,6 +24,157 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 //
 // --
 
+function gramSchmidtDecompose( o )
+{
+  let self = this;
+  let l = self.ncol;
+
+  o = _.routineOptions( gramSchmidtDecompose, arguments );
+
+  if( l === 0 )
+  return self;
+
+  if( o.normalizing )
+  {
+
+    let col2 = self.vectorAdapter.make( self.nrow );
+    let col3 = self.vectorAdapter.make( self.nrow );
+    let col4 = self.vectorAdapter.make( self.nrow );
+
+    self.colGet( 0 ).normalize();
+    for( let i1 = 1 ; i1 < l ; i1++ )
+    {
+      let currCol = self.colGet( i1 );
+      col2.assign( 0 );
+      for( let i2 = 0 ; i2 < i1 ; i2++ )
+      {
+        let prevCol = self.colGet( i2 );
+        col3.assign( prevCol ).mul( prevCol.dot( currCol ) );
+        col2.sub( col3 );
+      }
+      currCol.add( col2 );
+      currCol.normalize();
+    }
+
+  }
+  else
+  {
+
+    let col2 = self.vectorAdapter.make( self.nrow );
+    let col3 = self.vectorAdapter.make( self.nrow );
+    for( let i1 = 1 ; i1 < l ; i1++ )
+    {
+      let currCol = self.colGet( i1 );
+      col2.assign( 0 );
+      for( let i2 = 0 ; i2 < i1 ; i2++ )
+      {
+        let prevCol = self.colGet( i2 );
+        col3.assign( prevCol ).mul( prevCol.dot( currCol ) / prevCol.magSqr() );
+        col2.sub( col3 );
+      }
+      currCol.add( col2 );
+    }
+
+  }
+
+/* non-normalized :
+an = a
+bn = b - an * ( b*an ) / ( an*an )
+cn = c - an * ( c*an ) / ( an*an ) - bn * ( c*bn ) / ( bn*bn )
+*/
+
+/* normalized :
+an = a
+an =/ a.mag()
+bn = ( b - an * ( b*an ) )
+bn =/ bn.mag()
+cn = c - an * ( c*an ) - bn * ( c*bn )
+cn =/ cn.mag()
+*/
+
+/* QR
+A * R.inv() = Q
+A = Q*R
+*/
+
+  return self;
+}
+
+gramSchmidtDecompose.defaults =
+{
+  normalizing : 0,
+}
+
+//
+
+function qrDecompose( o )
+{
+  let self = this;
+  let l = self.ncol;
+
+  o = _.routineOptions( qrDecompose, arguments );
+
+  o.q = self;
+  if( o.r === null )
+  o.r = o.q.MakeIdentity( o.q.dims );
+  else
+  o.r.identity();
+
+  _.assert( o.r.hasShape( o.q ) );
+
+  if( l === 0 )
+  return self;
+
+  let col2 = self.vectorAdapter.make( self.nrow );
+  let col3 = self.vectorAdapter.make( self.nrow );
+  let col4 = self.vectorAdapter.make( self.nrow );
+
+  let firstCol = self.colGet( 0 );
+  let mag = firstCol.mag();
+  firstCol.mul( 1 / mag );
+  o.r.scalarSet( [ 0, 0 ], mag );
+
+  for( let i1 = 1 ; i1 < l ; i1++ )
+  {
+    let currCol = self.colGet( i1 );
+    col2.assign( 0 );
+
+    for( let i2 = 0 ; i2 < i1 ; i2++ )
+    {
+      let prevCol = self.colGet( i2 );
+      let dot = prevCol.dot( currCol );
+      o.r.scalarSet( [ i2, i1 ], dot );
+      col3.assign( prevCol ).mul( dot );
+      col2.sub( col3 );
+    }
+
+    currCol.add( col2 );
+    let mag = currCol.mag();
+    currCol.mul( 1 / mag );
+    o.r.scalarSet( [ i1, i1 ], mag );
+
+  }
+
+/* QR
+A - initial space
+Q - ortho-normalized space
+R - ortho-normalized space to initial sapce
+R.inv() - initial sapce to ortho-normalized space
+A * R.inv() = Q
+A = Q*R
+R.inv() = R.transposed()
+*/
+
+  return o;
+}
+
+qrDecompose.defaults =
+{
+  r : null,
+}
+
+//
+
 /**
  * Method _qrIteration() splits a M matrix into a Q and a R matrices, where M = Q*R, R is upper triangular
  * and the values of its diagonal are the eigenvalues of M, and Q is orthogonal and its columns are
@@ -459,6 +610,9 @@ function svd( u, s, v )
 
 let Extension =
 {
+
+  gramSchmidtDecompose,
+  qrDecompose,
 
   _qrIteration,
   _qrDecompositionGS,

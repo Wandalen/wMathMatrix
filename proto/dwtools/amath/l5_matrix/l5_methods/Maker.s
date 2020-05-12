@@ -32,9 +32,12 @@ function _BufferFrom( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
 
+  // xxx : remove
+  // debugger;
+
   if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
   {
-    dst = this.long.longMake( src.length );
+    dst = proto.long.longMake( src.length );
     for( let i = 0 ; i < src.length ; i++ )
     dst[ i ] = src.eGet( i );
   }
@@ -1428,7 +1431,9 @@ function FromForReading( src, dims )
   return result;
 }
 
-//
+// --
+// transformation
+// --
 
 /**
  * The method FromTransformations() converts provided position {-position-}, quaternion {-quaternion-}, scale {-scale-} values
@@ -2490,6 +2495,8 @@ let Extension =
   FromScalarForReading,
   From,
   FromForReading,
+
+  // transformation
 
   FromTransformations,
   fromTransformations,

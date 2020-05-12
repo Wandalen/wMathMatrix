@@ -293,7 +293,7 @@ function add( srcs )
 // --
 
 /**
- * The method matrixPow() returns an instance of Matrix with exponentiation values of provided matrix.
+ * The method matrixPowSlow() returns an instance of Matrix with exponentiation values of provided matrix.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare
@@ -303,7 +303,7 @@ function add( srcs )
  *   0, 0, 6,
  * ]);
  *
- * var got = matrix.matrixPow( 2 );
+ * var got = matrix.matrixPowSlow( 2 );
  * console.log( got );
  * // log :
  * // +17, +6, +31,
@@ -312,7 +312,7 @@ function add( srcs )
  *
  * @param { Number } exponent - The power of elements.
  * @returns { Matrix } - Returns the current matrix.
- * @method matrixPow
+ * @method matrixPowSlow
  * @throws { Error } If arguments.length is not 1.
  * @class Matrix
  * @namespace wTools
@@ -321,7 +321,7 @@ function add( srcs )
 
 /* Dmytro : need clarification */
 
-function matrixPow( exponent )
+function matrixPowSlow( exponent )
 {
 
   _.assert( _.instanceIs( this ) );
@@ -816,7 +816,7 @@ function OuterProductOfVectors( v1, v2 )
  * @module Tools/math/Matrix
  */
 
-function outerProductOfVectors( v1, v2 ) /* aaa : jsdoc */ /* Dmytro : documented */
+function outerProductOfVectors( v1, v2 )
 {
   let self = this;
 
@@ -1098,6 +1098,417 @@ function minmaxRowWise()
 
 //
 
+function determinant1()
+{
+  let self = this;
+  return self.scalarGet([ 0, 0 ]);
+}
+
+//
+
+function determinant2()
+{
+  let self = this;
+  let result =
+    + self.scalarGet([ 0, 0 ]) * self.scalarGet([ 1, 1 ])
+    - self.scalarGet([ 0, 1 ]) * self.scalarGet([ 1, 0 ])
+    ;
+  return result;
+}
+
+//
+
+function determinant3()
+{
+  let self = this;
+  let result =
+    + self.scalarGet([ 0, 0 ]) * self.scalarGet([ 1, 1 ]) * self.scalarGet([ 2, 2 ])
+    + self.scalarGet([ 0, 1 ]) * self.scalarGet([ 1, 2 ]) * self.scalarGet([ 2, 0 ])
+    + self.scalarGet([ 0, 2 ]) * self.scalarGet([ 1, 0 ]) * self.scalarGet([ 2, 1 ])
+    - self.scalarGet([ 2, 0 ]) * self.scalarGet([ 1, 1 ]) * self.scalarGet([ 0, 2 ])
+    - self.scalarGet([ 2, 1 ]) * self.scalarGet([ 1, 2 ]) * self.scalarGet([ 0, 0 ])
+    - self.scalarGet([ 2, 2 ]) * self.scalarGet([ 1, 0 ]) * self.scalarGet([ 0, 1 ])
+    ;
+  return result;
+}
+
+//
+
+function determinantWithLu() /* qqq : determinant is alread documented, please document also determinantWithPermutation */
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+
+  if( l === 0 )
+  return 0;
+  if( !self.isSquare() )
+  return 0;
+
+  /* */
+
+  if( l <= 3 && 0 )
+  {
+    if( l === 3 )
+    return self.determinant3();
+    else if( l === 2 )
+    return self.determinant2();
+    else if( l === 1 )
+    return self.determinant1();
+  }
+  else
+  {
+    return self._determinantWithLu();
+  }
+
+}
+
+//
+
+function _determinantWithLu()
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+  let clone = self.cloneExtending({ ... self.bufferExport({ asFloat : 1, dstObject : null, restriding : null }) });
+
+  let triangulated = clone.triangulateLuPivoting();
+  let result = clone.diagonalGet().reduceToProduct();
+
+  // logger.log( self.toStr() );
+  // logger.log( clone.toStr() );
+  // logger.log( `npermutations : ${triangulated.npermutations}` );
+  // logger.log( `nRowPermutations : ${triangulated.nRowPermutations}` );
+  // logger.log( `nColPermutations : ${triangulated.nColPermutations}` );
+  // logger.log( `pivots[ 0 ] : ${triangulated.pivots[ 0 ].join( ' ' )}` );
+  // logger.log( `pivots[ 1 ] : ${triangulated.pivots[ 1 ].join( ' ' )}` );
+
+  if( triangulated.npermutations % 2 === 1 )
+  result *= -1;
+
+  return result;
+}
+
+//
+
+function determinantWithPermutation() /* qqq : determinant is alread documented, please document also determinantWithPermutation */
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+
+  if( l === 0 )
+  return 0;
+  if( !self.isSquare() )
+  return 0;
+
+  /* */
+
+  if( l <= 3 && 1 )
+  {
+    if( l === 3 )
+    return self.determinant3();
+    else if( l === 2 )
+    return self.determinant2();
+    else if( l === 1 )
+    return self.determinant1();
+  }
+  else
+  {
+    return self._determinantWithPermutation();
+  }
+
+}
+
+//
+
+function _determinantWithPermutation()
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+  let result = 0
+  let sign = 0;
+
+  /* */
+
+  _.eachPermutation({ onEach : onPermutation, container : l });
+
+  return result;
+
+  /* */
+
+  function onPermutation( permutation, iteration, left, right, swaps )
+  {
+    const index = [];
+    // let sign = signEval( permutation );
+    sign = ( sign + swaps ) % 2;
+
+    let r = sign === 0 ? 1 : -1; debugger;
+
+    for( let i1 = 0 ; i1 < l ; i1 += 1 )
+    {
+      index[ 0 ] = i1;
+      index[ 1 ] = permutation[ i1 ];
+      r *= self.scalarGet( index );
+    }
+
+    result += r;
+    // console.log( sign === 0 ? '+' : '-', permutation.join( ' ' ), swaps );
+  }
+
+  /* */
+
+  function signEval( permutation )
+  {
+    // let counter = 0;
+    // let forward = permutation.slice();
+    // let backward = [];
+    // for( let i = forward.length-1 ; i >= 0 ; i-- )
+    // {
+    //   backward[ forward[ i ] ] = i;
+    // }
+    // for( let i = backward.length-1 ; i >= 0 ; i-- )
+    // {
+    //   if( backward[ i ] !== i )
+    //   {
+    //     let forward1 = forward[ i ];
+    //     let backward1 = backward[ i ];
+    //     forward[ backward1 ] = forward1;
+    //     backward[ forward1 ] = backward1;
+    //     counter += 1;
+    //   }
+    // }
+    let counter = _.swapsCount( permutation );
+    return counter % 2;
+  }
+
+  /* */
+
+}
+
+  /*
+
+== 2x2
+
+  c = 2! = 2
+
+  00 01
+  10 11
+
+  \/
+
+  + 0 1
+  - 1 0
+
+== 3x3
+
+  c = 3! = 6
+
+= sarrus
+
+  00 01 02 00 01
+  10 11 12 10 11
+  20 21 22 20 21
+
+  \\\///
+
+  + 0 1 2 . +0-1+2 = +1
+  + 1 2 0 . +1-2+0 = -1
+  + 2 0 1 . +2-0+1 = +3
+  - 2 1 0 . -2+1-0 = -1
+  - 0 2 1
+  - 1 0 2
+
+= log
+
+  0 . 2..2 . + 0 1 2
+  1 . 1..2 . - 0 2 1
+  2 . 0..2 . + 1 2 0
+  3 . 1..2 . - 1 0 2
+  4 . 0..2 . + 2 0 1
+  5 . 1..2 . - 2 1 0
+
+= swaping
+
+  + 0 1 2
+  - 0 2 1
+  + 2 0 1
+  - 2 1 0
+  + 1 2 0
+  - 1 0 2
+
+== 4x4
+
+  c = 4! = 24
+
+= sarrus
+
+  00 01 02 03 00 01 02
+  10 11 12 13 10 11 12
+  20 21 22 23 20 21 22
+  30 31 32 33 30 31 32
+
+  + 0 1 2 3
+  - 1 2 3 0
+  + 2 3 0 1
+  - 3 0 1 2
+
+  + 3 2 1 0
+  - 0 3 2 1
+  + 1 0 3 2
+  - 2 1 0 3
+
+  00 01 03 02 00 01 03
+  10 11 13 12 10 11 13
+  20 21 23 22 20 21 23
+  30 31 33 32 30 31 33
+
+  - 0 1 3 2
+  + 1 3 2 0
+  - 3 2 0 1
+  + 2 0 1 3
+
+  - 2 3 1 0
+  + 0 2 3 1
+  - 1 0 2 3
+  + 3 1 0 2
+
+  00 02 01 03 00 02 01
+  10 12 11 13 10 12 11
+  20 22 21 23 20 22 21
+  30 32 31 33 30 32 31
+
+  - 0 2 1 3
+  + 2 1 3 0
+  - 1 3 0 2
+  + 3 0 2 1
+
+  - 3 1 2 0
+  + 0 3 1 2
+  - 2 0 3 1
+  + 1 2 0 3
+
+  \\\\////
+
+= lines
+
+  + 0 1 2 3
+  - 0 1 3 2
+  - 0 2 1 3
+
+  + 3 2 1 0
+  - 2 3 1 0
+  - 3 1 2 0
+
+= log1
+
+  0 . 3..3 . + 0 1 2 3
+  1 . 2..3 . - 0 1 3 2
+  2 . 1..3 . + 0 2 3 1
+  3 . 2..3 . - 0 2 1 3
+  4 . 1..3 . + 0 3 1 2
+  5 . 2..3 . - 0 3 2 1
+
+  6 . 0..3 . - 1 2 3 0
+  7 . 2..3 . + 1 2 0 3
+  8 . 1..3 . - 1 3 0 2
+  9 . 2..3 . + 1 3 2 0
+  10 . 1..3 . - 1 0 2 3
+  11 . 2..3 . + 1 0 3 2
+
+  12 . 0..3 . + 2 3 0 1
+  13 . 2..3 . - 2 3 1 0
+  14 . 1..3 . + 2 0 1 3
+  15 . 2..3 . - 2 0 3 1
+  16 . 1..3 . + 2 1 3 0
+  17 . 2..3 . - 2 1 0 3
+
+  18 . 0..3 . - 3 0 1 2
+  19 . 2..3 . + 3 0 2 1
+  20 . 1..3 . - 3 1 2 0
+  21 . 2..3 . + 3 1 0 2
+  22 . 1..3 . - 3 2 0 1
+  23 . 2..3 . + 3 2 1 0
+
+= log2
+
+  + 0 1 2 3
+  - 0 1 3 2
+  + 0 2 3 1
+  - 0 2 1 3
+  + 0 3 1 2
+  - 0 3 2 1
+  - 1 2 3 0
+  + 1 2 0 3
+  - 1 3 0 2
+  + 1 3 2 0
+  - 1 0 2 3
+  + 1 0 3 2
+  + 2 3 0 1
+  - 2 3 1 0
+  + 2 0 1 3
+  - 2 0 3 1
+  + 2 1 3 0
+  - 2 1 0 3
+  - 3 0 1 2
+  + 3 0 2 1
+  - 3 1 2 0
+  + 3 1 0 2
+  - 3 2 0 1
+  + 3 2 1 0
+
+*/
+
+// //
+//
+// function determinantFast() /* qqq : determinant is document, document also determinantFast please */
+// {
+//   let self = this;
+//
+//   // let o = this._Solve_pre( arguments );
+//
+//   let m = self.clone();
+//   _.assert( m.buffer === self.buffer );
+//   // let x = _.vectorAdapter.from( _.dup( 1, m.length ) );
+//
+//   let pivots = m.triangulateGausianPivoting(); debugger;
+//
+//   return 0;
+//
+//   // let o2 = { m, x };
+//   // o2.onPivot = this._pivotRook;
+//   // o2.pivotingBackward = 0;
+//   // self._SolveWithGaussJordan( o2 );
+//   //
+//   // logger.log( self.toStr() );
+//   // logger.log( o2.m.toStr() );
+//   // logger.log( o2.x.toStr() );
+//   // // logger.log( o2.y.toStr() );
+//   //
+//   // debugger;
+//   // return 1 / x.reduceToProduct();
+//
+//   // return 0;
+//
+//   // let pivots = m.triangulateLuPivoting();
+//   //
+//   // _.assert( m.ncol == m.nrow ); debugger;
+//   //
+//   // let x = _.vectorAdapter.from( _.dup( 0, m.length ) );
+//   // let y = _.vectorAdapter.from( _.dup( 1, m.length ) );
+//   //
+//   // y = Self.VectorPivotForward( y, pivots[ 0 ] );
+//   // x = this.SolveTriangleLowerNormal( x, m, y );
+//   // x = this.SolveTriangleUpper( x, m, x );
+//   //
+//   // Self.VectorPivotBackward( x, pivots[ 1 ] );
+//   //
+//   // debugger;
+//   // let result = x.reduceToProduct();
+//   // debugger;
+//   //
+//   // return result;
+// }
+
+//
+
 /**
  * The method determinant() calculates a determinant of the current matrix.
  *
@@ -1124,78 +1535,30 @@ function minmaxRowWise()
 function determinant()
 {
   let self = this;
-  let l = self.length;
+  let l = self.dims[ 0 ];
 
   if( l === 0 )
   return 0;
-
-  let iterations = _.math.factorial( l );
-  let result = 0;
-
-  _.assert( l === self.scalarsPerElement );
+  if( !self.isSquare() )
+  return 0;
 
   /* */
 
-  let sign = 1;
-  let index = [];
-  for( let i = 0 ; i < l ; i += 1 )
-  index[ i ] = i;
-
-  /* */
-
-  function add()
+  if( l <= 3 && 0 )
   {
-    let r = 1;
-    for( let i = 0 ; i < l ; i += 1 )
-    r *= self.scalarGet([ index[ i ], i ]);
-    r *= sign;
-    // console.log( index );
-    // console.log( r );
-    result += r;
-    return r;
+    if( l === 3 )
+    return self.determinant3();
+    else if( l === 2 )
+    return self.determinant2();
+    else if( l === 1 )
+    return self.determinant1();
+  }
+  else
+  {
+    // return self._determinantWithLu();
+    return self._determinantWithPermutation();
   }
 
-  /* */
-
-  function swap( a, b )
-  {
-    let v = index[ a ];
-    index[ a ] = index[ b ];
-    index[ b ] = v;
-    sign *= -1;
-  }
-
-  /* */
-
-  let i = 0;
-  while( i < iterations )
-  {
-
-    for( let s = 0 ; s < l-1 ; s++ )
-    {
-      let r = add();
-      //console.log( 'add', i, index, r );
-      swap( s, l-1 );
-      i += 1;
-    }
-
-  }
-
-  /* */
-
-  // 00
-  // 01
-  //
-  // 012
-  // 021
-  // 102
-  // 120
-  // 201
-  // 210
-
-  // console.log( 'determinant', result );
-
-  return result;
 }
 
 // --
@@ -1241,7 +1604,7 @@ let Extension =
 
   // mul
 
-  pow : matrixPow,
+  pow : matrixPowSlow,
 
   Mul,
   _Mul2,
@@ -1264,6 +1627,13 @@ let Extension =
   minmaxColWise,
   minmaxRowWise,
 
+  determinant1,
+  determinant2,
+  determinant3,
+  determinantWithLu,
+  _determinantWithLu,
+  determinantWithPermutation,
+  _determinantWithPermutation,
   determinant,
 
   //

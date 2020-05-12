@@ -247,11 +247,10 @@ function _traverseAct( it ) /* zzz : deprecate */
       {
         dst.scalarSet( it.indexNd, it.scalar );
       });
-
     }
     else
     {
-      let extract = it.src.extractNormalized();
+      let extract = it.src._exportNormalized();
       let newIteration = it.iterationNew();
       newIteration.select( 'buffer' );
       newIteration.src = extract.buffer;
@@ -396,11 +395,9 @@ function _longGet()
  * @example
  * var src = _.Matrix.Make( [ 2, 2 ] );
  * var dst = {};
- * _.Matrix.exportStructure( { src : src, dst : dst } );
+ * _.Matrix.ExportStructure( { src : src, dst : dst } );
  * console.log( dst );
  * // log : {
- * //   inputRowMajor: 1,
- * //   growingDimension: 1,
  * //   dims: [ 2, 2 ],
  * //   buffer: Float32Array [ 4, 5, 1, 2 ],
  * //   offset: 0,
@@ -410,7 +407,7 @@ function _longGet()
  * @param { MapLike } o - Options map.
  * @param { Matrix } o.src - Source matrix.
  * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
- * @param { String } o.format - Format of structure, it should have value 'object' to prevent exception.
+ * @param { String } o.how - Format of structure, it should have value 'object' to prevent exception.
  * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a MapLike.
@@ -428,13 +425,20 @@ function ExportStructure( o )
 
   o = _.routineOptions( ExportStructure, arguments );
 
-  _.assert( o.format === 'object' );
+  _.assert( _.longHas( [ 'object', 'structure' ], o.how ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( o.dst === null )
   {
-    o.dst = new this.Self( o.src );
-    return o.dst;
+    if( o.how === 'object' )
+    {
+      o.dst = new this.Self( o.src );
+      return o.dst;
+    }
+    else
+    {
+      o.dst = Object.create( null );
+    }
   }
 
   if( o.src === o.dst )
@@ -442,27 +446,30 @@ function ExportStructure( o )
 
   /* */
 
-  if( _global_.debugger )
-  debugger;
+  let dstIsInstance = o.dst instanceof Self;
 
-  if( _.longIs( o.src ) )
+  if( dstIsInstance )
   {
-    o.dst.copyFromBuffer( o.src );
-    return o.dst;
-  }
-  else if( _.vectorAdapterIs( o.src ) )
-  {
-    o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* Dmytro : temporary, needs analyze */
-    return o.dst;
-  }
-  else if( _.numberIs( o.src ) )
-  {
-    o.dst.copyFromScalar( o.src );
-    return o.dst;
+
+    if( _.longIs( o.src ) )
+    {
+      o.dst.copyFromBuffer( o.src );
+      return o.dst;
+    }
+    else if( _.vectorAdapterIs( o.src ) )
+    {
+      o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* xxx Dmytro : temporary, needs analyze */
+      return o.dst;
+    }
+    else if( _.numberIs( o.src ) )
+    {
+      o.dst.copyFromScalar( o.src );
+      return o.dst;
+    }
+
   }
 
   let srcIsInstance = o.src instanceof Self;
-  let dstIsInstance = o.dst instanceof Self;
 
   _.assert( _.mapIs( o.src ) || o.src instanceof Self );
 
@@ -474,11 +481,8 @@ function ExportStructure( o )
 
   if( dstIsInstance )
   {
-    // debugger;
     o.dst._changeBegin();
-    // o.dst[ stridesEffectiveSymbol ] = null;
-    // set( 'inputRowMajor' ); /* yyy */
-    set( 'growingDimension' );
+    // copy( 'growingDimension' );
 
     if( srcIsInstance )
     {
@@ -487,11 +491,12 @@ function ExportStructure( o )
 
       if( o.src.scalarsPerMatrix !== o.dst.scalarsPerMatrix )
       {
-        o.dst.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
-        o.dst.offset = 0;
-        o.dst.strides = null;
-        o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, 0 );
-        // o.dst[ stridesEffectiveSymbol ] = o.dst.StridesFromDimensions( o.src.dims, !!o.dst.inputRowMajor ); /* yyy */
+        o.dst._.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+        o.dst._.offset = 0;
+        o.dst._.strides = null;
+        o.dst._.occupiedRange = null;
+        o.dst._.dimsEffective = null;
+        o.dst._.stridesEffective = o.dst.StridesFromDimensions( o.src.dims, 0 );
       }
 
     }
@@ -501,38 +506,106 @@ function ExportStructure( o )
       if( _global_.debugger )
       debugger;
 
+      let buffer = o.src.buffer;
+      let offset = o.src.offset;
+      let strides = o.src.strides;
       let dimsWas = o.dst.dims;
-      if( o.src.buffer )
+      let dims = this.DimsDeduceFrom( o.src, dimsWas ? false : true );
+
+      if( buffer )
       {
-        _.assert( o.src.inputRowMajor !== undefined || !!o.src.dims, 'Expects either specified {- inputRowMajor -} or {- dims -} if {- buffer -} is specified' );
-        o.dst.strides = null;
-        o.dst.dims = null;
+
+        if
+        (
+             o.src.dims
+          || o.src.strides
+          || ( o.src.inputRowMajor !== null && o.src.inputRowMajor !== undefined )
+          || ( o.src.offset !== null && o.src.offset !== undefined )
+        )
+        {
+
+
+          // _.assert( o.src.inputRowMajor !== undefined || !!o.src.dims, 'Expects either specified {- inputRowMajor -} or {- dims -} if {- buffer -} is specified' ); // yyy
+          _.assert( o.src.inputRowMajor !== undefined || !!strides, 'Expects either specified {- inputRowMajor -} or {- strides -} if {- buffer -} is specified' );
+
+          o.dst._.offset = 0;
+          o.dst._.strides = null;
+          o.dst._.dims = null;
+          o.dst._.stridesEffective = null;
+          o.dst._.dimsEffective = null;
+
+        }
+
+        o.dst._.occupiedRange = null;
+
+        if( _.vectorAdapterIs( buffer ) )
+        {
+          if( strides )
+          strides = strides.slice();
+          else
+          strides = self.StridesFromDimensions( dims, o.src.inputRowMajor );
+
+          offset = offset || 0;
+
+          offset = buffer.offset + offset*buffer.stride;
+          for( let i = 0 ; i < strides.length ; i++ )
+          strides[ i ] *= buffer.stride;
+
+          buffer = buffer._vectorBuffer;
+        }
+
       }
 
-      set( 'buffer' );
-      set( 'offset' );
-      set( 'strides' );
+      set( 'buffer', buffer );
+      set( 'offset', offset );
+      set( 'strides', strides );
 
-      if( dimsWas )
+      // if( dimsWas )
+      // {
+      //   let dims = this.DimsDeduceFrom( o.src, false );
+      //   if( dims )
+      //   {
+      //     o.dst.dims = dims;
+      //   }
+      //   else
+      //   {
+      //     o.dst._dimsDeduceGrowing( dimsWas );
+      //   }
+      // }
+      // else
+      // {
+      //   o.dst.dims = this.DimsDeduceFrom( o.src, dimsWas );
+      //   if( !o.dst.dims && o.dst.buffer )
+      //   this._dimsDeduceGrowing( dimsWas );
+      // }
+
+      // if( dims )
+      // {
+      //   o.dst.dims = dims;
+      // }
+      // else
+      // {
+      //   // if( o.dst.buffer )
+      //   // o.dst._dimsDeduceGrowing( dimsWas );
+      //   if( dimsWas )
+      //   o.dst.dims = dimsWas;
+      // }
+
+      if( dims )
       {
-        let dims = this.DimsDeduceFrom( o.src, false );
-        if( !dims )
-        {
-          dims = o.dst._dimsDeduceGrowing( dimsWas );
-        }
-        else
-        {
-          o.dst.dims = dims;
-        }
-        o.dst[ stridesEffectiveSymbol ] = o.dst.StridesEffectiveFrom( o.dst.dims, o.dst.strides, o.src.inputRowMajor );
+        o.dst._.dims = dims;
+      }
+      else if( dimsWas )
+      {
+        o.dst._.dims = dimsWas;
       }
       else
       {
-        o.dst.dims = this.DimsDeduceFrom( o.src, dimsWas );
-        if( !o.dst.dims && o.dst.buffer )
-        this._dimsDeduceGrowing( dimsWas );
-        o.dst[ stridesEffectiveSymbol ] = o.dst.StridesEffectiveFrom( o.dst.dims, o.dst.strides, o.src.inputRowMajor );
+        o.dst._dimsDeduceInitial();
       }
+
+      if( !o.dst._.stridesEffective )
+      o.dst._.stridesEffective = o.dst.StridesEffectiveFrom( o.dst.dims, o.dst.strides, o.src.inputRowMajor );
 
     }
 
@@ -541,7 +614,7 @@ function ExportStructure( o )
 
     if( srcIsInstance )
     {
-      o.src.scalarEach( function( it )
+      o.src.scalarEach( function( it ) /* xxx */
       {
         o.dst.scalarSet( it.indexNd, it.scalar );
       });
@@ -551,20 +624,40 @@ function ExportStructure( o )
   else
   {
 
-    set( 'growingDimension' );
-    set( 'dims' );
+    /* xxx : implement method grow */
 
-    let extract = o.src.extractNormalized();
-    _.mapExtend( o.dst, extract );
+    // debugger;
+    // copy( 'growingDimension' );
+    copy( 'dims' );
+
+    // debugger;
+
+    if( o.bufferNormalizing )
+    {
+      let extract = o.src._exportNormalized();
+      _.mapExtend( o.dst, extract );
+    }
+    else
+    {
+      copy( 'buffer' );
+      o.dst.strides = o.src.stridesEffective || o.src.strides;
+      o.dst.offset = o.src.offset || 0;
+    }
 
   }
 
   return o.dst;
 
-  function set( key )
+  function copy( key )
   {
     if( o.src[ key ] !== null && o.src[ key ] !== undefined )
     o.dst[ key ] = o.src[ key ];
+  }
+
+  function set( key, val )
+  {
+    if( val !== null && val !== undefined )
+    o.dst._[ key ] = val;
   }
 
 }
@@ -573,7 +666,8 @@ ExportStructure.defaults =
 {
   src : null,
   dst : null,
-  format : 'object',
+  how : 'object',
+  bufferNormalizing : 1,
 }
 
 //
@@ -587,8 +681,6 @@ ExportStructure.defaults =
  * matrix.exportStructure( { dst : dst } );
  * console.log( dst );
  * // log : {
- * //   inputRowMajor: 1,
- * //   growingDimension: 1,
  * //   dims: [ 2, 2 ],
  * //   buffer: Float32Array [ 4, 5, 1, 2 ],
  * //   offset: 0,
@@ -597,7 +689,7 @@ ExportStructure.defaults =
  *
  * @param { MapLike } o - Options map.
  * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
- * @param { String } o.format - Format of structure, it should have value 'object' to prevent exception.
+ * @param { String } o.how - Format of structure, it should have value 'object' to prevent exception.
  * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
  * @method exportStructure
  * @throws { Error } If arguments are not provided.
@@ -624,6 +716,57 @@ exportStructure.defaults =
   ... _.mapBut( ExportStructure.defaults, [ 'src' ] ),
 }
 
+//
+
+/**
+ * Method _exportNormalized() extracts data from the Matrix instance and saves it in new map.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var extract = matrix._exportNormalized();
+ * console.log( extract );
+ * // log :
+ * // {
+ * //  buffer : [ 1, 2, 3, 4 ],
+ * //  offset : 0,
+ * //  strides : 1, 2,
+ * // }
+ *
+ * @returns { Map } - Returns map with matrix data.
+ * @method _exportNormalized
+ * @throws { Error } If arguments are passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+/* xxx : extractNormalized */
+function _exportNormalized()
+{
+  let self = this;
+  let result = Object.create( null );
+
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
+  result.buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
+  result.offset = 0;
+  result.strides = self.StridesFromDimensions( self.dims, 0 );
+
+  // result.inputRowMajor = 0;
+
+  self.scalarEach( function( it ) /* qqq : use maybe method */
+  {
+    let i = self._FlatScalarIndexFromIndexNd( it.indexNd, result.strides );
+    result.buffer[ i ] = it.scalar;
+  });
+
+  return result;
+}
+
 // //
 //
 // function _copy( src )
@@ -636,7 +779,7 @@ exportStructure.defaults =
 //   ({
 //     src : src,
 //     dst : self,
-//     format : 'object',
+//     how : 'object',
 //   });
 //   return self;
 //
@@ -681,7 +824,7 @@ function copy( src )
   ({
     src : src,
     dst : self,
-    format : 'object',
+    how : 'object',
   });
 
   return self;
@@ -810,8 +953,11 @@ function clone()
 
   let dst = _.Copyable.prototype.clone.call( self );
 
-  if( dst.buffer === self.buffer )
-  dst[ bufferSymbol ] = _.longSlice( dst.buffer );
+  // _.assert( dst.buffer === self.buffer ); // xxx
+
+  // xxx
+  // if( dst.buffer === self.buffer )
+  // dst[ bufferSymbol ] = _.longSlice( dst.buffer );
 
   return dst;
 }
@@ -906,55 +1052,6 @@ function CopyTo( dst, src )
 //
 
 /**
- * Method extractNormalized() extracts data from the Matrix instance and saves it in new map.
- *
- * @example
- * var matrix = _.Matrix.MakeSquare
- * ([
- *   1, 2,
- *   3, 4
- * ]);
- * var extract = matrix.extractNormalized();
- * console.log( extract );
- * // log :
- * // {
- * //  buffer : [ 1, 2, 3, 4 ],
- * //  offset : 0,
- * //  strides : 1, 2,
- * // }
- *
- * @returns { Map } - Returns map with matrix data.
- * @method extractNormalized
- * @throws { Error } If arguments are passed.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function extractNormalized()
-{
-  let self = this;
-  let result = Object.create( null );
-
-  _.assert( arguments.length === 0, 'Expects no arguments' );
-
-  result.buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
-  result.offset = 0;
-  result.strides = self.StridesFromDimensions( self.dims, 0 );
-  result.inputRowMajor = 0;
-
-  self.scalarEach( function( it )
-  {
-    let i = self._FlatScalarIndexFromIndexNd( it.indexNd, result.strides );
-    result.buffer[ i ] = it.scalar;
-  });
-
-  return result;
-}
-
-//
-
-/**
  * Method ExportString() converts source matrix to string.
  *
  * @example
@@ -972,7 +1069,7 @@ function extractNormalized()
  * @param { Map } o - Options map.
  * @param { Matrix } o.src - Source matrix.
  * @param { String } o.dst - Destination string, result of conversion appends to it.
- * @param { String } o.format - Returned format, should have value 'nice' to prevent exception.
+ * @param { String } o.how - Returned format, should have value 'nice' to prevent exception.
  * @param { String } o.tab - String inserted before each new line.
  * @param { String } o.dtab - String inserted before each new row.
  * @param { Number } o.precision -  Precision of scalar values.
@@ -995,7 +1092,7 @@ function ExportString( o )
 
   o = o || Object.create( null );
   _.routineOptions( ExportString, o );
-  _.assert( o.format === 'nice' );
+  _.assert( _.longHas( [ 'nice', 'geometry' ], o.how ) );
   _.assert( o.src instanceof this.Self );
   _.assert( _.strIs( o.dst ) );
   _.assert( _.strIs( o.tab ) );
@@ -1004,43 +1101,62 @@ function ExportString( o )
   let tab2 = o.tab + o.dtab;
   let scalarsPerRow = o.src.scalarsPerRow;
   let scalarsPerCol = o.src.scalarsPerCol;
+  let isInt;
 
-  let isInt = true;
-  o.src.scalarEach( function( it )
-  {
-    isInt = isInt && _.intIs( it.scalar );
-  });
-
-  if( o.src.dims.length === 2 )
-  {
-
-    matrixToStr();
-
-  }
-  else if( o.src.dims.length > 2 )
-  {
-
-    // let l = o.src.dims[ 2 ];
-    // for( let m = 0 ; m < l ; m += 1 )
-    // {
-    //   if( m > 0 )
-    //   o.dst += `\n`;
-    //   o.dst += `Matrix-${m}\n`;
-    //   matrixToStr( m );
-    // }
-
-    o.src.sliceEach( ( it ) =>
-    {
-      if( it.indexFlat > 0 )
-      o.dst += `\n`;
-      o.dst += `Matrix ${it.indexNd.join( ' ' )}\n`;
-      matrixToStr( it.indexNd );
-    });
-
-  }
-  else _.assert( 0, 'not implemented' );
+  if( o.how === 'nice' )
+  niceExport();
+  else if( o.how === 'geometry' )
+  geometryExport();
+  else _.assert( 0 );
 
   return o.dst;
+
+  /* */
+
+  function geometryExport()
+  {
+
+    o.dst += `\n${tab2}dims : ${_.toStr( o.src.dimsEffective || o.src.dims )}`;
+    o.dst += `\n${tab2}strides : ${_.toStr( o.src.stridesEffective || o.src.strides )}`;
+    if( o.src.occupiedRange )
+    o.dst += `\n${tab2}occupiedRange : ${_.toStr( o.src.occupiedRange )}`;
+    if( o.src.buffer )
+    o.dst += `\n${tab2}buffer.length : ${o.src.buffer.length}`;
+
+  }
+
+  /* */
+
+  function niceExport()
+  {
+
+    isInt = true;
+    o.src.scalarEach( function( it )
+    {
+      isInt = isInt && _.intIs( it.scalar );
+    });
+
+    if( o.src.dims.length === 2 )
+    {
+
+      matrixToStr();
+
+    }
+    else if( o.src.dims.length > 2 )
+    {
+
+      o.src.sliceEach( ( it ) =>
+      {
+        if( it.indexFlat > 0 )
+        o.dst += `\n`;
+        o.dst += `Matrix ${it.indexNd.join( ' ' )}\n`;
+        matrixToStr( it.indexNd );
+      });
+
+    }
+    else _.assert( 0, 'not implemented' );
+
+  }
 
   /* */
 
@@ -1115,13 +1231,208 @@ ExportString.defaults =
 {
   src : null,
   dst : '',
-  format : 'nice',
+  how : 'nice', /* [ 'nice', 'geometry', 'dims' ] */
   tab : '',
   dtab : '  ',
   scalarDelimeterStr : ' ',
   infinityStr : '...',
   precision : 3,
   usingSign : 1,
+}
+
+//
+
+function exportString( o )
+{
+  let self = this;
+  o = _.routineOptions( exportString, arguments );
+  o.src = self;
+  let result = self.ExportString( o );
+  return result;
+}
+
+exportString.defaults =
+{
+  ... _.mapBut( ExportString.defaults, [ 'src' ] )
+}
+
+//
+
+/**
+ * Method dimsExportString() converts dimensions values to string.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 4 ] );
+ * var got = matrix.dimsExportString( { dst : 'dims of matrix : ' } );
+ * console.log( got );
+ * // log : dims of matrix : 3x4
+ *
+ * @param { MapLike } o - Options map.
+ * @param { String } o.dst - Destination string, the result of conversion appends to it.
+ * @returns { String } - Returns value whether are dimensions of two matrices the same.
+ * @method dimsExportString
+ * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} has extra options.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function dimsExportString( o )
+{
+  let self = this;
+  o = _.routineOptions( dimsExportString, arguments );
+
+  o.dst += self.dims[ 0 ];
+
+  for( let i = 1 ; i < self.dims.length ; i++ )
+  o.dst += `x${self.dims[ i ]}`;
+
+  return o.dst;
+}
+
+dimsExportString.defaults =
+{
+  dst : '',
+}
+
+//
+
+/**
+ * Method bufferExport() copies content of the matrix to the buffer {-dst-}.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2,
+ *   3, 4
+ * ]);
+ * var dst = [ 0, 0, 0, 0 ];
+ * var got = matrix.bufferExport( dst );
+ * console.log( got );
+ * // log : [ 1, 2, 3, 4 ]
+ * console.log( got === dst );
+ * // log : true
+ *
+ * @param { Long } dst - Destination buffer.
+ * @returns { Long } - Returns destination buffer filled by values of matrix buffer.
+ * If {-dst-} is undefined, then method returns copy of matrix buffer.
+ * @method bufferExport
+ * @throws { Error } If arguments.length is more then one.
+ * @throws { Error } If {-dst-} is not a Long.
+ * @throws { Error } If number of elements in matrix is not equal to dst.length.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+/* qqq2 : good coverage is required */
+function bufferExport( o )
+{
+  let self = this;
+  let scalarsPerMatrix = self.scalarsPerMatrix;
+
+  if( !_.mapIs( o ) )
+  o = { buffer : o }
+
+  _.routineOptions( bufferExport, o );
+
+  if( o.restriding === null )
+  o.restriding = self.buffer.length >= scalarsPerMatrix*2;
+  if( o.dstObject === null )
+  o.dstObject = Object.create( null );
+
+  if( o.dstBuffer )
+  {
+
+    _.assert( !o.restriding, 'not tested' );
+    if( o.restriding )
+    self.scalarEach( function( it )
+    {
+      o.dstBuffer[ self.flatScalarIndexFrom( it.indexNd ) ] = it.scalar ;
+    });
+
+  }
+  else
+  {
+    if( o.asFloat ) /* qqq : cover please */
+    {
+      if( self.buffer instanceof F64x )
+      {
+        if( o.restriding )
+        o.dstBuffer = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
+        else
+        o.dstBuffer = self.long.longMake( self.buffer );
+      }
+      else
+      {
+        if( o.restriding )
+        o.dstBuffer = self.long.longMakeUndefined( F32x, scalarsPerMatrix );
+        else
+        o.dstBuffer = self.long.longMake( F32x, self.buffer );
+      }
+    }
+    else
+    {
+      if( o.restriding )
+      o.dstBuffer = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
+      else
+      o.dstBuffer = self.long.longMake( self.buffer );
+    }
+  }
+
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+  _.assert( _.longIs( o.dstBuffer ) );
+
+  if( o.restriding )
+  {
+    _.assert
+    (
+      scalarsPerMatrix === o.dstBuffer.length,
+      `Buffer for matrix ${self.dimsExportString()} should have ${scalarsPerMatrix} scalars, but got ${o.dstBuffer.length}`
+    );
+    self.scalarEach( function( it )
+    {
+      o.dstBuffer[ it.indexLogical ] = it.scalar;
+    });
+    if( o.dstObject )
+    {
+      o.dstObject.dims = self.dims;
+      o.dstObject.strides = self.StridesFromDimensions( self.dims, false );
+      o.dstObject.offset = 0;
+      o.dstObject.buffer = o.dstBuffer;
+    }
+  }
+  else
+  {
+    let occupiedRange = self.occupiedRange;
+    _.assert
+    (
+         0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < o.dstBuffer.length
+      && 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= o.dstBuffer.length
+      , () => 'Bad buffer for such dimensions and stride', self.exportString({ how : 'geometry' })
+    );
+    if( o.dstObject )
+    {
+      o.dstObject.dims = self.dims;
+      o.dstObject.strides = self.strides || self.stridesEffective;
+      o.dstObject.offset = self.offset;
+      o.dstObject.buffer = o.dstBuffer;
+    }
+  }
+
+  if( o.dstObject )
+  return o.dstObject;
+  else
+  return o.dstBuffer;
+}
+
+bufferExport.defaults =
+{
+  dstBuffer : null,
+  dstObject : 0,
+  restriding : 1, /* xxx : set to 0 */
+  asFloat : 0,
 }
 
 //
@@ -1324,22 +1635,17 @@ toStr.defaults.__proto__ = _.toStr.defaults;
  * @module Tools/math/Matrix
  */
 
-function toLong() /* qqq : cover and jsdoc */ /* Dmytro : documented */
+function toLong( o )
 {
   let self = this;
-  // let strides = self.stridesEffective.slice();
-  // let dims = self.dimsEffective.slice();
-  //
-  // let result = _.longMake( self.buffer, self.scalarsPerMatrix );
-  //
-  // self.scalarEach( ( it ) =>
-  // {
-  //   result[ it.indexLogical ] = it.scalar;
-  // });
-
-  let result = self.bufferCopyTo( null );
-
+  o = _.routineOptions( toLong, o );
+  let result = self.bufferExport({ restriding : o.restriding });
   return result;
+}
+
+toLong.defaults =
+{
+  restriding : 1,
 }
 
 // --
@@ -1804,7 +2110,7 @@ function StridesEffectiveFrom( dims, strides, inputRowMajor )
 //
 
 /**
- * Static routine StridesFromDimensions() calculates strides for each dimension taking into account transposing value.
+ * Static routine StridesFromDimensions() calculates strides for each dimension taking into account rowMajor value.
  *
  * @example
  * var strides = _.Matrix.StridesFromDimensions( [ 2, 2 ], true );
@@ -1812,11 +2118,11 @@ function StridesEffectiveFrom( dims, strides, inputRowMajor )
  * // log : [ 2, 1 ]
  *
  * @param { Array } dims - Dimensions of a matrix.
- * @param { BoolLike } transposing - Options defines transposing of the matrix.
+ * @param { BoolLike } rowMajor - Options defines rowMajor of the matrix.
  * @returns { Array } - Returns strides for each dimension of the matrix.
  * @throws { Error } If arguments.length is not equal to two.
  * @throws { Error } If {-dims-} is not an Array.
- * @throws { Error } If {-transposing-} is not BoolLike.
+ * @throws { Error } If {-rowMajor-} is not BoolLike.
  * @throws { Error } If elements of {-dims-} is negative number.
  * @static
  * @function StridesFromDimensions
@@ -1825,18 +2131,18 @@ function StridesEffectiveFrom( dims, strides, inputRowMajor )
  * @module Tools/math/Matrix
  */
 
-function StridesFromDimensions( dims, transposing )
+function StridesFromDimensions( dims, rowMajor )
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.arrayIs( dims ) );
-  _.assert( _.boolLike( transposing ) );
+  _.assert( _.arrayIs( dims ), 'Expects dims' );
+  _.assert( _.boolLike( rowMajor ) );
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
 
   let strides = dims.slice();
 
-  if( transposing )
+  if( rowMajor )
   {
     let ex = strides[ 1 ];
     strides[ 1 ] = strides[ 0 ];
@@ -1852,7 +2158,7 @@ function StridesFromDimensions( dims, transposing )
     current = strides[ i ] = current * normalize( strides[ i ] );
   }
 
-  if( transposing )
+  if( rowMajor )
   {
     let ex = strides[ 1 ];
     strides[ 1 ] = strides[ 0 ];
@@ -1873,7 +2179,7 @@ function StridesFromDimensions( dims, transposing )
   function strideGet( i )
   {
 
-    if( transposing )
+    if( rowMajor )
     if( i === 0 )
     i = 1;
     else if( i === 1 )
@@ -1996,28 +2302,14 @@ function bufferSet( src )
 
   _.assert( _.longIs( src ) || src === null );
 
-  // debugger;
   self._.buffer = src;
-  // debugger;
 
   if( !self._changing[ 0 ] )
   {
     self._.offset = 0;
     self._.stridesEffective = null;
-    // debugger;
-    // self._.dims = null;
-    // debugger;
-    self._.dims = self._dimsDeduceGrowing( self._.dims );
+    // self._.dims = self._dimsDeduceGrowing( self._.dims ); // yyy
   }
-
-  // self[ bufferSymbol ] = src;
-  //
-  // if( !self._changing[ 0 ] )
-  // {
-  //   self[ offsetSymbol ] = 0; /* yyy */
-  //   self[ dimsSymbol ] = null;
-  //   self[ stridesEffectiveSymbol ] = null; /* yyy */
-  // }
 
   self._sizeChanged();
 }
@@ -2061,56 +2353,6 @@ function _bufferAssign( src )
 
   self._changeEnd();
   return self;
-}
-
-//
-
-/**
- * Method bufferCopyTo() copies content of the matrix to the buffer {-dst-}.
- *
- * @example
- * var matrix = _.Matrix.MakeSquare
- * ([
- *   1, 2,
- *   3, 4
- * ]);
- * var dst = [ 0, 0, 0, 0 ];
- * var got = matrix.bufferCopyTo( dst );
- * console.log( got );
- * // log : [ 1, 2, 3, 4 ]
- * console.log( got === dst );
- * // log : true
- *
- * @param { Long } dst - Destination buffer.
- * @returns { Long } - Returns destination buffer filled by values of matrix buffer.
- * If {-dst-} is undefined, then method returns copy of matrix buffer.
- * @method bufferCopyTo
- * @throws { Error } If arguments.length is more then one.
- * @throws { Error } If {-dst-} is not a Long.
- * @throws { Error } If number of elements in matrix is not equal to dst.length.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function bufferCopyTo( dst )
-{
-  let self = this;
-  let scalarsPerMatrix = self.scalarsPerMatrix;
-
-  if( !dst )
-  dst = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
-
-  _.assert( arguments.length === 0 || arguments.length === 1 );
-  _.assert( _.longIs( dst ) );
-  _.assert( scalarsPerMatrix === dst.length, `Matrix ${self.dimsExportString()} should have ${scalarsPerMatrix} scalars, but got ${dst.length}` );
-
-  self.scalarEach( function( it )
-  {
-    dst[ it.indexLogical ] = it.scalar;
-  });
-
-  return dst;
 }
 
 //
@@ -2236,7 +2478,8 @@ function _adjustAct()
 
   if( !self.dims )
   {
-    self._dimsDeduceGrowing();
+    // self._dimsDeduceGrowing(); // yyy
+    self._dimsDeduceInitial();
   }
 
   _.assert( _.arrayIs( self.dims ) );
@@ -2247,7 +2490,7 @@ function _adjustAct()
     self.buffer = self.long.longMake( lengthFlat );
   }
 
-  self[ dimsEffectiveSymbol ] = self.DimsEffectiveFrom( self.dims );
+  self[ dimsEffectiveSymbol ] = self.DimsEffectiveFrom( self.dims ); /* xxx : replace */
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
 
   self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
@@ -2259,7 +2502,6 @@ function _adjustAct()
   self[ scalarsPerElementSymbol ] = _.avector.reduceToProduct( self.DimsNormalize( self.dims.slice( 0, self.dims.length-1 ) ) );
   else
   self[ scalarsPerElementSymbol ] = self.scalarsPerMatrix / lastDim;
-
 
   /* strides */
 
@@ -2273,12 +2515,16 @@ function _adjustAct()
   /* buffer region */
 
   let occupiedRange = self.OccupiedRangeFrom( self.dims, self.stridesEffective, self.offset );
-  self[ occupiedRangeSymbol ] = occupiedRange;
+  self._.occupiedRange = occupiedRange;
   if( self.scalarsPerMatrix )
   if( self.buffer.length )
   {
-    _.assert( 0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length, 'Bad buffer for such dimensions and stride' );
-    _.assert( 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length, 'Bad buffer for such dimensions and stride' ); /* qqq : improve error message */
+    _.assert
+    (
+         0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < self.buffer.length
+      && 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= self.buffer.length
+      , () => 'Bad buffer for such dimensions and stride', self.exportString({ how : 'geometry' })
+    );
   }
 
   /* done */
@@ -2334,7 +2580,14 @@ function _adjustValidate()
 
   if( self.scalarsPerMatrix > 0 && _.numberIsFinite( self.length ) )
   for( let d = 0 ; d < self.dimsEffective.length ; d++ )
-  _.assert( self.offset + ( self.dimsEffective[ d ]-1 )*self.stridesEffective[ d ] <= self.buffer.length, 'out of bound' );
+  _.assert
+  (
+    self.offset + ( self.dimsEffective[ d ]-1 )*self.stridesEffective[ d ] <= self.buffer.length
+    , () => 'Out of bound' + self.exportString({ how : 'geometry' })  /* xxx */
+    // , `\n  offset : ${self.offset}`
+    // , `\n  dims : ${_.toStr( self.dimsEffective )}`
+    // , `\n  strides : ${_.toStr( self.stridesEffective )}`
+  );
 
 }
 
@@ -2450,52 +2703,100 @@ function DimsNormalize( dims )
   return dims;
 }
 
+// //
+//
+// function _dimsDeduceGrowing( dimsWas )
+// {
+//   let self = this;
+//
+//   _.assert( arguments.length === 0 || arguments.length === 1 );
+//
+//   if( dimsWas )
+//   {
+//     _.assert( _.longIs( self.buffer ) );
+//     _.assert( self.offset >= 0 );
+//
+//     let dims = dimsWas.slice();
+//     dims[ self.growingDimension ] = 1;
+//     let ape = _.avector.reduceToProduct( dims );
+//     let l = ( self.buffer.length - self.offset ) / ape;
+//     dims[ self.growingDimension ] = l;
+//     self[ dimsSymbol ] = dims;
+//
+//     _.assert( l >= 0 );
+//     _.assert( _.intIs( l ) );
+//
+//     return dims;
+//   }
+//   else if( self.strides )
+//   {
+//     _.assert( 0, 'Cant deduce dimensions from only strides' );
+//   }
+//   else
+//   {
+//     _.assert( _.longIs( self.buffer ), 'Expects buffer' );
+//     if( self.buffer.length - self.offset > 0 )
+//     {
+//       self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
+//       if( !self.stridesEffective )
+//       self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
+//     }
+//     else
+//     {
+//       self[ dimsSymbol ] = [ 1, 0 ];
+//       if( !self.stridesEffective )
+//       self[ stridesEffectiveSymbol ] = [ 1, 1 ];
+//     }
+//     return self[ dimsSymbol ];
+//   }
+//
+// }
 //
 
-function _dimsDeduceGrowing( dimsWas )
+function _dimsDeduceInitial()
 {
   let self = this;
 
-  _.assert( arguments.length === 0 || arguments.length === 1 );
+  _.assert( arguments.length === 0 ); debugger; /* xxx */
 
-  if( dimsWas )
-  {
-    _.assert( _.longIs( self.buffer ) );
-    _.assert( self.offset >= 0 );
-
-    let dims = dimsWas.slice();
-    dims[ self.growingDimension ] = 1;
-    let ape = _.avector.reduceToProduct( dims );
-    let l = ( self.buffer.length - self.offset ) / ape;
-    dims[ self.growingDimension ] = l;
-    self[ dimsSymbol ] = dims;
-
-    _.assert( l >= 0 );
-    _.assert( _.intIs( l ) );
-
-    return dims;
-  }
-  else if( self.strides )
-  {
-    _.assert( 0, 'Cant deduce dimensions from only strides' );
-  }
-  else
-  {
+  // if( dimsWas )
+  // {
+  //   _.assert( _.longIs( self.buffer ) );
+  //   _.assert( self.offset >= 0 );
+  //
+  //   let dims = dimsWas.slice();
+  //   dims[ self.growingDimension ] = 1;
+  //   let ape = _.avector.reduceToProduct( dims );
+  //   let l = ( self.buffer.length - self.offset ) / ape;
+  //   dims[ self.growingDimension ] = l;
+  //   self[ dimsSymbol ] = dims;
+  //
+  //   _.assert( l >= 0 );
+  //   _.assert( _.intIs( l ) );
+  //
+  //   return dims;
+  // }
+  // else if( self.strides )
+  // {
+  //   _.assert( 0, 'Cant deduce dimensions from only strides' );
+  // }
+  // else
+  // {
     _.assert( _.longIs( self.buffer ), 'Expects buffer' );
     if( self.buffer.length - self.offset > 0 )
     {
-      self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
+      self._.dims = [ self.buffer.length - self.offset, 1 ];
       if( !self.stridesEffective )
-      self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
+      self._.stridesEffective = [ 1, self.buffer.length - self.offset ];
     }
     else
     {
-      self[ dimsSymbol ] = [ 1, 0 ];
+      self._.dims = [ 1, 0 ];
       if( !self.stridesEffective )
-      self[ stridesEffectiveSymbol ] = [ 1, 1 ];
+      self._.stridesEffective = [ 1, 1 ];
     }
     return self[ dimsSymbol ];
-  }
+  // }
 
 }
 
@@ -2526,28 +2827,89 @@ function DimsDeduceFrom( src, fallbackDims )
   {
     dim0 = src.scalarsPerElement;
   }
+  else if( src.ncol !== undefined && src.ncol !== null )
+  {
+    dim0 = src.ncol;
+  }
 
   if( src.scalarsPerRow !== undefined && src.scalarsPerRow !== null )
   {
-    dim1 = src.scalarsPerRow;
+    dim1 = src.scalarsPerRow; debugger;
+  }
+  else if( src.nrow !== undefined && src.nrow !== null )
+  {
+    dim1 = src.nrow;
   }
 
-  if( src.buffer )
-  if( dim0 == undefined )
-  {
-    if( src.strides )
-    dim0 = Math.floor( ( src.buffer.length - offset ) / src.strides[ 0 ] );
-    else if( dim1 !== undefined )
-    dim0 = Math.floor( ( src.buffer.length - offset ) / dim1 );
-  }
+/* example :
+
+                ____        ____        _____
+  buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+  offset : 1
+  dims : [ 3, 2 ]
+  strides : [ 4, 1 ]
+  m :
+  [
+    1 2
+    5 6
+    9 10
+  ]
+
+*/
+
+  // if( _global_.debugger )
+  // debugger;
 
   if( src.buffer )
-  if( dim1 == undefined )
   {
-    if( src.strides )
-    dim1 = Math.floor( ( src.buffer.length - offset ) / src.strides[ 1 ] );
-    else if( dim0 !== undefined )
-    dim1 = Math.floor( ( src.buffer.length - offset ) / dim0 );
+
+    if( fallbackDims )
+    if( dim0 === undefined && dim1 === undefined && src.strides )
+    {
+      if( src.strides[ 0 ] > src.strides[ 1 ] )
+      {
+        dim0 = Math.floor( ( src.buffer.length - offset ) / src.strides[ 0 ] );
+      }
+      else
+      {
+        dim1 = Math.floor( ( src.buffer.length - offset ) / src.strides[ 1 ] );
+      }
+    }
+
+    if( dim0 === undefined && dim1 !== undefined )
+    {
+      let stride;
+      let l = src.buffer.length - offset;
+      if( src.strides && src.strides[ 0 ] >= src.strides[ 1 ] )
+      {
+        stride = src.strides[ 0 ];
+        if( dim1 !== undefined && dim1 < src.strides[ 0 ] )
+        l += src.strides[ 0 ] - dim1;
+      }
+      else
+      {
+        stride = dim1;
+      }
+      dim0 = Math.floor( l / stride );
+    }
+
+    if( dim1 === undefined && dim0 !== undefined )
+    {
+      let stride;
+      let l = src.buffer.length - offset;
+      if( src.strides && src.strides[ 1 ] >= src.strides[ 0 ] )
+      {
+        stride = src.strides[ 1 ];
+        if( dim0 !== undefined && dim0 < src.strides[ 1 ] )
+        l += src.strides[ 1 ] - dim0;
+      }
+      else
+      {
+        stride = dim0;
+      }
+      dim1 = Math.floor( l / stride );
+    }
+
   }
 
   if( dim0 === undefined || dim1 === undefined )
@@ -2743,46 +3105,6 @@ function hasShape( src )
   return _.longIdentical( self.dimsEffective, src ); /* qqq : add test routine to explain */
 }
 
-//
-
-/**
- * Method dimsExportString() converts dimensions values to string.
- *
- * @example
- * var matrix = _.Matrix.Make( [ 3, 4 ] );
- * var got = matrix.dimsExportString( { dst : 'dims of matrix : ' } );
- * console.log( got );
- * // log : dims of matrix : 3x4
- *
- * @param { MapLike } o - Options map.
- * @param { String } o.dst - Destination string, the result of conversion appends to it.
- * @returns { String } - Returns value whether are dimensions of two matrices the same.
- * @method dimsExportString
- * @throws { Error } If {-o-} is not a MapLike.
- * @throws { Error } If {-o-} has extra options.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function dimsExportString( o )
-{
-  let self = this;
-  o = _.routineOptions( dimsExportString, arguments );
-
-  o.dst += self.dims[ 0 ];
-
-  for( let i = 1 ; i < self.dims.length ; i++ )
-  o.dst += `x${self.dims[ i ]}`;
-
-  return o.dst;
-}
-
-dimsExportString.defaults =
-{
-  dst : '',
-}
-
 // --
 // relations
 // --
@@ -2806,7 +3128,7 @@ let Composes =
 {
 
   dims : null,
-  growingDimension : 1,
+  // growingDimension : 1,
 
 }
 
@@ -2814,13 +3136,13 @@ let Composes =
 
 let Aggregates =
 {
-  buffer : null,
 }
 
 //
 
 let Associates =
 {
+  buffer : null,
 }
 
 //
@@ -2829,7 +3151,7 @@ let Restricts =
 {
 
   // _dimsWas : null,
-  _changing : [ 1 ],
+  _changing : [ 1 ], // xxx : remove
 
 }
 
@@ -2843,6 +3165,8 @@ let Medials =
   scalarsPerElement : null,
   scalarsPerCol : null,
   scalarsPerRow : null,
+  ncol : null,
+  nrow : null,
   inputRowMajor : null,
 
 }
@@ -2903,8 +3227,16 @@ let Forbids =
   inputTransposing : 'inputTransposing',
   breadth : 'breadth',
   _dimsWas : '_dimsWas',
+  ncols : 'ncols',
+  nrows : 'nrows',
+  growingDimension : 'growingDimension',
 
 }
+
+/*
+xxx : implement fast vad iterator
+xxx : optimize scalar iteration
+*/
 
 //
 
@@ -2986,6 +3318,7 @@ let Extension =
 
   ExportStructure,
   exportStructure,
+  _exportNormalized,
   copy,
 
   copyFromScalar,
@@ -2993,8 +3326,11 @@ let Extension =
   clone,
 
   CopyTo,
-  extractNormalized,
   ExportString,
+  exportString,
+  dimsExportString,
+  bufferExport, /* qqq : cover */
+
   toStr,
   toLong,
 
@@ -3059,7 +3395,6 @@ let Extension =
   offsetSet, /* cached */
 
   _bufferAssign,
-  bufferCopyTo, /* qqq : cover */
 
   bufferNormalize,
 
@@ -3081,14 +3416,14 @@ let Extension =
   _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
   DimsNormalize,
-  _dimsDeduceGrowing,
+  // _dimsDeduceGrowing,
+  _dimsDeduceInitial,
   DimsDeduceFrom,
   LengthFrom,
   OccupiedRangeFrom,
 
   ShapesAreSame,
   hasShape,
-  dimsExportString,
 
   // relations
 

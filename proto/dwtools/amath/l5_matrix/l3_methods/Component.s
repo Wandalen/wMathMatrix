@@ -157,6 +157,21 @@ function scalarSet( index, value )
 
 //
 
+function scalarHas( index )
+{
+  let self = this;
+  let dims = self.dims;
+  _.assert( index.length <= dims.length );
+  for( let i = 0 ; i < index.length ; i++ )
+  {
+    if( !( 0 <= index[ i ] && index[ i ] < dims[ i ] ) )
+    return false;
+  }
+  return true;
+}
+
+//
+
 /**
  * Method scalarsGet() returns vector of elements with length defined by delta between {-range-} elements.
  *
@@ -985,6 +1000,7 @@ let Extension =
   scalarFlatSet,
   scalarGet,
   scalarSet,
+  scalarHas, /* qqq : document and test, please */
   scalarsGet,
   asVector,
 
