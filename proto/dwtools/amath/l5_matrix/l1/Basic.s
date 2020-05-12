@@ -524,7 +524,6 @@ function ExportStructure( o )
         )
         {
 
-
           // _.assert( o.src.inputRowMajor !== undefined || !!o.src.dims, 'Expects either specified {- inputRowMajor -} or {- dims -} if {- buffer -} is specified' ); // yyy
           _.assert( o.src.inputRowMajor !== undefined || !!strides, 'Expects either specified {- inputRowMajor -} or {- strides -} if {- buffer -} is specified' );
 
@@ -1433,7 +1432,7 @@ bufferExport.defaults =
 {
   dstBuffer : null,
   dstObject : 0,
-  restriding : 1, /* xxx : set to 0 */
+  restriding : 1, /* xxx : set to null */
   asFloat : 0,
 }
 
@@ -2927,16 +2926,22 @@ function DimsDeduceFrom( src, fallbackDims )
       dim0 = fallbackDims[ 0 ];
       dim1 = fallbackDims[ 1 ];
     }
-    else if( src.buffer && src.inputRowMajor )
+    else
     {
       dim0 = src.buffer.length;
       dim1 = 1;
     }
-    else
-    {
-      dim0 = 1;
-      dim1 = src.buffer.length;
-    }
+    // yyy
+    // else if( src.buffer && src.inputRowMajor )
+    // {
+    //   dim0 = src.buffer.length;
+    //   dim1 = 1;
+    // }
+    // else
+    // {
+    //   dim0 = 1;
+    //   dim1 = src.buffer.length;
+    // }
 
   }
 
