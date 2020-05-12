@@ -1092,7 +1092,6 @@ function ExportString( o )
   o = o || Object.create( null );
   _.routineOptions( ExportString, o );
   _.assert( _.longHas( [ 'nice', 'geometry' ], o.how ) );
-  _.assert( o.src instanceof this.Self );
   _.assert( _.strIs( o.dst ) );
   _.assert( _.strIs( o.tab ) );
   _.assert( _.strIs( o.dtab ) );
@@ -1128,6 +1127,8 @@ function ExportString( o )
 
   function niceExport()
   {
+
+    _.assert( o.src instanceof this.Self );
 
     isInt = true;
     o.src.scalarEach( function( it )
@@ -1405,12 +1406,28 @@ function bufferExport( o )
   else
   {
     let occupiedRange = self.occupiedRange;
+    let src =
+    {
+      strides : self.stridesEffective,
+      dims : self.dims,
+      occupiedRange : occupiedRange,
+      buffer : o.dstBuffer,
+    }
     _.assert
     (
          0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < o.dstBuffer.length
       && 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= o.dstBuffer.length
-      , () => 'Bad buffer for such dimensions and stride', self.exportString({ how : 'geometry' })
+      , () => 'Bad buffer for such dimensions and stride', self.ExportString({ how : 'geometry', src }) /* xxx : rewrite */
     );
+
+    // o.dst += `\n${tab2}dims : ${_.toStr( o.src.dimsEffective || o.src.dims )}`;
+    // o.dst += `\n${tab2}strides : ${_.toStr( o.src.stridesEffective || o.src.strides )}`;
+    // if( o.src.occupiedRange )
+    // o.dst += `\n${tab2}occupiedRange : ${_.toStr( o.src.occupiedRange )}`;
+    // if( o.src.buffer )
+    // o.dst += `\n${tab2}buffer.length : ${o.src.buffer.length}`;
+
+
     if( o.dstObject )
     {
       o.dstObject.dims = self.dims;

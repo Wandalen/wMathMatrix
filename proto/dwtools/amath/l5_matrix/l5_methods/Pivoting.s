@@ -230,21 +230,23 @@ function VectorPivotBackward( vector, pivot )
 //
 
 // function _pivotRook( i, o )
-function _pivotRook( o ) /* qqq2 : cover pelase */
+function _PivotRook( o ) /* qqq2 : cover pelase */
 {
-  let self = this;
+  let proto = Self;
+  // let self = this;
 
   // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( arguments.length === 1 );
   _.assert( o.pivots );
   _.assert( o.lineIndex >= 0 );
-  _.routineOptions( _pivotRook, o );
+  _.assertMapHasAll( o, _PivotRook.defaults );
+  _.assertMapHasOnly( o, _PivotRook.defaults );
 
-  let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
-  let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
+  let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
+  let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
   let value = row1.eGet( 0 );
-  let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
-  let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
+  let maxr = o.m.vectorAdapter.reduceToMaxAbs( row1 );
+  let maxc = o.m.vectorAdapter.reduceToMaxAbs( col1 );
 
   if( maxr.value > maxc.value )
   {
@@ -257,7 +259,7 @@ function _pivotRook( o ) /* qqq2 : cover pelase */
     if( o.lineIndex === i2 )
     return false;
     _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
-    self.colsSwap( o.lineIndex, i2 );
+    o.m.colsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nColPermutations += 1;
   }
@@ -269,7 +271,7 @@ function _pivotRook( o ) /* qqq2 : cover pelase */
     if( o.lineIndex === i2 )
     return false;
     _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
-    self.rowsSwap( o.lineIndex, i2 );
+    o.m.rowsSwap( o.lineIndex, i2 );
     if( o.y )
     o.y.rowsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
@@ -279,14 +281,74 @@ function _pivotRook( o ) /* qqq2 : cover pelase */
   return true;
 }
 
-_pivotRook.defaults =
+_PivotRook.defaults =
 {
+  m : null,
   y : null,
   pivots : null,
   lineIndex : null,
   npermutations : 0,
   nRowPermutations : 0,
   nColPermutations : 0,
+}
+
+//
+
+// function _pivotRook( i, o )
+function _pivotRook( o )
+{
+  let self = this;
+  o.m = self;
+  return self._PivotRook( o );
+
+  // // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  // _.assert( arguments.length === 1 );
+  // _.assert( o.pivots );
+  // _.assert( o.lineIndex >= 0 );
+  // _.routineOptions( _pivotRook, o );
+  //
+  // let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
+  // let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
+  // let value = row1.eGet( 0 );
+  // let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
+  // let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
+  //
+  // if( maxr.value > maxc.value )
+  // {
+  //   // if( maxr.value === value )
+  //   // {
+  //   //   debugger;
+  //   //   return false;
+  //   // }
+  //   let i2 = maxr.index + o.lineIndex;
+  //   if( o.lineIndex === i2 )
+  //   return false;
+  //   _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
+  //   self.colsSwap( o.lineIndex, i2 );
+  //   o.npermutations += 1;
+  //   o.nColPermutations += 1;
+  // }
+  // else
+  // {
+  //   // if( maxc.value === value )
+  //   // return false;
+  //   let i2 = maxc.index + o.lineIndex;
+  //   if( o.lineIndex === i2 )
+  //   return false;
+  //   _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
+  //   self.rowsSwap( o.lineIndex, i2 );
+  //   if( o.y )
+  //   o.y.rowsSwap( o.lineIndex, i2 );
+  //   o.npermutations += 1;
+  //   o.nRowPermutations += 1;
+  // }
+  //
+  // return true;
+}
+
+_pivotRook.defaults =
+{
+  ... _.mapBut( _PivotRook.defaults, [ 'm' ] ),
 }
 
 // --
@@ -301,6 +363,7 @@ let Statics =
   _vectorPivotDimension,
   VectorPivotForward,
   VectorPivotBackward,
+  _PivotRook,
 
 }
 
@@ -321,6 +384,7 @@ let Extension =
   VectorPivotForward,
   VectorPivotBackward,
 
+  _PivotRook,
   _pivotRook,
 
   //

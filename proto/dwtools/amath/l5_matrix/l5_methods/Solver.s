@@ -47,7 +47,10 @@ function _triangulateGausian( o )
 
   let popts;
   if( o.onPivot )
-  popts = _.mapOnly( o, o.onPivot.defaults );
+  {
+    popts = _.mapOnly( o, o.onPivot.defaults );
+    popts.m = self;
+  }
 
   /* */
 
@@ -58,7 +61,7 @@ function _triangulateGausian( o )
     if( o.onPivot )
     {
       popts.lineIndex = r1;
-      o.onPivot.call( self, popts );
+      o.onPivot( popts );
     }
 
     let row1 = self.rowGet( r1 );
@@ -90,7 +93,7 @@ function _triangulateGausian( o )
     if( o.onPivot )
     {
       popts.lineIndex = r1;
-      o.onPivot.call( self, popts );
+      o.onPivot( popts );
     }
 
     let row1 = self.rowGet( r1 );
@@ -251,7 +254,8 @@ function triangulateGausianPivoting( y )
   let self = this;
   let o = Object.create( null );
   o.y = y;
-  o.onPivot = self._pivotRook;
+  o.onPivot = self._PivotRook;
+  _.assert( _.routineIs( o.onPivot ) );
   return self._triangulateGausian( o );
 }
 
@@ -624,7 +628,21 @@ function _SolveWithGaussJordan( o )
 
   let popts;
   if( o.onPivot )
-  popts = _.mapOnly( o, o.onPivot.defaults );
+  {
+    popts = _.mapOnly( o, o.onPivot.defaults );
+
+    // xxx
+    // popts.
+    //
+    // m : null,
+    // y : null,
+    // pivots : null,
+    // lineIndex : null,
+    // npermutations : 0,
+    // nRowPermutations : 0,
+    // nColPermutations : 0,
+
+  }
 
   /* */
 
@@ -646,7 +664,7 @@ function _SolveWithGaussJordan( o )
     if( o.onPivot )
     {
       popts.lineIndex = r1;
-      o.onPivot.call( o.m, popts );
+      o.onPivot( popts );
     }
 
     let row1 = o.m.rowGet( r1 );
@@ -680,8 +698,10 @@ function _SolveWithGaussJordan( o )
 
   /* */
 
+  debugger;
   if( o.onPivot && o.pivotingBackward )
   {
+    debugger;
     Self.VectorPivotBackward( o.x, o.pivots[ 1 ] );
     /*o.m.pivotBackward( o.pivots );*/
   }
@@ -759,7 +779,7 @@ function SolveWithGaussJordan()
 function SolveWithGaussJordanPivoting()
 {
   let o = this._Solve_pre( arguments );
-  o.onPivot = this._pivotRook;
+  o.onPivot = this._PivotRook;
   o.pivotingBackward = 1;
   return this._SolveWithGaussJordan( o );
 }
@@ -1303,7 +1323,7 @@ function SolveGeneral( o )
   if( o.pivoting )
   {
     optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
-    optionsForMethod.onPivot = this._pivotRook;
+    optionsForMethod.onPivot = this._PivotRook;
     optionsForMethod.pivotingBackward = 0;
     o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }

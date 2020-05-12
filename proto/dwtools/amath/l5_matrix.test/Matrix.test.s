@@ -23152,44 +23152,61 @@ SolveSimple.accuracy = _.accuracy*1e+1;
 
 //
 
-function _SolveComplicated( test, rname )
+function SolveComplicated( test )
 {
 
-  test.case = rname + ' . y array . Solve 3x3 system1'; //
+  var m = _.Matrix
+  ({
+    buffer : [ 1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+  });
+  var buffer = [ 0, 0, 0, 0 ];
+  var got = m.bufferExport( { dstBuffer : buffer, restriding : null });
 
-  var m = _.Matrix.MakeSquare
-  ([
-    +4, +2, +4,
-    +4, +2, +2,
-    +2, +2, +2,
-  ]);
+  logger.log( m.toStr() );
+  logger.log( got );
 
-  var om = m.clone();
-  var y = [ 1, 2, 3 ];
-  var oy = y.slice();
-  var x = _.Matrix[ rname ]( null, m, y );
+  debugger; return; xxx
 
-  logger.log( 'm', m );
-  logger.log( 'x', x );
+  // _SolveComplicated( 'Solve' );
+  // _SolveComplicated( 'SolveWithGausianPivoting' );
+  _SolveComplicated( 'SolveWithGaussJordanPivoting' );
+  // _SolveComplicated( 'SolveWithTrianglesPivoting' );
+  // xxx
 
-  test.is( x !== y );
-  test.identical( x, [ -0.5, +2.5, -0.5 ] );
-  test.identical( y, oy );
+  function _SolveComplicated( rname )
+  {
 
-  var y2 = _.Matrix.Mul( null, [ om, x ] );
-  test.identical( y2, y );
+    /* */
 
-}
+    test.case = rname + ' . y array . Solve 3x3 system1';
 
-//
+    var m = _.Matrix.MakeSquare
+    ([
+      +4, +2, +4,
+      +4, +2, +2,
+      +2, +2, +2,
+    ]);
 
-function SolveComplicated( test, rname )
-{
+    var om = m.clone();
+    var y = [ 1, 2, 3 ];
+    var oy = y.slice();
+    var x = _.Matrix[ rname ]( null, m, y );
 
-  this._SolveComplicated( test, 'Solve' );
-  this._SolveComplicated( test, 'SolveWithGausianPivoting' );
-  this._SolveComplicated( test, 'SolveWithGaussJordanPivoting' );
-  this._SolveComplicated( test, 'SolveWithTrianglesPivoting' );
+    logger.log( 'm', m );
+    logger.log( 'x', x );
+
+    test.is( x !== y );
+    test.identical( x, [ -0.5, +2.5, -0.5 ] );
+    test.identical( y, oy );
+
+    var y2 = _.Matrix.Mul( null, [ om, x ] );
+    test.identical( y2, y );
+
+    /* */
+
+  }
 
 }
 
@@ -24557,10 +24574,9 @@ var Self =
   {
 
     makeWithOffset,
-
     _copyTo,
     _bufferNormalize,
-    _SolveComplicated,
+    /* xxx : review */
 
   },
 
