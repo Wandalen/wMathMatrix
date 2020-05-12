@@ -32,15 +32,17 @@ function _triangulateGausian( o )
 
   _.routineOptions( _triangulateGausian, o );
 
-  if( o.onPivot && !o.pivots )
-  {
-    o.pivots = [];
-    for( let i = 0 ; i < self.dims.length ; i += 1 )
-    o.pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
-  }
+  // yyy
+  // if( o.onPivot && !o.pivots )
+  // {
+  //   o.pivots = [];
+  //   for( let i = 0 ; i < self.dims.length ; i += 1 )
+  //   o.pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
+  // }
 
   if( o.y !== null )
   o.y = Self.From( o.y );
+  o.m = self;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( !o.y || o.y.dims[ 0 ] === self.dims[ 0 ] );
@@ -48,9 +50,13 @@ function _triangulateGausian( o )
   let popts;
   if( o.onPivot )
   {
-    popts = _.mapOnly( o, o.onPivot.defaults );
-    popts.m = self;
+    popts = o.onPivotPre( o.onPivot, [ o ] );
   }
+  // if( o.onPivot )
+  // {
+  //   // popts = _.mapOnly( o, o.onPivot.defaults );
+  //   // popts.m = self;
+  // }
 
   /* */
 
@@ -120,6 +126,7 @@ _triangulateGausian.defaults =
 {
   y : null,
   onPivot : null,
+  onPivotPre : null,
   pivots : null,
   normal : 0,
 }
@@ -255,7 +262,9 @@ function triangulateGausianPivoting( y )
   let o = Object.create( null );
   o.y = y;
   o.onPivot = self._PivotRook;
+  o.onPivotPre = self._PivotRook_pre;
   _.assert( _.routineIs( o.onPivot ) );
+  _.assert( _.routineIs( o.onPivotPre ) );
   return self._triangulateGausian( o );
 }
 
@@ -408,21 +417,24 @@ function triangulateLuPivoting( pivots )
   let nrow = self.nrow;
   let ncol = Math.min( self.ncol, nrow );
 
-  if( !pivots )
-  {
-    pivots = [];
-    for( let i = 0 ; i < self.dims.length ; i += 1 )
-    pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
-  }
+  // yyy
+  // if( !pivots )
+  // {
+  //   pivots = [];
+  //   for( let i = 0 ; i < self.dims.length ; i += 1 )
+  //   pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
+  // }
+  //
+  // let popts = Object.create( null );
+  // popts.pivots = pivots;
 
-  let popts = Object.create( null );
-  popts.pivots = pivots;
+  let popts = self._PivotRook_pre( self._pivotRook, [{ m : self, pivots }] );
 
   /* */
 
   _.assert( self.dims.length === 2 );
-  _.assert( _.arrayIs( pivots ) );
-  _.assert( pivots.length === 2 );
+  _.assert( _.arrayIs( popts.pivots ) );
+  _.assert( popts.pivots.length === 2 );
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   /* */
@@ -619,9 +631,10 @@ function SolveWithGausianPivoting()
 function _SolveWithGaussJordan( o )
 {
   let proto = this;
-
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
+
+  _.routineOptions( _SolveWithGaussJordan, arguments );
 
   o.x = this.From( o.x );
   o.y = o.x;
@@ -629,8 +642,8 @@ function _SolveWithGaussJordan( o )
   let popts;
   if( o.onPivot )
   {
-    popts = _.mapOnly( o, o.onPivot.defaults );
-
+    popts = o.onPivotPre( o.onPivot, [ o ] );
+    // popts = _.mapOnly( o, o.onPivot.defaults );
     // xxx
     // popts.
     //
@@ -641,17 +654,18 @@ function _SolveWithGaussJordan( o )
     // npermutations : 0,
     // nRowPermutations : 0,
     // nColPermutations : 0,
-
   }
 
   /* */
 
-  if( o.onPivot && !o.pivots )
-  {
-    o.pivots = [];
-    for( let i = 0 ; i < o.m.dims.length ; i += 1 )
-    o.pivots[ i ] = _.longFromRange([ 0, o.m.dims[ i ] ]);
-  }
+  // if( o.onPivot && !o.pivots ) /* xxx : remove other such code */
+  // {
+  //   o.pivots = [];
+  //   for( let i = 0 ; i < o.m.dims.length ; i += 1 )
+  //   o.pivots[ i ] = _.longFromRange([ 0, o.m.dims[ i ] ]);
+  // }
+
+  _.assert( popts.pivots === o.pivots );
 
   /* */
 
@@ -702,7 +716,7 @@ function _SolveWithGaussJordan( o )
   if( o.onPivot && o.pivotingBackward )
   {
     debugger;
-    Self.VectorPivotBackward( o.x, o.pivots[ 1 ] );
+    Self.VectorPivotBackward( o.x, popts.pivots[ 1 ] );
     /*o.m.pivotBackward( o.pivots );*/
   }
 
@@ -710,6 +724,19 @@ function _SolveWithGaussJordan( o )
 
   // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
+}
+
+_SolveWithGaussJordan.defaults =
+{
+  m : null,
+  x : null,
+  y : null,
+  ox : null,
+  oy : null,
+  // pivoting : 1,
+  pivotingBackward : 1,
+  onPivot : null,
+  onPivotPre : null,
 }
 
 //
@@ -780,7 +807,10 @@ function SolveWithGaussJordanPivoting()
 {
   let o = this._Solve_pre( arguments );
   o.onPivot = this._PivotRook;
+  o.onPivotPre = this._PivotRook_pre;
   o.pivotingBackward = 1;
+  _.assert( _.routineIs( o.onPivot ) );
+  _.assert( _.routineIs( o.onPivotPre ) );
   return this._SolveWithGaussJordan( o );
 }
 

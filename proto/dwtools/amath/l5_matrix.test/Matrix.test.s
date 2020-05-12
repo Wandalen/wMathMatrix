@@ -23155,25 +23155,10 @@ SolveSimple.accuracy = _.accuracy*1e+1;
 function SolveComplicated( test )
 {
 
-  var m = _.Matrix
-  ({
-    buffer : [ 1, 2, 3, 4, 5, 6, 7 ],
-    dims : [ 2, 2 ],
-    strides : [ 2, 3 ],
-  });
-  var buffer = [ 0, 0, 0, 0 ];
-  var got = m.bufferExport( { dstBuffer : buffer, restriding : null });
-
-  logger.log( m.toStr() );
-  logger.log( got );
-
-  debugger; return; xxx
-
-  // _SolveComplicated( 'Solve' );
-  // _SolveComplicated( 'SolveWithGausianPivoting' );
+  _SolveComplicated( 'Solve' );
+  _SolveComplicated( 'SolveWithGausianPivoting' );
   _SolveComplicated( 'SolveWithGaussJordanPivoting' );
-  // _SolveComplicated( 'SolveWithTrianglesPivoting' );
-  // xxx
+  _SolveComplicated( 'SolveWithTrianglesPivoting' );
 
   function _SolveComplicated( rname )
   {

@@ -229,6 +229,49 @@ function VectorPivotBackward( vector, pivot )
 
 //
 
+function _PivotRook_pre( routine, args )
+{
+  let o1 = args[ 0 ];
+  // let o2 = _.mapOnly( o1, routine.defaults );
+  let o2 = o1;
+
+  // _.routineOptions( routine, o2 );
+  _.mapSupplement( o2, routine.defaults );
+
+  if( !o2.pivots )
+  {
+    o2.pivots = [];
+    for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
+    o2.pivots[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
+  }
+
+  _.assert( arguments.length === 2 );
+  _.assert( args.length === 1 );
+  _.assert( _.longIs( o2.pivots ) );
+  _.assert( !!o2.m );
+
+  // if( o.onPivot )
+  // {
+  //   popts = _.mapOnly( o, o.onPivot.defaults );
+  //
+  //   // xxx
+  //   // popts.
+  //   //
+  //   // m : null,
+  //   // y : null,
+  //   // pivots : null,
+  //   // lineIndex : null,
+  //   // npermutations : 0,
+  //   // nRowPermutations : 0,
+  //   // nColPermutations : 0,
+  //
+  // }
+
+  return o2;
+}
+
+//
+
 // function _pivotRook( i, o )
 function _PivotRook( o ) /* qqq2 : cover pelase */
 {
@@ -237,10 +280,10 @@ function _PivotRook( o ) /* qqq2 : cover pelase */
 
   // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( arguments.length === 1 );
-  _.assert( o.pivots );
+  // _.assert( o.pivots );
   _.assert( o.lineIndex >= 0 );
   _.assertMapHasAll( o, _PivotRook.defaults );
-  _.assertMapHasOnly( o, _PivotRook.defaults );
+  // _.assertMapHasOnly( o, _PivotRook.defaults );
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
@@ -363,6 +406,7 @@ let Statics =
   _vectorPivotDimension,
   VectorPivotForward,
   VectorPivotBackward,
+  _PivotRook_pre,
   _PivotRook,
 
 }
@@ -384,6 +428,7 @@ let Extension =
   VectorPivotForward,
   VectorPivotBackward,
 
+  _PivotRook_pre,
   _PivotRook,
   _pivotRook,
 
