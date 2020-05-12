@@ -1353,6 +1353,7 @@ function SolveGeneral( o )
   {
     optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
     optionsForMethod.onPivot = this._PivotRook;
+    optionsForMethod.onPivotPre = this._PivotRook_pre;
     optionsForMethod.pivotingBackward = 0;
     o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }
