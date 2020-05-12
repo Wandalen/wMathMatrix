@@ -607,15 +607,20 @@ function subspace()
  * @module Tools/math/Matrix
  */
 
-function transpose()
+/* qqq : update documentation */
+/* qqq : write good test */
+function transpose( dst )
 {
   let self = this;
-  self._changeBegin();
+  // self._changeBegin();
 
   let dims = self.dims.slice();
   let strides = self.stridesEffective.slice();
 
-  _.assert( arguments.length === 0, 'Expects no arguments' );
+  if( dst === undefined || dst === _.self )
+  dst = self;
+
+  _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( dims.length >= 2 );
   _.assert( strides.length >= 2 );
   _.assert( strides.length === dims.length );
@@ -623,19 +628,36 @@ function transpose()
   _.longSwapElements( dims, 0, 1 );
   _.longSwapElements( strides, 0, 1 );
 
-  self[ stridesEffectiveSymbol ] = null;
-  self.strides = strides;
-  self.dims = dims;
+  if( dst === self )
+  {
+    self._.stridesEffective = null;
+    self._.strides = strides;
+    self._.dims = dims;
+    self._sizeChanged();
+    return self;
+  }
+  else
+  {
+    let o2 = self.exportStructure({ how : 'structure', bufferNormalizing : 0 });
+    // debugger;
+    o2.dims = dims;
+    o2.strides = strides;
+    if( dst === null )
+    dst = new self.Self( o2 );
+    else
+    dst.copy( o2 );
+    return dst;
+  }
 
-  self._changeEnd();
-  return self;
+  // self._changeEnd();
+  // return self;
 }
 
 // --
 // relations
 // --
 
-let stridesEffectiveSymbol = Symbol.for( 'stridesEffective' );
+// let stridesEffectiveSymbol = Symbol.for( 'stridesEffective' );
 
 let Statics =
 {

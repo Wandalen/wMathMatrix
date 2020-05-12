@@ -45,6 +45,10 @@ function _triangulateGausian( o )
   _.assert( arguments.length === 0 || arguments.length === 1 );
   _.assert( !o.y || o.y.dims[ 0 ] === self.dims[ 0 ] );
 
+  let popts;
+  if( o.onPivot )
+  popts = _.mapOnly( o, o.onPivot );
+
   /* */
 
   if( o.y )
@@ -52,7 +56,10 @@ function _triangulateGausian( o )
   {
 
     if( o.onPivot )
-    o.onPivot.call( self, r1, o );
+    {
+      popts.lineIndex = r1;
+      o.onPivot.call( self, popts );
+    }
 
     let row1 = self.rowGet( r1 );
     let yrow1 = o.y.rowGet( r1 );
@@ -73,14 +80,18 @@ function _triangulateGausian( o )
       self.vectorAdapter.subScaled( yrow2, yrow1, scaler );
     }
 
-    // logger.log( 'self', self );
-
   }
   else for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
+    // if( o.onPivot )
+    // o.onPivot.call( self, r1, o );
+
     if( o.onPivot )
-    o.onPivot.call( self, r1, o );
+    {
+      popts.lineIndex = r1;
+      o.onPivot.call( self, popts );
+    }
 
     let row1 = self.rowGet( r1 );
     let scaler1 = row1.eGet( r1 );
@@ -96,8 +107,6 @@ function _triangulateGausian( o )
       let scaler = row2.eGet( r1 ) / scaler1;
       self.vectorAdapter.subScaled( row2, row1, scaler );
     }
-
-    // logger.log( 'self', self );
 
   }
 
@@ -242,7 +251,7 @@ function triangulateGausianPivoting( y )
   let self = this;
   let o = Object.create( null );
   o.y = y;
-  o.onPivot = self._PivotRook;
+  o.onPivot = self._pivotRook;
   return self._triangulateGausian( o );
 }
 
@@ -402,8 +411,8 @@ function triangulateLuPivoting( pivots )
     pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
   }
 
-  let o = Object.create( null );
-  o.pivots = pivots;
+  let popts = Object.create( null );
+  popts.pivots = pivots;
 
   /* */
 
@@ -419,17 +428,17 @@ function triangulateLuPivoting( pivots )
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
-    self._PivotRook.call( self, r1, o );
+    popts.lineIndex = r1;
+    self._pivotRook( popts );
 
     let row1 = self.rowGet( r1 );
     let scaler1 = row1.eGet( r1 );
-    row1 = row1.review( r1+1 );
 
     for( let r2 = r1+1 ; r2 < nrow ; r2++ )
     {
       let row2 = self.rowGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
+      self.vectorAdapter.subScaled( row2.review( r1+1 ), row1.review( r1+1 ), scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -437,45 +446,74 @@ function triangulateLuPivoting( pivots )
 
   }
 
-  return pivots;
+  /* */
+
+  popts.matrix = self;
+
+  return popts;
+  // return pivots;
 }
 
 //
 
-function _PivotRook( i, o )
+// function _pivotRook( i, o )
+function _pivotRook( o ) /* qqq2 : cover pelase */
 {
   let self = this;
 
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( o.pivots )
+  // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert( arguments.length === 1 );
+  _.assert( o.pivots );
+  _.assert( o.lineIndex >= 0 );
+  _.routineOptions( _pivotRook, o );
 
-  let row1 = self.rowGet( i ).review( i );
-  let col1 = self.colGet( i ).review( i );
+  let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
+  let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
   let value = row1.eGet( 0 );
-
   let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
   let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
 
   if( maxr.value > maxc.value )
   {
-    if( maxr.value === value )
+    // if( maxr.value === value )
+    // {
+    //   debugger;
+    //   return false;
+    // }
+    let i2 = maxr.index + o.lineIndex;
+    if( o.lineIndex === i2 )
     return false;
-    let i2 = maxr.index + i;
-    _.longSwapElements( o.pivots[ 1 ], i, i2 );
-    self.colsSwap( i, i2 );
+    _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
+    self.colsSwap( o.lineIndex, i2 );
+    o.npermutations += 1;
+    o.nColPermutations += 1;
   }
   else
   {
-    if( maxc.value === value )
+    // if( maxc.value === value )
+    // return false;
+    let i2 = maxc.index + o.lineIndex;
+    if( o.lineIndex === i2 )
     return false;
-    let i2 = maxc.index + i;
-    _.longSwapElements( o.pivots[ 0 ], i, i2 );
-    self.rowsSwap( i, i2 );
+    _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
+    self.rowsSwap( o.lineIndex, i2 );
     if( o.y )
-    o.y.rowsSwap( i, i2 );
+    o.y.rowsSwap( o.lineIndex, i2 );
+    o.npermutations += 1;
+    o.nRowPermutations += 1;
   }
 
   return true;
+}
+
+_pivotRook.defaults =
+{
+  y : null,
+  pivots : null,
+  lineIndex : null,
+  npermutations : 0,
+  nRowPermutations : 0,
+  nColPermutations : 0,
 }
 
 // --
@@ -638,13 +676,17 @@ function SolveWithGausianPivoting()
 
 function _SolveWithGaussJordan( o )
 {
-  let self = this;
+  let proto = this;
 
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
 
   o.x = this.From( o.x );
   o.y = o.x;
+
+  let popts;
+  if( o.onPivot )
+  popts = _.mapOnly( o, o.onPivot );
 
   /* */
 
@@ -660,8 +702,14 @@ function _SolveWithGaussJordan( o )
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
+    // if( o.onPivot )
+    // o.onPivot.call( o.m, r1, o );
+
     if( o.onPivot )
-    o.onPivot.call( o.m, r1, o );
+    {
+      popts.lineIndex = r1;
+      o.onPivot.call( o.m, popts );
+    }
 
     let row1 = o.m.rowGet( r1 );
     let scaler1 = row1.eGet( r1 );
@@ -669,10 +717,10 @@ function _SolveWithGaussJordan( o )
     if( abs( scaler1 ) < this.accuracy )
     continue;
 
-    self.vectorAdapter.mul( row1, 1/scaler1 );
+    proto.vectorAdapter.mul( row1, 1/scaler1 );
 
     let xrow1 = o.x.rowGet( r1 );
-    self.vectorAdapter.mul( xrow1, 1/scaler1 );
+    proto.vectorAdapter.mul( xrow1, 1/scaler1 );
 
     for( let r2 = 0 ; r2 < nrow ; r2++ )
     {
@@ -685,8 +733,8 @@ function _SolveWithGaussJordan( o )
       let scaler2 = row2.eGet( r1 );
       let scaler = scaler2;
 
-      self.vectorAdapter.subScaled( row2, row1, scaler );
-      self.vectorAdapter.subScaled( xrow2, xrow1, scaler );
+      proto.vectorAdapter.subScaled( row2, row1, scaler );
+      proto.vectorAdapter.subScaled( xrow2, xrow1, scaler );
 
     }
 
@@ -773,7 +821,7 @@ function SolveWithGaussJordan()
 function SolveWithGaussJordanPivoting()
 {
   let o = this._Solve_pre( arguments );
-  o.onPivot = this._PivotRook;
+  o.onPivot = this._pivotRook;
   o.pivotingBackward = 1;
   return this._SolveWithGaussJordan( o );
 }
@@ -1092,6 +1140,7 @@ function SolveTriangleLower( x, m, y )
 function SolveTriangleLowerNormal( x, m, y )
 {
   let self = this;
+  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 
   function handleSolve( x, m, y )
   {
@@ -1108,7 +1157,6 @@ function SolveTriangleLowerNormal( x, m, y )
     return x;
   }
 
-  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
@@ -1205,6 +1253,7 @@ function SolveTriangleUpper( x, m, y )
 function SolveTriangleUpperNormal( x, m, y )
 {
   let self = this;
+  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 
   function handleSolve( x, m, y )
   {
@@ -1221,7 +1270,6 @@ function SolveTriangleUpperNormal( x, m, y )
     return x;
   }
 
-  return self._SolveTriangleWithRoutine( arguments, handleSolve );
 }
 
 //
@@ -1317,7 +1365,7 @@ function SolveGeneral( o )
   if( o.pivoting )
   {
     optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
-    optionsForMethod.onPivot = this._PivotRook;
+    optionsForMethod.onPivot = this._pivotRook;
     optionsForMethod.pivotingBackward = 0;
     o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }
@@ -1405,58 +1453,78 @@ SolveGeneral.defaults =
  * @module Tools/math/Matrix
  */
 
-function invert()
+/*
+qqq : update documentation
+qqq : implement good coverage
+*/
+
+function invert( dst )
 {
   let self = this;
 
   _.assert( self.dims.length === 2 );
-  _.assert( self.isSquare() );
-  _.assert( arguments.length === 0, 'Expects no arguments' );
+  _.assert( self.isSquare(), `Matrix should be square to be inverted` );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  return self.InvertWithGaussJordan();
+  if( dst === undefined || dst === _.self )
+  dst = self;
+
+  if( dst === self )
+  {
+    return self.InvertWithGaussJordan();
+  }
+  else
+  {
+    let clone = self.clone();
+    dst = Self.SolveWithGaussJordan( dst, clone, self.Self.MakeIdentity( self.dims[ 0 ] ) );
+    return dst;
+  }
+
 }
 
+// //
 //
-
-/**
- * Method invertingClone() inverts copy of current matrix by Gauss-Jordan method.
- *
- * @example
- * var m = _.Matrix.Make([ 3, 3 ]).copy
- * ([
- *   +2, -3, +4,
- *   +2, -2, +3,
- *   +6, -7, +9,
- * ]);
- *
- * var got = m.invertingClone();
- * console.log( got.toStr() );
- * // -1.5, +0.5, +0.5,
- * // +0,   +3,   -1,
- * // +1,   +2,   -1,
- * console.log( got !== m );
- * // log : true
- *
- * @returns { Matrix } - Returns a copy of the matrix with inverted values.
- * @method invertingClone
- * @throws { Error } If number of dimensions is more then two.
- * @throws { Error } If current matrix is not a square matrix.
- * @throws { Error } If arguments are passed.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function invertingClone()
-{
-  let self = this;
-
-  _.assert( self.dims.length === 2 );
-  _.assert( self.isSquare() );
-  _.assert( arguments.length === 0, 'Expects no arguments' );
-
-  return Self.SolveWithGaussJordan( null, self.clone(), self.Self.MakeIdentity( self.dims[ 0 ] ) );
-}
+// /**
+//  * Method inverted() inverts copy of current matrix by Gauss-Jordan method.
+//  *
+//  * @example
+//  * var m = _.Matrix.Make([ 3, 3 ]).copy
+//  * ([
+//  *   +2, -3, +4,
+//  *   +2, -2, +3,
+//  *   +6, -7, +9,
+//  * ]);
+//  *
+//  * var got = m.inverted();
+//  * console.log( got.toStr() );
+//  * // -1.5, +0.5, +0.5,
+//  * // +0,   +3,   -1,
+//  * // +1,   +2,   -1,
+//  * console.log( got !== m );
+//  * // log : true
+//  *
+//  * @returns { Matrix } - Returns a copy of the matrix with inverted values.
+//  * @method inverted
+//  * @throws { Error } If number of dimensions is more then two.
+//  * @throws { Error } If current matrix is not a square matrix.
+//  * @throws { Error } If arguments are passed.
+//  * @class Matrix
+//  * @namespace wTools
+//  * @module Tools/math/Matrix
+//  */
+//
+// function inverted()
+// {
+//   let self = this;
+//
+//   _.assert( self.dims.length === 2 );
+//   _.assert( self.isSquare() );
+//   _.assert( arguments.length === 0, 'Expects no arguments' );
+//
+//   let clone = self.clone();
+//   let result = Self.SolveWithGaussJordan( null, clone, self.Self.MakeIdentity( self.dims[ 0 ] ) );
+//   return result;
+// }
 
 //
 
@@ -1513,7 +1581,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* Solve */
 
-  _PivotRook,
+  // _pivotRook,
 
   Solve,
 
@@ -1565,7 +1633,7 @@ let Extension =
   triangulateLuNormal,
   triangulateLuPivoting,
 
-  _PivotRook,
+  _pivotRook,
 
   // Solver
 
@@ -1593,7 +1661,7 @@ let Extension =
   SolveGeneral,
 
   invert,
-  invertingClone,
+  // inverted,
   copyAndInvert,
 
   //
