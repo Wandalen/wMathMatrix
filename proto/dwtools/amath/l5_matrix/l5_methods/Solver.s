@@ -654,6 +654,7 @@ function _SolveWithGaussJordan( o )
     // npermutations : 0,
     // nRowPermutations : 0,
     // nColPermutations : 0,
+    _.assert( popts.pivots === o.pivots );
   }
 
   /* */
@@ -664,8 +665,6 @@ function _SolveWithGaussJordan( o )
   //   for( let i = 0 ; i < o.m.dims.length ; i += 1 )
   //   o.pivots[ i ] = _.longFromRange([ 0, o.m.dims[ i ] ]);
   // }
-
-  _.assert( popts.pivots === o.pivots );
 
   /* */
 

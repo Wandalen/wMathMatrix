@@ -1116,6 +1116,7 @@ function ExportString( o )
 
     o.dst += `\n${tab2}dims : ${_.toStr( o.src.dimsEffective || o.src.dims )}`;
     o.dst += `\n${tab2}strides : ${_.toStr( o.src.stridesEffective || o.src.strides )}`;
+    o.dst += `\n${tab2}offset : ${_.toStr( o.src.offset || 0 )}`;
     if( o.src.occupiedRange )
     o.dst += `\n${tab2}occupiedRange : ${_.toStr( o.src.occupiedRange )}`;
     if( o.src.buffer )
@@ -2943,7 +2944,7 @@ function DimsDeduceFrom( src, fallbackDims )
     }
     else
     {
-      dim0 = src.buffer.length;
+      dim0 = src.buffer.length - offset;
       dim1 = 1;
     }
     // yyy
