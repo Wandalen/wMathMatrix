@@ -1128,7 +1128,7 @@ function ExportString( o )
   function niceExport()
   {
 
-    _.assert( o.src instanceof this.Self );
+    _.assert( o.src instanceof Self );
 
     isInt = true;
     o.src.scalarEach( function( it )
