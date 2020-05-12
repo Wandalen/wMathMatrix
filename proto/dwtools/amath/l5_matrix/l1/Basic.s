@@ -1327,13 +1327,15 @@ dimsExportString.defaults =
  */
 
 /* qqq2 : good coverage is required */
+
 function bufferExport( o )
 {
   let self = this;
   let scalarsPerMatrix = self.scalarsPerMatrix;
 
   if( !_.mapIs( o ) )
-  o = { buffer : o }
+  o = { dstBuffer : o };
+  // o = { buffer : o }; /* Dmytro : field `buffer` not exists in options of routine */
 
   _.routineOptions( bufferExport, o );
 
