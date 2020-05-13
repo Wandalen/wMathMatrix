@@ -287,7 +287,7 @@ function _PivotRook( o ) /* qqq2 : cover pelase */
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
-  let value = row1.eGet( 0 );
+  // let value = row1.eGet( 0 );
   let maxr = o.m.vectorAdapter.reduceToMaxAbs( row1 );
   let maxc = o.m.vectorAdapter.reduceToMaxAbs( col1 );
 
