@@ -27746,7 +27746,7 @@ var Self =
 
     furthestClosest,
     matrixHomogenousApply,
-    determinant,
+    determinant, /* xxx : finish */
     // outerProductOfVectors,
 
     // solver
