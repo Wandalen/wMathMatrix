@@ -24,30 +24,30 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // details
 // --
 
-function _BufferFrom( src )
-{
-  let proto = this.Self.prototype;
-  let dst = src;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
-
-  // xxx : remove
-  // debugger;
-
-  if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
-  {
-    dst = proto.long.longMake( src.length );
-    for( let i = 0 ; i < src.length ; i++ )
-    dst[ i ] = src.eGet( i );
-  }
-  else if( _.arrayIs( dst ) )
-  {
-    dst = proto.long.longFrom( dst );
-  }
-
-  return dst;
-}
+// function _BufferFrom( src )
+// {
+//   let proto = this.Self.prototype;
+//   let dst = src;
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
+//
+//   // xxx : remove
+//   // debugger;
+//
+//   if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
+//   {
+//     dst = proto.long.longMake( src.length );
+//     for( let i = 0 ; i < src.length ; i++ )
+//     dst[ i ] = src.eGet( i );
+//   }
+//   else if( _.arrayIs( dst ) )
+//   {
+//     dst = proto.long.longFrom( dst );
+//   }
+//
+//   return dst;
+// }
 
 // --
 // make
@@ -138,12 +138,13 @@ function Make( dims )
  * @module Tools/math/Matrix
  */
 
-function MakeSquare( buffer ) /* Dmytro : maybe needs add option strides. The absence of option affects result of MakeSimilar */
+function MakeSquare( buffer )
 {
   let proto = this.Self.prototype;
 
   let length;
-  if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) )
+  // if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) ) /* xxx qqq2 : ! */
+  if( _.vectorIs( buffer ) )
   length = Math.sqrt( buffer.length );
   else if( _.numberIs( buffer ) )
   length = buffer;
@@ -164,10 +165,10 @@ function MakeSquare( buffer ) /* Dmytro : maybe needs add option strides. The ab
     inputRowMajor = 0;
     buffer = this.long.longMake( scalarsPerMatrix );
   }
-  else
-  {
-    buffer = proto._BufferFrom( buffer );
-  }
+  // else
+  // {
+  //   buffer = proto._BufferFrom( buffer );
+  // }
 
   let result = new proto.constructor
   ({
@@ -662,11 +663,11 @@ function MakeLine( o )
   let proto = this.Self.prototype;
   let strides = null;
   let offset = 0;
-  let length = ( _.longIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) ) ? o.buffer.length : o.buffer;
+  let length = _.vectorIs( o.buffer ) ? o.buffer.length : o.buffer;
   let dims = null;
 
   // _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
-  _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.longIs( o.buffer ) || _.numberIs( o.buffer ) );
+  _.assert( _.matrixIs( o.buffer ) || _.vectorIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( MakeLine, o );
 
@@ -698,45 +699,48 @@ function MakeLine( o )
     o.buffer = length;
   }
 
-  if( _.vectorAdapterIs( o.buffer ) )
-  {
-    length = o.buffer.length;
-    o.buffer = proto._BufferFrom( o.buffer );
-  }
-
-  if( _.vectorAdapterIs( o.buffer ) )
-  {
-
-    offset = o.buffer.offset;
-    length = o.buffer.length;
-
-    // if( o.buffer.stride !== 1 )
-    // {
-    //   _.assert( 0, 'not tested' );
-    //   if( o.dimension === 0 )
-    //   strides = [ o.buffer.stride, o.buffer.stride ];
-    //   else
-    //   strides = [ o.buffer.stride, o.buffer.stride ];
-    // }
-
-    // _.assert( 0, 'not tested' );
-    // debugger;
-    if( o.dimension === 0 )
-    strides = [ o.buffer.stride, length ];
-    else
-    strides = [ length, o.buffer.stride ];
-
-    o.buffer = o.buffer._vectorBuffer;
-
-  }
-  else if( _.numberIs( o.buffer ) )
+  // if( _.vectorAdapterIs( o.buffer ) )
+  // {
+  //   length = o.buffer.length;
+  //   o.buffer = proto._BufferFrom( o.buffer );
+  // }
+  //
+  // if( _.vectorAdapterIs( o.buffer ) )
+  // {
+  //
+  //   offset = o.buffer.offset;
+  //   length = o.buffer.length;
+  //
+  //   // if( o.buffer.stride !== 1 )
+  //   // {
+  //   //   _.assert( 0, 'not tested' );
+  //   //   if( o.dimension === 0 )
+  //   //   strides = [ o.buffer.stride, o.buffer.stride ];
+  //   //   else
+  //   //   strides = [ o.buffer.stride, o.buffer.stride ];
+  //   // }
+  //
+  //   // _.assert( 0, 'not tested' );
+  //   // debugger;
+  //   if( o.dimension === 0 )
+  //   strides = [ o.buffer.stride, length ];
+  //   else
+  //   strides = [ length, o.buffer.stride ];
+  //
+  //   o.buffer = o.buffer._vectorBuffer;
+  //
+  // }
+  // else
+  if( _.numberIs( o.buffer ) )
   o.buffer = o.zeroing ? this.long.longMakeZeroed( length ) : this.long.longMake( length );
-  else if( o.zeroing )
+  else if( o.zeroing ) /* qqq2 : suspicious! */
   o.buffer = this.long.longMakeZeroed( length )
+  // else if( _.argumentsArrayIs( o.buffer ) )
+  // o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
+  // else
+  // o.buffer = proto.constructor._BufferFrom( o.buffer );
   else if( _.argumentsArrayIs( o.buffer ) )
-  o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
-  else
-  o.buffer = proto.constructor._BufferFrom( o.buffer );
+  o.buffer = proto.long.longMake( o.buffer )
 
   /* dims */
 
@@ -2418,7 +2422,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* details */
 
-  _BufferFrom,
+  // _BufferFrom,
 
   /* make */
 

@@ -451,15 +451,22 @@ function ExportStructure( o )
   if( dstIsInstance )
   {
 
-    if( _.longIs( o.src ) )
+    // if( _.longIs( o.src ) )
+    // {
+    //   o.dst.copyFromBuffer( o.src );
+    //   return o.dst;
+    // }
+    // else if( _.vectorAdapterIs( o.src ) )
+    // {
+    //   // o.src = { buffer : o.src, inputRowMajor : 0 };
+    //   o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* xxx Dmytro : temporary, needs analyze */
+    //   return o.dst;
+    // }
+
+    if( _.vectorIs( o.src ) )
     {
-      o.dst.copyFromBuffer( o.src );
-      return o.dst;
-    }
-    else if( _.vectorAdapterIs( o.src ) )
-    {
-      // o.src = { buffer : o.src, inputRowMajor : 0 };
-      o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* xxx Dmytro : temporary, needs analyze */
+      // o.src = { buffer : o.src, inputRowMajor : 1 };
+      o.dst.bufferImport({ buffer : o.src });
       return o.dst;
     }
     else if( _.numberIs( o.src ) )
@@ -506,13 +513,16 @@ function ExportStructure( o )
       if( _global_.debugger )
       debugger;
 
-      let buffer = o.src.buffer;
-      let offset = o.src.offset;
-      let strides = o.src.strides;
-      let dimsWas = o.dst.dims;
-      let dims = this.DimsDeduceFrom( o.src, dimsWas ? false : true );
+      // let dimsWas = o.dst.dims;
+      let o2 = Object.create( null );
+      o2.dimsWas = o.dst.dims;
+      o2.buffer = o.src.buffer;
+      o2.offset = o.src.offset;
+      o2.strides = o.src.strides;
+      o2.dims = this.DimsDeduceFrom( o.src, o2.dimsWas ? false : true );
+      o2.inputRowMajor = o.src.inputRowMajor || 0;
 
-      if( buffer )
+      if( o2.buffer )
       {
 
         if
@@ -524,7 +534,7 @@ function ExportStructure( o )
         )
         {
 
-          _.assert( o.src.inputRowMajor !== undefined || !!strides, 'Expects either specified {- inputRowMajor -} or {- strides -} if {- buffer -} is specified' );
+          _.assert( o.src.inputRowMajor !== undefined || !!o2.strides, 'Expects either specified {- inputRowMajor -} or {- strides -} if {- buffer -} is specified' );
 
           o.dst._.offset = 0;
           o.dst._.strides = null;
@@ -536,40 +546,39 @@ function ExportStructure( o )
 
         o.dst._.occupiedRange = null;
 
-        if( _.vectorAdapterIs( buffer ) )
+        if( _.vectorAdapterIs( o2.buffer ) )
         {
-          if( strides )
-          strides = strides.slice();
+
+          // this._BufferFromVectorAdapter( o2 );
+
+          if( o2.strides )
+          {
+            o2.strides = o2.strides.slice();
+          }
           else
-          strides = this.StridesFromDimensions( dims, o.src.inputRowMajor );
+          {
+            if( !o2.dims )
+            o2.dims = dimsSet( o2.dims || o2.dimsWas );
+            o2.strides = this.StridesFromDimensions( o2.dims, o.src.inputRowMajor );
+          }
 
-          offset = offset || 0;
+          o2.offset = o2.offset || 0;
 
-          offset = buffer.offset + offset*buffer.stride;
-          for( let i = 0 ; i < strides.length ; i++ )
-          strides[ i ] *= buffer.stride;
+          o2.offset = o2.buffer.offset + o2.offset*o2.buffer.stride;
+          for( let i = 0 ; i < o2.strides.length ; i++ )
+          o2.strides[ i ] *= o2.buffer.stride;
 
-          buffer = buffer._vectorBuffer;
+          o2.buffer = o2.buffer._vectorBuffer;
+
         }
 
       }
 
-      set( 'buffer', buffer );
-      set( 'offset', offset );
-      set( 'strides', strides );
+      set( 'buffer', o2.buffer );
+      set( 'offset', o2.offset );
+      set( 'strides', o2.strides );
 
-      if( dims )
-      {
-        o.dst._.dims = dims;
-      }
-      else if( dimsWas )
-      {
-        o.dst._.dims = dimsWas;
-      }
-      else
-      {
-        o.dst._dimsDeduceInitial();
-      }
+      dimsSet( o2.dims || o2.dimsWas );
 
       if( !o.dst._.stridesEffective )
       o.dst._.stridesEffective = o.dst.StridesEffectiveFrom( o.dst.dims, o.dst.strides, o.src.inputRowMajor );
@@ -611,6 +620,8 @@ function ExportStructure( o )
 
   return o.dst;
 
+  /* */
+
   function copy( key )
   {
     if( o.src[ key ] !== null && o.src[ key ] !== undefined )
@@ -621,6 +632,20 @@ function ExportStructure( o )
   {
     if( val !== null && val !== undefined )
     o.dst._[ key ] = val;
+  }
+
+  function dimsSet( dims )
+  {
+    if( dims )
+    {
+      o.dst._.dims = dims;
+      return dims;
+    }
+    else
+    {
+      o.dst._dimsDeduceInitial();
+      return o.dst.dims;
+    }
   }
 
 }
@@ -875,7 +900,7 @@ function copyFromScalar( src )
 function copyFromBuffer( src )
 {
   let self = this;
-  self._bufferAssign( src );
+  self.bufferImport({ buffer : src });
   return self;
 }
 
@@ -1417,6 +1442,113 @@ bufferExport.defaults =
   restriding : 1, /* xxx : set to null */
   asFloat : 0,
 }
+
+//
+
+function bufferImport( o ) /* qqq2 : good coverage is required */
+{
+  let self = this;
+  self._changeBegin();
+
+  _.routineOptions( bufferImport, arguments );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.vectorIs( o.buffer ) );
+  _.assert
+  (
+    self.scalarsPerMatrix === o.buffer.length,
+    `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
+  );
+
+  let inputRowMajor = 1;
+  let strides = self.StridesFromDimensions( self.dimsEffective, inputRowMajor );
+
+  if( _.vectorAdapterIs( o.buffer ) )
+  {
+
+    self.scalarEach( function( it )
+    {
+      let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
+      self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
+    });
+
+  }
+  else
+  {
+
+    self.scalarEach( function( it )
+    {
+      let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
+      self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
+    });
+
+  }
+
+  self._changeEnd();
+  return self;
+}
+
+bufferImport.defaults =
+{
+  buffer : null,
+  inputRowMajor : 1, /* qqq : cover option */
+  replacing : 0, /* qqq : cover option */
+}
+
+// //
+//
+// function _BufferFromVectorAdapter( o )
+// {
+//
+//   _.assert( _.vectorAdapterIs( o.buffer ) );
+//   _.assertMapHasAll( o, _BufferFromVectorAdapter.defaults );
+//
+//   if( o.strides )
+//   {
+//     o.strides = o.strides.slice();
+//   }
+//   else
+//   {
+//     if( !o.dims )
+//     {
+//       if( o.dimsWas )
+//       {
+//         o.dims = o.dimsWas;
+//       }
+//       else
+//       {
+//         // o.dst._dimsDeduceInitial();
+//         // let o2 = self.DimsDeduceInitial
+//         // ({
+//         //   buffer : o.buffer,
+//         //   offset : 0,
+//         // });
+//         o.dims = [ o.buffer.length, 1 ];
+//         return o.dst.dims;
+//       }
+//     }
+//     o.strides = this.StridesFromDimensions( o.dims, o.inputRowMajor );
+//   }
+//
+//   o.offset = o.offset || 0;
+//
+//   o.offset = o.buffer.offset + o.offset*o.buffer.stride;
+//   for( let i = 0 ; i < o.strides.length ; i++ )
+//   o.strides[ i ] *= o.buffer.stride;
+//
+//   o.buffer = o.buffer._vectorBuffer;
+//
+//   return o;
+// }
+//
+// _BufferFromVectorAdapter.defaults =
+// {
+//   strides : null,
+//   offset : 0,
+//   dims : null,
+//   dimsWas : null,
+//   buffer : null,
+//   inputRowMajor : 0,
+// }
 
 //
 
@@ -2313,33 +2445,6 @@ function offsetSet( src )
 
 //
 
-function _bufferAssign( src )
-{
-  let self = this;
-  self._changeBegin();
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.longIs( src ) );
-  _.assert
-  (
-    self.scalarsPerMatrix === src.length,
-    `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${src.length}`
-  );
-
-  let inputRowMajor = 1;
-  let strides = self.StridesFromDimensions( self.dimsEffective, inputRowMajor );
-  self.scalarEach( function( it )
-  {
-    let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
-    self.scalarSet( it.indexNd, src[ indexFlat ] );
-  });
-
-  self._changeEnd();
-  return self;
-}
-
-//
-
 /**
  * Method bufferNormalize() normalizes buffer of current matrix.
  * Method replaces current matrix buffer by new buffer with only elements of matrix.
@@ -2741,46 +2846,64 @@ function _dimsDeduceInitial()
   let self = this;
 
   _.assert( arguments.length === 0 ); debugger; /* xxx */
+  _.assert( self.dims === null );
 
-  // if( dimsWas )
+  // _.assert( _.longIs( self.buffer ), 'Expects buffer' );
+  // if( self.buffer.length - self.offset > 0 )
   // {
-  //   _.assert( _.longIs( self.buffer ) );
-  //   _.assert( self.offset >= 0 );
-  //
-  //   let dims = dimsWas.slice();
-  //   dims[ self.growingDimension ] = 1;
-  //   let ape = _.avector.reduceToProduct( dims );
-  //   let l = ( self.buffer.length - self.offset ) / ape;
-  //   dims[ self.growingDimension ] = l;
-  //   self[ dimsSymbol ] = dims;
-  //
-  //   _.assert( l >= 0 );
-  //   _.assert( _.intIs( l ) );
-  //
-  //   return dims;
-  // }
-  // else if( self.strides )
-  // {
-  //   _.assert( 0, 'Cant deduce dimensions from only strides' );
+  //   self._.dims = [ self.buffer.length - self.offset, 1 ];
+  //   if( !self.stridesEffective && !self.strides )
+  //   self._.stridesEffective = [ 1, self.buffer.length - self.offset ];
   // }
   // else
   // {
-    _.assert( _.longIs( self.buffer ), 'Expects buffer' );
-    if( self.buffer.length - self.offset > 0 )
-    {
-      self._.dims = [ self.buffer.length - self.offset, 1 ];
-      if( !self.stridesEffective && !self.strides )
-      self._.stridesEffective = [ 1, self.buffer.length - self.offset ];
-    }
-    else
-    {
-      self._.dims = [ 1, 0 ];
-      if( !self.stridesEffective && !self.strides )
-      self._.stridesEffective = [ 1, 1 ];
-    }
-    return self[ dimsSymbol ];
+  //   self._.dims = [ 1, 0 ];
+  //   if( !self.stridesEffective && !self.strides )
+  //   self._.stridesEffective = [ 1, 1 ];
   // }
+  // return self.dims;
 
+  let o2 = self.DimsDeduceInitial
+  ({
+    buffer : self.buffer,
+    offset : 0,
+  });
+
+  if( !self.stridesEffective && !self.strides )
+  if( o2.stridesEffective )
+  self._.stridesEffective = o2.stridesEffective;
+  self._.dims = o2.dims;
+
+  return self.dims;
+}
+
+//
+
+function DimsDeduceInitial( o )
+{
+
+  _.assert( arguments.length === 1 ); debugger; /* xxx */
+  _.assert( _.longIs( o.buffer ), 'Expects buffer' );
+  _.assertMapHasAll( o, DimsDeduceInitial.defaults );
+
+  if( o.buffer.length - o.offset > 0 )
+  {
+    o.dims = [ o.buffer.length - o.offset, 1 ];
+    o.stridesEffective = [ 1, o.buffer.length - o.offset ];
+  }
+  else
+  {
+    o.dims = [ 1, 0 ];
+    o.stridesEffective = [ 1, 1 ];
+  }
+
+  return o;
+}
+
+DimsDeduceInitial.defaults =
+{
+  buffer : null,
+  offset : 0,
 }
 
 //
@@ -3171,6 +3294,7 @@ let Statics =
   ExportStructure,
   ExportString,
   CopyTo,
+  // _BufferFromVectorAdapter,
 
   ScalarsPerMatrixForDimensions,
   NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */
@@ -3183,6 +3307,7 @@ let Statics =
   StridesRoll,
   DimsEffectiveFrom,
   DimsNormalize,
+  DimsDeduceInitial,
   DimsDeduceFrom,
   LengthFrom,
   OccupiedRangeFrom,
@@ -3319,6 +3444,8 @@ let Extension =
   exportString,
   dimsExportString,
   bufferExport, /* qqq : cover */
+  bufferImport,
+  // _BufferFromVectorAdapter,
 
   toStr,
   toLong,
@@ -3383,8 +3510,6 @@ let Extension =
   bufferSet, /* cached */
   offsetSet, /* cached */
 
-  _bufferAssign,
-
   bufferNormalize,
 
   // buffer : _.define.accessor({ put : _.accessor.putter.symbol, addingMethods : 1 }),
@@ -3407,6 +3532,7 @@ let Extension =
   DimsNormalize,
   // _dimsDeduceGrowing,
   _dimsDeduceInitial,
+  DimsDeduceInitial,
   DimsDeduceFrom,
   LengthFrom,
   OccupiedRangeFrom,

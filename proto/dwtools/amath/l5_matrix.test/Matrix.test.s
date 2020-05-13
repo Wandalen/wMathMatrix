@@ -1470,7 +1470,7 @@ function MakeSquareChangeBufferLength( test )
   ([
   ]);
   test.identical( got.length, 0 );
-  test.identical( got.buffer, _.longDescriptor.make( 0 ) );
+  test.identical( got.buffer, _.longDescriptor.make( 0 ) ); /* xxx : ? */
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 0 ] );
@@ -2587,9 +2587,7 @@ function MakeIdentity2( test )
 
   test.case = 'src - VectorAdapter';
   var src = _.vectorAdapter.from([ 1, 2, -2, -3 ]);
-  debugger; /* xxx */
   var got = _.Matrix.MakeIdentity2( src );
-  debugger;
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make([ 1, -2, 2, -3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
@@ -12559,35 +12557,35 @@ function from( test )
 
 //
 
-function _BufferFrom( test ) /* xxx : remove */
-{
-
-  /* */
-
-  test.case = '_BufferFrom from array';
-
-  var exp = new F32x([ 1, 2, 3 ]);
-  var got = _.Matrix._BufferFrom([ 1, 2, 3 ]);
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '_BufferFrom from vector with Array';
-
-  var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
-  var exp = new F32x([ 1, 2, 3 ]);
-  var got = _.Matrix._BufferFrom( v );
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '_BufferFrom from vector with F32x';
-
-  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var got = _.Matrix._BufferFrom( v );
-  test.is( got === v );
-
-}
+// function _BufferFrom( test ) /* xxx : remove */
+// {
+//
+//   /* */
+//
+//   test.case = '_BufferFrom from array';
+//
+//   var exp = new F32x([ 1, 2, 3 ]);
+//   var got = _.Matrix._BufferFrom([ 1, 2, 3 ]);
+//   test.identical( got, exp );
+//
+//   /* */
+//
+//   test.case = '_BufferFrom from vector with Array';
+//
+//   var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
+//   var exp = new F32x([ 1, 2, 3 ]);
+//   var got = _.Matrix._BufferFrom( v );
+//   test.identical( got, exp );
+//
+//   /* */
+//
+//   test.case = '_BufferFrom from vector with F32x';
+//
+//   var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
+//   var got = _.Matrix._BufferFrom( v );
+//   test.is( got === v );
+//
+// }
 
 //
 
@@ -17555,10 +17553,10 @@ function bufferSetFromVectorAdapter( test )
   _.vectorAdapter.contextsForTesting
   ({
     onEach : act,
-// /*
+/*
     varyingFormat : 'Array',
     varyingForm : 'straight',
-// */ xxx
+*/
   });
 
   function act( a )
@@ -17645,46 +17643,75 @@ function bufferSetFromVectorAdapter( test )
 
     /* */
 
-    // xxx
-    // test.case = `${a.format} ${a.form} without dims, strides : implicit`;
-    //
-    // var m = new _.Matrix
-    // ({
-    //   buffer : new I32x([ 1, 2, 3, 4, 5, 6 ]),
-    //   dims : [ 3, 2 ],
-    //   inputRowMajor : 0,
-    // });
-    //
-    // test.identical( m.dims, [ 3, 2 ] );
-    // test.identical( m.dimsEffective, [ 3, 2 ] );
-    //
-    // var vad = a.vadMake([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]);
-    //
-    // _global_.debugger = true;
-    // debugger;
-    // m.copy
-    // ({
-    //   buffer : vad,
-    //   offset : 1,
-    //   inputRowMajor : 0,
-    // });
-    // logger.log( m.toStr() );
-    // debugger;
-    //
-    // test.identical( m.dims, [ 3, 2 ] );
-    // test.identical( m.dimsEffective, [ 3, 2 ] );
-    //
-    // var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ],  );
-    // var got = m.toLong();
-    // test.identical( got, exp );
-    //
-    // var exp = new _.Matrix
-    // ({
-    //   buffer : a.longMake([ 1, 4, 7, 2, 5, 8 ]),
-    //   dims : [ 3, 2 ],
-    //   inputRowMajor : 0,
-    // });
-    // test.identical( m, exp );
+    test.case = `${a.format} ${a.form} without dims, strides : implicit`;
+
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([ 1, 2, 3, 4, 5, 6 ]),
+      dims : [ 3, 2 ],
+      inputRowMajor : 0,
+    });
+
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.dimsEffective, [ 3, 2 ] );
+
+    var vad = a.vadMake([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]);
+
+    m.copy
+    ({
+      buffer : vad,
+      offset : 1,
+      inputRowMajor : 0,
+    });
+
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.dimsEffective, [ 3, 2 ] );
+
+    var exp = a.longMake( [ 1, 2, 3, 4, 5, 6 ],  );
+    var got = m.toLong();
+    test.identical( got, exp );
+
+    var exp = new _.Matrix
+    ({
+      buffer : a.longMake([ 1, 2, 3, 4, 5, 6 ]),
+      dims : [ 3, 2 ],
+      inputRowMajor : 0,
+    });
+    test.identical( m, exp );
+
+    /* */
+
+    test.case = `${a.format} ${a.form} imm copy`;
+
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([ 1, 2, 3, 4, 5, 6 ]),
+      dims : [ 3, 2 ],
+      inputRowMajor : 0,
+    });
+
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.dimsEffective, [ 3, 2 ] );
+
+    var vad = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+
+    m.copy( vad );
+    logger.log( m.toStr() );
+
+    test.identical( m.dims, [ 3, 2 ] );
+    test.identical( m.dimsEffective, [ 3, 2 ] );
+
+    var exp = new I32x([ 0, 2, 4, 1, 3, 5 ]);
+    var got = m.toLong();
+    test.identical( got, exp );
+
+    var exp = new _.Matrix
+    ({
+      buffer : new I32x([ 0, 2, 4, 1, 3, 5 ]),
+      dims : [ 3, 2 ],
+      inputRowMajor : 0,
+    });
+    test.identical( m, exp );
 
     /* */
 
@@ -27641,7 +27668,7 @@ var Self =
     makeHelper,
     MakeLine,
     from,
-    _BufferFrom,
+    // _BufferFrom,
     TempBorrow,
     // bufferSetGrowing, /* xxx : implement method to grow */
     constructTransposing,
@@ -27679,7 +27706,6 @@ var Self =
     bufferSetBasic,
     bufferSetResetOffset,
     bufferSetEmpty,
-    bufferSetFromVectorAdapter,
     bufferSetFromVectorAdapter,
 
     // evaluator
