@@ -15172,7 +15172,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make( [ 1, -1, 2, 3 ] );
+  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
@@ -15189,7 +15189,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make( [ 1, -1, 2, 3 ] );
+  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   /* */
@@ -15225,7 +15225,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make( [ 1, -1, 2, 3 ] );
+  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
@@ -15242,7 +15242,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make( [ 1, -1, 2, 3 ] );
+  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   /* */
@@ -15261,7 +15261,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make( [ 1, 2, -1, 3 ] );
+  var exp = _.longDescriptor.make([ 1, 2, -1, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
@@ -15278,7 +15278,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make( [ 1, -1, 2, 3 ] );
+  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - array';
@@ -15295,7 +15295,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make( [ 1, -1, 2, 3 ] );
+  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   /* */
@@ -15494,6 +15494,387 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     buffer : _.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got === dstObject );
+}
+
+//
+
+function bufferExportDstBufferNullMatrixWithOffset( test )
+{
+  test.case = 'restriding - 1, asFloat - 0, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 1, 2, 3, 5 ];
+  test.identical( got, exp );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 1, 2, 3, 5 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 0, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = new F64x([ 1, 2, 3, 5 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = new F64x([ 1, 2, 3, 5 ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 1, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = _.longDescriptor.make([ 1, 2, 3, 5 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = _.longDescriptor.make( [ 1, 2, 3, 5 ] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 1, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = new F64x([ 1, 2, 3, 5 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  test.identical( got, exp );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = new F64x([ 1, 2, 3, 5 ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 0, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 1,
+    dstObject : null,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : new F64x([ 1, 2, 3, 5 ]),
+    dims : [ 2, 2 ],
+    strides : [ 1, 2 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 0,
+    dstObject : null,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  };
+  test.identical( got, exp );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : null,
+    dstObject : null,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : new F64x([ 1, 2, 3, 5 ]),
+    dims : [ 2, 2 ],
+    strides : [ 1, 2 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 0, dstObject - map';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var dstObject = {};
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 1,
+    dstObject : dstObject,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : new F64x([ 1, 2, 3, 5 ]),
+    dims : [ 2, 2 ],
+    strides : [ 1, 2 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got === dstObject );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var dstObject = {};
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : 0,
+    dstObject,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  };
+  test.identical( got, exp );
+  test.is( got === dstObject );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 3 ],
+    offset : 1
+  });
+  var dstObject = {};
+  var got = matrix.bufferExport
+  ({
+    dstBuffer : null,
+    restriding : null,
+    dstObject,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : new F64x([ 1, 2, 3, 5 ]),
+    dims : [ 2, 2 ],
+    strides : [ 1, 2 ],
     offset : 0
   };
   test.identical( got, exp );
@@ -25018,6 +25399,7 @@ var Self =
     exportStructureToStructure,
 
     bufferExportDstBufferNullFullUsedMatrix,
+    bufferExportDstBufferNullMatrixWithOffset,
 
     toStr,
     toLong, /* qqq : extend, please */
