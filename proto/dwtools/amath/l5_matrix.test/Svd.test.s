@@ -122,9 +122,6 @@ function gramSchmidtDecompose( test )
   test.equivalent( m.colGet( 1 ).mag(), 1 );
   test.equivalent( m.colGet( 2 ).mag(), 1 );
 
-  test.description = 'q.det()';
-  test.equivalent( m.determinant(), -1 );
-
   /* */
 
 }

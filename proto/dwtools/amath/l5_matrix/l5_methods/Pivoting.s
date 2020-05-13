@@ -229,22 +229,67 @@ function VectorPivotBackward( vector, pivot )
 
 //
 
-// function _pivotRook( i, o )
-function _pivotRook( o ) /* qqq2 : cover pelase */
+function _PivotRook_pre( routine, args )
 {
-  let self = this;
+  let o1 = args[ 0 ];
+  // let o2 = _.mapOnly( o1, routine.defaults );
+  let o2 = o1;
+
+  // _.routineOptions( routine, o2 );
+  _.mapSupplement( o2, routine.defaults );
+
+  if( !o2.pivots )
+  {
+    o2.pivots = [];
+    for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
+    o2.pivots[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
+  }
+
+  _.assert( arguments.length === 2 );
+  _.assert( args.length === 1 );
+  _.assert( _.longIs( o2.pivots ) );
+  _.assert( !!o2.m );
+
+  // if( o.onPivot )
+  // {
+  //   popts = _.mapOnly( o, o.onPivot.defaults );
+  //
+  //   // xxx
+  //   // popts.
+  //   //
+  //   // m : null,
+  //   // y : null,
+  //   // pivots : null,
+  //   // lineIndex : null,
+  //   // npermutations : 0,
+  //   // nRowPermutations : 0,
+  //   // nColPermutations : 0,
+  //
+  // }
+
+  return o2;
+}
+
+//
+
+// function _pivotRook( i, o )
+function _PivotRook( o ) /* qqq2 : cover pelase */
+{
+  let proto = Self;
+  // let self = this;
 
   // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( arguments.length === 1 );
-  _.assert( o.pivots );
+  // _.assert( o.pivots );
   _.assert( o.lineIndex >= 0 );
-  _.routineOptions( _pivotRook, o );
+  _.assertMapHasAll( o, _PivotRook.defaults );
+  // _.assertMapHasOnly( o, _PivotRook.defaults );
 
-  let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
-  let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
+  let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
+  let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
   let value = row1.eGet( 0 );
-  let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
-  let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
+  let maxr = o.m.vectorAdapter.reduceToMaxAbs( row1 );
+  let maxc = o.m.vectorAdapter.reduceToMaxAbs( col1 );
 
   if( maxr.value > maxc.value )
   {
@@ -257,7 +302,7 @@ function _pivotRook( o ) /* qqq2 : cover pelase */
     if( o.lineIndex === i2 )
     return false;
     _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
-    self.colsSwap( o.lineIndex, i2 );
+    o.m.colsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nColPermutations += 1;
   }
@@ -269,7 +314,7 @@ function _pivotRook( o ) /* qqq2 : cover pelase */
     if( o.lineIndex === i2 )
     return false;
     _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
-    self.rowsSwap( o.lineIndex, i2 );
+    o.m.rowsSwap( o.lineIndex, i2 );
     if( o.y )
     o.y.rowsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
@@ -279,14 +324,74 @@ function _pivotRook( o ) /* qqq2 : cover pelase */
   return true;
 }
 
-_pivotRook.defaults =
+_PivotRook.defaults =
 {
+  m : null,
   y : null,
   pivots : null,
   lineIndex : null,
   npermutations : 0,
   nRowPermutations : 0,
   nColPermutations : 0,
+}
+
+//
+
+// function _pivotRook( i, o )
+function _pivotRook( o )
+{
+  let self = this;
+  o.m = self;
+  return self._PivotRook( o );
+
+  // // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  // _.assert( arguments.length === 1 );
+  // _.assert( o.pivots );
+  // _.assert( o.lineIndex >= 0 );
+  // _.routineOptions( _pivotRook, o );
+  //
+  // let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
+  // let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
+  // let value = row1.eGet( 0 );
+  // let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
+  // let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
+  //
+  // if( maxr.value > maxc.value )
+  // {
+  //   // if( maxr.value === value )
+  //   // {
+  //   //   debugger;
+  //   //   return false;
+  //   // }
+  //   let i2 = maxr.index + o.lineIndex;
+  //   if( o.lineIndex === i2 )
+  //   return false;
+  //   _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
+  //   self.colsSwap( o.lineIndex, i2 );
+  //   o.npermutations += 1;
+  //   o.nColPermutations += 1;
+  // }
+  // else
+  // {
+  //   // if( maxc.value === value )
+  //   // return false;
+  //   let i2 = maxc.index + o.lineIndex;
+  //   if( o.lineIndex === i2 )
+  //   return false;
+  //   _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
+  //   self.rowsSwap( o.lineIndex, i2 );
+  //   if( o.y )
+  //   o.y.rowsSwap( o.lineIndex, i2 );
+  //   o.npermutations += 1;
+  //   o.nRowPermutations += 1;
+  // }
+  //
+  // return true;
+}
+
+_pivotRook.defaults =
+{
+  ... _.mapBut( _PivotRook.defaults, [ 'm' ] ),
 }
 
 // --
@@ -301,6 +406,8 @@ let Statics =
   _vectorPivotDimension,
   VectorPivotForward,
   VectorPivotBackward,
+  _PivotRook_pre,
+  _PivotRook,
 
 }
 
@@ -321,6 +428,8 @@ let Extension =
   VectorPivotForward,
   VectorPivotBackward,
 
+  _PivotRook_pre,
+  _PivotRook,
   _pivotRook,
 
   //

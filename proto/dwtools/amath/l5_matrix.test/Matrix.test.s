@@ -23152,44 +23152,46 @@ SolveSimple.accuracy = _.accuracy*1e+1;
 
 //
 
-function _SolveComplicated( test, rname )
+function SolveComplicated( test )
 {
 
-  test.case = rname + ' . y array . Solve 3x3 system1'; //
+  _SolveComplicated( 'Solve' );
+  _SolveComplicated( 'SolveWithGausianPivoting' );
+  _SolveComplicated( 'SolveWithGaussJordanPivoting' );
+  _SolveComplicated( 'SolveWithTrianglesPivoting' );
 
-  var m = _.Matrix.MakeSquare
-  ([
-    +4, +2, +4,
-    +4, +2, +2,
-    +2, +2, +2,
-  ]);
+  function _SolveComplicated( rname )
+  {
 
-  var om = m.clone();
-  var y = [ 1, 2, 3 ];
-  var oy = y.slice();
-  var x = _.Matrix[ rname ]( null, m, y );
+    /* */
 
-  logger.log( 'm', m );
-  logger.log( 'x', x );
+    test.case = rname + ' . y array . Solve 3x3 system1';
 
-  test.is( x !== y );
-  test.identical( x, [ -0.5, +2.5, -0.5 ] );
-  test.identical( y, oy );
+    var m = _.Matrix.MakeSquare
+    ([
+      +4, +2, +4,
+      +4, +2, +2,
+      +2, +2, +2,
+    ]);
 
-  var y2 = _.Matrix.Mul( null, [ om, x ] );
-  test.identical( y2, y );
+    var om = m.clone();
+    var y = [ 1, 2, 3 ];
+    var oy = y.slice();
+    var x = _.Matrix[ rname ]( null, m, y );
 
-}
+    logger.log( 'm', m );
+    logger.log( 'x', x );
 
-//
+    test.is( x !== y );
+    test.identical( x, [ -0.5, +2.5, -0.5 ] );
+    test.identical( y, oy );
 
-function SolveComplicated( test, rname )
-{
+    var y2 = _.Matrix.Mul( null, [ om, x ] );
+    test.identical( y2, y );
 
-  this._SolveComplicated( test, 'Solve' );
-  this._SolveComplicated( test, 'SolveWithGausianPivoting' );
-  this._SolveComplicated( test, 'SolveWithGaussJordanPivoting' );
-  this._SolveComplicated( test, 'SolveWithTrianglesPivoting' );
+    /* */
+
+  }
 
 }
 
@@ -24557,10 +24559,9 @@ var Self =
   {
 
     makeWithOffset,
-
     _copyTo,
     _bufferNormalize,
-    _SolveComplicated,
+    /* xxx : review */
 
   },
 
