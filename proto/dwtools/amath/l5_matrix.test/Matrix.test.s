@@ -2587,7 +2587,9 @@ function MakeIdentity2( test )
 
   test.case = 'src - VectorAdapter';
   var src = _.vectorAdapter.from([ 1, 2, -2, -3 ]);
+  debugger; /* xxx */
   var got = _.Matrix.MakeIdentity2( src );
+  debugger;
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make([ 1, -2, 2, -3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
@@ -15970,10 +15972,10 @@ function bufferSetFromVectorAdapter( test )
   _.vectorAdapter.contextsForTesting
   ({
     onEach : act,
-/*
+// /*
     varyingFormat : 'Array',
     varyingForm : 'straight',
-*/
+// */ xxx
   });
 
   function act( a )
@@ -16021,7 +16023,7 @@ function bufferSetFromVectorAdapter( test )
 
     /* */
 
-    test.case = `${a.format} ${a.form} without dims`;
+    test.case = `${a.format} ${a.form} without dims, strides : explicit`;
 
     var m = new _.Matrix
     ({
@@ -16057,6 +16059,49 @@ function bufferSetFromVectorAdapter( test )
       inputRowMajor : 0,
     });
     test.identical( m, exp );
+
+    /* */
+
+    // xxx
+    // test.case = `${a.format} ${a.form} without dims, strides : implicit`;
+    //
+    // var m = new _.Matrix
+    // ({
+    //   buffer : new I32x([ 1, 2, 3, 4, 5, 6 ]),
+    //   dims : [ 3, 2 ],
+    //   inputRowMajor : 0,
+    // });
+    //
+    // test.identical( m.dims, [ 3, 2 ] );
+    // test.identical( m.dimsEffective, [ 3, 2 ] );
+    //
+    // var vad = a.vadMake([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]);
+    //
+    // _global_.debugger = true;
+    // debugger;
+    // m.copy
+    // ({
+    //   buffer : vad,
+    //   offset : 1,
+    //   inputRowMajor : 0,
+    // });
+    // logger.log( m.toStr() );
+    // debugger;
+    //
+    // test.identical( m.dims, [ 3, 2 ] );
+    // test.identical( m.dimsEffective, [ 3, 2 ] );
+    //
+    // var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ],  );
+    // var got = m.toLong();
+    // test.identical( got, exp );
+    //
+    // var exp = new _.Matrix
+    // ({
+    //   buffer : a.longMake([ 1, 4, 7, 2, 5, 8 ]),
+    //   dims : [ 3, 2 ],
+    //   inputRowMajor : 0,
+    // });
+    // test.identical( m, exp );
 
     /* */
 

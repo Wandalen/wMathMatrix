@@ -355,7 +355,7 @@ _.routineExtend( _equalAre, _.equaler._equal );
 
 //
 
-function _secondCoerce( it )
+function _equalSecondCoerce( it )
 {
 
   if( it.strictContainer )
@@ -458,6 +458,7 @@ function ExportStructure( o )
     }
     else if( _.vectorAdapterIs( o.src ) )
     {
+      // o.src = { buffer : o.src, inputRowMajor : 0 };
       o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* xxx Dmytro : temporary, needs analyze */
       return o.dst;
     }
@@ -482,7 +483,6 @@ function ExportStructure( o )
   if( dstIsInstance )
   {
     o.dst._changeBegin();
-    // copy( 'growingDimension' );
 
     if( srcIsInstance )
     {
@@ -524,7 +524,6 @@ function ExportStructure( o )
         )
         {
 
-          // _.assert( o.src.inputRowMajor !== undefined || !!o.src.dims, 'Expects either specified {- inputRowMajor -} or {- dims -} if {- buffer -} is specified' ); // yyy
           _.assert( o.src.inputRowMajor !== undefined || !!strides, 'Expects either specified {- inputRowMajor -} or {- strides -} if {- buffer -} is specified' );
 
           o.dst._.offset = 0;
@@ -542,7 +541,7 @@ function ExportStructure( o )
           if( strides )
           strides = strides.slice();
           else
-          strides = self.StridesFromDimensions( dims, o.src.inputRowMajor );
+          strides = this.StridesFromDimensions( dims, o.src.inputRowMajor );
 
           offset = offset || 0;
 
@@ -558,37 +557,6 @@ function ExportStructure( o )
       set( 'buffer', buffer );
       set( 'offset', offset );
       set( 'strides', strides );
-
-      // if( dimsWas )
-      // {
-      //   let dims = this.DimsDeduceFrom( o.src, false );
-      //   if( dims )
-      //   {
-      //     o.dst.dims = dims;
-      //   }
-      //   else
-      //   {
-      //     o.dst._dimsDeduceGrowing( dimsWas );
-      //   }
-      // }
-      // else
-      // {
-      //   o.dst.dims = this.DimsDeduceFrom( o.src, dimsWas );
-      //   if( !o.dst.dims && o.dst.buffer )
-      //   this._dimsDeduceGrowing( dimsWas );
-      // }
-
-      // if( dims )
-      // {
-      //   o.dst.dims = dims;
-      // }
-      // else
-      // {
-      //   // if( o.dst.buffer )
-      //   // o.dst._dimsDeduceGrowing( dimsWas );
-      //   if( dimsWas )
-      //   o.dst.dims = dimsWas;
-      // }
 
       if( dims )
       {
@@ -625,11 +593,7 @@ function ExportStructure( o )
 
     /* xxx : implement method grow */
 
-    // debugger;
-    // copy( 'growingDimension' );
     copy( 'dims' );
-
-    // debugger;
 
     if( o.bufferNormalizing )
     {
@@ -2803,13 +2767,13 @@ function _dimsDeduceInitial()
     if( self.buffer.length - self.offset > 0 )
     {
       self._.dims = [ self.buffer.length - self.offset, 1 ];
-      if( !self.stridesEffective )
+      if( !self.stridesEffective && !self.strides )
       self._.stridesEffective = [ 1, self.buffer.length - self.offset ];
     }
     else
     {
       self._.dims = [ 1, 0 ];
-      if( !self.stridesEffective )
+      if( !self.stridesEffective && !self.strides )
       self._.stridesEffective = [ 1, 1 ];
     }
     return self[ dimsSymbol ];
@@ -3333,7 +3297,7 @@ let Extension =
   Is,
   _traverseAct, /* zzz : deprecate */
   _equalAre,
-  _secondCoerce,
+  _equalSecondCoerce,
 
   _longGet,
 
