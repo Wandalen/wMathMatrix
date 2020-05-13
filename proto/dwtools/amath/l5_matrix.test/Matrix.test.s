@@ -26230,7 +26230,7 @@ var Self =
     bufferSetResetOffset,
     bufferSetEmpty,
     bufferSetFromVectorAdapter,
-    bufferExportDstBufferMatrixWithOffset,
+    bufferSetFromVectorAdapter,
 
     // evaluator
 
