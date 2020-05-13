@@ -20492,6 +20492,551 @@ function pivot( test )
 
 //
 
+function _PivotRookWithoutOptionY( test )
+{
+  test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
+
+  var buffer = new I32x
+  ([
+    9, 1, 2,
+    3, 9, 4,
+    5, 6, 9
+  ]);
+  var m = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 0 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 0 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 0 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 0 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 0 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 0 );
+
+  var buffer = new I32x
+  ([
+    9, 1, 2,
+    3, 9, 4,
+    5, 6, 9
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+
+  /* */
+
+  test.case = '3x3, npermutations:1 nRowPermutations:1 nColPermutations:0';
+
+  var buffer = new I32x
+  ([
+    9,  1,  2,
+    3,  9,  4,
+    10, 6,  9
+  ]);
+  var m = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 0 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 0 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 0 );
+
+  var buffer = new I32x
+  ([
+    10, 6,  9,
+    3,  9,  4,
+    9,  1,  2,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+
+  /* */
+
+  test.case = '3x3, npermutations:2 nRowPermutations:2 nColPermutations:0';
+
+  var buffer = new I32x
+  ([
+    9,  1,  2,
+    10, 9,  4,
+    3,  10, 9
+  ]);
+  var m = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 2 );
+  test.identical( o.nColPermutations, 0 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 2 );
+  test.identical( o.nColPermutations, 0 );
+
+  var buffer = new I32x
+  ([
+    10, 9,  4,
+    3,  10, 9,
+    9,  1,  2,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+
+  /* */
+
+  test.case = '3x3, npermutations:1 nRowPermutations:0 nColPermutations:1';
+
+  var buffer = new I32x
+  ([
+    9,  10, 2,
+    3,  9,  4,
+    5,  6,  9
+  ]);
+  var m = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  var buffer = new I32x
+  ([
+    10, 9,  2,
+    6,  5,  9,
+    9,  3,  4,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+
+
+  /* */
+
+  test.case = '3x3, npermutations:2 nRowPermutations:0 nColPermutations:2';
+
+  var buffer = new I32x
+  ([
+    9,  10, 2,
+    3,  9,  10,
+    5,  6,  9
+  ]);
+  var m = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 2 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 2 );
+
+  var buffer = new I32x
+  ([
+    10, 2,  9,
+    9,  10, 3,
+    6,  9,  5,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+  /* */
+
+  test.case = '3x3, npermutations:2 nRowPermutations:1 nColPermutations:1';
+
+  var buffer = new I32x
+  ([
+    9,  11, 2,
+    3,  9,  4,
+    10, 6,  9,
+  ]);
+  var m = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  var buffer = new I32x
+  ([
+    11, 9,  2,
+    6,  10, 9,
+    9,  3,  4,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+
+  /* */
+
+  test.case = '3x3 matrix, negative numbers are bigger than positive';
+
+  var buffer = new I32x
+  ([
+    15, -42, -61,
+    43, 57,  19,
+    45, 81,  25,
+  ]);
+
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.identical( got, true );
+  test.identical( o.pivots, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 0 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  var buffer = new I32x
+  ([
+    -61, -42, 15,
+    25,  81,  45,
+    19,  57,  43,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 3, 3 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+
+  /* */
+
+  test.case = '4x4, pivoting required';
+
+  var buffer = new I32x
+  ([
+    1,  1,  4,  1,
+    2,  2,  10, 6,
+    3,  9,  21, 17,
+    5,  11, 29, 23,
+  ]);
+
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 4, 4 ],
+    inputRowMajor : 1,
+  });
+
+  var o =
+  {
+    m,
+    y : null,
+    pivots : [ [ 0, 1, 2, 3 ], [ 0, 1, 2, 3 ] ],
+    lineIndex : 0,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0,
+  };
+  var got = _.Matrix._PivotRook( o );
+  test.identical( got, true );
+  test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
+  test.identical( o.npermutations, 1 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 0 );
+
+  o.lineIndex = 1;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
+  test.identical( o.npermutations, 2 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 1 );
+
+  o.lineIndex = 2;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, true );
+  test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
+  test.identical( o.npermutations, 3 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 2 );
+
+  o.lineIndex = 3;
+
+  var got = _.Matrix._PivotRook( o );
+  test.equivalent( got, false );
+  test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
+  test.identical( o.npermutations, 3 );
+  test.identical( o.nRowPermutations, 1 );
+  test.identical( o.nColPermutations, 2 );
+
+  var buffer = new I32x
+  ([
+    5,  29, 23, 11,
+    2,  10, 6,  2,
+    3,  21, 17, 9,
+    1,  4,  1,  1,
+  ]);
+  var exp = new _.Matrix
+  ({
+    buffer : buffer,
+    dims : [ 4, 4 ],
+    inputRowMajor : 1,
+  });
+
+  test.identical( m, exp );
+}
+
+//
+
 function submatrix( test )
 {
   let context = this;
@@ -26250,6 +26795,7 @@ var Self =
     partialAccessors,
     lineSwap,
     pivot,
+    _PivotRookWithoutOptionY,
     submatrix,
     submatrixSelectLast,
     subspace, /* qqq : extend, please */
