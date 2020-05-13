@@ -2,16 +2,16 @@
 
 'use strict';
 
-/*
-*/
+//
 
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../dwtools/Tools.s' );
+  let _ = require( 'wTools' );
 
   _.include( 'wTesting' );
   _.include( 'wFiles' );
+  _.include( 'wappbasic' );
 
   require( '../l5_matrix/module/full/Include.s' );
 
@@ -19,7 +19,35 @@ if( typeof module !== 'undefined' )
 
 //
 
-var _ = _global_.wTools.withDefaultLong.Fx;
+let _ = _global_.wTools;
+let fileProvider = _testerGlobal_.wTools.fileProvider;
+let path = fileProvider.path;
+
+// --
+// context
+//
+
+function onSuiteBegin()
+{
+  let context = this;
+  context.assetsOriginalSuitePath = path.join( __dirname, '../../../../sample'  );
+}
+
+//
+
+function onSuiteEnd()
+{
+  let context = this;
+}
+
+//
+
+function assetFor( test )
+{
+  let context = this;
+  let a = { originalAssetPath : false, routinePath : context.assetsOriginalSuitePath };
+  return test.assetFor( a );
+}
 
 // --
 // test
@@ -27,20 +55,19 @@ var _ = _global_.wTools.withDefaultLong.Fx;
 
 function sample( test )
 {
-  let self = this;
-  let a = test.assetFor( self.suiteTempPath );
-  let filter = { filePath : a.abs( './**/*.(s|js)' ) };
+  let context = this;
+  let a = context.assetFor( test );
+  let filter = { filePath : a.abs( './**/*.(s|js)' ), basePath : a.abs( '.' ) };
   let found = a.fileProvider.filesFind
   ({
     filter,
     mode : 'distinct',
     mandatory : 0,
   });
-  debugger;
 
   /* */
 
-  let startTime, spentTime;
+  let startTime;
 
   for( let i = 0 ; i < found.length ; i++ )
   {
@@ -60,26 +87,27 @@ function sample( test )
       a.appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( got ) =>
       {
-        spentTime = _.time.spent( startTime );
-        console.log( spentTime );
-
+        console.log( _.time.spent( startTime ) );
+        test.description = 'nonzero exit code';
         test.notIdentical( got.exitCode, 0 );
-        test.ge( _.strCount( got.output, 'ncaught' ), 1 );
-        test.ge( _.strCount( got.output, 'rror' ), 1 );
         return null;
       })
     }
     else
     {
-      a.appStart({ execPath : found[ i ].relative })
+      a.appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( got ) =>
       {
-        spentTime = _.time.spent( startTime );
-        console.log( spentTime );
-
+        console.log( _.time.spent( startTime ) );
+        test.description = 'good exit code';
         test.identical( got.exitCode, 0 );
+        if( got.exitCode )
+        return null;
+        test.description = 'have no uncaught errors';
         test.identical( _.strCount( got.output, 'ncaught' ), 0 );
         test.identical( _.strCount( got.output, 'rror' ), 0 );
+        test.description = 'have some output';
+        test.ge( got.output.split( '\n' ).length, 2 )
         return null;
       })
     }
@@ -103,10 +131,14 @@ var Self =
   silencing : 1,
   enabled : 1,
 
+  onSuiteBegin,
+  onSuiteEnd,
+
   context :
   {
-    suiteTempPath : _.path.join( __dirname, '../../../../' ),
-    assetsOriginalSuitePath : _.path.join( __dirname, '../../../../' ),
+    assetFor,
+    suiteTempPath : null,
+    assetsOriginalSuitePath : null,
     appJsPath : null,
   },
 
@@ -124,3 +156,4 @@ if( typeof module !== 'undefined' && !module.parent )
 _global_.wTester.test( Self.name );
 
 })();
+
