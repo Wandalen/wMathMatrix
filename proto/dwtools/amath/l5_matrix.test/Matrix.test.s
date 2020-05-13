@@ -4219,6 +4219,29 @@ function MakeSimilarDifferentBufferTypes( test )
 
 //
 
+function MakeSimilarExperiment( test )
+{
+  test.case = 'buffer - BufferTyped, F64x';
+  var m = _.Matrix.MakeSquare
+  ([
+    0, 1, 2,
+    3, 4, 5,
+    6, 7, 8
+  ]);
+  var got = _.Matrix.MakeSimilar( m, [ 3, 3 ] );
+  var exp = _.Matrix.Make( 3 ).copy
+  ([
+    0, 1, 2,
+    3, 4, 5,
+    6, 7, 8
+  ]);
+  test.equivalent( got, exp );
+}
+
+MakeSimilarExperiment.experimental = 1;
+
+//
+
 function MakeSimilarWithVectors( test )
 {
   test.case = 'm - Array';
@@ -21106,7 +21129,6 @@ function _PivotRookWithoutOptionY( test )
   });
 
   test.identical( m, exp );
-
 }
 
 //
@@ -27542,6 +27564,7 @@ var Self =
     MakeSimilarMIsMatrixWithDims,
     MakeSimilarDifferentBufferTypes,
     MakeSimilarWithVectors,
+    MakeSimilarExperiment,
     MakeLineOptionZeroing0,
     MakeLineOptionZeroing1,
     MakeCol,
