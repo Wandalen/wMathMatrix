@@ -15883,6 +15883,405 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
 
 //
 
+function bufferExportDstBufferFullUsedMatrix( test )
+{
+  test.case = 'restriding - 1, asFloat - 0, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, -1, 2, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 1, 2, -1, 3 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, -1, 2, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, -1, 2, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 0, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 1, 2, -1, 3 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 0,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 1, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, -1, 2, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = [ 1, 2, -1, 3 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, -1, 2, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - array';
+  var matrix = new _.Matrix
+  ({
+    buffer : [ 1, -1, 2, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 1, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 1,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = [ 1, 2, -1, 3 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 0,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - F64x';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : null,
+    dstObject : 0,
+    asFloat : 1,
+  });
+  var exp = [ 0, 0, 0, 0 ];
+  test.identical( got, exp );
+  test.is( got === dstBuffer );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 0, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 1,
+    dstObject : null,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : [ 1, 2, -1, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 1, 2 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got.buffer === dstBuffer );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 0,
+    dstObject : null,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : [ 0, 0, 0, 0 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got.buffer === dstBuffer );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : null,
+    dstObject : null,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : [ 0, 0, 0, 0 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got.buffer === dstBuffer );
+
+  /* */
+
+  test.case = 'restriding - 1, asFloat - 0, dstObject - map';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var dstObject = {};
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 1,
+    dstObject : dstObject,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : [ 1, 2, -1, 3 ],
+    dims : [ 2, 2 ],
+    strides : [ 1, 2 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got.buffer === dstBuffer );
+  test.is( got === dstObject );
+
+  test.case = 'restriding - 0, asFloat - 0, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var dstObject = {};
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : 0,
+    dstObject,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : [ 0, 0, 0, 0 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got.buffer === dstBuffer );
+  test.is( got === dstObject );
+
+  test.case = 'restriding - null, asFloat - 1, dstObject - null';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F64x([ 1, -1, 2, 3 ]),
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+  });
+  var dstBuffer = [ 0, 0, 0, 0 ];
+  var dstObject = {};
+  var got = matrix.bufferExport
+  ({
+    dstBuffer,
+    restriding : null,
+    dstObject,
+    asFloat : 0,
+  });
+  var exp =
+  {
+    buffer : [ 0, 0, 0, 0 ],
+    dims : [ 2, 2 ],
+    strides : [ 2, 1 ],
+    offset : 0
+  };
+  test.identical( got, exp );
+  test.is( got.buffer === dstBuffer );
+  test.is( got === dstObject );
+}
+
+//
+
 function toStr( test )
 {
 
@@ -25400,6 +25799,7 @@ var Self =
 
     bufferExportDstBufferNullFullUsedMatrix,
     bufferExportDstBufferNullMatrixWithOffset,
+    bufferExportDstBufferFullUsedMatrix,
 
     toStr,
     toLong, /* qqq : extend, please */

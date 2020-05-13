@@ -1348,7 +1348,7 @@ function bufferExport( o )
   if( o.dstBuffer )
   {
 
-    _.assert( !o.restriding, 'not tested' );
+    // _.assert( !o.restriding, 'not tested' );
     if( o.restriding )
     self.scalarEach( function( it )
     {
