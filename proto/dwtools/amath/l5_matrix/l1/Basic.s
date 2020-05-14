@@ -321,6 +321,7 @@ function _equalAre( it )
   it.result = it.src.scalarWhile( function( it2 )
   {
     let scalar = it.src.scalarGet( it2.indexNd ); /* xxx : optimize */
+    // let scalar = it2.buffer[ it2.offset[ 0 ] ];
     let scalar2 = it.src2.scalarGet( it2.indexNd );
     return it.onNumbersAreEqual( scalar, scalar2 );
   });
@@ -603,8 +604,6 @@ function ExportStructure( o )
   else
   {
 
-    /* xxx : implement method grow */
-
     copy( 'dims' );
 
     if( o.bufferNormalizing )
@@ -735,7 +734,8 @@ exportStructure.defaults =
  * @module Tools/math/Matrix
  */
 
-/* xxx : de[recate routine _exportNormalized? */
+/* zzz : deprecate routine _exportNormalized? */
+
 function _exportNormalized()
 {
   let self = this;
@@ -937,21 +937,57 @@ function copyFromBuffer( src )
  * @module Tools/math/Matrix
  */
 
-function clone()
+function clone( extending )
 {
   let self = this;
 
-  _.assert( arguments.length === 0, 'Expects no arguments' );
+  _.assert( arguments.length === 0 || arguments.length === 1, 'Expects no arguments' );
 
-  let dst = _.Copyable.prototype.clone.call( self );
+  // debugger;
+  // _global_.debugger = 1;
+  // let dst = _.Copyable.prototype.clone.call( self );
+  // _.assert( dst.buffer === self.buffer );
+  // debugger;
 
-  // _.assert( dst.buffer === self.buffer ); // xxx
+  // debugger;
+  // _global_.debugger = 1;
 
-  // xxx
-  // if( dst.buffer === self.buffer )
-  // dst[ bufferSymbol ] = _.longSlice( dst.buffer );
+  if( extending )
+  {
+    // let src = _.mapOnly( self, self.Self.FieldsOfCopyableGroups );
+    // _.mapExtend( src, extending );
+    let src = self.exportStructure();
+    if( extending )
+    _.mapExtend( src, extending );
+    let dst = new self.constructor( src );
+    _.assert( dst !== self && dst !== src );
+    return dst;
+  }
+  else
+  {
+    let src = self.exportStructure();
+    let dst = new self.constructor( src );
+    _.assert( dst !== self );
+    return dst;
+  }
+
+  if( Config.debug )
+  {
+    if( extending && extending.buffer !== undefined && extending.buffer !== null )
+    _.assert( dst.buffer === extending.buffer );
+    else
+    _.assert( dst.buffer === self.buffer );
+  }
 
   return dst;
+}
+
+//
+
+function cloneExtending()
+{
+  self = this;
+  return self.clone( ... arguments );
 }
 
 //
@@ -3137,13 +3173,14 @@ let Composes =
 
 let Aggregates =
 {
+  buffer : null,
 }
 
 //
 
 let Associates =
 {
-  buffer : null,
+  // buffer : null,
 }
 
 //
@@ -3327,6 +3364,7 @@ let Extension =
   copyFromScalar,
   copyFromBuffer,
   clone,
+  cloneExtending,
 
   CopyTo,
   ExportString,

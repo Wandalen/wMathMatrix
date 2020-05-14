@@ -127,8 +127,8 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
   _.assert( _.arrayIs( args ) );
   _.assert( onScalar.length === 1 );
 
-  if( _global_.debugger )
-  debugger;
+  // if( _global_.debugger )
+  // debugger;
 
   if( dims.length === 2 )
   {
