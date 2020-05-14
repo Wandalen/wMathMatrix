@@ -8004,6 +8004,28 @@ function FromSrcNullChangeDimsLength( test )
 
 //
 
+function FromExperiment( test )
+{
+  test.case = 'imitation of use result.hasShape';
+  var dims = [ 3, 2, Infinity ];
+  var got = _.Matrix.From( null, dims );
+  test.identical( got.dimsEffective, dims );
+  test.is( got.hasShape( dims ) ); // analog of previous test check
+}
+
+FromExperiment.experimental = 1;
+FromExperiment.description =
+`
+The test routine shows as static routine From makes new matrix.
+The field 'dimsEffective' shows effective shape of the resulted matrix but not
+the real shape.
+
+So, if we make the matrix with some dimensions, we shold check the provided dimensions
+with dimensions of the matrix.
+`
+//
+
+
 function FromSrcNullChangeDimsType( test )
 {
   test.case = 'dims - Array';
@@ -27064,6 +27086,7 @@ var Self =
     FromScalarForReadingChangeDimsLength,
     FromScalarForReadingChangeDimsType,
     FromSrcNullChangeDimsLength,
+    FromExperiment,
     FromSrcNullChangeDimsType,
     FromSrcMatrix,
     FromSrcScalarChangeDimsLength,
