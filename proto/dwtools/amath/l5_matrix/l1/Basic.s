@@ -1327,7 +1327,7 @@ dimsExportString.defaults =
  * @module Tools/math/Matrix
  */
 
-/* qqq2 : good coverage is required */
+/* aaa2 : good coverage is required */ /* Dmytro : covered */
 
 function bufferExport( o )
 {
@@ -1359,7 +1359,7 @@ function bufferExport( o )
   // else
   if( !o.dstBuffer )
   {
-    if( o.asFloat ) /* qqq : cover please */
+    if( o.asFloat ) /* aaa : cover please */ /* Dmytro : covered */
     {
       if( self.buffer instanceof F64x )
       {
@@ -3221,7 +3221,7 @@ function hasShape( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayIs( src ) );
 
-  return _.longIdentical( self.dimsEffective, src ); /* qqq : add test routine to explain */
+  return _.longIdentical( self.dimsEffective, src ); /* aaa : add test routine to explain */ /* Dmytro : added, test routine FromExperiment */
 }
 
 // --
