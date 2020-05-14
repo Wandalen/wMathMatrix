@@ -15730,7 +15730,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     strides : [ 2, 3 ],
     offset : 1
   });
-  var dstBuffer = new F64x([ 0, 0, 0, 0 ]);
+  var dstBuffer = [ 0, 0, 0, 0 ];
   var got = matrix.bufferExport
   ({
     dstBuffer,
@@ -15738,7 +15738,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = new F64x([ 1, 2, 3, 5 ]);
+  var exp = [ 1, 2, 3, 5 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15792,7 +15792,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     strides : [ 2, 3 ],
     offset : 1
   });
-  var dstBuffer = new F64x([ 0, 0, 0, 0 ]);
+  var dstBuffer = [ 0, 0, 0, 0 ];
   var got = matrix.bufferExport
   ({
     dstBuffer,
@@ -15800,7 +15800,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = new F64x([ 1, 2, 3, 5 ]);
+  var exp = [ 1, 2, 3, 5 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
