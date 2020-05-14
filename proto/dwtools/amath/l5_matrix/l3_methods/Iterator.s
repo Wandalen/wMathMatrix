@@ -221,8 +221,8 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
         }
         it.offset[ 1 ] += it.strides[ 1 ];
         it.offset[ 0 ] = it.offset[ 1 ];
-
-      it.offset[ 2 ] += it.strides[ 2 ];}
+      }
+      it.offset[ 2 ] += it.strides[ 2 ];
       it.offset[ 1 ] = it.strides[ 2 ];
       it.offset[ 0 ] = it.offset[ 2 ];
     }
@@ -244,9 +244,10 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     let it = Object.create( null );
     it.matrix = self;
     it.buffer = self.buffer;
+    it.strides = self.stridesEffective;
     it.args = args;
     it.indexNd = _.dup( 0, dims.length );
-    // it.offset = self.offset; /* qqq2 : implement */
+    it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
     let indexLogical = 0;
 
     self.sliceEach( ( it2 ) =>
@@ -262,11 +263,14 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
-          // it.offset += strides[ 0 ];
           it.scalar = self.scalarGet( it.indexNd ); /* xxx : remove later */
           onScalar.call( self, it );
+          it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
+        debugger;
+        it.offset[ 1 ] += it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish pleae */
       }
 
     });

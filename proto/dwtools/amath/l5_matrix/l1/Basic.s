@@ -1132,6 +1132,7 @@ function ExportString( o )
     isInt = true;
     o.src.scalarEach( function( it )
     {
+      // debugger;
       isInt = isInt && _.intIs( it.buffer[ it.offset[ 0 ] ] );
       // isInt = isInt && _.intIs( it.scalar ); // yyy
     });
