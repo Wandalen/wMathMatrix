@@ -1397,7 +1397,7 @@ function bufferExport( o )
     );
     self.scalarEach( function( it )
     {
-      o.dstBuffer[ it.indexLogical ] = it.scalar;
+      o.dstBuffer[ it.indexLogical ] = it.buffer[ it.offset[ 0 ] ];
     });
     if( o.dstObject )
     {
