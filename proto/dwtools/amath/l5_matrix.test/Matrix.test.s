@@ -17027,7 +17027,7 @@ function bufferSetFromVectorAdapter( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.dimsEffective, [ 3, 2 ] );
 
-    var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ],  );
+    var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ] );
     var got = m.toLong();
     test.identical( got, exp );
 
@@ -17066,7 +17066,7 @@ function bufferSetFromVectorAdapter( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.dimsEffective, [ 3, 2 ] );
 
-    var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ],  );
+    var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ] );
     var got = m.toLong();
     test.identical( got, exp );
 
@@ -17104,7 +17104,7 @@ function bufferSetFromVectorAdapter( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.dimsEffective, [ 3, 2 ] );
 
-    var exp = a.longMake( [ 1, 2, 3, 4, 5, 6 ],  );
+    var exp = a.longMake( [ 1, 2, 3, 4, 5, 6 ] );
     var got = m.toLong();
     test.identical( got, exp );
 
@@ -21906,7 +21906,7 @@ function submatrixSelectLast( test )
   test.identical( m.scalarsPerElement, 144 );
   test.identical( m.scalarsPerMatrix, 576 );
   test.identical( m.scalarsPerRow, 8 );
-  test.identical( m.scalarsPerSlice, 24 );
+  test.identical( m.scalarsPerLayer, 24 );
   test.identical( m.length, 4 );
   test.identical( m.strideInCol, 1 );
   test.identical( m.strideInRow, 3 );
@@ -21936,7 +21936,7 @@ function submatrixSelectLast( test )
   test.identical( submatrix.scalarsPerElement, 24 );
   test.identical( submatrix.scalarsPerMatrix, 24 );
   test.identical( submatrix.scalarsPerRow, 8 );
-  test.identical( submatrix.scalarsPerSlice, 24 );
+  test.identical( submatrix.scalarsPerLayer, 24 );
   test.identical( submatrix.length, 1 );
   test.identical( submatrix.strideInCol, 1 );
   test.identical( submatrix.strideInRow, 3 );
@@ -21964,7 +21964,7 @@ function submatrixSelectLast( test )
   test.identical( m.scalarsPerElement, 144 );
   test.identical( m.scalarsPerMatrix, 576 );
   test.identical( m.scalarsPerRow, 8 );
-  test.identical( m.scalarsPerSlice, 24 );
+  test.identical( m.scalarsPerLayer, 24 );
   test.identical( m.length, 4 );
   test.identical( m.strideInCol, 1 );
   test.identical( m.strideInRow, 3 );
@@ -21994,7 +21994,7 @@ function submatrixSelectLast( test )
   test.identical( submatrix.scalarsPerElement, 24 );
   test.identical( submatrix.scalarsPerMatrix, 24 );
   test.identical( submatrix.scalarsPerRow, 8 );
-  test.identical( submatrix.scalarsPerSlice, 24 );
+  test.identical( submatrix.scalarsPerLayer, 24 );
   test.identical( submatrix.length, 1 );
   test.identical( submatrix.strideInCol, 1 );
   test.identical( submatrix.strideInRow, 3 );
@@ -22022,7 +22022,7 @@ function submatrixSelectLast( test )
   test.identical( m.scalarsPerElement, 144 );
   test.identical( m.scalarsPerMatrix, 576 );
   test.identical( m.scalarsPerRow, 8 );
-  test.identical( m.scalarsPerSlice, 24 );
+  test.identical( m.scalarsPerLayer, 24 );
   test.identical( m.length, 4 );
   test.identical( m.strideInCol, 1 );
   test.identical( m.strideInRow, 3 );
@@ -22052,7 +22052,7 @@ function submatrixSelectLast( test )
   test.identical( submatrix.scalarsPerElement, 24 );
   test.identical( submatrix.scalarsPerMatrix, 24 );
   test.identical( submatrix.scalarsPerRow, 8 );
-  test.identical( submatrix.scalarsPerSlice, 24 );
+  test.identical( submatrix.scalarsPerLayer, 24 );
   test.identical( submatrix.length, 1 );
   test.identical( submatrix.strideInCol, 1 );
   test.identical( submatrix.strideInRow, 3 );
@@ -22080,7 +22080,7 @@ function submatrixSelectLast( test )
   test.identical( m.scalarsPerElement, 24 );
   test.identical( m.scalarsPerMatrix, 24 );
   test.identical( m.scalarsPerRow, 8 );
-  test.identical( m.scalarsPerSlice, 24 );
+  test.identical( m.scalarsPerLayer, 24 );
   test.identical( m.length, 1 );
   test.identical( m.strideInCol, 1 );
   test.identical( m.strideInRow, 3 );
@@ -22110,7 +22110,7 @@ function submatrixSelectLast( test )
   test.identical( submatrix.scalarsPerElement, 24 );
   test.identical( submatrix.scalarsPerMatrix, 24 );
   test.identical( submatrix.scalarsPerRow, 8 );
-  test.identical( submatrix.scalarsPerSlice, 24 );
+  test.identical( submatrix.scalarsPerLayer, 24 );
   test.identical( submatrix.length, 1 );
   test.identical( submatrix.strideInCol, 1 );
   test.identical( submatrix.strideInRow, 3 );
