@@ -8009,8 +8009,8 @@ function FromExperiment( test )
   test.case = 'imitation of use result.hasShape';
   var dims = [ 3, 2, Infinity ];
   var got = _.Matrix.From( null, dims );
-  test.identical( got.dimsEffective, dims );
-  test.is( got.hasShape( dims ) ); // analog of previous test check
+  test.is( got.hasShape( dims ) );
+  test.identical( got.dimsEffective, dims ); // analog of previous test check
 }
 
 FromExperiment.experimental = 1;
