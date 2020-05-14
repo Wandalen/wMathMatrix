@@ -1542,7 +1542,14 @@ bufferImport.defaults =
   buffer : null,
   inputRowMajor : 1, /* qqq : cover option */
   replacing : 0, /* qqq : cover option */
-  dims : null, /* xxx qqq2 : implement for buffer growing. ask */
+  dims : null,
+  /* xxx qqq2 : implement option dims for buffer growing. ask
+    if self.scalarsPerMatrix !== o.buffer.length
+      dims = undefined : null -> error
+      dims = [ 5, null ] : change ncol
+      dims = [ null, 5 ] : change nrow
+      dims = [ 5, 5 ] : change both
+  */
 }
 
 // //

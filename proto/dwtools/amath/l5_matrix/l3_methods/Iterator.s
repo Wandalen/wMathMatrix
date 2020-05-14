@@ -163,7 +163,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     it.args = args;
     it.indexNd = [ 0, 0 ];
     it.strides = self.stridesEffective;
-    it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset should always point on the current element of the buffer */
+    it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
     let indexLogical = 0;
     for( let c = 0 ; c < dims1 ; c++ )
     {
@@ -284,6 +284,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
 //
 
 /* qqq2 : make o-fifcation */
+/* qqq2 : cover and document please */
 function layerEach( onMatrix, args )
 {
   let self = this;
