@@ -5685,7 +5685,7 @@ function MakeRow( test )
   var buffer = [ 1, 2, 3 ];
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -5696,7 +5696,7 @@ function MakeRow( test )
   var buffer = _.unrollMake([ 1, 2, 3 ]);
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -5773,9 +5773,9 @@ function MakeRow( test )
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
@@ -5784,10 +5784,10 @@ function MakeRow( test )
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 0, 1, 0, 2, 0, 3, 0 ] );
   test.identical( got.dims, [ 1, 3 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.identical( got.strides, [ 2, 2 ] );
+  test.identical( got.stridesEffective, [ 2, 2 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
 
