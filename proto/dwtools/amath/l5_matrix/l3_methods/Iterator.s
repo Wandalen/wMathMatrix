@@ -223,7 +223,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
         it.offset[ 0 ] = it.offset[ 1 ];
       }
       it.offset[ 2 ] += it.strides[ 2 ];
-      it.offset[ 1 ] = it.strides[ 2 ];
+      it.offset[ 1 ] = it.offset[ 2 ];
       it.offset[ 0 ] = it.offset[ 2 ];
     }
   }
