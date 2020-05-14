@@ -1489,7 +1489,7 @@ bufferExport.defaults =
 {
   dstBuffer : null,
   dstObject : 0,
-  restriding : 1, /* xxx : set to null */
+  restriding : 1, /* xxx : set to null, later */
   asFloat : 0,
 }
 

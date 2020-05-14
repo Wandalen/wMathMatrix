@@ -272,6 +272,7 @@ function _PivotRook_pre( routine, args )
 
 //
 
+/* qqq2 : make pre-body-fication, please */
 // function _pivotRook( i, o )
 function _PivotRook( o ) /* aaa2 : cover pelase */ /* Dmytro : covered */
 {
