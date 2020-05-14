@@ -1345,18 +1345,19 @@ function bufferExport( o )
   if( o.dstObject === null )
   o.dstObject = Object.create( null );
 
-  if( o.dstBuffer )
-  {
-
-    // _.assert( !o.restriding, 'not tested' );
-    if( o.restriding )
-    self.scalarEach( function( it )
-    {
-      o.dstBuffer[ self.flatScalarIndexFrom( it.indexNd ) ] = it.scalar ;
-    });
-
-  }
-  else
+  // if( o.dstBuffer )
+  // {
+  //
+  //   // _.assert( !o.restriding, 'not tested' );
+  //   if( o.restriding )
+  //   self.scalarEach( function( it )
+  //   {
+  //     o.dstBuffer[ self.flatScalarIndexFrom( it.indexNd ) ] = it.scalar ;
+  //   });
+  //
+  // }
+  // else
+  if( !o.dstBuffer )
   {
     if( o.asFloat ) /* qqq : cover please */
     {
@@ -1365,7 +1366,7 @@ function bufferExport( o )
         if( o.restriding )
         o.dstBuffer = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
         else
-        o.dstBuffer = self.long.longMake( self.buffer );
+        o.dstBuffer = self.long.longMake( F64x, self.buffer );
       }
       else
       {
@@ -1430,6 +1431,9 @@ function bufferExport( o )
     // if( o.src.buffer )
     // o.dst += `\n${tab2}buffer.length : ${o.src.buffer.length}`;
 
+    let length = o.dstBuffer.length <= self.buffer.length ? o.dstBuffer.length : self.buffer.length;
+    for( let i = 0 ; i < length ; i++ )
+    o.dstBuffer[ i ] = self.buffer[ i ];
 
     if( o.dstObject )
     {
