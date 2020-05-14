@@ -8201,7 +8201,7 @@ function FromSrcMatrix( test )
     -2,
      3,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeCol';
@@ -8213,7 +8213,7 @@ function FromSrcMatrix( test )
     -2,
      3,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeColZeroed';
@@ -8227,7 +8227,7 @@ function FromSrcMatrix( test )
   var src = _.Matrix.MakeRow([ 1, -2, 3 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 1, 3 ]).copy([ 1, -2, 3 ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeRowZeroed';
@@ -8341,7 +8341,7 @@ function FromSrcMatrix( test )
     0, 0, 1, 0,
     0, 0, 0, 1,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'method fromQuatWithScale';
