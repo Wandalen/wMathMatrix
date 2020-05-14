@@ -1511,7 +1511,7 @@ function MakeSquareChangeBufferType( test )
     -4,  5,
   ]);
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 2, 1 ] );
@@ -1524,7 +1524,7 @@ function MakeSquareChangeBufferType( test )
   ]);
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 2, 1 ] );
@@ -1537,7 +1537,7 @@ function MakeSquareChangeBufferType( test )
   ]);
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 2, 1 ] );
@@ -1616,19 +1616,19 @@ function MakeSquareChangeBufferType( test )
   ]);
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 2, 1 ] );
   test.identical( got.stridesEffective, [ 2, 1 ] );
 
   test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0,  1,  2, -2, 1, -4,  3,  5 ], 1, 4, 2 );
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 0,  1,  2, -2, 1, -4,  3,  5 ] );
   test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 2, 1 ] );
+  test.identical( got.strides, [ 4, 2 ] );
+  test.identical( got.stridesEffective, [ 4, 2 ] );
 
   if( !Config.debug )
   return;
@@ -24643,7 +24643,7 @@ function determinant( test )
 
   /* */
 
-  /* qqq2 : use this test case to cover routine _pivotRook */
+  /* aaa2 : use this test case to cover routine _pivotRook */ /* Dmytro : used */
   test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
   var buffer = new I32x

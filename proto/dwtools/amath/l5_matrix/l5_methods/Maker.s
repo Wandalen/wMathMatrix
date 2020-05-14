@@ -1129,9 +1129,9 @@ function FromVector( src )
 
   if( _.vectorAdapterIs( src ) )
   {
-    result = new this.Self /* qqq : cover for all kind of vector adapters */
+    result = new this.Self /* aaa : cover for all kind of vector adapters */ /* Dmytro : covered */
     ({
-      buffer : src.length > src._vectorBuffer.length ? _.dup( src._vectorBuffer, src.length ) : src._vectorBuffer, /* Dmytro : duplicates buffer VectorAdapter is maiden by fromNumber */
+      buffer : src.length > src._vectorBuffer.length ? _.dup( src._vectorBuffer, src.length ) : src._vectorBuffer, /* Dmytro : duplicates buffer VectorAdapter which is maiden by fromNumber */
       dims : [ src.length, 1 ],
       offset : src.offset !== 0 ? src.offset : 0, /* Dmytro : missed */
       // strides : src.stride > 1 ? [ 1, src.stride ] : [ 1, src.length ], /* Dmytro : wrong order of strides, the strides[ 0 ] defines stride between row elements */
