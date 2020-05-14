@@ -1470,7 +1470,7 @@ function MakeSquareChangeBufferLength( test )
   ([
   ]);
   test.identical( got.length, 0 );
-  test.identical( got.buffer, _.longDescriptor.make( 0 ) ); /* xxx : ? */
+  test.identical( got.buffer, [] ); /* xxx : ? */
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 0 ] );
@@ -1481,7 +1481,7 @@ function MakeSquareChangeBufferLength( test )
     1
   ]);
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1 ]) );
+  test.identical( got.buffer, [ 1 ] );
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -1494,7 +1494,7 @@ function MakeSquareChangeBufferLength( test )
      0,  0,  2
   ]);
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, 3, -4, 5, 6, 0, 0, 2 ]) );
+  test.identical( got.buffer, [ 1, -2, 3, -4, 5, 6, 0, 0, 2 ] );
   test.identical( got.dims, [ 3, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 3, 1 ] );
