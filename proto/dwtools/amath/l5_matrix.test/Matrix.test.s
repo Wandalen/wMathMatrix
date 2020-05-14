@@ -21445,16 +21445,16 @@ function submatrix( test )
     var r2 = m.submatrix( 2, _.all );
 
     var exp = _.Matrix.MakeCol([ 1, 5, 9 ]);
-    test.identical( c1, exp );
+    test.equivalent( c1, exp );
 
     var exp = _.Matrix.MakeCol([ 4, 8, 12 ]);
-    test.identical( c2, exp );
+    test.equivalent( c2, exp );
 
     var exp = _.Matrix.MakeRow([ 1, 2, 3, 4 ]);
-    test.identical( r1, exp );
+    test.equivalent( r1, exp );
 
     var exp = _.Matrix.MakeRow([ 9, 10, 11, 12 ]);
-    test.identical( r2, exp );
+    test.equivalent( r2, exp );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
