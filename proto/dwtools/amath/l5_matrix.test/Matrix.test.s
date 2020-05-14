@@ -23134,7 +23134,7 @@ function MulSubmatirices( test )
     8, 10
   ]);
 
-  test.identical( sub1, exp );
+  test.equivalent( sub1, exp );
 
 }
 
