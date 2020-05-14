@@ -1470,7 +1470,7 @@ function MakeSquareChangeBufferLength( test )
   ([
   ]);
   test.identical( got.length, 0 );
-  test.identical( got.buffer, _.longDescriptor.make( 0 ) ); /* xxx : ? */
+  test.identical( got.buffer, [] ); /* xxx : ? */
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 0 ] );
@@ -1481,7 +1481,7 @@ function MakeSquareChangeBufferLength( test )
     1
   ]);
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1 ]) );
+  test.identical( got.buffer, [ 1 ] );
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -1494,7 +1494,7 @@ function MakeSquareChangeBufferLength( test )
      0,  0,  2
   ]);
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, 3, -4, 5, 6, 0, 0, 2 ]) );
+  test.identical( got.buffer, [ 1, -2, 3, -4, 5, 6, 0, 0, 2 ] );
   test.identical( got.dims, [ 3, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 3, 1 ] );
@@ -1511,7 +1511,7 @@ function MakeSquareChangeBufferType( test )
     -4,  5,
   ]);
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 2, 1 ] );
@@ -1524,7 +1524,7 @@ function MakeSquareChangeBufferType( test )
   ]);
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 2, 1 ] );
@@ -1537,7 +1537,7 @@ function MakeSquareChangeBufferType( test )
   ]);
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 2, 1 ] );
@@ -1616,19 +1616,19 @@ function MakeSquareChangeBufferType( test )
   ]);
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 1, -2, -4, 5 ] );
   test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 2, 1 ] );
   test.identical( got.stridesEffective, [ 2, 1 ] );
 
   test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0,  1,  2, -2, 1, -4,  3,  5 ], 1, 4, 2 );
   var got = _.Matrix.MakeSquare( buffer );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, -2, -4, 5 ]) );
+  test.identical( got.buffer, [ 0,  1,  2, -2, 1, -4,  3,  5 ] );
   test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 2, 1 ] );
+  test.identical( got.strides, [ 4, 2 ] );
+  test.identical( got.stridesEffective, [ 4, 2 ] );
 
   if( !Config.debug )
   return;
@@ -4369,7 +4369,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -4385,7 +4385,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -4403,7 +4403,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -4419,7 +4419,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -4641,9 +4641,9 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 3, 1 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
@@ -4657,9 +4657,9 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
@@ -4673,10 +4673,10 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 0, 1, 0, 2, 0, 3, 0 ] );
   test.identical( got.dims, [ 3, 1 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.identical( got.strides, [ 2, 6 ] );
+  test.identical( got.stridesEffective, [ 2, 6 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
 
@@ -4689,10 +4689,10 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 0, 1, 0, 2, 0, 3, 0 ] );
   test.identical( got.dims, [ 1, 3 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.identical( got.strides, [ 2, 2 ] );
+  test.identical( got.stridesEffective, [ 2, 2 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
 
@@ -5325,7 +5325,7 @@ function MakeCol( test )
   var buffer = [ 1, 2, 3 ];
   var got = _.Matrix.MakeCol( buffer );
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -5336,7 +5336,7 @@ function MakeCol( test )
   var buffer = _.unrollMake([ 1, 2, 3 ]);
   var got = _.Matrix.MakeCol( buffer );
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -5413,9 +5413,9 @@ function MakeCol( test )
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.MakeCol( buffer );
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 3, 1 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
@@ -5424,10 +5424,10 @@ function MakeCol( test )
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.MakeCol( buffer );
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 0, 1, 0, 2, 0, 3, 0 ] );
   test.identical( got.dims, [ 3, 1 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 3 ] );
+  test.identical( got.strides, [ 2, 6 ] );
+  test.identical( got.stridesEffective, [ 2, 6 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
 
@@ -5685,7 +5685,7 @@ function MakeRow( test )
   var buffer = [ 1, 2, 3 ];
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -5696,7 +5696,7 @@ function MakeRow( test )
   var buffer = _.unrollMake([ 1, 2, 3 ]);
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -5773,9 +5773,9 @@ function MakeRow( test )
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 1, 2, 3 ] );
   test.identical( got.dims, [ 1, 3 ] );
-  test.identical( got.strides, null );
+  test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
@@ -5784,10 +5784,10 @@ function MakeRow( test )
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, [ 0, 1, 0, 2, 0, 3, 0 ] );
   test.identical( got.dims, [ 1, 3 ] );
-  test.identical( got.strides, null );
-  test.identical( got.stridesEffective, [ 1, 1 ] );
+  test.identical( got.strides, [ 2, 2 ] );
+  test.identical( got.stridesEffective, [ 2, 2 ] );
   test.is( got !== buffer );
   test.is( got.buffer !== buffer.buffer );
 
@@ -8201,7 +8201,7 @@ function FromSrcMatrix( test )
     -2,
      3,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeCol';
@@ -8213,7 +8213,7 @@ function FromSrcMatrix( test )
     -2,
      3,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeColZeroed';
@@ -8227,7 +8227,7 @@ function FromSrcMatrix( test )
   var src = _.Matrix.MakeRow([ 1, -2, 3 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 1, 3 ]).copy([ 1, -2, 3 ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeRowZeroed';
@@ -8341,7 +8341,7 @@ function FromSrcMatrix( test )
     0, 0, 1, 0,
     0, 0, 0, 1,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'method fromQuatWithScale';
@@ -9153,7 +9153,7 @@ function FromForReadingSrcMatrix( test )
     -2,
      3,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeCol';
@@ -9165,7 +9165,7 @@ function FromForReadingSrcMatrix( test )
     -2,
      3,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeColZeroed';
@@ -9179,7 +9179,7 @@ function FromForReadingSrcMatrix( test )
   var src = _.Matrix.MakeRow([ 1, -2, 3 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 1, 3 ]).copy([ 1, -2, 3 ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'routine MakeRowZeroed';
@@ -9293,7 +9293,7 @@ function FromForReadingSrcMatrix( test )
     0, 0, 1, 0,
     0, 0, 0, 1,
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
   test.is( got === src );
 
   test.case = 'method fromQuatWithScale';
@@ -11356,10 +11356,10 @@ function makeHelper( test )
 
   logger.log( 'm\n' + _.toStr( m ) );
 
-  test.identical( m.size, 24 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 8 );
+  // test.identical( m.size, 24 );
+  // test.identical( m.sizeOfElement, 12 );
+  // test.identical( m.sizeOfCol, 12 );
+  // test.identical( m.sizeOfRow, 8 );
   test.identical( m.dims, [ 3, 2 ] );
   test.identical( m.length, 2 );
 
@@ -11371,7 +11371,7 @@ function makeHelper( test )
   test.identical( m.strideInRow, 3 );
 
   test.identical( m.strides, [ 1, 3 ] );
-  test.is( m.buffer instanceof F32x );
+  // test.is( m.buffer instanceof F32x );
 
   /* */
 
@@ -11387,10 +11387,10 @@ function makeHelper( test )
 
   logger.log( 'm\n' + _.toStr( m ) );
 
-  test.identical( m.size, 36 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 12 );
+  // test.identical( m.size, 36 );
+  // test.identical( m.sizeOfElement, 12 );
+  // test.identical( m.sizeOfCol, 12 );
+  // test.identical( m.sizeOfRow, 12 );
   test.identical( m.dims, [ 3, 3 ] );
   test.identical( m.length, 3 );
 
@@ -11409,18 +11409,18 @@ function makeHelper( test )
   var a1 = m.scalarFlatGet( 4 );
   var a2 = m.scalarGet([ 1, 1 ]);
 
-  test.identical( r1, fvec([ 4, 5, 6 ]) );
+  test.equivalent( r1, [ 4, 5, 6 ] );
   test.identical( r1, r2 );
-  test.identical( c1, fvec([ 2, 5, 8 ]) );
+  test.equivalent( c1, [ 2, 5, 8 ] );
   test.identical( c1, c2 );
-  test.identical( e, fvec([ 2, 5, 8 ]) );
+  test.equivalent( e, [ 2, 5, 8 ] );
   test.identical( a1, 5 );
   test.identical( a2, 5 );
   test.identical( m.reduceToSumAtomWise(), 45 );
   test.identical( m.reduceToProductAtomWise(), 362880 );
   test.identical( m.determinant(), 0 );
 
-  test.is( m.buffer instanceof F32x );
+  // test.is( m.buffer instanceof F32x );
   test.identical( m.strides, null );
 
   var buffer = new U32x
@@ -11683,10 +11683,10 @@ function makeHelper( test )
 
     logger.log( 'm\n' + _.toStr( m ) );
 
-    test.identical( m.size, 0 );
-    test.identical( m.sizeOfElement, 0 );
-    test.identical( m.sizeOfCol, 0 );
-    test.identical( m.sizeOfRow, 0 );
+    // test.identical( m.size, 0 );
+    // test.identical( m.sizeOfElement, 0 );
+    // test.identical( m.sizeOfCol, 0 );
+    // test.identical( m.sizeOfRow, 0 );
     test.identical( m.dims, [ 0, 0 ] );
     test.identical( m.length, 0 );
 
@@ -11700,7 +11700,7 @@ function makeHelper( test )
     test.identical( m.reduceToSumAtomWise(), 0 );
     test.identical( m.reduceToProductAtomWise(), 1 );
     test.identical( m.determinant(), 0 );
-    test.is( m.buffer instanceof F32x );
+    // test.is( m.buffer instanceof F32x );
 
     if( Config.debug )
     {
@@ -11752,585 +11752,6 @@ function makeHelper( test )
 
   var m = _.Matrix.MakeDiagonal([]);
   checkNull( m );
-
-}
-
-//
-
-function MakeLine( test )
-{
-
-  function checkCol( m )
-  {
-
-    logger.log( 'm\n' + _.toStr( m ) );
-
-    test.identical( m.size, 12 );
-    test.identical( m.sizeOfElement, 12 );
-    test.identical( m.sizeOfCol, 12 );
-    test.identical( m.sizeOfRow, 4 );
-    test.identical( m.dims, [ 3, 1 ] );
-    test.identical( m.length, 1 );
-    // test.identical( m.inputRowMajor, 1 );
-
-    test.identical( m.stridesEffective, [ 1, 3 ] );
-    test.identical( m.strideOfElement, 3 );
-    test.identical( m.strideOfCol, 3 );
-    test.identical( m.strideInCol, 1 );
-    test.identical( m.strideOfRow, 1 );
-    test.identical( m.strideInRow, 3 );
-
-    test.identical( m.strides, null );
-    test.is( m.buffer instanceof F32x );
-
-  }
-
-  function checkRow( m )
-  {
-
-    logger.log( 'm\n' + _.toStr( m ) );
-
-    test.identical( m.size, 12 );
-    test.identical( m.sizeOfElement, 4 );
-    test.identical( m.sizeOfCol, 4 );
-    test.identical( m.sizeOfRow, 12 );
-    test.identical( m.dims, [ 1, 3 ] );
-    test.identical( m.length, 3 );
-    // test.identical( m.inputRowMajor, 1 );
-
-    test.identical( m.stridesEffective, [ 1, 1 ] );
-    test.identical( m.strideOfElement, 1 );
-    test.identical( m.strideOfCol, 1 );
-    test.identical( m.strideInCol, 1 );
-    test.identical( m.strideOfRow, 1 );
-    test.identical( m.strideInRow, 1 );
-
-    test.identical( m.strides, null );
-    test.is( m.buffer instanceof F32x );
-
-  }
-
-  /* */
-
-  test.case = 'make col';
-
-  var m = _.Matrix.MakeCol( 3 );
-  checkCol( m );
-
-  var m = _.Matrix.MakeLine
-  ({
-    dimension : 0,
-    buffer : 3,
-  });
-
-  checkCol( m );
-
-  var m = _.Matrix.MakeLine
-  ({
-    dimension : 0,
-    buffer : new F32x([ 1, 2, 3 ]),
-  });
-
-  checkCol( m );
-
-  /* */
-
-  test.case = 'make col from buffer';
-
-  var m = _.Matrix.MakeCol([ 1, 2, 3 ]);
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  /* */
-
-  test.case = 'make col from vector with Array';
-
-  var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
-  var m = _.Matrix.MakeCol( v );
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.is( v._vectorBuffer !== m.buffer );
-
-  /* */
-
-  test.case = 'make col from vector with F32x';
-
-  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = _.Matrix.MakeCol( v );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 12 );
-  test.identical( m.sizeOfCol, 12 );
-  test.identical( m.sizeOfRow, 4 );
-  test.identical( m.dims, [ 3, 1 ] );
-  test.identical( m.length, 1 );
-
-  test.identical( m.stridesEffective, [ 2, 3 ] );
-  test.identical( m.strideOfElement, 3 );
-  test.identical( m.strideOfCol, 3 );
-  test.identical( m.strideInCol, 2 );
-  test.identical( m.strideOfRow, 2 );
-  test.identical( m.strideInRow, 3 );
-
-  test.identical( m.strides, [ 2, 3 ] );
-  test.is( m.buffer instanceof F32x );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 2 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.is( v._vectorBuffer === m.buffer );
-
-  /* */
-
-  test.case = 'make col zeroed';
-
-  var m = _.Matrix.MakeColZeroed( 3 );
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0, 0, 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0, 0, 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  /* */
-
-  test.case = 'make col zeroed from buffer';
-
-  var m = _.Matrix.MakeColZeroed([ 1, 2, 3 ]);
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0, 0, 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0, 0, 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  /* */
-
-  test.case = 'make col zeroed from vector';
-
-  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = _.Matrix.MakeColZeroed( v );
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0, 0, 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0, 0, 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  /* */
-
-  test.case = 'make col from col';
-
-  var om = _.Matrix.MakeCol([ 1, 2, 3 ]);
-  var m = _.Matrix.MakeCol( om );
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 2 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 1, 2, 3 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 1, 2, 3 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-  test.is( m === om );
-
-  /* */
-
-  test.case = 'make col zeroed from col';
-
-  var om = _.Matrix.MakeCol([ 1, 2, 3 ]);
-  var m = _.Matrix.MakeColZeroed( om );
-
-  checkCol( m );
-
-  var r1 = m.rowGet( 1 );
-  var r2 = m.lineGet( 1, 1 );
-  var c1 = m.colGet( 0 );
-  var c2 = m.lineGet( 0, 0 );
-  var e = m.eGet( 0 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 1, 0 ]);
-
-  test.identical( r1, fvec([ 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0, 0, 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0, 0, 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  test.is( m !== om );
-
-  /* */
-
-  test.case = 'make row';
-
-  var m = _.Matrix.MakeRow( 3 );
-
-  checkRow( m );
-
-  var m = _.Matrix.MakeLine
-  ({
-    dimension : 1,
-    buffer : 3,
-  });
-
-  checkRow( m );
-
-  var m = _.Matrix.MakeLine
-  ({
-    dimension : 1,
-    buffer : new F32x([ 1, 2, 3 ]),
-  });
-
-  checkRow( m );
-
-  /* */
-
-  test.case = 'make row from buffer';
-
-  var m = _.Matrix.MakeRow([ 1, 2, 3 ]);
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 1, 2, 3 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 2 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 2 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  /* */
-
-  test.case = 'make row from vector with Array';
-
-  var v = vad.fromLongLrangeAndStride( [ -1, 1, -1, 2, -1, 3, -1 ], 1, 3, 2 );
-  var m = _.Matrix.MakeRow( v );
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 1, 2, 3 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 2 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 2 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.is( v._vectorBuffer !== m.buffer );
-
-  /* */
-
-  test.case = 'make row from vector with F32x';
-
-  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = _.Matrix.MakeRow( v );
-
-  logger.log( 'm\n' + _.toStr( m ) );
-
-  test.identical( m.size, 12 );
-  test.identical( m.sizeOfElement, 4 );
-  test.identical( m.sizeOfCol, 4 );
-  test.identical( m.sizeOfRow, 12 );
-  test.identical( m.dims, [ 1, 3 ] );
-  test.identical( m.length, 3 );
-
-  test.identical( m.stridesEffective, [ 3, 2 ] );
-  test.identical( m.strideOfElement, 2 );
-  test.identical( m.strideOfCol, 2 );
-  test.identical( m.strideInCol, 3 );
-  test.identical( m.strideOfRow, 3 );
-  test.identical( m.strideInRow, 2 );
-
-  test.identical( m.strides, [ 3, 2 ] );
-  test.is( m.buffer instanceof F32x );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 2 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 1, 2, 3 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 2 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 2 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  /* */
-
-  test.case = 'make row zeroed';
-
-  var m = _.Matrix.MakeRowZeroed( 3 );
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 0, 0, 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  /* */
-
-  test.case = 'make row zeroed from buffer';
-
-  var m = _.Matrix.MakeRowZeroed([ 1, 2, 3 ]);
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 0, 0, 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  /* */
-
-  test.case = 'make row zeroed from vector';
-
-  var v = vad.fromLongLrangeAndStride( new F32x([ -1, 1, -1, 2, -1, 3, -1 ]), 1, 3, 2 );
-  var m = _.Matrix.MakeRowZeroed( v );
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 0, 0, 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  /* */
-
-  test.case = 'make row from row';
-
-  var om = _.Matrix.MakeRow([ 1, 2, 3 ]);
-  var m = _.Matrix.MakeRow( om );
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 1, 2, 3 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 2 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 2 ]) );
-  test.identical( a1, 2 );
-  test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 6 );
-
-  test.is( m === om );
-
-  /* */
-
-  test.case = 'make row zeroed from row';
-
-  var om = _.Matrix.MakeRow([ 1, 2, 3 ]);
-  var m = _.Matrix.MakeRowZeroed( om );
-
-  checkRow( m );
-
-  var r1 = m.rowGet( 0 );
-  var r2 = m.lineGet( 1, 0 );
-  var c1 = m.colGet( 1 );
-  var c2 = m.lineGet( 0, 1 );
-  var e = m.eGet( 1 );
-  var a1 = m.scalarFlatGet( 1 );
-  var a2 = m.scalarGet([ 0, 1 ]);
-
-  test.identical( r1, fvec([ 0, 0, 0 ]) );
-  test.identical( r1, r2 );
-  test.identical( c1, fvec([ 0 ]) );
-  test.identical( c1, c2 );
-  test.identical( e, fvec([ 0 ]) );
-  test.identical( a1, 0 );
-  test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
-
-  test.is( m !== om );
 
 }
 
@@ -18077,7 +17498,7 @@ function strideNegative( test )
     9, 7,
     8, 6,
   ]);
-  test.identical( matrix, exp );
+  test.equivalent( matrix, exp );
 }
 
 //
@@ -21226,7 +20647,7 @@ function _PivotRookWithOptionY( test )
     nColPermutations : 0,
   };
   var got = _.Matrix._PivotRook( o );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -21235,7 +20656,7 @@ function _PivotRookWithOptionY( test )
   o.lineIndex = 1;
 
   var got = _.Matrix._PivotRook( o );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -21244,7 +20665,7 @@ function _PivotRookWithOptionY( test )
   o.lineIndex = 2;
 
   var got = _.Matrix._PivotRook( o );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -21295,7 +20716,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21305,7 +20726,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21315,7 +20736,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21366,7 +20787,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 2, 1, 3 ]) );
+  test.identical( o.y.buffer, [ 2, 1, 3 ] );
   test.identical( o.pivots, [ [ 1, 0, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21376,7 +20797,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -21386,7 +20807,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -21437,7 +20858,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -21447,7 +20868,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21457,7 +20878,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21509,7 +20930,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -21519,7 +20940,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -21529,7 +20950,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -21579,7 +21000,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -21589,7 +21010,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21599,7 +21020,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21651,7 +21072,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -21661,7 +21082,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21671,7 +21092,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21724,7 +21145,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21734,7 +21155,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21744,7 +21165,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -21754,7 +21175,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -21807,7 +21228,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1, 4 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21817,7 +21238,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1, 4 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21827,7 +21248,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1, 4 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -22016,16 +21437,16 @@ function submatrix( test )
     var r2 = m.submatrix( 2, _.all );
 
     var exp = _.Matrix.MakeCol([ 1, 5, 9 ]);
-    test.identical( c1, exp );
+    test.equivalent( c1, exp );
 
     var exp = _.Matrix.MakeCol([ 4, 8, 12 ]);
-    test.identical( c2, exp );
+    test.equivalent( c2, exp );
 
     var exp = _.Matrix.MakeRow([ 1, 2, 3, 4 ]);
-    test.identical( r1, exp );
+    test.equivalent( r1, exp );
 
     var exp = _.Matrix.MakeRow([ 9, 10, 11, 12 ]);
-    test.identical( r2, exp );
+    test.equivalent( r2, exp );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -23705,7 +23126,7 @@ function MulSubmatirices( test )
     8, 10
   ]);
 
-  test.identical( sub1, exp );
+  test.equivalent( sub1, exp );
 
 }
 
@@ -23740,7 +23161,7 @@ function MulSeveral( test )
     11,
     -3
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
 
   /**/
 
@@ -24635,7 +24056,7 @@ function determinant( test )
 
   /* */
 
-  /* qqq2 : use this test case to cover routine _pivotRook */
+  /* aaa2 : use this test case to cover routine _pivotRook */ /* Dmytro : used */
   test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
   var buffer = new I32x
@@ -27655,7 +27076,6 @@ var Self =
 
     make,
     makeHelper,
-    MakeLine,
     from,
     // _BufferFrom,
     TempBorrow,
