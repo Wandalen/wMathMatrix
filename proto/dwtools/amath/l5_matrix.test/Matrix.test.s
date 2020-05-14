@@ -14769,7 +14769,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = new F64x([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - F64x';
@@ -14786,7 +14786,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = new F64x([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   /* */
@@ -15143,7 +15143,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - F64x';
@@ -15357,7 +15357,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15376,7 +15376,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15416,7 +15416,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15435,7 +15435,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15475,7 +15475,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15494,7 +15494,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15534,7 +15534,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15553,7 +15553,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = [ 0, 0, 0, 0 ];
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15601,7 +15601,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : [ 0, 0, 0, 0 ],
+    buffer : [ 1, -1, 2, 3 ],
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -15626,7 +15626,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : [ 0, 0, 0, 0 ],
+    buffer : [ 1, -1, 2, 3 ],
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -15681,7 +15681,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : [ 0, 0, 0, 0 ],
+    buffer : [ 1, -1, 2, 3 ],
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -15708,7 +15708,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : [ 0, 0, 0, 0 ],
+    buffer : [ 1, -1, 2, 3 ],
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -15758,7 +15758,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = new F64x([ 0, 0, 0, 0, 0, 0, 0 ]);
+  var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15820,7 +15820,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = new F64x([ 0, 0, 0, 0, 0, 0, 0 ]);
+  var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15882,7 +15882,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = new F64x([ 0, 0, 0, 0, 0, 0, 0 ]);
+  var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -15944,7 +15944,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = new F64x([ 0, 0, 0, 0, 0, 0, 0 ]);
+  var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
   test.is( got === dstBuffer );
 
@@ -16014,7 +16014,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp =
   {
-    buffer : new F64x([ 0, 0, 0, 0, 0, 0, 0 ]),
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 3 ],
     offset : 1
@@ -16097,7 +16097,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp =
   {
-    buffer : new F64x([ 0, 0, 0, 0, 0, 0, 0 ]),
+    buffer : new F64x([ 0, 1, -1, 2, 3, 4, 5 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 3 ],
     offset : 1
