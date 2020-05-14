@@ -273,7 +273,7 @@ function _PivotRook_pre( routine, args )
 //
 
 // function _pivotRook( i, o )
-function _PivotRook( o ) /* qqq2 : cover pelase */
+function _PivotRook( o ) /* aaa2 : cover pelase */ /* Dmytro : covered */
 {
   let proto = Self;
   // let self = this;
