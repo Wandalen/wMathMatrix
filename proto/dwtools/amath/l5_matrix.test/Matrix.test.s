@@ -13989,7 +13989,7 @@ function copyTo( test )
 
   /* */
 
-  function _copyTo( test, o )
+  function _copyTo( o )
   {
 
     /* */
@@ -17505,6 +17505,7 @@ function strideNegative( test )
 
 function bufferNormalize( test )
 {
+  let context = this;
 
   var o = Object.create( null );
   o.test = test;
@@ -17517,8 +17518,6 @@ function bufferNormalize( test )
 
   function _bufferNormalize( o )
   {
-    let context = this;
-    var test = o.test;
 
     /* */
 
