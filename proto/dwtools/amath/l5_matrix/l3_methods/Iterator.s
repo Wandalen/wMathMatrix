@@ -34,7 +34,7 @@ let Self = _.Matrix;
  * @param { Map|Function } o - Options map of callback.
  * @param { Function } o.onScalar - Callback.
  * Callback {-o.onScalar-} applies four arguments : element of matrix, position `indexNd`,
- * flat index `indexFlat`, options map {-o-}.
+ * flat index `indexLogical`, options map {-o-}.
  * @returns { * } - Returns the result of callback.
  * @method scalarWhile
  * @throws { Error } If arguments.length is not equal to one.
@@ -74,8 +74,8 @@ function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange.
   {
     it.indexNd = indexNd;
     it.indexLogical = indexLogical;
-    // it.scalar = self.scalarGet( indexNd );
-    // result = o.onScalar.call( self, value, indexNd, indexFlat, o );
+    it.scalar = self.scalarGet( indexNd );
+    // result = o.onScalar.call( self, value, indexNd, indexLogical, o );
     result = o.onScalar.call( self, it );
     return result;
   }
@@ -91,8 +91,8 @@ scalarWhile.defaults =
 
 /**
  * Method scalarEach() applies callback {-onScalar-} to each element of current matrix.
- * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexFlat`,
- * `indexFlatRowFirst`, `atom`, `args`. Field `args` defines by the second argument.
+ * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexLogical`.
+ * Field `args` defines by the second argument.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -250,7 +250,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
     let indexLogical = 0;
 
-    self.sliceEach( ( it2 ) =>
+    self.layerEach( ( it2 ) =>
     {
 
       for( let i = 2 ; i < dims.length ; i++ )
@@ -283,7 +283,8 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
 
 //
 
-function sliceEach( onMatrix, args )
+/* qqq2 : make o-fifcation */
+function layerEach( onMatrix, args )
 {
   let self = this;
   let dims = self.dimsEffective;
@@ -298,7 +299,7 @@ function sliceEach( onMatrix, args )
   let it = Object.create( null );
   it.args = args;
   it.indexNd = _.dup( 0, dims.length - 2 );
-  it.indexFlat = 0;
+  it.indexLogical = 0;
 
   if( !it.indexNd.length )
   {
@@ -320,8 +321,6 @@ function sliceEach( onMatrix, args )
 
   return self;
 
-
-
   function inc()
   {
     let d = 0;
@@ -331,7 +330,7 @@ function sliceEach( onMatrix, args )
       it.indexNd[ d ] += 1;
       if( it.indexNd[ d ] < dims[ d+2 ] )
       {
-        it.indexFlat += 1;
+        it.indexLogical += 1;
         return true;
       }
       it.indexNd[ d ] = 0;
@@ -373,7 +372,7 @@ let Extension =
 
   scalarWhile,
   scalarEach,
-  sliceEach, /* qqq : cover and document */
+  layerEach, /* qqq : cover and document */
 
   //
 

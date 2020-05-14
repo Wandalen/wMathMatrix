@@ -8,7 +8,6 @@ let _ = _global_.wTools;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
-let longSlice = Array.prototype.slice;
 let sqrt = Math.sqrt;
 let sqr = _.math.sqr;
 
@@ -68,9 +67,9 @@ function init( o )
   self[ stridesEffectiveSymbol ] = null;
   self[ lengthSymbol ] = null;
   self[ scalarsPerElementSymbol ] = null;
-  self[ scalarsPerSliceSymbol ] = null
+  self[ scalarsPerLayerSymbol ] = null
   self[ scalarsPerMatrixSymbol ] = null;
-  self[ slicesPerMatrixSymbol ] = null;
+  self[ layersPerMatrixSymbol ] = null;
   self[ occupiedRangeSymbol ] = null;
   self[ dimsEffectiveSymbol ] = null;
   self[ stridesSymbol ] = null;
@@ -1146,9 +1145,9 @@ function ExportString( o )
     else if( o.src.dims.length > 2 )
     {
 
-      o.src.sliceEach( ( it ) =>
+      o.src.layerEach( ( it ) =>
       {
-        if( it.indexFlat > 0 )
+        if( it.indexLogical > 0 )
         o.dst += `\n`;
         o.dst += `Matrix ${it.indexNd.join( ' ' )}\n`;
         matrixToStr( it.indexNd );
@@ -1626,123 +1625,6 @@ toStr.defaults =
 
 toStr.defaults.__proto__ = _.toStr.defaults;
 
-// function toStr( o )
-// {
-//   let self = this;
-//   let result = '';
-//
-//   o = o || Object.create( null );
-//   _.routineOptions( toStr, o );
-//
-//   let l = self.dims[ 0 ];
-//   let scalarsPerRow, scalarsPerCol;
-//   let col, row;
-//   let m, c, r, e;
-//
-//   let isInt = true;
-//   self.scalarEach( function( it )
-//   {
-//     isInt = isInt && _.intIs( it.scalar );
-//   });
-//
-//   /* */
-//
-//   function eToStr()
-//   {
-//     let e = row.eGet( c );
-//
-//     if( isInt )
-//     {
-//       if( !o.usingSign || e < 0 )
-//       result += e.toFixed( 0 );
-//       else
-//       result += '+' + e.toFixed( 0 );
-//     }
-//     else
-//     {
-//       result += e.toFixed( o.precision );
-//     }
-//
-//     result += ', ';
-//
-//   }
-//
-//   /* */
-//
-//   function rowToStr()
-//   {
-//
-//     if( m === undefined )
-//     row = self.rowGet( r );
-//     else
-//     row = self.rowOfMatrixGet( [ m ], r );
-//
-//     if( scalarsPerRow === Infinity )
-//     {
-//       e = 0;
-//       eToStr();
-//       result += '*Infinity';
-//     }
-//     else for( c = 0 ; c < scalarsPerRow ; c += 1 )
-//     eToStr();
-//
-//   }
-//
-//   /* */
-//
-//   function matrixToStr( m )
-//   {
-//
-//     scalarsPerRow = self.scalarsPerRow;
-//     scalarsPerCol = self.scalarsPerCol;
-//
-//     if( scalarsPerCol === Infinity )
-//     {
-//       r = 0;
-//       rowToStr( 0 );
-//       result += ' **Infinity';
-//     }
-//     else for( r = 0 ; r < scalarsPerCol ; r += 1 )
-//     {
-//       rowToStr( r );
-//       if( r < scalarsPerCol - 1 )
-//       result += '\n' + o.tab;
-//     }
-//
-//   }
-//
-//   /* */
-//
-//   if( self.dims.length === 2 )
-//   {
-//
-//     matrixToStr();
-//
-//   }
-//   else if( self.dims.length === 3 )
-//   {
-//
-//     for( m = 0 ; m < l ; m += 1 )
-//     {
-//       result += 'Slice ' + m + ' :\n';
-//       matrixToStr( m );
-//     }
-//
-//   }
-//   else _.assert( 0, 'not implemented' );
-//
-//   return result;
-// }
-//
-// toStr.defaults =
-// {
-//   tab : '',
-//   precision : 3,
-//   usingSign : 1,
-// }
-//
-// toStr.defaults.__proto__ = _.toStr.defaults;
-
 //
 
 /**
@@ -1792,9 +1674,9 @@ function _sizeGet()
 
 //
 
-function _sizeOfSliceGet()
+function _sizeOfLayerGet()
 {
-  let result = this.sizeOfScalar*this.scalarsPerSlice;
+  let result = this.sizeOfScalar*this.scalarsPerLayer;
   _.assert( result >= 0 );
   return result;
 }
@@ -1915,10 +1797,10 @@ function _ncolGet()
 
 //
 
-function _scalarsPerSliceGet()
+function _scalarsPerLayerGet()
 {
   let self = this;
-  return self[ scalarsPerSliceSymbol ];
+  return self[ scalarsPerLayerSymbol ];
 }
 
 //
@@ -1931,18 +1813,18 @@ function _scalarsPerMatrixGet()
 
 //
 
-function _slicesPerMatrixGet()
+function _layersPerMatrixGet()
 {
   let self = this;
-  return self[ slicesPerMatrixSymbol ];
+  return self[ layersPerMatrixSymbol ];
 }
 
 //
 
-function _nsliceGet()
+function _nlayersGet()
 {
   let self = this;
-  return self[ slicesPerMatrixSymbol ];
+  return self[ layersPerMatrixSymbol ];
 }
 
 //
@@ -2603,8 +2485,8 @@ function _adjustAct()
   self[ lengthSymbol ] = self.LengthFrom( self.dims );
 
   self[ scalarsPerMatrixSymbol ] = _.avector.reduceToProduct( self.dimsEffective );
-  self[ scalarsPerSliceSymbol ] = self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ];
-  self[ slicesPerMatrixSymbol ] = self.scalarsPerMatrix / ( self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ] );
+  self[ scalarsPerLayerSymbol ] = self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ];
+  self[ layersPerMatrixSymbol ] = self.scalarsPerMatrix / ( self.dimsEffective[ 0 ] * self.dimsEffective[ 1 ] );
 
   let lastDim = self.dims[ self.dims.length-1 ];
   if( lastDim === Infinity || lastDim === 0 )
@@ -3236,8 +3118,8 @@ let stridesSymbol = Symbol.for( 'strides' );
 let stridesEffectiveSymbol = Symbol.for( 'stridesEffective' );
 let lengthSymbol = Symbol.for( 'length' );
 let scalarsPerMatrixSymbol = Symbol.for( 'scalarsPerMatrix' );
-let scalarsPerSliceSymbol = Symbol.for( 'scalarsPerSlice' );
-let slicesPerMatrixSymbol = Symbol.for( 'slicesPerMatrix' );
+let scalarsPerLayerSymbol = Symbol.for( 'scalarsPerLayer' );
+let layersPerMatrixSymbol = Symbol.for( 'layersPerMatrix' );
 let scalarsPerElementSymbol = Symbol.for( 'scalarsPerElement' );
 let occupiedRangeSymbol = Symbol.for( 'occupiedRange' );
 
@@ -3385,7 +3267,7 @@ let Accessors =
   /* size in bytes */
 
   size : readOnly,
-  sizeOfSlice : readOnly,
+  sizeOfLayer : readOnly,
   sizeOfElement : readOnly,
   sizeOfElementStride : readOnly,
   sizeOfCol : readOnly,
@@ -3401,7 +3283,7 @@ let Accessors =
   scalarsPerRow : readOnly,
   ncol : readOnly,
   nrow : readOnly,
-  scalarsPerSlice : readPut, /* qqq : cover */
+  scalarsPerLayer : readPut, /* qqq : cover */
   scalarsPerMatrix : readOnly,
 
   strideOfElement : readOnly,
@@ -3412,8 +3294,8 @@ let Accessors =
 
   /* other metrics */
 
-  slicesPerMatrix : readPut, /* qqq : cover */
-  nslice : readPut, /* qqq : cover */
+  layersPerMatrix : readPut, /* qqq : cover */
+  nlayers : readPut, /* qqq : cover */
   length : readPut, /* cached */
 
 }
@@ -3460,7 +3342,7 @@ let Extension =
   // size in bytes
 
   _sizeGet,
-  _sizeOfSliceGet,
+  _sizeOfLayerGet,
 
   _sizeOfElementGet,
   _sizeOfElementStrideGet,
@@ -3480,10 +3362,10 @@ let Extension =
   _scalarsPerRowGet,
   _nrowGet,
   _ncolGet,
-  _scalarsPerSliceGet,
+  _scalarsPerLayerGet,
   _scalarsPerMatrixGet,
-  _slicesPerMatrixGet,
-  _nsliceGet,
+  _layersPerMatrixGet,
+  _nlayersGet,
 
   ScalarsPerMatrixForDimensions,
   NrowOf,
