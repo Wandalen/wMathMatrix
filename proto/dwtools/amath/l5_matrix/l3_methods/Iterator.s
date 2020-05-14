@@ -180,6 +180,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     let dims0 = dims[ 0 ];
     let dims1 = dims[ 1 ];
     let dims2 = dims[ 2 ];
+    let strides = self.stridesEffective;
 
     if( dims0 === Infinity )
     dims1 = 1;
@@ -217,7 +218,8 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
   {
     let dims0 = dims[ 0 ];
     let dims1 = dims[ 1 ];
-
+    let strides = self.stridesEffective;
+    
     if( dims0 === Infinity )
     dims1 = 1;
     if( dims1 === Infinity )
