@@ -20655,7 +20655,7 @@ function _PivotRookWithOptionY( test )
     nColPermutations : 0,
   };
   var got = _.Matrix._PivotRook( o );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -20664,7 +20664,7 @@ function _PivotRookWithOptionY( test )
   o.lineIndex = 1;
 
   var got = _.Matrix._PivotRook( o );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -20673,7 +20673,7 @@ function _PivotRookWithOptionY( test )
   o.lineIndex = 2;
 
   var got = _.Matrix._PivotRook( o );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -20724,7 +20724,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -20734,7 +20734,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -20744,7 +20744,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -20795,7 +20795,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 2, 1, 3 ]) );
+  test.identical( o.y.buffer, [ 2, 1, 3 ] );
   test.identical( o.pivots, [ [ 1, 0, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -20805,7 +20805,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -20815,7 +20815,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -20866,7 +20866,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -20876,7 +20876,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -20886,7 +20886,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -20938,7 +20938,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -20948,7 +20948,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -20958,7 +20958,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -21008,7 +21008,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -21018,7 +21018,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21028,7 +21028,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21080,7 +21080,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 2, 3 ]) );
+  test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.pivots, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -21090,7 +21090,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21100,7 +21100,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 1, 3, 2 ]) );
+  test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.pivots, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21153,7 +21153,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21163,7 +21163,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21173,7 +21173,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -21183,7 +21183,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 4, 2, 3, 1 ]) );
+  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.pivots, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -21236,7 +21236,7 @@ function _PivotRookWithOptionY( test )
   };
   var got = _.Matrix._PivotRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1, 4 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -21246,7 +21246,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1, 4 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -21256,7 +21256,7 @@ function _PivotRookWithOptionY( test )
 
   var got = _.Matrix._PivotRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, _.longDescriptor.make([ 3, 2, 1, 4 ]) );
+  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.pivots, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
