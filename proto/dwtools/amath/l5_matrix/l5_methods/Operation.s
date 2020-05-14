@@ -1189,7 +1189,7 @@ function _determinantWithLu()
 
 //
 
-function determinantWithPermutation() /* qqq : determinant is alread documented, please document also determinantWithPermutation */
+function determinantWithPermutation() /* qqq : determinant is already documented, please document also determinantWithPermutation */
 {
   let self = this;
   let l = self.dims[ 0 ];
