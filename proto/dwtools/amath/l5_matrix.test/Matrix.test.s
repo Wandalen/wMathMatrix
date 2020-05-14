@@ -23169,7 +23169,7 @@ function MulSeveral( test )
     11,
     -3
   ]);
-  test.identical( got, exp );
+  test.equivalent( got, exp );
 
   /**/
 
