@@ -17504,7 +17504,7 @@ function strideNegative( test )
     9, 7,
     8, 6,
   ]);
-  test.identical( matrix, exp );
+  test.equivalent( matrix, exp );
 }
 
 //
