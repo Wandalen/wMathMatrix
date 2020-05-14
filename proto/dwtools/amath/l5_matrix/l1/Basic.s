@@ -245,7 +245,8 @@ function _traverseAct( it ) /* zzz : deprecate */
       _.assert( dst.hasShape( src ) );
       src.scalarEach( function( it )
       {
-        dst.scalarSet( it.indexNd, it.scalar );
+        dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
+        // dst.scalarSet( it.indexNd, it.scalar ); /* yyy */
       });
     }
     else
@@ -594,7 +595,8 @@ function ExportStructure( o )
     {
       o.src.scalarEach( function( it )
       {
-        o.dst.scalarSet( it.indexNd, it.scalar );
+        o.dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
+        // o.dst.scalarSet( it.indexNd, it.scalar ); /* yyy */
       });
     }
 
@@ -751,7 +753,8 @@ function _exportNormalized()
   self.scalarEach( function( it ) /* qqq : use maybe method */
   {
     let i = self._FlatScalarIndexFromIndexNd( it.indexNd, result.strides );
-    result.buffer[ i ] = it.scalar;
+    // result.buffer[ i ] = it.scalar; /* yyy */
+    result.buffer[ i ] = it.buffer[ it.offset[ 0 ] ];
   });
 
   return result;
@@ -1020,17 +1023,21 @@ function CopyTo( dst, src )
     if( _.matrixIs( dst ) )
     src.scalarEach( function( it )
     {
-      dst.scalarSet( it.indexNd , it.scalar );
+      // dst.scalarSet( it.indexNd, it.scalar ); /* yyy */
+      dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
     });
     else if( _.vectorAdapterIs( dst ) )
     src.scalarEach( function( it )
     {
-      dst.eSet( it.indexLogical , it.scalar );
+      // dst.eSet( it.indexLogical , it.scalar ); /* yyy */
+      dst.eSet( it.indexLogical, it.buffer[ it.offset[ 0 ] ] );
     });
     else if( _.longIs( dst ) )
     src.scalarEach( function( it )
     {
-      dst[ it.indexLogical ] = it.scalar;
+      // debugger;
+      dst[ it.indexLogical ] = it.buffer[ it.offset[ 0 ] ];
+      // dst[ it.indexLogical ] = it.scalar; /* yyy */
     });
     else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
@@ -1125,7 +1132,8 @@ function ExportString( o )
     isInt = true;
     o.src.scalarEach( function( it )
     {
-      isInt = isInt && _.intIs( it.scalar );
+      isInt = isInt && _.intIs( it.buffer[ it.offset[ 0 ] ] );
+      // isInt = isInt && _.intIs( it.scalar ); // yyy
     });
 
     if( o.src.dims.length === 2 )
@@ -2206,7 +2214,11 @@ function StridesEffectiveFrom( dims, strides, inputRowMajor )
   let result;
 
   _.assert( !!dims );
-  _.assert( !!strides || _.boolLike( inputRowMajor ), 'If field {- strides -} is not spefified explicitly then field {- inputRowMajor -} should be specified explicitly.' ); /* yyy */
+  _.assert
+  (
+      !!strides || _.boolLike( inputRowMajor )
+    , 'If field {- strides -} is not spefified explicitly then field {- inputRowMajor -} should be specified explicitly.'
+  );
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
   _.assert( arguments.length === 2 || arguments.length === 3 );
@@ -2426,7 +2438,6 @@ function bufferSet( src )
   {
     self._.offset = 0;
     self._.stridesEffective = null;
-    // self._.dims = self._dimsDeduceGrowing( self._.dims ); // yyy
   }
 
   self._sizeChanged();
@@ -2486,7 +2497,8 @@ function bufferNormalize() /* qqq : optimize */
   let i = 0;
   self.scalarEach( function( it )
   {
-    buffer[ i ] = it.scalar;
+    buffer[ i ] = self.buffer[ it.offset[ 0 ] ];
+    // buffer[ i ] = it.scalar; // yyy
     i += 1;
   });
 
@@ -2571,7 +2583,6 @@ function _adjustAct()
 
   if( !self.dims )
   {
-    // self._dimsDeduceGrowing(); // yyy
     self._dimsDeduceInitial();
   }
 
@@ -3038,17 +3049,6 @@ function DimsDeduceFrom( src, fallbackDims )
       dim0 = src.buffer.length - offset;
       dim1 = 1;
     }
-    // yyy
-    // else if( src.buffer && src.inputRowMajor )
-    // {
-    //   dim0 = src.buffer.length;
-    //   dim1 = 1;
-    // }
-    // else
-    // {
-    //   dim0 = 1;
-    //   dim1 = src.buffer.length;
-    // }
 
   }
 
