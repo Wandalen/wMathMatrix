@@ -45,7 +45,7 @@ let Self = _.Matrix;
  * @module Tools/math/Matrix
  */
 
-function scalarWhile( o )
+function scalarWhile( o ) /* qqq : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
 {
   let self = this;
   let result = true;
@@ -58,6 +58,8 @@ function scalarWhile( o )
   _.assert( _.routineIs( o.onScalar ) );
 
   let dims = self.dimsEffective;
+  let it = Object.create( null );
+  it.options = o;
 
   _.eachInMultiRange
   ({
@@ -67,10 +69,13 @@ function scalarWhile( o )
 
   return result;
 
-  function handleEach( indexNd, indexFlat )
+  function handleEach( indexNd, indexLogical )
   {
-    let value = self.scalarGet( indexNd );
-    result = o.onScalar.call( self, value, indexNd, indexFlat, o );
+    it.indexNd = indexNd;
+    it.indexLogical = indexLogical;
+    // it.scalar = self.scalarGet( indexNd );
+    // result = o.onScalar.call( self, value, indexNd, indexFlat, o );
+    result = o.onScalar.call( self, it );
     return result;
   }
 
@@ -108,7 +113,7 @@ scalarWhile.defaults =
  * @module Tools/math/Matrix
  */
 
-function scalarEach( onScalar, args )
+function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
 {
   let self = this;
   let dims = self.dimsEffective;
@@ -147,9 +152,11 @@ function scalarEach( onScalar, args )
     if( dims1 === Infinity )
     dims1 = 1;
 
-    let it = Object.create( null );
+    let strides = self.stridesEffective;
+    let it = Object.create( null ); /* qqq2 : cover all fields of it */
     it.args = args;
     it.indexNd = [ 0, 0 ];
+    it.offset = self.offset; /* qqq2 : cover field it.offset. it.offset should always point on the current element of the buffer */
     let indexLogical = 0;
     for( let c = 0 ; c < dims1 ; c++ )
     {
@@ -158,8 +165,7 @@ function scalarEach( onScalar, args )
       {
         it.indexNd[ 0 ] = r;
         it.indexLogical = indexLogical;
-        // it.indexFlat = indexFlat;
-        // it.indexFlatRowFirst = r*dims[ 1 ] + c;
+        it.offset += strides[ 0 ];
         it.scalar = self.scalarGet( it.indexNd );
         onScalar.call( self, it );
         indexLogical += 1;
@@ -183,6 +189,7 @@ function scalarEach( onScalar, args )
     let it = Object.create( null );
     it.args = args;
     it.indexNd = [ 0, 0, 0 ];
+    it.offset = self.offset;
     let indexLogical = 0;
 
     for( let d2 = 0 ; d2 < dims2 ; d2++ )
@@ -196,6 +203,7 @@ function scalarEach( onScalar, args )
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
           it.scalar = self.scalarGet( it.indexNd );
+          it.offset += strides[ 0 ];
           onScalar.call( self, it );
           indexLogical += 1;
         }
@@ -218,6 +226,7 @@ function scalarEach( onScalar, args )
     let it = Object.create( null );
     it.args = args;
     it.indexNd = _.dup( 0, dims.length );
+    it.offset = self.offset;
     let indexLogical = 0;
 
     self.sliceEach( ( it2 ) =>
@@ -233,6 +242,7 @@ function scalarEach( onScalar, args )
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
+          it.offset += strides[ 0 ];
           it.scalar = self.scalarGet( it.indexNd );
           onScalar.call( self, it );
           indexLogical += 1;

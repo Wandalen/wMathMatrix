@@ -317,10 +317,12 @@ function _equalAre( it )
     }
   }
 
-  it.result = it.src.scalarWhile( function( atom, indexNd, indexFlat )
+  // it.result = it.src.scalarWhile( function( atom, indexNd, indexFlat )
+  it.result = it.src.scalarWhile( function( it2 )
   {
-    let atom2 = it.src2.scalarGet( indexNd );
-    return it.onNumbersAreEqual( atom, atom2 );
+    let scalar = it.src.scalarGet( it2.indexNd ); /* xxx : optimize */
+    let scalar2 = it.src2.scalarGet( it2.indexNd );
+    return it.onNumbersAreEqual( scalar, scalar2 );
   });
 
   _.assert( _.boolIs( it.result ) );
@@ -459,7 +461,7 @@ function ExportStructure( o )
     // else if( _.vectorAdapterIs( o.src ) )
     // {
     //   // o.src = { buffer : o.src, inputRowMajor : 0 };
-    //   o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* xxx Dmytro : temporary, needs analyze */
+    //   o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* Dmytro : temporary, needs analyze */
     //   return o.dst;
     // }
 
@@ -590,7 +592,7 @@ function ExportStructure( o )
 
     if( srcIsInstance )
     {
-      o.src.scalarEach( function( it ) /* xxx */
+      o.src.scalarEach( function( it )
       {
         o.dst.scalarSet( it.indexNd, it.scalar );
       });
@@ -732,7 +734,7 @@ exportStructure.defaults =
  * @module Tools/math/Matrix
  */
 
-/* xxx : extractNormalized */
+/* xxx : de[recate routine _exportNormalized? */
 function _exportNormalized()
 {
   let self = this;
@@ -1492,6 +1494,7 @@ bufferImport.defaults =
   buffer : null,
   inputRowMajor : 1, /* qqq : cover option */
   replacing : 0, /* qqq : cover option */
+  dims : null, /* xxx qqq2 : implement for buffer growing. ask */
 }
 
 // //
@@ -2476,6 +2479,8 @@ function bufferNormalize() /* qqq : optimize */
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
+  /* qqq2 : use routine bufferImport() instead of having own implementation */
+
   let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
 
   let i = 0;
@@ -2671,10 +2676,7 @@ function _adjustValidate()
   _.assert
   (
     self.offset + ( self.dimsEffective[ d ]-1 )*self.stridesEffective[ d ] <= self.buffer.length
-    , () => 'Out of bound' + self.exportString({ how : 'geometry' })  /* xxx */
-    // , `\n  offset : ${self.offset}`
-    // , `\n  dims : ${_.toStr( self.dimsEffective )}`
-    // , `\n  strides : ${_.toStr( self.stridesEffective )}`
+    , () => 'Out of bound' + self.exportString({ how : 'geometry' })
   );
 
 }
@@ -2845,7 +2847,7 @@ function _dimsDeduceInitial()
 {
   let self = this;
 
-  _.assert( arguments.length === 0 ); debugger; /* xxx */
+  _.assert( arguments.length === 0 );
   _.assert( self.dims === null );
 
   // _.assert( _.longIs( self.buffer ), 'Expects buffer' );
@@ -2882,7 +2884,7 @@ function _dimsDeduceInitial()
 function DimsDeduceInitial( o )
 {
 
-  _.assert( arguments.length === 1 ); debugger; /* xxx */
+  _.assert( arguments.length === 1 ); debugger;
   _.assert( _.longIs( o.buffer ), 'Expects buffer' );
   _.assertMapHasAll( o, DimsDeduceInitial.defaults );
 
@@ -3516,7 +3518,7 @@ let Extension =
 
   // reshaping
 
-  _changeBegin,
+  _changeBegin, /* xxx : remove */
   _changeEnd,
 
   _sizeChanged,

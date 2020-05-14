@@ -267,8 +267,7 @@ rules :
     - allowTemplateLiterals : true
   radix : off
   require-atomic-updates : error
-  require-await : error
-  require-jsdoc : off
+  require-await :
   require-unicode-regexp : off
   rest-spread-spacing :
     - error
@@ -304,7 +303,6 @@ rules :
   unicode-bom :
     - error
     - never
-  valid-jsdoc : error
   vars-on-top : off
   wrap-regex : off
   yield-star-spacing : error
@@ -334,10 +332,12 @@ rules :
     - warn
     - args : 'none'
 
-  # play with this
+  # play with this later
 
   consistent-this : off
   prefer-named-capture-group : off
+  valid-jsdoc : error
+  require-jsdoc : off
   max-statements-per-line : off
   max-statements :
     - error
