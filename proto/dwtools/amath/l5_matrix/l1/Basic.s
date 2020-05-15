@@ -1498,42 +1498,132 @@ bufferExport.defaults =
 function bufferImport( o ) /* qqq2 : good coverage is required */
 {
   let self = this;
-  self._changeBegin();
+  let hasNull;
+  // self._changeBegin();
 
   _.routineOptions( bufferImport, arguments );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.vectorIs( o.buffer ) );
-  _.assert
-  (
-    self.scalarsPerMatrix === o.buffer.length,
-    `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
-  );
 
-  let inputRowMajor = 1;
-  let strides = self.StridesFromDimensions( self.dimsEffective, inputRowMajor );
+  if( o.dims )
+  {
+    if( _.vectorAdapterIs( o.dims ) )
+    o.dims = o.dims.toLong();
+    hasNull = _.longCountElement( o.dims, null );
+    _.assert( hasNull <= 1, 'Expects single undeclared dimension' );
+  }
 
-  if( _.vectorAdapterIs( o.buffer ) )
+  if( o.replacing && o.dims )
   {
 
-    self.scalarEach( function( it )
+    if( hasNull )
     {
-      let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
-      self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
-    });
+      let index = _.longLeftIndex( o.dims, null );
+      o.dims[ index ] = 1;
+      let value = o.buffer.length / o.dims.reduce( ( a, e ) => a * e );
+      _.assert( _.intIs( value ), 'Expects integer value as dimension' );
+      o.dims[ index ] = value;
+    }
+    else
+    {
+      _.assert( o.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
+    }
+
+    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self.dims = o.dims;
+    self.offset = 0;
+    self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
+
+  }
+  else if( o.replacing && !o.dims )
+  {
+
+    _.assert( o.buffer.length >= self.scalarsPerMatrix );
+    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    if( o.buffer.length !== self.buffer.length )
+    {
+      self.offset = 0;
+      self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+    }
+
+  }
+  else if( !o.replacing && o.dims )
+  {
+
+    if( hasNull )
+    {
+      let index = _.longLeftIndex( o.dims, null );
+      o.dims[ index ] = 1;
+      let value = self.buffer.length / o.dims.reduce( ( a, e ) => a * e );
+      _.assert( _.intIs( value ), 'Expects integer value as dimension' );
+      o.dims[ index ] = value;
+    }
+    else
+    {
+      _.assert( self.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
+    }
+
+    if( !_.longIdentical( self.dims, o.dims ) )
+    {
+      self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
+      self.dims = o.dims;
+      self.offset = 0;
+    }
+    else
+    {
+      self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+    }
+
+    _.assert
+    (
+      self.scalarsPerMatrix === o.buffer.length,
+      `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
+    );
+
+
+    if( _.vectorAdapterIs( o.buffer ) )
+    {
+      self.scalarEach( function( it )
+      {
+        self.scalarSet( it.indexNd, o.buffer.eGet( it.indexLogical ) );
+      });
+    }
+    else
+    {
+      self.scalarEach( function( it )
+      {
+        self.scalarSet( it.indexNd, o.buffer[ it.indexLogical ] );
+      });
+    }
 
   }
   else
   {
 
-    self.scalarEach( function( it )
+    _.assert
+    (
+      self.scalarsPerMatrix === o.buffer.length,
+      `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
+    );
+
+    if( _.vectorAdapterIs( o.buffer ) )
     {
-      let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
-      self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
-    });
+      self.scalarEach( function( it )
+      {
+        self.scalarSet( it.indexNd, o.buffer.eGet( it.indexLogical ) );
+      });
+    }
+    else
+    {
+      self.scalarEach( function( it )
+      {
+        self.scalarSet( it.indexNd, o.buffer[ it.indexLogical ] );
+      });
+    }
 
   }
 
-  self._changeEnd();
+  // self._changeEnd();
   return self;
 }
 
