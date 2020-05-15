@@ -1529,10 +1529,12 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       _.assert( o.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
     }
 
-    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._changeBegin();
     self.dims = o.dims;
-    self.offset = 0;
+    self.offset = _.vectorAdapterIs( o.buffer ) ? o.buffer.offset : 0;
     self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
+    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._changeEnd();
 
   }
   else if( o.replacing && !o.dims )
