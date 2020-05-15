@@ -1495,11 +1495,10 @@ bufferExport.defaults =
 
 //
 
-function bufferImport( o ) /* qqq2 : good coverage is required */
+function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : covered */
 {
   let self = this;
   let hasNull;
-  // self._changeBegin();
 
   _.routineOptions( bufferImport, arguments );
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -1632,16 +1631,17 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
 bufferImport.defaults =
 {
   buffer : null,
-  inputRowMajor : 1, /* qqq : cover option */
-  replacing : 0, /* qqq : cover option */
+  inputRowMajor : 1, /* aaa : cover option */ /* Dmytro : covered */
+  replacing : 0, /* aaa : cover option */ /* Dmytro : implemented and covered */
   dims : null,
-  /* xxx qqq2 : implement option dims for buffer growing. ask
+  /* xxx aaa2 : implement option dims for buffer growing. ask
     if self.scalarsPerMatrix !== o.buffer.length
       dims = undefined : null -> error
       dims = [ 5, null ] : change ncol
       dims = [ null, 5 ] : change nrow
       dims = [ 5, 5 ] : change both
   */
+  /* Dmytro : implemented and covered */
 }
 
 // //
