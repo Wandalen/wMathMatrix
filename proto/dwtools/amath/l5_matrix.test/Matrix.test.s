@@ -16644,6 +16644,29 @@ function bufferImportOptionsReplacing1AndDims( test )
     if( !Config.debug )
     return;
 
+    test.case = 'without arguments';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var got = m.bufferImport();
+    });
+
+    test.case = 'extra arguments';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7 ]);
+      var got = m.bufferImport( buffer, [ 5, null ] );
+    });
+
+    test.case = 'wrong type of buffer';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var buffer = { buffer : [ 1, 2 ] };
+      var got = m.bufferImport({ buffer, dims : [ 5, null ], replacing : 1 });
+    });
+
     test.case = 'calculates not integer in dims';
     test.shouldThrowErrorSync( () =>
     {
@@ -16815,6 +16838,8 @@ function bufferImportOptionsReplacing0AndDims( test )
 
   function act( a )
   {
+    test.open( `form - ${ a.form }, format - ${ a.format }` );
+
     test.open( 'changing of dims length, inputRowMajor - 1' );
 
     test.case = 'same dims, 2D';
@@ -17113,6 +17138,98 @@ function bufferImportOptionsReplacing0AndDims( test )
 
     /* - */
 
+    test.open( 'changing offset' );
+
+    test.case = 'offset sets to 0, inputRowMajor - 1';
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6 ]);
+    var m = new _.Matrix
+    ({
+      buffer : [ -1, 0, 1, 2, 1, 1, 1, 1 ],
+      offset : 1,
+      dims : [ 2, 3 ],
+      strides : [ 1, 2 ],
+    });
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 2, 3 ]
+    });
+    test.identical( got.buffer, [ -1, 1, 4, 2, 5, 3, 6, 1 ] );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.strides, [ 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'offset saves, inputRowMajor - 0';
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6 ]);
+    var m = new _.Matrix
+    ({
+      buffer : [ -1, 0, 1, 2, 1, 1, 1, 1 ],
+      offset : 1,
+      dims : [ 2, 3 ],
+      strides : [ 1, 2 ],
+    });
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 2, 3 ]
+    });
+    test.identical( got.buffer, [ -1, 1, 2, 3, 4, 5, 6, 1 ] );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.strides, [ 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    /* */
+
+    test.case = 'offset sets to 0, inputRowMajor - 1';
+    var buffer = a.vadMake([ 1, 2, 3, 4 ]);
+    var m = new _.Matrix
+    ({
+      buffer : [ -1, 0, 1, 2, 1, 1, 1, 1 ],
+      offset : 1,
+      dims : [ 2, 3 ],
+      strides : [ 1, 2 ],
+    });
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 2, 2 ]
+    });
+    test.identical( got.buffer, [ 1, 2, 3, 4, 1, 1, 1, 1 ] );
+    test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.strides, [ 2, 1 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'offset sets to 0, inputRowMajor - 0';
+    var buffer = a.vadMake([ 1, 2, 3, 4 ]);
+    var m = new _.Matrix
+    ({
+      buffer : [ -1, 0, 1, 2, 1, 1, 1, 1 ],
+      offset : 1,
+      dims : [ 2, 3 ],
+      strides : [ 1, 2 ],
+    });
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 2, 2 ]
+    });
+    test.identical( got.buffer, [ 1, 2, 3, 4, 1, 1, 1, 1 ] );
+    test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.strides, [ 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'changing offset' );
+
+    /* - */
+
     if( !Config.debug )
     return;
 
@@ -17139,6 +17256,8 @@ function bufferImportOptionsReplacing0AndDims( test )
       var buffer = a.vadMake([ 1, 2, 3 ]);
       var got = m.bufferImport({ buffer, dims : [ 2, 2 ], replacing : 0 });
     });
+
+    test.close( `form - ${ a.form }, format - ${ a.format }` );
   }
 }
 

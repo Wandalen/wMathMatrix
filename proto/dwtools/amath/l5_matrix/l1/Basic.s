@@ -1585,7 +1585,6 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       {
         let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
         self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
-        // self.scalarSet( it.indexNd, o.buffer.eGet( it.indexLogical ) );
       });
     }
     else
@@ -1594,7 +1593,6 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       {
         let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
         self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
-        // self.scalarSet( it.indexNd, o.buffer[ it.indexLogical ] );
       });
     }
 
@@ -1628,7 +1626,6 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
     }
   }
 
-  // self._changeEnd();
   return self;
 }
 
