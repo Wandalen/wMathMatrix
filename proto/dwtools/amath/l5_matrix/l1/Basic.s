@@ -1541,6 +1541,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
     self._changeBegin();
+    self.dims = self.dims; // to prevent change
     self.offset = 0;
     self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
     self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
@@ -2506,30 +2507,38 @@ function offsetSet( src )
  * @module Tools/math/Matrix
  */
 
-function bufferNormalize() /* qqq : optimize */
+function bufferNormalize() /* qqq : optimize */ /* Dmytro : it needs clarifications */
 {
   let self = this;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  /* qqq2 : use routine bufferImport() instead of having own implementation */
+  /* aaa2 : use routine bufferImport() instead of having own implementation */
+  /* Dmytro : new variant of implementation is given below, the routine bufferImport is used */
 
-  let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
-
-  let i = 0;
-  self.scalarEach( function( it )
-  {
-    buffer[ i ] = self.buffer[ it.offset[ 0 ] ];
-    // buffer[ i ] = it.scalar; // yyy
-    i += 1;
-  });
-
-  self.copy
+  self.bufferImport
   ({
-    buffer,
-    offset : 0,
+    buffer : self.toLong(),
     inputRowMajor : 0,
-  });
+    replacing : 1,
+  })
+
+  // let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
+  //
+  // let i = 0;
+  // self.scalarEach( function( it )
+  // {
+  //   buffer[ i ] = self.buffer[ it.offset[ 0 ] ];
+  //   // buffer[ i ] = it.scalar; // yyy
+  //   i += 1;
+  // });
+  //
+  // self.copy
+  // ({
+  //   buffer,
+  //   offset : 0,
+  //   inputRowMajor : 0,
+  // });
 
 }
 
