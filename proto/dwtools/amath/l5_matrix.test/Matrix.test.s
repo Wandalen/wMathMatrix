@@ -16163,6 +16163,8 @@ function bufferImportOptionsReplacing0AndDims( test )
 {
   _.vectorAdapter.contextsForTesting({ onEach : act });
 
+  /* - */
+
   function act( a )
   {
     test.open( 'changing of dims length, inputRowMajor - 1' );
@@ -16488,6 +16490,125 @@ function bufferImportOptionsReplacing0AndDims( test )
       var m = _.Matrix.Make([ 2, 3 ]);
       var buffer = a.vadMake( [ 1, 2, 3 ] );
       var got = m.bufferImport({ buffer, dims : [ 2, 2 ] });
+    });
+  }
+}
+
+//
+
+function bufferImportOptionsReplacing0WithoutDims( test )
+{
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  /* - */
+
+  function act( a )
+  {
+    test.open( 'changing of dims length, inputRowMajor - 1' );
+
+    test.case = '2D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6 ] );
+    var m = _.Matrix.Make([ 2, 3 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.strides, [ 3, 1 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = '3D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 2, 3, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.strides, [ 3, 1, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = '4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'changing of dims length, inputRowMajor - 1' );
+
+    /* - */
+
+    test.open( 'changing of dims length, inputRowMajor - 0' );
+
+    test.case = '2D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6 ] );
+    var m = _.Matrix.Make([ 2, 3 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.strides, [ 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = '3D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 2, 3, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.strides, [ 1, 2, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = '4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'changing of dims length, inputRowMajor - 0' );
+
+    /* - */
+
+    if( !Config.debug )
+    return;
+
+    test.case = 'source buffer is not equal to new value of scalarsPerMatrix';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var buffer = a.vadMake( [ 1, 2, 3 ] );
+      var got = m.bufferImport({ buffer });
     });
   }
 }
@@ -27463,6 +27584,7 @@ var Self =
     bufferExportDstBufferMatrixWithOffset,
 
     bufferImportOptionsReplacing0AndDims,
+    bufferImportOptionsReplacing0WithoutDims,
 
     toStr,
     toLong, /* qqq : extend, please */

@@ -1606,6 +1606,8 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
     );
 
+    self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+
     if( _.vectorAdapterIs( o.buffer ) )
     {
       self.scalarEach( function( it )
