@@ -143,7 +143,7 @@ function MakeSquare( buffer )
   let proto = this.Self.prototype;
 
   let length;
-  // if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) ) /* xxx qqq2 : ! */
+  // if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) ) /* xxx aaa2 : ! */ /* Dmytro : it is explained */
   if( _.vectorIs( buffer ) )
   length = Math.sqrt( buffer.length );
   else if( _.numberIs( buffer ) )
@@ -154,7 +154,6 @@ function MakeSquare( buffer )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
-  // _.assert( _.longIs( buffer ) || _.numberIs( buffer ) || _.vectorAdapterIs( buffer ) );
 
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
@@ -209,7 +208,6 @@ function MakeZero( dims )
   let proto = this.Self.prototype;
 
   _.assert( arguments.length === 1, 'Expects single argument array {-dims-}' );
-  // _.assert( _.longIs( dims ) || _.numberIs( dims ) || _.vectorAdapterIs( dims ) );
 
   if( !_.arrayIs( dims ) )
   {
@@ -666,7 +664,6 @@ function MakeLine( o )
   let length = _.vectorIs( o.buffer ) ? o.buffer.length : o.buffer;
   let dims = null;
 
-  // _.assert( _.matrixIs( o.buffer ) || _.vectorAdapterIs( o.buffer ) || _.arrayIs( o.buffer ) || _.bufferTypedIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( _.matrixIs( o.buffer ) || _.vectorIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.routineOptions( MakeLine, o );
@@ -694,10 +691,10 @@ function MakeLine( o )
 
   /* */
 
-  if( o.zeroing )
-  {
-    o.buffer = length;
-  }
+  // if( o.zeroing )
+  // {
+  //   o.buffer = length;
+  // }
 
   // if( _.vectorAdapterIs( o.buffer ) )
   // {
@@ -731,16 +728,29 @@ function MakeLine( o )
   //
   // }
   // else
-  if( _.numberIs( o.buffer ) )
-  o.buffer = o.zeroing ? this.long.longMakeZeroed( length ) : this.long.longMake( length );
-  else if( o.zeroing ) /* qqq2 : suspicious! */
-  o.buffer = this.long.longMakeZeroed( length )
+  // if( _.numberIs( o.buffer ) )
+  // o.buffer = o.zeroing ? this.long.longMakeZeroed( length ) : this.long.longMake( length );
+  // else if( o.zeroing ) /* aaa2 : suspicious! */ /* Dmytro : it's bad implementation, more implicit logic. The new implementation is given below. */
+  // o.buffer = this.long.longMakeZeroed( length )
+  // // else if( _.argumentsArrayIs( o.buffer ) )
+  // // o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
+  // // else
+  // // o.buffer = proto.constructor._BufferFrom( o.buffer );
   // else if( _.argumentsArrayIs( o.buffer ) )
-  // o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
-  // else
-  // o.buffer = proto.constructor._BufferFrom( o.buffer );
-  else if( _.argumentsArrayIs( o.buffer ) )
-  o.buffer = proto.long.longMake( o.buffer )
+  // o.buffer = proto.long.longMake( o.buffer )
+
+
+  if( o.zeroing )
+  {
+    o.buffer = this.long.longMakeZeroed( length );
+  }
+  else
+  {
+    if( _.numberIs( o.buffer ) )
+    o.buffer = this.long.longMake( length );
+    else if( _.argumentsArrayIs( o.buffer ) )
+    o.buffer = proto.long.longMake( o.buffer )
+  }
 
   /* dims */
 
