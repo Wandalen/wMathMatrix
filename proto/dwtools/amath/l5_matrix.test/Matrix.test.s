@@ -22556,22 +22556,6 @@ function _PivotRookWithOptionY( test )
     var got = _.Matrix._PivotRook( o );
   });
 
-  test.case = 'options map has not all fields';
-  test.shouldThrowErrorSync( () =>
-  {
-    var m = _.Matrix.Make([ 2, 2 ]).copy([ 1, 2, 3, 4 ]);
-    var o =
-    {
-      m,
-      pivots : [ [ 0, 1 ], [ 0, 1 ] ],
-      lineIndex : 0,
-      npermutations : 0,
-      nRowPermutations : 0,
-      nColPermutations : 0,
-    };
-    var got = _.Matrix._PivotRook( o );
-  });
-
   test.case = 'wrong type of o.m';
   test.shouldThrowErrorSync( () =>
   {
@@ -22597,23 +22581,6 @@ function _PivotRookWithOptionY( test )
       m,
       y : [ 1, 2 ],
       pivots : [ [ 0, 1 ], [ 0, 1 ] ],
-      lineIndex : 0,
-      npermutations : 0,
-      nRowPermutations : 0,
-      nColPermutations : 0,
-    };
-    var got = _.Matrix._PivotRook( o );
-  });
-
-  test.case = 'wrong type of o.pivots';
-  test.shouldThrowErrorSync( () =>
-  {
-    var m = _.Matrix.Make([ 2, 2 ]).copy([ 1, 2, 3, 4 ]);
-    var o =
-    {
-      m,
-      y : null,
-      pivots : null,
       lineIndex : 0,
       npermutations : 0,
       nRowPermutations : 0,
