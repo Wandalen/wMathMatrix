@@ -16161,330 +16161,335 @@ function bufferExportDstBufferMatrixWithOffset( test )
 
 function bufferImportOptionsReplacing0AndDims( test )
 {
-  test.open( 'changing of dims length, inputRowMajor - 1' );
+  _.vectorAdapter.contextsForTesting({ onEach : act });
 
-  test.case = 'same dims, 2D';
-  var buffer = [ 1, 2, 3, 4, 5, 6 ];
-  var m = _.Matrix.Make([ 2, 3 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 2, 3 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( got.dims, [ 2, 3 ] );
-  test.identical( got.strides, [ 3, 1 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'same dims, 3D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 2, 3, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 2, 3, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 2, 3, 2 ] );
-  test.identical( got.strides, [ 3, 1, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'same dims, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 1, 3, 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 1, 3, 2, 2 ] );
-  test.identical( got.strides, [ 3, 1, 3, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  /* */
-
-  test.case = 'o.dims < dims, 2D';
-  var buffer = [ 1, 2, 3, 4 ];
-  var m = _.Matrix.Make([ 2, 3 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 3, 2, 4, 0, 0 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, [ 2, 1 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'o.dims < dims, 3D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
-  var m = _.Matrix.Make([ 2, 3, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 1, 3, 3 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0 ]) );
-  test.identical( got.dims, [ 1, 3, 3 ] );
-  test.identical( got.strides, [ 3, 1, 3 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'o.dims < dims, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 2, 3, 2, 1 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 3, 5, 2, 4, 6, 7, 9, 11, 8, 10, 12 ]) );
-  test.identical( got.dims, [ 2, 3, 2, 1 ] );
-  test.identical( got.strides, [ 3, 1, 6, 12 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.close( 'changing of dims length, inputRowMajor - 1' );
-
-  /* - */
-
-  test.open( 'null in dims, inputRowMajor - 1' );
-
-  test.case = 'null does not change result, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 1, null, 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 1, 3, 2, 2 ] );
-  test.identical( got.strides, [ 3, 1, 3, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'calculates new dimensions, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ 1, 2, null ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 1, 2, 6 ] );
-  test.identical( got.strides, [ 2, 1, 2 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'calculates new dimensions, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 1,
-    dims : [ null, 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6, 7, 10, 8, 11, 9, 12 ]) );
-  test.identical( got.dims, [ 3, 2, 2 ] );
-  test.identical( got.strides, [ 2, 1, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.close( 'null in dims, inputRowMajor - 1' );
-
-  /* - */
-
-  test.open( 'changing of dims length, inputRowMajor - 0' );
-
-  test.case = 'same dims, 2D';
-  var buffer = [ 1, 2, 3, 4, 5, 6 ];
-  var m = _.Matrix.Make([ 2, 3 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 2, 3 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( got.dims, [ 2, 3 ] );
-  test.identical( got.strides, [ 1, 2 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'same dims, 3D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 2, 3, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 2, 3, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 2, 3, 2 ] );
-  test.identical( got.strides, [ 1, 2, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'same dims, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 1, 3, 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 1, 3, 2, 2 ] );
-  test.identical( got.strides, [ 1, 1, 3, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  /* */
-
-  test.case = 'o.dims < dims, 2D';
-  var buffer = [ 1, 2, 3, 4 ];
-  var m = _.Matrix.Make([ 2, 3 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 0, 0 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, [ 1, 2 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'o.dims < dims, 3D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
-  var m = _.Matrix.Make([ 2, 3, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 1, 3, 3 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0 ]) );
-  test.identical( got.dims, [ 1, 3, 3 ] );
-  test.identical( got.strides, [ 1, 1, 3 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'o.dims < dims, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 2, 3, 2, 1 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 2, 3, 2, 1 ] );
-  test.identical( got.strides, [ 1, 2, 6, 12 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.close( 'changing of dims length, inputRowMajor - 0' );
-
-  /* - */
-
-  test.open( 'null in dims, inputRowMajor - 0' );
-
-  test.case = 'null does not change result, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 1, null, 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 1, 3, 2, 2 ] );
-  test.identical( got.strides, [ 1, 1, 3, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'calculates new dimensions, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ 1, 2, null ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 1, 2, 6 ] );
-  test.identical( got.strides, [ 1, 1, 2 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.case = 'calculates new dimensions, 4D';
-  var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-  var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-  var got = m.bufferImport
-  ({
-    buffer,
-    replacing : 0,
-    inputRowMajor : 0,
-    dims : [ null, 2, 2 ]
-  });
-  test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
-  test.identical( got.dims, [ 3, 2, 2 ] );
-  test.identical( got.strides, [ 1, 3, 6 ] );
-  test.is( got.buffer === m.buffer );
-
-  test.close( 'null in dims, inputRowMajor - 0' );
-
-  /* - */
-
-  if( !Config.debug )
-  return;
-
-  test.case = 'calculates not integer in dims';
-  test.shouldThrowErrorSync( () =>
+  function act( a )
   {
-    var m = _.Matrix.Make([ 2, 3 ]);
-    var buffer = [ 1, 2, 3, 4, 5 ];
-    var got = m.bufferImport({ buffer, dims : [ 5, null ] });
-  });
+    test.open( 'changing of dims length, inputRowMajor - 1' );
 
-  test.case = 'matrix buffer is smaller than new scalarsPerMatrix';
-  test.shouldThrowErrorSync( () =>
-  {
+    test.case = 'same dims, 2D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6 ] );
     var m = _.Matrix.Make([ 2, 3 ]);
-    var buffer = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
-    var got = m.bufferImport({ buffer, dims : [ 3, 3 ] });
-  });
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 2, 3 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.strides, [ 3, 1 ] );
+    test.is( got.buffer === m.buffer );
 
-  test.case = 'source buffer is not equal to new value of scalarsPerMatrix';
-  test.shouldThrowErrorSync( () =>
-  {
+    test.case = 'same dims, 3D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 2, 3, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 2, 3, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.strides, [ 3, 1, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'same dims, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 1, 3, 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    /* */
+
+    test.case = 'o.dims < dims, 2D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4 ] );
     var m = _.Matrix.Make([ 2, 3 ]);
-    var buffer = [ 1, 2, 3 ];
-    var got = m.bufferImport({ buffer, dims : [ 2, 2 ] });
-  });
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 3, 2, 4, 0, 0 ]) );
+    test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.strides, [ 2, 1 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'o.dims < dims, 3D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var m = _.Matrix.Make([ 2, 3, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 1, 3, 3 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0 ]) );
+    test.identical( got.dims, [ 1, 3, 3 ] );
+    test.identical( got.strides, [ 3, 1, 3 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'o.dims < dims, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 2, 3, 2, 1 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 3, 5, 2, 4, 6, 7, 9, 11, 8, 10, 12 ]) );
+    test.identical( got.dims, [ 2, 3, 2, 1 ] );
+    test.identical( got.strides, [ 3, 1, 6, 12 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'changing of dims length, inputRowMajor - 1' );
+
+    /* - */
+
+    test.open( 'null in dims, inputRowMajor - 1' );
+
+    test.case = 'null does not change result, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 1, null, 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'calculates new dimensions, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ 1, 2, null ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 2, 6 ] );
+    test.identical( got.strides, [ 2, 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'calculates new dimensions, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 1,
+      dims : [ null, 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6, 7, 10, 8, 11, 9, 12 ]) );
+    test.identical( got.dims, [ 3, 2, 2 ] );
+    test.identical( got.strides, [ 2, 1, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'null in dims, inputRowMajor - 1' );
+
+    /* - */
+
+    test.open( 'changing of dims length, inputRowMajor - 0' );
+
+    test.case = 'same dims, 2D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6 ] );
+    var m = _.Matrix.Make([ 2, 3 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 2, 3 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.strides, [ 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'same dims, 3D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 2, 3, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 2, 3, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.strides, [ 1, 2, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'same dims, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 1, 3, 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    /* */
+
+    test.case = 'o.dims < dims, 2D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4 ] );
+    var m = _.Matrix.Make([ 2, 3 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 0, 0 ]) );
+    test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.strides, [ 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'o.dims < dims, 3D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var m = _.Matrix.Make([ 2, 3, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 1, 3, 3 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0 ]) );
+    test.identical( got.dims, [ 1, 3, 3 ] );
+    test.identical( got.strides, [ 1, 1, 3 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'o.dims < dims, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 2, 3, 2, 1 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 2, 3, 2, 1 ] );
+    test.identical( got.strides, [ 1, 2, 6, 12 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'changing of dims length, inputRowMajor - 0' );
+
+    /* - */
+
+    test.open( 'null in dims, inputRowMajor - 0' );
+
+    test.case = 'null does not change result, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 1, null, 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'calculates new dimensions, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ 1, 2, null ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 1, 2, 6 ] );
+    test.identical( got.strides, [ 1, 1, 2 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.case = 'calculates new dimensions, 4D';
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] );
+    var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    var got = m.bufferImport
+    ({
+      buffer,
+      replacing : 0,
+      inputRowMajor : 0,
+      dims : [ null, 2, 2 ]
+    });
+    test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
+    test.identical( got.dims, [ 3, 2, 2 ] );
+    test.identical( got.strides, [ 1, 3, 6 ] );
+    test.is( got.buffer === m.buffer );
+
+    test.close( 'null in dims, inputRowMajor - 0' );
+
+    /* - */
+
+    if( !Config.debug )
+    return;
+
+    test.case = 'calculates not integer in dims';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+      var got = m.bufferImport({ buffer, dims : [ 5, null ] });
+    });
+
+    test.case = 'matrix buffer is smaller than new scalarsPerMatrix';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+      var got = m.bufferImport({ buffer, dims : [ 3, 3 ] });
+    });
+
+    test.case = 'source buffer is not equal to new value of scalarsPerMatrix';
+    test.shouldThrowErrorSync( () =>
+    {
+      var m = _.Matrix.Make([ 2, 3 ]);
+      var buffer = a.vadMake( [ 1, 2, 3 ] );
+      var got = m.bufferImport({ buffer, dims : [ 2, 2 ] });
+    });
+  }
 }
 
 //
