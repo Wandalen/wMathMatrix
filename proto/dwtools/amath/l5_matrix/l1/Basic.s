@@ -1606,23 +1606,24 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
     );
 
-    self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+    let strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
 
     if( _.vectorAdapterIs( o.buffer ) )
     {
       self.scalarEach( function( it )
       {
-        self.scalarSet( it.indexNd, o.buffer.eGet( it.indexLogical ) );
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
+        self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
       });
     }
     else
     {
       self.scalarEach( function( it )
       {
-        self.scalarSet( it.indexNd, o.buffer[ it.indexLogical ] );
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
+        self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
       });
     }
-
   }
 
   // self._changeEnd();
