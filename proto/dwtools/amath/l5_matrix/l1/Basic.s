@@ -1531,7 +1531,7 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
 
     self._changeBegin();
     self.dims = o.dims;
-    self.offset = _.vectorAdapterIs( o.buffer ) ? o.buffer.offset : 0;
+    self.offset = 0;
     self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
     self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
     self._changeEnd();
@@ -1541,12 +1541,11 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
   {
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
+    self._changeBegin();
+    self.offset = 0;
+    self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
     self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
-    if( o.buffer.length !== self.buffer.length )
-    {
-      self.offset = 0;
-      self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
-    }
+    self._changeEnd();
 
   }
   else if( !o.replacing && o.dims )
