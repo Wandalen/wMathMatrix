@@ -30,7 +30,7 @@ let path = fileProvider.path;
 function onSuiteBegin()
 {
   let context = this;
-  context.assetsOriginalSuitePath = path.join( __dirname, '../../../../sample'  );
+  context.assetsOriginalSuitePath = path.join( __dirname, '../../../../sample' );
 }
 
 //

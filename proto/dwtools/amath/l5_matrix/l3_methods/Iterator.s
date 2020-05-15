@@ -268,7 +268,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
-        debugger;
+        // debugger;
         it.offset[ 1 ] += it.strides[ 1 ];
         it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
       }
