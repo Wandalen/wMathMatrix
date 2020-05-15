@@ -1569,10 +1569,6 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       self.dims = o.dims;
       self.offset = 0;
     }
-    else
-    {
-      self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
-    }
 
     _.assert
     (
@@ -1580,19 +1576,24 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
     );
 
+    let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
 
     if( _.vectorAdapterIs( o.buffer ) )
     {
       self.scalarEach( function( it )
       {
-        self.scalarSet( it.indexNd, o.buffer.eGet( it.indexLogical ) );
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
+        self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
+        // self.scalarSet( it.indexNd, o.buffer.eGet( it.indexLogical ) );
       });
     }
     else
     {
       self.scalarEach( function( it )
       {
-        self.scalarSet( it.indexNd, o.buffer[ it.indexLogical ] );
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
+        self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
+        // self.scalarSet( it.indexNd, o.buffer[ it.indexLogical ] );
       });
     }
 
@@ -1606,7 +1607,7 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
       `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
     );
 
-    let strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+    let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
 
     if( _.vectorAdapterIs( o.buffer ) )
     {
