@@ -19646,11 +19646,8 @@ function lineNdGetIterate( test )
 
 //
 
-function lineEach( test )
+function lineEachStandardStrides( test )
 {
-
-  /* */
-
   test.case = '2x3. iterate dimension 0';
 
   var dims = [ 2, 3 ];
@@ -19873,13 +19870,16 @@ function lineEach( test )
   });
   var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
   test.identical( got, exp );
+}
 
-  /* */
+//
 
-  test.case = '2x3, check map it for callback, iterate dimension : 0';
+function lineEachNonStandardStrides( test )
+{
+  test.case = '2x3. iterate dimension 0';
 
   var dims = [ 2, 3 ];
-  var length = _.avector.reduceToProduct( dims );
+  var length = 2 * _.avector.reduceToProduct( dims );
   var buffer = new I32x( length );
   for( let i = 0 ; i < length ; i++ )
   buffer[ i ] = i+1;
@@ -19888,31 +19888,24 @@ function lineEach( test )
   ({
     buffer,
     dims,
-    inputRowMajor : 0,
+    offset : 1,
+    strides : [ 2, 3 ]
   });
 
   var got = [];
   matrix.lineEach( 0, ( it ) =>
   {
-    got.push( it );
+    got.push( ... it.line, '.' );
   });
-  var exp =
-  {
-    buffer : buffer,
-    indexNd : [ null, 3 ],
-    offset : [ 6 ],
-    line : _.vectorAdapter.from( new I32x([ 5, 6 ]) ),
-  };
-  test.identical( got[ 0 ], exp );
-  test.identical( got.length, 3 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  var exp = [ 2, 4, '.', 5, 7, '.', 8, 10, '.' ];
+  test.identical( got, exp );
 
   /* */
 
-  test.case = '2x3, check map it for callback, iterate dimension : 1';
+  test.case = '2x3. iterate dimension 1';
 
   var dims = [ 2, 3 ];
-  var length = _.avector.reduceToProduct( dims );
+  var length = 2 * _.avector.reduceToProduct( dims );
   var buffer = new I32x( length );
   for( let i = 0 ; i < length ; i++ )
   buffer[ i ] = i+1;
@@ -19921,31 +19914,24 @@ function lineEach( test )
   ({
     buffer,
     dims,
-    inputRowMajor : 0,
+    offset : 1,
+    strides : [ 2, 3 ]
   });
 
   var got = [];
   matrix.lineEach( 1, ( it ) =>
   {
-    got.push( it );
+    got.push( ... it.line, '.' );
   });
-  var exp =
-  {
-    buffer : buffer,
-    indexNd : [ 2, null ],
-    offset : [ 2 ],
-    line : _.vectorAdapter.from( new I32x([ 2, 4, 6 ]) ),
-  };
-  test.identical( got[ 0 ], exp );
-  test.identical( got.length, 2 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  var exp = [ 2, 5, 8, '.', 4, 7, 10, '.' ];
+  test.identical( got, exp );
 
   /* */
 
-  test.case = '2x3x4, check map it for callback, iterate dimension : 1';
+  test.case = '2x3x4. iterate dimension 0';
 
   var dims = [ 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
+  var length = 2 * _.avector.reduceToProduct( dims );
   var buffer = new I32x( length );
   for( let i = 0 ; i < length ; i++ )
   buffer[ i ] = i+1;
@@ -19954,31 +19940,50 @@ function lineEach( test )
   ({
     buffer,
     dims,
-    inputRowMajor : 0,
+    offset : 1,
+    strides : [ 2, 3, 9 ]
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 4, '.', 5, 7, '.', 8, 10, '.', 11, 13, '.', 14, 16, '.', 17, 19, '.', 20, 22, '.', 23, 25, '.', 26, 28, '.', 29, 31, '.', 32, 34, '.', 35, 37, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 9 ]
   });
 
   var got = [];
   matrix.lineEach( 1, ( it ) =>
   {
-    got.push( it );
+    got.push( ... it.line, '.' );
   });
-  var exp =
-  {
-    buffer : buffer,
-    indexNd : [ 8, null, 4 ],
-    offset : [ 24, 24 ],
-    line : _.vectorAdapter.from( new I32x([ 20, 22, 24 ]) ),
-  };
-  test.identical( got[ 0 ], exp );
-  test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  var exp = [ 2, 5, 8, '.', 4, 7, 10, '.', 11, 14, 17, '.', 13, 16, 19, '.', 20, 23, 26, '.', 22, 25, 28, '.', 29, 32, 35, '.', 31, 34, 37, '.' ];
+  test.identical( got, exp );
 
   /* */
 
-  test.case = '2x3x4, check map it for callback, iterate dimension : 2';
+  test.case = '2x3x4. iterate dimension 2';
 
   var dims = [ 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
+  var length = 2 * _.avector.reduceToProduct( dims );
   var buffer = new I32x( length );
   for( let i = 0 ; i < length ; i++ )
   buffer[ i ] = i+1;
@@ -19987,25 +19992,121 @@ function lineEach( test )
   ({
     buffer,
     dims,
-    inputRowMajor : 0,
+    offset : 1,
+    strides : [ 2, 3, 9 ],
   });
 
   var got = [];
   matrix.lineEach( 2, ( it ) =>
   {
-    got.push( it );
+    got.push( ... it.line, '.' );
   });
-  var exp =
-  {
-    buffer : buffer,
-    indexNd : [ 6, 3, null ],
-    offset : [ 6, 6 ],
-    line : _.vectorAdapter.from( new I32x([ 6, 12, 18, 24 ]) ),
-  };
-  test.identical( got[ 0 ], exp );
-  test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  var exp = [ 2, 11, 20, 29, '.', 4, 13, 22, 31, '.', 5, 14, 23, 32, '.', 7, 16, 25, 34, '.', 8, 17, 26, 35, '.', 10, 19, 28, 37, '.' ];
+  test.identical( got, exp );
 
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 0';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, '.', 5, '.', 10, '.', 13, '.', 18, '.', 21, '.', 11, '.', 14, '.', 19, '.', 22, '.', 27, '.', 30, '.', 20, '.', 23, '.', 28, '.', 31, '.', 36, '.', 39, '.', 29, '.', 32, '.', 37, '.', 40, '.', 45, '.', 48, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 1';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 5, '.', 10, 13, '.', 18, 21, '.', 11, 14, '.', 19, 22, '.', 27, 30, '.', 20, 23, '.', 28, 31, '.', 36, 39, '.', 29, 32, '.', 37, 40, '.', 45, 48, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 2';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 10, 18, '.', 5, 13, 21, '.', 11, 19, 27,  '.', 14, 22, 30, '.', 20, 28, 36, '.', 23, 31, 39, '.', 29, 37, 45, '.', 32, 40, 48, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 3';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 3, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 11, 20, 29, '.', 5, 14, 23, 32, '.', 10, 19, 28, 37, '.', 13, 22, 31, 40, '.', 18, 27, 36, 45, '.', 21, 30, 39, 48, '.' ];
+  test.identical( got, exp );
 }
 
 //
@@ -28546,7 +28647,10 @@ var Self =
     accessors,
     lineNdGet, /* qqq : add 4d cases */
     lineNdGetIterate,
-    lineEach,
+
+    lineEachStandardStrides,
+    lineEachNonStandardStrides,
+
     partialAccessors,
     lineSwap,
     pivot,
