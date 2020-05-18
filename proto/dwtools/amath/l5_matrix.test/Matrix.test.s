@@ -19876,6 +19876,136 @@ function lineEach( test )
 
   /* */
 
+  test.case = '2x3, check map it for callback, iterate dimension : 0';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ null, 3 ],
+    offset : [ 6 ],
+    line : _.vectorAdapter.from( new I32x([ 5, 6 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 3 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '2x3, check map it for callback, iterate dimension : 1';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 2, null ],
+    offset : [ 2 ],
+    line : _.vectorAdapter.from( new I32x([ 2, 4, 6 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 2 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '2x3x4, check map it for callback, iterate dimension : 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 8, null, 4 ],
+    offset : [ 24, 24 ],
+    line : _.vectorAdapter.from( new I32x([ 20, 22, 24 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '2x3x4, check map it for callback, iterate dimension : 2';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 6, 3, null ],
+    offset : [ 6, 6 ],
+    line : _.vectorAdapter.from( new I32x([ 6, 12, 18, 24 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
 }
 
 //
