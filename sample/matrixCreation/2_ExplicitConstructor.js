@@ -6,9 +6,9 @@ var matrix = new _.Matrix
   dims : [ 2, 2 ],
   inputRowMajor : 1,
 });
-
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */

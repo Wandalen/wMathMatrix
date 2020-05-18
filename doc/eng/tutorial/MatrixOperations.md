@@ -30,17 +30,19 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 
 matrix.transpose();
-console.log( `transposed matrix :\n${ matrix.toStr() }` );
+console.log( `transposed matrix :\n${ matrix }` );
 /* log : transposed matrix :
-+1, +3,
-+2, +4,
+Matrix.Array.2x2 ::
+  +1 +3
+  +2 +4
 */
 ```
 
@@ -56,10 +58,11 @@ var matrix = _.Matrix.MakeSquare
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix, 3 ] );
-console.log( `dst :\n${ dst.toStr() }` );
+console.log( `dst :\n${ dst }` );
 /* log : dst :
-+3, +6,
-+9, +12,
+Matrix.F32x.2x2 ::
+  +3 +6
+  +9 +12
 */
 ```
 
@@ -75,10 +78,11 @@ var matrix = _.Matrix.MakeSquare
 ]);
 
 matrix.mul( 3 );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+3, +6,
-+9, +12,
+Matrix.Array.2x2 ::
+  +3 +6
+  +9 +12
 */
 ```
 
@@ -141,10 +145,11 @@ var matrix2 = _.Matrix.MakeSquare
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix1, matrix2 ] );
-console.log( `dst :\n${ dst.toStr() }` );
+console.log( `dst :\n${ dst }` );
 /* log : dst :
-+8,  +5,
-+20, +13,
+Matrix.Array.2x2 ::
+  +8 +5
+  +20 +13
 */
 ```
 
@@ -174,10 +179,11 @@ var matrix3 = _.Matrix.MakeCol
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
-console.log( `dst :\n${ dst.toStr() }` );
+console.log( `dst :\n${ dst }` );
 /* log : dst :
-+11
--3
+Matrix.Array.2x1 ::
+  +11
+  -3
 */
 ```
 

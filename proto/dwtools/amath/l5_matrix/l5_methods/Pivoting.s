@@ -272,33 +272,22 @@ function _PivotRook_pre( routine, args )
 
 //
 
-/* qqq2 : make pre-body-fication, please */
-// function _pivotRook( i, o )
-function _PivotRook( o ) /* aaa2 : cover pelase */ /* Dmytro : covered */
+/* aaa2 : make pre-body-fication, please */ /* Dmytro : implemented */
+function _PivotRook_body( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
 {
   let proto = Self;
-  // let self = this;
 
-  // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( arguments.length === 1 );
-  // _.assert( o.pivots );
   _.assert( o.lineIndex >= 0 );
   _.assertMapHasAll( o, _PivotRook.defaults );
-  // _.assertMapHasOnly( o, _PivotRook.defaults );
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
-  // let value = row1.eGet( 0 );
   let maxr = o.m.vectorAdapter.reduceToMaxAbs( row1 );
   let maxc = o.m.vectorAdapter.reduceToMaxAbs( col1 );
 
   if( maxr.value > maxc.value )
   {
-    // if( maxr.value === value )
-    // {
-    //   debugger;
-    //   return false;
-    // }
     let i2 = maxr.index + o.lineIndex;
     if( o.lineIndex === i2 )
     return false;
@@ -309,8 +298,6 @@ function _PivotRook( o ) /* aaa2 : cover pelase */ /* Dmytro : covered */
   }
   else
   {
-    // if( maxc.value === value )
-    // return false;
     let i2 = maxc.index + o.lineIndex;
     if( o.lineIndex === i2 )
     return false;
@@ -325,7 +312,7 @@ function _PivotRook( o ) /* aaa2 : cover pelase */ /* Dmytro : covered */
   return true;
 }
 
-_PivotRook.defaults =
+_PivotRook_body.defaults =
 {
   m : null,
   y : null,
@@ -335,6 +322,73 @@ _PivotRook.defaults =
   nRowPermutations : 0,
   nColPermutations : 0,
 }
+
+//
+
+let _PivotRook = _.routineFromPreAndBody( _PivotRook_pre, _PivotRook_body );
+
+// function _pivotRook( i, o )
+// function _PivotRook( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
+// {
+//   let proto = Self;
+//   // let self = this;
+//
+//   // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+//   _.assert( arguments.length === 1 );
+//   // _.assert( o.pivots );
+//   _.assert( o.lineIndex >= 0 );
+//   _.assertMapHasAll( o, _PivotRook.defaults );
+//   // _.assertMapHasOnly( o, _PivotRook.defaults );
+//
+//   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
+//   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
+//   // let value = row1.eGet( 0 );
+//   let maxr = o.m.vectorAdapter.reduceToMaxAbs( row1 );
+//   let maxc = o.m.vectorAdapter.reduceToMaxAbs( col1 );
+//
+//   if( maxr.value > maxc.value )
+//   {
+//     // if( maxr.value === value )
+//     // {
+//     //   debugger;
+//     //   return false;
+//     // }
+//     let i2 = maxr.index + o.lineIndex;
+//     if( o.lineIndex === i2 )
+//     return false;
+//     _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
+//     o.m.colsSwap( o.lineIndex, i2 );
+//     o.npermutations += 1;
+//     o.nColPermutations += 1;
+//   }
+//   else
+//   {
+//     // if( maxc.value === value )
+//     // return false;
+//     let i2 = maxc.index + o.lineIndex;
+//     if( o.lineIndex === i2 )
+//     return false;
+//     _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
+//     o.m.rowsSwap( o.lineIndex, i2 );
+//     if( o.y )
+//     o.y.rowsSwap( o.lineIndex, i2 );
+//     o.npermutations += 1;
+//     o.nRowPermutations += 1;
+//   }
+//
+//   return true;
+// }
+//
+// _PivotRook.defaults =
+// {
+//   m : null,
+//   y : null,
+//   pivots : null,
+//   lineIndex : null,
+//   npermutations : 0,
+//   nRowPermutations : 0,
+//   nColPermutations : 0,
+// }
 
 //
 

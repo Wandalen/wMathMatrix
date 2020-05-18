@@ -107,9 +107,9 @@ function TempBorrow0( src )
 {
   _.assert( arguments.length === 1 );
   if( src instanceof Self )
-  return Self._TempBorrow( src, src , 0 );
+  return Self._TempBorrow( src, src, 0 );
   else
-  return Self._TempBorrow( null, src , 0 );
+  return Self._TempBorrow( null, src, 0 );
 }
 
 //
@@ -158,7 +158,7 @@ function tempBorrow0( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
   _.assert( arguments.length <= 1 );
   if( src === undefined )
   src = this;
-  return Self._TempBorrow( this, src , 0 );
+  return Self._TempBorrow( this, src, 0 );
 }
 
 //
@@ -207,9 +207,9 @@ function TempBorrow1( src )
 {
   _.assert( arguments.length === 1 );
   if( src instanceof Self )
-  return Self._TempBorrow( src, src , 1 );
+  return Self._TempBorrow( src, src, 1 );
   else
-  return Self._TempBorrow( null, src , 1 );
+  return Self._TempBorrow( null, src, 1 );
 }
 
 //
@@ -258,7 +258,7 @@ function tempBorrow1( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
   _.assert( arguments.length <= 1 );
   if( src === undefined )
   src = this;
-  return Self._TempBorrow( this, src , 1 );
+  return Self._TempBorrow( this, src, 1 );
 }
 
 //
@@ -307,9 +307,9 @@ function TempBorrow2( src )
 {
   _.assert( arguments.length === 1 );
   if( src instanceof Self )
-  return Self._TempBorrow( src, src , 2 );
+  return Self._TempBorrow( src, src, 2 );
   else
-  return Self._TempBorrow( null, src , 2 );
+  return Self._TempBorrow( null, src, 2 );
 }
 
 //
@@ -358,7 +358,7 @@ function tempBorrow2( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
   _.assert( arguments.length <= 1 );
   if( src === undefined )
   src = this;
-  return Self._TempBorrow( this, src , 2 );
+  return Self._TempBorrow( this, src, 2 );
 }
 
 //
@@ -407,9 +407,9 @@ function TempBorrow3( src )
 {
   _.assert( arguments.length === 1 );
   if( src instanceof Self )
-  return Self._TempBorrow( src, src , 3 );
+  return Self._TempBorrow( src, src, 3 );
   else
-  return Self._TempBorrow( null, src , 3 );
+  return Self._TempBorrow( null, src, 3 );
 }
 
 //
@@ -479,7 +479,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   /* var */
 
-  _TempMatrices : [ Object.create( null ) , Object.create( null ) , Object.create( null ) , Object.create( null ) ],
+  _TempMatrices : [ Object.create( null ), Object.create( null ), Object.create( null ), Object.create( null ) ],
 
 }
 

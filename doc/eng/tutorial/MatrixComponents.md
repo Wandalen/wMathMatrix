@@ -10,17 +10,18 @@ Use the method `rowGet` to get a row of a matrix.
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 var row = matrix.rowGet( 0 );
-console.log( `first row :\n${ row.toStr() }` );
+console.log( `first row :\n${ row }` );
 /* log : first row :
-1.000, 2.000
+VectorAdapter.x2.Array :: 1.000 2.000
 */
 ```
 
@@ -32,18 +33,20 @@ Use the method `rowSet` to set a row of a matrix.
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 matrix.rowSet( 0, [ 4, 3 ] );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+1, +2,
-+4, +3,
+Matrix.Array.2x2 ::
+  +4 +3
+  +3 +4
 */
 ```
 
@@ -57,17 +60,19 @@ Use the method `colGet` to get the column value.
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 var row = matrix.colGet( 0 );
-console.log( `first column :\n${ row.toStr() }` );
+console.log( `first column :\n${ row }` );
 /* log : first column :
-1.000, 3.000 */
+VectorAdapter.x2.Array :: 1.000 3.000
+*/
 ```
 
 The method `colGet` returns a column as a vector adapter. This method does not make a copy of data but only provides a link on it.
@@ -78,18 +83,20 @@ Use the method `colSet` to set a value for a column.
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 matrix.colSet( 0, 5 );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+5, +2,
-+5, +4
+Matrix.Array.2x2 ::
+  +5 +2
+  +5 +4
 */
 ```
 
@@ -105,15 +112,16 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 var diagonal = matrix.diagonalGet();
-console.log( `diagonal of matrix :\n${ diagonal.toStr() }` );
+console.log( `diagonal of matrix :\n${ diagonal }` );
 /* log : diagonal of matrix :
-1.000, 4.000
+VectorAdapter.x2.Array :: 1.000 4.000
 */
 ```
 
@@ -127,16 +135,18 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
-matrix.diagonalSet([ 5, 7 ]);
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+matrix.diagonalSet( [ 5, 7 ] );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+5, +2,
-+3, +7,
+Matrix.Array.2x2 ::
+  +5 +2
+  +3 +7
 */
 ```
 
@@ -150,17 +160,18 @@ The method `eGet` returns an element of the matrix. An element of a typical 2-di
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 var el = matrix.eGet( 1 );
-console.log( `the second column of matrix :\n${ el.toStr() }` );
-/* log : the second column of matrix :
-2.000, 4.000
+console.log( `second column of matrix :\n${ el }` );
+/* log : second column of matrix :
+VectorAdapter.x2.Array :: 2.000 4.000
 */
 ```
 
@@ -170,18 +181,20 @@ Use the method `eSet` to set the value of a matrix element.
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 matrix.eSet( 0, [ 3, 5 ] );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+3, +2,
-+5, +4
+Matrix.Array.2x2 ::
+  +3 +2
+  +5 +4
 */
 ```
 
@@ -195,14 +208,14 @@ To get access to a scalar with row and column index, use methods `scalarGet` and
 var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
-  3, 4
+  3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
-
 var el = matrix.scalarGet([ 0, 1 ]);
 console.log( `second element of first row :\n${ el }` );
 /* log : second element of first row :
@@ -210,10 +223,11 @@ console.log( `second element of first row :\n${ el }` );
 */
 
 matrix.scalarSet( [ 0, 1 ], 5 );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+1, +5,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +5
+  +3 +4
 */
 ```
 
@@ -231,24 +245,27 @@ var matrix = _.Matrix.MakeSquare
   8,  9,  10, 11,
   12, 13, 14, 15,
 ])
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1,  +2,  +3,
-+5,  +6,  +7,
-+9,  +10, +11,
-+13, +14, +15,
+Matrix.Array.4x4 ::
+  +0 +1 +2 +3
+  +4 +5 +6 +7
+  +8 +9 +10 +11
+  +12 +13 +14 +15
 */
 var sub1 = matrix.submatrix( [ 1, 2 ], [ 0, 1 ] );
-console.log( `submatrix1 :\n${ sub1.toStr() }` );
+console.log( `submatrix1 :\n${ sub1 }` );
 /* log : submatrix1 :
-+5, +6,
-+9, +10,
+Matrix.Array.2x2 ::
+  +4 +5
+  +8 +9
 */
 var sub2 = matrix.submatrix( [ 1, 2 ], [ 1, 2 ] );
-console.log( `submatrix2 :\n${ sub2.toStr() }` );
+console.log( `submatrix2 :\n${ sub2 }` );
 /* log : submatrix2 :
-+6,  +7,
-+10, +11,
+Matrix.Array.2x2 ::
+  +5 +6
+  +9 +10
 */
 ```
 

@@ -5,14 +5,15 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 var row = matrix.colGet( 0 );
-console.log( `first column :\n${ row.toStr() }` );
+console.log( `first column :\n${ row }` );
 /* log : first column :
-1.000, 3.000
+VectorAdapter.x2.Array :: 1.000 3.000
 */
 

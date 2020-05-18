@@ -7,10 +7,10 @@ var matrix = new _.Matrix
   offset : 8,
   strides : [ -2, -1 ],
 });
-
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+9, +8,
-+7, +6,
-+5, +4,
+Matrix.Array.3x2 ::
+  +9 +8
+  +7 +6
+  +5 +4
 */

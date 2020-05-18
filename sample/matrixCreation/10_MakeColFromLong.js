@@ -1,8 +1,9 @@
 let _ = require( 'wmathmatrix' );
 
 var matrix = _.Matrix.MakeCol([ 2, 3 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+2,
-+3,
+Matrix.Array.2x1 ::
+  +2
+  +3
 */

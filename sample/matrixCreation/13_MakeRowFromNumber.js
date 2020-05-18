@@ -1,7 +1,8 @@
 let _ = require( 'wmathmatrix' );
 
 var matrix = _.Matrix.MakeRow( 2 );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
+Matrix.F32x.1x2 ::
+  +0 +0
 */
