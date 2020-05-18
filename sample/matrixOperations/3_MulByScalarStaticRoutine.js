@@ -7,8 +7,9 @@ var matrix = _.Matrix.MakeSquare
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix, 3 ] );
-console.log( `dst :\n${ dst.toStr() }` );
+console.log( `dst :\n${ dst }` );
 /* log : dst :
-+3, +6,
-+9, +12,
+Matrix.F32x.2x2 ::
+  +3 +6
+  +9 +12
 */
