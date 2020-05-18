@@ -6,7 +6,6 @@ var matrix = new _.Matrix
   dims : [ 2, 2 ],
   inputRowMajor : 1,
 });
-
 console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
 Matrix.Array.2x2 ::
