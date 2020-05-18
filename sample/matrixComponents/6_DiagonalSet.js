@@ -5,14 +5,16 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 matrix.diagonalSet( [ 5, 7 ] );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+5, +2,
-+3, +7,
+Matrix.Array.2x2 ::
+  +5 +2
+  +3 +7
 */
