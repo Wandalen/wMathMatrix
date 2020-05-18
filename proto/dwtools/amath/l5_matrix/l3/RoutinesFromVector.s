@@ -144,7 +144,7 @@ function declareAtomWiseReducingRoutine( routine , rname )
   if( !op.onScalar )
   return;
 
-  // if( op.kind !== 'atomWiseReducing' )
+  // if( op.kind !== 'scalarWiseReducing' )
   // return;
 
   // if( op.generator.name !== '__operationReduceToScalar_functor' )
@@ -192,11 +192,11 @@ function declareAtomWiseReducingRoutine( routine , rname )
   _.assert( _.routineIs( onVectorsEnd0 ) );
   _.assert( !Proto[ name ] );
 
-  Proto[ name ] = function atomWise()
+  Proto[ name ] = function scalarWise()
   {
     let self = this;
     _.assert( arguments.length === 0, 'Expects no arguments' );
-    let result = self.atomWiseReduceWithAtomHandler( onBegin, handleAtom, onEnd );
+    let result = self.scalarWiseReduceWithAtomHandler( onBegin, handleAtom, onEnd );
     return result;
   }
 
@@ -246,14 +246,14 @@ function declareAtomWiseHomogeneousWithScalarRoutines( routine, rname )
 
   /* */
 
-  Proto[ name ] = function atomWise()
+  Proto[ name ] = function scalarWise()
   {
     let self = this;
 
     _.assert( arguments.length === 1, 'Expects single argument' );
     _.assert( _.numberIs( arguments[ 0 ] ) );
 
-    self.atomWiseWithAssign( handleAtom2, arguments );
+    self.scalarWiseWithAssign( handleAtom2, arguments );
 
     return self;
   }
@@ -266,7 +266,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
 {
   let dop = routine.operation;
 
-  if( !dop.atomWise )
+  if( !dop.scalarWise )
   return;
 
   if( !dop.homogeneous )
@@ -391,7 +391,7 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
 
     // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
     // _.assert( _.arrayIs( srcs ) );
-    // let result = self.Self.atomWiseHomogeneousZip
+    // let result = self.Self.scalarWiseHomogeneousZip
     // ({
     //   onScalarsBegin : onVectorsBegin,
     //   onScalarsEnd : onVectorsEnd,
@@ -411,8 +411,8 @@ function declareAtomWiseHomogeneousRoutine( routine, name )
 // function declareAtomWiseHomogeneousRoutines()
 // {
 //
-//   for( let op in operations.atomWiseHomogeneous )
-//   declareAtomWiseHomogeneousRoutine( operations.atomWiseHomogeneous[ op ], op );
+//   for( let op in operations.scalarWiseHomogeneous )
+//   declareAtomWiseHomogeneousRoutine( operations.scalarWiseHomogeneous[ op ], op );
 //
 //   _.assert( Statics.addAtomWise );
 //   _.assert( Statics.allFiniteAtomWise );

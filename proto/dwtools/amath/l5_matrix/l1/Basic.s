@@ -384,7 +384,6 @@ function _equalAre( it )
     }
   }
 
-  // it.result = it.src.scalarWhile( function( atom, indexNd, indexFlat )
   it.result = it.src.scalarWhile( function( it2 )
   {
     let scalar = it.src.scalarGet( it2.indexNd ); /* zzz : optimize */

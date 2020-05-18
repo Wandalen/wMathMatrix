@@ -97,7 +97,7 @@ scalarWhile.defaults =
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
  * var storage = [];
- * matrix.scalarEach( ( e ) => { storage.push(  Math.pow( e.atom, 2 ) ) } );
+ * matrix.scalarEach( ( e ) => { storage.push(  Math.pow( e.scalar, 2 ) ) } );
  * console.log( storage );
  * // log : [ 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
  *
@@ -689,6 +689,8 @@ let Extension =
   scalarEach,
   layerEach, /* qqq : cover and document */
   lineEach,
+
+  /* qqq2 : update documentations of routines of the file */
 
   //
 
