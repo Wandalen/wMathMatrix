@@ -8,10 +8,11 @@ Let's creates a matrix with specified dimensions.
 
 ```js
 var matrix = _.Matrix.Make([ 2, 2 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */
 ```
 
@@ -29,10 +30,11 @@ var matrix = new _.Matrix
   inputRowMajor : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 ```
 
@@ -43,26 +45,28 @@ The constructor receives buffer, dimensions, and hint to calculate effective str
 Let's create a square matrix from a passed buffer or a given dimension.
 
 ```js
-var matrix1 = _.Matrix.MakeSquare
+var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
   3, 4
 ]);
-console.log( `matrix :\n${ matrix1.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 ```
 
 Static routine `MakeSquare` deduces dimension `2x2` from the length of the vector that is passed as the input.
 
 ```js
-var matrix2 = _.Matrix.MakeSquare( 2 );
-console.log( `matrix :\n${ matrix2.toStr() }` );
+var matrix = _.Matrix.MakeSquare( 2 );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */
 ```
 
@@ -74,10 +78,11 @@ Creates a matrix from a given dimension, and fills it with zeros.
 
 ```js
 var matrix = _.Matrix.MakeZero([ 2, 2 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */
 ```
 
@@ -85,10 +90,11 @@ The dimension `2x2` is given explicitly by an array.
 
 ```js
 var matrix = _.Matrix.MakeZero( 2 );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */
 ```
 
@@ -99,11 +105,12 @@ The dimension `2x2` is given explicitly by a scalar.
 Let's create an identity matrix from a provided dimension. Diagonal values of such matrix are `1`.
 
 ```js
-var matrix = _.Matrix.MakeIdentity([ 2, 3 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+var matrix = _.Matrix.MakeIdentity( [ 2, 3 ] );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +0, +0,
-+0, +1, +0,
+Matrix.F32x.2x3 ::
+  +1 +0 +0
+  +0 +1 +0
 */
 ```
 
@@ -111,10 +118,11 @@ The dimension `2x3` is given explicitly by an array.
 
 ```js
 var matrix = _.Matrix.MakeIdentity( 2 );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +0,
-+0, +1,
+Matrix.F32x.2x2 ::
+  +1 +0
+  +0 +1
 */
 ```
 
@@ -126,11 +134,12 @@ Let's create a square matrix with specified diagonal values.
 
 ```js
 var matrix = _.Matrix.MakeDiagonal( [ 2, 3, 1 ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+2, +0, +0,
-+0, +3, +0,
-+0, +0, +1,
+Matrix.F32x.3x3 ::
+  +2 +0 +0
+  +0 +3 +0
+  +0 +0 +1
 */
 ```
 
@@ -142,10 +151,11 @@ Let's creates a column vector.
 
 ```js
 var matrix = _.Matrix.MakeCol([ 2, 3 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+2,
-+3,
+Matrix.Array.2x1 ::
+  +2
+  +3
 */
 ```
 
@@ -153,10 +163,11 @@ The static routine `MakeCol` receives a column in a format of vector as an argum
 
 ```js
 var matrix = _.Matrix.MakeCol( 2 );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0,
-+0,
+Matrix.F32x.2x1 ::
+  +0
+  +0
 */
 ```
 
@@ -167,20 +178,21 @@ The length of the column is specified explicitly `2`. The dimensions of the matr
 Let's creates a row vector.
 
 ```js
-var matrix = _.Matrix.MakeRow([ 2, 3 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+var matrix = _.Matrix.MakeRow( [ 2, 3 ] );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+2, +3,
+Matrix.Array.1x2 ::
+  +2 +3
 */
 ```
 
 The static routine `MakeRow` receives a row in a vector format as an argument. The dimension of the matrix `1x2` is deduced from the length of the row.
 
 ```js
-var matrix = _.Matrix.MakeRow( 2 );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
+Matrix.F32x.1x2 ::
+  +0 +0
 */
 ```
 
@@ -201,28 +213,30 @@ console.log( `array :\n${ array }` );
 [ 1, 2, 3, 4, 5, 6 ]
 */
 var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
-console.log( `vector :\n${ vector.toStr() }` );
+console.log( `vector :\n${ vector }` );
 /* log : vector :
-2.000, 4.000, 6.000
+VectorAdapter.x3.Array :: 2.000 4.000 6.000
 */
 
 var matrix1 = _.Matrix.FromVector( vector );
-console.log( `matrix1 :\n${ matrix1.toStr() }` );
+console.log( `matrix1 :\n${ matrix1 }` );
 /* log : matrix1 :
-+1,
-+3,
-+5,
+Matrix.Array.3x1 ::
+  +2
+  +4
+  +6
 */
 
 var matrix2 = _.Matrix.FromVector( array );
-console.log( `matrix2 :\n${ matrix2.toStr() }` );
+console.log( `matrix2 :\n${ matrix2 }` );
 /* log : matrix2 :
-+1,
-+2,
-+3,
-+4,
-+5,
-+6,
+Matrix.Array.6x1 ::
+  +1
+  +2
+  +3
+  +4
+  +5
+  +6
 */
 ```
 
@@ -232,10 +246,11 @@ Creates a matrix with a specified dimension and fills it by the passed value.
 
 ```js
 var matrix = _.Matrix.FromScalar( 5, [ 2, 2 ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+5, +5,
-+5, +5
+Matrix.F32x.2x2 ::
+  +5 +5
+  +5 +5
 */
 ```
 
@@ -250,12 +265,13 @@ var position = [ 1, 2, 3 ];
 var quaternion = [ 0, 0, 0, 1 ];
 var scale = [ 1, 1, 1 ];
 var matrix = _.Matrix.FromTransformations( position, quaternion, scale );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +0, +0, +1,
-+0, +1, +0, +2,
-+0, +0, +1, +3,
-+0, +0, +0, +1,
+Matrix.F32x.4x4 ::
+  +1 +0 +0 +1
+  +0 +1 +0 +2
+  +0 +0 +1 +3
+  +0 +0 +0 +1
 */
 ```
 
@@ -266,13 +282,14 @@ Because the offset is the only component with a value different from one, the re
 One of dimensions of the matrix can have infinite value.
 
 ```js
-var matrix = _.Matrix.Make([ Infinity, 2 ]).copy
+var matrix = _.Matrix.Make( [ Infinity, 2 ] ).copy
 ([
   0, 1,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0  +1
+Matrix.F32x.Infinityx2 ::
+  +0 +1
 ... ...
 */
 ```
@@ -295,20 +312,21 @@ var matrix3d = _.Matrix.Make([ 2, 3, 4 ]).copy
   19, 20, 21,
   22, 23, 23,
 ]);
-console.log( `3D matrix :\n${ matrix3d.toStr() }` );
+console.log( `3D matrix :\n${ matrix3d }` );
 /* log : 3D matrix :
-Matrix-0
-  +1 +2 +3
-  +4 +5 +6
-Matrix-1
-  +7 +8 +9
-  +10 +11 +12
-Matrix-2
-  +13 +14 +15
-  +16 +17 +18
-Matrix-3
-  +19 +20 +21
-  +22 +23 +23
+Matrix.F32x.2x3x4 ::
+  Layer 0
+    +1 +2 +3
+    +4 +5 +6
+  Layer 1
+    +7 +8 +9
+    +10 +11 +12
+  Layer 2
+    +13 +14 +15
+    +16 +17 +18
+  Layer 3
+    +19 +20 +21
+    +22 +23 +23
 */
 ```
 
