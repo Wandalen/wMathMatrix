@@ -1,4 +1,4 @@
-(function _Pivoting_s_() {
+(function _Pivoting_s_() { /* xxx : rename */
 
 'use strict';
 

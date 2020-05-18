@@ -387,7 +387,7 @@ function _equalAre( it )
   // it.result = it.src.scalarWhile( function( atom, indexNd, indexFlat )
   it.result = it.src.scalarWhile( function( it2 )
   {
-    let scalar = it.src.scalarGet( it2.indexNd ); /* xxx : optimize */
+    let scalar = it.src.scalarGet( it2.indexNd ); /* zzz : optimize */
     // let scalar = it2.buffer[ it2.offset[ 0 ] ];
     let scalar2 = it.src2.scalarGet( it2.indexNd );
     return it.onNumbersAreEqual( scalar, scalar2 );
@@ -1547,15 +1547,8 @@ function bufferExport( o )
     (
          0 <= occupiedRange[ 0 ] && occupiedRange[ 0 ] < o.dstBuffer.length
       && 0 <= occupiedRange[ 1 ] && occupiedRange[ 1 ] <= o.dstBuffer.length
-      , () => 'Bad buffer for such dimensions and stride', self.ExportString({ how : 'geometry', src }) /* xxx : rewrite */
+      , () => 'Bad buffer for such dimensions and stride', self.ExportString({ how : 'geometry', src })
     );
-
-    // o.dst += `\n${tab2}dims : ${_.toStr( o.src.dimsEffective || o.src.dims )}`;
-    // o.dst += `\n${tab2}strides : ${_.toStr( o.src.stridesEffective || o.src.strides )}`;
-    // if( o.src.occupiedRange )
-    // o.dst += `\n${tab2}occupiedRange : ${_.toStr( o.src.occupiedRange )}`;
-    // if( o.src.buffer )
-    // o.dst += `\n${tab2}buffer.length : ${o.src.buffer.length}`;
 
     let length = o.dstBuffer.length <= self.buffer.length ? o.dstBuffer.length : self.buffer.length;
     for( let i = 0 ; i < length ; i++ )
@@ -1606,6 +1599,7 @@ function bufferImport( o ) /* qqq2 : good coverage is required */
   if( _.vectorAdapterIs( o.buffer ) )
   {
 
+    debugger;
     self.scalarEach( function( it )
     {
       let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
@@ -1634,7 +1628,7 @@ bufferImport.defaults =
   inputRowMajor : 1, /* qqq : cover option */
   replacing : 0, /* qqq : cover option */
   dims : null,
-  /* xxx qqq2 : implement option dims for buffer growing. ask
+  /* qqq2 : implement option dims for buffer growing. ask
     if self.scalarsPerMatrix !== o.buffer.length
       dims = undefined : null -> error
       dims = [ 5, null ] : change ncol
@@ -3358,7 +3352,7 @@ let Forbids =
 }
 
 /*
-xxx : implement fast vad iterator
+zzz : implement fast vad iterator
 zzz : optimize scalar iteration
 */
 
@@ -3442,8 +3436,6 @@ let Extension =
 
   _traverseAct, /* zzz : deprecate */
   _equalAre,
-  // [ Symbol.for( 'equalAre' ) ] : _equalAre,
-  _equalSecondCoerce, /* xxx : ! */
 
   _longGet,
 
@@ -3589,15 +3581,13 @@ _metaDefine( 'get', Symbol.toStringTag, _toStringTag );
 _metaDefine( 'field', Symbol.for( 'nodejs.util.inspect.custom' ), _inspectCustom );
 _metaDefine( 'field', Symbol.toPrimitive, _toPrimitive );
 _metaDefine( 'field', Symbol.for( 'equalAre' ), _equalAre );
+_metaDefine( 'field', Symbol.for( 'equalSecondCoerce' ), _equalSecondCoerce );
 _metaDefine( 'field', Symbol.for( 'notLong' ), true );
 
 _metaDefine( 'static', 'accuracy', _accuracyGet );
 _metaDefine( 'static', 'accuracySqr', _accuracySqrGet );
 _metaDefine( 'static', 'accuracySqrt', _accuracySqrtGet );
 _metaDefine( 'static', 'long', _longGet );
-
-// _.accessor.readOnly( Self, { long : { get : _longGet, set : false } } );
-// _.accessor.readOnly( Self.prototype, { long : { get : _longGet, set : false } } );
 
 _.Matrix = Self;
 

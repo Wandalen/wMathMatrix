@@ -701,16 +701,11 @@ function cloneSerializing( test )
 
   var cloned = a.cloneSerializing();
 
-  // test.identical( cloned.data.inputRowMajor, 0 );
-
   var exp =
   {
     "data" :
     {
       "dims" : [ 3, 1 ],
-      // "growingDimension" : 1,
-      // "inputRowMajor" : 0,
-      // "inputRowMajor" : null,
       "buffer" : `--buffer-->0<--buffer--`,
       "offset" : 0,
       "strides" : [ 1, 3 ]
@@ -787,16 +782,11 @@ function cloneSerializing( test )
 
   var cloned = a.cloneSerializing();
 
-  // test.identical( cloned.data.inputRowMajor, null );
-
   var exp =
   {
     "data" :
     {
       "dims" : [ 3, 1 ],
-      // "growingDimension" : 1,
-      // "inputRowMajor" : 1,
-      // "inputRowMajor" : null,
       "buffer" : `--buffer-->0<--buffer--`,
       "offset" : 0,
       "strides" : [ 1, 3 ],
@@ -857,177 +847,6 @@ function cloneSerializing( test )
   test.identical( b.strideInCol, 1 );
   test.identical( b.strideOfRow, 1 );
   test.identical( b.strideInRow, 3 );
-
-  /* */
-
-  // test.case = 'inputRowMajor : 0';
-  //
-  // var a = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
-  //   offset : 1,
-  //   scalarsPerElement : 3,
-  //   inputRowMajor : 0,
-  //   strides : [ 2, 6 ],
-  //   dims : [ 3, 1 ],
-  // });
-  //
-  // var cloned = a.cloneSerializing();
-  //
-  // test.identical( cloned.data.inputRowMajor, 0 );
-  //
-  // var exp =
-  // {
-  //   "data" :
-  //   {
-  //     "dims" : [ 3, 1 ],
-  //     "growingDimension" : 1,
-  //     "inputRowMajor" : 0,
-  //     "buffer" : `--buffer-->0<--buffer--`,
-  //     "offset" : 0,
-  //     "strides" : [ 1, 3 ]
-  //   },
-  //   "descriptorsMap" :
-  //   {
-  //     "--buffer-->0<--buffer--" :
-  //     {
-  //       "bufferConstructorName" : `F32x`,
-  //       "sizeOfScalar" : 4,
-  //       "offset" : 0,
-  //       "size" : 12,
-  //       "index" : 0
-  //     }
-  //   },
-  //   "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
-  // }
-  //
-  // test.identical( cloned, exp );
-  //
-  // test.description = 'deserializing clone';
-  //
-  // var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
-  // b.copyDeserializing( cloned );
-  // test.identical( b, a );
-  // test.is( a.buffer !== b.buffer );
-  //
-  // test.identical( a.buffer.length, 8 );
-  // test.identical( a.size, 12 );
-  // test.identical( a.sizeOfElement, 12 );
-  // test.identical( a.sizeOfCol, 12 );
-  // test.identical( a.sizeOfRow, 4 );
-  // test.identical( a.dims, [ 3, 1 ] );
-  // test.identical( a.length, 1 );
-  // test.identical( a.offset, 1 );
-  //
-  // test.identical( a.strides, [ 2, 6 ] );
-  // test.identical( a.stridesEffective, [ 2, 6 ] );
-  // test.identical( a.strideOfElement, 6 );
-  // test.identical( a.strideOfCol, 6 );
-  // test.identical( a.strideInCol, 2 );
-  // test.identical( a.strideOfRow, 2 );
-  // test.identical( a.strideInRow, 6 );
-  //
-  // test.identical( b.buffer.length, 3 );
-  // test.identical( b.size, 12 );
-  // test.identical( b.sizeOfElement, 12 );
-  // test.identical( b.sizeOfCol, 12 );
-  // test.identical( b.sizeOfRow, 4 );
-  // test.identical( b.dims, [ 3, 1 ] );
-  // test.identical( b.length, 1 );
-  // test.identical( b.offset, 0 );
-  //
-  // test.identical( b.strides, [ 1, 3 ] );
-  // test.identical( b.stridesEffective, [ 1, 3 ] );
-  // test.identical( b.strideOfElement, 3 );
-  // test.identical( b.strideOfCol, 3 );
-  // test.identical( b.strideInCol, 1 );
-  // test.identical( b.strideOfRow, 1 );
-  // test.identical( b.strideInRow, 3 );
-  //
-  // /* */
-  //
-  // test.case = 'inputRowMajor : 1';
-  //
-  // var a = new _.Matrix
-  // ({
-  //   buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
-  //   offset : 1,
-  //   scalarsPerElement : 3,
-  //   inputRowMajor : 1,
-  //   strides : [ 2, 6 ],
-  // });
-  //
-  // var cloned = a.cloneSerializing();
-  //
-  // test.identical( cloned.data.inputRowMajor, 1 );
-  //
-  // var exp =
-  // {
-  //   "data" :
-  //   {
-  //     "dims" : [ 3, 1 ],
-  //     "growingDimension" : 1,
-  //     "inputRowMajor" : 1,
-  //     "buffer" : `--buffer-->0<--buffer--`,
-  //     "offset" : 0,
-  //     "strides" : [ 1, 1 ],
-  //   },
-  //   "descriptorsMap" :
-  //   {
-  //     "--buffer-->0<--buffer--" :
-  //     {
-  //       "bufferConstructorName" : `F32x`,
-  //       "sizeOfScalar" : 4,
-  //       "offset" : 0,
-  //       "size" : 12,
-  //       "index" : 0
-  //     }
-  //   },
-  //   "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
-  // }
-  //
-  // test.identical( cloned, exp );
-  //
-  // test.description = 'deserializing clone';
-  //
-  // var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
-  // b.copyDeserializing( cloned );
-  // test.identical( b, a );
-  // test.is( a.buffer !== b.buffer );
-  //
-  // test.identical( a.buffer.length, 8 );
-  // test.identical( a.size, 12 );
-  // test.identical( a.sizeOfElement, 12 );
-  // test.identical( a.sizeOfCol, 12 );
-  // test.identical( a.sizeOfRow, 4 );
-  // test.identical( a.dims, [ 3, 1 ] );
-  // test.identical( a.length, 1 );
-  // test.identical( a.offset, 1 );
-  //
-  // test.identical( a.strides, [ 2, 6 ] );
-  // test.identical( a.stridesEffective, [ 2, 6 ] );
-  // test.identical( a.strideOfElement, 6 );
-  // test.identical( a.strideOfCol, 6 );
-  // test.identical( a.strideInCol, 2 );
-  // test.identical( a.strideOfRow, 2 );
-  // test.identical( a.strideInRow, 6 );
-  //
-  // test.identical( b.buffer.length, 3 );
-  // test.identical( b.size, 12 );
-  // test.identical( b.sizeOfElement, 12 );
-  // test.identical( b.sizeOfCol, 12 );
-  // test.identical( b.sizeOfRow, 4 );
-  // test.identical( b.dims, [ 3, 1 ] );
-  // test.identical( b.length, 1 );
-  // test.identical( b.offset, 0 );
-  //
-  // test.identical( b.strides, [ 1, 1 ] );
-  // test.identical( b.stridesEffective, [ 1, 1 ] );
-  // test.identical( b.strideOfElement, 1 );
-  // test.identical( b.strideOfCol, 1 );
-  // test.identical( b.strideInCol, 1 );
-  // test.identical( b.strideOfRow, 1 );
-  // test.identical( b.strideInRow, 1 );
 
   /* */
 
@@ -1436,6 +1255,7 @@ function MakeChangeDimsType( test )
 
 function MakeSquareChangeBufferLength( test )
 {
+
   test.case = 'buffer - 0';
   var got = _.Matrix.MakeSquare( 0 );
   test.identical( got.length, 0 );
@@ -1473,7 +1293,7 @@ function MakeSquareChangeBufferLength( test )
   ([
   ]);
   test.identical( got.length, 0 );
-  test.identical( got.buffer, [] ); /* xxx : ? */
+  test.identical( got.buffer, [] );
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 0 ] );
@@ -10741,7 +10561,6 @@ function make( test )
     });
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongRowTransposing( m );
-    // test.shouldThrowErrorSync( () => m.buffer = new I32x() ); /* yyy */
 
     /* */
 
@@ -10751,7 +10570,6 @@ function make( test )
     ({
       buffer : o.arrayMake(),
       inputRowMajor : 1,
-      // growingDimension : 0,
       dims : [ 0, 3 ],
     });
 
@@ -10903,16 +10721,11 @@ function make( test )
     test.identical( m.strides, [ 1, 0 ] );
     test.identical( m.stridesEffective, [ 1, 0 ] );
 
-    // var m = _.Matrix.Make([ 0, 3 ]);
-    // test.shouldThrowErrorSync( () => m.buffer = new I32x() );
-
     /* */
 
     test.case = 'change by empty buffer of empty matrix with long row, non transposing';
 
     var m = _.Matrix.Make([ 0, 3 ]);
-    // m.inputRowMajor = 0; /* yyy */
-    // m.growingDimension = 0;
     m.buffer = new I32x();
     logger.log( 'm\n' + _.toStr( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
@@ -10925,18 +10738,15 @@ function make( test )
 
     test.description = 'change by non empty buffer of empty matrix with long row, non transposing';
 
-    // m.growingDimension = 0;
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 1, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.toStr( m ) );
 
-    // test.identical( m.inputRowMajor, 0 );
     test.identical( m.buffer, o.arrayMake([ 1, 2, 3 ]) );
     test.identical( m.dims, [ 1, 3 ] );
     test.identical( m.dimsEffective, [ 1, 3 ] );
     test.identical( m.strides, null );
     test.identical( m.stridesEffective, [ 1, 1 ] );
 
-    // test.identical( m.inputRowMajor, 0 );
     test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 4 );
     test.identical( m.sizeOfCol, 4 );
@@ -10971,8 +10781,7 @@ function make( test )
 
     test.description = 'change by non empty buffer of non empty matrix with long row, non transposing';
 
-    // m.growingDimension = 0;
-    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] });
     logger.log( 'm\n' + _.toStr( m ) );
 
     test.identical( m.size, 24 );
@@ -12003,134 +11812,19 @@ function from( test )
 
 //
 
-function TempBorrow( test )
+function bufferSetLarger( test )
 {
 
   /* */
 
-  test.case = 'should give same temp';
-
-  var m = _.Matrix.Make([ 3, 2 ]);
-  var t1 = m.tempBorrow();
-
-  test.identical( t1.dims, [ 3, 2 ] )
-  test.identical( t1.stridesEffective, [ 1, 3 ] )
-
-  var t2 = m.tempBorrow();
-  var t3 = _.Matrix.TempBorrow( m );
-  var t3 = _.Matrix.TempBorrow( m.dims );
-
-  test.is( t1 === t2 );
-  test.is( t1 === t3 );
-
-  test.is( t1.buffer.constructor === F32x );
-  test.is( t2.buffer.constructor === F32x );
-  test.is( t3.buffer.constructor === F32x );
-
-  /* */
-
-  test.case = 'should give another temp';
-
-  var m = _.Matrix.Make([ 3, 2 ]);
-  m.buffer = new I32x( 6 );
-  var t2 = m.tempBorrow();
-
-  test.identical( t2.dims, [ 3, 2 ] )
-  test.identical( t2.stridesEffective, [ 1, 3 ] )
-
-  var t3 = m.tempBorrow();
-  var t4 = _.Matrix.TempBorrow( m );
-  var t5 = _.Matrix.TempBorrow( m.dims );
-
-  test.is( t1 !== t2 );
-  test.is( t2 === t3 );
-  test.is( t2 === t4 );
-  test.is( t1 === t5 );
-
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t3.buffer.constructor === I32x );
-  test.is( t4.buffer.constructor === I32x );
-  test.is( t5.buffer.constructor === F32x );
-
-  /* */
-
-  test.case = 'with dims';
-
-  var m = _.Matrix.Make([ 3, 2 ]);
-  m.buffer = new I32x( 6 );
-  var t1 = _.Matrix._TempBorrow( m, [ 4, 4 ], 0 );
-  var t2 = _.Matrix._TempBorrow( m, [ 4, 4 ], 1 );
-
-  test.identical( t1.dims, [ 4, 4 ] );
-  test.identical( t2.dims, [ 4, 4 ] );
-  test.is( t1.buffer.constructor === I32x );
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t1 !== t2 );
-
-  /* */
-
-  test.case = 'with dims from matrix';
-
-  var m = _.Matrix.Make([ 3, 2 ]);
-  m.buffer = new I32x( 6 );
-  var m2 = _.Matrix.Make([ 4, 4 ]);
-  var t1 = _.Matrix._TempBorrow( m, m2, 0 );
-  var t2 = _.Matrix._TempBorrow( m, m2, 1 );
-
-  test.identical( t1.dims, [ 4, 4 ] );
-  test.identical( t2.dims, [ 4, 4 ] );
-  test.is( t1.buffer.constructor === I32x );
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t1 !== t2 );
-
-  /* */
-
-  test.case = 'without dims';
-
-  var m = _.Matrix.Make([ 3, 2 ]);
-  m.buffer = new I32x( 6 );
-  var t1 = _.Matrix._TempBorrow( m, null, 0 );
-  var t2 = _.Matrix._TempBorrow( m, null, 1 );
-
-  test.identical( t1.dims, [ 3, 2 ] );
-  test.identical( t2.dims, [ 3, 2 ] );
-  test.is( t1.buffer.constructor === I32x );
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t1 !== t2 );
-
-  /* */
-
-  test.case = 'without matrix';
-
-  var t1 = _.Matrix._TempBorrow( null, [ 4, 4 ], 0 );
-  var t2 = _.Matrix._TempBorrow( null, [ 4, 4 ], 1 );
-
-  test.identical( t1.dims, [ 4, 4 ] );
-  test.identical( t2.dims, [ 4, 4 ] );
-  test.is( t1.buffer.constructor === F32x );
-  test.is( t2.buffer.constructor === F32x );
-  test.is( t1 !== t2 );
-
-}
-
-//
-
-function bufferSetGrowing( test )
-{
-
-  /* */
-
-  test.case = 'inputRowMajor : 0, growingDimension : 0, strides : 1,0';
+  test.case = 'strides : 1,0';
 
   var m = _.Matrix
   ({
     dims : [ 0, 3 ],
     strides : [ 1, 0 ],
-    inputRowMajor : 0,
-    // growingDimension : 0,
   });
 
-  // test.identical( m.inputRowMajor, 0 );
   test.identical( m.buffer, new F32x([]) );
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m.dimsEffective, [ 0, 3 ] );
@@ -12140,33 +11834,27 @@ function bufferSetGrowing( test )
   m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 0 });
   logger.log( `m\n ${_.toStr( m )}` );
 
-  // test.identical( m.inputRowMajor, 0 );
   test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.dimsEffective, [ 2, 3 ] );
+  test.identical( m.dims, [ 0, 3 ] );
+  test.identical( m.dimsEffective, [ 0, 3 ] );
   test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 1, 2 ] );
+  test.identical( m.stridesEffective, [ 1, 0 ] );
 
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
+  var exp = _.Matrix.Make([ 0, 3 ]).copy
   ([
-    1, 3, 5,
-    2, 4, 6,
   ]);
   test.identical( m, exp );
 
   /* */
 
-  test.case = 'inputRowMajor : 0, growingDimension : 0, strides : 0,1';
+  test.case = 'strides : 0,1';
 
   var m = _.Matrix
   ({
     dims : [ 0, 3 ],
     strides : [ 0, 1 ],
-    inputRowMajor : 0,
-    // growingDimension : 0,
   });
 
-  // test.identical( m.inputRowMajor, 0 );
   test.identical( m.buffer, new F32x([]) );
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m.dimsEffective, [ 0, 3 ] );
@@ -12176,224 +11864,13 @@ function bufferSetGrowing( test )
   m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 0 });
   logger.log( `m\n ${_.toStr( m )}` );
 
-  // test.identical( m.inputRowMajor, 0 );
   test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.dimsEffective, [ 2, 3 ] );
-  test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 1, 2 ] );
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 3, 5,
-    2, 4, 6,
-  ]);
-  test.identical( m, exp );
-
-  /* */
-
-  test.case = 'inputRowMajor : 0, growingDimension : 1, strides : 1,0';
-
-  var m = _.Matrix
-  ({
-    dims : [ 0, 3 ],
-    strides : [ 1, 0 ],
-    inputRowMajor : 0,
-    // growingDimension : 1,
-  });
-
-  // test.identical( m.inputRowMajor, 0 );
-  test.identical( m.buffer, new F32x([]) );
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m.dimsEffective, [ 0, 3 ] );
-  test.identical( m.strides, [ 1, 0 ] );
-  test.identical( m.stridesEffective, [ 1, 0 ] );
-
-  m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 0 });
-  logger.log( `m\n ${_.toStr( m )}` );
-
-  // test.identical( m.inputRowMajor, 0 );
-  test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 0, Infinity ] );
-  test.identical( m.dimsEffective, [ 0, 1 ] );
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 1, 0 ] );
 
-  var exp = _.Matrix.Make([ 0, Infinity ]).copy
-  ([
-  ]);
-  test.identical( m, exp );
-
-  /* */
-
-  test.case = 'inputRowMajor : 0, growingDimension : 1, strides : 0,1';
-
-  var m = _.Matrix
-  ({
-    dims : [ 0, 3 ],
-    strides : [ 0, 1 ],
-    inputRowMajor : 0,
-    // growingDimension : 1,
-  });
-
-  // test.identical( m.inputRowMajor, 0 );
-  test.identical( m.buffer, new F32x([]) );
-  test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m.dimsEffective, [ 0, 3 ] );
-  test.identical( m.strides, [ 0, 1 ] );
-  test.identical( m.stridesEffective, [ 0, 1 ] );
-
-  m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 0 });
-  logger.log( `m\n ${_.toStr( m )}` );
-
-  // test.identical( m.inputRowMajor, 0 );
-  test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 0, Infinity ] );
-  test.identical( m.dimsEffective, [ 0, 1 ] );
-  test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 1, 0 ] );
-
-  var exp = _.Matrix.Make([ 0, Infinity ]).copy
-  ([
-  ]);
-  test.identical( m, exp );
-
-  /* */
-
-  test.case = 'inputRowMajor : 1, growingDimension : 0, strides : 1,0';
-
-  var m = _.Matrix
-  ({
-    dims : [ 0, 3 ],
-    strides : [ 1, 0 ],
-    inputRowMajor : 1,
-    // growingDimension : 0,
-  });
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([]) );
-  test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m.dimsEffective, [ 0, 3 ] );
-  test.identical( m.strides, [ 1, 0 ] );
-  test.identical( m.stridesEffective, [ 1, 0 ] );
-
-  m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 1 });
-  logger.log( `m\n ${_.toStr( m )}` );
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.dimsEffective, [ 2, 3 ] );
-  test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 3, 1 ] );
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  test.identical( m, exp );
-
-  /* */
-
-  test.case = 'inputRowMajor : 1, growingDimension : 0, strides : 0,1';
-
-  var m = _.Matrix
-  ({
-    dims : [ 0, 3 ],
-    strides : [ 0, 1 ],
-    inputRowMajor : 1,
-    // growingDimension : 0,
-  });
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([]) );
-  test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m.dimsEffective, [ 0, 3 ] );
-  test.identical( m.strides, [ 0, 1 ] );
-  test.identical( m.stridesEffective, [ 0, 1 ] );
-
-  m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 1 });
-  logger.log( `m\n ${_.toStr( m )}` );
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 2, 3 ] );
-  test.identical( m.dimsEffective, [ 2, 3 ] );
-  test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 3, 1 ] );
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  test.identical( m, exp );
-
-  /* */
-
-  test.case = 'inputRowMajor : 1, growingDimension : 1, strides : 1,0';
-
-  var m = _.Matrix
-  ({
-    dims : [ 0, 3 ],
-    strides : [ 1, 0 ],
-    inputRowMajor : 1,
-    // growingDimension : 1,
-  });
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([]) );
-  test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m.dimsEffective, [ 0, 3 ] );
-  test.identical( m.strides, [ 1, 0 ] );
-  test.identical( m.stridesEffective, [ 1, 0 ] );
-
-  m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 1 });
-  logger.log( `m\n ${_.toStr( m )}` );
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 0, Infinity ] );
-  test.identical( m.dimsEffective, [ 0, 1 ] );
-  test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 1, 0 ] );
-
-  var exp = _.Matrix.Make([ 0, Infinity ]).copy
-  ([
-  ]);
-  test.identical( m, exp );
-
-  /* */
-
-  test.case = 'inputRowMajor : 1, growingDimension : 1, strides : 0,1';
-
-  var m = _.Matrix
-  ({
-    dims : [ 0, 3 ],
-    strides : [ 0, 1 ],
-    inputRowMajor : 1,
-    // growingDimension : 1,
-  });
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([]) );
-  test.identical( m.dims, [ 0, 3 ] );
-  test.identical( m.dimsEffective, [ 0, 3 ] );
-  test.identical( m.strides, [ 0, 1 ] );
-  test.identical( m.stridesEffective, [ 0, 1 ] );
-
-  m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 1 });
-  logger.log( `m\n ${_.toStr( m )}` );
-
-  // test.identical( m.inputRowMajor, 1 );
-  test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
-  test.identical( m.dims, [ 0, Infinity ] );
-  test.identical( m.dimsEffective, [ 0, 1 ] );
-  test.identical( m.strides, null );
-  test.identical( m.stridesEffective, [ 1, 0 ] );
-
-  var exp = _.Matrix.Make([ 0, Infinity ]).copy
+  var exp = _.Matrix.Make([ 0, 3 ]).copy
   ([
   ]);
   test.identical( m, exp );
@@ -12437,7 +11914,6 @@ function constructTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 2, 1 ] );
 
-  // // test.is( !!m.inputRowMajor );
   test.is( m.buffer === buffer );
 
   var exp = _.Matrix
@@ -12487,7 +11963,6 @@ function constructTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 1, 3 ] );
 
-  // test.is( !m.inputRowMajor );
   test.is( m.buffer === buffer );
 
   var exp = _.Matrix
@@ -12769,7 +12244,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 1 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -12787,7 +12261,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 1 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -12799,14 +12272,11 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
-  // test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
   test.identical( dst.strides, null );
   test.identical( dst.stridesEffective, [ 1, 3 ] );
-  // test.identical( dst.stridesEffective, [ 2, 1 ] );
   test.identical( dst, src );
 
   test.is( dst.buffer !== src.buffer );
@@ -12831,7 +12301,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 0 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -12849,7 +12318,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 1 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -12861,7 +12329,6 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
   test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
@@ -12891,7 +12358,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 1 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -12909,7 +12375,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 0 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -12921,13 +12386,10 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
-  // test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
   test.identical( dst.strides, null );
-  // test.identical( dst.stridesEffective, [ 2, 1 ] );
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
@@ -12953,7 +12415,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 0 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -12971,7 +12432,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 0 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -12983,7 +12443,6 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
   test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
@@ -13012,7 +12471,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 1 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -13031,7 +12489,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 1 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -13043,9 +12500,7 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
   test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  // test.identical( dst.buffer, [ 1, 4, 2, 5, 3, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
   test.identical( dst.strides, null );
@@ -13075,7 +12530,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 0 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -13094,7 +12548,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 1 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -13106,7 +12559,6 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
   test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
@@ -13137,7 +12589,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 1 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -13156,7 +12607,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 0 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -13168,13 +12618,10 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
-  // test.identical( dst.buffer, [ 1, 4, 2, 5, 3, 6 ] );
   test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
   test.identical( dst.strides, null );
-  // test.identical( dst.stridesEffective, [ 2, 1 ] );
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
@@ -13201,7 +12648,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( src.inputRowMajor, 0 );
   test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -13220,7 +12666,6 @@ function copyInstanceInstance( test )
     ]
   });
 
-  // test.identical( dst.inputRowMajor, 0 );
   test.identical( dst.buffer, [ 11, 22 ] );
   test.identical( dst.dims, [ 2, 1 ] );
   test.identical( dst.dimsEffective, [ 2, 1 ] );
@@ -13232,7 +12677,6 @@ function copyInstanceInstance( test )
   logger.log( `dst\n${dst.toStr()}` );
   logger.log( `src\n${src.toStr()}` );
 
-  // test.identical( dst.inputRowMajor, src.inputRowMajor );
   test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
   test.identical( dst.dims, src.dims );
   test.identical( dst.dimsEffective, src.dimsEffective );
@@ -13259,8 +12703,6 @@ function constructWithoutBuffer( test )
 
   var exp =
   {
-    // 'inputRowMajor' : 0,
-    // 'growingDimension' : 1,
     'dims' : [ 3, 2 ],
     'buffer' : ( new F32x([ 0, 0, 0, 0, 0, 0 ]) ),
     'offset' : 0,
@@ -13274,10 +12716,7 @@ function constructWithoutBuffer( test )
 
   var exp =
   {
-    // 'inputRowMajor' : 0,
-    // 'growingDimension' : 1,
     'dims' : [ 3, 2 ],
-    // 'buffer' : new F32x([ 1, 2, 3, 4, 5, 6 ]),
     'buffer' : new F32x([ 1, 3, 5, 2, 4, 6 ]),
     'offset' : 0,
     'strides' : [ 1, 3 ]
@@ -13785,7 +13224,6 @@ function copyTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 2, 1 ] );
 
-  // test.is( !!m.inputRowMajor );
   test.is( m.buffer === buffer );
 
   var exp = _.Matrix
@@ -13837,7 +13275,6 @@ function copyTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 1, 3 ] );
 
-  // test.is( !m.inputRowMajor );
   test.is( m.buffer === buffer );
 
   var exp = _.Matrix
@@ -14228,16 +13665,11 @@ function copy( test )
 
   test.identical( src.stridesEffective, [ 2, 4 ] );
   test.identical( dst.stridesEffective, [ 1, 2 ] );
-  // test.identical( src.inputRowMajor, 1 );
-  // test.identical( dst.inputRowMajor, 0 );
 
   dst.copy( src );
 
   test.identical( src.stridesEffective, [ 2, 4 ] );
   test.identical( dst.stridesEffective, [ 1, 2 ] );
-  // test.identical( dst.stridesEffective, [ 3, 1 ] );
-  // test.identical( src.inputRowMajor, 1 );
-  // test.identical( dst.inputRowMajor, 1 );
 
   test.identical( dst, src );
   test.is( dst.buffer !== src.buffer );
@@ -14451,7 +13883,6 @@ function copy( test )
   logger.log( `src\n${src.toStr()}` );
   logger.log( `dst\n${dst.toStr()}` );
 
-  // test.identical( src.inputRowMajor, 1 );
   test.identical( src.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
@@ -14459,11 +13890,9 @@ function copy( test )
   test.identical( src.stridesEffective, [ 1, 3 ] );
 
   test.identical( dst.dims, src.dims );
-  // test.identical( dst.buffer, new F32x([ 1, 4, 2, 5, 3, 6 ]) );
   test.identical( dst.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
   test.identical( dst.dims, src.dims );
   test.identical( dst.strides, null );
-  // test.identical( dst.stridesEffective, [ 2, 1 ] );
   test.identical( dst.stridesEffective, [ 1, 3 ] );
 
   test.is( dst.buffer !== src.buffer );
@@ -14486,16 +13915,13 @@ function copy( test )
 
   dst.copy( src );
 
-  // test.identical( src.inputRowMajor, 1 );
   test.identical( src.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
   test.identical( src.dims, [ 3, 2 ] );
   test.identical( src.dimsEffective, [ 3, 2 ] );
   test.identical( src.strides, [ 1, 3 ] );
   test.identical( src.stridesEffective, [ 1, 3 ] );
 
-  // test.identical( dst.inputRowMajor, 1 );
   test.identical( dst.dims, src.dims );
-  // test.identical( dst.buffer, new F32x([ 1, 4, 2, 5, 3, 6 ]) );
   test.identical( dst.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
   test.identical( dst.dims, src.dims );
   test.identical( dst.strides, null );
@@ -14529,8 +13955,6 @@ function exportStructureToStructure( test )
   test.case = 'basic';
   var exp =
   {
-    // 'inputRowMajor' : 0,
-    // 'growingDimension' : 1,
     'dims' : [ 2, 3 ],
     'buffer' : ( new F32x([ 1, 4, 2, 5, 3, 6 ]) ),
     'offset' : 0,
@@ -14549,8 +13973,6 @@ function exportStructureToStructure( test )
   test.case = 'dims : ( 3, Infinity )';
   var exp =
   {
-    // 'inputRowMajor' : 0,
-    // 'growingDimension' : 1,
     'dims' : [ 3, Infinity ],
     'buffer' : ( new F32x([ 1, 2, 3 ]) ),
     'offset' : 0,
@@ -14575,8 +13997,6 @@ function exportStructureToStructure( test )
   test.case = 'dims : ( Infinity, 3 )';
   var exp =
   {
-    // 'inputRowMajor' : 0,
-    // 'growingDimension' : 1,
     'dims' : [ Infinity, 3 ],
     'buffer' : ( new F32x([ 1, 2, 3 ]) ),
     'offset' : 0,
@@ -16546,13 +15966,13 @@ function toLong( test )
 
 //
 
-function toLog()
+function log()
 {
   debugger;
   let logger = new _.LoggerToString();
 
   test.case = 'several';
-  var exp = 'xxx';
+  var exp = '.';
   var v1 = _.vectorAdapter.from([ 1, 2, 3 ]);
   var m1 = _.Matrix.MakeIdentity( 2 );
   logger.log( m1, v1, 3 );
@@ -17211,7 +16631,7 @@ function bufferSetFromVectorAdapter( test )
 }
 
 // --
-// evaluator
+// utils
 // --
 
 function StridesFromDimensions( test )
@@ -17365,6 +16785,118 @@ function StridesFromDimensions( test )
 
 }
 
+//
+
+function TempBorrow( test )
+{
+
+  /* */
+
+  test.case = 'should give same temp';
+
+  var m = _.Matrix.Make([ 3, 2 ]);
+  var t1 = m.tempBorrow();
+
+  test.identical( t1.dims, [ 3, 2 ] )
+  test.identical( t1.stridesEffective, [ 1, 3 ] )
+
+  var t2 = m.tempBorrow();
+  var t3 = _.Matrix.TempBorrow( m );
+  var t3 = _.Matrix.TempBorrow( m.dims );
+
+  test.is( t1 === t2 );
+  test.is( t1 === t3 );
+
+  test.is( t1.buffer.constructor === F32x );
+  test.is( t2.buffer.constructor === F32x );
+  test.is( t3.buffer.constructor === F32x );
+
+  /* */
+
+  test.case = 'should give another temp';
+
+  var m = _.Matrix.Make([ 3, 2 ]);
+  m.buffer = new I32x( 6 );
+  var t2 = m.tempBorrow();
+
+  test.identical( t2.dims, [ 3, 2 ] )
+  test.identical( t2.stridesEffective, [ 1, 3 ] )
+
+  var t3 = m.tempBorrow();
+  var t4 = _.Matrix.TempBorrow( m );
+  var t5 = _.Matrix.TempBorrow( m.dims );
+
+  test.is( t1 !== t2 );
+  test.is( t2 === t3 );
+  test.is( t2 === t4 );
+  test.is( t1 === t5 );
+
+  test.is( t2.buffer.constructor === I32x );
+  test.is( t3.buffer.constructor === I32x );
+  test.is( t4.buffer.constructor === I32x );
+  test.is( t5.buffer.constructor === F32x );
+
+  /* */
+
+  test.case = 'with dims';
+
+  var m = _.Matrix.Make([ 3, 2 ]);
+  m.buffer = new I32x( 6 );
+  var t1 = _.Matrix._TempBorrow( m, [ 4, 4 ], 0 );
+  var t2 = _.Matrix._TempBorrow( m, [ 4, 4 ], 1 );
+
+  test.identical( t1.dims, [ 4, 4 ] );
+  test.identical( t2.dims, [ 4, 4 ] );
+  test.is( t1.buffer.constructor === I32x );
+  test.is( t2.buffer.constructor === I32x );
+  test.is( t1 !== t2 );
+
+  /* */
+
+  test.case = 'with dims from matrix';
+
+  var m = _.Matrix.Make([ 3, 2 ]);
+  m.buffer = new I32x( 6 );
+  var m2 = _.Matrix.Make([ 4, 4 ]);
+  var t1 = _.Matrix._TempBorrow( m, m2, 0 );
+  var t2 = _.Matrix._TempBorrow( m, m2, 1 );
+
+  test.identical( t1.dims, [ 4, 4 ] );
+  test.identical( t2.dims, [ 4, 4 ] );
+  test.is( t1.buffer.constructor === I32x );
+  test.is( t2.buffer.constructor === I32x );
+  test.is( t1 !== t2 );
+
+  /* */
+
+  test.case = 'without dims';
+
+  var m = _.Matrix.Make([ 3, 2 ]);
+  m.buffer = new I32x( 6 );
+  var t1 = _.Matrix._TempBorrow( m, null, 0 );
+  var t2 = _.Matrix._TempBorrow( m, null, 1 );
+
+  test.identical( t1.dims, [ 3, 2 ] );
+  test.identical( t2.dims, [ 3, 2 ] );
+  test.is( t1.buffer.constructor === I32x );
+  test.is( t2.buffer.constructor === I32x );
+  test.is( t1 !== t2 );
+
+  /* */
+
+  test.case = 'without matrix';
+
+  var t1 = _.Matrix._TempBorrow( null, [ 4, 4 ], 0 );
+  var t2 = _.Matrix._TempBorrow( null, [ 4, 4 ], 1 );
+
+  test.identical( t1.dims, [ 4, 4 ] );
+  test.identical( t2.dims, [ 4, 4 ] );
+  test.is( t1.buffer.constructor === F32x );
+  test.is( t2.buffer.constructor === F32x );
+  test.is( t1 !== t2 );
+
+}
+
 // --
 // structural
 // --
@@ -17391,14 +16923,12 @@ function offset( test )
   ({
     buffer,
     offset : 2,
-    // strides : [ 1, 3 ],
     dims : [ 3, 2 ],
     inputRowMajor : 1,
   });
 
   console.log( `m\n${m.toStr()}` );
 
-  // test.is( !!m.inputRowMajor );
   test.is( m.buffer instanceof Array );
 
   /* */
@@ -17475,7 +17005,6 @@ function offset( test )
   test.shouldThrowErrorSync( () => m.scalarGet( '' ) );
   test.shouldThrowErrorSync( () => m.scalarGet( '0' ) );
   test.shouldThrowErrorSync( () => m.scalarGet( [] ) );
-  // test.shouldThrowErrorSync( () => m.scalarGet([ 0, 0, 0 ]) );
   test.shouldThrowErrorSync( () => m.scalarGet([ 3, 0 ]) );
   test.shouldThrowErrorSync( () => m.scalarGet([ 0, 2 ]) );
 
@@ -19123,10 +18652,6 @@ function lineEach( test )
   test.identical( got, exp );
 
   /* */
-
-  // console.log( matrix );
-  // console.log( _.vad.from([ 1, 2, 3 ]) );
-  // debugger; return; xxx
 
 }
 
@@ -22008,7 +21533,6 @@ function submatrix( test )
     var m = make();
     test.identical( m, exp );
     test.identical( m.offset, o.offset );
-    // test.identical( m.inputRowMajor, o.inputRowMajor );
 
     /* */
 
@@ -22045,10 +21569,6 @@ function submatrix( test )
     r2.add( 3 );
 
     test.identical( m, exp );
-    // test.identical( c1.inputRowMajor, o.inputRowMajor );
-    // test.identical( c2.inputRowMajor, o.inputRowMajor );
-    // test.identical( r1.inputRowMajor, o.inputRowMajor );
-    // test.identical( r2.inputRowMajor, o.inputRowMajor );
 
     /* */
 
@@ -22063,7 +21583,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 1, 2 ], null );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22088,7 +21607,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 1, 2 ], _.all );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22114,7 +21632,6 @@ function submatrix( test )
 
     var sub = m.submatrix( null, [ 1, 2 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22140,7 +21657,6 @@ function submatrix( test )
 
     var sub = m.submatrix( _.all, [ 1, 2 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22166,7 +21682,6 @@ function submatrix( test )
 
     var sub = m.submatrix( _.all, [ 1, 2 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22192,7 +21707,6 @@ function submatrix( test )
 
     var sub = m.submatrix( _.all, [ 2, 3 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22218,7 +21732,6 @@ function submatrix( test )
 
     var sub = m.submatrix( _.all, [ 0, 1 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22243,7 +21756,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 0, 1 ], _.all );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22269,7 +21781,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 1, 2 ], _.all );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22293,7 +21804,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 1, 1 ], _.all );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22318,7 +21828,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 0, 1 ], [ 0, 1 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22343,7 +21852,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 0, 1 ], [ 2, 3 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22368,7 +21876,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 1, 2 ], [ 0, 1 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22393,7 +21900,6 @@ function submatrix( test )
 
     var sub = m.submatrix( [ 1, 2 ], [ 2, 3 ] );
     test.identical( sub, exp );
-    // test.identical( sub.inputRowMajor, o.inputRowMajor );
 
     var exp = _.Matrix.Make([ 3, 4 ]).copy
     ([
@@ -22768,7 +22274,6 @@ function colRowWiseOperations( test )
   var empty2 = _.Matrix.Make([ 0, 2 ]);
   test.identical( empty2.dims, [ 0, 2 ] );
   test.identical( empty2.stridesEffective, [ 1, 0 ] );
-  // empty2.growingDimension = 0;
   empty2.buffer = new F64x();
   test.identical( empty2.dims, [ 0, 2 ] );
   test.identical( empty2.stridesEffective, [ 1, 0 ] );
@@ -27610,8 +27115,6 @@ var Self =
     isUpperTriangle,
     isSymmetric,
 
-    clone, /* xxx : move */
-
     // maker
 
     MakeChangeDimsLength,
@@ -27638,7 +27141,7 @@ var Self =
     MakeRow,
     MakeRowZeroed,
 
-    // converter
+    // constructor
 
     ConvertToClassSrcIsMatrix,
     ConvertToClassSrcIsNotMatrix,
@@ -27662,9 +27165,7 @@ var Self =
     make,
     makeHelper,
     from,
-    // _BufferFrom,
-    TempBorrow,
-    // bufferSetGrowing, /* xxx : implement method to grow */
+    bufferSetLarger,
     constructTransposing,
     constructWithInfinity,
     constructWithScalarsPerElement,
@@ -27693,8 +27194,8 @@ var Self =
     toStr,
     toStrStandard,
     toLong, /* qqq : extend, please */
-    // log, // qqq xxx : implement please
-    // xxx : storage of options is requried for exporting
+    // log, /* zzz : implement later */
+    // zzz : storage of options is requried for logging
 
     // setting
 
@@ -27703,9 +27204,10 @@ var Self =
     bufferSetEmpty,
     bufferSetFromVectorAdapter,
 
-    // evaluator
+    // utils
 
     StridesFromDimensions,
+    TempBorrow,
 
     // structural
 

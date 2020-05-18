@@ -125,15 +125,6 @@ function gramSchmidtDecompose( test )
 
   /* */
 
-  var x = _.someRoutine
-  ({
-      //some code
-  })
-
-  var a = _.someFunc([ 1, 2, 3 ]);
-
-  var a = _.someFunc( [ 1, 2, 3 ] );
-
 }
 
 //

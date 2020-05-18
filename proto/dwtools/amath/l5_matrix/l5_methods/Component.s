@@ -639,8 +639,7 @@ function transpose( dst )
   }
   else
   {
-    let o2 = self.exportStructure({ how : 'structure', bufferNormalizing : 0 });
-    // debugger;
+    let o2 = self.exportStructure({ how : 'structure', restriding : 0 });
     o2.dims = dims;
     o2.strides = strides;
     if( dst === null )
