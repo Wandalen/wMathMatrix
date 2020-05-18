@@ -428,7 +428,7 @@ function lineEach( dimension, onEach )
   function iterateN()
   {
 
-    let stridesWithout = dims.slice();
+    let stridesWithout = self.stridesEffective.slice();
     stridesWithout.splice( dimension, 1 );
 
     let toWithout = [];
