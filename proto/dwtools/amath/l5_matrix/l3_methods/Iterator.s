@@ -386,7 +386,7 @@ function lineEach( dimension, onEach )
     if( adimension >= dims.length )
     adimension = 0;
     let astride = self.stridesEffective[ adimension ];
-    let l = dimsWithout[ 0 ]; debugger;
+    let l = dimsWithout[ 0 ];
     for( let i1 = 0 ; i1 < l ; i1++ )
     {
       it.line = _.vad.fromLongLrangeAndStride( it.buffer, it.offset[ 0 ], length, stride );
@@ -458,14 +458,12 @@ function lineEach( dimension, onEach )
       onEach : handleEach,
     })
 
-    return result;
-
     function handleEach( indexNd, indexLogical )
     {
 
       it.line = _.vad.fromLongLrangeAndStride( it.buffer, it.offset[ 0 ], length, stride );
 
-      onEach( it ); debugger;
+      onEach( it );
 
       let i = 0;
       it.indexNd[ fromWithout[ i ] ] += 1;
@@ -480,8 +478,9 @@ function lineEach( dimension, onEach )
       {
         i -= 1;
         it.indexNd[ fromWithout[ i ] ] = 0;
-        it.offset[ i ] += it.offset[ i+1 ];
+        it.offset[ i ] = it.offset[ i+1 ];
       }
+
       // it.indexNd = indexNd;
       // it.indexLogical = indexLogical;
 
