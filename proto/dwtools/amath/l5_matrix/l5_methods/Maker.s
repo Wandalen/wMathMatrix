@@ -1352,6 +1352,45 @@ function FromForReading( src, dims )
   return result;
 }
 
+//
+
+function ColFrom( src )
+{
+  let result;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  if( _.matrixIs( src ) )
+  {
+    _.assert( src.dims.length === 2, 'Expects flat matrix {-src-}' );
+    _.assert( src.dims[ 1 ] === 1, 'Expects column matrix {-src-}' );
+
+    return src
+  }
+  else if( _.vectorIs( src ) )
+  {
+    return this.MakeLine
+    ({
+      buffer : src,
+      zeroing : 0,
+      dimension : 0,
+    });
+  }
+  else if( _.numberIs( src ) )
+  {
+    let buffer = this.long.longMake( 1 );
+    buffer[ 0 ] = src;
+
+    return this.MakeLine
+    ({
+      buffer : src,
+      zeroing : 0,
+      dimension : 0,
+    });
+  }
+  else _.assert( 0, `Can't convert ${ _.strType( src ) } to Matrix` );
+}
+
 // --
 // transformation
 // --
@@ -2364,6 +2403,7 @@ let Statics = /* qqq : split static routines. ask how */
   FromScalarForReading,
   From,
   FromForReading,
+  ColFrom,
   FromTransformations,
 
 }
@@ -2412,6 +2452,7 @@ let Extension =
   FromScalarForReading,
   From,
   FromForReading,
+  ColFrom,
 
   // transformation
 
