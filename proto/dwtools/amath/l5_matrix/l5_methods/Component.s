@@ -442,7 +442,8 @@ function expand( expand )
     let indexFlat = Self._FlatScalarIndexFromIndexNd( indexNd , strides );
     _.assert( indexFlat >= 0 );
     _.assert( indexFlat < buffer.length );
-    buffer[ indexFlat ] = it.scalar;
+    buffer[ indexFlat ] = it.buffer[ it.offset[ 0 ] ];
+    // buffer[ indexFlat ] = it.scalar;
   });
 
   /* copy */

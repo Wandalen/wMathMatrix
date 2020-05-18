@@ -207,8 +207,8 @@ module:
           - ../proto/dwtools/amath/l5_matrix/module/full/Include.s
           - ../proto/dwtools/amath/l5_matrix/module/minimal
           - ../proto/dwtools/amath/l5_matrix.test
+          - ../proto/dwtools/amath/l5_matrix.test/Integration.test.s
           - ../proto/dwtools/amath/l5_matrix.test/Matrix.test.s
-          - ../proto/dwtools/amath/l5_matrix.test/Sample.test.s
           - ../proto/dwtools/amath/l5_matrix.test/Svd.test.s
           - ../proto/dwtools/amid
           - ../proto/dwtools/atop
@@ -1616,6 +1616,4 @@ module:
       ../.im.will.yml:
         hash: 60faa80ce09d0d3e4f2a920aa671026e
         size: 5256
-      wMathMatrix.out.will.yml:
-        hash: 8ca346faa629fc8d9a937aaa339c1a91
-        size: 43494
+      wMathMatrix.out.will.yml: *ref_0

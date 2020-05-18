@@ -272,7 +272,7 @@ function _PivotRook_pre( routine, args )
 
 //
 
-/* qqq2 : make pre-body-fication, please */
+/* aaa2 : make pre-body-fication, please */ /* Dmytro : implemented */
 function _PivotRook_body( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
 {
   let proto = Self;

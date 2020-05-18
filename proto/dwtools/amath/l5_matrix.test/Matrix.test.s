@@ -654,7 +654,10 @@ function clone( test )
   });
 
   var b = a.clone();
+  debugger;
+  _global_.debugger = 1;
   test.identical( a, b );
+  debugger;
   test.is( a.buffer !== b.buffer );
   test.is( a.buffer === buffer );
 
@@ -17387,19 +17390,19 @@ function toStr( test )
 
   test.case = 'empty matrix, 2D';
   var matrix = _.Matrix.Make([ 0, 0 ]);
-  var exp = '';
+  var exp = 'Matrix.F32x.0x0 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
   test.case = 'empty matrix, two rows';
   var matrix = _.Matrix.Make([ 2, 0 ]);
-  var exp = '  \n  ';
+  var exp = 'Matrix.F32x.2x0 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
   test.case = 'empty matrix, two columns';
   var matrix = _.Matrix.Make([ 0, 2 ]);
-  var exp = '';
+  var exp = 'Matrix.F32x.0x2 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
@@ -17407,7 +17410,9 @@ function toStr( test )
 
   test.case = 'a row 1x3';
   var matrix = _.Matrix.Make([ 1, 3 ]);
-  var exp = '  +0 +0 +0 ';
+  var exp =
+  `Matrix.F32x.1x3 ::
+  +0 +0 +0`;
   var got = matrix.toStr();
   test.identical( got, exp );
 
@@ -17415,9 +17420,10 @@ function toStr( test )
   var matrix = _.Matrix.Make([ 3, 1 ]);
   var exp =
 `
-+0
-+0
-+0
+Matrix.F32x.3x1 ::
+  +0
+  +0
+  +0
 `;
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -17432,8 +17438,9 @@ function toStr( test )
   ]);
   var exp =
 `
-+1 +2 +3
-+4 +5 +6
+Matrix.F32x.2x3 ::
+  +1 +2 +3
+  +4 +5 +6
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -17449,9 +17456,10 @@ function toStr( test )
   ]);
   var exp =
 `
-+1 +2
-+3 +4
-+5 +6
+Matrix.F32x.3x2 ::
+  +1 +2
+  +3 +4
+  +5 +6
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -17466,8 +17474,9 @@ function toStr( test )
   ]);
   var exp =
 `
-+0 ...
-+1 ...
+Matrix.F32x.2xInfinity ::
+  +0 ...
+  +1 ...
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -17481,8 +17490,9 @@ function toStr( test )
   ]);
   var exp =
 `
-+0 +1
-... ...
+Matrix.F32x.Infinityx2 ::
+  +0 +1
+  ... ...
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -17491,25 +17501,25 @@ function toStr( test )
 
   test.case = 'empty matrix, 3d';
   var matrix = _.Matrix.Make([ 0, 0, 0 ]);
-  var exp = '';
+  var exp = 'Matrix.F32x.0x0x0 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
   test.case = 'empty matrix, 4d';
   var matrix = _.Matrix.Make([ 0, 0, 0, 0 ]);
-  var exp = '';
+  var exp = 'Matrix.F32x.0x0x0x0 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
   test.case = 'empty matrix, 4d';
   var matrix = _.Matrix.Make([ 0, 0, 0, 1 ]);
-  var exp = '';
+  var exp = 'Matrix.F32x.0x0x0x1 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
   test.case = 'empty matrix, 4d';
   var matrix = _.Matrix.Make([ 0, 0, 1, 0 ]);
-  var exp = '';
+  var exp = 'Matrix.F32x.0x0x1x0 ::\n';
   var got = matrix.toStr();
   test.identical( got, exp );
 
@@ -17528,22 +17538,21 @@ function toStr( test )
     22, 23, 24,
   ]);
   var exp =
-`
-Matrix 0
-  +1 +2 +3
-  +4 +5 +6
-Matrix 1
-  +7 +8 +9
-  +10 +11 +12
-Matrix 2
-  +13 +14 +15
-  +16 +17 +18
-Matrix 3
-  +19 +20 +21
-  +22 +23 +24
-`
+`Matrix.F32x.2x3x4 ::
+  Layer 0
+    +1 +2 +3
+    +4 +5 +6
+  Layer 1
+    +7 +8 +9
+    +10 +11 +12
+  Layer 2
+    +13 +14 +15
+    +16 +17 +18
+  Layer 3
+    +19 +20 +21
+    +22 +23 +24`
   var got = matrix.toStr();
-  test.equivalent( got, exp );
+  test.identical( got, exp );
 
   /* */
 
@@ -17561,54 +17570,55 @@ Matrix 3
   ]);
   var exp =
 `
-Matrix 0 0 0
-  +1
-Matrix 1 0 0
-  +2
-Matrix 0 1 0
-  +3
-Matrix 1 1 0
-  +4
-Matrix 0 2 0
-  +5
-Matrix 1 2 0
-  +6
-Matrix 0 0 1
-  +7
-Matrix 1 0 1
-  +8
-Matrix 0 1 1
-  +9
-Matrix 1 1 1
-  +10
-Matrix 0 2 1
-  +11
-Matrix 1 2 1
-  +12
-Matrix 0 0 2
-  +13
-Matrix 1 0 2
-  +14
-Matrix 0 1 2
-  +15
-Matrix 1 1 2
-  +16
-Matrix 0 2 2
-  +17
-Matrix 1 2 2
-  +18
-Matrix 0 0 3
-  +19
-Matrix 1 0 3
-  +20
-Matrix 0 1 3
-  +21
-Matrix 1 1 3
-  +22
-Matrix 0 2 3
-  +23
-Matrix 1 2 3
-  +24
+Matrix.F32x.1x1x2x3x4 ::
+  Layer 0 0 0
+    +1
+  Layer 1 0 0
+    +2
+  Layer 0 1 0
+    +3
+  Layer 1 1 0
+    +4
+  Layer 0 2 0
+    +5
+  Layer 1 2 0
+    +6
+  Layer 0 0 1
+    +7
+  Layer 1 0 1
+    +8
+  Layer 0 1 1
+    +9
+  Layer 1 1 1
+    +10
+  Layer 0 2 1
+    +11
+  Layer 1 2 1
+    +12
+  Layer 0 0 2
+    +13
+  Layer 1 0 2
+    +14
+  Layer 0 1 2
+    +15
+  Layer 1 1 2
+    +16
+  Layer 0 2 2
+    +17
+  Layer 1 2 2
+    +18
+  Layer 0 0 3
+    +19
+  Layer 1 0 3
+    +20
+  Layer 0 1 3
+    +21
+  Layer 1 1 3
+    +22
+  Layer 0 2 3
+    +23
+  Layer 1 2 3
+    +24
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
@@ -17623,14 +17633,58 @@ Matrix 1 2 3
   ]);
   var exp =
 `
-Matrix
-  +1 +2 +3
-  +4 +5 +6
+Matrix.F32x.2x3xInfinity ::
+  Layer
+    +1 +2 +3
+    +4 +5 +6
 `
   var got = matrix.toStr();
   test.equivalent( got, exp );
 
   /* */
+
+}
+
+//
+
+function toStrStandard( test )
+{
+
+  test.case = 'String( matrix )';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var got = String( matrix );
+  var exp =
+  `Matrix.F32x.2x3 ::
+  +1 +2 +3
+  +4 +5 +6`;
+  test.identical( got, exp );
+
+  test.case = 'vad.toStr()';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var got = matrix.toStr();
+  var exp =
+  `Matrix.F32x.2x3 ::
+  +1 +2 +3
+  +4 +5 +6`;
+  test.identical( got, exp );
+
+  test.case = 'Object.prototype.toString';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var got = Object.prototype.toString.call( matrix );
+  var exp = '[object Matrix]';
+  test.identical( got, exp );
 
 }
 
@@ -19787,6 +19841,515 @@ function lineNdGet( test )
   test.identical( line, exp );
 
   /* */
+
+}
+
+//
+
+function lineNdGetIterate( test )
+{
+
+  /* */
+
+  test.case = '2x3. iterate dimension 0';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let v = 0; v < dims[ 1 ]; v += 1 )
+  {
+    let line = matrix.lineNdGet( 0, [ v ] );
+    got.push( ... line, '.' );
+  }
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3. iterate dimension 1';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let v = 0; v < dims[ 0 ]; v += 1 )
+  {
+    let line = matrix.lineNdGet( 1, [ v ] );
+    got.push( ... line, '.' );
+  }
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 0';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 1 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 0, [ v, x ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 0 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 1, [ v, x ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 2';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 0 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 2, [ v, x ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 0';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 1 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 0, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, '.', 2, '.', 3, '.', 4, '.', 5, '.', 6, '.', 7, '.', 8, '.', 9, '.', 10, '.', 11, '.', 12, '.', 13, '.', 14, '.', 15, '.', 16, '.', 17, '.', 18, '.', 19, '.', 20, '.', 21, '.', 22, '.', 23, '.', 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 1';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0 ; v < dims[ 0 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 1, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 2';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
+  {
+    for( let v = 0 ; v < dims[ 0 ] ; v += 1 )
+    {
+      let line = matrix.lineNdGet( 2, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 3';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 2 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
+  {
+    for( let v = 0 ; v < dims[ 0 ] ; v += 1 )
+    {
+      let line = matrix.lineNdGet( 3, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  console.log( matrix );
+  console.log( _.vad.from([ 1, 2, 3 ]) );
+
+}
+
+//
+
+function lineEach( test )
+{
+
+  /* */
+
+  test.case = '2x3. iterate dimension 0';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3. iterate dimension 1';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 0';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 2';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 0';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, '.', 2, '.', 3, '.', 4, '.', 5, '.', 6, '.', 7, '.', 8, '.', 9, '.', 10, '.', 11, '.', 12, '.', 13, '.', 14, '.', 15, '.', 16, '.', 17, '.', 18, '.', 19, '.', 20, '.', 21, '.', 22, '.', 23, '.', 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 1';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 2';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 3';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 3, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  // console.log( matrix );
+  // console.log( _.vad.from([ 1, 2, 3 ]) );
+  // debugger; return; xxx
 
 }
 
@@ -28237,7 +28800,7 @@ var Self =
     isUpperTriangle,
     isSymmetric,
 
-    clone,
+    clone, /* xxx : move */
 
     // maker
 
@@ -28323,6 +28886,7 @@ var Self =
     bufferImportOptionsReplacing0WithoutDims,
 
     toStr,
+    toStrStandard,
     toLong, /* qqq : extend, please */
     // log, // qqq xxx : implement please
     // xxx : storage of options is requried for exporting
@@ -28349,6 +28913,8 @@ var Self =
     vectorToMatrix,
     accessors,
     lineNdGet, /* qqq : add 4d cases */
+    lineNdGetIterate,
+    lineEach,
     partialAccessors,
     lineSwap,
     pivot,

@@ -127,6 +127,73 @@ function Is( src )
 
 //
 
+function _iterate()
+{
+
+  let iterator = Object.create( null );
+  iterator.next = next;
+  iterator.index = 0;
+  iterator.vector = this;
+  return iterator;
+
+  function next()
+  {
+    let result = Object.create( null );
+    result.done = this.index === this.vector.length;
+    if( result.done )
+    return result;
+    result.value = this.vector.eGet( this.index );
+    this.index += 1;
+    return result;
+  }
+
+}
+
+//
+
+function _toStringTag()
+{
+  return 'Matrix';
+}
+
+//
+
+function _inspectCustom( a, b, c )
+{
+  debugger;
+  return this.toStr();
+}
+
+//
+
+function _toPrimitive( hint )
+{
+  return this.toStr();
+}
+
+//
+
+function _accuracyGet()
+{
+  return this.vectorAdapter.accuracy
+}
+
+//
+
+function _accuracySqrGet()
+{
+  return this.vectorAdapter.accuracySqr
+}
+
+//
+
+function _accuracySqrtGet()
+{
+  return this.vectorAdapter.accuracySqrt
+}
+
+//
+
 function _traverseAct( it ) /* zzz : deprecate */
 {
   let self = this;
@@ -513,8 +580,8 @@ function ExportStructure( o )
     else
     {
 
-      if( _global_.debugger )
-      debugger;
+      // if( _global_.debugger )
+      // debugger;
 
       // let dimsWas = o.dst.dims;
       let o2 = Object.create( null );
@@ -606,7 +673,7 @@ function ExportStructure( o )
 
     copy( 'dims' );
 
-    if( o.bufferNormalizing )
+    if( o.restriding )
     {
       let extract = o.src._exportNormalized();
       _.mapExtend( o.dst, extract );
@@ -656,8 +723,8 @@ ExportStructure.defaults =
 {
   src : null,
   dst : null,
-  how : 'object',
-  bufferNormalizing : 1,
+  how : 'structure',
+  restriding : 1,
 }
 
 //
@@ -1129,6 +1196,7 @@ function ExportString( o )
   _.assert( _.strIs( o.tab ) );
   _.assert( _.strIs( o.dtab ) );
 
+  let tab1 = o.tab + o.dtab;
   let tab2 = o.tab + o.dtab;
   let scalarsPerRow = o.src.scalarsPerRow;
   let scalarsPerCol = o.src.scalarsPerCol;
@@ -1164,6 +1232,16 @@ function ExportString( o )
 
     _.assert( o.src instanceof Self );
 
+    if( o.withHead )
+    {
+      o.dst += o.src.headExportString() + ' ::\n';
+    }
+
+    if( o.src.dims.length > 2 )
+    {
+      tab2 = tab2 + o.dtab;
+    }
+
     isInt = true;
     o.src.scalarEach( function( it )
     {
@@ -1185,7 +1263,7 @@ function ExportString( o )
       {
         if( it.indexLogical > 0 )
         o.dst += `\n`;
-        o.dst += `Matrix ${it.indexNd.join( ' ' )}\n`;
+        o.dst += `${tab1}Layer ${it.indexNd.join( ' ' )}\n`;
         matrixToStr( it.indexNd );
       });
 
@@ -1199,6 +1277,9 @@ function ExportString( o )
   function matrixToStr( matrixIndexNd )
   {
     let r;
+
+    if( !scalarsPerRow )
+    return;
 
     for( r = 0 ; r < scalarsPerCol ; r += 1 )
     {
@@ -1231,17 +1312,17 @@ function ExportString( o )
 
     for( let c = 0 ; c < scalarsPerRow ; c += 1 )
     {
-      eToStr( row.eGet( c ) );
+      eToStr( row.eGet( c ), c === scalarsPerRow-1 );
     }
 
     if( o.src.dims[ 1 ] === Infinity )
-    o.dst += o.infinityStr;
+    o.dst += o.scalarDelimeterStr + o.infinityStr;
 
   }
 
   /* */
 
-  function eToStr( e )
+  function eToStr( e, isLast )
   {
 
     if( isInt )
@@ -1256,6 +1337,7 @@ function ExportString( o )
       o.dst += e.toFixed( o.precision );
     }
 
+    if( !isLast )
     o.dst += o.scalarDelimeterStr;
   }
 
@@ -1274,6 +1356,7 @@ ExportString.defaults =
   infinityStr : '...',
   precision : 3,
   usingSign : 1,
+  withHead : 1,
 }
 
 //
@@ -1330,6 +1413,14 @@ function dimsExportString( o )
 dimsExportString.defaults =
 {
   dst : '',
+}
+
+//
+
+function headExportString()
+{
+  let self = this;
+  return `Matrix.${_.strType( self.buffer )}.${self.dimsExportString()}`;
 }
 
 //
@@ -2097,6 +2188,8 @@ function DimsOf( src )
   return result;
 }
 
+//
+
 /**
  * Method flatScalarIndexFrom() finds the index of element in the matrix buffer.
  *
@@ -2835,54 +2928,6 @@ function DimsNormalize( dims )
   return dims;
 }
 
-// //
-//
-// function _dimsDeduceGrowing( dimsWas )
-// {
-//   let self = this;
-//
-//   _.assert( arguments.length === 0 || arguments.length === 1 );
-//
-//   if( dimsWas )
-//   {
-//     _.assert( _.longIs( self.buffer ) );
-//     _.assert( self.offset >= 0 );
-//
-//     let dims = dimsWas.slice();
-//     dims[ self.growingDimension ] = 1;
-//     let ape = _.avector.reduceToProduct( dims );
-//     let l = ( self.buffer.length - self.offset ) / ape;
-//     dims[ self.growingDimension ] = l;
-//     self[ dimsSymbol ] = dims;
-//
-//     _.assert( l >= 0 );
-//     _.assert( _.intIs( l ) );
-//
-//     return dims;
-//   }
-//   else if( self.strides )
-//   {
-//     _.assert( 0, 'Cant deduce dimensions from only strides' );
-//   }
-//   else
-//   {
-//     _.assert( _.longIs( self.buffer ), 'Expects buffer' );
-//     if( self.buffer.length - self.offset > 0 )
-//     {
-//       self[ dimsSymbol ] = [ self.buffer.length - self.offset, 1 ];
-//       if( !self.stridesEffective )
-//       self[ stridesEffectiveSymbol ] = [ 1, self.buffer.length - self.offset ];
-//     }
-//     else
-//     {
-//       self[ dimsSymbol ] = [ 1, 0 ];
-//       if( !self.stridesEffective )
-//       self[ stridesEffectiveSymbol ] = [ 1, 1 ];
-//     }
-//     return self[ dimsSymbol ];
-//   }
-//
-// }
 //
 
 function _dimsDeduceInitial()
@@ -3251,6 +3296,38 @@ function hasShape( src )
 }
 
 // --
+// meta
+// --
+
+function _metaDefine( how, key, value )
+{
+  let opts =
+  {
+    enumerable : false,
+    configurable : false,
+  }
+
+  if( how === 'get' )
+  {
+    opts.get = value;
+    Object.defineProperty( Self.prototype, key, opts );
+  }
+  else if( how === 'field' )
+  {
+    opts.value = value;
+    Object.defineProperty( Self.prototype, key, opts );
+  }
+  else if( how === 'static' )
+  {
+    opts.get = value;
+    Object.defineProperty( Self, key, opts );
+    Object.defineProperty( Self.prototype, key, opts );
+  }
+  else _.assert( 0 );
+
+}
+
+// --
 // relations
 // --
 
@@ -3383,7 +3460,7 @@ let Forbids =
 
 /*
 xxx : implement fast vad iterator
-xxx : optimize scalar iteration
+zzz : optimize scalar iteration
 */
 
 //
@@ -3456,9 +3533,18 @@ let Extension =
 
   init,
   Is,
+
+  _iterate,
+  _toStringTag,
+  _toPrimitive,
+  _accuracyGet,
+  _accuracySqrGet,
+  _accuracySqrtGet,
+
   _traverseAct, /* zzz : deprecate */
   _equalAre,
-  _equalSecondCoerce,
+  // [ Symbol.for( 'equalAre' ) ] : _equalAre,
+  _equalSecondCoerce, /* xxx : ! */
 
   _longGet,
 
@@ -3478,6 +3564,7 @@ let Extension =
   ExportString,
   exportString,
   dimsExportString,
+  headExportString,
   bufferExport, /* qqq : cover */
   bufferImport,
   // _BufferFromVectorAdapter,
@@ -3565,7 +3652,6 @@ let Extension =
   _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
   DimsNormalize,
-  // _dimsDeduceGrowing,
   _dimsDeduceInitial,
   DimsDeduceInitial,
   DimsDeduceFrom,
@@ -3599,38 +3685,20 @@ _.classDeclare
 
 _.Copyable.mixin( Self );
 
-Object.defineProperty( Self, 'accuracy',
-{
-  get : function() { return this.vectorAdapter.accuracy },
-});
+_metaDefine( 'field', Symbol.iterator, _iterate );
+_metaDefine( 'get', Symbol.toStringTag, _toStringTag );
+_metaDefine( 'field', Symbol.for( 'nodejs.util.inspect.custom' ), _inspectCustom );
+_metaDefine( 'field', Symbol.toPrimitive, _toPrimitive );
+_metaDefine( 'field', Symbol.for( 'equalAre' ), _equalAre );
+_metaDefine( 'field', Symbol.for( 'notLong' ), true );
 
-Object.defineProperty( Self, 'accuracySqr',
-{
-  get : function() { return this.vectorAdapter.accuracySqr },
-});
+_metaDefine( 'static', 'accuracy', _accuracyGet );
+_metaDefine( 'static', 'accuracySqr', _accuracySqrGet );
+_metaDefine( 'static', 'accuracySqrt', _accuracySqrtGet );
+_metaDefine( 'static', 'long', _longGet );
 
-Object.defineProperty( Self, 'accuracySqrt',
-{
-  get : function() { return this.vectorAdapter.accuracySqrt },
-});
-
-Object.defineProperty( Self.prototype, 'accuracy',
-{
-  get : function() { return this.vectorAdapter.accuracy },
-});
-
-Object.defineProperty( Self.prototype, 'accuracySqr',
-{
-  get : function() { return this.vectorAdapter.accuracySqr },
-});
-
-Object.defineProperty( Self.prototype, 'accuracySqrt',
-{
-  get : function() { return this.vectorAdapter.accuracySqrt },
-});
-
-_.accessor.readOnly( Self, { long : { get : _longGet, set : false } } );
-_.accessor.readOnly( Self.prototype, { long : { get : _longGet, set : false } } );
+// _.accessor.readOnly( Self, { long : { get : _longGet, set : false } } );
+// _.accessor.readOnly( Self.prototype, { long : { get : _longGet, set : false } } );
 
 _.Matrix = Self;
 
@@ -3639,6 +3707,7 @@ _.assert( !!_.vectorAdapter.long );
 
 _.assert( _.objectIs( _.withDefaultLong ) );
 _.assert( _.objectIs( _.withDefaultLong.Fx ) );
+_.assert( _.routineIs( Self.prototype[ Symbol.for( 'equalAre' ) ] ) );
 
 _.assert( Self.prototype.vectorAdapter.long === Self.vectorAdapter.long );
 _.assert( Self.long === Self.vectorAdapter.long );

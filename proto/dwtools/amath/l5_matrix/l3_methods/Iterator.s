@@ -172,7 +172,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
       {
         it.indexNd[ 0 ] = r;
         it.indexLogical = indexLogical;
-        it.scalar = self.scalarGet( it.indexNd ); /* xxx : remove later */
+        // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
         onScalar.call( self, it );
         it.offset[ 0 ] += it.strides[ 0 ];
         indexLogical += 1;
@@ -214,7 +214,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
-          it.scalar = self.scalarGet( it.indexNd ); /* xxx : remove later */
+          // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
           onScalar.call( self, it );
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
@@ -263,7 +263,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
-          it.scalar = self.scalarGet( it.indexNd ); /* xxx : remove later */
+          // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
           onScalar.call( self, it );
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
@@ -343,6 +343,156 @@ function layerEach( onMatrix, args )
 
 }
 
+//
+
+function lineEach( dimension, onEach )
+{
+  let self = this;
+  let stride = self.stridesEffective[ dimension ];
+  let dims = self.dimsEffective;
+  let length = dims[ dimension ];
+  let dimsWithout = dims.slice();
+  dimsWithout.splice( dimension, 1 );
+
+  _.assert( arguments.length === 2 );
+  _.assert( 0 <= dimension && dimension < dims.length );
+  _.assert( dimsWithout.length >= 1 );
+  _.assert( _.routineIs( onEach ) );
+
+  let it = Object.create( null );
+  it.buffer = self.buffer;
+  it.indexNd = _.dup( 0, dims.length );
+  it.indexNd[ dimension ] = null;
+  it.offset = _.dup( self.offset, dimsWithout.length );
+
+  if( dimsWithout.length === 1 )
+  {
+    iterate2();
+  }
+  else if( dimsWithout.length === 2 )
+  {
+    iterate3();
+  }
+  else
+  {
+    iterateN();
+  }
+
+  /* */
+
+  function iterate2()
+  {
+    let adimension = dimension + 1;
+    if( adimension >= dims.length )
+    adimension = 0;
+    let astride = self.stridesEffective[ adimension ];
+    let l = dimsWithout[ 0 ];
+    for( let i1 = 0 ; i1 < l ; i1++ )
+    {
+      it.line = _.vad.fromLongLrangeAndStride( it.buffer, it.offset[ 0 ], length, stride );
+      onEach( it );
+      it.indexNd[ adimension ] += 1;
+      it.offset[ 0 ] += astride;
+    }
+  }
+
+  /* */
+
+  function iterate3()
+  {
+
+    let adimension1 = dimension === 0 ? 1 : 0;
+    let adimension2 = dimension === 2 ? 1 : 2;
+    let astride1 = self.stridesEffective[ adimension1 ];
+    let astride2 = self.stridesEffective[ adimension2 ];
+    let l1 = dimsWithout[ 0 ];
+    let l2 = dimsWithout[ 1 ];
+
+    for( let i2 = 0 ; i2 < l2 ; i2++ )
+    {
+      for( let i1 = 0 ; i1 < l1 ; i1++ )
+      {
+        it.line = _.vad.fromLongLrangeAndStride( it.buffer, it.offset[ 0 ], length, stride );
+        onEach( it );
+        it.indexNd[ adimension1 ] += 1;
+        it.offset[ 0 ] += astride1;
+      }
+      it.indexNd[ adimension2 ] += 1;
+      it.offset[ 1 ] += astride2;
+      it.offset[ 0 ] = it.offset[ 1 ];
+    }
+  }
+
+  /* */
+
+  function iterateN()
+  {
+
+    let stridesWithout = self.stridesEffective.slice();
+    stridesWithout.splice( dimension, 1 );
+
+    let toWithout = [];
+    for( let i1 = 0, i2 = 0 ; i1 < dims.length ; i1++ )
+    {
+      if( i1 === dimension )
+      {
+        toWithout[ i1 ] = null;
+        continue;
+      }
+      toWithout[ i1 ] = i2;
+      i2 += 1;
+    }
+
+    let fromWithout = [];
+    for( let i1 = 0, i2 = 0 ; i1 < dimsWithout.length ; i1++ )
+    {
+      if( i1 === dimension )
+      i2 += 1;
+      fromWithout[ i1 ] = i2;
+      i2 += 1;
+    }
+
+    _.eachInMultiRange
+    ({
+      ranges : dimsWithout,
+      onEach : handleEach,
+    })
+
+    function handleEach( indexNd, indexLogical )
+    {
+
+      it.line = _.vad.fromLongLrangeAndStride( it.buffer, it.offset[ 0 ], length, stride );
+
+      onEach( it );
+
+      let i = 0;
+      it.indexNd[ fromWithout[ i ] ] += 1;
+      it.offset[ i ] += stridesWithout[ i ];
+      while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] )
+      {
+        i += 1;
+        it.indexNd[ fromWithout[ i ] ] += 1;
+        it.offset[ i ] += stridesWithout[ i ];
+      }
+      while( i > 0 )
+      {
+        i -= 1;
+        it.indexNd[ fromWithout[ i ] ] = 0;
+        it.offset[ i ] = it.offset[ i+1 ];
+      }
+
+      // it.indexNd = indexNd;
+      // it.indexLogical = indexLogical;
+
+      return true;
+    }
+
+  }
+
+  /* */
+
+}
+
 // --
 // relations
 // --
@@ -374,6 +524,7 @@ let Extension =
   scalarWhile,
   scalarEach,
   layerEach, /* qqq : cover and document */
+  lineEach,
 
   //
 

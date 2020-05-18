@@ -902,7 +902,7 @@ let Extension =
 
   // advanced
 
-  atomWiseReduceWithFlatVector,
+  atomWiseReduceWithFlatVector, /* xxx : rename */
   atomWiseReduceWithAtomHandler,
   atomWiseWithAssign,
   AtomWiseHomogeneous,
