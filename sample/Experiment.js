@@ -12,8 +12,9 @@ var matrix2 = _.Matrix.MakeSquare
 ]);
 
 matrix1.mulAtomWise( matrix2 );
-console.log( matrix1.toStr() );
-/* log : dst :
+console.log( matrix1 );
+/* log :
+Matrix.Array.2x2 ::
   +4 +6
   +6 +4
 */
