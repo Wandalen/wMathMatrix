@@ -7,8 +7,9 @@ var matrix = new _.Matrix
   inputRowMajor : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
