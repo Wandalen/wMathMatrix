@@ -32,7 +32,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 //   _.assert( arguments.length === 1, 'Expects single argument' );
 //   _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
 //
-//   // xxx : remove
+//   // yyy : remove
 //   // debugger;
 //
 //   if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
@@ -143,7 +143,7 @@ function MakeSquare( buffer )
   let proto = this.Self.prototype;
 
   let length;
-  // if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) ) /* xxx qqq2 : ! */
+  // if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) ) /* qqq2 : ! */
   if( _.vectorIs( buffer ) )
   length = Math.sqrt( buffer.length );
   else if( _.numberIs( buffer ) )
@@ -1245,7 +1245,7 @@ function FromScalar( scalar, dims )
 function FromScalarForReading( scalar, dims )
 {
 
-  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
+  _.assert( _.vectorIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.numberIs( scalar ) );
 

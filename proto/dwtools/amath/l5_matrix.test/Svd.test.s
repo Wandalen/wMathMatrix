@@ -1,4 +1,5 @@
-( function _Svd_test_s_( ) {
+( function _Svd_test_s_()
+{
 
 'use strict';
 
@@ -123,6 +124,15 @@ function gramSchmidtDecompose( test )
   test.equivalent( m.colGet( 2 ).mag(), 1 );
 
   /* */
+
+  var x = _.someRoutine
+  ({
+      //some code
+  })
+
+  var a = _.someFunc([ 1, 2, 3 ]);
+
+  var a = _.someFunc( [ 1, 2, 3 ] );
 
 }
 
