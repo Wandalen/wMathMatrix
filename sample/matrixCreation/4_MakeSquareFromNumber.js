@@ -1,8 +1,9 @@
 let _ = require( 'wmathmatrix' );
 
-var matrix2 = _.Matrix.MakeSquare( 2 );
-console.log( `matrix :\n${ matrix2.toStr() }` );
+var matrix = _.Matrix.MakeSquare( 2 );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */

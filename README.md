@@ -42,10 +42,11 @@ Let's creates a matrix with specified dimensions.
 
 ```js
 var matrix = _.Matrix.Make([ 2, 2 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */
 ```
 
@@ -56,17 +57,18 @@ The created matrix `matrix` has dimension `2x2`, which is specified by the argum
 Matrix also could be created by explicitly calling the constructor. To do that, at least 3 options should be specified.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4 ],
   dims : [ 2, 2 ],
   inputRowMajor : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 ```
 
@@ -77,26 +79,29 @@ The constructor receives buffer, dimensions, and hint to calculate effective str
 Let's create a square matrix from a passed buffer or a given dimension.
 
 ```js
-var matrix1 = _.Matrix.MakeSquare
+var matrix = _.Matrix.MakeSquare
 ([
   1, 2,
   3, 4
 ]);
-console.log( `matrix :\n${ matrix1.toStr() }` );
+
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 ```
 
 Static routine `MakeSquare` deduces dimension `2x2` from the length of the vector that is passed as the input.
 
 ```js
-var matrix2 = _.Matrix.MakeSquare( 2 );
-console.log( `matrix :\n${ matrix2.toStr() }` );
+var matrix = _.Matrix.MakeSquare( 2 );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0, +0,
-+0, +0,
+Matrix.F32x.2x2 ::
+  +0 +0
+  +0 +0
 */
 ```
 
@@ -107,26 +112,25 @@ The dimension `2x2` is given by the scalar` 2`. Scalar is sufficient to deduce d
 An object of the class `Matrix` could be created by an explicit call of the constructor.
 
 ```js
-
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
   inputRowMajor : 0,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +4,
-+2, +5,
-+3, +6,
+Matrix.Array.3x2 ::
+  +1 +4
+  +2 +5
+  +3 +6
 */
 
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 1, 3 ]
 */
-
 ```
 
 Three options are the minimum amount of information required to call the matrix constructor. Data buffer `buffer`, information about dimensions `dims`, and the option `inputRowMajor` - hints on whether the input data will be transposed.
@@ -138,26 +142,25 @@ By default, the elements in the buffer are in such sequence:
 Option `inputRowMajor : 1` alter algorithm of strides calculation.
 
 ```js
-
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
   inputRowMajor : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
-+5, +6,
+Matrix.Array.3x2 ::
+  +1 +2
+  +3 +4
+  +5 +6
 */
 
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
-
 ```
 
 With `inputRowMajor : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the previous example. Sequence looks like that:
@@ -167,26 +170,25 @@ With `inputRowMajor : 1` strides are `[ 2, 1 ]`, instead of `[ 1, 2 ]` of the pr
 The option `inputRowMajor` shows the constructor to calculate strides. Alternatively, it is possible to specify strides explicitly:
 
 ```js
-
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
   strides : [ 2, 1 ],
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
-+5, +6,
+Matrix.Array.3x2 ::
+  +1 +2
+  +3 +4
+  +5 +6
 */
 
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 2, 1 ]
 */
-
 ```
 
 Unlike the previous example, strides in this example are specified explicitly, but the result is the same.
@@ -202,19 +204,20 @@ Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*
 The value of strides could be specified during construction.
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  strides : [ 3, 1 ],
-  offset : 1,
+  offset : 8,
+  strides : [ -2, -1 ],
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+4, +5,
-+7, +8,
+Matrix.Array.3x2 ::
+  +9 +8
+  +7 +6
+  +5 +4
 */
 ```
 
@@ -227,7 +230,7 @@ The diagram shows how scalars of the matrix are put in the buffer `buffer`. Buff
 ### Negative strides
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
@@ -235,11 +238,12 @@ var matrix = _.Matrix
   strides : [ -2, -1 ],
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+9, +8,
-+7, +6,
-+5, +4,
+Matrix.Array.3x2 ::
+  +9 +8
+  +7 +6
+  +5 +4
 */
 ```
 
@@ -254,9 +258,9 @@ The diagram shows how the scalars of the matrix are put in the buffer `buffer`. 
 The matrix can be transposed without copying. It is possible to transpose a matrix by changing only strides. Example demonstrate zero-copy transposing of a matrix.
 
 ```js
-var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
+var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
 
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -264,24 +268,27 @@ var matrix = _.Matrix
   offset : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+4, +5,
-+7, +8,
+Matrix.I32x.3x2 ::
+  +1 +2
+  +4 +5
+  +7 +8
 */
 
-var matrixTransposed = _.Matrix
+var matrixTransposed = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 2, 3 ],
   strides : [ 1, 3 ],
   offset : 1,
 });
-console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
+
+console.log( `transposed matrix :\n${ matrixTransposed }` );
 /* log : transposed matrix :
-+1, +2, +4,
-+5, +7, +9,
+Matrix.I32x.2x3 ::
+  +1 +4 +7
+  +2 +5 +8
 */
 ```
 
@@ -292,7 +299,7 @@ That is how the method `matrix.transpose()` works.
 ```js
 var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
 
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : buffer1,
   dims : [ 3, 2 ],
@@ -300,18 +307,21 @@ var matrix = _.Matrix
   offset : 1,
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+4, +5,
-+7, +8,
+Matrix.I32x.3x2 ::
+  +1 +2
+  +4 +5
+  +7 +8
 */
 
 matrix.transpose();
-console.log( `transposed matrix :\n${ matrix.toStr() }` );
+
+console.log( `transposed matrix :\n${ matrix }` );
 /* log : transposed matrix :
-+1, +2, +4,
-+5, +7, +9,
+Matrix.I32x.2x3 ::
+  +1 +4 +7
+  +2 +5 +8
 */
 ```
 
@@ -324,7 +334,7 @@ The diagram above shows how the buffer is interpreted into the matrix. When chan
 ### Submatrices
 
 ```js
-var matrix = _.Matrix
+var matrix = new _.Matrix
 ({
   buffer : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ],
   dims : [ 4, 3 ],
@@ -332,36 +342,43 @@ var matrix = _.Matrix
   strides : [ 4, 1 ],
 });
 
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1,  +2,  +3,
-+5,  +6,  +7,
-+9,  +10, +11,
-+13, +14, +15,
+Matrix.Array.4x3 ::                                                                                                                                                    [10/
+  +1 +2 +3
+  +5 +6 +7
+  +9 +10 +11
+  +13 +14 +15
 */
 
 var sub1 = matrix.submatrix( [ 1, 2 ], [ 0, 1 ] );
-console.log( `submatrix1 :\n${ sub1.toStr() }` );
-/* log : matrix :
-+5,  +6,
-+9,  +10,
+
+console.log( `submatrix1 :\n${ sub1 }` );
+/* log : submatrix1 :
+Matrix.Array.2x2 ::
+  +5 +6
+  +9 +10
 */
 
 var sub2 = matrix.submatrix( [ 1, 2 ], [ 1, 2 ] );
-console.log( `submatrix2 :\n${ sub2.toStr() }` );
+
+console.log( `submatrix2 :\n${ sub2 }` );
 /* log : submatrix2 :
-+6,  +7,
-+10, +11,
+Matrix.Array.2x2 ::
+  +6 +7
+  +10 +11
 */
 
 sub1.mul( [ sub1, 2 ] );
 sub2.mul( [ sub2, 10 ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
+
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1,  +2,   +3,
-+10, +120, +70,
-+18, +200, +110,
-+13, +14,  +15,
+Matrix.Array.4x3 ::
+  +1 +2 +3
+  +10 +120 +70
+  +18 +200 +110
+  +13 +14 +15
 */
 ```
 
@@ -385,20 +402,22 @@ var matrix3d = _.Matrix.Make([ 2, 3, 4 ]).copy
   19, 20, 21,
   22, 23, 23,
 ]);
-console.log( `3D matrix :\n${ matrix3d.toStr() }` );
+
+console.log( `3D matrix :\n${ matrix3d }` );
 /* log : 3D matrix :
-Matrix-0
-  +1 +2 +3
-  +4 +5 +6
-Matrix-1
-  +7 +8 +9
-  +10 +11 +12
-Matrix-2
-  +13 +14 +15
-  +16 +17 +18
-Matrix-3
-  +19 +20 +21
-  +22 +23 +23
+Matrix.F32x.2x3x4 ::
+  Layer 0
+    +1 +2 +3
+    +4 +5 +6
+  Layer 1
+    +7 +8 +9
+    +10 +11 +12
+  Layer 2
+    +13 +14 +15
+    +16 +17 +18
+  Layer 3
+    +19 +20 +21
+    +22 +23 +23
 */
 ```
 
@@ -432,17 +451,20 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 
 matrix.transpose();
-console.log( `transposed matrix :\n${ matrix.toStr() }` );
+console.log( `transposed matrix :\n${ matrix }` );
 /* log : transposed matrix :
-+1, +3,
-+2, +4,
+Matrix.Array.2x2 ::
+  +1 +3
+  +2 +4
 */
 ```
 
@@ -456,6 +478,7 @@ var matrix1 = _.Matrix.Make([ 2, 3 ]).copy
   1, 2, -3,
   3, 4, -2,
 ]);
+
 var matrix2 = _.Matrix.Make([ 3, 2 ]).copy
 ([
   4,  3,
@@ -470,10 +493,12 @@ var matrix3 = _.Matrix.MakeCol
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
-console.log( `dst :\n${ dst.toStr() }` );
+
+console.log( `dst :\n${ dst }` );
 /* log : dst :
-+11
--3
+Matrix.Array.2x1 ::
+  +11
+  -3
 */
 ```
 

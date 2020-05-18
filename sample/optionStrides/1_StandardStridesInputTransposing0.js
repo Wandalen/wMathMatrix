@@ -6,14 +6,13 @@ var matrix = new _.Matrix
   dims : [ 3, 2 ],
   inputRowMajor : 0,
 });
-
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +4,
-+2, +5,
-+3, +6,
+Matrix.Array.3x2 ::
+  +1 +4
+  +2 +5
+  +3 +6
 */
-
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
 [ 1, 3 ]

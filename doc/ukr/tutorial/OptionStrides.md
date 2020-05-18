@@ -13,11 +13,12 @@ var matrix = new _.Matrix
   dims : [ 3, 2 ],
   inputRowMajor : 0,
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +4,
-+2, +5,
-+3, +6,
+Matrix.Array.3x2 ::
+  +1 +4
+  +2 +5
+  +3 +6
 */
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
@@ -40,11 +41,12 @@ var matrix = new _.Matrix
   dims : [ 3, 2 ],
   inputRowMajor : 1,
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
-+5, +6,
+Matrix.Array.3x2 ::
+  +1 +2
+  +3 +4
+  +5 +6
 */
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
@@ -65,11 +67,12 @@ var matrix = new _.Matrix
   dims : [ 3, 2 ],
   strides : [ 2, 1 ],
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4,
-+5, +6,
+Matrix.Array.3x2 ::
+  +1 +2
+  +3 +4
+  +5 +6
 */
 console.log( `effective strides :\n${ matrix.stridesEffective }` );
 /* log : effective strides :
@@ -94,14 +97,15 @@ var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  strides : [ 3, 1 ],
-  offset : 1,
+  offset : 8,
+  strides : [ -2, -1 ],
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+4, +5,
-+7, +8,
+Matrix.Array.3x2 ::
+  +9 +8
+  +7 +6
+  +5 +4
 */
 ```
 
@@ -121,11 +125,12 @@ var matrix = new _.Matrix
   offset : 8,
   strides : [ -2, -1 ],
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+9, +8,
-+7, +6,
-+5, +4,
+Matrix.Array.3x2 ::
+  +9 +8
+  +7 +6
+  +5 +4
 */
 ```
 
@@ -140,7 +145,7 @@ console.log( `matrix :\n${ matrix.toStr() }` );
 Транспонування матриці можливо здійснити без пересування даних в буфері матриці. Транспонування матриці можливо виконати лише зміною ширини кроку( strides ). В наступному прикладі здійснюється zero-copy транспонування матриці.
 
 ```js
-var buffer1 = new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]);
+var buffer1 = new I32x( [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
 var matrix = new _.Matrix
 ({
   buffer : buffer1,
@@ -148,11 +153,12 @@ var matrix = new _.Matrix
   strides : [ 3, 1 ],
   offset : 1,
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+4, +5,
-+7, +8,
+Matrix.I32x.3x2 ::
+  +1 +2
+  +4 +5
+  +7 +8
 */
 var matrixTransposed = new _.Matrix
 ({
@@ -161,10 +167,11 @@ var matrixTransposed = new _.Matrix
   strides : [ 1, 3 ],
   offset : 1,
 });
-console.log( `transposed matrix :\n${ matrixTransposed.toStr() }` );
+console.log( `transposed matrix :\n${ matrixTransposed }` );
 /* log : transposed matrix :
-+1, +2, +4,
-+5, +7, +9,
+Matrix.I32x.2x3 ::
+  +1 +4 +7
+  +2 +5 +8
 */
 ```
 
@@ -181,17 +188,19 @@ var matrix = new _.Matrix
   strides : [ 3, 1 ],
   offset : 1,
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+4, +5,
-+7, +8,
+Matrix.I32x.3x2 ::
+  +1 +2
+  +4 +5
+  +7 +8
 */
 matrix.transpose();
-console.log( `transposed matrix :\n${ matrix.toStr() }` );
+console.log( `transposed matrix :\n${ matrix }` );
 /* log : transposed matrix :
-+1, +2, +4,
-+5, +7, +9,
+Matrix.I32x.2x3 ::
+  +1 +4 +7
+  +2 +5 +8
 */
 ```
 
@@ -211,33 +220,37 @@ var matrix = new _.Matrix
   offset : 1,
   strides : [ 4, 1 ],
 });
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1,  +2,  +3,
-+5,  +6,  +7,
-+9,  +10, +11,
-+13, +14, +15,
+Matrix.Array.4x3 ::                                                                                                                                                    [10/
+  +1 +2 +3
+  +5 +6 +7
+  +9 +10 +11
+  +13 +14 +15
 */
 var sub1 = matrix.submatrix( [ 1, 2 ], [ 0, 1 ] );
-console.log( `submatrix1 :\n${ sub1.toStr() }` );
-/* log : matrix :
-+5,  +6,
-+9,  +10,
+console.log( `submatrix1 :\n${ sub1 }` );
+/* log : submatrix1 :
+Matrix.Array.2x2 ::
+  +5 +6
+  +9 +10
 */
 var sub2 = matrix.submatrix( [ 1, 2 ], [ 1, 2 ] );
-console.log( `submatrix2 :\n${ sub2.toStr() }` );
+console.log( `submatrix2 :\n${ sub2 }` );
 /* log : submatrix2 :
-+6,  +7,
-+10, +11,
+Matrix.Array.2x2 ::
+  +6 +7
+  +10 +11
 */
 sub1.mul( [ sub1, 2 ] );
 sub2.mul( [ sub2, 10 ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1,  +2,   +3,
-+10, +120, +70,
-+18, +200, +110,
-+13, +14,  +15,
+Matrix.Array.4x3 ::
+  +1 +2 +3
+  +10 +120 +70
+  +18 +200 +110
+  +13 +14 +15
 */
 ```
 

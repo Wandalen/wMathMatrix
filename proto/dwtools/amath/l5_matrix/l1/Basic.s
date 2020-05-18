@@ -1579,62 +1579,156 @@ bufferExport.defaults =
 
 //
 
-function bufferImport( o ) /* qqq2 : good coverage is required */
+function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : covered */
 {
   let self = this;
-  self._changeBegin();
+  let hasNull;
 
   _.routineOptions( bufferImport, arguments );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.vectorIs( o.buffer ) );
-  _.assert
-  (
-    self.scalarsPerMatrix === o.buffer.length,
-    `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
-  );
 
-  let inputRowMajor = 1;
-  let strides = self.StridesFromDimensions( self.dimsEffective, inputRowMajor );
+  if( o.dims )
+  {
+    if( _.vectorAdapterIs( o.dims ) )
+    o.dims = o.dims.toLong();
+    hasNull = _.longCountElement( o.dims, null );
+    _.assert( hasNull <= 1, 'Expects single undeclared dimension' );
+  }
 
-  if( _.vectorAdapterIs( o.buffer ) )
+  if( o.replacing && o.dims )
   {
 
-    debugger;
-    self.scalarEach( function( it )
+    // debugger;
+    // self.scalarEach( function( it )
+    if( hasNull )
     {
-      let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
-      self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
-    });
+      let index = _.longLeftIndex( o.dims, null );
+      o.dims[ index ] = 1;
+      let value = o.buffer.length / o.dims.reduce( ( a, e ) => a * e );
+      _.assert( _.intIs( value ), 'Expects integer value as dimension' );
+      o.dims[ index ] = value;
+    }
+    else
+    {
+      _.assert( o.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
+    }
+
+    self._changeBegin();
+    self.dims = o.dims;
+    self.offset = 0;
+    self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
+    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._changeEnd();
+
+  }
+  else if( o.replacing && !o.dims )
+  {
+
+    _.assert( o.buffer.length >= self.scalarsPerMatrix );
+    self._changeBegin();
+    self.dims = self.dims; // to prevent change
+    self.offset = 0;
+    self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._changeEnd();
+
+  }
+  else if( !o.replacing && o.dims )
+  {
+
+    if( hasNull )
+    {
+      let index = _.longLeftIndex( o.dims, null );
+      o.dims[ index ] = 1;
+      let value = self.buffer.length / o.dims.reduce( ( a, e ) => a * e );
+      _.assert( _.intIs( value ), 'Expects integer value as dimension' );
+      o.dims[ index ] = value;
+    }
+    else
+    {
+      _.assert( self.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
+    }
+
+    if( !_.longIdentical( self.dims, o.dims ) )
+    {
+      self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
+      self.dims = o.dims;
+      self.offset = 0;
+    }
+
+    _.assert
+    (
+      self.scalarsPerMatrix === o.buffer.length,
+      `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
+    );
+
+    let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
+
+    if( _.vectorAdapterIs( o.buffer ) )
+    {
+      self.scalarEach( function( it )
+      {
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
+        self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
+      });
+    }
+    else
+    {
+      self.scalarEach( function( it )
+      {
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
+        self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
+      });
+    }
 
   }
   else
   {
 
-    self.scalarEach( function( it )
-    {
-      let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
-      self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
-    });
+    _.assert
+    (
+      self.scalarsPerMatrix === o.buffer.length,
+      `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
+    );
 
+    let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
+
+    if( _.vectorAdapterIs( o.buffer ) )
+    {
+      self.scalarEach( function( it )
+      {
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* xxx : optimize iterating */
+        self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
+      });
+    }
+    else
+    {
+      self.scalarEach( function( it )
+      {
+        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
+        self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
+      });
+    }
   }
 
-  self._changeEnd();
   return self;
 }
 
 bufferImport.defaults =
 {
   buffer : null,
-  inputRowMajor : 1, /* qqq : cover option */
-  replacing : 0, /* qqq : cover option */
+  inputRowMajor : 1, /* aaa : cover option */ /* Dmytro : covered */
+  replacing : 0, /* aaa : cover option */ /* Dmytro : implemented and covered */
   dims : null,
-  /* qqq2 : implement option dims for buffer growing. ask
+  /* aaa2 : implement option dims for buffer growing. ask
     if self.scalarsPerMatrix !== o.buffer.length
       dims = undefined : null -> error
       dims = [ 5, null ] : change ncol
       dims = [ null, 5 ] : change nrow
       dims = [ 5, 5 ] : change both
   */
+  /* Dmytro : implemented and covered */
 }
 
 // //
@@ -2501,30 +2595,38 @@ function offsetSet( src )
  * @module Tools/math/Matrix
  */
 
-function bufferNormalize() /* qqq : optimize */
+function bufferNormalize() /* qqq : optimize */ /* Dmytro : it needs clarifications */
 {
   let self = this;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  /* qqq2 : use routine bufferImport() instead of having own implementation */
+  /* aaa2 : use routine bufferImport() instead of having own implementation */
+  /* Dmytro : new variant of implementation is given below, the routine bufferImport is used */
 
-  let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
-
-  let i = 0;
-  self.scalarEach( function( it )
-  {
-    buffer[ i ] = self.buffer[ it.offset[ 0 ] ];
-    // buffer[ i ] = it.scalar; // yyy
-    i += 1;
-  });
-
-  self.copy
+  self.bufferImport
   ({
-    buffer,
-    offset : 0,
+    buffer : self.toLong(),
     inputRowMajor : 0,
-  });
+    replacing : 1,
+  })
+
+  // let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
+  //
+  // let i = 0;
+  // self.scalarEach( function( it )
+  // {
+  //   buffer[ i ] = self.buffer[ it.offset[ 0 ] ];
+  //   // buffer[ i ] = it.scalar; // yyy
+  //   i += 1;
+  // });
+  //
+  // self.copy
+  // ({
+  //   buffer,
+  //   offset : 0,
+  //   inputRowMajor : 0,
+  // });
 
 }
 

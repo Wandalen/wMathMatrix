@@ -114,21 +114,20 @@ scalarWhile.defaults =
  * @module Tools/math/Matrix
  */
 
-/* qqq2 : make o-fifcation */
-function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
+/* aaa2 : make o-fifcation */ /* Dmytro : implemented */
+function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 {
   let self = this;
   let dims = self.dimsEffective;
 
-  if( args === undefined )
-  args = [];
+  if( _.routineIs( o ) )
+  o = { onScalar : o };
+  if( o.args === undefined )
+  o.args = [];
 
-  _.assert( arguments.length <= 2 );
-  _.assert( _.arrayIs( args ) );
-  _.assert( onScalar.length === 1 );
-
-  // if( _global_.debugger )
-  // debugger;
+  _.assert( arguments.length === 1 );
+  _.assert( _.arrayIs( o.args ) );
+  _.assert( o.onScalar.length === 1 );
 
   if( dims.length === 2 )
   {
@@ -160,7 +159,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     let it = Object.create( null ); /* qqq2 : cover all fields of it */
     it.matrix = self;
     it.buffer = self.buffer;
-    it.args = args;
+    it.args = o.args;
     it.indexNd = [ 0, 0 ];
     it.strides = self.stridesEffective;
     it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
@@ -173,7 +172,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
         it.indexNd[ 0 ] = r;
         it.indexLogical = indexLogical;
         // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
-        onScalar.call( self, it );
+        o.onScalar.call( self, it );
         it.offset[ 0 ] += it.strides[ 0 ];
         indexLogical += 1;
       }
@@ -198,7 +197,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     let it = Object.create( null );
     it.matrix = self;
     it.buffer = self.buffer;
-    it.args = args;
+    it.args = o.args;
     it.indexNd = [ 0, 0, 0 ];
     it.strides = self.stridesEffective;
     it.offset = [ self.offset, self.offset, self.offset ];
@@ -215,7 +214,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
           // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
-          onScalar.call( self, it );
+          o.onScalar.call( self, it );
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
@@ -245,7 +244,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
     it.matrix = self;
     it.buffer = self.buffer;
     it.strides = self.stridesEffective;
-    it.args = args;
+    it.args = o.args;
     it.indexNd = _.dup( 0, dims.length );
     it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
     let indexLogical = 0;
@@ -264,7 +263,7 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
           // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
-          onScalar.call( self, it );
+          o.onScalar.call( self, it );
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
@@ -280,6 +279,171 @@ function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
   /* */
 
 }
+// function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
+// {
+//   let self = this;
+//   let dims = self.dimsEffective;
+//
+//   if( args === undefined )
+//   args = [];
+//
+//   _.assert( arguments.length <= 2 );
+//   _.assert( _.arrayIs( args ) );
+//   _.assert( onScalar.length === 1 );
+//
+//   // if( _global_.debugger )
+//   // debugger;
+//
+//   if( dims.length === 2 )
+//   {
+//     iterate2();
+//   }
+//   else if( dims.length === 3 )
+//   {
+//     iterate3();
+//   }
+//   else
+//   {
+//     iterateN();
+//   }
+//
+//   return self;
+//
+//   /* */
+//
+//   function iterate2()
+//   {
+//     let dims0 = dims[ 0 ];
+//     let dims1 = dims[ 1 ];
+//
+//     if( dims0 === Infinity )
+//     dims1 = 1;
+//     if( dims1 === Infinity )
+//     dims1 = 1;
+//
+//     let it = Object.create( null ); /* qqq2 : cover all fields of it */
+//     it.matrix = self;
+//     it.buffer = self.buffer;
+//     it.args = args;
+//     it.indexNd = [ 0, 0 ];
+//     it.strides = self.stridesEffective;
+//     it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
+//     let indexLogical = 0;
+//     for( let c = 0 ; c < dims1 ; c++ )
+//     {
+//       it.indexNd[ 1 ] = c;
+//       for( let r = 0 ; r < dims0 ; r++ )
+//       {
+//         it.indexNd[ 0 ] = r;
+//         it.indexLogical = indexLogical;
+//         // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
+//         onScalar.call( self, it );
+//         it.offset[ 0 ] += it.strides[ 0 ];
+//         indexLogical += 1;
+//       }
+//       it.offset[ 1 ] += it.strides[ 1 ];
+//       it.offset[ 0 ] = it.offset[ 1 ];
+//     }
+//   }
+//
+//   /* */
+//
+//   function iterate3()
+//   {
+//     let dims0 = dims[ 0 ];
+//     let dims1 = dims[ 1 ];
+//     let dims2 = dims[ 2 ];
+//
+//     if( dims0 === Infinity )
+//     dims1 = 1;
+//     if( dims1 === Infinity )
+//     dims1 = 1;
+//
+//     let it = Object.create( null );
+//     it.matrix = self;
+//     it.buffer = self.buffer;
+//     it.args = args;
+//     it.indexNd = [ 0, 0, 0 ];
+//     it.strides = self.stridesEffective;
+//     it.offset = [ self.offset, self.offset, self.offset ];
+//     let indexLogical = 0;
+//
+//     for( let d2 = 0 ; d2 < dims2 ; d2++ )
+//     {
+//       it.indexNd[ 2 ] = d2;
+//       for( let c = 0 ; c < dims1 ; c++ )
+//       {
+//         it.indexNd[ 1 ] = c;
+//         for( let r = 0 ; r < dims0 ; r++ )
+//         {
+//           it.indexNd[ 0 ] = r;
+//           it.indexLogical = indexLogical;
+//           // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
+//           onScalar.call( self, it );
+//           it.offset[ 0 ] += it.strides[ 0 ];
+//           indexLogical += 1;
+//         }
+//         it.offset[ 1 ] += it.strides[ 1 ];
+//         it.offset[ 0 ] = it.offset[ 1 ];
+//       }
+//       it.offset[ 2 ] += it.strides[ 2 ];
+//       it.offset[ 1 ] = it.offset[ 2 ];
+//       it.offset[ 0 ] = it.offset[ 2 ];
+//     }
+//   }
+//
+//   /* */
+//
+//   function iterateN()
+//   {
+//     let dims0 = dims[ 0 ];
+//     let dims1 = dims[ 1 ];
+//     // let strides = self.stridesEffective;
+//
+//     if( dims0 === Infinity )
+//     dims1 = 1;
+//     if( dims1 === Infinity )
+//     dims1 = 1;
+//
+//     let it = Object.create( null );
+//     it.matrix = self;
+//     it.buffer = self.buffer;
+//     it.strides = self.stridesEffective;
+//     it.args = args;
+//     it.indexNd = _.dup( 0, dims.length );
+//     it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
+//     let indexLogical = 0;
+//
+//     self.layerEach( ( it2 ) =>
+//     {
+//
+//       for( let i = 2 ; i < dims.length ; i++ )
+//       it.indexNd[ i ] = it2.indexNd[ i-2 ];
+//
+//       for( let c = 0 ; c < dims1 ; c++ )
+//       {
+//         it.indexNd[ 1 ] = c;
+//         for( let r = 0 ; r < dims0 ; r++ )
+//         {
+//           it.indexNd[ 0 ] = r;
+//           it.indexLogical = indexLogical;
+//           // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
+//           onScalar.call( self, it );
+//           it.offset[ 0 ] += it.strides[ 0 ];
+//           indexLogical += 1;
+//         }
+//         // debugger;
+//         it.offset[ 1 ] += it.strides[ 1 ];
+//         it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
+//       }
+//
+//     });
+//
+//   }
+//
+//   /* */
+//
+// }
 
 //
 

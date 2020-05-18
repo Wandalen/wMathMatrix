@@ -1,8 +1,9 @@
 let _ = require( 'wmathmatrix' );
 
 var matrix = _.Matrix.FromScalar( 5, [ 2, 2 ] );
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+5, +5,
-+5, +5
+Matrix.F32x.2x2 ::
+  +5 +5
+  +5 +5
 */

@@ -4,8 +4,9 @@ var matrix = _.Matrix.Make( [ Infinity, 2 ] ).copy
 ([
   0, 1,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+0  +1
+Matrix.F32x.Infinityx2 ::
+  +0 +1
 ... ...
 */

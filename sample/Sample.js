@@ -23,5 +23,18 @@ var expected = _.Matrix.Make([ 3,3 ]).copy
 ]);
 
 var uxl = _.Matrix.Mul( null,[ u,l ] );
-console.log( 'got\n' + uxl.toStr() );
-console.log( 'expected\n' + expected.toStr() );
+console.log( `got :\n${ uxl }` );
+/* log : got :
+got
+Matrix.F32x.3x3 ::
+  +14 +23 +18
+  +23 +41 +30
+  +18 +30 +36
+*/
+console.log( `expected :\n${ expected }` );
+/* log : expected :
+Matrix.F32x.3x3 ::
+  +14 +23 +18
+  +23 +41 +30
+  +18 +30 +36
+*/

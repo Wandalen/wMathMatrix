@@ -19,8 +19,9 @@ var matrix3 = _.Matrix.MakeCol
 ]);
 
 var dst = _.Matrix.Mul( null, [ matrix1, matrix2, matrix3 ] );
-console.log( `dst :\n${ dst.toStr() }` );
+console.log( `dst :\n${ dst }` );
 /* log : dst :
-+11
--3
+Matrix.Array.2x1 ::
+  +11
+  -3
 */

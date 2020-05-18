@@ -5,15 +5,17 @@ var matrix = _.Matrix.MakeSquare
   1, 2,
   3, 4,
 ]);
-console.log( `matrix :\n${ matrix.toStr() }` );
+console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
-+1, +2,
-+3, +4
+Matrix.Array.2x2 ::
+  +1 +2
+  +3 +4
 */
 matrix.eSet( 0, [ 3, 5 ] );
-console.log( `changed matrix :\n${ matrix.toStr() }` );
+console.log( `changed matrix :\n${ matrix }` );
 /* log : changed matrix :
-+3, +2,
-+5, +4
+Matrix.Array.2x2 ::
+  +3 +2
+  +5 +4
 */
 
