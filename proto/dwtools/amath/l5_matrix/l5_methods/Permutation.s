@@ -1,4 +1,4 @@
-(function _Permutating_s_() {
+(function _Permutation_s_() {
 
 'use strict';
 
