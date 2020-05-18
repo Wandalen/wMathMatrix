@@ -2357,6 +2357,8 @@ let Statics = /* qqq : split static routines. ask how */
 
   ConvertToClass,
 
+  /* qqq2 : implement please FromCol, FromRow */
+
   FromVector, /* zzz : deprecate */
   FromScalar,
   FromScalarForReading,
