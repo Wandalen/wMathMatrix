@@ -1170,7 +1170,7 @@ function _determinantWithLu()
   let l = self.dims[ 0 ];
   let clone = self.cloneExtending({ ... self.bufferExport({ asFloat : 1, dstObject : null, restriding : null }) });
 
-  let triangulated = clone.triangulateLuPivoting();
+  let triangulated = clone.triangulateLuPermutating();
   let result = clone.diagonalGet().reduceToProduct();
 
   // logger.log( self.toStr() );
@@ -1178,8 +1178,8 @@ function _determinantWithLu()
   // logger.log( `npermutations : ${triangulated.npermutations}` );
   // logger.log( `nRowPermutations : ${triangulated.nRowPermutations}` );
   // logger.log( `nColPermutations : ${triangulated.nColPermutations}` );
-  // logger.log( `pivots[ 0 ] : ${triangulated.pivots[ 0 ].join( ' ' )}` );
-  // logger.log( `pivots[ 1 ] : ${triangulated.pivots[ 1 ].join( ' ' )}` );
+  // logger.log( `permutates[ 0 ] : ${triangulated.permutates[ 0 ].join( ' ' )}` );
+  // logger.log( `permutates[ 1 ] : ${triangulated.permutates[ 1 ].join( ' ' )}` );
 
   if( triangulated.npermutations % 2 === 1 )
   result *= -1;
@@ -1468,13 +1468,13 @@ function _determinantWithPermutation()
 //   _.assert( m.buffer === self.buffer );
 //   // let x = _.vectorAdapter.from( _.dup( 1, m.length ) );
 //
-//   let pivots = m.triangulateGausianPivoting(); debugger;
+//   let permutates = m.triangulateGausianPermutating(); debugger;
 //
 //   return 0;
 //
 //   // let o2 = { m, x };
-//   // o2.onPivot = this._pivotRook;
-//   // o2.pivotingBackward = 0;
+//   // o2.onPermutate = this._permutateRook;
+//   // o2.permutatingBackward = 0;
 //   // self._SolveWithGaussJordan( o2 );
 //   //
 //   // logger.log( self.toStr() );
@@ -1487,18 +1487,18 @@ function _determinantWithPermutation()
 //
 //   // return 0;
 //
-//   // let pivots = m.triangulateLuPivoting();
+//   // let permutates = m.triangulateLuPermutating();
 //   //
 //   // _.assert( m.ncol == m.nrow ); debugger;
 //   //
 //   // let x = _.vectorAdapter.from( _.dup( 0, m.length ) );
 //   // let y = _.vectorAdapter.from( _.dup( 1, m.length ) );
 //   //
-//   // y = Self.VectorPivotForward( y, pivots[ 0 ] );
+//   // y = Self.VectorPermutateForward( y, permutates[ 0 ] );
 //   // x = this.SolveTriangleLowerNormal( x, m, y );
 //   // x = this.SolveTriangleUpper( x, m, x );
 //   //
-//   // Self.VectorPivotBackward( x, pivots[ 1 ] );
+//   // Self.VectorPermutateBackward( x, permutates[ 1 ] );
 //   //
 //   // debugger;
 //   // let result = x.reduceToProduct();

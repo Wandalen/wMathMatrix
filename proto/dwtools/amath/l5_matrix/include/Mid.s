@@ -25,7 +25,7 @@ if( typeof module !== 'undefined' )
   require( '../l5_methods/Iterator.s' );
   require( '../l5_methods/Maker.s' );
   require( '../l5_methods/Operation.s' );
-  require( '../l5_methods/Pivoting.s' );
+  require( '../l5_methods/Permutation.s' );
   require( '../l5_methods/Solver.s' );
   require( '../l5_methods/Transformation.s' );
   require( '../l5_methods/Util.s' );

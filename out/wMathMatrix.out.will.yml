@@ -195,7 +195,7 @@ module:
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Iterator.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Maker.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Operation.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Pivoting.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Permutation.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Solver.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Transformation.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Util.s

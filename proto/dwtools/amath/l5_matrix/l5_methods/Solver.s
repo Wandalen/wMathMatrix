@@ -33,11 +33,11 @@ function _triangulateGausian( o )
   _.routineOptions( _triangulateGausian, o );
 
   // yyy
-  // if( o.onPivot && !o.pivots )
+  // if( o.onPermutate && !o.permutates )
   // {
-  //   o.pivots = [];
+  //   o.permutates = [];
   //   for( let i = 0 ; i < self.dims.length ; i += 1 )
-  //   o.pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
+  //   o.permutates[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
   // }
 
   if( o.y !== null )
@@ -48,13 +48,13 @@ function _triangulateGausian( o )
   _.assert( !o.y || o.y.dims[ 0 ] === self.dims[ 0 ] );
 
   let popts;
-  if( o.onPivot )
+  if( o.onPermutate )
   {
-    popts = o.onPivotPre( o.onPivot, [ o ] );
+    popts = o.onPermutatePre( o.onPermutate, [ o ] );
   }
-  // if( o.onPivot )
+  // if( o.onPermutate )
   // {
-  //   // popts = _.mapOnly( o, o.onPivot.defaults );
+  //   // popts = _.mapOnly( o, o.onPermutate.defaults );
   //   // popts.m = self;
   // }
 
@@ -64,10 +64,10 @@ function _triangulateGausian( o )
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
-    if( o.onPivot )
+    if( o.onPermutate )
     {
       popts.lineIndex = r1;
-      o.onPivot( popts );
+      o.onPermutate( popts );
     }
 
     let row1 = self.rowGet( r1 );
@@ -93,13 +93,13 @@ function _triangulateGausian( o )
   else for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
-    // if( o.onPivot )
-    // o.onPivot.call( self, r1, o );
+    // if( o.onPermutate )
+    // o.onPermutate.call( self, r1, o );
 
-    if( o.onPivot )
+    if( o.onPermutate )
     {
       popts.lineIndex = r1;
-      o.onPivot( popts );
+      o.onPermutate( popts );
     }
 
     let row1 = self.rowGet( r1 );
@@ -119,15 +119,15 @@ function _triangulateGausian( o )
 
   }
 
-  return o.pivots;
+  return o.permutates;
 }
 
 _triangulateGausian.defaults =
 {
   y : null,
-  onPivot : null,
-  onPivotPre : null,
-  pivots : null,
+  onPermutate : null,
+  onPermutatePre : null,
+  permutates : null,
   normal : 0,
 }
 
@@ -225,7 +225,7 @@ function triangulateGausianNormal( y )
 //
 
 /**
- * Method triangulateGausianPivoting() provides triangulation with pivoting by Gauss method.
+ * Method triangulateGausianPermutating() provides triangulation with permutating by Gauss method.
  * Optionally this transformation can be applied to vector {-y-}.
  *
  * @example
@@ -237,34 +237,34 @@ function triangulateGausianNormal( y )
  * ]);
  *
  * var y = _.Matrix.MakeCol([ +1, +3, +1 ]);
- * var pivots = m.triangulateGausianPivoting( y );
+ * var permutates = m.triangulateGausianPermutating( y );
  * test.identical( m, em );
  * console.log( m.toStr() );
  * // log :
  * // +3, +2, +1, +1,
  * // +0, +4, +2, +0,
  * // +0, +0, +0, +0,
- * console.log( pivots );
+ * console.log( permutates );
  * // log : [ [ 0, 1, 2 ], [ 1, 3, 2, 0 ] ]
  *
  * @param { Matrix } y - Column vector to transform.
  * @returns { Matrix } - Returns triangulated vector, performs triangulation of the matrix.
- * @method triangulateGausianPivoting
+ * @method triangulateGausianPermutating
  * @throws { Error } If vector {-y-} has length different to number or rows in current matrix.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function triangulateGausianPivoting( y )
+function triangulateGausianPermutating( y )
 {
   let self = this;
   let o = Object.create( null );
   o.y = y;
-  o.onPivot = self._PivotRook;
-  o.onPivotPre = self._PivotRook_pre;
-  _.assert( _.routineIs( o.onPivot ) );
-  _.assert( _.routineIs( o.onPivotPre ) );
+  o.onPermutate = self._PermutateRook;
+  o.onPermutatePre = self._PermutateRook_pre;
+  _.assert( _.routineIs( o.onPermutate ) );
+  _.assert( _.routineIs( o.onPermutatePre ) );
   return self._triangulateGausian( o );
 }
 
@@ -385,8 +385,8 @@ function triangulateLuNormal()
 //
 
 /**
- * Method triangulateLuPivoting() provides triangulation of matrix with pivoting by Lu method.
- * Optionally, it accepts vector of pivots {-pivots-}.
+ * Method triangulateLuPermutating() provides triangulation of matrix with permutating by Lu method.
+ * Optionally, it accepts vector of permutates {-permutates-}.
  *
  * @example
  * var m = _.Matrix.Make([ 3, 3 ]).copy
@@ -396,45 +396,45 @@ function triangulateLuNormal()
  *   -2, -11, -11,
  * ]);
  *
- * m.triangulateLuPivoting();
+ * m.triangulateLuPermutating();
  * console.log( m.toStr() );
  * // log :
  * // +5.000, -15.000, +8.000,
  * // -0.400, -17.000, -7.800,
  * // -0.200, -0.059,  -0.059,
  *
- * @returns { Long } - Returns long with pivots, provides triangulation of matrix.
- * @method triangulateLuPivoting
+ * @returns { Long } - Returns long with permutates, provides triangulation of matrix.
+ * @method triangulateLuPermutating
  * @throws { Error } If vector {-y-} has length different to number or rows in current matrix.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function triangulateLuPivoting( pivots )
+function triangulateLuPermutating( permutates )
 {
   let self = this;
   let nrow = self.nrow;
   let ncol = Math.min( self.ncol, nrow );
 
   // yyy
-  // if( !pivots )
+  // if( !permutates )
   // {
-  //   pivots = [];
+  //   permutates = [];
   //   for( let i = 0 ; i < self.dims.length ; i += 1 )
-  //   pivots[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
+  //   permutates[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
   // }
   //
   // let popts = Object.create( null );
-  // popts.pivots = pivots;
+  // popts.permutates = permutates;
 
-  let popts = self._PivotRook_pre( self._pivotRook, [{ m : self, pivots }] );
+  let popts = self._PermutateRook_pre( self._permutateRook, [{ m : self, permutates }] );
 
   /* */
 
   _.assert( self.dims.length === 2 );
-  _.assert( _.arrayIs( popts.pivots ) );
-  _.assert( popts.pivots.length === 2 );
+  _.assert( _.arrayIs( popts.permutates ) );
+  _.assert( popts.permutates.length === 2 );
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   /* */
@@ -445,7 +445,7 @@ function triangulateLuPivoting( pivots )
   {
 
     popts.lineIndex = r1;
-    self._pivotRook( popts );
+    self._permutateRook( popts );
 
     let row1 = self.rowGet( r1 );
     let scaler1 = row1.eGet( r1 );
@@ -467,7 +467,7 @@ function triangulateLuPivoting( pivots )
   popts.matrix = self;
 
   return popts;
-  // return pivots;
+  // return permutates;
 }
 
 // --
@@ -503,7 +503,7 @@ function triangulateLuPivoting( pivots )
 function Solve( x, m, y )
 {
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-  return this.SolveWithTrianglesPivoting( x, m, y )
+  return this.SolveWithTrianglesPermutating( x, m, y )
 }
 
 //
@@ -590,13 +590,13 @@ function SolveWithGausian()
 //
 
 /**
- * Static routine SolveWithGausianPivoting() solves system of equations by Gaussian method with pivoting.
+ * Static routine SolveWithGausianPermutating() solves system of equations by Gaussian method with permutating.
  *
  * @example
  * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
  * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
  *
- * var matrixX = _.Matrix.SolveWithGausianPivoting( null, matrixA, matrixB );
+ * var matrixX = _.Matrix.SolveWithGausianPermutating( null, matrixA, matrixB );
  *
  * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
  * // log :
@@ -607,7 +607,7 @@ function SolveWithGausian()
  * @param { Matrix } m - Matrix of coefficients.
  * @param { Matrix } y - Matrix of results.
  * @returns { Matrix } - Returns the matrix with unknowns.
- * @method SolveWithGausianPivoting
+ * @method SolveWithGausianPermutating
  * @throws { Error } If dimensions of {-x-} and {-y-} are different.
  * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
  * @class Matrix
@@ -615,13 +615,13 @@ function SolveWithGausian()
  * @module Tools/math/Matrix
  */
 
-function SolveWithGausianPivoting()
+function SolveWithGausianPermutating()
 {
   let o = this._Solve_pre( arguments );
 
-  let pivots = o.m.triangulateGausianPivoting( o.x );
+  let permutates = o.m.triangulateGausianPermutating( o.x );
   this.SolveTriangleUpper( o.x, o.m, o.x );
-  Self.VectorPivotBackward( o.x, pivots[ 1 ] );
+  Self.VectorPermutateBackward( o.x, permutates[ 1 ] );
 
   return o.ox;
 }
@@ -640,44 +640,21 @@ function _SolveWithGaussJordan( o )
   o.y = o.x;
 
   let popts;
-  if( o.onPivot )
+  if( o.onPermutate )
   {
-    popts = o.onPivotPre( o.onPivot, [ o ] );
-    // popts = _.mapOnly( o, o.onPivot.defaults );
-    // xxx
-    // popts.
-    //
-    // m : null,
-    // y : null,
-    // pivots : null,
-    // lineIndex : null,
-    // npermutations : 0,
-    // nRowPermutations : 0,
-    // nColPermutations : 0,
-    _.assert( popts.pivots === o.pivots );
+    popts = o.onPermutatePre( o.onPermutate, [ o ] );
+    _.assert( popts.permutates === o.permutates );
   }
-
-  /* */
-
-  // if( o.onPivot && !o.pivots ) /* xxx : remove other such code */
-  // {
-  //   o.pivots = [];
-  //   for( let i = 0 ; i < o.m.dims.length ; i += 1 )
-  //   o.pivots[ i ] = _.longFromRange([ 0, o.m.dims[ i ] ]);
-  // }
 
   /* */
 
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
 
-    // if( o.onPivot )
-    // o.onPivot.call( o.m, r1, o );
-
-    if( o.onPivot )
+    if( o.onPermutate )
     {
       popts.lineIndex = r1;
-      o.onPivot( popts );
+      o.onPermutate( popts );
     }
 
     let row1 = o.m.rowGet( r1 );
@@ -712,16 +689,15 @@ function _SolveWithGaussJordan( o )
   /* */
 
   debugger;
-  if( o.onPivot && o.pivotingBackward )
+  if( o.onPermutate && o.permutatingBackward )
   {
     debugger;
-    Self.VectorPivotBackward( o.x, popts.pivots[ 1 ] );
-    /*o.m.pivotBackward( o.pivots );*/
+    Self.VectorPermutateBackward( o.x, popts.permutates[ 1 ] );
+    /*o.m.permutateBackward( o.permutates );*/
   }
 
   /* */
 
-  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -732,10 +708,9 @@ _SolveWithGaussJordan.defaults =
   y : null,
   ox : null,
   oy : null,
-  // pivoting : 1,
-  pivotingBackward : 1,
-  onPivot : null,
-  onPivotPre : null,
+  permutatingBackward : 1,
+  onPermutate : null,
+  onPermutatePre : null,
 }
 
 //
@@ -776,13 +751,13 @@ function SolveWithGaussJordan()
 //
 
 /**
- * Static routine SolveWithGaussJordanPivoting() solves system of equations by Gauss-Jordan method with pivoting.
+ * Static routine SolveWithGaussJordanPermutating() solves system of equations by Gauss-Jordan method with permutating.
  *
  * @example
  * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
  * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
  *
- * var matrixX = _.Matrix.SolveWithGaussJordanPivoting( null, matrixA, matrixB );
+ * var matrixX = _.Matrix.SolveWithGaussJordanPermutating( null, matrixA, matrixB );
  *
  * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
  * // log :
@@ -795,21 +770,21 @@ function SolveWithGaussJordan()
  * @returns { Matrix } - Returns the matrix with unknowns.
  * @throws { Error } If dimensions of {-x-} and {-y-} are different.
  * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithGaussJordanPivoting
+ * @function SolveWithGaussJordanPermutating
  * @static
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function SolveWithGaussJordanPivoting()
+function SolveWithGaussJordanPermutating()
 {
   let o = this._Solve_pre( arguments );
-  o.onPivot = this._PivotRook;
-  o.onPivotPre = this._PivotRook_pre;
-  o.pivotingBackward = 1;
-  _.assert( _.routineIs( o.onPivot ) );
-  _.assert( _.routineIs( o.onPivotPre ) );
+  o.onPermutate = this._PermutateRook;
+  o.onPermutatePre = this._PermutateRook_pre;
+  o.permutatingBackward = 1;
+  _.assert( _.routineIs( o.onPermutate ) );
+  _.assert( _.routineIs( o.onPermutatePre ) );
   return this._SolveWithGaussJordan( o );
 }
 
@@ -923,14 +898,13 @@ function SolveWithTriangles( x, m, y )
   o.x = this.SolveTriangleLower( o.x, o.m, o.y );
   o.x = this.SolveTriangleUpperNormal( o.x, o.m, o.x );
 
-  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
 //
 
 /**
- * Static routine SolveWithTrianglesPivoting() solves system of equations by triangles method with pivoting.
+ * Static routine SolveWithTrianglesPermutating() solves system of equations by triangles method with permutating.
  *
  * @example
  * var m = _.Matrix.MakeSquare
@@ -941,7 +915,7 @@ function SolveWithTriangles( x, m, y )
  * ]);
  *
  * var y = [ 7, 4, -10 ];
- * var x = _.Matrix.SolveWithTrianglesPivoting( null, m, y );
+ * var x = _.Matrix.SolveWithTrianglesPermutating( null, m, y );
  * console.log( x );
  * // log : [ -1, -2, +3 ]
  *
@@ -951,28 +925,27 @@ function SolveWithTriangles( x, m, y )
  * @returns { Matrix } - Returns the matrix with unknowns.
  * @throws { Error } If dimensions of {-x-} and {-y-} are different.
  * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithTrianglesPivoting
+ * @function SolveWithTrianglesPermutating
  * @static
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function SolveWithTrianglesPivoting( x, m, y )
+function SolveWithTrianglesPermutating( x, m, y )
 {
 
   let o = this._Solve_pre( arguments );
-  let triangulated = m.triangulateLuPivoting();
+  let triangulated = m.triangulateLuPermutating();
 
-  o.y = Self.VectorPivotForward( o.y, triangulated.pivots[ 0 ] );
+  o.y = Self.VectorPermutateForward( o.y, triangulated.permutates[ 0 ] );
 
   o.x = this.SolveTriangleLowerNormal( o.x, o.m, o.y );
   o.x = this.SolveTriangleUpper( o.x, o.m, o.x );
 
-  Self.VectorPivotBackward( o.x, triangulated.pivots[ 1 ] );
-  Self.VectorPivotBackward( o.y, triangulated.pivots[ 0 ] );
+  Self.VectorPermutateBackward( o.x, triangulated.permutates[ 1 ] );
+  Self.VectorPermutateBackward( o.y, triangulated.permutates[ 0 ] );
 
-  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -1281,7 +1254,7 @@ function SolveTriangleUpperNormal( x, m, y )
  * ]);
  *
  * var y = _.Matrix.MakeCol([ 0, 3, 3 ]);
- * var r = _.Matrix.SolveGeneral({ m, y, pivoting : 0 });
+ * var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
  * console.log( r.toStr() );
  * // log : {
  * //   nsolutions : Infinity,
@@ -1300,7 +1273,7 @@ function SolveTriangleUpperNormal( x, m, y )
  * @param { Matrix } o.m - Matrix of coefficients.
  * @param { Matrix } o.y - Matrix of results.
  * @param { Number } o.kernel - Number of kernels.
- * @param { BoolLike } o.pivoting - Enables pivoting.
+ * @param { BoolLike } o.permutating - Enables permutating.
  * @returns { Map } - Returns maps with solved system of equations.
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If options map {-o-} has extra options.
@@ -1349,12 +1322,12 @@ function SolveGeneral( o )
   /* Solve */
 
   let optionsForMethod;
-  if( o.pivoting )
+  if( o.permutating )
   {
     optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
-    optionsForMethod.onPivot = this._PivotRook;
-    optionsForMethod.onPivotPre = this._PivotRook_pre;
-    optionsForMethod.pivotingBackward = 0;
+    optionsForMethod.onPermutate = this._PermutateRook;
+    optionsForMethod.onPermutatePre = this._PermutateRook_pre;
+    optionsForMethod.permutatingBackward = 0;
     o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }
   else
@@ -1392,11 +1365,11 @@ function SolveGeneral( o )
     }
   }
 
-  if( o.pivoting )
+  if( o.permutating )
   {
-    Self.VectorPivotBackward( result.base, optionsForMethod.pivots[ 1 ] );
-    result.kernel.pivotBackward([ optionsForMethod.pivots[ 1 ], optionsForMethod.pivots[ 0 ] ]);
-    o.m.pivotBackward( optionsForMethod.pivots );
+    Self.VectorPermutateBackward( result.base, optionsForMethod.permutates[ 1 ] );
+    result.kernel.permutateBackward([ optionsForMethod.permutates[ 1 ], optionsForMethod.permutates[ 0 ] ]);
+    o.m.permutateBackward( optionsForMethod.permutates );
   }
 
   return result;
@@ -1408,7 +1381,7 @@ SolveGeneral.defaults =
   m : null,
   y : null,
   kernel : null,
-  pivoting : 1,
+  permutating : 1,
 }
 
 //
@@ -1473,92 +1446,48 @@ function invert( dst )
 // //
 //
 // /**
-//  * Method inverted() inverts copy of current matrix by Gauss-Jordan method.
+//  * Method copyAndInvert() inverts current matrix by Gauss-Jordan method.
 //  *
 //  * @example
-//  * var m = _.Matrix.Make([ 3, 3 ]).copy
+//  * var m = _.Matrix.MakeSquare( 3 );
+//  * var src = _.Matrix.Make( [ 3, 3 ] ).copy
 //  * ([
 //  *   +2, -3, +4,
 //  *   +2, -2, +3,
 //  *   +6, -7, +9,
 //  * ]);
 //  *
-//  * var got = m.inverted();
-//  * console.log( got.toStr() );
+//  * m.copyAndInvert( src );
+//  * console.log( m.toStr() );
+//  * // log :
 //  * // -1.5, +0.5, +0.5,
 //  * // +0,   +3,   -1,
 //  * // +1,   +2,   -1,
-//  * console.log( got !== m );
-//  * // log : true
 //  *
-//  * @returns { Matrix } - Returns a copy of the matrix with inverted values.
-//  * @method inverted
+//  * @param { Long|VectorAdapter|Matrix } - Source buffer.
+//  * @returns { Matrix } - Returns the matrix with inverted values of source buffer.
+//  * @method copyAndInvert
 //  * @throws { Error } If number of dimensions is more then two.
 //  * @throws { Error } If current matrix is not a square matrix.
-//  * @throws { Error } If arguments are passed.
+//  * @throws { Error } If arguments.length is not equal to one.
 //  * @class Matrix
 //  * @namespace wTools
 //  * @module Tools/math/Matrix
 //  */
 //
-// function inverted()
+// function copyAndInvert( src )
 // {
 //   let self = this;
 //
 //   _.assert( self.dims.length === 2 );
 //   _.assert( self.isSquare() );
-//   _.assert( arguments.length === 0, 'Expects no arguments' );
+//   _.assert( arguments.length === 1, 'Expects single argument' );
 //
-//   let clone = self.clone();
-//   let result = Self.SolveWithGaussJordan( null, clone, self.Self.MakeIdentity( self.dims[ 0 ] ) );
-//   return result;
+//   self.copy( src );
+//   self.invert();
+//
+//   return self;
 // }
-
-//
-
-/**
- * Method copyAndInvert() inverts current matrix by Gauss-Jordan method.
- *
- * @example
- * var m = _.Matrix.MakeSquare( 3 );
- * var src = _.Matrix.Make( [ 3, 3 ] ).copy
- * ([
- *   +2, -3, +4,
- *   +2, -2, +3,
- *   +6, -7, +9,
- * ]);
- *
- * m.copyAndInvert( src );
- * console.log( m.toStr() );
- * // log :
- * // -1.5, +0.5, +0.5,
- * // +0,   +3,   -1,
- * // +1,   +2,   -1,
- *
- * @param { Long|VectorAdapter|Matrix } - Source buffer.
- * @returns { Matrix } - Returns the matrix with inverted values of source buffer.
- * @method copyAndInvert
- * @throws { Error } If number of dimensions is more then two.
- * @throws { Error } If current matrix is not a square matrix.
- * @throws { Error } If arguments.length is not equal to one.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function copyAndInvert( src )
-{
-  let self = this;
-
-  _.assert( self.dims.length === 2 );
-  _.assert( self.isSquare() );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  self.copy( src );
-  self.invert();
-
-  return self;
-}
 
 // --
 // relations
@@ -1574,15 +1503,15 @@ let Statics = /* qqq : split static routines. ask how */
   _Solve_pre,
 
   SolveWithGausian,
-  SolveWithGausianPivoting,
+  SolveWithGausianPermutating,
 
   _SolveWithGaussJordan,
   SolveWithGaussJordan,
-  SolveWithGaussJordanPivoting,
+  SolveWithGaussJordanPermutating,
   InvertWithGaussJordan,
 
   SolveWithTriangles,
-  SolveWithTrianglesPivoting,
+  SolveWithTrianglesPermutating,
 
   _SolveTriangleWithRoutine,
   SolveTriangleLower,
@@ -1613,11 +1542,11 @@ let Extension =
   _triangulateGausian,
   triangulateGausian,
   triangulateGausianNormal,
-  triangulateGausianPivoting,
+  triangulateGausianPermutating,
 
   triangulateLu,
   triangulateLuNormal,
-  triangulateLuPivoting,
+  triangulateLuPermutating,
 
   // Solver
 
@@ -1626,15 +1555,15 @@ let Extension =
   _Solve_pre,
 
   SolveWithGausian,
-  SolveWithGausianPivoting,
+  SolveWithGausianPermutating,
 
   _SolveWithGaussJordan,
   SolveWithGaussJordan,
-  SolveWithGaussJordanPivoting,
+  SolveWithGaussJordanPermutating,
   InvertWithGaussJordan,
 
   SolveWithTriangles,
-  SolveWithTrianglesPivoting,
+  SolveWithTrianglesPermutating,
 
   _SolveTriangleWithRoutine,
   SolveTriangleLower,
@@ -1645,8 +1574,7 @@ let Extension =
   SolveGeneral,
 
   invert,
-  // inverted,
-  copyAndInvert,
+  // copyAndInvert,
 
   //
 
