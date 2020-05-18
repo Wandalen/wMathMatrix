@@ -1,4 +1,4 @@
-(function _Pivoting_s_() { /* xxx : rename */
+(function _Permutating_s_() {
 
 'use strict';
 
@@ -10,7 +10,7 @@ let Self = _.Matrix;
 // implementation
 // --
 
-function _pivotDimension( d, current, expected )
+function _permutateDimension( d, current, expected )
 {
   let self = this;
 
@@ -31,42 +31,42 @@ function _pivotDimension( d, current, expected )
 //
 
 /**
- * Method pivotForward() pivots elements of the matrix.
- * Pivoting provides by swapping of elements in declared order.
+ * Method permutateForward() permutates elements of the matrix.
+ * Permutating provides by swapping of elements in declared order.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.pivotForward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
+ * var got = matrix.permutateForward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
  * console.log( got.toStr() );
  * // log :
  * // +5, +4, +6,
  * // +2, +1, +3,
  * // +8, +7, +9,
  *
- * @param { Array } pivots - Array than defines the order of pivoting.
- * @method pivotForward
+ * @param { Array } permutates - Array than defines the order of permutating.
+ * @method permutateForward
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If pivots.length is not equal to number of dimensions.
- * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @throws { Error } If permutates.length is not equal to number of dimensions.
+ * @throws { Error } If {-permutates-} element defines wrong permutating.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function pivotForward( pivots )
+function permutateForward( permutates )
 {
   let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( pivots.length === self.dims.length );
+  _.assert( permutates.length === self.dims.length );
 
-  for( let d = 0 ; d < pivots.length ; d++ )
+  for( let d = 0 ; d < permutates.length ; d++ )
   {
     let current = _.longFromRange([ 0, self.dims[ d ] ]);
-    let expected = pivots[ d ];
+    let expected = permutates[ d ];
     if( expected === null )
     continue;
-    self._pivotDimension( d, current, expected )
+    self._permutateDimension( d, current, expected )
   }
 
   return self;
@@ -75,43 +75,43 @@ function pivotForward( pivots )
 //
 
 /**
- * Method pivotBackward() pivots elements of the matrix.
- * Pivoting provides by swapping of elements in declared position.
+ * Method permutateBackward() permutates elements of the matrix.
+ * Permutating provides by swapping of elements in declared position.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.pivotBackward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
+ * var got = matrix.permutateBackward( [ [ 1, 0, 2 ], [ 1, 0, 2 ] ] );
  * console.log( got.toStr() );
  * // log :
  * // +5, +4, +6,
  * // +2, +1, +3,
  * // +8, +7, +9,
  *
- * @param { Array } pivots - Array than defines the order of pivoting.
- * @method pivotBackward
+ * @param { Array } permutates - Array than defines the order of permutating.
+ * @method permutateBackward
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If pivots.length is not equal to number of dimensions.
- * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @throws { Error } If permutates.length is not equal to number of dimensions.
+ * @throws { Error } If {-permutates-} element defines wrong permutating.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function pivotBackward( pivots )
+function permutateBackward( permutates )
 {
   let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( pivots.length === self.dims.length );
+  _.assert( permutates.length === self.dims.length );
 
-  for( let d = 0 ; d < pivots.length ; d++ )
+  for( let d = 0 ; d < permutates.length ; d++ )
   {
-    let current = pivots[ d ];
+    let current = permutates[ d ];
     let expected = _.longFromRange([ 0, self.dims[ d ] ]);
     if( current === null )
     continue;
     current = current.slice();
-    self._pivotDimension( d, current, expected )
+    self._permutateDimension( d, current, expected )
   }
 
   return self;
@@ -119,7 +119,7 @@ function pivotBackward( pivots )
 
 //
 
-function _vectorPivotDimension( v, current, expected )
+function _VectorPermutateDimension( v, current, expected )
 {
   let self = this;
 
@@ -140,44 +140,44 @@ function _vectorPivotDimension( v, current, expected )
 //
 
 /**
- * Static routine VectorPivotForward() pivots elements of the vector {-vector-}.
- * If {-vector-} is a Matrix instance, then routine pivots the rows.
+ * Static routine VectorPermutateForward() permutates elements of the vector {-vector-}.
+ * If {-vector-} is a Matrix instance, then routine permutates the rows.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.VectorPivotForward( matrix, [ 1, 0, 2 ] );
+ * var got = matrix.VectorPermutateForward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
  * // log :
  * // +4, +5, +6,
  * // +1, +2, +3,
  * // +7, +8, +9,
  *
- * @param { Array } pivots - Array than defines the order of pivoting.
+ * @param { Array } permutates - Array than defines the order of permutating.
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If {-pivots-} is not an Array.
- * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @throws { Error } If {-permutates-} is not an Array.
+ * @throws { Error } If {-permutates-} element defines wrong permutating.
  * @static
- * @function VectorPivotForward
+ * @function VectorPermutateForward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function VectorPivotForward( vector, pivot )
+function VectorPermutateForward( vector, permutate )
 {
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.arrayIs( pivot ) );
+  _.assert( _.arrayIs( permutate ) );
 
   if( _.matrixIs( vector ) )
-  return vector.pivotForward([ pivot, null ]);
+  return vector.permutateForward([ permutate, null ]);
 
   let original = vector;
   vector = this.vectorAdapter.from( vector );
   let current = _.longFromRange([ 0, vector.length ]);
-  let expected = pivot;
+  let expected = permutate;
   if( expected === null )
   return vector;
-  this._vectorPivotDimension( vector, current, expected )
+  this._VectorPermutateDimension( vector, current, expected )
 
   return original;
 }
@@ -185,101 +185,81 @@ function VectorPivotForward( vector, pivot )
 //
 
 /**
- * Static routine VectorPivotBackward() pivots elements of the vector {-vector-}.
- * If {-vector-} is a Matrix instance, then routine pivots the rows.
+ * Static routine VectorPermutateBackward() permutates elements of the vector {-vector-}.
+ * If {-vector-} is a Matrix instance, then routine permutates the rows.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.VectorPivotBackward( matrix, [ 1, 0, 2 ] );
+ * var got = matrix.VectorPermutateBackward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
  * // log :
  * // +4, +5, +6,
  * // +1, +2, +3,
  * // +7, +8, +9,
  *
- * @param { Array } pivots - Array than defines the order of pivoting.
+ * @param { Array } permutates - Array than defines the order of permutating.
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If {-pivots-} is not an Array.
- * @throws { Error } If {-pivots-} element defines wrong pivoting.
+ * @throws { Error } If {-permutates-} is not an Array.
+ * @throws { Error } If {-permutates-} element defines wrong permutating.
  * @static
- * @function VectorPivotBackward
+ * @function VectorPermutateBackward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function VectorPivotBackward( vector, pivot )
+function VectorPermutateBackward( vector, permutate )
 {
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.arrayIs( pivot ) );
+  _.assert( _.arrayIs( permutate ) );
 
   if( _.matrixIs( vector ) )
-  return vector.pivotBackward([ pivot, null ]);
+  return vector.permutateBackward([ permutate, null ]);
 
   let original = vector;
   vector = this.vectorAdapter.from( vector );
-  let current = pivot.slice();
+  let current = permutate.slice();
   let expected = _.longFromRange([ 0, vector.length ]);
   if( current === null )
   return vector;
-  this._vectorPivotDimension( vector, current, expected )
+  this._VectorPermutateDimension( vector, current, expected )
 
   return original;
 }
 
 //
 
-function _PivotRook_pre( routine, args )
+function _PermutateRook_pre( routine, args )
 {
   let o1 = args[ 0 ];
-  // let o2 = _.mapOnly( o1, routine.defaults );
   let o2 = o1;
 
-  // _.routineOptions( routine, o2 );
   _.mapSupplement( o2, routine.defaults );
 
-  if( !o2.pivots )
+  if( !o2.permutates )
   {
-    o2.pivots = [];
+    o2.permutates = [];
     for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
-    o2.pivots[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
+    o2.permutates[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
   }
 
   _.assert( arguments.length === 2 );
   _.assert( args.length === 1 );
-  _.assert( _.longIs( o2.pivots ) );
+  _.assert( _.longIs( o2.permutates ) );
   _.assert( !!o2.m );
-
-  // if( o.onPivot )
-  // {
-  //   popts = _.mapOnly( o, o.onPivot.defaults );
-  //
-  //   // xxx
-  //   // popts.
-  //   //
-  //   // m : null,
-  //   // y : null,
-  //   // pivots : null,
-  //   // lineIndex : null,
-  //   // npermutations : 0,
-  //   // nRowPermutations : 0,
-  //   // nColPermutations : 0,
-  //
-  // }
 
   return o2;
 }
 
 //
 
-/* aaa2 : make pre-body-fication, please */ /* Dmytro : implemented */
-function _PivotRook_body( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
+function _PermutateRook_body( o )
 {
   let proto = Self;
 
   _.assert( arguments.length === 1 );
   _.assert( o.lineIndex >= 0 );
-  _.assertMapHasAll( o, _PivotRook.defaults );
+  _.assertMapHasAll( o, _PermutateRook.defaults );
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
@@ -291,7 +271,7 @@ function _PivotRook_body( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
     let i2 = maxr.index + o.lineIndex;
     if( o.lineIndex === i2 )
     return false;
-    _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
+    _.longSwapElements( o.permutates[ 1 ], o.lineIndex, i2 );
     o.m.colsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nColPermutations += 1;
@@ -301,7 +281,7 @@ function _PivotRook_body( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
     let i2 = maxc.index + o.lineIndex;
     if( o.lineIndex === i2 )
     return false;
-    _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
+    _.longSwapElements( o.permutates[ 0 ], o.lineIndex, i2 );
     o.m.rowsSwap( o.lineIndex, i2 );
     if( o.y )
     o.y.rowsSwap( o.lineIndex, i2 );
@@ -312,11 +292,11 @@ function _PivotRook_body( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
   return true;
 }
 
-_PivotRook_body.defaults =
+_PermutateRook_body.defaults =
 {
   m : null,
   y : null,
-  pivots : null,
+  permutates : null,
   lineIndex : null,
   npermutations : 0,
   nRowPermutations : 0,
@@ -325,128 +305,20 @@ _PivotRook_body.defaults =
 
 //
 
-let _PivotRook = _.routineFromPreAndBody( _PivotRook_pre, _PivotRook_body );
-
-// function _pivotRook( i, o )
-// function _PivotRook( o ) /*  aaa2 : cover please */ /* Dmytro : covered */
-// {
-//   let proto = Self;
-//   // let self = this;
-//
-//   // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-//   _.assert( arguments.length === 1 );
-//   // _.assert( o.pivots );
-//   _.assert( o.lineIndex >= 0 );
-//   _.assertMapHasAll( o, _PivotRook.defaults );
-//   // _.assertMapHasOnly( o, _PivotRook.defaults );
-//
-//   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
-//   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
-//   // let value = row1.eGet( 0 );
-//   let maxr = o.m.vectorAdapter.reduceToMaxAbs( row1 );
-//   let maxc = o.m.vectorAdapter.reduceToMaxAbs( col1 );
-//
-//   if( maxr.value > maxc.value )
-//   {
-//     // if( maxr.value === value )
-//     // {
-//     //   debugger;
-//     //   return false;
-//     // }
-//     let i2 = maxr.index + o.lineIndex;
-//     if( o.lineIndex === i2 )
-//     return false;
-//     _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
-//     o.m.colsSwap( o.lineIndex, i2 );
-//     o.npermutations += 1;
-//     o.nColPermutations += 1;
-//   }
-//   else
-//   {
-//     // if( maxc.value === value )
-//     // return false;
-//     let i2 = maxc.index + o.lineIndex;
-//     if( o.lineIndex === i2 )
-//     return false;
-//     _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
-//     o.m.rowsSwap( o.lineIndex, i2 );
-//     if( o.y )
-//     o.y.rowsSwap( o.lineIndex, i2 );
-//     o.npermutations += 1;
-//     o.nRowPermutations += 1;
-//   }
-//
-//   return true;
-// }
-//
-// _PivotRook.defaults =
-// {
-//   m : null,
-//   y : null,
-//   pivots : null,
-//   lineIndex : null,
-//   npermutations : 0,
-//   nRowPermutations : 0,
-//   nColPermutations : 0,
-// }
+let _PermutateRook = _.routineFromPreAndBody( _PermutateRook_pre, _PermutateRook_body );
 
 //
 
-// function _pivotRook( i, o )
-function _pivotRook( o )
+function _permutateRook( o )
 {
   let self = this;
   o.m = self;
-  return self._PivotRook( o );
-
-  // // _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  // _.assert( arguments.length === 1 );
-  // _.assert( o.pivots );
-  // _.assert( o.lineIndex >= 0 );
-  // _.routineOptions( _pivotRook, o );
-  //
-  // let row1 = self.rowGet( o.lineIndex ).review( o.lineIndex );
-  // let col1 = self.colGet( o.lineIndex ).review( o.lineIndex );
-  // let value = row1.eGet( 0 );
-  // let maxr = self.vectorAdapter.reduceToMaxAbs( row1 );
-  // let maxc = self.vectorAdapter.reduceToMaxAbs( col1 );
-  //
-  // if( maxr.value > maxc.value )
-  // {
-  //   // if( maxr.value === value )
-  //   // {
-  //   //   debugger;
-  //   //   return false;
-  //   // }
-  //   let i2 = maxr.index + o.lineIndex;
-  //   if( o.lineIndex === i2 )
-  //   return false;
-  //   _.longSwapElements( o.pivots[ 1 ], o.lineIndex, i2 );
-  //   self.colsSwap( o.lineIndex, i2 );
-  //   o.npermutations += 1;
-  //   o.nColPermutations += 1;
-  // }
-  // else
-  // {
-  //   // if( maxc.value === value )
-  //   // return false;
-  //   let i2 = maxc.index + o.lineIndex;
-  //   if( o.lineIndex === i2 )
-  //   return false;
-  //   _.longSwapElements( o.pivots[ 0 ], o.lineIndex, i2 );
-  //   self.rowsSwap( o.lineIndex, i2 );
-  //   if( o.y )
-  //   o.y.rowsSwap( o.lineIndex, i2 );
-  //   o.npermutations += 1;
-  //   o.nRowPermutations += 1;
-  // }
-  //
-  // return true;
+  return self._PermutateRook( o );
 }
 
-_pivotRook.defaults =
+_permutateRook.defaults =
 {
-  ... _.mapBut( _PivotRook.defaults, [ 'm' ] ),
+  ... _.mapBut( _PermutateRook.defaults, [ 'm' ] ),
 }
 
 // --
@@ -456,13 +328,13 @@ _pivotRook.defaults =
 let Statics =
 {
 
-  /* pivot */
+  /* permutate */
 
-  _vectorPivotDimension,
-  VectorPivotForward,
-  VectorPivotBackward,
-  _PivotRook_pre,
-  _PivotRook,
+  _VectorPermutateDimension,
+  VectorPermutateForward,
+  VectorPermutateBackward,
+  _PermutateRook_pre,
+  _PermutateRook,
 
 }
 
@@ -475,17 +347,17 @@ let Extension =
 
   //
 
-  _pivotDimension,
-  pivotForward,
-  pivotBackward,
+  _permutateDimension,
+  permutateForward,
+  permutateBackward,
 
-  _vectorPivotDimension,
-  VectorPivotForward,
-  VectorPivotBackward,
+  _VectorPermutateDimension,
+  VectorPermutateForward,
+  VectorPermutateBackward,
 
-  _PivotRook_pre,
-  _PivotRook,
-  _pivotRook,
+  _PermutateRook_pre,
+  _PermutateRook,
+  _permutateRook,
 
   //
 

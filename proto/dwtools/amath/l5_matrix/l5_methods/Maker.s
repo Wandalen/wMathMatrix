@@ -21,35 +21,6 @@ _.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --
-// details
-// --
-
-// function _BufferFrom( src )
-// {
-//   let proto = this.Self.prototype;
-//   let dst = src;
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.assert( _.longIs( src ) || _.vectorAdapterIs( src ) );
-//
-//   // yyy : remove
-//   // debugger;
-//
-//   if( _.vectorAdapterIs( dst ) && _.arrayIs( dst._vectorBuffer ) )
-//   {
-//     dst = proto.long.longMake( src.length );
-//     for( let i = 0 ; i < src.length ; i++ )
-//     dst[ i ] = src.eGet( i );
-//   }
-//   else if( _.arrayIs( dst ) )
-//   {
-//     dst = proto.long.longFrom( dst );
-//   }
-//
-//   return dst;
-// }
-
-// --
 // make
 // --
 
@@ -143,7 +114,6 @@ function MakeSquare( buffer )
   let proto = this.Self.prototype;
 
   let length;
-  // if( _.longIs( buffer ) || _.vectorAdapterIs( buffer ) ) /* xxx aaa2 : ! */ /* Dmytro : it is explained */
   if( _.vectorIs( buffer ) )
   length = Math.sqrt( buffer.length );
   else if( _.numberIs( buffer ) )
@@ -164,10 +134,6 @@ function MakeSquare( buffer )
     inputRowMajor = 0;
     buffer = this.long.longMake( scalarsPerMatrix );
   }
-  // else
-  // {
-  //   buffer = proto._BufferFrom( buffer );
-  // }
 
   let result = new proto.constructor
   ({
@@ -530,7 +496,6 @@ function MakeSimilar( m, dims )
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.assert( _.longIs( dims ) );
-  // _.assert( _.arrayIs( dims ) && dims.length === 2 );
 
   /* */
 
@@ -691,55 +656,6 @@ function MakeLine( o )
 
   /* */
 
-  // if( o.zeroing )
-  // {
-  //   o.buffer = length;
-  // }
-
-  // if( _.vectorAdapterIs( o.buffer ) )
-  // {
-  //   length = o.buffer.length;
-  //   o.buffer = proto._BufferFrom( o.buffer );
-  // }
-  //
-  // if( _.vectorAdapterIs( o.buffer ) )
-  // {
-  //
-  //   offset = o.buffer.offset;
-  //   length = o.buffer.length;
-  //
-  //   // if( o.buffer.stride !== 1 )
-  //   // {
-  //   //   _.assert( 0, 'not tested' );
-  //   //   if( o.dimension === 0 )
-  //   //   strides = [ o.buffer.stride, o.buffer.stride ];
-  //   //   else
-  //   //   strides = [ o.buffer.stride, o.buffer.stride ];
-  //   // }
-  //
-  //   // _.assert( 0, 'not tested' );
-  //   // debugger;
-  //   if( o.dimension === 0 )
-  //   strides = [ o.buffer.stride, length ];
-  //   else
-  //   strides = [ length, o.buffer.stride ];
-  //
-  //   o.buffer = o.buffer._vectorBuffer;
-  //
-  // }
-  // else
-  // if( _.numberIs( o.buffer ) )
-  // o.buffer = o.zeroing ? this.long.longMakeZeroed( length ) : this.long.longMake( length );
-  // else if( o.zeroing ) /* aaa2 : suspicious! */ /* Dmytro : it's bad implementation, more implicit logic. The new implementation is given below. */
-  // o.buffer = this.long.longMakeZeroed( length )
-  // // else if( _.argumentsArrayIs( o.buffer ) )
-  // // o.buffer = proto.constructor._BufferFrom( this.long.longDescriptor.make( o.buffer  ));
-  // // else
-  // // o.buffer = proto.constructor._BufferFrom( o.buffer );
-  // else if( _.argumentsArrayIs( o.buffer ) )
-  // o.buffer = proto.long.longMake( o.buffer )
-
-
   if( o.zeroing )
   {
     o.buffer = this.long.longMakeZeroed( length );
@@ -773,7 +689,6 @@ function MakeLine( o )
     strides,
     offset,
     inputRowMajor : 0,
-    // inputRowMajor : 1,
   });
 
   return result;
@@ -1134,17 +1049,15 @@ function FromVector( src )
 {
   let result;
 
-  // _.assert( !this.instanceIs() );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( _.vectorAdapterIs( src ) )
   {
-    result = new this.Self /* aaa : cover for all kind of vector adapters */ /* Dmytro : covered */
+    result = new this.Self
     ({
       buffer : src.length > src._vectorBuffer.length ? _.dup( src._vectorBuffer, src.length ) : src._vectorBuffer, /* Dmytro : duplicates buffer VectorAdapter which is maiden by fromNumber */
       dims : [ src.length, 1 ],
-      offset : src.offset !== 0 ? src.offset : 0, /* Dmytro : missed */
-      // strides : src.stride > 1 ? [ 1, src.stride ] : [ 1, src.length ], /* Dmytro : wrong order of strides, the strides[ 0 ] defines stride between row elements */
+      offset : src.offset !== 0 ? src.offset : 0,
       strides : src.stride > 1 ? [ src.stride, 1 ] : [ 1, src.length ],
       inputRowMajor : 1,
     });
@@ -1330,8 +1243,6 @@ function From( src, dims )
 {
   let result;
 
-  // _.assert( !this.instanceIs() );
-  // _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
 
   if( !_.arrayIs( dims ) )
@@ -1363,7 +1274,6 @@ function From( src, dims )
     result = this.FromVector( src );
   }
 
-  // _.assert( !dims || result.hasShape( dims ) );
   _.assert( !dims || _.longIdentical( result.dims, dims ) );
 
   return result;
@@ -1411,8 +1321,6 @@ function FromForReading( src, dims )
 {
   let result;
 
-  // _.assert( !this.instanceIs() );
-  // _.assert( _.arrayIs( dims ) || dims == undefined );
   _.assert( arguments.length === 1 || arguments.length === 2 );
 
   if( !_.arrayIs( dims ) )
@@ -1439,7 +1347,6 @@ function FromForReading( src, dims )
     result = this.FromVector( src );
   }
 
-  // _.assert( !dims || result.hasShape( dims ) );
   _.assert( !dims || _.longIdentical( result.dims, dims ) );
 
   return result;
@@ -1565,12 +1472,6 @@ function fromTransformations( position, quaternion, scale )
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
 
   return Self.FromTransformations( self, position, quaternion, scale );
-
-  // self.fromQuat( quaternion );
-  // self.scaleApply( scale );
-  // self.positionSet( position );
-
-  // return self;
 }
 
 //
@@ -2456,7 +2357,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   ConvertToClass,
 
-  FromVector,
+  FromVector, /* zzz : deprecate */
   FromScalar,
   FromScalarForReading,
   From,
@@ -2527,10 +2428,10 @@ let Extension =
   normalProjectionMatrixMake,
   normalProjectionMatrixGet,
 
-  formPerspective, /* qqq : implement static */
-  formFrustum, /* qqq : implement static */
-  formOrthographic, /* qqq : implement static */
-  lookAt, /* qqq : implement static */
+  formPerspective, /* qqq : implement static, cover */
+  formFrustum, /* qqq : implement static, cover */
+  formOrthographic, /* qqq : implement static, cover */
+  lookAt, /* qqq : implement static, cover */
 
   //
 
