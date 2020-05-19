@@ -1674,17 +1674,9 @@ function bufferImport( o )
 bufferImport.defaults =
 {
   buffer : null,
-  inputRowMajor : 1, /* aaa : cover option */ /* Dmytro : covered */
-  replacing : 0, /* aaa : cover option */ /* Dmytro : implemented and covered */
+  inputRowMajor : 1,
+  replacing : 0,
   dims : null,
-  /* aaa2 : implement option dims for buffer growing. ask
-    if self.scalarsPerMatrix !== o.buffer.length
-      dims = undefined : null -> error
-      dims = [ 5, null ] : change ncol
-      dims = [ null, 5 ] : change nrow
-      dims = [ 5, 5 ] : change both
-  */
-  /* Dmytro : implemented and covered */
 }
 
 //
