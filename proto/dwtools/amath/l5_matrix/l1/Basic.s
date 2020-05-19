@@ -1427,8 +1427,6 @@ function headExportString()
  * @module Tools/math/Matrix
  */
 
-/* aaa2 : good coverage is required */ /* Dmytro : covered */
-
 function bufferExport( o )
 {
   let self = this;
@@ -1436,7 +1434,6 @@ function bufferExport( o )
 
   if( !_.mapIs( o ) )
   o = { dstBuffer : o };
-  // o = { buffer : o }; /* Dmytro : field `buffer` not exists in options of routine */
 
   _.routineOptions( bufferExport, o );
 
@@ -1445,21 +1442,9 @@ function bufferExport( o )
   if( o.dstObject === null )
   o.dstObject = Object.create( null );
 
-  // if( o.dstBuffer )
-  // {
-  //
-  //   // _.assert( !o.restriding, 'not tested' );
-  //   if( o.restriding )
-  //   self.scalarEach( function( it )
-  //   {
-  //     o.dstBuffer[ self.flatScalarIndexFrom( it.indexNd ) ] = it.scalar ;
-  //   });
-  //
-  // }
-  // else
   if( !o.dstBuffer )
   {
-    if( o.asFloat ) /* aaa : cover please */ /* Dmytro : covered */
+    if( o.asFloat )
     {
       if( self.buffer instanceof F64x )
       {
@@ -1553,7 +1538,7 @@ bufferExport.defaults =
 
 //
 
-function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : covered */
+function bufferImport( o )
 {
   let self = this;
   let hasNull;
@@ -1568,7 +1553,6 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     if( _.vectorAdapterIs( o.dims ) )
     o.dims = o.dims.toLong();
     hasNull = _.longCountElement( o.dims, null );
-    // _.assert( hasNull <= 1, 'Expects single undeclared dimension' ); /* aaa : ! */ /* Dmytro : explained, corrected */
     _.assert( hasNull <= 1, `The matrix can increase size only along one dimension, but got ${ hasNull } not defined dimensions` );
     index = _.longLeftIndex( o.dims, null );
     o.dims[ index ] = 1;
@@ -1590,15 +1574,14 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     }
 
     self._dimsSet( o.dims );
-    optionsApplyReplacing1( o.dims );
+    copyReplacing1( o.dims );
 
   }
   else if( o.replacing && !o.dims )
   {
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
-    optionsApplyReplacing1( self.dims );
-    // self._dimsSet( self.dims ); // to prevent change /* xxx aaa : ? */ /* Dmytro : after changing behavior of strides it is not actual */
+    moveReplacing1( self.dims );
 
   }
   else if( !o.replacing && o.dims )
@@ -1617,16 +1600,17 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     if( !_.longIdentical( self.dims, o.dims ) )
     {
-      optionsApplyReplacing0();
+      self._dimsSet( o.dims );
+      move( o.dims );
     }
 
-    bufferReplace();
+    bufferMove();
 
   }
   else if( !o.replacing && !o.dims )
   {
 
-    bufferReplace();
+    bufferMove();
 
   }
   else _.assert( 0 );
@@ -1635,37 +1619,29 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
   /* */
 
-  function optionsApplyReplacing1( dims )
+  function move()
   {
-
+    let dims = self.dims;
     self._.offset = 0;
-    self._.strides = self.StridesFromDimensions( dims, o.inputRowMajor );
-    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
     self._.dimsEffective = null;
-    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
-    self._.occupiedRange = null;
-    self._sizeChanged();
-
-  }
-
-  /* */
-
-  function optionsApplyReplacing0()
-  {
-
     self._.strides = null;
-    self._.offset = 0;
-    self._.dimsEffective = null;
-    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( o.dims, o.inputRowMajor ), o.dims );
+    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( dims, o.replacing ? 0 : o.inputRowMajor ), dims );
     self._.occupiedRange = null;
-    self._dimsSet( o.dims );
     self._sizeChanged();
-
   }
 
   /* */
 
-  function bufferReplace()
+  function moveReplacing1()
+  {
+    let dims = self.dims;
+    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    move();
+  }
+
+  /* */
+
+  function bufferMove()
   {
     _.assert
     (
