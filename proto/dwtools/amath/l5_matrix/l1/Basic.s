@@ -1590,14 +1590,14 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     }
 
     self._dimsSet( o.dims );
-    optionsApply( o.dims );
+    optionsApplyReplacing1( o.dims );
 
   }
   else if( o.replacing && !o.dims )
   {
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
-    optionsApply( self.dims );
+    optionsApplyReplacing1( self.dims );
     // self._dimsSet( self.dims ); // to prevent change /* xxx aaa : ? */ /* Dmytro : after changing behavior of strides it is not actual */
 
   }
@@ -1617,13 +1617,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     if( !_.longIdentical( self.dims, o.dims ) )
     {
-      self._.strides = null;
-      self._.offset = 0;
-      self._.dimsEffective = null;
-      self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( o.dims, o.inputRowMajor ), o.dims );
-      self._.occupiedRange = null;
-      self._dimsSet( o.dims );
-      self._sizeChanged();
+      optionsApplyReplacing0();
     }
 
     bufferReplace();
@@ -1641,7 +1635,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
   /* */
 
-  function optionsApply( dims )
+  function optionsApplyReplacing1( dims )
   {
 
     self._.offset = 0;
@@ -1650,6 +1644,21 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     self._.dimsEffective = null;
     self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
     self._.occupiedRange = null;
+    self._sizeChanged();
+
+  }
+
+  /* */
+
+  function optionsApplyReplacing0()
+  {
+
+    self._.strides = null;
+    self._.offset = 0;
+    self._.dimsEffective = null;
+    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( o.dims, o.inputRowMajor ), o.dims );
+    self._.occupiedRange = null;
+    self._dimsSet( o.dims );
     self._sizeChanged();
 
   }
