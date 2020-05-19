@@ -234,7 +234,8 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
     // let strides = self.stridesEffective;
 
     if( dims0 === Infinity )
-    dims1 = 1;
+    dims0 = 1;
+    // dims1 = 1;
     if( dims1 === Infinity )
     dims1 = 1;
 
@@ -272,9 +273,8 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 
   }
 
-  /* */
-
 }
+
 // function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
 // {
 //   let self = this;
@@ -443,28 +443,30 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 
 //
 
-/* qqq2 : make o-fifcation */
+/* aaa2 : make o-fifcation */ /* Dmytro : implemented */
 /* qqq2 : cover and document please */
-function layerEach( onMatrix, args )
+function layerEach( o )
 {
   let self = this;
   let dims = self.dimsEffective;
 
-  if( args === undefined )
-  args = [];
+  if( _.routineIs( o ) )
+  o = { onMatrix : o };
+  if( o.args === undefined )
+  o.args = [];
 
-  _.assert( arguments.length <= 2 );
-  _.assert( _.arrayIs( args ) );
-  _.assert( onMatrix.length === 1 );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.longIs( o.args ) );
+  _.assert( o.onMatrix.length === 1 );
 
   let it = Object.create( null );
-  it.args = args;
+  it.args = o.args;
   it.indexNd = _.dup( 0, dims.length - 2 );
   it.indexLogical = 0;
 
   if( !it.indexNd.length )
   {
-    onMatrix( it );
+    o.onMatrix( it );
   }
   else
   {
@@ -475,12 +477,14 @@ function layerEach( onMatrix, args )
 
     do
     {
-      onMatrix( it );
+      o.onMatrix( it );
     }
     while( inc() );
   }
 
   return self;
+
+  /* */
 
   function inc()
   {
@@ -502,6 +506,63 @@ function layerEach( onMatrix, args )
   }
 
 }
+// function layerEach( onMatrix, args )
+// {
+//   let self = this;
+//   let dims = self.dimsEffective;
+//
+//   if( args === undefined )
+//   args = [];
+//
+//   _.assert( arguments.length <= 2 );
+//   _.assert( _.arrayIs( args ) );
+//   _.assert( onMatrix.length === 1 );
+//
+//   let it = Object.create( null );
+//   it.args = args;
+//   it.indexNd = _.dup( 0, dims.length - 2 );
+//   it.indexLogical = 0;
+//
+//   if( !it.indexNd.length )
+//   {
+//     onMatrix( it );
+//   }
+//   else
+//   {
+//
+//     for( let i = 2 ; i < dims.length ; i++ )
+//     if( dims[ i ] === 0 )
+//     return self;
+//
+//     do
+//     {
+//       onMatrix( it );
+//     }
+//     while( inc() );
+//   }
+//
+//   return self;
+//
+//   function inc()
+//   {
+//     let d = 0;
+//
+//     while( d < dims.length-2 )
+//     {
+//       it.indexNd[ d ] += 1;
+//       if( it.indexNd[ d ] < dims[ d+2 ] )
+//       {
+//         it.indexLogical += 1;
+//         return true;
+//       }
+//       it.indexNd[ d ] = 0;
+//       d += 1;
+//     }
+//
+//     return false;
+//   }
+//
+// }
 
 //
 
