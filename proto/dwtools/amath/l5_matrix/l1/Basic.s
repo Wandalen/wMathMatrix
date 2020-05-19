@@ -1556,7 +1556,6 @@ function bufferImport( o )
     _.assert( hasNull <= 1, `The matrix can increase size only along one dimension, but got ${ hasNull } not defined dimensions` );
     index = _.longLeftIndex( o.dims, null );
     o.dims[ index ] = 1;
-
   }
 
   if( o.replacing && o.dims )
@@ -2494,9 +2493,6 @@ function bufferNormalize() /* qqq : optimize */ /* Dmytro : it needs clarificati
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  /* aaa2 : use routine bufferImport() instead of having own implementation */
-  /* Dmytro : new variant of implementation is given below, the routine bufferImport is used */
-
   self.bufferImport
   ({
     buffer : self.toLong(),
@@ -3174,7 +3170,7 @@ function hasShape( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( src ) );
 
-  return _.longIdentical( self.dimsEffective, src ); /* aaa : add test routine to explain */ /* Dmytro : added, test routine FromExperiment */
+  return _.longIdentical( self.dimsEffective, src );
 }
 
 // --

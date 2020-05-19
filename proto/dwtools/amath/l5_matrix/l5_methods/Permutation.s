@@ -229,37 +229,38 @@ function VectorPermutateBackward( vector, permutate )
 
 //
 
-function _PermutateRook_pre( routine, args )
+function _PermutateLineRook_pre( routine, args )
 {
-  let o1 = args[ 0 ];
-  let o2 = o1;
-
-  _.mapSupplement( o2, routine.defaults );
-
-  if( !o2.permutates )
-  {
-    o2.permutates = [];
-    for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
-    o2.permutates[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
-  }
-
-  _.assert( arguments.length === 2 );
-  _.assert( args.length === 1 );
-  _.assert( _.longIs( o2.permutates ) );
-  _.assert( !!o2.m );
-
-  return o2;
+  return Self.PermutateRook.pre.call( Self, ... arguments );
+  // let o1 = args[ 0 ];
+  // let o2 = o1;
+  //
+  // _.mapSupplement( o2, routine.defaults );
+  //
+  // if( !o2.permutates )
+  // {
+  //   o2.permutates = [];
+  //   for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
+  //   o2.permutates[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
+  // }
+  //
+  // _.assert( arguments.length === 2 );
+  // _.assert( args.length === 1 );
+  // _.assert( _.longIs( o2.permutates ) );
+  // _.assert( !!o2.m );
+  //
+  // return o2;
 }
 
 //
 
-function _PermutateRook_body( o )
+function _PermutateLineRook_body( o )
 {
   let proto = Self;
 
   _.assert( arguments.length === 1 );
   _.assert( o.lineIndex >= 0 );
-  _.assertMapHasAll( o, _PermutateRook.defaults );
+  _.assertMapHasAll( o, _PermutateLineRook.defaults );
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
@@ -292,7 +293,7 @@ function _PermutateRook_body( o )
   return true;
 }
 
-_PermutateRook_body.defaults =
+_PermutateLineRook_body.defaults =
 {
   m : null,
   y : null,
@@ -305,20 +306,90 @@ _PermutateRook_body.defaults =
 
 //
 
-let _PermutateRook = _.routineFromPreAndBody( _PermutateRook_pre, _PermutateRook_body );
+let _PermutateLineRook = _.routineFromPreAndBody( _PermutateLineRook_pre, _PermutateLineRook_body );
 
 //
 
-function _permutateRook( o )
+function _permutateLineRook( o )
 {
   let self = this;
   o.m = self;
-  return self._PermutateRook( o );
+  return self._PermutateLineRook( o );
 }
 
-_permutateRook.defaults =
+_permutateLineRook.defaults =
 {
-  ... _.mapBut( _PermutateRook.defaults, [ 'm' ] ),
+  ... _.mapBut( _PermutateLineRook.defaults, [ 'm' ] ),
+}
+
+//
+
+function PermutateRook_pre( routine, args )
+{
+  let o1 = args[ 0 ];
+  let o2 = o1;
+
+  _.mapSupplement( o2, routine.defaults );
+
+  if( !o2.permutates )
+  {
+    o2.permutates = [];
+    for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
+    o2.permutates[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
+  }
+
+  _.assert( arguments.length === 2 );
+  _.assert( args.length === 1 );
+  _.assert( _.longIs( o2.permutates ) );
+  _.assert( !!o2.m );
+
+  return o2;
+}
+
+//
+
+function PermutateRook_body( o )
+{
+  let proto = Self;
+
+  _.assert( arguments.length === 1 );
+  _.routineOptions( PermutateRook_body, o );
+
+  let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  for( let i = 0 ; i < l ; i++ )
+  {
+    o.lineIndex = i;
+    proto._PermutateLineRook.body.call( proto, o );
+  }
+
+  return o;
+}
+
+PermutateRook_body.defaults =
+{
+  m : null,
+  y : null,
+  permutates : null,
+  npermutations : 0,
+  nRowPermutations : 0,
+  nColPermutations : 0,
+}
+
+let PermutateRook = _.routineFromPreAndBody( PermutateRook_pre, PermutateRook_body );
+
+//
+
+function permutateRook( o )
+{
+  let self = this;
+  o = _.routineOptions( permutateRook, o );
+  o.m = self;
+  return self.PermutateRook( o );
+}
+
+permutateRook.defaults =
+{
+  ... _.mapBut( PermutateRook.defaults, [ 'm' ] ),
 }
 
 // --
@@ -333,8 +404,9 @@ let Statics =
   _VectorPermutateDimension,
   VectorPermutateForward,
   VectorPermutateBackward,
-  _PermutateRook_pre,
-  _PermutateRook,
+  // _PermutateLineRook_pre,
+  _PermutateLineRook,
+  PermutateRook,
 
 }
 
@@ -355,9 +427,11 @@ let Extension =
   VectorPermutateForward,
   VectorPermutateBackward,
 
-  _PermutateRook_pre,
-  _PermutateRook,
-  _permutateRook,
+  // _PermutateLineRook_pre,
+  _PermutateLineRook,
+  _permutateLineRook,
+  PermutateRook, /* qqq : cover please */
+  permutateRook, /* qqq : cover please ( lightly ) */
 
   //
 
