@@ -1574,14 +1574,14 @@ function bufferImport( o )
     }
 
     self._dimsSet( o.dims );
-    copyReplacing1( o.dims );
+    moveReplacing1();
 
   }
   else if( o.replacing && !o.dims )
   {
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
-    moveReplacing1( self.dims );
+    moveReplacing1();
 
   }
   else if( !o.replacing && o.dims )
@@ -1601,7 +1601,7 @@ function bufferImport( o )
     if( !_.longIdentical( self.dims, o.dims ) )
     {
       self._dimsSet( o.dims );
-      move( o.dims );
+      move();
     }
 
     bufferMove();
