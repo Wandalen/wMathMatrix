@@ -1569,7 +1569,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     o.dims = o.dims.toLong();
     hasNull = _.longCountElement( o.dims, null );
     // _.assert( hasNull <= 1, 'Expects single undeclared dimension' ); /* aaa : ! */ /* Dmytro : explained, corrected */
-    _.assert( hasNull <= 1, `The matrix can increase size only along one dimension, but got ${ hasNull } not defined dimensions` ); /* qqq : ! */
+    _.assert( hasNull <= 1, `The matrix can increase size only along one dimension, but got ${ hasNull } not defined dimensions` );
     index = _.longLeftIndex( o.dims, null );
     o.dims[ index ] = 1;
 
