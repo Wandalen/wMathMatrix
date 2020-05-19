@@ -456,7 +456,7 @@ function layerEach( o )
   o.args = [];
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.longIs( o.args ) );
+  _.assert( _.arrayIs( o.args ) );
   _.assert( o.onMatrix.length === 1 );
 
   let it = Object.create( null );
