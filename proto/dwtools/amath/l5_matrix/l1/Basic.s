@@ -690,7 +690,7 @@ function ExportStructure( o )
     if( dims )
     {
       o.dst._dimsSet( dims );
-      // o.dst._.dims = o.dst.long.longMake( dims ); /* xxx : check */
+      // o.dst._.dims = o.dst.long.longMake( dims );
       return dims;
     }
     else
@@ -1547,7 +1547,7 @@ bufferExport.defaults =
 {
   dstBuffer : null,
   dstObject : 0,
-  restriding : 1, /* xxx : set to null, later */
+  restriding : null, /* yyy : set to null, later */
   asFloat : 0,
 }
 
@@ -1572,6 +1572,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     _.assert( hasNull <= 1, `The matrix can increase size only along one dimension, but got ${ hasNull } not defined dimensions` ); /* qqq : ! */
     index = _.longLeftIndex( o.dims, null );
     o.dims[ index ] = 1;
+
   }
 
   if( o.replacing && o.dims )
