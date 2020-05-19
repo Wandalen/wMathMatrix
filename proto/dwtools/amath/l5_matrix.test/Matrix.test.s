@@ -19762,6 +19762,120 @@ function lineNdGetIterate( test )
 
 //
 
+function layerEachCheckFields( test )
+{
+  test.case = '2d matrix';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    args : [],
+    indexLogical : 0,
+    indexNd : [],
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 1 );
+
+  /* */
+
+  test.case = '3d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    args : [],
+    indexLogical : 3,
+    indexNd : [ 0 ],
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 4 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  /* */
+
+  test.case = '4d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    args : [],
+    indexLogical : 11,
+    indexNd : [ 0, 0 ],
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 12 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '3d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it.indexNd.slice(), it.indexLogical ) );
+  var exp = [ [ 0 ], 0, [ 1 ], 1, [ 2 ], 2, [ 3 ], 3 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it.indexNd.slice(), it.indexLogical ) );
+  var exp =
+  [
+    [ 0, 0 ], 0, [ 1, 0 ], 1, [ 2, 0 ], 2,
+    [ 0, 1 ], 3, [ 1, 1 ], 4, [ 2, 1 ], 5,
+    [ 0, 2 ], 6, [ 1, 2 ], 7, [ 2, 2 ], 8,
+    [ 0, 3 ], 9, [ 1, 3 ], 10, [ 2, 3 ], 11
+  ];
+  test.identical( got, exp );
+}
+
+//
+
 function lineEachStandardStrides( test )
 {
   test.case = '2x3. iterate dimension 0';
@@ -28973,6 +29087,8 @@ var Self =
     accessors,
     lineNdGet, /* qqq : add 4d cases */
     lineNdGetIterate,
+
+    layerEachCheckFields,
 
     lineEachStandardStrides,
     lineEachNonStandardStrides,
