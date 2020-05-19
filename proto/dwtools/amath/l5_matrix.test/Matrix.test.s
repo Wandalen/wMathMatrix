@@ -26211,6 +26211,36 @@ determinant.accuracy = [ 1e-2, 1e-1 ];
 
 //
 
+function determinant( test )
+{
+
+  act( 'determinantWithPermutation', 0 );
+  act( 'determinantWithPermutation', 1 );
+  act( 'determinantWithLu', 0 );
+  act( 'determinantWithLu', 1 );
+  act( 'determinantWithBareiss', 0 );
+  act( 'determinantWithBareiss', 1 );
+  act( 'determinant', 0 );
+  act( 'determinant', 1 );
+  act( 'determinant' );
+
+  function act( r, smalling )
+  {
+
+    test.open( `${r} smalling:${smalling}` );
+
+    /* */
+
+    test.case = 'zero 1x1';
+    var m = _.Matrix.MakeZero( 1 );
+    var d = m[ r ]({ smalling });
+    test.equivalent( d, 0 );
+
+  }
+
+}
+//
+
 // qqq : cover static routine OuterProductOfVectors
 // qqq : cover routine outerProductOfVectors
 // qqq : repair this test please
@@ -29056,7 +29086,8 @@ var Self =
 
     furthestClosest,
     matrixHomogenousApply,
-    determinant, /* xxx : finish */
+    determinant,
+    determinantBig,
     // outerProductOfVectors,
 
     // solver
