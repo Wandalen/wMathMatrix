@@ -15607,7 +15607,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 3, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
@@ -15624,7 +15626,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 3, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
@@ -15641,7 +15645,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15660,7 +15666,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, [ 2, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15677,7 +15685,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, [ 3, 1, 3 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
@@ -15694,7 +15704,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 3, 1, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15713,7 +15725,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 4 ] );
+    test.identical( got.dimsEffective, [ 2, 4 ] );
     test.identical( got.strides, [ 4, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15738,7 +15752,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 3 ] );
     test.identical( got.strides, [ 3, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims > dims, 4D';
@@ -15763,7 +15779,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6, 12 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -15786,7 +15804,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -15803,7 +15823,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 2, 6 ] );
+    test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, [ 2, 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -15820,7 +15842,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, [ 2, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 1' );
@@ -15843,7 +15867,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
@@ -15860,7 +15886,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
@@ -15877,7 +15905,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15896,7 +15926,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15913,7 +15945,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, [ 1, 1, 3 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
@@ -15930,7 +15964,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15949,7 +15985,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 4 ] );
+    test.identical( got.dimsEffective, [ 2, 4 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15974,7 +16012,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 3 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims > dims, 4D';
@@ -15999,7 +16039,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 2, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6, 12 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
@@ -16022,7 +16064,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16039,7 +16083,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 2, 6 ] );
+    test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, [ 1, 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16056,7 +16102,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 0' );
