@@ -171,7 +171,6 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
       {
         it.indexNd[ 0 ] = r;
         it.indexLogical = indexLogical;
-        // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
         o.onScalar.call( self, it );
         it.offset[ 0 ] += it.strides[ 0 ];
         indexLogical += 1;
@@ -213,7 +212,6 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
-          // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
           o.onScalar.call( self, it );
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
@@ -262,12 +260,10 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
-          // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
           o.onScalar.call( self, it );
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
-        // debugger;
         it.offset[ 1 ] += it.strides[ 1 ];
         it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
       }
@@ -336,7 +332,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 //       {
 //         it.indexNd[ 0 ] = r;
 //         it.indexLogical = indexLogical;
-//         // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
+//         // it.scalar = self.scalarGet( it.indexNd );
 //         onScalar.call( self, it );
 //         it.offset[ 0 ] += it.strides[ 0 ];
 //         indexLogical += 1;
@@ -378,7 +374,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 //         {
 //           it.indexNd[ 0 ] = r;
 //           it.indexLogical = indexLogical;
-//           // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
+//           // it.scalar = self.scalarGet( it.indexNd );
 //           onScalar.call( self, it );
 //           it.offset[ 0 ] += it.strides[ 0 ];
 //           indexLogical += 1;
@@ -427,7 +423,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 //         {
 //           it.indexNd[ 0 ] = r;
 //           it.indexLogical = indexLogical;
-//           // it.scalar = self.scalarGet( it.indexNd ); /* yyy : remove later */
+//           // it.scalar = self.scalarGet( it.indexNd );
 //           onScalar.call( self, it );
 //           it.offset[ 0 ] += it.strides[ 0 ];
 //           indexLogical += 1;

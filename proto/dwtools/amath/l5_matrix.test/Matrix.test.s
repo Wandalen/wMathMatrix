@@ -654,10 +654,7 @@ function clone( test )
   });
 
   var b = a.clone();
-  debugger;
-  _global_.debugger = 1;
   test.identical( a, b );
-  debugger;
   test.is( a.buffer !== b.buffer );
   test.is( a.buffer === buffer );
 
@@ -10361,7 +10358,9 @@ function make( test )
       console.log( r1.toStr() );
       console.log( o.vec([]) );
 
+      debugger;
       test.identical( r1, o.vec([]) );
+      debugger;
       test.identical( r1, r2 );
       test.identical( r1, r3 );
       test.identical( m.reduceToSumAtomWise(), 0 );
@@ -16345,6 +16344,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.case = 'o.dims < dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
     var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
+    debugger;
     var got = m.bufferImport
     ({
       buffer,
@@ -16352,6 +16352,7 @@ function bufferImportOptionsReplacing0AndDims( test )
       inputRowMajor : 1,
       dims : [ 2, 3, 2, 1 ]
     });
+    debugger;
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
     test.identical( got.strides, [ 3, 1, 6, 12 ] );
@@ -17191,7 +17192,6 @@ function toLong( test )
 
 function log()
 {
-  debugger;
   let logger = new _.LoggerToString();
 
   test.case = 'several';
@@ -26662,9 +26662,7 @@ function SolveSimple( test, rname )
     var om = m.clone();
     var y = [ 7, 4, -10 ];
     var oy = y.slice();
-    debugger;
     var x = _.Matrix[ rname ]( null, m, y );
-    debugger;
 
     logger.log( 'm', m );
     logger.log( 'x', x );

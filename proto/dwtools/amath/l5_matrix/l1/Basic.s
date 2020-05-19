@@ -62,8 +62,6 @@ function init( o )
 {
   let self = this;
 
-  self._changing = [ 1 ];
-
   self._.stridesEffective = null;
   self._.length = null;
   self._.scalarsPerElement = null;
@@ -75,11 +73,11 @@ function init( o )
   self._.strides = null;
   self._.offset = 0;
 
+  self._changing = [ 1 ];
   _.workpiece.initFields( self );
+  self._changing[ 0 ] -= 1;
 
   Object.preventExtensions( self );
-
-  self._changing[ 0 ] -= 1;
 
   if( o )
   {
@@ -158,9 +156,8 @@ function _toStringTag()
 
 //
 
-function _inspectCustom( a, b, c )
+function _inspectCustom()
 {
-  debugger;
   return this.toStr();
 }
 
@@ -236,8 +233,8 @@ function _traverseAct( it ) /* zzz : deprecate */
     return dst;
   }
 
-  if( dstIsInstance )
-  dst._changeBegin();
+  // if( dstIsInstance )
+  // dst._changeBegin();
 
   if( src.dims )
   {
@@ -289,7 +286,13 @@ function _traverseAct( it ) /* zzz : deprecate */
   /* */
 
   if( src.dims )
-  dst.dims = src.dims;
+  {
+    // _.assert( dstIsInstance, 'not tested' );
+    if( dstIsInstance )
+    dst._dimsSet( src.dims );
+    else
+    dst.dims = self.long.longMake( src.dims, src.dims );
+  }
 
   it.copyingAggregates = 0;
   dst = _.Copyable.prototype._traverseAct( it );
@@ -299,7 +302,7 @@ function _traverseAct( it ) /* zzz : deprecate */
 
   if( dstIsInstance )
   {
-    dst._changeEnd();
+    // dst._changeEnd();
     // _.assert( dst._changing[ 0 ] === 0 );
   }
 
@@ -312,7 +315,6 @@ function _traverseAct( it ) /* zzz : deprecate */
       src.scalarEach( function( it )
       {
         dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
-        // dst.scalarSet( it.indexNd, it.scalar ); /* yyy */
       });
     }
     else
@@ -520,21 +522,8 @@ function ExportStructure( o )
   if( dstIsInstance )
   {
 
-    // if( _.longIs( o.src ) )
-    // {
-    //   o.dst.copyFromBuffer( o.src );
-    //   return o.dst;
-    // }
-    // else if( _.vectorAdapterIs( o.src ) )
-    // {
-    //   // o.src = { buffer : o.src, inputRowMajor : 0 };
-    //   o.dst.copyFromBuffer( this._BufferFrom( o.src ) ); /* Dmytro : temporary, needs analyze */
-    //   return o.dst;
-    // }
-
     if( _.vectorIs( o.src ) )
     {
-      // o.src = { buffer : o.src, inputRowMajor : 1 };
       o.dst.bufferImport({ buffer : o.src });
       return o.dst;
     }
@@ -558,12 +547,12 @@ function ExportStructure( o )
 
   if( dstIsInstance )
   {
-    o.dst._changeBegin();
+    // o.dst._changeBegin();
 
     if( srcIsInstance )
     {
 
-      o.dst.dims = this.DimsDeduceFrom( o.src, o.dst.dims );
+      o.dst._dimsSet( this.DimsDeduceFrom( o.src, o.dst.dims ) );
 
       if( o.src.scalarsPerMatrix !== o.dst.scalarsPerMatrix )
       {
@@ -579,10 +568,6 @@ function ExportStructure( o )
     else
     {
 
-      // if( _global_.debugger )
-      // debugger;
-
-      // let dimsWas = o.dst.dims;
       let o2 = Object.create( null );
       o2.dimsWas = o.dst.dims;
       o2.buffer = o.src.buffer;
@@ -618,8 +603,6 @@ function ExportStructure( o )
         if( _.vectorAdapterIs( o2.buffer ) )
         {
 
-          // this._BufferFromVectorAdapter( o2 );
-
           if( o2.strides )
           {
             o2.strides = o2.strides.slice();
@@ -654,15 +637,15 @@ function ExportStructure( o )
 
     }
 
-    o.dst._changeEnd();
-    _.assert( o.dst._changing[ 0 ] === 0 );
+    o.dst._sizeChanged();
+    // o.dst._changeEnd();
+    // _.assert( o.dst._changing[ 0 ] === 0 );
 
     if( srcIsInstance )
     {
       o.src.scalarEach( function( it )
       {
         o.dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
-        // o.dst.scalarSet( it.indexNd, it.scalar ); /* yyy */
       });
     }
 
@@ -706,7 +689,8 @@ function ExportStructure( o )
   {
     if( dims )
     {
-      o.dst._.dims = dims;
+      o.dst._dimsSet( dims );
+      // o.dst._.dims = o.dst.long.longMake( dims ); /* xxx : check */
       return dims;
     }
     else
@@ -813,12 +797,9 @@ function _exportNormalized()
   result.offset = 0;
   result.strides = self.StridesFromDimensions( self.dims, 0 );
 
-  // result.inputRowMajor = 0;
-
   self.scalarEach( function( it ) /* qqq : use maybe method */
   {
     let i = self._FlatScalarIndexFromIndexNd( it.indexNd, result.strides );
-    // result.buffer[ i ] = it.scalar; /* yyy */
     result.buffer[ i ] = it.buffer[ it.offset[ 0 ] ];
   });
 
@@ -1124,21 +1105,17 @@ function CopyTo( dst, src )
     if( _.matrixIs( dst ) )
     src.scalarEach( function( it )
     {
-      // dst.scalarSet( it.indexNd, it.scalar ); /* yyy */
       dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
     });
     else if( _.vectorAdapterIs( dst ) )
     src.scalarEach( function( it )
     {
-      // dst.eSet( it.indexLogical , it.scalar ); /* yyy */
       dst.eSet( it.indexLogical, it.buffer[ it.offset[ 0 ] ] );
     });
     else if( _.longIs( dst ) )
     src.scalarEach( function( it )
     {
-      // debugger;
       dst[ it.indexLogical ] = it.buffer[ it.offset[ 0 ] ];
-      // dst[ it.indexLogical ] = it.scalar; /* yyy */
     });
     else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
@@ -1244,9 +1221,7 @@ function ExportString( o )
     isInt = true;
     o.src.scalarEach( function( it )
     {
-      // debugger;
       isInt = isInt && _.intIs( it.buffer[ it.offset[ 0 ] ] );
-      // isInt = isInt && _.intIs( it.scalar ); // yyy
     });
 
     if( o.src.dims.length === 2 )
@@ -1592,7 +1567,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     if( _.vectorAdapterIs( o.dims ) )
     o.dims = o.dims.toLong();
     hasNull = _.longCountElement( o.dims, null );
-    _.assert( hasNull <= 1, 'Expects single undeclared dimension' );
+    _.assert( hasNull <= 1, 'Expects single undeclared dimension' ); /* qqq : ! */
   }
 
   if( o.replacing && o.dims )
@@ -1613,24 +1588,33 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
       _.assert( o.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
     }
 
-    self._changeBegin();
-    self.dims = o.dims;
-    self.offset = 0;
-    self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
-    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
-    self._changeEnd();
+    // self._changeBegin();
+    // self._dimsSet( self.long.longMake( o.dims ) );
+    self._dimsSet( o.dims );
+    self._.offset = 0;
+    self._.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
+    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._.dimsEffective = null;
+    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
+    self._.occupiedRange = null;
+    self._sizeChanged();
+    // self._changeEnd();
 
   }
   else if( o.replacing && !o.dims )
   {
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
-    self._changeBegin();
-    self.dims = self.dims; // to prevent change
-    self.offset = 0;
-    self.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
-    self.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
-    self._changeEnd();
+    // self._changeBegin();
+    // self._dimsSet( self.dims ); // to prevent change /* xxx qqq : ? */
+    self._.offset = 0;
+    self._.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
+    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._.dimsEffective = null;
+    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
+    self._.occupiedRange = null;
+    self._sizeChanged();
+    // self._changeEnd();
 
   }
   else if( !o.replacing && o.dims )
@@ -1651,9 +1635,13 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     if( !_.longIdentical( self.dims, o.dims ) )
     {
-      self.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
-      self.dims = o.dims;
-      self.offset = 0;
+      self._.strides = null;
+      self._.offset = 0;
+      self._.dimsEffective = null;
+      self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( o.dims, o.inputRowMajor ), o.dims );
+      self._.occupiedRange = null;
+      self._dimsSet( o.dims );
+      self._sizeChanged();
     }
 
     _.assert
@@ -1682,7 +1670,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     }
 
   }
-  else
+  else if( !o.replacing && !o.dims )
   {
 
     _.assert
@@ -1693,7 +1681,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
 
-    if( _.vectorAdapterIs( o.buffer ) )
+    if( _.vectorAdapterIs( o.buffer ) ) /* qqq : ! */
     {
       self.scalarEach( function( it )
       {
@@ -1709,7 +1697,9 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
         self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
       });
     }
+
   }
+  else _.assert( 0 );
 
   return self;
 }
@@ -1729,62 +1719,6 @@ bufferImport.defaults =
   */
   /* Dmytro : implemented and covered */
 }
-
-// //
-//
-// function _BufferFromVectorAdapter( o )
-// {
-//
-//   _.assert( _.vectorAdapterIs( o.buffer ) );
-//   _.assertMapHasAll( o, _BufferFromVectorAdapter.defaults );
-//
-//   if( o.strides )
-//   {
-//     o.strides = o.strides.slice();
-//   }
-//   else
-//   {
-//     if( !o.dims )
-//     {
-//       if( o.dimsWas )
-//       {
-//         o.dims = o.dimsWas;
-//       }
-//       else
-//       {
-//         // o.dst._dimsDeduceInitial();
-//         // let o2 = self.DimsDeduceInitial
-//         // ({
-//         //   buffer : o.buffer,
-//         //   offset : 0,
-//         // });
-//         o.dims = [ o.buffer.length, 1 ];
-//         return o.dst.dims;
-//       }
-//     }
-//     o.strides = this.StridesFromDimensions( o.dims, o.inputRowMajor );
-//   }
-//
-//   o.offset = o.offset || 0;
-//
-//   o.offset = o.buffer.offset + o.offset*o.buffer.stride;
-//   for( let i = 0 ; i < o.strides.length ; i++ )
-//   o.strides[ i ] *= o.buffer.stride;
-//
-//   o.buffer = o.buffer._vectorBuffer;
-//
-//   return o;
-// }
-//
-// _BufferFromVectorAdapter.defaults =
-// {
-//   strides : null,
-//   offset : 0,
-//   dims : null,
-//   dimsWas : null,
-//   buffer : null,
-//   inputRowMajor : 0,
-// }
 
 //
 
@@ -2075,7 +2009,7 @@ function ScalarsPerMatrixForDimensions( dims )
   let result = 1;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.arrayIs( dims ) );
+  _.assert( _.longIs( dims ) );
 
   for( let d = dims.length-1 ; d >= 0 ; d-- )
   {
@@ -2227,8 +2161,8 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
   if( Config.debug )
   {
     _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-    _.assert( _.arrayIs( indexNd ) );
-    _.assert( _.arrayIs( strides ) );
+    _.assert( _.longIs( indexNd ) );
+    _.assert( _.longIs( strides ) );
     _.assert( indexNd.length >= strides.length );
     for( let i = strides.length ; i < indexNd.length ; i++ )
     _.assert( indexNd[ i ] === 0 );
@@ -2375,7 +2309,7 @@ function StridesFromDimensions( dims, rowMajor )
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.arrayIs( dims ), 'Expects dims' );
+  _.assert( _.longIs( dims ), 'Expects dims' );
   _.assert( _.boolLike( rowMajor ) );
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
@@ -2538,13 +2472,14 @@ function bufferSet( src )
   return;
 
   if( _.numberIs( src ) )
-  src = this.long.longMake([ src ]);
+  src = self.long.longMake([ src ]);
 
   _.assert( _.longIs( src ) || src === null );
 
   self._.buffer = src;
+  // self._.buffer = self.long.make( src );
 
-  if( !self._changing[ 0 ] )
+  if( !self._changing[ 0 ] ) /* zzz : remove */
   {
     self._.offset = 0;
     self._.stridesEffective = null;
@@ -2610,23 +2545,6 @@ function bufferNormalize() /* qqq : optimize */ /* Dmytro : it needs clarificati
     replacing : 1,
   })
 
-  // let buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
-  //
-  // let i = 0;
-  // self.scalarEach( function( it )
-  // {
-  //   buffer[ i ] = self.buffer[ it.offset[ 0 ] ];
-  //   // buffer[ i ] = it.scalar; // yyy
-  //   i += 1;
-  // });
-  //
-  // self.copy
-  // ({
-  //   buffer,
-  //   offset : 0,
-  //   inputRowMajor : 0,
-  // });
-
 }
 
 // --
@@ -2654,7 +2572,7 @@ function _changeEnd()
 
 //
 
-function _sizeChanged()
+function _sizeChanged() /* yyy */
 {
   let self = this;
 
@@ -2667,7 +2585,7 @@ function _sizeChanged()
 
 //
 
-function _adjust()
+function _adjust() /* yyy */
 {
   let self = this;
 
@@ -2683,7 +2601,7 @@ function _adjustAct()
 {
   let self = this;
 
-  self._changing[ 0 ] += 1;
+  // self._changing[ 0 ] += 1;
 
   /* strides */
 
@@ -2704,7 +2622,7 @@ function _adjustAct()
     self._dimsDeduceInitial();
   }
 
-  _.assert( _.arrayIs( self.dims ) );
+  _.assert( _.arrayIs( self.dims ) || _.bufferTypedIs( self.dims ) );
 
   if( self.buffer === null )
   {
@@ -2755,7 +2673,7 @@ function _adjustAct()
   _.entityFreeze( self.dims );
   _.entityFreeze( self.stridesEffective );
 
-  self._changing[ 0 ] -= 1;
+  // self._changing[ 0 ] -= 1;
 }
 
 //
@@ -2778,7 +2696,7 @@ function _adjustValidate()
   if( !Config.debug )
   return
 
-  _.assert( _.arrayIs( self.dims ) );
+  _.assert( _.arrayIs( self.dims ) || _.bufferTypedIs( self.dims ) );
   _.assert( self.length >= 0 );
   _.assert( self.scalarsPerElement >= 0 );
 
@@ -2820,14 +2738,12 @@ function _dimsSet( src )
 
   if( src )
   {
-
-    _.assert( _.arrayIs( src ) );
+    _.assert( _.arrayIs( src ) || _.bufferTypedIs( src ) );
     _.assert( src.length >= 2 );
     _.assert( _.numbersAreInt( src ) );
     _.assert( src[ 0 ] >= 0 );
     _.assert( src[ src.length-1 ] >= 0 );
     self._.dims = _.entityFreeze( src.slice() );
-
   }
   else
   {
@@ -2835,6 +2751,19 @@ function _dimsSet( src )
   }
 
   _.assert( self._.dims === null || _.numbersAreInt( self._.dims ) );
+
+  return src;
+}
+
+//
+
+function dimsSet( src )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  self._dimsSet( src );
 
   self._.stridesEffective = null;
 
@@ -2955,7 +2884,7 @@ function _dimsDeduceInitial()
   if( !self.stridesEffective && !self.strides )
   if( o2.stridesEffective )
   self._.stridesEffective = o2.stridesEffective;
-  self._.dims = o2.dims;
+  self._dimsSet( o2.dims );
 
   return self.dims;
 }
@@ -3109,7 +3038,7 @@ function DimsDeduceFrom( src, fallbackDims )
     if( !fallbackDims )
     return;
 
-    if( _.arrayIs( fallbackDims ) )
+    if( _.longIs( fallbackDims ) )
     {
       dim0 = fallbackDims[ 0 ];
       dim1 = fallbackDims[ 1 ];
@@ -3284,7 +3213,7 @@ function hasShape( src )
   src = src.dims;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.arrayIs( src ) );
+  _.assert( _.longIs( src ) );
 
   return _.longIdentical( self.dimsEffective, src ); /* aaa : add test routine to explain */ /* Dmytro : added, test routine FromExperiment */
 }
@@ -3368,7 +3297,7 @@ let Restricts =
 {
 
   // _dimsWas : null,
-  _changing : [ 1 ], // xxx : remove
+  _changing : [ 1 ], // zzz : remove
 
 }
 
@@ -3630,9 +3559,8 @@ let Extension =
 
   // reshaping
 
-  _changeBegin, /* xxx : remove */
+  _changeBegin, /* zzz : remove */
   _changeEnd,
-
   _sizeChanged,
 
   _adjust,
@@ -3640,7 +3568,8 @@ let Extension =
   _adjustVerify,
   _adjustValidate,
 
-  _dimsSet, /* cached */
+  _dimsSet,
+  dimsSet, /* cached */
   // _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
   DimsNormalize,
