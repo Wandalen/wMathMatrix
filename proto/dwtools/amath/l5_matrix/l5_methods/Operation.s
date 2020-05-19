@@ -1564,9 +1564,9 @@ function determinant( o )
   }
   else
   {
-    return self._determinantWithBareiss();
-    // return self._determinantWithLu();
     // return self._determinantWithPermutation();
+    return self._determinantWithLu();
+    // return self._determinantWithBareiss();
   }
 
 }

@@ -26211,34 +26211,42 @@ determinant.accuracy = [ 1e-2, 1e-1 ];
 
 //
 
-function determinant( test )
+function determinantWithLuBig( test )
 {
 
-  act( 'determinantWithPermutation', 0 );
-  act( 'determinantWithPermutation', 1 );
-  act( 'determinantWithLu', 0 );
-  act( 'determinantWithLu', 1 );
-  act( 'determinantWithBareiss', 0 );
-  act( 'determinantWithBareiss', 1 );
-  act( 'determinant', 0 );
-  act( 'determinant', 1 );
-  act( 'determinant' );
+  /* */
 
-  function act( r, smalling )
-  {
+  test.case = 'identity 250x250';
+  var m = _.Matrix.MakeIdentity( 250 );
+  var d = m.determinantWithLu();
+  test.equivalent( d, 1 );
 
-    test.open( `${r} smalling:${smalling}` );
-
-    /* */
-
-    test.case = 'zero 1x1';
-    var m = _.Matrix.MakeZero( 1 );
-    var d = m[ r ]({ smalling });
-    test.equivalent( d, 0 );
-
-  }
+  /* */
 
 }
+
+determinantWithLuBig.rapidity = -1;
+determinantWithLuBig.timeOut = 300000;
+
+//
+
+function determinantWithBareissBig( test )
+{
+
+  /* */
+
+  test.case = 'identity 250x250';
+  var m = _.Matrix.MakeIdentity( 250 );
+  var d = m.determinantWithBareiss();
+  test.equivalent( d, 1 );
+
+  /* */
+
+}
+
+determinantWithBareissBig.rapidity = -1;
+determinantWithBareissBig.timeOut = 300000;
+
 //
 
 // qqq : cover static routine OuterProductOfVectors
@@ -29087,7 +29095,8 @@ var Self =
     furthestClosest,
     matrixHomogenousApply,
     determinant,
-    determinantBig,
+    determinantWithLuBig,
+    determinantWithBareissBig,
     // outerProductOfVectors,
 
     // solver
