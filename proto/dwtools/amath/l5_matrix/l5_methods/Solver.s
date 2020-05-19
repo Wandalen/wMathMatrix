@@ -32,14 +32,6 @@ function _triangulateGausian( o )
 
   _.routineOptions( _triangulateGausian, o );
 
-  // yyy
-  // if( o.onPermutate && !o.permutates )
-  // {
-  //   o.permutates = [];
-  //   for( let i = 0 ; i < self.dims.length ; i += 1 )
-  //   o.permutates[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
-  // }
-
   if( o.y !== null )
   o.y = Self.From( o.y );
   o.m = self;
@@ -52,11 +44,6 @@ function _triangulateGausian( o )
   {
     popts = o.onPermutatePre( o.onPermutate, [ o ] );
   }
-  // if( o.onPermutate )
-  // {
-  //   // popts = _.mapOnly( o, o.onPermutate.defaults );
-  //   // popts.m = self;
-  // }
 
   /* */
 
@@ -92,9 +79,6 @@ function _triangulateGausian( o )
   }
   else for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
-
-    // if( o.onPermutate )
-    // o.onPermutate.call( self, r1, o );
 
     if( o.onPermutate )
     {
@@ -304,8 +288,6 @@ function triangulateLu()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  // logger.log( 'self', self );
-
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
     let row1 = self.rowGet( r1 );
@@ -320,7 +302,6 @@ function triangulateLu()
       row2.eSet( r1, scaler );
     }
 
-    // logger.log( 'self', self );
   }
 
   return self;
@@ -417,17 +398,6 @@ function triangulateLuPermutating( permutates )
   let nrow = self.nrow;
   let ncol = Math.min( self.ncol, nrow );
 
-  // yyy
-  // if( !permutates )
-  // {
-  //   permutates = [];
-  //   for( let i = 0 ; i < self.dims.length ; i += 1 )
-  //   permutates[ i ] = _.longFromRange([ 0, self.dims[ i ] ]);
-  // }
-  //
-  // let popts = Object.create( null );
-  // popts.permutates = permutates;
-
   let popts = self._PermutateRook_pre( self._permutateRook, [{ m : self, permutates }] );
 
   /* */
@@ -438,8 +408,6 @@ function triangulateLuPermutating( permutates )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   /* */
-
-  // logger.log( 'self', self );
 
   for( let r1 = 0 ; r1 < ncol ; r1++ )
   {
@@ -458,8 +426,6 @@ function triangulateLuPermutating( permutates )
       row2.eSet( r1, scaler );
     }
 
-    // logger.log( 'self', self );
-
   }
 
   /* */
@@ -467,7 +433,6 @@ function triangulateLuPermutating( permutates )
   popts.matrix = self;
 
   return popts;
-  // return permutates;
 }
 
 // --
@@ -583,7 +548,6 @@ function SolveWithGausian()
   o.m.triangulateGausian( o.x );
   this.SolveTriangleUpper( o.x, o.m, o.x );
 
-  // o.x = this.ConvertToClass( o.oy.constructor, o.x );
   return o.ox;
 }
 
@@ -847,8 +811,6 @@ function InvertWithGaussJordan()
       m.vectorAdapter.subScaled( xrow2, xrow1, scaler2 );
 
     }
-
-    // logger.log( 'm', m );
 
   }
 
