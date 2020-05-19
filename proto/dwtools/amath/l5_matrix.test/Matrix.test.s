@@ -16144,7 +16144,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 3, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16160,7 +16162,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 3, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16176,7 +16180,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -16196,8 +16202,11 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6 ]);
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
-    test.equivalent( got.buffer, exp );    test.identical( got.dims, [ 2, 3 ] );
+    test.equivalent( got.buffer, exp );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16211,8 +16220,11 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
-    test.equivalent( got.buffer, exp );    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.equivalent( got.buffer, exp );
+    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16228,7 +16240,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
