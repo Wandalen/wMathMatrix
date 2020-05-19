@@ -25221,377 +25221,386 @@ function matrixHomogenousApply( test )
 function determinant( test )
 {
 
-  /* */
+  act( 'determinantWithPermutation' );
+  act( 'determinantWithLu' );
+  act( 'determinant' );
 
-  test.case = 'empty';
+  function act( r )
+  {
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([]),
-    dims : [ 0, 0 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 0 );
+    test.case = 'empty';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([]),
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = 'empty 3x0';
+    var d = m[ r ]();
+    test.equivalent( d, 0 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([]),
-    dims : [ 3, 0 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 0 );
+    test.case = 'empty 3x0';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([]),
+      dims : [ 3, 0 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = 'empty 0x3';
+    var d = m[ r ]();
+    test.equivalent( d, 0 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([]),
-    dims : [ 0, 3 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 0 );
+    test.case = 'empty 0x3';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([]),
+      dims : [ 0, 3 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = '1x1';
+    var d = m[ r ]();
+    test.equivalent( d, 0 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([ 3 ]),
-    dims : [ 1, 1 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 3 );
+    test.case = '1x1';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([ 3 ]),
+      dims : [ 1, 1 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = '3x1';
+    var d = m[ r ]();
+    test.equivalent( d, 3 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([ 1, 2, 3 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 0 );
+    test.case = '3x1';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([ 1, 2, 3 ]),
+      dims : [ 3, 1 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = '1x3';
+    var d = m[ r ]();
+    test.equivalent( d, 0 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([ 1, 2, 3 ]),
-    dims : [ 1, 3 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 0 );
+    test.case = '1x3';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([ 1, 2, 3 ]),
+      dims : [ 1, 3 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = '2x2, simplest determinant';
+    var d = m[ r ]();
+    test.equivalent( d, 0 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([ 1, 2, 3, 4 ]),
-    dims : [ 2, 2 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, -2 );
+    test.case = '2x2, simplest determinant';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x([ 1, 2, 3, 4 ]),
+      dims : [ 2, 2 ],
+      inputRowMajor : 1,
+    });
 
-  test.case = '2x2 matrix with -2 determinant, column first';
+    var d = m[ r ]();
+    test.equivalent( d, -2 );
 
-  var m = new _.Matrix
-  ({
-    buffer : new I32x( _.longFromRange([ 1, 5 ]) ),
-    dims : [ 2, 2 ],
-    inputRowMajor : 0,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, -2 );
+    test.case = '2x2 matrix with -2 determinant, column first';
 
-  /* */
+    var m = new _.Matrix
+    ({
+      buffer : new I32x( _.longFromRange([ 1, 5 ]) ),
+      dims : [ 2, 2 ],
+      inputRowMajor : 0,
+    });
 
-  /* aaa2 : use this test case to cover routine _permutateRook */ /* Dmytro : used */
-  test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
+    var d = m[ r ]();
+    test.equivalent( d, -2 );
 
-  var buffer = new I32x
-  ([
-    9, 1, 2,
-    3, 9, 4,
-    5, 6, 9
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer : buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, 452 );
+    /* aaa2 : use this test case to cover routine _permutateRook */ /* Dmytro : used */
+    test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
-  /* */
-
-  test.case = '3x3, npermutations:1 nRowPermutations:1 nColPermutations:0';
-
-  var buffer = new I32x
-  ([
-    9, 1, 2,
-    3, 9, 4,
-    10, 6, 9
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer : buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
-
-  var d = m.determinant();
-  test.equivalent( d, 382 );
-
-  /* */
-
-  test.case = '3x3, npermutations:2 nRowPermutations:2 nColPermutations:0';
-
-  var buffer = new I32x
-  ([
-    9, 1, 2,
-    3, 9, 4,
-    10, 10, 9
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer : buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
-
-  var d = m.determinant();
-  test.equivalent( d, 262 );
-
-  /* */
-
-  test.case = '3x3, npermutations:1 nRowPermutations:0 nColPermutations:1';
-
-  var buffer = new I32x
-  ([
-    9, 10, 2,
-    3, 9, 4,
-    5, 6, 9
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer : buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
-
-  var d = m.determinant();
-  test.equivalent( d, 389 );
-
-  /* */
-
-  test.case = '3x3, npermutations:2 nRowPermutations:0 nColPermutations:2';
-
-  var buffer = new I32x
-  ([
-    9, 10, 2,
-    3, 9, 10,
-    5, 6, 9
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer : buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
-
-  var d = m.determinant();
-  test.equivalent( d, 365 );
-
-  /* */
-
-  test.case = '3x3, npermutations:2 nRowPermutations:1 nColPermutations:1';
-
-  var buffer = new I32x
-  ([
-    9, 11, 2,
-    3, 9, 4,
-    10, 6, 9
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer : buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
-
-  var d = m.determinant();
-  test.equivalent( d, 512 );
-
-  /* */
-
-  test.case = '3x3 with negative determinant';
-
-  var m = new _.Matrix
-  ({
-    buffer : new I32x
+    var buffer = new I32x
     ([
-      +2, -2, +4,
-      +2, -3, +3,
-      -2, +4, +2,
-    ]),
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
+      9, 1, 2,
+      3, 9, 4,
+      5, 6, 9
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
 
-  var d = m.determinant();
-  test.equivalent( d, -8 );
+    var d = m[ r ]();
+    test.equivalent( d, 452 );
 
-  /* */
+    /* */
 
-  test.case = '3x3 with zero determinant';
+    test.case = '3x3, npermutations:1 nRowPermutations:1 nColPermutations:0';
 
-  var buffer = new I32x
-  ([
-    +2, +2, -2,
-    -2, -3, +4,
-    +4, +3, -2,
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
-
-  logger.log( m.toStr() );
-
-  var d = m.determinant();
-
-  test.equivalent( d, 0 );
-  test.identical( m.dims, [ 3, 3 ] );
-  test.identical( m.stridesEffective, [ 3, 1 ] );
-
-  /* */
-
-  test.case = '3x3 with negative determinant';
-
-  var m = new _.Matrix
-  ({
-    buffer : new I32x
+    var buffer = new I32x
     ([
-      +2, -2, +4,
-      +2, -3, +3,
-      -2, +4, +2,
-    ]),
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
+      9, 1, 2,
+      3, 9, 4,
+      10, 6, 9
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
 
-  var d = m.determinant();
-  test.equivalent( d, -8 );
+    var d = m[ r ]();
+    test.equivalent( d, 382 );
 
-  /* */
+    /* */
 
-  test.case = '3x3 matrix with -30 determinant';
+    test.case = '3x3, npermutations:2 nRowPermutations:2 nColPermutations:0';
 
-  var buffer = new I32x
-  ([
-    11, 2, 3,
-     4, 5, 6,
-     7, 8, 9,
-  ]);
-  var m = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
+    var buffer = new I32x
+    ([
+      9, 1, 2,
+      3, 9, 4,
+      10, 10, 9
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
 
-  var d = m.determinant();
+    var d = m[ r ]();
+    test.equivalent( d, 262 );
 
-  test.equivalent( d, -30 );
+    /* */
 
-  /* */
+    test.case = '3x3, npermutations:1 nRowPermutations:0 nColPermutations:1';
 
-  test.case = '3x3 matrix';
+    var buffer = new I32x
+    ([
+      9, 10, 2,
+      3, 9, 4,
+      5, 6, 9
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
 
-  var buffer = new I32x
-  ([
-    15, -42, -61,
-    43, 57, 19,
-    45, 81, 25,
-  ]);
+    var d = m[ r ]();
+    test.equivalent( d, 389 );
 
-  var m = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 1,
-  });
+    /* */
 
-  var d = m.determinant();
-  test.equivalent( d, -48468 );
+    test.case = '3x3, npermutations:2 nRowPermutations:0 nColPermutations:2';
 
-  var m = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 3 ],
-    inputRowMajor : 0,
-  });
+    var buffer = new I32x
+    ([
+      9, 10, 2,
+      3, 9, 10,
+      5, 6, 9
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
 
-  var d = m.determinant();
-  test.equivalent( d, -48468 );
+    var d = m[ r ]();
+    test.equivalent( d, 365 );
 
-  /* */
+    /* */
 
-  test.case = '4x4, permutating required';
+    test.case = '3x3, npermutations:2 nRowPermutations:1 nColPermutations:1';
 
-  var buffer = new I32x
-  ([
-    1, 1, 4, 1,
-    2, 2, 10, 6,
-    3, 9, 21, 17,
-    5, 11, 29, 23,
-  ]);
+    var buffer = new I32x
+    ([
+      9, 11, 2,
+      3, 9, 4,
+      10, 6, 9
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
 
-  var m = new _.Matrix
-  ({
-    buffer,
-    dims : [ 4, 4 ],
-    inputRowMajor : 1,
-  });
+    var d = m[ r ]();
+    test.equivalent( d, 512 );
 
-  var d = m.determinant();
-  test.equivalent( d, -48 );
+    /* */
 
-  /* */
+    test.case = '3x3 with negative determinant';
+
+    var m = new _.Matrix
+    ({
+      buffer : new I32x
+      ([
+        +2, -2, +4,
+        +2, -3, +3,
+        -2, +4, +2,
+      ]),
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
+
+    var d = m[ r ]();
+    test.equivalent( d, -8 );
+
+    /* */
+
+    test.case = '3x3 with zero determinant';
+
+    var buffer = new I32x
+    ([
+      +2, +2, -2,
+      -2, -3, +4,
+      +4, +3, -2,
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
+
+    logger.log( m.toStr() );
+
+    var d = m[ r ]();
+
+    test.equivalent( d, 0 );
+    test.identical( m.dims, [ 3, 3 ] );
+    test.identical( m.stridesEffective, [ 3, 1 ] );
+
+    /* */
+
+    test.case = '3x3 with negative determinant';
+
+    var m = new _.Matrix
+    ({
+      buffer : new I32x
+      ([
+        +2, -2, +4,
+        +2, -3, +3,
+        -2, +4, +2,
+      ]),
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
+
+    var d = m[ r ]();
+    test.equivalent( d, -8 );
+
+    /* */
+
+    test.case = '3x3 matrix with -30 determinant';
+
+    var buffer = new I32x
+    ([
+      11, 2, 3,
+       4, 5, 6,
+       7, 8, 9,
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
+
+    var d = m[ r ]();
+
+    test.equivalent( d, -30 );
+
+    /* */
+
+    test.case = '3x3 matrix';
+
+    var buffer = new I32x
+    ([
+      15, -42, -61,
+      43, 57, 19,
+      45, 81, 25,
+    ]);
+
+    var m = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
+
+    var d = m[ r ]();
+    test.equivalent( d, -48468 );
+
+    var m = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 0,
+    });
+
+    var d = m[ r ]();
+    test.equivalent( d, -48468 );
+
+    /* */
+
+    test.case = '4x4, permutating required';
+
+    var buffer = new I32x
+    ([
+      1, 1, 4, 1,
+      2, 2, 10, 6,
+      3, 9, 21, 17,
+      5, 11, 29, 23,
+    ]);
+
+    var m = new _.Matrix
+    ({
+      buffer,
+      dims : [ 4, 4 ],
+      inputRowMajor : 1,
+    });
+
+    var d = m[ r ]();
+    test.equivalent( d, -48 );
+
+    /* */
+
+  }
 
 }
 

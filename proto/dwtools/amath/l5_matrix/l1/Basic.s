@@ -1033,7 +1033,7 @@ function clone( extending )
 
 function cloneExtending()
 {
-  self = this;
+  let self = this;
   return self.clone( ... arguments );
 }
 
