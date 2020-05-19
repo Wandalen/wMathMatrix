@@ -1557,6 +1557,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 {
   let self = this;
   let hasNull;
+  let index;
 
   _.routineOptions( bufferImport, arguments );
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -1567,54 +1568,37 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     if( _.vectorAdapterIs( o.dims ) )
     o.dims = o.dims.toLong();
     hasNull = _.longCountElement( o.dims, null );
-    _.assert( hasNull <= 1, 'Expects single undeclared dimension' );
+    // _.assert( hasNull <= 1, 'Expects single undeclared dimension' ); /* aaa : ! */ /* Dmytro : explained, corrected */
+    _.assert( hasNull <= 1, `The matrix can increase size only along one dimension, but got ${ hasNull } not defined dimensions` );
+    index = _.longLeftIndex( o.dims, null );
+    o.dims[ index ] = 1;
+
   }
 
   if( o.replacing && o.dims )
   {
 
-    // debugger;
-    // self.scalarEach( function( it )
     if( hasNull )
     {
-      let index = _.longLeftIndex( o.dims, null );
-      o.dims[ index ] = 1;
-      let value = o.buffer.length / o.dims.reduce( ( a, e ) => a * e );
+      let value = o.buffer.length / _.avector.reduceToProduct( o.dims );
       _.assert( _.intIs( value ), 'Expects integer value as dimension' );
       o.dims[ index ] = value;
     }
     else
     {
-      _.assert( o.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
+      _.assert( o.buffer.length >= _.avector.reduceToProduct( o.dims ) );
     }
 
-    // self._changeBegin();
-    // self._dimsSet( self.long.longMake( o.dims ) );
     self._dimsSet( o.dims );
-    self._.offset = 0;
-    self._.strides = self.StridesFromDimensions( o.dims, o.inputRowMajor );
-    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
-    self._.dimsEffective = null;
-    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
-    self._.occupiedRange = null;
-    self._sizeChanged();
-    // self._changeEnd();
+    optionsApplyReplacing1( o.dims );
 
   }
   else if( o.replacing && !o.dims )
   {
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
-    // self._changeBegin();
-    // self._dimsSet( self.dims );
-    self._.offset = 0;
-    self._.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
-    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
-    self._.dimsEffective = null;
-    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
-    self._.occupiedRange = null;
-    self._sizeChanged();
-    // self._changeEnd();
+    optionsApplyReplacing1( self.dims );
+    // self._dimsSet( self.dims ); // to prevent change /* xxx aaa : ? */ /* Dmytro : after changing behavior of strides it is not actual */
 
   }
   else if( !o.replacing && o.dims )
@@ -1622,57 +1606,67 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     if( hasNull )
     {
-      let index = _.longLeftIndex( o.dims, null );
-      o.dims[ index ] = 1;
-      let value = self.buffer.length / o.dims.reduce( ( a, e ) => a * e );
+      let value = self.buffer.length / _.avector.reduceToProduct( o.dims );
       _.assert( _.intIs( value ), 'Expects integer value as dimension' );
       o.dims[ index ] = value;
     }
     else
     {
-      _.assert( self.buffer.length >= o.dims.reduce( ( a, e ) => a * e ) );
+      _.assert( self.buffer.length >= _.avector.reduceToProduct( o.dims ) );
     }
 
     if( !_.longIdentical( self.dims, o.dims ) )
     {
-      self._.strides = null;
-      self._.offset = 0;
-      self._.dimsEffective = null;
-      self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( o.dims, o.inputRowMajor ), o.dims );
-      self._.occupiedRange = null;
-      self._dimsSet( o.dims );
-      self._sizeChanged();
+      optionsApplyReplacing0();
     }
 
-    _.assert
-    (
-      self.scalarsPerMatrix === o.buffer.length,
-      `Matrix ${self.dimsExportString()} should have ${self.scalarsPerMatrix} scalars, but got ${o.buffer.length}`
-    );
-
-    let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
-
-    if( _.vectorAdapterIs( o.buffer ) )
-    {
-      self.scalarEach( function( it )
-      {
-        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides ); /* zzz : optimize iterating */
-        self.scalarSet( it.indexNd, o.buffer.eGet( indexFlat ) );
-      });
-    }
-    else
-    {
-      self.scalarEach( function( it )
-      {
-        let indexFlat = self._FlatScalarIndexFromIndexNd( it.indexNd, strides );
-        self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
-      });
-    }
+    bufferReplace();
 
   }
   else if( !o.replacing && !o.dims )
   {
 
+    bufferReplace();
+
+  }
+  else _.assert( 0 );
+
+  return self;
+
+  /* */
+
+  function optionsApplyReplacing1( dims )
+  {
+
+    self._.offset = 0;
+    self._.strides = self.StridesFromDimensions( dims, o.inputRowMajor );
+    self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
+    self._.dimsEffective = null;
+    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( self.dims, 0 ), self.dims );
+    self._.occupiedRange = null;
+    self._sizeChanged();
+
+  }
+
+  /* */
+
+  function optionsApplyReplacing0()
+  {
+
+    self._.strides = null;
+    self._.offset = 0;
+    self._.dimsEffective = null;
+    self._.stridesEffective = self.StridesEffectiveAdjust( self.StridesFromDimensions( o.dims, o.inputRowMajor ), o.dims );
+    self._.occupiedRange = null;
+    self._dimsSet( o.dims );
+    self._sizeChanged();
+
+  }
+
+  /* */
+
+  function bufferReplace()
+  {
     _.assert
     (
       self.scalarsPerMatrix === o.buffer.length,
@@ -1697,11 +1691,8 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
         self.scalarSet( it.indexNd, o.buffer[ indexFlat ] );
       });
     }
-
   }
-  else _.assert( 0 );
 
-  return self;
 }
 
 bufferImport.defaults =
