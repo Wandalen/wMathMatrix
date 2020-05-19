@@ -15607,7 +15607,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 3, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
@@ -15624,7 +15626,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 3, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
@@ -15641,7 +15645,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15660,7 +15666,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, [ 2, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15677,7 +15685,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, [ 3, 1, 3 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
@@ -15694,7 +15704,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 3, 1, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15713,7 +15725,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 4 ] );
+    test.identical( got.dimsEffective, [ 2, 4 ] );
     test.identical( got.strides, [ 4, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15738,7 +15752,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 3 ] );
     test.identical( got.strides, [ 3, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims > dims, 4D';
@@ -15763,7 +15779,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6, 12 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -15786,7 +15804,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -15803,7 +15823,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 2, 6 ] );
+    test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, [ 2, 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -15820,7 +15842,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, [ 2, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 1' );
@@ -15843,7 +15867,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
@@ -15860,7 +15886,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
@@ -15877,7 +15905,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15896,7 +15926,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15913,7 +15945,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, [ 1, 1, 3 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
@@ -15930,7 +15964,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -15949,7 +15985,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 4 ] );
+    test.identical( got.dimsEffective, [ 2, 4 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -15974,7 +16012,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 3 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims > dims, 4D';
@@ -15999,7 +16039,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 2, 6, 12 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6, 12 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
@@ -16022,7 +16064,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16039,7 +16083,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 2, 6 ] );
+    test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, [ 1, 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16056,7 +16102,9 @@ function bufferImportOptionsReplacing1AndDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 0' );
@@ -16144,7 +16192,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 3, 1 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16160,7 +16210,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 3, 1, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16176,7 +16228,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 3, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -16196,8 +16250,11 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6 ]);
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
-    test.equivalent( got.buffer, exp );    test.identical( got.dims, [ 2, 3 ] );
+    test.equivalent( got.buffer, exp );
+    test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16211,8 +16268,11 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
-    test.equivalent( got.buffer, exp );    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.equivalent( got.buffer, exp );
+    test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16228,7 +16288,9 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     exp = _.vectorAdapterIs( exp ) ? exp._vectorBuffer : exp;
     test.equivalent( got.buffer, exp );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
@@ -16276,7 +16338,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6 ]) );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
@@ -16291,7 +16355,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6, 7, 10, 8, 11, 9, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
@@ -16306,7 +16372,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -16323,7 +16391,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 0, 0 ]) );
     test.identical( got.dims, [ 2, 2 ] );
-    test.identical( got.strides, [ 2, 1 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 2, 1 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -16338,13 +16408,14 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0 ]) );
     test.identical( got.dims, [ 1, 3, 3 ] );
-    test.identical( got.strides, [ 3, 1, 3 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 3 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 3, 1, 3 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
     var m = _.Matrix.Make([ 1, 3, 2, 2 ]);
-    debugger;
     var got = m.bufferImport
     ({
       buffer,
@@ -16352,10 +16423,11 @@ function bufferImportOptionsReplacing0AndDims( test )
       inputRowMajor : 1,
       dims : [ 2, 3, 2, 1 ]
     });
-    debugger;
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
-    test.identical( got.strides, [ 3, 1, 6, 12 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 3, 1, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -16376,7 +16448,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16391,7 +16465,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 2, 6 ] );
-    test.identical( got.strides, [ 2, 1, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 2, 6 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 2, 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16406,7 +16482,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 3, 2, 2 ] );
-    test.identical( got.strides, [ 2, 1, 6 ] );
+    test.identical( got.dimsEffective, [ 3, 2, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 2, 1, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 1' );
@@ -16427,7 +16505,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
@@ -16442,7 +16522,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
@@ -16457,7 +16539,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -16474,7 +16558,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 0, 0 ]) );
     test.identical( got.dims, [ 2, 2 ] );
-    test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
@@ -16489,7 +16575,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0 ]) );
     test.identical( got.dims, [ 1, 3, 3 ] );
-    test.identical( got.strides, [ 1, 1, 3 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 3 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 1, 1, 3 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
@@ -16504,7 +16592,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2, 1 ] );
-    test.identical( got.strides, [ 1, 2, 6, 12 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
@@ -16525,7 +16615,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16540,7 +16632,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 2, 6 ] );
-    test.identical( got.strides, [ 1, 1, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 2, 6 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 1, 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
@@ -16555,7 +16649,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 3, 2, 2 ] );
-    test.identical( got.strides, [ 1, 3, 6 ] );
+    test.identical( got.dimsEffective, [ 3, 2, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 0' );
@@ -16582,7 +16678,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, [ -1, 1, 4, 2, 5, 3, 6, 1 ] );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'offset saves, inputRowMajor - 0';
@@ -16603,7 +16701,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, [ -1, 1, 2, 3, 4, 5, 6, 1 ] );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     /* */
@@ -16626,7 +16726,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, [ 1, 2, 3, 4, 1, 1, 1, 1 ] );
     test.identical( got.dims, [ 2, 2 ] );
-    test.identical( got.strides, [ 2, 1 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 2, 1 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = 'offset sets to 0, inputRowMajor - 0';
@@ -16647,7 +16749,9 @@ function bufferImportOptionsReplacing0AndDims( test )
     });
     test.identical( got.buffer, [ 1, 2, 3, 4, 1, 1, 1, 1 ] );
     test.identical( got.dims, [ 2, 2 ] );
-    test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 2 ] );
+    test.identical( got.strides, null );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing offset' );
@@ -16708,7 +16812,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6 ]) );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16722,7 +16828,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6, 7, 10, 8, 11, 9, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16736,7 +16844,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -16756,7 +16866,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16770,7 +16882,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16784,7 +16898,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
@@ -19646,11 +19762,8 @@ function lineNdGetIterate( test )
 
 //
 
-function lineEach( test )
+function lineEachStandardStrides( test )
 {
-
-  /* */
-
   test.case = '2x3. iterate dimension 0';
 
   var dims = [ 2, 3 ];
@@ -19873,9 +19986,444 @@ function lineEach( test )
   });
   var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
   test.identical( got, exp );
+}
+
+//
+
+function lineEachCheckFields( test )
+{
+  test.case = '2x3, iterate dimension : 0';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ null, 3 ],
+    offset : [ 6 ],
+    line : _.vectorAdapter.from( new I32x([ 5, 6 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 3 );
+  test.is( got[ 0 ] === got[ 1 ] );
 
   /* */
 
+  test.case = '2x3, iterate dimension : 1';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 2, null ],
+    offset : [ 2 ],
+    line : _.vectorAdapter.from( new I32x([ 2, 4, 6 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 2 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '2x3x4, iterate dimension : 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 8, null, 4 ],
+    offset : [ 24, 24 ],
+    line : _.vectorAdapter.from( new I32x([ 20, 22, 24 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '2x3x4, iterate dimension : 2';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 6, 3, null ],
+    offset : [ 6, 6 ],
+    line : _.vectorAdapter.from( new I32x([ 6, 12, 18, 24 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '1x2x3x4, iterate dimension : 2';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 0, 0, null, 4 ],
+    offset : [ 24, 24, 24  ],
+    line : _.vectorAdapter.from( new I32x([ 20, 22, 24 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '1x2x3x4, iterate dimension : 3';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  matrix.lineEach( 3, ( it ) =>
+  {
+    got.push( it );
+  });
+  var exp =
+  {
+    buffer : buffer,
+    indexNd : [ 0, 0, 3, null ],
+    offset : [ 6, 6, 6 ],
+    line : _.vectorAdapter.from( new I32x([ 6, 12, 18, 24 ]) ),
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+}
+
+//
+
+function lineEachNonStandardStrides( test )
+{
+  test.case = '2x3. iterate dimension 0';
+
+  var dims = [ 2, 3 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 4, '.', 5, 7, '.', 8, 10, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3. iterate dimension 1';
+
+  var dims = [ 2, 3 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 5, 8, '.', 4, 7, 10, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 0';
+
+  var dims = [ 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 9 ]
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 4, '.', 5, 7, '.', 8, 10, '.', 11, 13, '.', 14, 16, '.', 17, 19, '.', 20, 22, '.', 23, 25, '.', 26, 28, '.', 29, 31, '.', 32, 34, '.', 35, 37, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 9 ]
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 5, 8, '.', 4, 7, 10, '.', 11, 14, 17, '.', 13, 16, 19, '.', 20, 23, 26, '.', 22, 25, 28, '.', 29, 32, 35, '.', 31, 34, 37, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 2';
+
+  var dims = [ 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 11, 20, 29, '.', 4, 13, 22, 31, '.', 5, 14, 23, 32, '.', 7, 16, 25, 34, '.', 8, 17, 26, 35, '.', 10, 19, 28, 37, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 0';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 0, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, '.', 5, '.', 10, '.', 13, '.', 18, '.', 21, '.', 11, '.', 14, '.', 19, '.', 22, '.', 27, '.', 30, '.', 20, '.', 23, '.', 28, '.', 31, '.', 36, '.', 39, '.', 29, '.', 32, '.', 37, '.', 40, '.', 45, '.', 48, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 1';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 1, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 5, '.', 10, 13, '.', 18, 21, '.', 11, 14, '.', 19, 22, '.', 27, 30, '.', 20, 23, '.', 28, 31, '.', 36, 39, '.', 29, 32, '.', 37, 40, '.', 45, 48, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 2';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 2, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 10, 18, '.', 5, 13, 21, '.', 11, 19, 27,  '.', 14, 22, 30, '.', 20, 28, 36, '.', 23, 31, 39, '.', 29, 37, 45, '.', 32, 40, 48, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 3';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = 2 * _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+
+  var got = [];
+  matrix.lineEach( 3, ( it ) =>
+  {
+    got.push( ... it.line, '.' );
+  });
+  var exp = [ 2, 11, 20, 29, '.', 5, 14, 23, 32, '.', 10, 19, 28, 37, '.', 13, 22, 31, 40, '.', 18, 27, 36, 45, '.', 21, 30, 39, 48, '.' ];
+  test.identical( got, exp );
 }
 
 //
@@ -28425,7 +28973,11 @@ var Self =
     accessors,
     lineNdGet, /* qqq : add 4d cases */
     lineNdGetIterate,
-    lineEach,
+
+    lineEachStandardStrides,
+    lineEachNonStandardStrides,
+    lineEachCheckFields,
+
     partialAccessors,
     lineSwap,
     permutate,

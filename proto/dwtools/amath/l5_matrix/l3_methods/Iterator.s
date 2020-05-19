@@ -628,7 +628,8 @@ function lineEach( dimension, onEach )
       let i = 0;
       it.indexNd[ fromWithout[ i ] ] += 1;
       it.offset[ i ] += stridesWithout[ i ];
-      while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] )
+      // while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] ) /* Dmytro : it can leave range of fromWithout */
+      while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] && i < fromWithout.length - 1 )
       {
         i += 1;
         it.indexNd[ fromWithout[ i ] ] += 1;
@@ -636,6 +637,7 @@ function lineEach( dimension, onEach )
       }
       while( i > 0 )
       {
+
         i -= 1;
         it.indexNd[ fromWithout[ i ] ] = 0;
         it.offset[ i ] = it.offset[ i+1 ];
