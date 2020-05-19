@@ -16750,7 +16750,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6 ]) );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16764,7 +16766,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 4, 2, 5, 3, 6, 7, 10, 8, 11, 9, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16778,7 +16782,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
@@ -16798,7 +16804,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6 ]) );
     test.identical( got.dims, [ 2, 3 ] );
+    test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
+    test.identical( got.stridesEffective, [ 1, 2 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '3D';
@@ -16812,7 +16820,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 2, 3, 2 ] );
+    test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 2, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.case = '4D';
@@ -16826,7 +16836,9 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     });
     test.identical( got.buffer, _.longDescriptor.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]) );
     test.identical( got.dims, [ 1, 3, 2, 2 ] );
+    test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
+    test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
     test.is( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
