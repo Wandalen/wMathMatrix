@@ -690,7 +690,7 @@ function ExportStructure( o )
     if( dims )
     {
       o.dst._dimsSet( dims );
-      // o.dst._.dims = o.dst.long.longMake( dims ); /* xxx : check */
+      // o.dst._.dims = o.dst.long.longMake( dims );
       return dims;
     }
     else
@@ -1547,7 +1547,7 @@ bufferExport.defaults =
 {
   dstBuffer : null,
   dstObject : 0,
-  restriding : 1, /* xxx : set to null, later */
+  restriding : null, /* yyy : set to null, later */
   asFloat : 0,
 }
 
@@ -1567,7 +1567,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
     if( _.vectorAdapterIs( o.dims ) )
     o.dims = o.dims.toLong();
     hasNull = _.longCountElement( o.dims, null );
-    _.assert( hasNull <= 1, 'Expects single undeclared dimension' ); /* qqq : ! */
+    _.assert( hasNull <= 1, 'Expects single undeclared dimension' );
   }
 
   if( o.replacing && o.dims )
@@ -1606,7 +1606,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     _.assert( o.buffer.length >= self.scalarsPerMatrix );
     // self._changeBegin();
-    // self._dimsSet( self.dims ); // to prevent change /* xxx qqq : ? */
+    // self._dimsSet( self.dims );
     self._.offset = 0;
     self._.strides = self.StridesFromDimensions( self.dims, o.inputRowMajor );
     self._.buffer = _.vectorAdapterIs( o.buffer ) ? o.buffer._vectorBuffer : o.buffer;
@@ -1681,7 +1681,7 @@ function bufferImport( o ) /* aaa2 : good coverage is required */ /* Dmytro : co
 
     let strides = self.StridesFromDimensions( self.dimsEffective, o.inputRowMajor );
 
-    if( _.vectorAdapterIs( o.buffer ) ) /* qqq : ! */
+    if( _.vectorAdapterIs( o.buffer ) )
     {
       self.scalarEach( function( it )
       {
