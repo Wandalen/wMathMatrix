@@ -152,17 +152,18 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
     let dims1 = dims[ 1 ];
 
     if( dims0 === Infinity )
-    dims1 = 1;
+    dims0 = 1;
+    // dims1 = 1;
     if( dims1 === Infinity )
     dims1 = 1;
 
-    let it = Object.create( null ); /* qqq2 : cover all fields of it */
+    let it = Object.create( null ); /* aaa2 : cover all fields of it */ /* Dmytro : covered all fields */
     it.matrix = self;
     it.buffer = self.buffer;
     it.args = o.args;
     it.indexNd = [ 0, 0 ];
     it.strides = self.stridesEffective;
-    it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
+    it.offset = [ self.offset, self.offset ]; /* aaa2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */ /* Dmytro : covered */
     let indexLogical = 0;
     for( let c = 0 ; c < dims1 ; c++ )
     {
@@ -245,7 +246,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
     it.strides = self.stridesEffective;
     it.args = o.args;
     it.indexNd = _.dup( 0, dims.length );
-    it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
+    it.offset = _.dup( self.offset, dims.length ); /* aaa2 : implement */ /* Dmytro : implemented */
     let indexLogical = 0;
 
     self.layerEach( ( it2 ) =>
@@ -265,8 +266,20 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
-        it.offset[ 1 ] += it.strides[ 1 ];
-        it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
+        it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims0 : it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */ /* Dmytro : implemented counter, which works like counter in other routines */
+      }
+
+      if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+      {
+        for( let i = dims.length - 1 ; i >= 2 ; i-- )
+        it.offset[ i ] = it.offset[ 1 ];
+      }
+      else
+      {
+        it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+        for( let i = dims.length - 2 ; i >= 2 ; i-- )
+        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
       }
 
     });
