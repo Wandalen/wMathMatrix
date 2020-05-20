@@ -23,22 +23,30 @@ let Self = _.Matrix;
 
 /**
  * Method scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
- * while callback returns defined value.
+ * while callback returns value, which is not equivalent to false.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarWhile( ( e ) => Math.pow( e, 2 ) );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9
+ * ]);
+ * var got = [];
+ * var got = matrix.scalarWhile( ( it ) => got.push( Math.pow( it.indexLogical, 2 ) ) );
  * console.log( got );
- * // log : 81
+ * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { Map|Function } o - Options map of callback.
+ * @param { Map|Function } o - Options map or callback.
  * @param { Function } o.onScalar - Callback.
- * Callback {-o.onScalar-} applies four arguments : element of matrix, position `indexNd`,
- * flat index `indexLogical`, options map {-o-}.
+ * Callback {-o.onScalar-} executes on map `it` with next fields : matrix, buffer, args, indexNd,
+ * strides, offset, indexLogical.
+ * @param { Array|Undefined } o.args - An array of arguments for callback.
  * @returns { * } - Returns the result of callback.
  * @method scalarWhile
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
  * @throws { Error } If options map {-o-} has extra options.
  * @class Matrix
  * @namespace wTools
@@ -57,6 +65,7 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
   o.args = [];
 
   _.assert( arguments.length === 1 );
+  _.routineOptions( scalarWhile, o );
   _.assert( _.arrayIs( o.args ) );
   _.assert( o.onScalar.length === 1 );
 
@@ -187,7 +196,7 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
     for( let i = 0 ; i < dims.length ; i++ )
     ranges.push( [ 0, dims[ i ] ] );
 
-    /* aaa2 : object it should have same field object it of routine scalarEach has */
+    /* aaa2 : object it should have same field object it of routine scalarEach has */ /* Dmytro : all fields are added */
 
     _.eachInMultiRange_.body /* aaa2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */ /* Dmytro : used new routine eachInMultiRange_ */
     ({
@@ -231,6 +240,13 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
   }
 
 }
+
+scalarWhile.defaults =
+{
+  onScalar : null,
+  args : null,
+}
+
 
 // function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
 // {
