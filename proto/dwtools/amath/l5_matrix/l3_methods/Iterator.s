@@ -45,47 +45,233 @@ let Self = _.Matrix;
  * @module Tools/math/Matrix
  */
 
-function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
+function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */ /* Dmytro : covered, used separate subroutines for 2d and 3d matrix */
 {
   let self = this;
-  let result = true;
+  let dims = self.dimsEffective;
 
   if( _.routineIs( o ) )
-  o = { onScalar : o }
+  o = { onScalar : o };
+  if( o.args === undefined )
+  o.args = [];
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.routineOptions( scalarWhile, o );
-  _.assert( _.routineIs( o.onScalar ) );
+  _.assert( arguments.length === 1 );
+  _.assert( _.arrayIs( o.args ) );
+  _.assert( o.onScalar.length === 1 );
 
-  let dims = self.dimsEffective;
-  let it = Object.create( null );
-  it.options = o;
-  /* qqq2 : object it should have same field object it of routine scalarEach has */
-
-  _.eachInMultiRange /* qqq2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */
-  ({
-    ranges : dims,
-    onEach : handleEach,
-  })
-
-  return result;
-
-  function handleEach( indexNd, indexLogical )
+  if( dims.length === 2 )
   {
-    it.indexNd = indexNd;
-    it.indexLogical = indexLogical;
-    it.scalar = self.scalarGet( indexNd );
-    // result = o.onScalar.call( self, value, indexNd, indexLogical, o );
-    result = o.onScalar.call( self, it );
-    return result;
+    iterate2();
+  }
+  else if( dims.length === 3 )
+  {
+    iterate3();
+  }
+  else
+  {
+    iterateN();
+  }
+
+  return self;
+
+  /* */
+
+  function iterate2()
+  {
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+
+    if( dims0 === Infinity )
+    dims0 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.matrix = self;
+    it.buffer = self.buffer;
+    it.args = o.args;
+    it.indexNd = [ 0, 0 ];
+    it.strides = self.stridesEffective;
+    it.offset = [ self.offset, self.offset ];
+    let indexLogical = 0;
+    let breaking = 0;
+
+    for( let c = 0 ; c < dims1 && !breaking ; c++ )
+    {
+      it.indexNd[ 1 ] = c;
+      for( let r = 0 ; r < dims0 && !breaking ; r++ )
+      {
+        it.indexNd[ 0 ] = r;
+        it.indexLogical = indexLogical;
+        let result = o.onScalar.call( self, it );
+        if( result === false )
+        {
+          breaking = 1;
+          break;
+        }
+        it.offset[ 0 ] += it.strides[ 0 ];
+        indexLogical += 1;
+      }
+      it.offset[ 1 ] += it.strides[ 1 ];
+      it.offset[ 0 ] = it.offset[ 1 ];
+    }
+  }
+
+  /* */
+
+  function iterate3()
+  {
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+    let dims2 = dims[ 2 ];
+
+    if( dims0 === Infinity )
+    dims1 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.matrix = self;
+    it.buffer = self.buffer;
+    it.args = o.args;
+    it.indexNd = [ 0, 0, 0 ];
+    it.strides = self.stridesEffective;
+    it.offset = [ self.offset, self.offset, self.offset ];
+    let indexLogical = 0;
+    let breaking = 0;
+
+    for( let d2 = 0 ; d2 < dims2 && !breaking ; d2++ )
+    {
+      it.indexNd[ 2 ] = d2;
+      for( let c = 0 ; c < dims1 && !breaking ; c++ )
+      {
+        it.indexNd[ 1 ] = c;
+        for( let r = 0 ; r < dims0 && !breaking ; r++ )
+        {
+          it.indexNd[ 0 ] = r;
+          it.indexLogical = indexLogical;
+          let result = o.onScalar.call( self, it );
+          if( result === false )
+          {
+            breaking = 1;
+            break;
+          }
+          it.offset[ 0 ] += it.strides[ 0 ];
+          indexLogical += 1;
+        }
+        it.offset[ 1 ] += it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ];
+      }
+      it.offset[ 2 ] += it.strides[ 2 ];
+      it.offset[ 1 ] = it.offset[ 2 ];
+      it.offset[ 0 ] = it.offset[ 2 ];
+    }
+  }
+
+  /* */
+
+  function iterateN()
+  {
+
+    let it = Object.create( null );
+    it.matrix = self;
+    it.buffer = self.buffer;
+    it.strides = self.stridesEffective;
+    it.args = o.args;
+    it.indexNd = _.dup( 0, dims.length );
+    it.offset = _.dup( self.offset, dims.length );
+    it.indexLogical = 0;
+
+    let ranges = [];
+    for( let i = 0 ; i < dims.length ; i++ )
+    ranges.push( [ 0, dims[ i ] ] );
+
+    /* aaa2 : object it should have same field object it of routine scalarEach has */
+
+    _.eachInMultiRange_.body /* aaa2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */ /* Dmytro : used new routine eachInMultiRange_ */
+    ({
+      ranges,
+      onEach : handleEach,
+      breaking : 1, /* Dmytro : as explained before, the routine `eachInMultiRange_.body` use not routine `routineOptions`. Routine `routineOptions` exists in `pre` */
+    })
+
+
+    function handleEach( indexNd, indexLogical )
+    {
+      it.indexNd = indexNd;
+      it.indexLogical = indexLogical;
+
+      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+      for( let i = dims.length - 2 ; i >= 0 ; i-- )
+      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+
+      let result = o.onScalar.call( self, it );
+
+      if( it.indexNd[ 0 ] + 1 === dims[ 0 ] )
+      {
+        it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims[ 0 ] : it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ];
+        if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+        {
+          for( let i = dims.length - 1 ; i >= 2 ; i-- )
+          it.offset[ i ] = it.offset[ 1 ];
+        }
+        else
+        {
+          it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+          for( let i = dims.length - 2 ; i >= 2 ; i-- )
+          it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+        }
+      }
+
+      return result;
+    }
+
   }
 
 }
 
-scalarWhile.defaults =
-{
-  onScalar : null,
-}
+// function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
+// {
+//   let self = this;
+//   let result = true;
+//
+//   if( _.routineIs( o ) )
+//   o = { onScalar : o }
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.routineOptions( scalarWhile, o );
+//   _.assert( _.routineIs( o.onScalar ) );
+//
+//   let dims = self.dimsEffective;
+//   let it = Object.create( null );
+//   it.options = o;
+//   /* qqq2 : object it should have same field object it of routine scalarEach has */
+//
+//   _.eachInMultiRange /* qqq2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */
+//   ({
+//     ranges : dims,
+//     onEach : handleEach,
+//   })
+//
+//   return result;
+//
+//   function handleEach( indexNd, indexLogical )
+//   {
+//     it.indexNd = indexNd;
+//     it.indexLogical = indexLogical;
+//     it.scalar = self.scalarGet( indexNd );
+//     // result = o.onScalar.call( self, value, indexNd, indexLogical, o );
+//     result = o.onScalar.call( self, it );
+//     return result;
+//   }
+//
+// }
+//
+// scalarWhile.defaults =
+// {
+//   onScalar : null,
+// }
 
 //
 
@@ -115,7 +301,8 @@ scalarWhile.defaults =
  */
 
 /* aaa2 : make o-fifcation */ /* Dmytro : implemented */
-function scalarEach( o ) /* qqq2 : cover routine scalarEach */
+
+function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : covered */
 {
   let self = this;
   let dims = self.dimsEffective;

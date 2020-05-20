@@ -20152,7 +20152,7 @@ function scalarWhileCheckingFields( test )
     args : [],
     indexNd : [ 1, 0 ],
     strides : [ 1, 0 ],
-    offset : [ 2, 0 ],
+    offset : [ 0, 0 ],
     indexLogical : 1
   };
   test.identical( got[ 0 ], exp );
