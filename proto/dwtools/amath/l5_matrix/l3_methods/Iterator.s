@@ -673,6 +673,38 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
 
 //
 
+/**
+ * Method layerEach() calls callback {-onMatrix-} for each layer of current matrix.
+ * The layer is single 2D matrix of multidimensional matrix.
+ * The callback {-onMatrix-} applies option map with next fields : args, indexNd, indexLogical.
+ *
+ * @example
+ * var matrix = _.Matrix.Make([ 2, 3, 2 ]).copy
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9,
+ *    10, 11, 12,
+ * ]);
+ * var got = [];
+ * matrix.layerEach( ( it ) => got.push([ it.indexLogical, it.indexNd ]) );
+ * console.log( got );
+ * // log : [ [ 0, 0 ], [ 1, 1 ] ]
+ *
+ * @param { MapLike|Function } o - Options map or callback.
+ * @param { Function } o.onMatrix - Callback.
+ * @param { Array|Undefined } o.args - An array of arguments.
+ * @returns { Matrix } - Returns the original matrix.
+ * @method layerEach
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-o-} is not a Map or a Function.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
+ * @throws { Error } If {-o.onMatrix-} accepts less or more then one argument.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 /* aaa2 : make o-fifcation */ /* Dmytro : implemented */
 /* qqq2 : cover and document please */
 function layerEach( o )
