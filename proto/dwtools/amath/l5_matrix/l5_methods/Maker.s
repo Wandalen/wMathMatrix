@@ -1354,6 +1354,33 @@ function FromForReading( src, dims )
 
 //
 
+/**
+ * Static routine ColFrom() converts provided vector {-src-} to a column matrix.
+ * If {-src-} is a column matrix, then routine returns original matrix.
+ *
+ * @example
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3 ] );
+ * var got = _.Matrix.ColFrom( src );
+ * console.log( got.toStr() );
+ * // log :
+ * // Matrix.Array.3x1 ::
+ * // +1
+ * // +2
+ * // +3
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source vector.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-src-} neither is a VectorAdapter, nor a Long, nor a Matrix.
+ * @throws { Error } If {-src-} is a Matrix and has more than two dimensions.
+ * @throws { Error } If {-src-} is a flat matrix and number of columns is not equal to 1.
+ * @static
+ * @function ColFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function ColFrom( src )
 {
   let result;
