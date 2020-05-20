@@ -20073,6 +20073,53 @@ function scalarWhile( test )
   test.identical( got, exp );
 
   test.close( 'onScalar returns false' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile();
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile( ( it ) => it.args.push( it.indexLogical ), ( it ) => it );
+  });
+
+  test.case = 'unknown option in options map';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : [], unknown : [] });
+  });
+
+  test.case = 'wrong type of o.args';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+
+  test.case = 'wrong type of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : [], args : [] });
+  });
+
+  test.case = 'wrong length of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
 }
 
 //
@@ -20738,6 +20785,46 @@ function scalarEach( test )
   test.identical( got, exp );
 
   test.close( 'non-standard strides' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach();
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach( ( it ) => it.args.push( it.indexLogical ), ( it ) => it );
+  });
+
+  test.case = 'wrong type of o.args';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+
+  test.case = 'wrong type of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach({ onMatrix : [], args : [] });
+  });
+
+  test.case = 'wrong length of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
 }
 
 //
