@@ -1371,7 +1371,7 @@ function FromForReading( src, dims )
  * @param { Long|VectorAdapter|Matrix|Number } src - Source vector.
  * @returns { Matrix } - Returns the new instance of Matrix.
  * @throws { Error } If arguments.length is not 1.
- * @throws { Error } If {-src-} neither is a VectorAdapter, nor a Long, nor a Matrix.
+ * @throws { Error } If {-src-} has not valid type.
  * @throws { Error } If {-src-} is a Matrix and has more than two dimensions.
  * @throws { Error } If {-src-} is a flat matrix and number of columns is not equal to 1.
  * @static
@@ -1420,8 +1420,30 @@ function ColFrom( src )
 
 //
 
-
-//
+/**
+ * Static routine RowFrom() converts provided vector {-src-} to a row matrix.
+ * If {-src-} is a row matrix, then routine returns original matrix.
+ *
+ * @example
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3 ] );
+ * var got = _.Matrix.RowFrom( src );
+ * console.log( got.toStr() );
+ * // log :
+ * // Matrix.Array.1x3 ::
+ * // +1 +2 +3
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source vector.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @throws { Error } If {-src-} is a Matrix and has more than two dimensions.
+ * @throws { Error } If {-src-} is a flat matrix and number of rows is not equal to 1.
+ * @static
+ * @function RowFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function RowFrom( src )
 {
