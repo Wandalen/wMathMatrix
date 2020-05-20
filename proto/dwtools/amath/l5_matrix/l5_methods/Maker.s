@@ -1410,7 +1410,7 @@ function ColFrom( src )
 
     return this.MakeLine
     ({
-      buffer : src,
+      buffer,
       zeroing : 0,
       dimension : 0,
     });
@@ -1474,7 +1474,7 @@ function RowFrom( src )
 
     return this.MakeLine
     ({
-      buffer : src,
+      buffer,
       zeroing : 0,
       dimension : 1,
     });
@@ -2487,7 +2487,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   ConvertToClass,
 
-  /* qqq2 : implement please FromCol, FromRow */
+  /* aaa2 : implement please FromCol, FromRow */ /* Dmytro : implemented, this routines renamed to ColFrom and RowFrom */
 
   FromVector, /* zzz : deprecate */
   FromScalar,
