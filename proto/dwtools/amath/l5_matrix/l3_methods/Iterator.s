@@ -249,7 +249,7 @@ scalarWhile.defaults =
 }
 
 
-// function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
+// function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
 // {
 //   let self = this;
 //   let result = true;
@@ -264,9 +264,9 @@ scalarWhile.defaults =
 //   let dims = self.dimsEffective;
 //   let it = Object.create( null );
 //   it.options = o;
-//   /* qqq2 : object it should have same field object it of routine scalarEach has */
+//   /* aaa2 : object it should have same field object it of routine scalarEach has */
 //
-//   _.eachInMultiRange /* qqq2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */
+//   _.eachInMultiRange /* aaa2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */
 //   ({
 //     ranges : dims,
 //     onEach : handleEach,
@@ -505,7 +505,7 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
 
 }
 
-// function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
+// function scalarEach( onScalar, args ) /* aaa2 : cover routine scalarEach */
 // {
 //   let self = this;
 //   let dims = self.dimsEffective;
@@ -547,13 +547,13 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
 //     if( dims1 === Infinity )
 //     dims1 = 1;
 //
-//     let it = Object.create( null ); /* qqq2 : cover all fields of it */
+//     let it = Object.create( null ); /* aaa2 : cover all fields of it */
 //     it.matrix = self;
 //     it.buffer = self.buffer;
 //     it.args = args;
 //     it.indexNd = [ 0, 0 ];
 //     it.strides = self.stridesEffective;
-//     it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
+//     it.offset = [ self.offset, self.offset ]; /* aaa2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
 //     let indexLogical = 0;
 //     for( let c = 0 ; c < dims1 ; c++ )
 //     {
@@ -637,7 +637,7 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
 //     it.strides = self.stridesEffective;
 //     it.args = args;
 //     it.indexNd = _.dup( 0, dims.length );
-//     it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
+//     it.offset = _.dup( self.offset, dims.length ); /* aaa2 : implement */
 //     let indexLogical = 0;
 //
 //     self.layerEach( ( it2 ) =>
@@ -660,7 +660,7 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
 //         }
 //         // debugger;
 //         it.offset[ 1 ] += it.strides[ 1 ];
-//         it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
+//         it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */
 //       }
 //
 //     });
@@ -706,7 +706,8 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
  */
 
 /* aaa2 : make o-fifcation */ /* Dmytro : implemented */
-/* qqq2 : cover and document please */
+/* aaa2 : cover and document please */ /* Dmytro : covered and documented */
+
 function layerEach( o )
 {
   let self = this;
@@ -826,6 +827,36 @@ function layerEach( o )
 //
 // }
 
+/**
+ * Method lineEach() calls callback {-onEach-} for each line along of provided dimension current matrix.
+ * The callback {-onEach-} applies option map with next fields : buffer, indexNd, offset, line.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9,
+ * ]);
+ * var got = [];
+ * matrix.lineEach( 0, ( it ) => got.push( ... it.line, '.' ) );
+ * console.log( got );
+ * // log : [ 1, 4, 7, '.', 2, 5, 8, '.', 3, 6, 9, '.' ]
+ *
+ * @param { Number } dimension - An index of dimension : 0 - row, 1, column, 2 - 2D matrix...
+ * @param { Function } onEach - Callback.
+ * @returns {} - Returns not a value, executes callback for each line along provided dimension of the matrix.
+ * @method lineEach
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-dimension-} is not a Number.
+ * @throws { Error } If {-dimension-} is out of range of dimension.length.
+ * @throws { Error } If the matrix has not effective dims.
+ * @throws { Error } If {-onEach-} is not a Function.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 //
 
 function lineEach( dimension, onEach )
@@ -838,7 +869,7 @@ function lineEach( dimension, onEach )
   dimsWithout.splice( dimension, 1 );
 
   _.assert( arguments.length === 2 );
-  _.assert( 0 <= dimension && dimension < dims.length );
+  _.assert( _.numberIs( dimension ) && 0 <= dimension && dimension < dims.length );
   _.assert( dimsWithout.length >= 1 );
   _.assert( _.routineIs( onEach ) );
 
@@ -1008,10 +1039,10 @@ let Extension =
 
   scalarWhile,
   scalarEach,
-  layerEach, /* qqq : cover and document */
+  layerEach, /* aaa : cover and document */ /* Dmytro : covered and documented */
   lineEach,
 
-  /* qqq2 : update documentations of routines of the file */
+  /* aaa2 : update documentations of routines of the file */ /* Dmytro : documentation is updated */
 
   //
 
