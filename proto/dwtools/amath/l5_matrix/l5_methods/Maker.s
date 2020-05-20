@@ -578,7 +578,7 @@ function MakeSimilar( m, dims )
  * @module Tools/math/Matrix
  */
 
-function makeSimilar( dims ) /* aaa : jsdoc */ /* Dmytro : documented */
+function makeSimilar( dims )
 {
   let self = this;
   _.assert( arguments.length === 0 || arguments.length === 1 );
@@ -1477,7 +1477,7 @@ function RowFrom( src )
  * @module Tools/math/Matrix
  */
 
-function FromTransformations( dst, position, quaternion, scale ) /* aaa : add jsdoc */
+function FromTransformations( dst, position, quaternion, scale )
 {
 
   if( arguments.length === 3 )

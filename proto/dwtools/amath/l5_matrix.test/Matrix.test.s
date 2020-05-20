@@ -22218,7 +22218,7 @@ function permutate( test )
 
 //
 
-function _PermutateRookWithoutOptionY( test )
+function _PermutateLineRookWithoutOptionY( test )
 {
   test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
@@ -22245,7 +22245,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -22253,7 +22253,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -22261,7 +22261,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -22309,7 +22309,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22318,7 +22318,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22327,7 +22327,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22376,7 +22376,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 1, 0, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22386,7 +22386,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22395,7 +22395,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22444,7 +22444,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22453,7 +22453,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22462,7 +22462,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22512,7 +22512,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22521,7 +22521,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22530,7 +22530,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22578,7 +22578,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22587,7 +22587,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22596,7 +22596,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22646,7 +22646,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22655,7 +22655,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22664,7 +22664,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22715,7 +22715,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22724,7 +22724,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22733,7 +22733,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
@@ -22742,7 +22742,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 3;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
@@ -22793,7 +22793,7 @@ function _PermutateRookWithoutOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
@@ -22802,7 +22802,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22811,7 +22811,7 @@ function _PermutateRookWithoutOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
@@ -22836,7 +22836,7 @@ function _PermutateRookWithoutOptionY( test )
 
 //
 
-function _PermutateRookWithOptionY( test )
+function _PermutateLineRookWithOptionY( test )
 {
   test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
@@ -22864,7 +22864,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
@@ -22873,7 +22873,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
@@ -22882,7 +22882,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
@@ -22932,7 +22932,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
@@ -22942,7 +22942,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
@@ -22952,7 +22952,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
@@ -23003,7 +23003,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 1, 0, 2 ], [ 0, 1, 2 ] ] );
@@ -23013,7 +23013,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
@@ -23023,7 +23023,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
@@ -23074,7 +23074,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
@@ -23084,7 +23084,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
@@ -23094,7 +23094,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
@@ -23146,7 +23146,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
@@ -23156,7 +23156,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
@@ -23166,7 +23166,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
@@ -23216,7 +23216,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
@@ -23226,7 +23226,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
@@ -23236,7 +23236,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
@@ -23288,7 +23288,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
   test.identical( o.y.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
@@ -23298,7 +23298,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
@@ -23308,7 +23308,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
@@ -23361,7 +23361,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
   test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
@@ -23371,7 +23371,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
@@ -23381,7 +23381,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
@@ -23391,7 +23391,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 3;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
@@ -23444,7 +23444,7 @@ function _PermutateRookWithOptionY( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
   test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2, 3 ] ] );
@@ -23454,7 +23454,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 1;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
   test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
@@ -23464,7 +23464,7 @@ function _PermutateRookWithOptionY( test )
 
   o.lineIndex = 2;
 
-  var got = _.Matrix._PermutateRook( o );
+  var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
   test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
@@ -23494,7 +23494,7 @@ function _PermutateRookWithOptionY( test )
   return;
 
   test.case = 'without arguments';
-  test.shouldThrowErrorSync( () => _.Matrix._PermutateRook() );
+  test.shouldThrowErrorSync( () => _.Matrix._PermutateLineRook() );
 
   test.case = 'extra arguments';
   test.shouldThrowErrorSync( () =>
@@ -23510,7 +23510,7 @@ function _PermutateRookWithOptionY( test )
       nRowPermutations : 0,
       nColPermutations : 0,
     };
-    var got = _.Matrix._PermutateRook( o, o );
+    var got = _.Matrix._PermutateLineRook( o, o );
   });
 
   test.case = 'wrong value in o.lineIndex';
@@ -23527,7 +23527,7 @@ function _PermutateRookWithOptionY( test )
       nRowPermutations : 0,
       nColPermutations : 0,
     };
-    var got = _.Matrix._PermutateRook( o );
+    var got = _.Matrix._PermutateLineRook( o );
   });
 
   test.case = 'wrong type of o.m';
@@ -23543,7 +23543,7 @@ function _PermutateRookWithOptionY( test )
       nRowPermutations : 0,
       nColPermutations : 0,
     };
-    var got = _.Matrix._PermutateRook( o );
+    var got = _.Matrix._PermutateLineRook( o );
   });
 
   test.case = 'wrong type of o.y';
@@ -23560,7 +23560,7 @@ function _PermutateRookWithOptionY( test )
       nRowPermutations : 0,
       nColPermutations : 0,
     };
-    var got = _.Matrix._PermutateRook( o );
+    var got = _.Matrix._PermutateLineRook( o );
   });
 }
 
@@ -26107,12 +26107,48 @@ function matrixHomogenousApply( test )
 function determinant( test )
 {
 
-  act( 'determinantWithPermutation' );
-  act( 'determinantWithLu' );
+  act( 'determinantWithPermutation', 0 );
+  act( 'determinantWithPermutation', 1 );
+  act( 'determinantWithLu', 0 );
+  act( 'determinantWithLu', 1 );
+  act( 'determinantWithBareiss', 0 );
+  act( 'determinantWithBareiss', 1 );
+  act( 'determinant', 0 );
+  act( 'determinant', 1 );
   act( 'determinant' );
 
-  function act( r )
+  function act( r, smalling )
   {
+
+    test.open( `${r} smalling:${smalling}` );
+
+    /* */
+
+    test.case = 'zero 1x1';
+    var m = _.Matrix.MakeZero( 1 );
+    var d = m[ r ]({ smalling });
+    test.equivalent( d, 0 );
+
+    /* */
+
+    test.case = 'zero 2x2';
+    var m = _.Matrix.MakeZero( 2 );
+    var d = m[ r ]({ smalling });
+    test.equivalent( d, 0 );
+
+    /* */
+
+    test.case = 'zero 3x3';
+    var m = _.Matrix.MakeZero( 3 );
+    var d = m[ r ]({ smalling });
+    test.equivalent( d, 0 );
+
+    /* */
+
+    test.case = 'zero 4x4';
+    var m = _.Matrix.MakeZero( 4 );
+    var d = m[ r ]({ smalling });
+    test.equivalent( d, 0 );
 
     /* */
 
@@ -26125,7 +26161,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 0 );
 
     /* */
@@ -26139,7 +26175,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 0 );
 
     /* */
@@ -26153,7 +26189,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 0 );
 
     /* */
@@ -26167,7 +26203,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 3 );
 
     /* */
@@ -26181,7 +26217,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 0 );
 
     /* */
@@ -26195,7 +26231,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 0 );
 
     /* */
@@ -26209,7 +26245,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, -2 );
 
     /* */
@@ -26223,12 +26259,31 @@ function determinant( test )
       inputRowMajor : 0,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, -2 );
 
     /* */
 
-    /* aaa2 : use this test case to cover routine _permutateRook */ /* Dmytro : used */
+    test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
+
+    var buffer = new I32x
+    ([
+      1, 3, 5,
+      0, 5, 1,
+      6, 5, 0,
+    ]);
+    var m = new _.Matrix
+    ({
+      buffer : buffer,
+      dims : [ 3, 3 ],
+      inputRowMajor : 1,
+    });
+
+    var d = m[ r ]({ smalling });
+    test.equivalent( d, -137 );
+
+    /* */
+
     test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
     var buffer = new I32x
@@ -26244,7 +26299,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 452 );
 
     /* */
@@ -26264,7 +26319,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 382 );
 
     /* */
@@ -26284,7 +26339,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 262 );
 
     /* */
@@ -26304,7 +26359,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 389 );
 
     /* */
@@ -26324,7 +26379,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 365 );
 
     /* */
@@ -26344,7 +26399,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, 512 );
 
     /* */
@@ -26363,7 +26418,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, -8 );
 
     /* */
@@ -26383,9 +26438,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    logger.log( m.toStr() );
-
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
 
     test.equivalent( d, 0 );
     test.identical( m.dims, [ 3, 3 ] );
@@ -26407,7 +26460,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, -8 );
 
     /* */
@@ -26427,7 +26480,7 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
 
     test.equivalent( d, -30 );
 
@@ -26459,7 +26512,7 @@ function determinant( test )
       inputRowMajor : 0,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, -48468 );
 
     /* */
@@ -26481,16 +26534,56 @@ function determinant( test )
       inputRowMajor : 1,
     });
 
-    var d = m[ r ]();
+    var d = m[ r ]({ smalling });
     test.equivalent( d, -48 );
 
     /* */
+
+    test.close( `${r} smalling:${smalling}` );
 
   }
 
 }
 
 determinant.accuracy = [ 1e-2, 1e-1 ];
+
+//
+
+function determinantWithLuBig( test )
+{
+
+  /* */
+
+  test.case = 'identity 250x250';
+  var m = _.Matrix.MakeIdentity( 250 );
+  var d = m.determinantWithLu();
+  test.equivalent( d, 1 );
+
+  /* */
+
+}
+
+determinantWithLuBig.rapidity = -1;
+determinantWithLuBig.timeOut = 300000;
+
+//
+
+function determinantWithBareissBig( test )
+{
+
+  /* */
+
+  test.case = 'identity 250x250';
+  var m = _.Matrix.MakeIdentity( 250 );
+  var d = m.determinantWithBareiss();
+  test.equivalent( d, 1 );
+
+  /* */
+
+}
+
+determinantWithBareissBig.rapidity = -1;
+determinantWithBareissBig.timeOut = 300000;
 
 //
 
@@ -29322,8 +29415,8 @@ var Self =
     partialAccessors,
     lineSwap,
     permutate,
-    _PermutateRookWithoutOptionY,
-    _PermutateRookWithOptionY,
+    _PermutateLineRookWithoutOptionY,
+    _PermutateLineRookWithOptionY,
     submatrix,
     submatrixSelectLast,
     subspace, /* qqq : extend, please */
@@ -29342,7 +29435,9 @@ var Self =
 
     furthestClosest,
     matrixHomogenousApply,
-    determinant, /* xxx : finish */
+    determinant,
+    determinantWithLuBig,
+    determinantWithBareissBig,
     // outerProductOfVectors,
 
     // solver

@@ -1133,10 +1133,11 @@ function determinant3()
 
 //
 
-function determinantWithLu() /* qqq : determinant is alread documented, please document also determinantWithPermutation */
+function determinantWithPermutation( o ) /* qqq : determinant is already documented, please document also determinantWithPermutation */
 {
   let self = this;
   let l = self.dims[ 0 ];
+  o = _.routineOptions( determinantWithPermutation, arguments );
 
   if( l === 0 )
   return 0;
@@ -1145,62 +1146,7 @@ function determinantWithLu() /* qqq : determinant is alread documented, please d
 
   /* */
 
-  if( l <= 3 && 0 )
-  {
-    if( l === 3 )
-    return self.determinant3();
-    else if( l === 2 )
-    return self.determinant2();
-    else if( l === 1 )
-    return self.determinant1();
-  }
-  else
-  {
-    return self._determinantWithLu();
-  }
-
-}
-
-//
-
-function _determinantWithLu()
-{
-  let self = this;
-  let l = self.dims[ 0 ];
-  let clone = self.cloneExtending({ ... self.bufferExport({ asFloat : 1, dstObject : null, restriding : null }) });
-
-  let triangulated = clone.triangulateLuPermutating();
-  let result = clone.diagonalGet().reduceToProduct();
-
-  // logger.log( self.toStr() );
-  // logger.log( clone.toStr() );
-  // logger.log( `npermutations : ${triangulated.npermutations}` );
-  // logger.log( `nRowPermutations : ${triangulated.nRowPermutations}` );
-  // logger.log( `nColPermutations : ${triangulated.nColPermutations}` );
-  // logger.log( `permutates[ 0 ] : ${triangulated.permutates[ 0 ].join( ' ' )}` );
-  // logger.log( `permutates[ 1 ] : ${triangulated.permutates[ 1 ].join( ' ' )}` );
-
-  if( triangulated.npermutations % 2 === 1 )
-  result *= -1;
-
-  return result;
-}
-
-//
-
-function determinantWithPermutation() /* qqq : determinant is already documented, please document also determinantWithPermutation */
-{
-  let self = this;
-  let l = self.dims[ 0 ];
-
-  if( l === 0 )
-  return 0;
-  if( !self.isSquare() )
-  return 0;
-
-  /* */
-
-  if( l <= 3 && 1 )
+  if( l <= 3 && o.smalling )
   {
     if( l === 3 )
     return self.determinant3();
@@ -1214,6 +1160,11 @@ function determinantWithPermutation() /* qqq : determinant is already documented
     return self._determinantWithPermutation();
   }
 
+}
+
+determinantWithPermutation.defaults =
+{
+  smalling : 1,
 }
 
 //
@@ -1236,7 +1187,6 @@ function _determinantWithPermutation()
   function onPermutation( permutation, iteration, left, right, swaps )
   {
     const index = [];
-    // let sign = signEval( permutation );
     sign = ( sign + swaps ) % 2;
 
     let r = sign === 0 ? 1 : -1; debugger;
@@ -1249,31 +1199,12 @@ function _determinantWithPermutation()
     }
 
     result += r;
-    // console.log( sign === 0 ? '+' : '-', permutation.join( ' ' ), swaps );
   }
 
   /* */
 
   function signEval( permutation )
   {
-    // let counter = 0;
-    // let forward = permutation.slice();
-    // let backward = [];
-    // for( let i = forward.length-1 ; i >= 0 ; i-- )
-    // {
-    //   backward[ forward[ i ] ] = i;
-    // }
-    // for( let i = backward.length-1 ; i >= 0 ; i-- )
-    // {
-    //   if( backward[ i ] !== i )
-    //   {
-    //     let forward1 = forward[ i ];
-    //     let backward1 = backward[ i ];
-    //     forward[ backward1 ] = forward1;
-    //     backward[ forward1 ] = backward1;
-    //     counter += 1;
-    //   }
-    // }
     let counter = _.swapsCount( permutation );
     return counter % 2;
   }
@@ -1455,56 +1386,134 @@ function _determinantWithPermutation()
 
 */
 
-// //
 //
-// function determinantFast() /* qqq : determinant is document, document also determinantFast please */
-// {
-//   let self = this;
+
+function determinantWithLu( o ) /* qqq : determinant is alread documented, please document also determinantWithPermutation */
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+  o = _.routineOptions( determinantWithLu, arguments );
+
+  if( l === 0 )
+  return 0;
+  if( !self.isSquare() )
+  return 0;
+
+  /* */
+
+  if( l <= 3 && o.smalling )
+  {
+    if( l === 3 )
+    return self.determinant3();
+    else if( l === 2 )
+    return self.determinant2();
+    else if( l === 1 )
+    return self.determinant1();
+  }
+  else
+  {
+    return self._determinantWithLu();
+  }
+
+}
+
+determinantWithLu.defaults =
+{
+  smalling : 1,
+}
+
 //
-//   // let o = this._Solve_pre( arguments );
+
+function _determinantWithLu()
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+  let clone = self.cloneExtending({ ... self.bufferExport({ asFloat : 1, dstObject : null, restriding : null }) });
+
+  let triangulated = clone.triangulateLuPermutating();
+  let result = clone.diagonalGet().reduceToProduct();
+
+  if( isNaN( result ) )
+  return 0;
+
+  if( triangulated.npermutations % 2 === 1 )
+  result *= -1;
+
+  return result;
+}
+
 //
-//   let m = self.clone();
-//   _.assert( m.buffer === self.buffer );
-//   // let x = _.vectorAdapter.from( _.dup( 1, m.length ) );
+
+function determinantWithBareiss( o ) /* qqq : determinant is alread documented, please document also determinantWithPermutation */
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+  o = _.routineOptions( determinantWithBareiss, arguments );
+
+  if( l === 0 )
+  return 0;
+  if( !self.isSquare() )
+  return 0;
+
+  /* */
+
+  if( l <= 3 && o.smalling )
+  {
+    if( l === 3 )
+    return self.determinant3();
+    else if( l === 2 )
+    return self.determinant2();
+    else if( l === 1 )
+    return self.determinant1();
+  }
+  else
+  {
+    return self._determinantWithBareiss();
+  }
+
+}
+
+determinantWithBareiss.defaults =
+{
+  smalling : 1,
+}
+
 //
-//   let permutates = m.triangulateGausianPermutating(); debugger;
-//
-//   return 0;
-//
-//   // let o2 = { m, x };
-//   // o2.onPermutate = this._permutateRook;
-//   // o2.permutatingBackward = 0;
-//   // self._SolveWithGaussJordan( o2 );
-//   //
-//   // logger.log( self.toStr() );
-//   // logger.log( o2.m.toStr() );
-//   // logger.log( o2.x.toStr() );
-//   // // logger.log( o2.y.toStr() );
-//   //
-//   // debugger;
-//   // return 1 / x.reduceToProduct();
-//
-//   // return 0;
-//
-//   // let permutates = m.triangulateLuPermutating();
-//   //
-//   // _.assert( m.ncol == m.nrow ); debugger;
-//   //
-//   // let x = _.vectorAdapter.from( _.dup( 0, m.length ) );
-//   // let y = _.vectorAdapter.from( _.dup( 1, m.length ) );
-//   //
-//   // y = Self.VectorPermutateForward( y, permutates[ 0 ] );
-//   // x = this.SolveTriangleLowerNormal( x, m, y );
-//   // x = this.SolveTriangleUpper( x, m, x );
-//   //
-//   // Self.VectorPermutateBackward( x, permutates[ 1 ] );
-//   //
-//   // debugger;
-//   // let result = x.reduceToProduct();
-//   // debugger;
-//   //
-//   // return result;
-// }
+
+function _determinantWithBareiss()
+{
+  let self = this;
+  let l = self.dims[ 0 ];
+
+  let clone = self.clone();
+  let permutated = clone.permutateRook();
+
+  iterate( 0, 1 );
+  for( let k = 1 ; k < l-1 ; k++ )
+  {
+    let denom = clone.scalarGet([ k-1, k-1 ]);
+    if( Math.abs( denom ) < self.accuracy )
+    return 0;
+    iterate( k, denom );
+  }
+
+  let result = clone.scalarGet([ l-1, l-1 ]);
+
+  if( permutated.npermutations % 2 === 1 )
+  result *= -1;
+
+  return result;
+
+  function iterate( k, denom )
+  {
+    for( let i = k + 1 ; i < l ; i++ )
+    for( let j = k + 1 ; j < l ; j++ )
+    {
+      let nom = clone.scalarGet([ k, k ]) * clone.scalarGet([ i, j ]) - clone.scalarGet([ i, k ]) * clone.scalarGet([ k, j ]);
+      clone.scalarSet( [ i, j ], nom / denom );
+    }
+  }
+}
 
 //
 
@@ -1531,10 +1540,11 @@ function _determinantWithPermutation()
  * @module Tools/math/Matrix
  */
 
-function determinant()
+function determinant( o )
 {
   let self = this;
   let l = self.dims[ 0 ];
+  o = _.routineOptions( determinant, arguments );
 
   if( l === 0 )
   return 0;
@@ -1543,7 +1553,7 @@ function determinant()
 
   /* */
 
-  if( l <= 3 && 0 )
+  if( l <= 3 && o.smalling )
   {
     if( l === 3 )
     return self.determinant3();
@@ -1554,10 +1564,16 @@ function determinant()
   }
   else
   {
-    // return self._determinantWithLu();
-    return self._determinantWithPermutation();
+    // return self._determinantWithPermutation();
+    return self._determinantWithLu();
+    // return self._determinantWithBareiss();
   }
 
+}
+
+determinant.defaults =
+{
+  smalling : 1,
 }
 
 // --
@@ -1633,6 +1649,8 @@ let Extension =
   _determinantWithLu,
   determinantWithPermutation,
   _determinantWithPermutation,
+  determinantWithBareiss,
+  _determinantWithBareiss,
   determinant,
 
   //

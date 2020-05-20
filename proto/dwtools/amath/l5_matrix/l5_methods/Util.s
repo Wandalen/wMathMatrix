@@ -153,7 +153,7 @@ function TempBorrow0( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow0( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
+function tempBorrow0( src )
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
@@ -253,7 +253,7 @@ function TempBorrow1( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow1( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
+function tempBorrow1( src )
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
@@ -353,7 +353,7 @@ function TempBorrow2( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow2( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
+function tempBorrow2( src )
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
@@ -453,7 +453,7 @@ function TempBorrow3( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow3( src ) /* aaa : improve jsdoc */ /* Dmytro : documented */
+function tempBorrow3( src ) 
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )

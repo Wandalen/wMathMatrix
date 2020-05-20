@@ -245,8 +245,8 @@ function triangulateGausianPermutating( y )
   let self = this;
   let o = Object.create( null );
   o.y = y;
-  o.onPermutate = self._PermutateRook;
-  o.onPermutatePre = self._PermutateRook_pre;
+  o.onPermutate = self._PermutateLineRook;
+  o.onPermutatePre = self._PermutateLineRook.pre;
   _.assert( _.routineIs( o.onPermutate ) );
   _.assert( _.routineIs( o.onPermutatePre ) );
   return self._triangulateGausian( o );
@@ -398,7 +398,7 @@ function triangulateLuPermutating( permutates )
   let nrow = self.nrow;
   let ncol = Math.min( self.ncol, nrow );
 
-  let popts = self._PermutateRook_pre( self._permutateRook, [{ m : self, permutates }] );
+  let popts = self._PermutateLineRook.pre.call( self, self._PermutateLineRook, [{ m : self, permutates }] );
 
   /* */
 
@@ -413,7 +413,7 @@ function triangulateLuPermutating( permutates )
   {
 
     popts.lineIndex = r1;
-    self._permutateRook( popts );
+    self._permutateLineRook( popts );
 
     let row1 = self.rowGet( r1 );
     let scaler1 = row1.eGet( r1 );
@@ -744,8 +744,8 @@ function SolveWithGaussJordan()
 function SolveWithGaussJordanPermutating()
 {
   let o = this._Solve_pre( arguments );
-  o.onPermutate = this._PermutateRook;
-  o.onPermutatePre = this._PermutateRook_pre;
+  o.onPermutate = this._PermutateLineRook;
+  o.onPermutatePre = this._PermutateLineRook.pre;
   o.permutatingBackward = 1;
   _.assert( _.routineIs( o.onPermutate ) );
   _.assert( _.routineIs( o.onPermutatePre ) );
@@ -1287,8 +1287,8 @@ function SolveGeneral( o )
   if( o.permutating )
   {
     optionsForMethod = this._Solve_pre([ o.x, o.m, o.y ]);
-    optionsForMethod.onPermutate = this._PermutateRook;
-    optionsForMethod.onPermutatePre = this._PermutateRook_pre;
+    optionsForMethod.onPermutate = this._PermutateLineRook;
+    optionsForMethod.onPermutatePre = this._PermutateLineRook.pre;
     optionsForMethod.permutatingBackward = 0;
     o.x = result.base = this._SolveWithGaussJordan( optionsForMethod );
   }
