@@ -48,6 +48,7 @@ let Self = _.Matrix;
 function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */ /* Dmytro : covered, used separate subroutines for 2d and 3d matrix */
 {
   let self = this;
+  let result = true;
   let dims = self.dimsEffective;
 
   if( _.routineIs( o ) )
@@ -72,7 +73,7 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
     iterateN();
   }
 
-  return self;
+  return result;
 
   /* */
 
@@ -103,7 +104,7 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
       {
         it.indexNd[ 0 ] = r;
         it.indexLogical = indexLogical;
-        let result = o.onScalar.call( self, it );
+        result = o.onScalar.call( self, it );
         if( result === false )
         {
           breaking = 1;
@@ -150,7 +151,7 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
         {
           it.indexNd[ 0 ] = r;
           it.indexLogical = indexLogical;
-          let result = o.onScalar.call( self, it );
+          result = o.onScalar.call( self, it );
           if( result === false )
           {
             breaking = 1;
@@ -205,7 +206,7 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
       for( let i = dims.length - 2 ; i >= 0 ; i-- )
       it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
 
-      let result = o.onScalar.call( self, it );
+      result = o.onScalar.call( self, it );
 
       if( it.indexNd[ 0 ] + 1 === dims[ 0 ] )
       {
