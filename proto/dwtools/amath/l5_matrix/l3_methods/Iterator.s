@@ -22,7 +22,7 @@ let Self = _.Matrix;
 // --
 
 /**
- * Method scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
+ * Method scalarWhile() calls callback {-o.onScalar-} for each element of current matrix
  * while callback returns value, which is not equivalent to false.
  *
  * @example
@@ -37,7 +37,7 @@ let Self = _.Matrix;
  * console.log( got );
  * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { Map|Function } o - Options map or callback.
+ * @param { MapLike|Function } o - Options map or callback.
  * @param { Function } o.onScalar - Callback.
  * Callback {-o.onScalar-} executes on map `it` with next fields : matrix, buffer, args, indexNd,
  * strides, offset, indexLogical.
@@ -46,8 +46,9 @@ let Self = _.Matrix;
  * @method scalarWhile
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
- * @throws { Error } If {-o.args-} is not an Array or not undefined.
  * @throws { Error } If options map {-o-} has extra options.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
+ * @throws { Error } If {-o.onScalar-} accepts less or more then one argument.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -293,25 +294,31 @@ scalarWhile.defaults =
 //
 
 /**
- * Method scalarEach() applies callback {-onScalar-} to each element of current matrix.
- * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexLogical`.
- * Field `args` defines by the second argument.
+ * Method scalarEach() calls callback {-onScalar-} for each element of current matrix.
+ * The callback {-onScalar-} applies option map with next fields : matrix, buffer, args, indexNd,
+ * strides, offset, indexLogical.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var storage = [];
- * matrix.scalarEach( ( e ) => { storage.push(  Math.pow( e.scalar, 2 ) ) } );
- * console.log( storage );
- * // log : [ 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9,
+ * ]);
+ * var got = [];
+ * matrix.scalarEach( ( it ) => got.push( Math.pow( it.indexLogical, 2 ) ) );
+ * console.log( got );
+ * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { Function } onScalar - Callback.
- * @param { Array } args - Array for callback.
+ * @param { MapLike|Function } o - Options map or callback.
+ * @param { Function } o.onScalar - Callback.
+ * @param { Array|Undefined } o.args - An array of arguments.
  * @returns { Matrix } - Returns the original matrix.
  * @method scalarEach
- * @throws { Error } If arguments.length is more then two.
- * @throws { Error } If number of dimensions of matrix is more then two.
- * @throws { Error } If {-args-} is not an Array.
- * @throws { Error } If {-onScalar-} accepts less or more then one argument.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-o-} is not a Map or a Function.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
+ * @throws { Error } If {-o.onScalar-} accepts less or more then one argument.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
