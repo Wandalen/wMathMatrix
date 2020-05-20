@@ -255,6 +255,12 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
       for( let i = 2 ; i < dims.length ; i++ )
       it.indexNd[ i ] = it2.indexNd[ i-2 ];
 
+      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+      for( let i = dims.length - 2 ; i >= 2 ; i-- )
+      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      it.offset[ 1 ] = it.offset[ 2 ];
+      it.offset[ 0 ] = it.offset[ 2 ];
+
       for( let c = 0 ; c < dims1 ; c++ )
       {
         it.indexNd[ 1 ] = c;
