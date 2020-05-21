@@ -22,62 +22,222 @@ let Self = _.Matrix;
 // --
 
 /**
- * Method scalarWhile() applies callback {-o.onScalar-} to each element of current matrix
- * while callback returns defined value.
+ * Method scalarWhile() calls callback {-o.onScalar-} for each element of current matrix
+ * while callback returns value, which is not equivalent to false.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.scalarWhile( ( e ) => Math.pow( e, 2 ) );
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9
+ * ]);
+ * var got = [];
+ * var got = matrix.scalarWhile( ( it ) => got.push( Math.pow( it.indexLogical, 2 ) ) );
  * console.log( got );
- * // log : 81
+ * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { Map|Function } o - Options map of callback.
+ * @param { MapLike|Function } o - Options map or callback.
  * @param { Function } o.onScalar - Callback.
- * Callback {-o.onScalar-} applies four arguments : element of matrix, position `indexNd`,
- * flat index `indexLogical`, options map {-o-}.
+ * Callback {-o.onScalar-} executes on map `it` with next fields : matrix, buffer, args, indexNd,
+ * strides, offset, indexLogical.
+ * @param { Array|Undefined } o.args - An array of arguments for callback.
  * @returns { * } - Returns the result of callback.
  * @method scalarWhile
  * @throws { Error } If arguments.length is not equal to one.
  * @throws { Error } If {-o-} is not a Map, not a Function.
  * @throws { Error } If options map {-o-} has extra options.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
+ * @throws { Error } If {-o.onScalar-} accepts less or more then one argument.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
+function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */ /* Dmytro : covered, used separate subroutines for 2d and 3d matrix */
 {
   let self = this;
   let result = true;
+  let dims = self.dimsEffective;
 
   if( _.routineIs( o ) )
-  o = { onScalar : o }
+  o = { onScalar : o };
+  if( o.args === undefined )
+  o.args = [];
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( arguments.length === 1 );
   _.routineOptions( scalarWhile, o );
-  _.assert( _.routineIs( o.onScalar ) );
+  _.assert( _.arrayIs( o.args ) );
+  _.assert( o.onScalar.length === 1 );
 
-  let dims = self.dimsEffective;
-  let it = Object.create( null );
-  it.options = o;
-  /* qqq2 : object it should have same field object it of routine scalarEach has */
-
-  _.eachInMultiRange /* qqq2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */
-  ({
-    ranges : dims,
-    onEach : handleEach,
-  })
+  if( dims.length === 2 )
+  {
+    iterate2();
+  }
+  else if( dims.length === 3 )
+  {
+    iterate3();
+  }
+  else
+  {
+    iterateN();
+  }
 
   return result;
 
-  function handleEach( indexNd, indexLogical )
+  /* */
+
+  function iterate2()
   {
-    it.indexNd = indexNd;
-    it.indexLogical = indexLogical;
-    it.scalar = self.scalarGet( indexNd );
-    // result = o.onScalar.call( self, value, indexNd, indexLogical, o );
-    result = o.onScalar.call( self, it );
-    return result;
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+
+    if( dims0 === Infinity )
+    dims0 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.matrix = self;
+    it.buffer = self.buffer;
+    it.args = o.args;
+    it.indexNd = [ 0, 0 ];
+    it.strides = self.stridesEffective;
+    it.offset = [ self.offset, self.offset ];
+    let indexLogical = 0;
+    let breaking = 0;
+
+    for( let c = 0 ; c < dims1 && !breaking ; c++ )
+    {
+      it.indexNd[ 1 ] = c;
+      for( let r = 0 ; r < dims0 && !breaking ; r++ )
+      {
+        it.indexNd[ 0 ] = r;
+        it.indexLogical = indexLogical;
+        result = o.onScalar.call( self, it );
+        if( result === false )
+        {
+          breaking = 1;
+          break;
+        }
+        it.offset[ 0 ] += it.strides[ 0 ];
+        indexLogical += 1;
+      }
+      it.offset[ 1 ] += it.strides[ 1 ];
+      it.offset[ 0 ] = it.offset[ 1 ];
+    }
+  }
+
+  /* */
+
+  function iterate3()
+  {
+    let dims0 = dims[ 0 ];
+    let dims1 = dims[ 1 ];
+    let dims2 = dims[ 2 ];
+
+    if( dims0 === Infinity )
+    dims1 = 1;
+    if( dims1 === Infinity )
+    dims1 = 1;
+
+    let it = Object.create( null );
+    it.matrix = self;
+    it.buffer = self.buffer;
+    it.args = o.args;
+    it.indexNd = [ 0, 0, 0 ];
+    it.strides = self.stridesEffective;
+    it.offset = [ self.offset, self.offset, self.offset ];
+    let indexLogical = 0;
+    let breaking = 0;
+
+    for( let d2 = 0 ; d2 < dims2 && !breaking ; d2++ )
+    {
+      it.indexNd[ 2 ] = d2;
+      for( let c = 0 ; c < dims1 && !breaking ; c++ )
+      {
+        it.indexNd[ 1 ] = c;
+        for( let r = 0 ; r < dims0 && !breaking ; r++ )
+        {
+          it.indexNd[ 0 ] = r;
+          it.indexLogical = indexLogical;
+          result = o.onScalar.call( self, it );
+          if( result === false )
+          {
+            breaking = 1;
+            break;
+          }
+          it.offset[ 0 ] += it.strides[ 0 ];
+          indexLogical += 1;
+        }
+        it.offset[ 1 ] += it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ];
+      }
+      it.offset[ 2 ] += it.strides[ 2 ];
+      it.offset[ 1 ] = it.offset[ 2 ];
+      it.offset[ 0 ] = it.offset[ 2 ];
+    }
+  }
+
+  /* */
+
+  function iterateN()
+  {
+
+    let it = Object.create( null );
+    it.matrix = self;
+    it.buffer = self.buffer;
+    it.strides = self.stridesEffective;
+    it.args = o.args;
+    it.indexNd = _.dup( 0, dims.length );
+    it.offset = _.dup( self.offset, dims.length );
+    it.indexLogical = 0;
+
+    let ranges = [];
+    for( let i = 0 ; i < dims.length ; i++ )
+    ranges.push( [ 0, dims[ i ] ] );
+
+    /* aaa2 : object it should have same field object it of routine scalarEach has */ /* Dmytro : all fields are added */
+
+    _.eachInMultiRange_.body /* aaa2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */ /* Dmytro : used new routine eachInMultiRange_ */
+    ({
+      ranges,
+      onEach : handleEach,
+      breaking : 1, /* Dmytro : as explained before, the routine `eachInMultiRange_.body` use not routine `routineOptions`. Routine `routineOptions` exists in `pre` */
+    })
+
+
+    function handleEach( indexNd, indexLogical )
+    {
+      it.indexNd = indexNd;
+      it.indexLogical = indexLogical;
+
+      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+      for( let i = dims.length - 2 ; i >= 0 ; i-- )
+      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+
+      result = o.onScalar.call( self, it );
+
+      if( it.indexNd[ 0 ] + 1 === dims[ 0 ] )
+      {
+        it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims[ 0 ] : it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ];
+        if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+        {
+          for( let i = dims.length - 1 ; i >= 2 ; i-- )
+          it.offset[ i ] = it.offset[ 1 ];
+        }
+        else
+        {
+          it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+          for( let i = dims.length - 2 ; i >= 2 ; i-- )
+          it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+        }
+      }
+
+      return result;
+    }
+
   }
 
 }
@@ -85,37 +245,88 @@ function scalarWhile( o ) /* qqq2 : cover and optimize routine eachInMultiRange.
 scalarWhile.defaults =
 {
   onScalar : null,
+  args : null,
 }
+
+
+// function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */
+// {
+//   let self = this;
+//   let result = true;
+//
+//   if( _.routineIs( o ) )
+//   o = { onScalar : o }
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.routineOptions( scalarWhile, o );
+//   _.assert( _.routineIs( o.onScalar ) );
+//
+//   let dims = self.dimsEffective;
+//   let it = Object.create( null );
+//   it.options = o;
+//   /* aaa2 : object it should have same field object it of routine scalarEach has */
+//
+//   _.eachInMultiRange /* aaa2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */
+//   ({
+//     ranges : dims,
+//     onEach : handleEach,
+//   })
+//
+//   return result;
+//
+//   function handleEach( indexNd, indexLogical )
+//   {
+//     it.indexNd = indexNd;
+//     it.indexLogical = indexLogical;
+//     it.scalar = self.scalarGet( indexNd );
+//     // result = o.onScalar.call( self, value, indexNd, indexLogical, o );
+//     result = o.onScalar.call( self, it );
+//     return result;
+//   }
+//
+// }
+//
+// scalarWhile.defaults =
+// {
+//   onScalar : null,
+// }
 
 //
 
 /**
- * Method scalarEach() applies callback {-onScalar-} to each element of current matrix.
- * The callback {-onScalar-} applies option map with next fields : `indexNd`, `indexLogical`.
- * Field `args` defines by the second argument.
+ * Method scalarEach() calls callback {-onScalar-} for each element of current matrix.
+ * The callback {-onScalar-} applies option map with next fields : matrix, buffer, args, indexNd,
+ * strides, offset, indexLogical.
  *
  * @example
- * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var storage = [];
- * matrix.scalarEach( ( e ) => { storage.push(  Math.pow( e.scalar, 2 ) ) } );
- * console.log( storage );
- * // log : [ 1, 4, 9, 16, 25, 36, 49, 64, 81 ]
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9,
+ * ]);
+ * var got = [];
+ * matrix.scalarEach( ( it ) => got.push( Math.pow( it.indexLogical, 2 ) ) );
+ * console.log( got );
+ * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { Function } onScalar - Callback.
- * @param { Array } args - Array for callback.
+ * @param { MapLike|Function } o - Options map or callback.
+ * @param { Function } o.onScalar - Callback.
+ * @param { Array|Undefined } o.args - An array of arguments.
  * @returns { Matrix } - Returns the original matrix.
  * @method scalarEach
- * @throws { Error } If arguments.length is more then two.
- * @throws { Error } If number of dimensions of matrix is more then two.
- * @throws { Error } If {-args-} is not an Array.
- * @throws { Error } If {-onScalar-} accepts less or more then one argument.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-o-} is not a Map or a Function.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
+ * @throws { Error } If {-o.onScalar-} accepts less or more then one argument.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
 /* aaa2 : make o-fifcation */ /* Dmytro : implemented */
-function scalarEach( o ) /* qqq2 : cover routine scalarEach */
+
+function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : covered */
 {
   let self = this;
   let dims = self.dimsEffective;
@@ -152,17 +363,18 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
     let dims1 = dims[ 1 ];
 
     if( dims0 === Infinity )
-    dims1 = 1;
+    dims0 = 1;
+    // dims1 = 1;
     if( dims1 === Infinity )
     dims1 = 1;
 
-    let it = Object.create( null ); /* qqq2 : cover all fields of it */
+    let it = Object.create( null ); /* aaa2 : cover all fields of it */ /* Dmytro : covered all fields */
     it.matrix = self;
     it.buffer = self.buffer;
     it.args = o.args;
     it.indexNd = [ 0, 0 ];
     it.strides = self.stridesEffective;
-    it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
+    it.offset = [ self.offset, self.offset ]; /* aaa2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */ /* Dmytro : covered */
     let indexLogical = 0;
     for( let c = 0 ; c < dims1 ; c++ )
     {
@@ -234,7 +446,8 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
     // let strides = self.stridesEffective;
 
     if( dims0 === Infinity )
-    dims1 = 1;
+    dims0 = 1;
+    // dims1 = 1;
     if( dims1 === Infinity )
     dims1 = 1;
 
@@ -244,7 +457,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
     it.strides = self.stridesEffective;
     it.args = o.args;
     it.indexNd = _.dup( 0, dims.length );
-    it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
+    it.offset = _.dup( self.offset, dims.length ); /* aaa2 : implement */ /* Dmytro : implemented */
     let indexLogical = 0;
 
     self.layerEach( ( it2 ) =>
@@ -252,6 +465,12 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 
       for( let i = 2 ; i < dims.length ; i++ )
       it.indexNd[ i ] = it2.indexNd[ i-2 ];
+
+      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+      for( let i = dims.length - 2 ; i >= 2 ; i-- )
+      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      it.offset[ 1 ] = it.offset[ 2 ];
+      it.offset[ 0 ] = it.offset[ 2 ];
 
       for( let c = 0 ; c < dims1 ; c++ )
       {
@@ -264,18 +483,29 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
           it.offset[ 0 ] += it.strides[ 0 ];
           indexLogical += 1;
         }
-        it.offset[ 1 ] += it.strides[ 1 ];
-        it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
+        it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims0 : it.strides[ 1 ];
+        it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */ /* Dmytro : implemented counter, which works like counter in other routines */
+      }
+
+      if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+      {
+        for( let i = dims.length - 1 ; i >= 2 ; i-- )
+        it.offset[ i ] = it.offset[ 1 ];
+      }
+      else
+      {
+        it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+        for( let i = dims.length - 2 ; i >= 2 ; i-- )
+        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
       }
 
     });
 
   }
 
-  /* */
-
 }
-// function scalarEach( onScalar, args ) /* qqq2 : cover routine scalarEach */
+
+// function scalarEach( onScalar, args ) /* aaa2 : cover routine scalarEach */
 // {
 //   let self = this;
 //   let dims = self.dimsEffective;
@@ -317,13 +547,13 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 //     if( dims1 === Infinity )
 //     dims1 = 1;
 //
-//     let it = Object.create( null ); /* qqq2 : cover all fields of it */
+//     let it = Object.create( null ); /* aaa2 : cover all fields of it */
 //     it.matrix = self;
 //     it.buffer = self.buffer;
 //     it.args = args;
 //     it.indexNd = [ 0, 0 ];
 //     it.strides = self.stridesEffective;
-//     it.offset = [ self.offset, self.offset ]; /* qqq2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
+//     it.offset = [ self.offset, self.offset ]; /* aaa2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */
 //     let indexLogical = 0;
 //     for( let c = 0 ; c < dims1 ; c++ )
 //     {
@@ -407,7 +637,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 //     it.strides = self.stridesEffective;
 //     it.args = args;
 //     it.indexNd = _.dup( 0, dims.length );
-//     it.offset = _.dup( self.offset, dims.length ); /* qqq2 : implement */
+//     it.offset = _.dup( self.offset, dims.length ); /* aaa2 : implement */
 //     let indexLogical = 0;
 //
 //     self.layerEach( ( it2 ) =>
@@ -430,7 +660,7 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 //         }
 //         // debugger;
 //         it.offset[ 1 ] += it.strides[ 1 ];
-//         it.offset[ 0 ] = it.offset[ 1 ]; /* qqq2 : not finished! finish please */
+//         it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */
 //       }
 //
 //     });
@@ -443,28 +673,63 @@ function scalarEach( o ) /* qqq2 : cover routine scalarEach */
 
 //
 
-/* qqq2 : make o-fifcation */
-/* qqq2 : cover and document please */
-function layerEach( onMatrix, args )
+/**
+ * Method layerEach() calls callback {-onMatrix-} for each layer of current matrix.
+ * The layer is single 2D matrix of multidimensional matrix.
+ * The callback {-onMatrix-} applies option map with next fields : args, indexNd, indexLogical.
+ *
+ * @example
+ * var matrix = _.Matrix.Make([ 2, 3, 2 ]).copy
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9,
+ *    10, 11, 12,
+ * ]);
+ * var got = [];
+ * matrix.layerEach( ( it ) => got.push([ it.indexLogical, it.indexNd ]) );
+ * console.log( got );
+ * // log : [ [ 0, 0 ], [ 1, 1 ] ]
+ *
+ * @param { MapLike|Function } o - Options map or callback.
+ * @param { Function } o.onMatrix - Callback.
+ * @param { Array|Undefined } o.args - An array of arguments.
+ * @returns { Matrix } - Returns the original matrix.
+ * @method layerEach
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-o-} is not a Map or a Function.
+ * @throws { Error } If {-o.args-} is not an Array or not undefined.
+ * @throws { Error } If {-o.onMatrix-} accepts less or more then one argument.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+/* aaa2 : make o-fifcation */ /* Dmytro : implemented */
+/* aaa2 : cover and document please */ /* Dmytro : covered and documented */
+
+function layerEach( o )
 {
   let self = this;
   let dims = self.dimsEffective;
 
-  if( args === undefined )
-  args = [];
+  if( _.routineIs( o ) )
+  o = { onMatrix : o };
+  if( o.args === undefined )
+  o.args = [];
 
-  _.assert( arguments.length <= 2 );
-  _.assert( _.arrayIs( args ) );
-  _.assert( onMatrix.length === 1 );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.arrayIs( o.args ) );
+  _.assert( o.onMatrix.length === 1 );
 
   let it = Object.create( null );
-  it.args = args;
+  it.args = o.args;
   it.indexNd = _.dup( 0, dims.length - 2 );
   it.indexLogical = 0;
 
   if( !it.indexNd.length )
   {
-    onMatrix( it );
+    o.onMatrix( it );
   }
   else
   {
@@ -475,12 +740,14 @@ function layerEach( onMatrix, args )
 
     do
     {
-      onMatrix( it );
+      o.onMatrix( it );
     }
     while( inc() );
   }
 
   return self;
+
+  /* */
 
   function inc()
   {
@@ -502,6 +769,93 @@ function layerEach( onMatrix, args )
   }
 
 }
+// function layerEach( onMatrix, args )
+// {
+//   let self = this;
+//   let dims = self.dimsEffective;
+//
+//   if( args === undefined )
+//   args = [];
+//
+//   _.assert( arguments.length <= 2 );
+//   _.assert( _.arrayIs( args ) );
+//   _.assert( onMatrix.length === 1 );
+//
+//   let it = Object.create( null );
+//   it.args = args;
+//   it.indexNd = _.dup( 0, dims.length - 2 );
+//   it.indexLogical = 0;
+//
+//   if( !it.indexNd.length )
+//   {
+//     onMatrix( it );
+//   }
+//   else
+//   {
+//
+//     for( let i = 2 ; i < dims.length ; i++ )
+//     if( dims[ i ] === 0 )
+//     return self;
+//
+//     do
+//     {
+//       onMatrix( it );
+//     }
+//     while( inc() );
+//   }
+//
+//   return self;
+//
+//   function inc()
+//   {
+//     let d = 0;
+//
+//     while( d < dims.length-2 )
+//     {
+//       it.indexNd[ d ] += 1;
+//       if( it.indexNd[ d ] < dims[ d+2 ] )
+//       {
+//         it.indexLogical += 1;
+//         return true;
+//       }
+//       it.indexNd[ d ] = 0;
+//       d += 1;
+//     }
+//
+//     return false;
+//   }
+//
+// }
+
+/**
+ * Method lineEach() calls callback {-onEach-} for each line along of provided dimension current matrix.
+ * The callback {-onEach-} applies option map with next fields : buffer, indexNd, offset, line.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *    1, 2, 3,
+ *    4, 5, 6,
+ *    7, 8, 9,
+ * ]);
+ * var got = [];
+ * matrix.lineEach( 0, ( it ) => got.push( ... it.line, '.' ) );
+ * console.log( got );
+ * // log : [ 1, 4, 7, '.', 2, 5, 8, '.', 3, 6, 9, '.' ]
+ *
+ * @param { Number } dimension - An index of dimension : 0 - row, 1, column, 2 - 2D matrix...
+ * @param { Function } onEach - Callback.
+ * @returns {} - Returns not a value, executes callback for each line along provided dimension of the matrix.
+ * @method lineEach
+ * @throws { Error } If arguments.length is not 2.
+ * @throws { Error } If {-dimension-} is not a Number.
+ * @throws { Error } If {-dimension-} is out of range of dimension.length.
+ * @throws { Error } If the matrix has not effective dims.
+ * @throws { Error } If {-onEach-} is not a Function.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 //
 
@@ -515,7 +869,7 @@ function lineEach( dimension, onEach )
   dimsWithout.splice( dimension, 1 );
 
   _.assert( arguments.length === 2 );
-  _.assert( 0 <= dimension && dimension < dims.length );
+  _.assert( _.numberIs( dimension ) && 0 <= dimension && dimension < dims.length );
   _.assert( dimsWithout.length >= 1 );
   _.assert( _.routineIs( onEach ) );
 
@@ -685,10 +1039,10 @@ let Extension =
 
   scalarWhile,
   scalarEach,
-  layerEach, /* qqq : cover and document */
+  layerEach, /* aaa : cover and document */ /* Dmytro : covered and documented */
   lineEach,
 
-  /* qqq2 : update documentations of routines of the file */
+  /* aaa2 : update documentations of routines of the file */ /* Dmytro : documentation is updated */
 
   //
 

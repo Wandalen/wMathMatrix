@@ -1354,6 +1354,33 @@ function FromForReading( src, dims )
 
 //
 
+/**
+ * Static routine ColFrom() converts provided vector {-src-} to a column matrix.
+ * If {-src-} is a column matrix, then routine returns original matrix.
+ *
+ * @example
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3 ] );
+ * var got = _.Matrix.ColFrom( src );
+ * console.log( got.toStr() );
+ * // log :
+ * // Matrix.Array.3x1 ::
+ * // +1
+ * // +2
+ * // +3
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source vector.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @throws { Error } If {-src-} is a Matrix and has more than two dimensions.
+ * @throws { Error } If {-src-} is a flat matrix and number of columns is not equal to 1.
+ * @static
+ * @function ColFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function ColFrom( src )
 {
   let result;
@@ -1383,7 +1410,7 @@ function ColFrom( src )
 
     return this.MakeLine
     ({
-      buffer : src,
+      buffer,
       zeroing : 0,
       dimension : 0,
     });
@@ -1393,8 +1420,30 @@ function ColFrom( src )
 
 //
 
-
-//
+/**
+ * Static routine RowFrom() converts provided vector {-src-} to a row matrix.
+ * If {-src-} is a row matrix, then routine returns original matrix.
+ *
+ * @example
+ * var src = _.vectorAdapter.fromLong( [ 1, 2, 3 ] );
+ * var got = _.Matrix.RowFrom( src );
+ * console.log( got.toStr() );
+ * // log :
+ * // Matrix.Array.1x3 ::
+ * // +1 +2 +3
+ *
+ * @param { Long|VectorAdapter|Matrix|Number } src - Source vector.
+ * @returns { Matrix } - Returns the new instance of Matrix.
+ * @throws { Error } If arguments.length is not 1.
+ * @throws { Error } If {-src-} has not valid type.
+ * @throws { Error } If {-src-} is a Matrix and has more than two dimensions.
+ * @throws { Error } If {-src-} is a flat matrix and number of rows is not equal to 1.
+ * @static
+ * @function RowFrom
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function RowFrom( src )
 {
@@ -1425,7 +1474,7 @@ function RowFrom( src )
 
     return this.MakeLine
     ({
-      buffer : src,
+      buffer,
       zeroing : 0,
       dimension : 1,
     });
@@ -2438,7 +2487,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   ConvertToClass,
 
-  /* qqq2 : implement please FromCol, FromRow */
+  /* aaa2 : implement please FromCol, FromRow */ /* Dmytro : implemented, this routines renamed to ColFrom and RowFrom */
 
   FromVector, /* zzz : deprecate */
   FromScalar,

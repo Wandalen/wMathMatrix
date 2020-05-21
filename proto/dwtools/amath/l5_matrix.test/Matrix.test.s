@@ -9818,6 +9818,532 @@ function FromForReadingSrcVector( test )
 
 //
 
+function ColFrom( test )
+{
+  test.case = 'src - column matrix';
+  var src = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got === src );
+
+  /* */
+
+  test.case = 'src - number';
+  var src = 5;
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got !== src );
+
+  /* - */
+
+  test.open( 'src is a VectorAdapter' );
+
+  test.case = 'routine make';
+  var src = _.vectorAdapter.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine makeFilling';
+  var src = _.vectorAdapter.makeFilling( 3, 5 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+    5,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine from';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLong';
+  var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongLrange';
+  var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongWithStride';
+  var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    0,
+    2,
+    4,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongLrangeAndStride';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    3,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromNumber, number';
+  var src = _.vectorAdapter.fromNumber( 5, 3 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+    5,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromMaybeNumber, number';
+  var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    5,
+    5,
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromMaybeNumber, Long';
+  var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.close( 'src is a VectorAdapter' );
+
+  /* - */
+
+  test.open( 'src is a Long' );
+
+  test.case = 'Array';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'Unroll';
+  var src = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'ArgumentsArray';
+  var src = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer !== src );
+
+  test.case = 'BufferTyped, U8x';
+  var src = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, I16x';
+  var src = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, F32x';
+  var src = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, F64x';
+  var src = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'avector';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.ColFrom( src );
+  var exp = _.Matrix.MakeCol
+  ([
+    1,
+    2,
+    3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.close( 'src is a Long' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.ColFrom() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.ColFrom( [ 1, 2, 3 ], [ 1, 2 ] ) );
+
+  test.case = 'wrong type of src';
+  test.shouldThrowErrorSync( () => _.Matrix.ColFrom( null ) );
+  test.shouldThrowErrorSync( () => _.Matrix.ColFrom( {} ) );
+
+  test.case = 'src is not flat matrix';
+  test.shouldThrowErrorSync( () => _.Matrix.ColFrom( _.Matrix.Make([ 3, 1, 2 ]) ) );
+
+  test.case = 'src is not column matrix';
+  test.shouldThrowErrorSync( () => _.Matrix.ColFrom( _.Matrix.Make([ 1, 3 ]) ) );
+}
+
+//
+
+function RowFrom( test )
+{
+  test.case = 'src - column matrix';
+  var src = _.Matrix.Make([ 1, 3 ]).copy
+  ([
+    1, 2, 3
+  ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got === src );
+
+  /* */
+
+  test.case = 'src - number';
+  var src = 5;
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got !== src );
+
+  /* - */
+
+  test.open( 'src is a VectorAdapter' );
+
+  test.case = 'routine make';
+  var src = _.vectorAdapter.make([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine makeFilling';
+  var src = _.vectorAdapter.makeFilling( 3, 5 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    5, 5, 5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine from';
+  var src = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLong';
+  var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongLrange';
+  var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongWithStride';
+  var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    0, 2, 4,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromLongLrangeAndStride';
+  var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 3, 5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromNumber, number';
+  var src = _.vectorAdapter.fromNumber( 5, 3 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    5, 5, 5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromMaybeNumber, number';
+  var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    5, 5, 5,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.case = 'routine fromMaybeNumber, Long';
+  var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src._vectorBuffer );
+
+  test.close( 'src is a VectorAdapter' );
+
+  /* - */
+
+  test.open( 'src is a Long' );
+
+  test.case = 'Array';
+  var src = [ 1, 2, 3 ];
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'Unroll';
+  var src = _.unrollMake([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'ArgumentsArray';
+  var src = _.argumentsArrayMake([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer !== src );
+
+  test.case = 'BufferTyped, U8x';
+  var src = new U8x([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, I16x';
+  var src = new I16x([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, F32x';
+  var src = new F32x([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'BufferTyped, F64x';
+  var src = new F64x([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.case = 'avector';
+  var src = _.avector.make([ 1, 2, 3 ]);
+  var got = _.Matrix.RowFrom( src );
+  var exp = _.Matrix.MakeRow
+  ([
+    1, 2, 3,
+  ]);
+  test.equivalent( got, exp );
+  test.is( got.buffer === src );
+
+  test.close( 'src is a Long' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.RowFrom() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.Matrix.RowFrom( [ 1, 2, 3 ], [ 1, 2 ] ) );
+
+  test.case = 'wrong type of src';
+  test.shouldThrowErrorSync( () => _.Matrix.RowFrom( null ) );
+  test.shouldThrowErrorSync( () => _.Matrix.RowFrom( {} ) );
+
+  test.case = 'src is not flat matrix';
+  test.shouldThrowErrorSync( () => _.Matrix.RowFrom( _.Matrix.Make([ 3, 1, 2 ]) ) );
+
+  test.case = 'src is not column matrix';
+  test.shouldThrowErrorSync( () => _.Matrix.RowFrom( _.Matrix.Make([ 3, 1 ]) ) );
+}
+
+//
+
 function make( test )
 {
   let context = this;
@@ -19742,6 +20268,1819 @@ function lineNdGetIterate( test )
 
 //
 
+function scalarWhile( test )
+{
+  test.open( 'standard strides' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 1, 2, 3, 4, 5, 6 ];
+  test.identical( got, exp );
+
+  test.case = '2d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12,
+    13, 14, 15, 16, 17, 18,
+    19, 20, 21, 22, 23, 24
+  ];
+  test.identical( got, exp );
+
+  test.case = '3d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12,
+    13, 14, 15, 16, 17, 18,
+    19, 20, 21, 22, 23, 24
+  ];
+  test.identical( got, exp );
+
+  test.case = '4d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+  ];
+  test.identical( got, exp );
+
+  test.close( 'standard strides' );
+
+  /* - */
+
+  test.open( 'non-standard strides' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 12 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 2, 4, 5, 7, 8, 10 ];
+  test.identical( got, exp );
+
+  test.case = '2d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 12 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3 ],
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 2, 5, 8 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 9 ],
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 4, 5, 7, 8, 10,
+    11, 13, 14, 16, 17, 19,
+    20, 22, 23, 25, 26, 28,
+    29, 31, 32, 34, 35, 37,
+  ];
+  test.identical( got, exp );
+
+  test.case = '3d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 9 ]
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 5, 8,
+    11, 14, 17,
+    20, 23, 26,
+    29, 32, 35
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ]
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 5, 10, 13, 18, 21,
+    11, 14, 19, 22, 27, 30,
+    20, 23, 28, 31, 36, 39,
+    29, 32, 37, 40, 45, 48
+  ];
+  test.identical( got, exp );
+
+  test.case = '4d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, Infinity, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 10, 18,
+    11, 19, 27,
+    20, 28, 36,
+    29, 37, 45,
+  ];
+  test.identical( got, exp );
+
+  test.close( 'non-standard strides' );
+
+  /* - */
+
+  test.open( 'onScalar returns false' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 12 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.length < 2 ? got.push( m.buffer[ it.offset[ 0 ] ] ) : false );
+  var exp = [ 2, 4 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 9 ],
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.length < 2 ? got.push( m.buffer[ it.offset[ 0 ] ] ) : false );
+  var exp = [ 2, 4 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ]
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.length < 2 ? got.push( m.buffer[ it.offset[ 0 ] ] ) : false );
+  var exp = [ 2, 5 ];
+  test.identical( got, exp );
+
+  test.close( 'onScalar returns false' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile();
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile( ( it ) => it.args.push( it.indexLogical ), ( it ) => it );
+  });
+
+  test.case = 'unknown option in options map';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : [], unknown : [] });
+  });
+
+  test.case = 'wrong type of o.args';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+
+  test.case = 'wrong type of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : [], args : [] });
+  });
+
+  test.case = 'wrong length of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarWhile({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+}
+
+//
+
+function scalarWhileCheckingFields( test )
+{
+  test.open( 'check fields' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 2 ],
+    strides : [ 1, 2 ],
+    offset : [ 6, 6 ],
+    indexLogical : 5
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '2d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 2 ],
+    strides : [ 0, 1 ],
+    offset : [ 3, 3 ],
+    indexLogical : 2
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 3 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '2d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, Infinity ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 0 ],
+    strides : [ 1, 0 ],
+    offset : [ 0, 0 ],
+    indexLogical : 1
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 2 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 2, 3 ],
+    strides : [ 1, 2, 6 ],
+    offset : [ 24, 24, 24 ],
+    indexLogical : 23
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 24 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  test.case = '3d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 2, 3 ],
+    strides : [ 0, 1, 3 ],
+    offset : [ 12, 12, 12 ],
+    indexLogical : 11
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 12 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  test.case = '3d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, Infinity, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 0, 3 ],
+    strides : [ 1, 0, 2 ],
+    offset : [ 8, 8, 8 ],
+    indexLogical : 7
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  test.case = '3d matrix, dims[ 2 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, Infinity ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 2 ],
+    strides : [ 1, 2 ],
+    offset : [ 6, 6 ],
+    indexLogical : 5
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 2, 3 ],
+    strides : [ 1, 1, 2, 6 ],
+    offset : [ 24, 24, 24, 24 ],
+    indexLogical : 23
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 24 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 2, 3 ],
+    strides : [ 0, 1, 2, 6 ],
+    offset : [ 24, 24, 24, 24 ],
+    indexLogical : 23
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 24 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 0, 2, 3 ],
+    strides : [ 1, 0, 1, 3 ],
+    offset : [ 12, 12, 12, 12 ],
+    indexLogical : 11
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 12 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 2 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, Infinity, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 0, 3 ],
+    strides : [ 1, 1, 2, 2 ],
+    offset : [ 8, 8, 8, 8 ],
+    indexLogical : 7
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 3 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, Infinity ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 2 ],
+    strides : [ 1, 1, 2 ],
+    offset : [ 6, 6, 6 ],
+    indexLogical : 5
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.close( 'check fields' );
+
+  /* - */
+
+  test.open( 'check order' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it.indexNd.slice(), it.offset.slice() ) );
+  var exp =
+  [
+    [ 0, 0 ], [ 0, 0 ],
+    [ 1, 0 ], [ 1, 0 ],
+    [ 0, 1 ], [ 2, 2 ],
+    [ 1, 1 ], [ 3, 2 ],
+    [ 0, 2 ], [ 4, 4 ],
+    [ 1, 2 ], [ 5, 4 ]
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it.indexNd.slice(), it.offset.slice() ) );
+  var exp =
+  [
+    [ 0, 0, 0 ], [ 0, 0, 0 ],
+    [ 1, 0, 0 ], [ 1, 0, 0 ],
+    [ 0, 1, 0 ], [ 2, 2, 0 ],
+    [ 1, 1, 0 ], [ 3, 2, 0 ],
+    [ 0, 2, 0 ], [ 4, 4, 0 ],
+    [ 1, 2, 0 ], [ 5, 4, 0 ],
+    [ 0, 0, 1 ], [ 6, 6, 6 ],
+  ];
+  test.identical( got.slice( 0, 14 ), exp );
+  test.identical( got.slice( 46, 48 ), [ [ 1, 2, 3 ], [ 23, 22, 18 ] ] );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarWhile( ( it ) => got.push( it.indexNd.slice(), it.offset.slice() ) );
+  var exp =
+  [
+    [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ],
+    [ 0, 1, 0, 0 ], [ 1, 1, 0, 0 ],
+    [ 0, 0, 1, 0 ], [ 2, 2, 2, 0 ],
+    [ 0, 1, 1, 0 ], [ 3, 3, 2, 0 ],
+    [ 0, 0, 2, 0 ], [ 4, 4, 4, 0 ],
+    [ 0, 1, 2, 0 ], [ 5, 5, 4, 0 ],
+    [ 0, 0, 0, 1 ], [ 6, 6, 6, 6 ],
+  ];
+  test.identical( got.slice( 0, 14 ), exp );
+  test.identical( got.slice( 46, 48 ), [ [ 0, 1, 2, 3 ], [ 23, 23, 22, 18 ] ] );
+
+  test.close( 'check order' );
+}
+
+//
+
+function scalarEach( test )
+{
+  test.open( 'standard strides' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 1, 2, 3, 4, 5, 6 ];
+  test.identical( got, exp );
+
+  test.case = '2d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 1, 2, 3 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12,
+    13, 14, 15, 16, 17, 18,
+    19, 20, 21, 22, 23, 24
+  ];
+  test.identical( got, exp );
+
+  test.case = '3d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3, 4, 5, 6,
+    7, 8, 9, 10, 11, 12,
+    13, 14, 15, 16, 17, 18,
+    19, 20, 21, 22, 23, 24
+  ];
+  test.identical( got, exp );
+
+  test.case = '4d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+  ];
+  test.identical( got, exp );
+
+  test.close( 'standard strides' );
+
+  /* - */
+
+  test.open( 'non-standard strides' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 12 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 2, 4, 5, 7, 8, 10 ];
+  test.identical( got, exp );
+
+  test.case = '2d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 12 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3 ],
+    offset : 1,
+    strides : [ 2, 3 ]
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp = [ 2, 5, 8 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 9 ],
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 4, 5, 7, 8, 10,
+    11, 13, 14, 16, 17, 19,
+    20, 22, 23, 25, 26, 28,
+    29, 31, 32, 34, 35, 37,
+  ];
+  test.identical( got, exp );
+
+  test.case = '3d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 9 ]
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 5, 8,
+    11, 14, 17,
+    20, 23, 26,
+    29, 32, 35
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ]
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 5, 10, 13, 18, 21,
+    11, 14, 19, 22, 27, 30,
+    20, 23, 28, 31, 36, 39,
+    29, 32, 37, 40, 45, 48
+  ];
+  test.identical( got, exp );
+
+  test.case = '4d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, Infinity, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( m.buffer[ it.offset[ 0 ] ] ) );
+  var exp =
+  [
+    2, 10, 18,
+    11, 19, 27,
+    20, 28, 36,
+    29, 37, 45,
+  ];
+  test.identical( got, exp );
+
+  test.close( 'non-standard strides' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach();
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach( ( it ) => it.args.push( it.indexLogical ), ( it ) => it );
+  });
+
+  test.case = 'wrong type of o.args';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+
+  test.case = 'wrong type of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach({ onMatrix : [], args : [] });
+  });
+
+  test.case = 'wrong length of o.onScalar';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.scalarEach({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+}
+
+//
+
+function scalarEachCheckingFields( test )
+{
+  test.open( 'check fields' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 2 ],
+    strides : [ 1, 2 ],
+    offset : [ 6, 6 ],
+    indexLogical : 5
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '2d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 2 ],
+    strides : [ 0, 1 ],
+    offset : [ 3, 3 ],
+    indexLogical : 2
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 3 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '2d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, Infinity ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 0 ],
+    strides : [ 1, 0 ],
+    offset : [ 0, 0 ],
+    indexLogical : 1
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 2 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 2, 3 ],
+    strides : [ 1, 2, 6 ],
+    offset : [ 24, 24, 24 ],
+    indexLogical : 23
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 24 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  test.case = '3d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 2, 3 ],
+    strides : [ 0, 1, 3 ],
+    offset : [ 12, 12, 12 ],
+    indexLogical : 11
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 12 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  test.case = '3d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, Infinity, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 0, 3 ],
+    strides : [ 1, 0, 2 ],
+    offset : [ 8, 8, 8 ],
+    indexLogical : 7
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  test.case = '3d matrix, dims[ 2 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, Infinity ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 1, 2 ],
+    strides : [ 1, 2 ],
+    offset : [ 6, 6 ],
+    indexLogical : 5
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 2, 3 ],
+    strides : [ 1, 1, 2, 6 ],
+    offset : [ 24, 24, 24, 24 ],
+    indexLogical : 23
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 24 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 0 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ Infinity, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 2, 3 ],
+    strides : [ 0, 1, 2, 6 ],
+    offset : [ 24, 24, 24, 24 ],
+    indexLogical : 23
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 24 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 1 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, Infinity, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 0, 2, 3 ],
+    strides : [ 1, 0, 1, 3 ],
+    offset : [ 12, 12, 12, 12 ],
+    indexLogical : 11
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 12 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 2 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, Infinity, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 0, 3 ],
+    strides : [ 1, 1, 2, 2 ],
+    offset : [ 8, 8, 8, 8 ],
+    indexLogical : 7
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 8 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.case = '4d matrix, dims[ 3 ] - Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, Infinity ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    matrix : m,
+    buffer : m.buffer,
+    args : [],
+    indexNd : [ 0, 1, 2 ],
+    strides : [ 1, 1, 2 ],
+    offset : [ 6, 6, 6 ],
+    indexLogical : 5
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 6 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  test.close( 'check fields' );
+
+  /* - */
+
+  test.open( 'check order' );
+
+  test.case = '2d matrix without Infinity';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it.indexNd.slice(), it.offset.slice() ) );
+  var exp =
+  [
+    [ 0, 0 ], [ 0, 0 ],
+    [ 1, 0 ], [ 1, 0 ],
+    [ 0, 1 ], [ 2, 2 ],
+    [ 1, 1 ], [ 3, 2 ],
+    [ 0, 2 ], [ 4, 4 ],
+    [ 1, 2 ], [ 5, 4 ]
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it.indexNd.slice(), it.offset.slice() ) );
+  var exp =
+  [
+    [ 0, 0, 0 ], [ 0, 0, 0 ],
+    [ 1, 0, 0 ], [ 1, 0, 0 ],
+    [ 0, 1, 0 ], [ 2, 2, 0 ],
+    [ 1, 1, 0 ], [ 3, 2, 0 ],
+    [ 0, 2, 0 ], [ 4, 4, 0 ],
+    [ 1, 2, 0 ], [ 5, 4, 0 ],
+    [ 0, 0, 1 ], [ 6, 6, 6 ],
+  ];
+  test.identical( got.slice( 0, 14 ), exp );
+  test.identical( got.slice( 46, 48 ), [ [ 1, 2, 3 ], [ 23, 22, 18 ] ] );
+
+  /* */
+
+  test.case = '4d matrix without Infinity';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.scalarEach( ( it ) => got.push( it.indexNd.slice(), it.offset.slice() ) );
+  var exp =
+  [
+    [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ],
+    [ 0, 1, 0, 0 ], [ 1, 1, 0, 0 ],
+    [ 0, 0, 1, 0 ], [ 2, 2, 2, 0 ],
+    [ 0, 1, 1, 0 ], [ 3, 3, 2, 0 ],
+    [ 0, 0, 2, 0 ], [ 4, 4, 4, 0 ],
+    [ 0, 1, 2, 0 ], [ 5, 5, 4, 0 ],
+    [ 0, 0, 0, 1 ], [ 6, 6, 6, 6 ],
+  ];
+  test.identical( got.slice( 0, 14 ), exp );
+  test.identical( got.slice( 46, 48 ), [ [ 0, 1, 2, 3 ], [ 23, 23, 22, 18 ] ] );
+
+  test.close( 'check order' );
+}
+
+//
+
+function layerEach( test )
+{
+  test.open( 'standard strides' );
+
+  test.case = '2d matrix';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( [ ... m.rowGet( 0 ), ... m.rowGet( 1 ) ] ) );
+  var exp = [ [ 1, 3, 5, 2, 4, 6 ] ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) =>
+  {
+    let offset = it.indexNd[ 0 ] * m.stridesEffective[ 2 ] + m.offset;
+    let m1 = new _.Matrix
+    ({
+      buffer : m.buffer,
+      dims : [ 2, 3 ],
+      offset,
+      strides : m.stridesEffective.slice( 0, 2 ),
+    });
+    got.push( [ ... m1.rowGet( 0 ), ... m1.rowGet( 1 ) ] )
+  });
+  var exp =
+  [
+    [ 1, 3, 5, 2, 4, 6 ],
+    [ 7, 9, 11, 8, 10, 12 ],
+    [ 13, 15, 17, 14, 16, 18 ],
+    [ 19, 21, 23, 20, 22, 24 ]
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) =>
+  {
+    let offset = it.indexNd[ 0 ] * m.stridesEffective[ 2 ] + it.indexNd[ 1 ] * m.stridesEffective[ 3 ] + m.offset;
+    let m1 = new _.Matrix
+    ({
+      buffer : m.buffer,
+      dims : [ 1, 2 ],
+      offset,
+      strides : m.stridesEffective.slice( 0, 2 ),
+    });
+    got.push( [ ... m1.rowGet( 0 ) ] )
+  });
+  var exp =
+  [
+    [ 1, 2 ], [ 3, 4 ], [ 5, 6 ],
+    [ 7, 8 ], [ 9, 10 ], [ 11, 12 ],
+    [ 13, 14 ], [ 15, 16 ], [ 17, 18 ],
+    [ 19, 20 ], [ 21, 22 ], [ 23, 24 ]
+  ];
+  test.identical( got, exp );
+
+  test.close( 'standard strides' );
+
+  /* - */
+
+  test.open( 'non-standard strides' );
+
+  test.case = '2d matrix';
+  var buffer = new I32x( 12 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    offset : 1,
+    strides : [ 2, 3 ],
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( [ ... m.rowGet( 0 ), ... m.rowGet( 1 ) ] ) );
+  var exp = [ [ 2, 5, 8, 4, 7, 10 ] ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3d matrix';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 9 ],
+  });
+  var got = [];
+  m.layerEach( ( it ) =>
+  {
+    let offset = it.indexNd[ 0 ] * m.stridesEffective[ 2 ] + m.offset;
+    let m1 = new _.Matrix
+    ({
+      buffer : m.buffer,
+      dims : [ 2, 3 ],
+      offset,
+      strides : m.stridesEffective.slice( 0, 2 ),
+    });
+    got.push( [ ... m1.rowGet( 0 ), ... m1.rowGet( 1 ) ] )
+  });
+  var exp =
+  [
+    [ 2, 5, 8, 4, 7, 10 ],
+    [ 11, 14, 17, 13, 16, 19 ],
+    [ 20, 23, 26, 22, 25, 28 ],
+    [ 29, 32, 35, 31, 34, 37 ]
+  ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix';
+  var buffer = new I32x( 48 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    offset : 1,
+    strides : [ 2, 3, 8, 9 ],
+  });
+  var got = [];
+  m.layerEach( ( it ) =>
+  {
+    let offset = it.indexNd[ 0 ] * m.stridesEffective[ 2 ] + it.indexNd[ 1 ] * m.stridesEffective[ 3 ] + m.offset;
+    let m1 = new _.Matrix
+    ({
+      buffer : m.buffer,
+      dims : [ 1, 2 ],
+      offset,
+      strides : m.stridesEffective.slice( 0, 2 ),
+    });
+    got.push( [ ... m1.rowGet( 0 ) ] )
+  });
+  var exp =
+  [
+    [ 2, 5 ], [ 10, 13 ], [ 18, 21 ],
+    [ 11, 14 ], [ 19, 22 ], [ 27, 30 ],
+    [ 20, 23 ], [ 28, 31 ], [ 36, 39 ],
+    [ 29, 32 ], [ 37, 40 ], [ 45, 48 ]
+  ];
+  test.identical( got, exp );
+
+  test.close( 'non-standard strides' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.layerEach();
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.layerEach( ( it ) => it.args.push( it.indexLogical ), ( it ) => it );
+  });
+
+  test.case = 'wrong type of o.args';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.layerEach({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+
+  test.case = 'wrong type of o.onMatrix';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.layerEach({ onMatrix : [], args : [] });
+  });
+
+  test.case = 'wrong length of o.onMatrix';
+  test.shouldThrowErrorSync( () =>
+  {
+    var m = _.Matrix.Make([ 2, 3, 4 ]);
+    var got = m.layerEach({ onMatrix : ( it ) => it.args.push( it.indexLogical ), args : null });
+  });
+}
+
+//
+
+function layerEachCheckFields( test )
+{
+  test.case = '2d matrix';
+  var buffer = new I32x( 6 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    args : [],
+    indexLogical : 0,
+    indexNd : [],
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 1 );
+
+  /* */
+
+  test.case = '3d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    args : [],
+    indexLogical : 3,
+    indexNd : [ 0 ],
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 4 );
+  test.is( got[ 0 ] == got[ 1 ] );
+
+  /* */
+
+  test.case = '4d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it ) );
+  var exp =
+  {
+    args : [],
+    indexLogical : 11,
+    indexNd : [ 0, 0 ],
+  };
+  test.identical( got[ 0 ], exp );
+  test.identical( got.length, 12 );
+  test.is( got[ 0 ] === got[ 1 ] );
+
+  /* */
+
+  test.case = '3d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it.indexNd.slice(), it.indexLogical ) );
+  var exp = [ [ 0 ], 0, [ 1 ], 1, [ 2 ], 2, [ 3 ], 3 ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '4d matrix';
+  var buffer = new I32x( 24 );
+  for( let i = 0; i < buffer.length; i++ )
+  buffer[ i ] = i + 1;
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 1, 2, 3, 4 ],
+    inputRowMajor : 0,
+  });
+  var got = [];
+  m.layerEach( ( it ) => got.push( it.indexNd.slice(), it.indexLogical ) );
+  var exp =
+  [
+    [ 0, 0 ], 0, [ 1, 0 ], 1, [ 2, 0 ], 2,
+    [ 0, 1 ], 3, [ 1, 1 ], 4, [ 2, 1 ], 5,
+    [ 0, 2 ], 6, [ 1, 2 ], 7, [ 2, 2 ], 8,
+    [ 0, 3 ], 9, [ 1, 3 ], 10, [ 2, 3 ], 11
+  ];
+  test.identical( got, exp );
+}
+
+//
+
 function lineEachStandardStrides( test )
 {
   test.case = '2x3. iterate dimension 0';
@@ -29109,6 +31448,8 @@ var Self =
     FromForReadingSrcMatrix,
     FromForReadingSrcScalarChangeDimsLength,
     FromForReadingSrcScalarChangeDimsType,
+    ColFrom,
+    RowFrom,
 
     make,
     makeHelper,
@@ -29175,6 +31516,14 @@ var Self =
     lineNdGet, /* qqq : add 4d cases */
     lineNdGetIterate,
 
+    /* iterators */
+
+    scalarWhile,
+    scalarWhileCheckingFields,
+    scalarEach,
+    scalarEachCheckingFields,
+    layerEach,
+    layerEachCheckFields,
     lineEachStandardStrides,
     lineEachNonStandardStrides,
     lineEachCheckFields,
