@@ -52,26 +52,6 @@ function makeWithOffset( o )
 }
 
 // --
-// experiment
-// --
-
-function experiment( test )
-{
-  test.case = 'experiment';
-  test.identical( 1, 1 );
-
-  var m = _.Matrix.MakeSquare
-  ([
-    +3, +2, +10,
-    -3, -3, -14,
-    +3, +1, +3,
-  ]);
-
-}
-
-experiment.experimental = 1;
-
-// --
 // checker
 // --
 
@@ -26442,7 +26422,7 @@ determinantWithBareissBig.timeOut = 300000;
 // solver
 // --
 
-function triangulate( test )
+function triangulateGausian( test )
 {
 
   /* */
@@ -26466,48 +26446,6 @@ function triangulate( test )
   test.equivalent( 1, 1 );
 
   m.triangulateGausian();
-  test.equivalent( m, exp );
-
-  /* */
-
-  test.case = 'triangulateGausianNormal simple1';
-
-  var m = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +1, +2, -1,
-    +3, +1, +7, -7,
-    +1, +7, +1, +7,
-  ]);
-
-  var exp = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +1, +2, -1,
-    +0, +1, -0.5, +2,
-    +0, +0, +1, -2,
-  ]);
-
-  m.triangulateGausianNormal();
-  test.equivalent( m, exp );
-
-  /* */
-
-  test.case = 'triangulateGausianNormal simple2';
-
-  var m = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, -2, +2, 1,
-    +5, -15, +8, 1,
-    -2, -11, -11, 1,
-  ]);
-
-  var exp = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, -2, +2, +1.0,
-    +0, +1, 0.4, +0.8,
-    +0, +0, 1, -15,
-  ]);
-
-  m.triangulateGausianNormal();
   test.equivalent( m, exp );
 
   /* */
@@ -26554,32 +26492,6 @@ function triangulate( test )
   var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
 
   m.triangulateGausian( y );
-  test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
-
-  /* */
-
-  test.case = 'triangulateGausianNormal with y argument';
-
-  var mexpected = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +0, +1, 0.4,
-    +0, +0, 1,
-  ]);
-
-  var yexpected = _.Matrix.MakeCol([ +1, +0.8, -15 ]);
-
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +5, -15, +8,
-    -2, -11, -11,
-  ]);
-
-  var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
-
-  m.triangulateGausianNormal( y );
   test.equivalent( m, mexpected );
   test.equivalent( y, yexpected );
 
@@ -26639,6 +26551,83 @@ function triangulate( test )
 
   /* */
 
+}
+
+//
+
+function triangulateGausianNormal( test )
+{
+
+  /* */
+
+  test.case = 'triangulateGausianNormal simple1';
+
+  var m = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +1, +1, +2, -1,
+    +3, +1, +7, -7,
+    +1, +7, +1, +7,
+  ]);
+
+  var exp = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +1, +1, +2, -1,
+    +0, +1, -0.5, +2,
+    +0, +0, +1, -2,
+  ]);
+
+  m.triangulateGausianNormal();
+  test.equivalent( m, exp );
+
+  /* */
+
+  test.case = 'triangulateGausianNormal simple2';
+
+  var m = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +1, -2, +2, 1,
+    +5, -15, +8, 1,
+    -2, -11, -11, 1,
+  ]);
+
+  var exp = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +1, -2, +2, +1.0,
+    +0, +1, 0.4, +0.8,
+    +0, +0, 1, -15,
+  ]);
+
+  m.triangulateGausianNormal();
+  test.equivalent( m, exp );
+
+  /* */
+
+  test.case = 'triangulateGausianNormal with y argument';
+
+  var mexpected = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, -2, +2,
+    +0, +1, 0.4,
+    +0, +0, 1,
+  ]);
+
+  var yexpected = _.Matrix.MakeCol([ +1, +0.8, -15 ]);
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, -2, +2,
+    +5, -15, +8,
+    -2, -11, -11,
+  ]);
+
+  var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
+
+  m.triangulateGausianNormal( y );
+  test.equivalent( m, mexpected );
+  test.equivalent( y, yexpected );
+
+  /* */
+
   test.case = 'triangulateGausianNormal ( nrow < ncol ) with y argument';
 
   var mexpected = _.Matrix.Make([ 4, 3 ]).copy
@@ -26667,49 +26656,243 @@ function triangulate( test )
 
   /* */
 
-  test.case = 'triangulateLu';
+}
 
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +2, +4, -2,
-    +4, -2, +6,
-    +6, -4, +2,
-  ]);
+triangulateGausianNormal.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
-  var exp = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +2, +4, -2,
-    +2, -10, +10,
-    +3, +1.6, -8,
-  ]);
+//
 
-  var original = m.clone();
-  m.triangulateLu();
-  test.equivalent( m, exp );
+function triangulateLu( test )
+{
 
   /* */
 
+  // test.case = 'basic';
+  //
+  // var m = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +2, +4, -2,
+  //   +4, -2, +6,
+  //   +6, -4, +2,
+  // ]);
+  //
+  // var exp = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +2, +4, -2,
+  //   +2, -10, +10,
+  //   +3, +1.6, -8,
+  // ]);
+  //
+  // var original = m.clone();
+  // m.triangulateLu();
+  // test.equivalent( m, exp );
+  //
+  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  // var u = m.clone().triangleLowerSet( 0 );
+  //
+  // var ll = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +1, +0, +0,
+  //   +2, +1, +0,
+  //   +3, +1.6, +1,
+  // ]);
+  //
+  // var uu = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +2, +4, -2,
+  //   +0, -10, +10,
+  //   +0, +0, -8,
+  // ]);
+  //
+  // var got = _.Matrix.Mul( null, [ l, u ] );
+  // test.equivalent( got, original );
+  // test.equivalent( l, ll );
+  // test.equivalent( u, uu );
+  //
+  // /* */
+  //
+  // test.case = 'triangulateLu';
+  //
+  // var m = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +1, -2, +2,
+  //   +5, -15, +8,
+  //   -2, -11, -11,
+  // ]);
+  //
+  // var exp = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +1, -2, +2,
+  //   +5, -5, -2,
+  //   -2, +3, -1,
+  // ]);
+  //
+  // var original = m.clone();
+  // m.triangulateLu();
+  // test.equivalent( m, exp );
+  //
+  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  // var u = m.clone().triangleLowerSet( 0 );
+  //
+  // var ll = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +1, +0, +0,
+  //   +5, +1, +0,
+  //   -2, +3, +1,
+  // ]);
+  //
+  // var uu = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +1, -2, +2,
+  //   +0, -5, -2,
+  //   +0, +0, -1,
+  // ]);
+  //
+  // var got = _.Matrix.Mul( null, [ l, u ] );
+  // test.equivalent( got, original );
+  // test.equivalent( l, ll );
+  // test.equivalent( u, uu );
+  //
+  // /* */
+  //
+  // test.case = 'triangulateLu ( nrow < ncol ) with y argument';
+  //
+  // var mexpected = _.Matrix.Make([ 4, 3 ]).copy
+  // ([
+  //   +1, -2, +4,
+  //   +1, +2, -4,
+  //   +1, +2, +8,
+  //   +1, +3, +3,
+  // ]);
+  //
+  // var yexpected = _.Matrix.MakeCol([ -1, +3, -2, +0 ]);
+  //
+  // var m = _.Matrix.Make([ 4, 3 ]).copy
+  // ([
+  //   +1, -2, +4,
+  //   +1, +0, +0,
+  //   +1, +2, +4,
+  //   +1, +4, +16,
+  // ]);
+  //
+  // var original = m.clone();
+  //
+  // m.triangulateLu();
+  // test.equivalent( m, mexpected );
+  //
+  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  // var u = m.clone().triangleLowerSet( 0 );
+  //
+  // logger.log( 'l', l );
+  // logger.log( 'u', u );
+  //
+  // var ll = _.Matrix.Make([ 4, 3 ]).copy
+  // ([
+  //   +1, +0, +0,
+  //   +1, +1, +0,
+  //   +1, +2, +1,
+  //   +1, +3, +3,
+  // ]);
+  //
+  // var uu = _.Matrix.Make([ 4, 3 ]).copy
+  // ([
+  //   +1, -2, +4,
+  //   +0, +2, -4,
+  //   +0, +0, +8,
+  //   +0, +0, +0,
+  // ]);
+  //
+  // test.case = 'l and u should be';
+  //
+  // test.equivalent( l, ll );
+  // test.equivalent( u, uu );
+  //
+  // test.case = 'l*u should be same as original m';
+  //
+  // u = u.submatrix( [ 0, 2 ], _.all );
+  // var mul = _.Matrix.Mul( null, [ l, u ] );
+  // test.equivalent( mul, original );
+  //
+  // /* */
+  //
+  // test.case = 'triangulateLu ( nrow > ncol )';
+  //
+  // var mexpected = _.Matrix.Make([ 2, 3 ]).copy
+  // ([
+  //   +1, -2, +4,
+  //   +1, +2, -4,
+  // ]);
+  //
+  // var m = _.Matrix.Make([ 2, 3 ]).copy
+  // ([
+  //   +1, -2, +4,
+  //   +1, +0, +0,
+  // ]);
+  //
+  // var original = m.clone();
+  //
+  // m.triangulateLu();
+  // test.equivalent( m, mexpected );
+  //
+  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  // var u = m.clone().triangleLowerSet( 0 );
+  //
+  // logger.log( 'l', l );
+  // logger.log( 'u', u );
+  //
+  // var ll = _.Matrix.Make([ 2, 3 ]).copy
+  // ([
+  //   +1, +0, +0,
+  //   +1, +1, +0,
+  // ]);
+  //
+  // var uu = _.Matrix.Make([ 2, 3 ]).copy
+  // ([
+  //   +1, -2, +4,
+  //   +0, +2, -4,
+  // ]);
+  //
+  // test.description = 'l and u should be';
+  //
+  // test.equivalent( l, ll );
+  // test.equivalent( u, uu );
+  //
+  // test.description = 'l*u should be same as original m';
+  //
+  // u = u.expand([ [ 0, 1 ], null ]);
+  // var mul = _.Matrix.Mul( null, [ l, u ] );
+  // test.equivalent( mul, original );
+
+  /* */
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var mo = m.clone();
+  debugger;
+  m.triangulateLu();
+  debugger;
+  console.log( m );
+
   var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
   var u = m.clone().triangleLowerSet( 0 );
+  var mul = _.Matrix.Mul( null, [ l, u ] );
+  test.equivalent( mul, mo );
 
-  var ll = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, +0, +0,
-    +2, +1, +0,
-    +3, +1.6, +1,
-  ]);
+  /* */
 
-  var uu = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +2, +4, -2,
-    +0, -10, +10,
-    +0, +0, -8,
-  ]);
+}
 
-  var got = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( got, original );
-  test.equivalent( l, ll );
-  test.equivalent( u, uu );
+triangulateLu.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+
+//
+
+function triangulateLuNormal( test )
+{
 
   /* */
 
@@ -26759,52 +26942,6 @@ function triangulate( test )
 
   /* */
 
-  test.case = 'triangulateLu';
-
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +5, -15, +8,
-    -2, -11, -11,
-  ]);
-
-  var exp = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +5, -5, -2,
-    -2, +3, -1,
-  ]);
-
-  var original = m.clone();
-  m.triangulateLu();
-  test.equivalent( m, exp );
-
-  /* */
-
-  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  var u = m.clone().triangleLowerSet( 0 );
-
-  var ll = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, +0, +0,
-    +5, +1, +0,
-    -2, +3, +1,
-  ]);
-
-  var uu = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +0, -5, -2,
-    +0, +0, -1,
-  ]);
-
-  var got = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( got, original );
-  test.equivalent( l, ll );
-  test.equivalent( u, uu );
-
-  /* */
-
   test.case = 'triangulateLuNormal';
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
@@ -26813,6 +26950,7 @@ function triangulate( test )
     +5, -15, +8,
     -2, -11, -11,
   ]);
+  var mo = m.clone();
 
   var exp = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -26823,8 +26961,6 @@ function triangulate( test )
 
   m.triangulateLuNormal();
   test.equivalent( m, exp );
-
-  /* */
 
   var l = m.clone().triangleUpperSet( 0 );
   var u = m.clone().triangleLowerSet( 0 ).diagonalSet( 1 );
@@ -26847,69 +26983,9 @@ function triangulate( test )
   ]);
 
   var mul = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( mul, original );
+  test.equivalent( mul, mo );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
-
-  /* */
-
-  test.case = 'triangulateLu ( nrow < ncol ) with y argument';
-
-  var mexpected = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +1, +2, -4,
-    +1, +2, +8,
-    +1, +3, +3,
-  ]);
-
-  var yexpected = _.Matrix.MakeCol([ -1, +3, -2, +0 ]);
-
-  var m = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +1, +0, +0,
-    +1, +2, +4,
-    +1, +4, +16,
-  ]);
-
-  var original = m.clone();
-
-  m.triangulateLu();
-  test.equivalent( m, mexpected );
-
-  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  var u = m.clone().triangleLowerSet( 0 );
-
-  logger.log( 'l', l );
-  logger.log( 'u', u );
-
-  var ll = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    +1, +0, +0,
-    +1, +1, +0,
-    +1, +2, +1,
-    +1, +3, +3,
-  ]);
-
-  var uu = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +0, +2, -4,
-    +0, +0, +8,
-    +0, +0, +0,
-  ]);
-
-  test.case = 'l and u should be';
-
-  test.equivalent( l, ll );
-  test.equivalent( u, uu );
-
-  test.case = 'l*u should be same as original m';
-
-  u = u.submatrix( [ 0, 2 ], _.all );
-  var mul = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( mul, original );
 
   /* */
 
@@ -26971,56 +27047,6 @@ function triangulate( test )
 
   /* */
 
-  test.case = 'triangulateLu ( nrow > ncol )';
-
-  var mexpected = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +1, +2, -4,
-  ]);
-
-  var m = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +1, +0, +0,
-  ]);
-
-  var original = m.clone();
-
-  m.triangulateLu();
-  test.equivalent( m, mexpected );
-
-  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  var u = m.clone().triangleLowerSet( 0 );
-
-  logger.log( 'l', l );
-  logger.log( 'u', u );
-
-  var ll = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +1, +0, +0,
-    +1, +1, +0,
-  ]);
-
-  var uu = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +0, +2, -4,
-  ]);
-
-  test.case = 'l and u should be';
-
-  test.equivalent( l, ll );
-  test.equivalent( u, uu );
-
-  test.case = 'l*u should be same as original m';
-
-  u = u.expand([ [ 0, 1 ], null ]);
-  var mul = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( mul, original );
-
-  /* */
-
   test.case = 'triangulateLuNormal ( nrow > ncol )';
 
   var mexpected = _.Matrix.Make([ 2, 3 ]).copy
@@ -27069,9 +27095,11 @@ function triangulate( test )
   var mul = _.Matrix.Mul( null, [ l, u ] );
   test.equivalent( mul, original );
 
+  /* */
+
 }
 
-triangulate.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
+triangulateLuNormal.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
 //
 
@@ -27707,7 +27735,7 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'simple without permutating';
+  test.case = '3x3 without permutating';
 
   var re =
   {
@@ -27753,7 +27781,7 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'simple with permutating';
+  test.case = '3x3 with permutating';
 
   var re =
   {
@@ -27799,7 +27827,44 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'simple2';
+  test.case = '3x3, single solution';
+
+  var exp =
+  {
+    nsolutions : 1,
+    nkernel : 0,
+    base : _.Matrix.MakeCol([ 0, 0, 0 ]),
+    kernel : _.Matrix.MakeSquare
+    ([
+      +0, +0, +0,
+      +0, +0, +0,
+      +0, +0, +0,
+    ]),
+  }
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var mo = m.clone();
+
+  var y = _.Matrix.MakeCol([ 0, 0, 0 ]);
+  var r = _.Matrix.SolveGeneral({ m, y });
+  test.equivalent( r, exp );
+
+  logger.log( 'r.base', r.base );
+  logger.log( 'r.kernel', r.kernel );
+  logger.log( 'm', m );
+  logger.log( 'det', m.determinant() );
+
+  check( mo, y, r );
+
+  /* */
+
+  test.case = 'simple 3x3';
 
   var exp =
   {
@@ -27834,7 +27899,7 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'simple3';
+  test.case = 'simple 3x3';
 
   var exp =
   {
@@ -27869,7 +27934,7 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'missing rows';
+  test.case = '2x3';
 
   var exp =
   {
@@ -27904,7 +27969,7 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'complicated system';
+  test.case = '3x3';
 
   var exp =
   {
@@ -27940,13 +28005,13 @@ function SolveGeneral( test )
 
   /* */
 
-  test.case = 'missing rows';
+  test.case = '3x4';
 
   var exp =
   {
     nsolutions : Infinity,
-    base : _.Matrix.MakeCol([ 0, +1/6, 0, 0.25 ]),
     nkernel : 2,
+    base : _.Matrix.MakeCol([ 0, +1/6, 0, 0.25 ]),
     kernel : _.Matrix.MakeSquare
     ([
       +0, +0, +1, +0,
@@ -28922,6 +28987,53 @@ function compareMatrixAndVector( test )
 }
 
 // --
+// experiment
+// --
+
+function experiment( test )
+{
+
+  /* */
+
+  test.case = 'basic';
+
+  var exp =
+  {
+    nsolutions : 1,
+    nkernel : 0,
+    base : _.Matrix.MakeCol([ 0, 0, 0 ]),
+    kernel : _.Matrix.MakeSquare
+    ([
+      +0, +0, +0,
+      +0, +0, +0,
+      +0, +0, +0,
+    ]),
+  }
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var mo = m.clone();
+  debugger;
+  m.triangulateLu();
+  console.log( m );
+  debugger;
+
+  var y = _.Matrix.MakeCol([ 0, 0, 0 ]);
+  var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
+  // logger.log( r );
+
+  /* */
+
+}
+
+experiment.experimental = 1;
+
+// --
 // declare
 // --
 
@@ -28942,10 +29054,6 @@ var Self =
 
   tests :
   {
-
-    // experiment
-
-    experiment,
 
     // checker
 
@@ -29101,7 +29209,10 @@ var Self =
 
     // solver
 
-    triangulate,
+    triangulateGausian,
+    triangulateGausianNormal,
+    triangulateLu,
+    triangulateLuNormal,
     SolveTriangulated,
     SolveSimple,
     SolveComplicated,
@@ -29116,6 +29227,10 @@ var Self =
 
     compareMatrices,
     compareMatrixAndVector,
+
+    // experiments
+
+    experiment,
 
   },
 

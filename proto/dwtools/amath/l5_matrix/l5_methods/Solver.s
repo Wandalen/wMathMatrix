@@ -298,7 +298,9 @@ function triangulateLu()
     {
       let row2 = self.rowGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
+      debugger;
       self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
+      debugger;
       row2.eSet( r1, scaler );
     }
 
@@ -1300,8 +1302,8 @@ function SolveGeneral( o )
 
   /* analyse */
 
-  logger.log( 'm', o.m );
-  logger.log( 'x', o.x );
+  // logger.log( 'm', o.m );
+  // logger.log( 'x', o.x );
 
   for( let r = 0 ; r < nrow ; r++ )
   {

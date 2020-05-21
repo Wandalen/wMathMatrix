@@ -1862,14 +1862,6 @@ function _sizeOfScalarGet()
 // size in scalars
 // --
 
-// function _scalarsPerElementGet()
-// {
-//   let self = this;
-//   return self._.scalarsPerElement;
-// }
-
-//
-
 function _scalarsPerColGet()
 {
   let self = this;
@@ -1907,30 +1899,6 @@ function _ncolGet()
   _.assert( result >= 0 );
   return result;
 }
-
-// //
-//
-// function _scalarsPerLayerGet()
-// {
-//   let self = this;
-//   return self._.scalarsPerLayer;
-// }
-//
-// //
-//
-// function _scalarsPerMatrixGet()
-// {
-//   let self = this;
-//   return self._.scalarsPerMatrix;
-// }
-//
-// //
-//
-// function _layersPerMatrixGet()
-// {
-//   let self = this;
-//   return self._.layersPerMatrix;
-// }
 
 //
 
@@ -2137,27 +2105,6 @@ function _FlatScalarIndexFromIndexNd( indexNd, strides )
 // --
 // stride
 // --
-
-// function _lengthGet()
-// {
-//   return this._.length;
-// }
-//
-// //
-//
-// function _occupiedRangeGet()
-// {
-//   return this._.occupiedRange;
-// }
-//
-// //
-//
-// function _stridesEffectiveGet()
-// {
-//   return this._.stridesEffective;
-// }
-
-//
 
 function _stridesSet( src )
 {
@@ -2727,14 +2674,6 @@ function dimsSet( src )
   return src;
 }
 
-// //
-//
-// function _dimsEffectiveGet()
-// {
-//   let self = this;
-//   return self._.dimsEffective;
-// }
-
 //
 
 /**
@@ -3283,7 +3222,6 @@ let Statics =
   ExportStructure,
   ExportString,
   CopyTo,
-  // _BufferFromVectorAdapter,
 
   ScalarsPerMatrixForDimensions,
   NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */
@@ -3443,7 +3381,6 @@ let Extension =
   headExportString,
   bufferExport, /* qqq : cover */
   bufferImport,
-  // _BufferFromVectorAdapter,
 
   toStr,
   toLong,
@@ -3466,14 +3403,10 @@ let Extension =
 
   // length in scalars
 
-  // _scalarsPerElementGet, /* cached */
   _scalarsPerColGet,
   _scalarsPerRowGet,
   _nrowGet,
   _ncolGet,
-  // _scalarsPerLayerGet,
-  // _scalarsPerMatrixGet,
-  // _layersPerMatrixGet,
   _nlayersGet,
 
   ScalarsPerMatrixForDimensions,
@@ -3486,10 +3419,6 @@ let Extension =
 
   // stride
 
-  // _lengthGet, /* cached */
-  // _occupiedRangeGet, /* cached */
-
-  // _stridesEffectiveGet, /* cached */
   _stridesSet, /* cached */
 
   _strideOfElementGet,
@@ -3525,7 +3454,6 @@ let Extension =
 
   _dimsSet,
   dimsSet, /* cached */
-  // _dimsEffectiveGet, /* cached */
   DimsEffectiveFrom,
   DimsNormalize,
   _dimsDeduceInitial,
