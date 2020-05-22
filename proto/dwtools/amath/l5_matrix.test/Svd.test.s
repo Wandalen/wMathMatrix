@@ -17,11 +17,11 @@ if( typeof module !== 'undefined' )
 //
 
 var _ = _global_.wTools.withDefaultLong.Fx;
-var vectorAdapter = _.vectorAdapter;
-var vec = _.vectorAdapter.fromLong;
-var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
-var ivec = function( src ){ return _.vectorAdapter.fromLong( new Ix( src ) ) }
-var avector = _.avector;
+// var vectorAdapter = _.vectorAdapter;
+// var vec = _.vectorAdapter.fromLong;
+// var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
+// var ivec = function( src ){ return _.vectorAdapter.fromLong( new Ix( src ) ) }
+// var avector = _.avector;
 var sqr = _.math.sqr;
 var sqrt = _.math.sqrt;
 
