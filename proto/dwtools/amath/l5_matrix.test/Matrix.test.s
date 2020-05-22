@@ -7475,6 +7475,7 @@ function FromScalarForReadingChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.dimsEffective, [ 2, 2 ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7484,6 +7485,7 @@ function FromScalarForReadingChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.dimsEffective, [ 2, 2 ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7491,8 +7493,9 @@ function FromScalarForReadingChangeDimsType( test )
   var dims = _.argumentsArrayMake([ 2, 2 ]);
   var got = _.Matrix.FromScalarForReading( 3, dims );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.dimsEffective, [ 2, 2 ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7500,8 +7503,9 @@ function FromScalarForReadingChangeDimsType( test )
   var dims = new U8x([ 2, 2 ]);
   var got = _.Matrix.FromScalarForReading( 3, dims );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
+  test.identical( got.dims, new U8x([ 2, 2 ]) );
+  test.identical( got.dimsEffective, new U8x([ 2, 2 ]) );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7509,8 +7513,9 @@ function FromScalarForReadingChangeDimsType( test )
   var dims = new I16x([ 2, 2 ]);
   var got = _.Matrix.FromScalarForReading( 3, dims );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
+  test.identical( got.dims, new I16x([ 2, 2 ]) );
+  test.identical( got.dimsEffective, new I16x([ 2, 2 ]) );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7518,8 +7523,9 @@ function FromScalarForReadingChangeDimsType( test )
   var dims = new F32x([ 2, 2 ]);
   var got = _.Matrix.FromScalarForReading( 3, dims );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
+  test.identical( got.dims, new F32x([ 2, 2 ]) );
+  test.identical( got.dimsEffective, new F32x([ 2, 2 ]) );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7527,8 +7533,9 @@ function FromScalarForReadingChangeDimsType( test )
   var dims = new F64x([ 2, 2 ]);
   var got = _.Matrix.FromScalarForReading( 3, dims );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
+  test.identical( got.dims, new F64x([ 2, 2 ]) );
+  test.identical( got.dimsEffective, new F64x([ 2, 2 ]) );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7536,8 +7543,9 @@ function FromScalarForReadingChangeDimsType( test )
   var dims = _.avector.make([ 2, 2 ]);
   var got = _.Matrix.FromScalarForReading( 3, dims );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
-  test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
+  test.identical( got.dims, _.avector.make([ 2, 2 ]) );
+  test.identical( got.dimsEffective, _.avector.make([ 2, 2 ]) );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7547,6 +7555,7 @@ function FromScalarForReadingChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.dimsEffective, [ 2, 2 ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -7556,6 +7565,7 @@ function FromScalarForReadingChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( [ 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
+  test.identical( got.dimsEffective, [ 2, 2 ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
 
@@ -31515,16 +31525,16 @@ var Self =
     ConvertToClassSrcIsNotMatrix,
 
     FromVector,
-    FromScalarChangeDimsLength, /* qqq2 : implementation fixed, fix test please */
-    FromScalarChangeDimsType, /* qqq2 : implementation fixed, fix test please */
+    FromScalarChangeDimsLength, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
+    FromScalarChangeDimsType, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
     FromScalarForReadingChangeDimsLength,
     FromScalarForReadingChangeDimsType,
     FromSrcNullChangeDimsLength,
     FromExperiment,
     FromSrcNullChangeDimsType,
     FromSrcMatrix,
-    FromSrcScalarChangeDimsLength, /* qqq2 : implementation fixed, fix test please */
-    FromSrcScalarChangeDimsType, /* qqq2 : implementation fixed, fix test please */
+    FromSrcScalarChangeDimsLength, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
+    FromSrcScalarChangeDimsType, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
     FromSrcVector,
     FromForReadingSrcMatrix,
     FromForReadingSrcScalarChangeDimsLength,
