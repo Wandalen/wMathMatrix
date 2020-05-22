@@ -298,9 +298,7 @@ function triangulateLu()
     {
       let row2 = self.rowGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      debugger;
       self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
-      debugger;
       row2.eSet( r1, scaler );
     }
 
@@ -654,12 +652,9 @@ function _SolveWithGaussJordan( o )
 
   /* */
 
-  debugger;
   if( o.onPermutate && o.permutatingBackward )
   {
-    debugger;
     Self.VectorPermutateBackward( o.x, popts.permutates[ 1 ] );
-    /*o.m.permutateBackward( o.permutates );*/
   }
 
   /* */

@@ -1104,32 +1104,37 @@ function FromVector( src )
  * @module Tools/math/Matrix
  */
 
-function FromScalar( scalar, dims )
+function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
 {
 
   _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.numberIs( scalar ) );
 
-  if( !_.arrayIs( dims ) )
+  if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
-    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
-    else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
     else
-    _.assert( 0, 'Expects vector {-dims-}' );
+    if( _.vectorAdapterIs( dims ) )
+    // dims = _.arrayFrom( dims.toLong() );
+    dims = dims.toLong();
+    else
+    _.assert( 0, `Expects vector {-dims-}, but got ${_.strType( dims )}` );
   }
 
-  let buffer = this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
-  let strides = this.StridesFromDimensions( dims, 0 );
+  // debugger;
+  // let buffer = this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
+  let buffer = this.long.longMakeUndefined( this.ScalarsPerMatrixForDimensions( dims ) );
+  _.longFill( buffer, scalar );
+  // let strides = this.StridesFromDimensions( dims, 0 );
 
   let result = new this.Self
   ({
     buffer,
     dims,
-    strides,
-    inputRowMajor : 1,
+    // strides,
+    inputRowMajor : 0,
   });
 
   return result;
@@ -1896,7 +1901,6 @@ function fromAxisAndAngleWithScale( axis, angle )
   axis = self.vectorAdapter.from( axis );
 
   let m = axis.mag();
-  debugger;
   let x = axis.eGet( 0 ) / m;
   let y = axis.eGet( 1 ) / m;
   let z = axis.eGet( 2 ) / m;

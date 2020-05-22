@@ -1189,7 +1189,7 @@ function _determinantWithPermutation()
     const index = [];
     sign = ( sign + swaps ) % 2;
 
-    let r = sign === 0 ? 1 : -1; debugger;
+    let r = sign === 0 ? 1 : -1;
 
     for( let i1 = 0 ; i1 < l ; i1 += 1 )
     {

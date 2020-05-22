@@ -364,10 +364,9 @@ function _equalAre( it )
 
   if( it.strictContainer )
   {
-    if( !_.longIdentical( it.src.dims, it.src2.dims )  )
+    if( !_.longIdentical( [ ... it.src.dims ], [ ... it.src2.dims ] )  )
     {
       it.result = false;
-      debugger;
       return it.result;
     }
   }
@@ -605,7 +604,8 @@ function ExportStructure( o )
 
           if( o2.strides )
           {
-            o2.strides = o2.strides.slice();
+            // o2.strides = o2.strides.slice(); /* yyy */
+            o2.strides = [ ... o2.strides ];
           }
           else
           {
@@ -2033,7 +2033,7 @@ function NcolOf( src )
 function DimsOf( src )
 {
   if( src instanceof Self )
-  return src.dims.slice();
+  return src.dims.slice(); /* xxx */
   if( _.numberIs( src ) )
   return [ 1, 1 ];
   let result = [ 0, 1 ];
@@ -2172,9 +2172,11 @@ function StridesEffectiveFrom( dims, strides, inputRowMajor )
   _.assert( dims[ dims.length-1 ] >= 0 );
   _.assert( arguments.length === 2 || arguments.length === 3 );
 
+  // debugger;
   if( strides )
   {
-    result = strides.slice();
+    // result = strides.slice(); /* yyy */
+    result = [ ... strides ];
   }
   else
   {
@@ -2219,7 +2221,9 @@ function StridesFromDimensions( dims, rowMajor )
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
 
-  let strides = dims.slice();
+  // debugger;
+  // let strides = new Array( dims ); /* yyy */
+  let strides = [ ... dims ];
 
   if( rowMajor )
   {
@@ -2310,7 +2314,7 @@ function StridesFromDimensions( dims, rowMajor )
 function StridesEffectiveAdjust( strides, dims )
 {
 
-  _.assert( !!strides );
+  _.assert( _.arrayIs( strides ) );
   _.assert( !!dims );
   _.assert( arguments.length === 2 );
   _.assert( strides.length === dims.length );
@@ -2701,7 +2705,8 @@ function DimsEffectiveFrom( dims )
   for( let i1 = 0 ; i1 < dims.length ; i1++ )
   if( dims[ i1 ] === Infinity )
   {
-    let dimsEffective = dims.slice();
+    // let dimsEffective = new Array( dims ); /* yyy */
+    let dimsEffective = [ ... dims ]; /* yyy */
     dimsEffective[ i1 ] = 1;
     for( let i2 = i1+1 ; i2 < dimsEffective.length ; i2++ )
     if( dimsEffective[ i2 ] === Infinity )
@@ -2713,7 +2718,9 @@ function DimsEffectiveFrom( dims )
   if( dims.length > 2 )
   if( dims[ dims.length-1 ] === 1 )
   {
-    let dimsEffective = dims.slice( 0, dims.length-1 );
+    // let dimsEffective = new Array( dims ); /* yyy */
+    let dimsEffective = [ ... dims ];
+    dimsEffective.splice( dims.length-1, 1 );
     for( let i = dimsEffective.length-1 ; i >= 2 ; i-- )
     if( dimsEffective[ i ] === 1 )
     dimsEffective.splice( i, 1 );
@@ -2788,7 +2795,7 @@ function _dimsDeduceInitial()
 function DimsDeduceInitial( o )
 {
 
-  _.assert( arguments.length === 1 ); debugger;
+  _.assert( arguments.length === 1 );
   _.assert( _.longIs( o.buffer ), 'Expects buffer' );
   _.assertMapHasAll( o, DimsDeduceInitial.defaults );
 
@@ -2846,7 +2853,7 @@ function DimsDeduceFrom( src, fallbackDims )
 
   if( src.scalarsPerRow !== undefined && src.scalarsPerRow !== null )
   {
-    dim1 = src.scalarsPerRow; debugger;
+    dim1 = src.scalarsPerRow;
   }
   else if( src.nrow !== undefined && src.nrow !== null )
   {

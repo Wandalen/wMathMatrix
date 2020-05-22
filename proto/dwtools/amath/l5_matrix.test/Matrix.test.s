@@ -7050,13 +7050,14 @@ function FromScalarChangeDimsLength( test )
 
 function FromScalarChangeDimsType( test )
 {
+
   test.case = 'dims - Array';
   var dims = [ 2, 2 ];
   var got = _.Matrix.FromScalar( 3, dims );
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( [ 3, 3, 3, 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 2 ] );
 
   test.case = 'dims - Unroll';
@@ -7065,7 +7066,7 @@ function FromScalarChangeDimsType( test )
   test.identical( got.length, 2 );
   test.identical( got.buffer, _.longDescriptor.make( [ 3, 3, 3, 3 ]) );
   test.identical( got.dims, [ 2, 2 ] );
-  test.identical( got.strides, [ 1, 2 ] );
+  test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 2 ] );
 
   test.case = 'dims - ArgumentsArray';
@@ -10864,9 +10865,7 @@ function make( test )
       console.log( r1.toStr() );
       console.log( o.vec([]) );
 
-      debugger;
       test.identical( r1, o.vec([]) );
-      debugger;
       test.identical( r1, r2 );
       test.identical( r1, r3 );
       test.identical( m.reduceToSumAtomWise(), 0 );
@@ -14529,6 +14528,7 @@ function exportStructureToStructure( test )
 
 function bufferExportDstBufferNullFullUsedMatrix( test )
 {
+
   test.case = 'restriding - 1, asFloat - 0, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
   ({
@@ -14560,7 +14560,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
@@ -14577,7 +14577,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
 
   /* */
@@ -14613,7 +14613,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
@@ -14630,7 +14630,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   /* */
@@ -14649,7 +14649,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.longDescriptor.make([ 1, 2, -1, 3 ]);
+  var exp = _.withDefaultLong.F32x.longDescriptor.make([ 1, 2, -1, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
@@ -14780,7 +14780,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -14803,7 +14803,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -14854,7 +14854,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -14879,7 +14879,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -14925,7 +14925,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  var exp = [ 0, 1, -1, 2, 3, 4, 5, 6, 7 ];
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
@@ -14981,7 +14981,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  var exp = _.withDefaultLong.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
@@ -15157,7 +15157,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
   });
   var exp =
   {
-    buffer : _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 3 ],
     offset : 1
@@ -15234,7 +15234,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
   });
   var exp =
   {
-    buffer : _.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 3 ],
     offset : 1
@@ -29006,201 +29006,201 @@ function triangulateLu( test )
 
   /* */
 
-  // test.case = 'basic';
-  //
-  // var m = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +2, +4, -2,
-  //   +4, -2, +6,
-  //   +6, -4, +2,
-  // ]);
-  //
-  // var exp = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +2, +4, -2,
-  //   +2, -10, +10,
-  //   +3, +1.6, -8,
-  // ]);
-  //
-  // var original = m.clone();
-  // m.triangulateLu();
-  // test.equivalent( m, exp );
-  //
-  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  // var u = m.clone().triangleLowerSet( 0 );
-  //
-  // var ll = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +1, +0, +0,
-  //   +2, +1, +0,
-  //   +3, +1.6, +1,
-  // ]);
-  //
-  // var uu = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +2, +4, -2,
-  //   +0, -10, +10,
-  //   +0, +0, -8,
-  // ]);
-  //
-  // var got = _.Matrix.Mul( null, [ l, u ] );
-  // test.equivalent( got, original );
-  // test.equivalent( l, ll );
-  // test.equivalent( u, uu );
-  //
-  // /* */
-  //
-  // test.case = 'triangulateLu';
-  //
-  // var m = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +1, -2, +2,
-  //   +5, -15, +8,
-  //   -2, -11, -11,
-  // ]);
-  //
-  // var exp = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +1, -2, +2,
-  //   +5, -5, -2,
-  //   -2, +3, -1,
-  // ]);
-  //
-  // var original = m.clone();
-  // m.triangulateLu();
-  // test.equivalent( m, exp );
-  //
-  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  // var u = m.clone().triangleLowerSet( 0 );
-  //
-  // var ll = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +1, +0, +0,
-  //   +5, +1, +0,
-  //   -2, +3, +1,
-  // ]);
-  //
-  // var uu = _.Matrix.Make([ 3, 3 ]).copy
-  // ([
-  //   +1, -2, +2,
-  //   +0, -5, -2,
-  //   +0, +0, -1,
-  // ]);
-  //
-  // var got = _.Matrix.Mul( null, [ l, u ] );
-  // test.equivalent( got, original );
-  // test.equivalent( l, ll );
-  // test.equivalent( u, uu );
-  //
-  // /* */
-  //
-  // test.case = 'triangulateLu ( nrow < ncol ) with y argument';
-  //
-  // var mexpected = _.Matrix.Make([ 4, 3 ]).copy
-  // ([
-  //   +1, -2, +4,
-  //   +1, +2, -4,
-  //   +1, +2, +8,
-  //   +1, +3, +3,
-  // ]);
-  //
-  // var yexpected = _.Matrix.MakeCol([ -1, +3, -2, +0 ]);
-  //
-  // var m = _.Matrix.Make([ 4, 3 ]).copy
-  // ([
-  //   +1, -2, +4,
-  //   +1, +0, +0,
-  //   +1, +2, +4,
-  //   +1, +4, +16,
-  // ]);
-  //
-  // var original = m.clone();
-  //
-  // m.triangulateLu();
-  // test.equivalent( m, mexpected );
-  //
-  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  // var u = m.clone().triangleLowerSet( 0 );
-  //
-  // logger.log( 'l', l );
-  // logger.log( 'u', u );
-  //
-  // var ll = _.Matrix.Make([ 4, 3 ]).copy
-  // ([
-  //   +1, +0, +0,
-  //   +1, +1, +0,
-  //   +1, +2, +1,
-  //   +1, +3, +3,
-  // ]);
-  //
-  // var uu = _.Matrix.Make([ 4, 3 ]).copy
-  // ([
-  //   +1, -2, +4,
-  //   +0, +2, -4,
-  //   +0, +0, +8,
-  //   +0, +0, +0,
-  // ]);
-  //
-  // test.case = 'l and u should be';
-  //
-  // test.equivalent( l, ll );
-  // test.equivalent( u, uu );
-  //
-  // test.case = 'l*u should be same as original m';
-  //
-  // u = u.submatrix( [ 0, 2 ], _.all );
-  // var mul = _.Matrix.Mul( null, [ l, u ] );
-  // test.equivalent( mul, original );
-  //
-  // /* */
-  //
-  // test.case = 'triangulateLu ( nrow > ncol )';
-  //
-  // var mexpected = _.Matrix.Make([ 2, 3 ]).copy
-  // ([
-  //   +1, -2, +4,
-  //   +1, +2, -4,
-  // ]);
-  //
-  // var m = _.Matrix.Make([ 2, 3 ]).copy
-  // ([
-  //   +1, -2, +4,
-  //   +1, +0, +0,
-  // ]);
-  //
-  // var original = m.clone();
-  //
-  // m.triangulateLu();
-  // test.equivalent( m, mexpected );
-  //
-  // var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
-  // var u = m.clone().triangleLowerSet( 0 );
-  //
-  // logger.log( 'l', l );
-  // logger.log( 'u', u );
-  //
-  // var ll = _.Matrix.Make([ 2, 3 ]).copy
-  // ([
-  //   +1, +0, +0,
-  //   +1, +1, +0,
-  // ]);
-  //
-  // var uu = _.Matrix.Make([ 2, 3 ]).copy
-  // ([
-  //   +1, -2, +4,
-  //   +0, +2, -4,
-  // ]);
-  //
-  // test.description = 'l and u should be';
-  //
-  // test.equivalent( l, ll );
-  // test.equivalent( u, uu );
-  //
-  // test.description = 'l*u should be same as original m';
-  //
-  // u = u.expand([ [ 0, 1 ], null ]);
-  // var mul = _.Matrix.Mul( null, [ l, u ] );
-  // test.equivalent( mul, original );
+  test.case = 'basic';
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +2, +4, -2,
+    +4, -2, +6,
+    +6, -4, +2,
+  ]);
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +2, +4, -2,
+    +2, -10, +10,
+    +3, +1.6, -8,
+  ]);
+
+  var original = m.clone();
+  m.triangulateLu();
+  test.equivalent( m, exp );
+
+  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  var u = m.clone().triangleLowerSet( 0 );
+
+  var ll = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +0, +0,
+    +2, +1, +0,
+    +3, +1.6, +1,
+  ]);
+
+  var uu = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +2, +4, -2,
+    +0, -10, +10,
+    +0, +0, -8,
+  ]);
+
+  var got = _.Matrix.Mul( null, [ l, u ] );
+  test.equivalent( got, original );
+  test.equivalent( l, ll );
+  test.equivalent( u, uu );
+
+  /* */
+
+  test.case = 'triangulateLu';
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, -2, +2,
+    +5, -15, +8,
+    -2, -11, -11,
+  ]);
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, -2, +2,
+    +5, -5, -2,
+    -2, +3, -1,
+  ]);
+
+  var original = m.clone();
+  m.triangulateLu();
+  test.equivalent( m, exp );
+
+  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  var u = m.clone().triangleLowerSet( 0 );
+
+  var ll = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +0, +0,
+    +5, +1, +0,
+    -2, +3, +1,
+  ]);
+
+  var uu = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, -2, +2,
+    +0, -5, -2,
+    +0, +0, -1,
+  ]);
+
+  var got = _.Matrix.Mul( null, [ l, u ] );
+  test.equivalent( got, original );
+  test.equivalent( l, ll );
+  test.equivalent( u, uu );
+
+  /* */
+
+  test.case = 'triangulateLu ( nrow < ncol ) with y argument';
+
+  var mexpected = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    +1, -2, +4,
+    +1, +2, -4,
+    +1, +2, +8,
+    +1, +3, +3,
+  ]);
+
+  var yexpected = _.Matrix.MakeCol([ -1, +3, -2, +0 ]);
+
+  var m = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    +1, -2, +4,
+    +1, +0, +0,
+    +1, +2, +4,
+    +1, +4, +16,
+  ]);
+
+  var original = m.clone();
+
+  m.triangulateLu();
+  test.equivalent( m, mexpected );
+
+  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  var u = m.clone().triangleLowerSet( 0 );
+
+  logger.log( 'l', l );
+  logger.log( 'u', u );
+
+  var ll = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    +1, +0, +0,
+    +1, +1, +0,
+    +1, +2, +1,
+    +1, +3, +3,
+  ]);
+
+  var uu = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    +1, -2, +4,
+    +0, +2, -4,
+    +0, +0, +8,
+    +0, +0, +0,
+  ]);
+
+  test.case = 'l and u should be';
+
+  test.equivalent( l, ll );
+  test.equivalent( u, uu );
+
+  test.case = 'l*u should be same as original m';
+
+  u = u.submatrix( [ 0, 2 ], _.all );
+  var mul = _.Matrix.Mul( null, [ l, u ] );
+  test.equivalent( mul, original );
+
+  /* */
+
+  test.case = 'triangulateLu ( nrow > ncol )';
+
+  var mexpected = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +1, -2, +4,
+    +1, +2, -4,
+  ]);
+
+  var m = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +1, -2, +4,
+    +1, +0, +0,
+  ]);
+
+  var original = m.clone();
+
+  m.triangulateLu();
+  test.equivalent( m, mexpected );
+
+  var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
+  var u = m.clone().triangleLowerSet( 0 );
+
+  logger.log( 'l', l );
+  logger.log( 'u', u );
+
+  var ll = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +1, +0, +0,
+    +1, +1, +0,
+  ]);
+
+  var uu = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    +1, -2, +4,
+    +0, +2, -4,
+  ]);
+
+  test.description = 'l and u should be';
+
+  test.equivalent( l, ll );
+  test.equivalent( u, uu );
+
+  test.description = 'l*u should be same as original m';
+
+  u = u.expand([ [ 0, 1 ], null ]);
+  var mul = _.Matrix.Mul( null, [ l, u ] );
+  test.equivalent( mul, original );
 
   /* */
 
@@ -29212,10 +29212,7 @@ function triangulateLu( test )
   ]);
 
   var mo = m.clone();
-  debugger;
   m.triangulateLu();
-  debugger;
-  console.log( m );
 
   var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
   var u = m.clone().triangleLowerSet( 0 );
@@ -31332,6 +31329,8 @@ function compareMatrixAndVector( test )
 function experiment( test )
 {
 
+  // debugger; return; xxx
+
   /* */
 
   test.case = 'basic';
@@ -31357,9 +31356,11 @@ function experiment( test )
   ]);
 
   var mo = m.clone();
+  var m2 = m.clone();
   debugger;
-  m.triangulateLu();
+  m2.triangulateLu();
   console.log( m );
+  console.log( m2 );
   debugger;
 
   var y = _.Matrix.MakeCol([ 0, 0, 0 ]);
@@ -31434,16 +31435,16 @@ var Self =
     ConvertToClassSrcIsNotMatrix,
 
     FromVector,
-    FromScalarChangeDimsLength,
-    FromScalarChangeDimsType,
+    FromScalarChangeDimsLength, /* qqq2 : implementation fixed, fix test please */
+    FromScalarChangeDimsType, /* qqq2 : implementation fixed, fix test please */
     FromScalarForReadingChangeDimsLength,
     FromScalarForReadingChangeDimsType,
     FromSrcNullChangeDimsLength,
     FromExperiment,
     FromSrcNullChangeDimsType,
     FromSrcMatrix,
-    FromSrcScalarChangeDimsLength,
-    FromSrcScalarChangeDimsType,
+    FromSrcScalarChangeDimsLength, /* qqq2 : implementation fixed, fix test please */
+    FromSrcScalarChangeDimsType, /* qqq2 : implementation fixed, fix test please */
     FromSrcVector,
     FromForReadingSrcMatrix,
     FromForReadingSrcScalarChangeDimsLength,
