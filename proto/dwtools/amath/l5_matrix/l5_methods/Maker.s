@@ -1111,14 +1111,17 @@ function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.numberIs( scalar ) );
 
-  if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
+  if( dims === undefined )
+  {
+    dims = [ 1, 1 ];
+  }
+  else if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
-    else
-    if( _.vectorAdapterIs( dims ) )
-    // dims = _.arrayFrom( dims.toLong() );
+    else if( _.vectorAdapterIs( dims ) )
     dims = dims.toLong();
+    // dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, `Expects vector {-dims-}, but got ${_.strType( dims )}` );
   }
@@ -1177,12 +1180,16 @@ function FromScalarForReading( scalar, dims )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.numberIs( scalar ) );
 
-  if( !_.arrayIs( dims ) )
+  if( dims === undefined )
   {
-    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    dims = [ 1, 1 ];
+  }
+  else if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
+  {
+    if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = dims.toLong();
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
