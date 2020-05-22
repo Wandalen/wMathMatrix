@@ -218,22 +218,22 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
 
       result = o.onScalar.call( self, it );
 
-      if( it.indexNd[ 0 ] + 1 === dims[ 0 ] )
-      {
-        it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims[ 0 ] : it.strides[ 1 ];
-        it.offset[ 0 ] = it.offset[ 1 ];
-        if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
-        {
-          for( let i = dims.length - 1 ; i >= 2 ; i-- )
-          it.offset[ i ] = it.offset[ 1 ];
-        }
-        else
-        {
-          it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
-          for( let i = dims.length - 2 ; i >= 2 ; i-- )
-          it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
-        }
-      }
+      // if( it.indexNd[ 0 ] + 1 === dims[ 0 ] ) /* Dmytro : imitates counter
+      // {
+      //   it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims[ 0 ] : it.strides[ 1 ];
+      //   it.offset[ 0 ] = it.offset[ 1 ];
+      //   if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+      //   {
+      //     for( let i = dims.length - 1 ; i >= 2 ; i-- )
+      //     it.offset[ i ] = it.offset[ 1 ];
+      //   }
+      //   else
+      //   {
+      //     it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+      //     for( let i = dims.length - 2 ; i >= 2 ; i-- )
+      //     it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      //   }
+      // }
 
       return result;
     }
@@ -487,17 +487,18 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
         it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */ /* Dmytro : implemented counter, which works like counter in other routines */
       }
 
-      if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
-      {
-        for( let i = dims.length - 1 ; i >= 2 ; i-- )
-        it.offset[ i ] = it.offset[ 1 ];
-      }
-      else
-      {
-        it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
-        for( let i = dims.length - 2 ; i >= 2 ; i-- )
-        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
-      }
+      /* Dmytro : imitation of counter in cycles */
+      // if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+      // {
+      //   for( let i = dims.length - 1 ; i >= 2 ; i-- )
+      //   it.offset[ i ] = it.offset[ 1 ];
+      // }
+      // else
+      // {
+      //   it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+      //   for( let i = dims.length - 2 ; i >= 2 ; i-- )
+      //   it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      // }
 
     });
 

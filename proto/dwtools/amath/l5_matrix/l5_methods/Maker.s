@@ -1104,21 +1104,25 @@ function FromVector( src )
  * @module Tools/math/Matrix
  */
 
-function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
+function FromScalar( scalar, dims ) /* aaa2 : can accept scalar without dims! */ /* Dmytro : implemented */
 {
 
+  if( arguments.length === 1 )
+  dims = [ 1, 1 ];
+  else if( arguments.length === 2 )
   _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  else
+  _.assert( 0, 'Expects one or two arguments' );
+
   _.assert( _.numberIs( scalar ) );
 
   if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
-    else
-    if( _.vectorAdapterIs( dims ) )
-    // dims = _.arrayFrom( dims.toLong() );
+    else if( _.vectorAdapterIs( dims ) )
     dims = dims.toLong();
+    // dims = _.arrayFrom( dims.toLong() );
     else
     _.assert( 0, `Expects vector {-dims-}, but got ${_.strType( dims )}` );
   }
@@ -1173,16 +1177,21 @@ function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
 function FromScalarForReading( scalar, dims )
 {
 
-  _.assert( _.vectorIs( dims ) );
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  if( arguments.length === 1 )
+  dims = [ 1, 1 ];
+  else if( arguments.length === 2 )
+  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
+  else
+  _.assert( 0, 'Expects one or two arguments' );
+
   _.assert( _.numberIs( scalar ) );
 
-  if( !_.arrayIs( dims ) )
+  if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
-    if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
+    if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = dims.toLong();
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
