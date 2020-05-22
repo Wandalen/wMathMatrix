@@ -20971,7 +20971,7 @@ function scalarWhileCheckingFields( test )
     args : [],
     indexNd : [ 0, 1, 2, 3 ],
     strides : [ 1, 1, 2, 6 ],
-    offset : [ 24, 24, 24, 24 ],
+    offset : [ 23, 23, 22, 18 ],
     indexLogical : 23
   };
   test.identical( got[ 0 ], exp );
@@ -20997,7 +20997,7 @@ function scalarWhileCheckingFields( test )
     args : [],
     indexNd : [ 0, 1, 2, 3 ],
     strides : [ 0, 1, 2, 6 ],
-    offset : [ 24, 24, 24, 24 ],
+    offset : [ 23, 23, 22, 18 ],
     indexLogical : 23
   };
   test.identical( got[ 0 ], exp );
@@ -21023,7 +21023,7 @@ function scalarWhileCheckingFields( test )
     args : [],
     indexNd : [ 0, 0, 2, 3 ],
     strides : [ 1, 0, 1, 3 ],
-    offset : [ 12, 12, 12, 12 ],
+    offset : [ 11, 11, 11, 9 ],
     indexLogical : 11
   };
   test.identical( got[ 0 ], exp );
@@ -21049,7 +21049,7 @@ function scalarWhileCheckingFields( test )
     args : [],
     indexNd : [ 0, 1, 0, 3 ],
     strides : [ 1, 1, 2, 2 ],
-    offset : [ 8, 8, 8, 8 ],
+    offset : [ 7, 7, 6, 6 ],
     indexLogical : 7
   };
   test.identical( got[ 0 ], exp );
