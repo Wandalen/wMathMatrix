@@ -6772,6 +6772,15 @@ function FromScalarChangeDimsLength( test )
 {
   test.open( '2D' );
 
+  test.case = 'single scalar';
+  var got = _.Matrix.FromScalar( 3 );
+  test.identical( got.length, 1 );
+  test.identical( got.buffer, _.longDescriptor.make([ 3 ]) );
+  test.identical( got.dims, [ 1, 1 ] );
+  test.identical( got.dimsEffective, [ 1, 1 ] );
+  test.identical( got.strides, null );
+  test.identical( got.stridesEffective, [ 1, 1 ] );
+
   test.case = 'dims - [ Infinity, Infinity ]';
   var got = _.Matrix.FromScalar( 3, [ Infinity, Infinity ]);
   test.identical( got.length, 1 );

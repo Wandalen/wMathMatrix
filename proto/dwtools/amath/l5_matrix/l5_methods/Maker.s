@@ -1104,7 +1104,7 @@ function FromVector( src )
  * @module Tools/math/Matrix
  */
 
-function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
+function FromScalar( scalar, dims ) /* aaa2 : can accept scalar without dims! */ /* Dmytro : implemented */
 {
 
   if( arguments.length === 1 )
