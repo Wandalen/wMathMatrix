@@ -487,17 +487,18 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
         it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */ /* Dmytro : implemented counter, which works like counter in other routines */
       }
 
-      if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
-      {
-        for( let i = dims.length - 1 ; i >= 2 ; i-- )
-        it.offset[ i ] = it.offset[ 1 ];
-      }
-      else
-      {
-        it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
-        for( let i = dims.length - 2 ; i >= 2 ; i-- )
-        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
-      }
+      /* Dmytro : imitation of counter in cycles */
+      // if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+      // {
+      //   for( let i = dims.length - 1 ; i >= 2 ; i-- )
+      //   it.offset[ i ] = it.offset[ 1 ];
+      // }
+      // else
+      // {
+      //   it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+      //   for( let i = dims.length - 2 ; i >= 2 ; i-- )
+      //   it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      // }
 
     });
 
