@@ -1107,15 +1107,16 @@ function FromVector( src )
 function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
 {
 
+  if( arguments.length === 1 )
+  dims = [ 1, 1 ];
+  else if( arguments.length === 2 )
   _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  else
+  _.assert( 0, 'Expects one or two arguments' );
+
   _.assert( _.numberIs( scalar ) );
 
-  if( dims === undefined )
-  {
-    dims = [ 1, 1 ];
-  }
-  else if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
+  if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
@@ -1176,15 +1177,16 @@ function FromScalar( scalar, dims ) /* qqq2 : can accept scalar without dims! */
 function FromScalarForReading( scalar, dims )
 {
 
-  _.assert( _.vectorIs( dims ) );
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  if( arguments.length === 1 )
+  dims = [ 1, 1 ];
+  else if( arguments.length === 2 )
+  _.assert( _.longIs( dims ) || _.vectorAdapterIs( dims ) );
+  else
+  _.assert( 0, 'Expects one or two arguments' );
+
   _.assert( _.numberIs( scalar ) );
 
-  if( dims === undefined )
-  {
-    dims = [ 1, 1 ];
-  }
-  else if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
+  if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) )
     dims = _.arrayMake( dims );
