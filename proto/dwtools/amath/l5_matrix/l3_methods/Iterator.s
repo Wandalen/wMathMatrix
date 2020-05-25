@@ -54,7 +54,7 @@ let Self = _.Matrix;
  * @module Tools/math/Matrix
  */
 
-function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange. discuss. loook scalarEach */ /* Dmytro : covered, used separate subroutines for 2d and 3d matrix */
+function scalarWhile( o )
 {
   let self = this;
   let result = true;
@@ -197,15 +197,14 @@ function scalarWhile( o ) /* aaa2 : cover and optimize routine eachInMultiRange.
     for( let i = 0 ; i < dims.length ; i++ )
     ranges.push( [ 0, dims[ i ] ] );
 
-    /* aaa2 : object it should have same field object it of routine scalarEach has */ /* Dmytro : all fields are added */
-
-    _.eachInMultiRange_.body /* aaa2 : split body and pre of routine eachInMultiRange and use eachInMultiRange.body instead */ /* Dmytro : used new routine eachInMultiRange_ */
+    _.eachInMultiRange_.body
     ({
       ranges,
       onEach : handleEach,
-      breaking : 1, /* Dmytro : as explained before, the routine `eachInMultiRange_.body` use not routine `routineOptions`. Routine `routineOptions` exists in `pre` */
+      breaking : 1,
     })
 
+    /* Dmytro : routine `eachInMultiRange_.body` does not use routine `routineOptions`. Routine `routineOptions` exists in `pre` */
 
     function handleEach( indexNd, indexLogical )
     {
@@ -324,9 +323,7 @@ scalarWhile.defaults =
  * @module Tools/math/Matrix
  */
 
-/* aaa2 : make o-fifcation */ /* Dmytro : implemented */
-
-function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : covered */
+function scalarEach( o )
 {
   let self = this;
   let dims = self.dimsEffective;
@@ -368,13 +365,13 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
     if( dims1 === Infinity )
     dims1 = 1;
 
-    let it = Object.create( null ); /* aaa2 : cover all fields of it */ /* Dmytro : covered all fields */
+    let it = Object.create( null );
     it.matrix = self;
     it.buffer = self.buffer;
     it.args = o.args;
     it.indexNd = [ 0, 0 ];
     it.strides = self.stridesEffective;
-    it.offset = [ self.offset, self.offset ]; /* aaa2 : cover field it.offset. it.offset[ 0 ] should always point on the current element of the buffer */ /* Dmytro : covered */
+    it.offset = [ self.offset, self.offset ];
     let indexLogical = 0;
     for( let c = 0 ; c < dims1 ; c++ )
     {
@@ -457,7 +454,7 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
     it.strides = self.stridesEffective;
     it.args = o.args;
     it.indexNd = _.dup( 0, dims.length );
-    it.offset = _.dup( self.offset, dims.length ); /* aaa2 : implement */ /* Dmytro : implemented */
+    it.offset = _.dup( self.offset, dims.length );
     let indexLogical = 0;
 
     self.layerEach( ( it2 ) =>
@@ -484,7 +481,7 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
           indexLogical += 1;
         }
         it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims0 : it.strides[ 1 ];
-        it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */ /* Dmytro : implemented counter, which works like counter in other routines */
+        it.offset[ 0 ] = it.offset[ 1 ];
       }
 
       /* Dmytro : imitation of counter in cycles */
@@ -706,9 +703,6 @@ function scalarEach( o ) /* aaa2 : cover routine scalarEach */ /* Dmytro : cover
  * @module Tools/math/Matrix
  */
 
-/* aaa2 : make o-fifcation */ /* Dmytro : implemented */
-/* aaa2 : cover and document please */ /* Dmytro : covered and documented */
-
 function layerEach( o )
 {
   let self = this;
@@ -770,6 +764,7 @@ function layerEach( o )
   }
 
 }
+
 // function layerEach( onMatrix, args )
 // {
 //   let self = this;
@@ -828,6 +823,8 @@ function layerEach( o )
 //
 // }
 
+//
+
 /**
  * Method lineEach() calls callback {-onEach-} for each line along of provided dimension current matrix.
  * The callback {-onEach-} applies option map with next fields : buffer, indexNd, offset, line.
@@ -857,8 +854,6 @@ function layerEach( o )
  * @namespace wTools
  * @module Tools/math/Matrix
  */
-
-//
 
 function lineEach( dimension, onEach )
 {
@@ -967,7 +962,7 @@ function lineEach( dimension, onEach )
       i2 += 1;
     }
 
-    _.eachInMultiRange
+    _.eachInMultiRange_
     ({
       ranges : dimsWithout,
       onEach : handleEach,
@@ -1025,25 +1020,12 @@ let Statics =
 let Extension =
 {
 
-  /*
-
-  iterators :
-
-  - map
-  - filter
-  - reduce
-  - zip
-
-  */
-
   // basic
 
   scalarWhile,
   scalarEach,
-  layerEach, /* aaa : cover and document */ /* Dmytro : covered and documented */
+  layerEach,
   lineEach,
-
-  /* aaa2 : update documentations of routines of the file */ /* Dmytro : documentation is updated */
 
   //
 

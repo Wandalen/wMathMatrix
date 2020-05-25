@@ -349,10 +349,10 @@ function _equalAre( it )
 
   it.continue = false;
 
-  if( !( it.src2 instanceof Self ) )
+  if( !_.matrixIs( it.src ) || !_.matrixIs( it.src2 ) )
   {
     it.result = false;
-    return it.result;
+    return;
   }
 
   if( it.strictTyping )
@@ -387,7 +387,7 @@ function _equalAre( it )
 
   it.result = it.src.scalarWhile( function( it2 )
   {
-    let scalar = it.src.scalarGet( it2.indexNd ); /* zzz : optimize */
+    let scalar = it.src.scalarGet( it2.indexNd ); /* xxx : optimize */
     // let scalar = it2.buffer[ it2.offset[ 0 ] ];
     let scalar2 = it.src2.scalarGet( it2.indexNd );
     return it.onNumbersAreEqual( scalar, scalar2 );
@@ -1065,7 +1065,7 @@ function cloneExtending()
  * @module Tools/math/Matrix
  */
 
-function CopyTo( dst, src )
+function CopyTo( dst, src ) /* qqq3 : cover please. ask */
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -1076,8 +1076,15 @@ function CopyTo( dst, src )
   let odst = dst;
   let dstDims = Self.DimsOf( dst );
   let srcDims = Self.DimsOf( src );
+  let dimsIdentical = true;
 
-  _.assert( _.longIdentical( srcDims, dstDims ), '{-src-} and {-dst-} should have same dimensions' );
+  _.assert( srcDims.length === dstDims.length, 'not implemented' );
+  for( let i = 0 ; i < srcDims.length ; i++ )
+  {
+    if( srcDims[ i ] !== dstDims[ i ] )
+    dimsIdentical = false;
+    _.assert( srcDims[ i ] <= dstDims[ i ] );
+  }
 
   if( !_.matrixIs( src ) )
   {
@@ -1087,11 +1094,19 @@ function CopyTo( dst, src )
     dst = this.vectorAdapter.from( dst );
 
     if( _.vectorAdapterIs( dst ) )
-    for( let s = 0 ; s < src.length ; s += 1 )
-    dst.eSet( s, src.eGet( s ) )
+    {
+      for( let s = 0 ; s < src.length ; s += 1 )
+      dst.eSet( s, src.eGet( s ) );
+      for( let s = src.length ; s < dst.length ; s += 1 )
+      dst.eSet( s, 0 );
+    }
     else if( _.matrixIs( dst ) )
-    for( let s = 0 ; s < src.length ; s += 1 )
-    dst.scalarSet( [ s, 0 ], src.eGet( s ) )
+    {
+      if( !dimsIdentical )
+      dst.copy( 0 );
+      for( let s = 0 ; s < src.length ; s += 1 )
+      dst.scalarSet( [ s, 0 ], src.eGet( s ) );
+    }
     else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
     return odst;
@@ -1102,26 +1117,84 @@ function CopyTo( dst, src )
     let dstDims = Self.DimsOf( dst );
     let srcDims = Self.DimsOf( src );
 
+    if( _.longIs( dst ) )
+    dst = this.vectorAdapter.from( dst );
+
     if( _.matrixIs( dst ) )
-    src.scalarEach( function( it )
     {
-      dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
-    });
+      if( dimsIdentical )
+      copyDstMatrixSrcMatrixIdentical();
+      else
+      copyDstMatrixSrcMatrixDifferent();
+    }
     else if( _.vectorAdapterIs( dst ) )
-    src.scalarEach( function( it )
     {
-      dst.eSet( it.indexLogical, it.buffer[ it.offset[ 0 ] ] );
-    });
-    else if( _.longIs( dst ) )
-    src.scalarEach( function( it )
-    {
-      dst[ it.indexLogical ] = it.buffer[ it.offset[ 0 ] ];
-    });
+      if( dimsIdentical )
+      copyDstVadSrcMatrixIdentical();
+      else
+      copyDstVadSrcMatrixDifferent();
+    }
+    // else if( _.longIs( dst ) )
+    // {
+    //   src.scalarEach( function( it )
+    //   {
+    //     dst[ it.indexLogical ] = it.buffer[ it.offset[ 0 ] ];
+    //   });
+    // }
     else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
 
   }
 
   return odst;
+
+  /* */
+
+  function copyDstMatrixSrcMatrixIdentical()
+  {
+    debugger;
+    src.scalarEach( function( it )
+    {
+      dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
+    });
+  }
+
+  /* */
+
+  function copyDstMatrixSrcMatrixDifferent()
+  {
+    dst.scalarEach( function( it )
+    {
+      if( src.hasIndex( it.indexNd ) )
+      dst.scalarSet( it.indexNd, src.scalarGet( it.indexNd ) );
+      else
+      dst.scalarSet( it.indexNd, 0 );
+    });
+  }
+
+  /* */
+
+  function copyDstVadSrcMatrixIdentical()
+  {
+    src.scalarEach( function( it )
+    {
+      dst.eSet( it.indexLogical, it.buffer[ it.offset[ 0 ] ] );
+    });
+  }
+
+  /* */
+
+  function copyDstVadSrcMatrixDifferent()
+  {
+    _.assert( 0, 'not tested' );
+    dst.copy( 0 );
+    src.scalarEach( function( it )
+    {
+      dst.eSet( it.indexLogical, it.buffer[ it.offset[ 0 ] ] );
+    });
+  }
+
+  /* */
+
 }
 
 //
@@ -1308,7 +1381,10 @@ function ExportString( o )
     }
     else
     {
+      if( _.numberIs( e ) )
       o.dst += e.toFixed( o.precision );
+      else
+      o.dst += String( e );
     }
 
     if( !isLast )
@@ -1774,6 +1850,37 @@ toLong.defaults =
   restriding : 1,
 }
 
+//
+
+function toVad( o )
+{
+  let self = this;
+  let result;
+  o = _.routineOptions( toVad, o );
+
+  if( o.restriding )
+  {
+    result = self.vad.from( self.bufferExport({ restriding : o.restriding }) );
+  }
+  else
+  {
+    _.assert( self.ncol <= 1 || self.nrow <= 1 );
+    if( self.ncol > 1 )
+    debugger;
+    if( self.ncol <= 1 )
+    result = self.vad.fromLongLrangeAndStride( self.buffer, self.offset, self.scalarsPerMatrix, self.stridesEffective[ 0 ] );
+    else
+    result = self.vad.fromLongLrangeAndStride( self.buffer, self.offset, self.scalarsPerMatrix, self.stridesEffective[ 1 ] );
+  }
+
+  return result;
+}
+
+toVad.defaults =
+{
+  restriding : 0, /* xxx : check */
+}
+
 // --
 // size in bytes
 // --
@@ -1974,7 +2081,7 @@ function NrowOf( src )
   return src.dims[ 0 ];
   if( _.numberIs( src ) )
   return 1;
-  _.assert( src.length );
+  _.assert( src.length >= 0 );
   return src.length;
 }
 
@@ -3250,6 +3357,8 @@ let Statics =
   /* var */
 
   vectorAdapter : _.vectorAdapter,
+  vad : _.vectorAdapter,
+  vector : _.vector,
 
 }
 
@@ -3260,7 +3369,7 @@ let Forbids =
 
   stride : 'stride',
   strideInBytes : 'strideInBytes',
-  strideInAtoms : 'strideInAtoms',
+  strideInScalars : 'strideInScalars',
   stridePerElement : 'stridePerElement',
   lengthInStrides : 'lengthInStrides',
   dimensions : 'dimensions',
@@ -3391,6 +3500,7 @@ let Extension =
 
   toStr,
   toLong,
+  toVad,
 
   // size in bytes
 
@@ -3522,6 +3632,9 @@ _.assert( Self.prototype.vectorAdapter.long === Self.vectorAdapter.long );
 _.assert( Self.long === Self.vectorAdapter.long );
 _.assert( Self.prototype.long === Self.vectorAdapter.long );
 _.assert( Self.long === _.vectorAdapter.long );
+_.assert( Self.vectorAdapter === _.vectorAdapter );
+_.assert( Self.vad === _.vectorAdapter );
+_.assert( Self.vector === _.vector );
 _.assert( _.routineIs( Self.prototype.bufferGet ) );
 _.assert( _.routineIs( Self.prototype.bufferSet ) );
 _.assert( _.routineIs( Self.prototype.bufferPut ) );

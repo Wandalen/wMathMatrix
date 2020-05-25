@@ -157,7 +157,7 @@ function scalarSet( index, value )
 
 //
 
-function scalarHas( index )
+function hasIndex( index )
 {
   let self = this;
   let dims = self.dims;
@@ -533,7 +533,7 @@ function elementsSwap( i1, i2 )
  * @module Tools/math/Matrix
  */
 
-function lineGet( d, index )
+function lineGet( d, index ) /* xxx : should d be switched */
 {
   let self = this;
 
@@ -548,6 +548,22 @@ function lineGet( d, index )
   _.assert( 0, 'unknown dimension' );
 
 }
+
+// function lineGet_( d, index )
+// {
+//   let self = this;
+//
+//   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+//   _.assert( self.dims.length === 2 );
+//
+//   if( d === 0 )
+//   return self.rowGet( index );
+//   else if( d === 1 )
+//   return self.colGet( index );
+//   else
+//   _.assert( 0, `Cant get line for dim : ${d}` );
+//
+// }
 
 //
 
@@ -1000,7 +1016,7 @@ let Extension =
   scalarFlatSet,
   scalarGet,
   scalarSet,
-  scalarHas, /* qqq : document and test, please */
+  hasIndex, /* qqq : document and test, please */
   scalarsGet,
   asVector,
 
@@ -1012,6 +1028,7 @@ let Extension =
   elementsSwap,
 
   lineGet,
+  // lineGet_,
   lineSet,
   lineNdGet,
   linesSwap,

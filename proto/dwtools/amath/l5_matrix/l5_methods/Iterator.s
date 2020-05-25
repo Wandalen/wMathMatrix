@@ -63,7 +63,7 @@ function scalarWiseReduceWithFlatVector( onVector )
 //
 
 /**
- * Method scalarWiseReduceWithAtomHandler() executes the reducer callback {-onElement-} on each scalar of the current matrix.
+ * Method scalarWiseReduceWithScalarHandler() executes the reducer callback {-onElement-} on each scalar of the current matrix.
  * Before iteration executes callback {-onBegin-} that prepare data, after iteration executes callback {-onEnd-} that normalize data.
  *
  * @example
@@ -75,7 +75,7 @@ function scalarWiseReduceWithFlatVector( onVector )
  * var onBegin = function( o ){ return o };
  * var onElement = function( o ){ o.container.scalarSet( o.key, o.element + 1 ) };
  * var onEnd = function( o ){ o.result = o.container.toStr() };
- * var got = matrix.scalarWiseReduceWithAtomHandler( onBegin, onElement, onEnd );
+ * var got = matrix.scalarWiseReduceWithScalarHandler( onBegin, onElement, onEnd );
  * console.log( got );
  * // log :
  * // +2, +3,
@@ -86,7 +86,7 @@ function scalarWiseReduceWithFlatVector( onVector )
  * To options map is added fields `key` and `element`, this fields change for each element.
  * @param { Function } onEnd - Callback that executes after iteration. It executes on options map with final values.
  * @returns { * } - Returns the value of field `result` in option map.
- * @method scalarWiseReduceWithAtomHandler
+ * @method scalarWiseReduceWithScalarHandler
  * @throws { Error } If arguments.length is not equal to three.
  * @throws { Error } If number of dimensions is greater then two.
  * @class Matrix
@@ -94,7 +94,7 @@ function scalarWiseReduceWithFlatVector( onVector )
  * @module Tools/math/Matrix
  */
 
-function scalarWiseReduceWithAtomHandler( onBegin, onScalar, onEnd )
+function scalarWiseReduceWithScalarHandler( onBegin, onScalar, onEnd )
 {
   let self = this;
 
@@ -189,7 +189,7 @@ function scalarWiseWithAssign( onScalar, args )
 //
 
 /**
- * Method AtomWiseHomogeneous() executes the reducer callback {-onScalar-} on each scalar of the current matrix.
+ * Method ScalarWiseHomogeneous() executes the reducer callback {-onScalar-} on each scalar of the current matrix.
  * The call context of callback is current matrix.
  *
  * @param { MapLike } o - Options map.
@@ -218,18 +218,18 @@ function scalarWiseWithAssign( onScalar, args )
  * @throws { Error } If number of dimensions of {-o.dst-} is greater then two.
  * @throws { Error } If o.dst.dims are not equivalent to dimensions in {-o.args-} elements.
  * @static
- * @routine AtomWiseHomogeneous
+ * @routine ScalarWiseHomogeneous
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function AtomWiseHomogeneous( o )
+function ScalarWiseHomogeneous( o )
 {
   let proto = this;
   let newDst = false;
 
-  _.routineOptions( AtomWiseHomogeneous, o );
+  _.routineOptions( ScalarWiseHomogeneous, o );
 
   if( o.dst !== undefined && o.dst !== _.nothing )
   {
@@ -281,7 +281,7 @@ function AtomWiseHomogeneous( o )
   if( o.onScalarsBegin )
   debugger;
   if( !o.onScalarsBegin )
-  o.onScalarsBegin = function handleAtomsBeing( op )
+  o.onScalarsBegin = function handleScalarsBeing( op )
   {
   }
 
@@ -394,7 +394,7 @@ function AtomWiseHomogeneous( o )
   return o.onVectorsEnd.call( o.dst, op );
 }
 
-AtomWiseHomogeneous.defaults =
+ScalarWiseHomogeneous.defaults =
 {
   onScalar : null,
   onScalarsBegin : null,
@@ -466,13 +466,13 @@ function scalarWiseZip( onScalar, dst, srcs )
     dstContainer : self,
     srcs,
   }
-  return self.AtomWiseZip( o )
+  return self.ScalarWiseZip( o )
 }
 
 //
 
 /**
- * Static routine AtomWiseZip() executes the reducer callback {-o.onScalar-} on each scalar of the destination matrix {-o.dstContainer-} and the matrices in container {-o.srcs}.
+ * Static routine ScalarWiseZip() executes the reducer callback {-o.onScalar-} on each scalar of the destination matrix {-o.dstContainer-} and the matrices in container {-o.srcs}.
  * The call context of callback is current matrix.
  *
  * @example
@@ -491,7 +491,7 @@ function scalarWiseZip( onScalar, dst, srcs )
  *   this.scalarSet( o.key, 0 );
  *   o.dst.push( 1 );
  * };
- * var got = _.Matrix.AtomWiseZip
+ * var got = _.Matrix.ScalarWiseZip
  * ({
  *   dst : [],
  *   dstContainer : matrix,
@@ -521,17 +521,17 @@ function scalarWiseZip( onScalar, dst, srcs )
  * @throws { Error } If {-o.srcs-} contains not instance of Matrix.
  * @throws { Error } If {-o.onScalar-} is not a routine.
  * @static
- * @function AtomWiseZip
+ * @function ScalarWiseZip
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function AtomWiseZip( o )
+function ScalarWiseZip( o )
 {
   let result;
 
-  _.routineOptions( AtomWiseZip, o )
+  _.routineOptions( ScalarWiseZip, o )
   _.assert( _.definedIs( o.dst ) );
   _.assert( o.dstContainer instanceof Self );
   _.assert( _.definedIs( o.srcs ) );
@@ -575,7 +575,7 @@ function AtomWiseZip( o )
   return self;
 }
 
-AtomWiseZip.defaults =
+ScalarWiseZip.defaults =
 {
   onScalar : null,
   dst : null,
@@ -697,58 +697,89 @@ function elementsZip( onEach, matrix )
 function _lineEachCollecting( o )
 {
   let self = this;
+  let length = self.dims[ o.dim ? 0 : 1 ];
+  let result;
 
   _.assert( self.dims.length === 2 );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( o.args ) );
-  _.assert( o.length >= 0 );
+  // _.assert( o.length >= 0 );
+  _.assert( o.length === undefined );
   _.assert( _.boolLike( o.returningNumber ) );
+  _.assertMapHasOnly( o, _lineEachCollecting.defaults );
 
   /* */
 
+  if( !o.args )
+  o.args = [];
   o.args = _.longSlice( o.args );
 
-  if( !o.args[ 0 ] )
+  if( o.collecting )
   {
+    if( !o.args.length )
     if( o.returningNumber )
-    o.args[ 0 ] = new Array( o.length );
+    o.args.unshift( new Array( length ) );
     else
-    o.args[ 0 ] = [];
+    o.args.unshift( [] );
+  }
+  else
+  {
+    o.args.unshift( null );
   }
 
+  if( o.collecting )
   if( o.returningNumber )
   if( !_.vectorAdapterIs( o.args[ 0 ] ) )
   o.args[ 0 ] = self.vectorAdapter.fromLong( o.args[ 0 ] );
 
-  let result = o.args[ 0 ];
-
-  /* */
-
-  if( o.returningNumber )
-  for( let i = 0 ; i < o.length ; i++ )
-  {
-    o.args[ 0 ] = self.lineGet( o.lineOrder, i );
-    result.eSet( i, o.onEach.apply( self, o.args ) );
-  }
+  if( o.collecting )
+  iterateCollecting();
   else
-  for( let i = 0 ; i < o.length ; i++ )
-  {
-    o.args[ 0 ] = self.lineGet( o.lineOrder, i );
-    result[ i ] = o.onEach.apply( self, o.args );
-  }
+  iterateNotCollecting();
 
   /* */
 
   return result;
+
+  function iterateCollecting()
+  {
+    result = o.args[ 0 ];
+
+    if( o.returningNumber )
+    for( let i = 0, l = length ; i < l ; i++ )
+    {
+      o.args[ 0 ] = self.lineGet( o.dim, i );
+      result.eSet( i, o.onEach.apply( self, o.args ) );
+    }
+    else
+    for( let i = 0, l = length ; i < l ; i++ )
+    {
+      o.args[ 0 ] = self.lineGet( o.dim, i );
+      result[ i ] = o.onEach.apply( self, o.args );
+    }
+  }
+
+  function iterateNotCollecting()
+  {
+    result = self;
+
+    for( let i = 0, l = length ; i < l ; i++ )
+    {
+      o.args[ 0 ] = self.lineGet( o.dim, i );
+      o.onEach.apply( self, o.args );
+    }
+
+  }
+
 }
 
 _lineEachCollecting.defaults =
 {
   onEach : null,
   args : null,
-  length : null,
-  lineOrder : null,
+  dim : null,
   returningNumber : null,
+  collecting : 1,
 }
 
 //
@@ -807,8 +838,8 @@ function colEachCollecting( onEach , args , returningNumber )
   ({
     onEach,
     args,
-    length : self.scalarsPerRow,
-    lineOrder : 0,
+    // length : self.scalarsPerRow,
+    dim : 0,
     returningNumber,
   });
 
@@ -871,8 +902,8 @@ function rowEachCollecting( onEach , args , returningNumber )
   ({
     onEach,
     args,
-    length : self.scalarsPerCol,
-    lineOrder : 1,
+    // length : self.scalarsPerCol,
+    dim : 1,
     returningNumber,
   });
 
@@ -888,8 +919,8 @@ let Statics =
 
   /* iterator */
 
-  AtomWiseHomogeneous,
-  AtomWiseZip,
+  ScalarWiseHomogeneous,
+  ScalarWiseZip,
 
 }
 
@@ -903,11 +934,11 @@ let Extension =
   // advanced
 
   scalarWiseReduceWithFlatVector,
-  scalarWiseReduceWithAtomHandler,
+  scalarWiseReduceWithScalarHandler,
   scalarWiseWithAssign,
-  AtomWiseHomogeneous,
+  ScalarWiseHomogeneous,
   scalarWiseZip,
-  AtomWiseZip,
+  ScalarWiseZip,
 
   elementEach,
   elementsZip,

@@ -624,34 +624,39 @@ function makeSimilar( dims )
 function MakeLine( o )
 {
   let proto = this.Self.prototype;
-  let strides = null;
+
+  _.routineOptions( MakeLine, o );
+  _.assert( _.matrixIs( o.buffer ) || _.vectorIs( o.buffer ) || _.numberIs( o.buffer ) );
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( o.times >= 0 );
+
   let offset = 0;
   let length = _.vectorIs( o.buffer ) ? o.buffer.length : o.buffer;
   let dims = null;
-
-  _.assert( _.matrixIs( o.buffer ) || _.vectorIs( o.buffer ) || _.numberIs( o.buffer ) );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.routineOptions( MakeLine, o );
 
   /* */
 
   if( _.matrixIs( o.buffer ) )
   {
+
     _.assert( o.buffer.dims.length === 2 );
     if( o.dimension === 0 )
-    _.assert( o.buffer.dims[ 1 ] === 1 );
+    _.assert( o.buffer.dims[ 1 ] === o.times );
     else if( o.dimension === 1 )
-    _.assert( o.buffer.dims[ 0 ] === 1 );
+    _.assert( o.buffer.dims[ 0 ] === o.times );
 
-    if( !o.zeroing )
+    if( o.zeroing )
     {
-      return o.buffer;
+      // o.buffer = o.buffer.dims[ o.dimension ]; xxx qqq2 : ?
+      // length = o.buffer;
+      length = o.buffer.dims[ o.dimension ];
     }
     else
     {
-      o.buffer = o.buffer.dims[ o.dimension ];
-      length = o.buffer;
+      _.assert( o.times === 1 );
+      return o.buffer; /* zzz : check! */
     }
+
   }
 
   /* */
@@ -663,20 +668,51 @@ function MakeLine( o )
   else
   {
     if( _.numberIs( o.buffer ) )
-    o.buffer = this.long.longMake( length );
+    {
+      o.buffer = this.long.longMake( length * o.times );
+    }
     else if( _.argumentsArrayIs( o.buffer ) )
-    o.buffer = proto.long.longMake( o.buffer )
+    {
+      if( o.times === 1 )
+      {
+        o.buffer = proto.long.longMake( o.buffer );
+      }
+      else
+      {
+        _.assert( 0, 'not tested' ); /* qqq2 : cover */
+        let buffer = proto.long.longMakeUndefined( length * o.times );
+        o.buffer = _.longDuplicate
+        ({
+          dst : buffer,
+          src : o.buffer,
+          nDupsPerElement : o.times,
+          nScalarsPerElement : o.buffer.length,
+        });
+      }
+    }
+    else
+    {
+      // if( o.times !== 1 )
+      // debugger;
+      if( o.times !== 1 )
+      o.buffer = _.longDuplicate
+      ({
+        src : o.buffer,
+        nDupsPerElement : o.times,
+        nScalarsPerElement : o.buffer.length,
+      });
+    }
   }
 
   /* dims */
 
   if( o.dimension === 0 )
   {
-    dims = [ length, 1 ];
+    dims = [ length, o.times ];
   }
   else if( o.dimension === 1 )
   {
-    dims = [ 1, length ];
+    dims = [ o.times, length ];
   }
   else _.assert( 0, 'bad dimension', o.dimension );
 
@@ -686,7 +722,6 @@ function MakeLine( o )
   ({
     buffer : o.buffer,
     dims,
-    strides,
     offset,
     inputRowMajor : 0,
   });
@@ -699,6 +734,7 @@ MakeLine.defaults =
   buffer : null,
   dimension : -1,
   zeroing : 1,
+  times : 1, /* qqq2 : cover option times */
 }
 
 //
@@ -814,6 +850,21 @@ function MakeColZeroed( buffer )
 
 //
 
+function MakeColDup( buffer, times )
+{
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+
+  return this.MakeLine
+  ({
+    buffer,
+    zeroing : 0,
+    dimension : 0,
+    times : times,
+  });
+}
+
+//
+
 /**
  * Static routine MakeRow() creates a new row matrix from source buffer {-buffer-}.
  * If {-buffer-} is a Number, then it defines length of new row matrix.
@@ -902,6 +953,21 @@ function MakeRowZeroed( buffer )
     buffer,
     zeroing : 1,
     dimension : 1,
+  });
+}
+
+//
+
+function MakeRowDup( buffer, times )
+{
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+
+  return this.MakeLine
+  ({
+    buffer,
+    zeroing : 0,
+    dimension : 1,
+    times : times,
   });
 }
 
@@ -2495,8 +2561,10 @@ let Statics = /* qqq : split static routines. ask how */
   MakeLine,
   MakeCol,
   MakeColZeroed,
+  MakeColDup,
   MakeRow,
   MakeRowZeroed,
+  MakeRowDup,
 
   ConvertToClass,
 
@@ -2545,8 +2613,10 @@ let Extension =
   MakeLine,
   MakeCol,
   MakeColZeroed,
+  MakeColDup, /* qqq : cover and document */
   MakeRow,
   MakeRowZeroed,
+  MakeRowDup, /* qqq : cover and document */
 
   // convert
 

@@ -19,12 +19,8 @@ if( typeof module !== 'undefined' )
 //
 
 var _ = _global_.wTools.withDefaultLong.Fx;
-var vad = _.vectorAdapter;
-var vec = _.vectorAdapter.fromLong;
-var fvec = function( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
-var ivec = function( src ){ return _.vectorAdapter.fromLong( new I32x( src ) ) }
-var avector = _.avector;
-
+function fvec( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
+function ivec( src ){ return _.vectorAdapter.fromLong( new I32x( src ) ) }
 var sqr = _.math.sqr;
 var sqrt = _.math.sqrt;
 
@@ -10556,8 +10552,8 @@ function make( test )
     test.identical( e, o.vec([ 3, 6 ]) );
     test.identical( a1, 6 );
     test.identical( a2, 5 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -10606,8 +10602,8 @@ function make( test )
     test.identical( e, o.vec([ 5, 6 ]) );
     test.identical( a1, 6 );
     test.identical( a2, 4 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -10657,8 +10653,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 2, 3 ]) );
     test.identical( a1, 3 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     /* */
 
@@ -10708,8 +10704,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 2, 3 ]) );
     test.identical( a1, 3 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     /* */
 
@@ -10741,8 +10737,8 @@ function make( test )
 
     test.identical( r1, o.vec([]) );
     test.identical( r1, r2 );
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
+    test.identical( m.reduceToSumScalarWise(), 0 );
+    test.identical( m.reduceToProductScalarWise(), 1 );
 
     /* */
 
@@ -10788,8 +10784,8 @@ function make( test )
 
     test.identical( r1, o.vec([]) );
     test.identical( r1, r2 );
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
+    test.identical( m.reduceToSumScalarWise(), 0 );
+    test.identical( m.reduceToProductScalarWise(), 1 );
 
     if( Config.debug )
     {
@@ -10835,11 +10831,11 @@ function make( test )
       console.log( r1.toStr() );
       console.log( o.vec([]) );
 
-      test.identical( r1, vec( new m.buffer.constructor([]) ) );
+      test.identical( r1, _.vad.from( new m.buffer.constructor([]) ) );
       test.identical( r1, r2 );
       test.identical( r1, r3 );
-      test.identical( m.reduceToSumAtomWise(), 0 );
-      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.reduceToSumScalarWise(), 0 );
+      test.identical( m.reduceToProductScalarWise(), 1 );
       test.identical( m.buffer.length-m.offset, 0 );
 
       if( Config.debug )
@@ -10917,8 +10913,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 2, 3 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     test.description = 'change buffer of not empty matrix with long column, non transposing';
 
@@ -10954,8 +10950,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 2, 3 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -11000,8 +10996,8 @@ function make( test )
       test.identical( r1, o.vec([]) );
       test.identical( r1, r2 );
       test.identical( r1, r3 );
-      test.identical( m.reduceToSumAtomWise(), 0 );
-      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.reduceToSumScalarWise(), 0 );
+      test.identical( m.reduceToProductScalarWise(), 1 );
       test.identical( m.buffer.length-m.offset, 0 );
 
       if( Config.debug )
@@ -11086,8 +11082,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 2, 3 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     test.description = 'change buffer of empty matrix with long column, transposing';
 
@@ -11123,8 +11119,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 3, 5 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -11168,8 +11164,8 @@ function make( test )
       test.identical( c1, c2 );
       test.identical( c1, c3 );
       test.identical( e, o.vec([]) );
-      test.identical( m.reduceToSumAtomWise(), 0 );
-      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( m.reduceToSumScalarWise(), 0 );
+      test.identical( m.reduceToProductScalarWise(), 1 );
       test.identical( m.buffer.length-m.offset, 0 );
 
       if( Config.debug )
@@ -11251,8 +11247,8 @@ function make( test )
     test.identical( e, o.vec([ 2 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     test.description = 'change by non empty buffer of non empty matrix with long row, transposing';
 
@@ -11288,8 +11284,8 @@ function make( test )
     test.identical( e, o.vec([ 2, 5 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -11317,12 +11313,12 @@ function make( test )
       var c3 = m.lineGet( 0, 0 );
       var e = m.eGet( 2 );
 
-      test.identical( c1, vec( new m.buffer.constructor([]) ) );
+      test.identical( c1, _.vad.from( new m.buffer.constructor([]) ) );
       test.identical( c1, c2 );
       test.identical( c1, c3 );
-      test.identical( e, vec( new m.buffer.constructor([]) ) );
-      test.identical( m.reduceToSumAtomWise(), 0 );
-      test.identical( m.reduceToProductAtomWise(), 1 );
+      test.identical( e, _.vad.from( new m.buffer.constructor([]) ) );
+      test.identical( m.reduceToSumScalarWise(), 0 );
+      test.identical( m.reduceToProductScalarWise(), 1 );
       test.identical( m.buffer.length-m.offset, 0 );
 
       if( Config.debug )
@@ -11412,8 +11408,8 @@ function make( test )
     test.identical( e, o.vec([ 2 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     test.description = 'change by non empty buffer of non empty matrix with long row, non transposing';
 
@@ -11449,8 +11445,8 @@ function make( test )
     test.identical( e, o.vec([ 3, 4 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -11495,8 +11491,8 @@ function make( test )
     test.identical( e, o.vec([ 1, 2, 3 ]) );
     test.identical( a1, 2 );
     test.identical( a2, 2 );
-    test.identical( m.reduceToSumAtomWise(), 6 );
-    test.identical( m.reduceToProductAtomWise(), 6 );
+    test.identical( m.reduceToSumScalarWise(), 6 );
+    test.identical( m.reduceToProductScalarWise(), 6 );
 
     /* */
 
@@ -11552,8 +11548,8 @@ function make( test )
     test.identical( m.strideInCol, 1 );
     test.identical( m.strideOfRow, 1 );
     test.identical( m.strideInRow, 3 );
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
+    test.identical( m.reduceToSumScalarWise(), 0 );
+    test.identical( m.reduceToProductScalarWise(), 1 );
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.toStr( m ) );
@@ -11587,8 +11583,8 @@ function make( test )
     test.identical( e, o.vec([ 4, 5, 6 ]) );
     test.identical( a1, 5 );
     test.identical( a2, 5 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -11649,8 +11645,8 @@ function make( test )
     test.identical( e, o.vec([ 2, 4, 6 ]) );
     test.identical( a1, 4 );
     test.identical( a2, 4 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -11687,15 +11683,15 @@ function make( test )
     var a1 = m.scalarFlatGet( 3 );
     var a2 = m.scalarGet([ 1, 1 ]);
 
-    test.identical( r1, vec( new F32x([ 4, 5, 6 ]) ) );
+    test.identical( r1, _.vad.from( new F32x([ 4, 5, 6 ]) ) );
     test.identical( r1, r2 );
-    test.identical( c1, vec( new F32x([ 2, 5 ]) ) );
+    test.identical( c1, _.vad.from( new F32x([ 2, 5 ]) ) );
     test.identical( c1, c2 );
-    test.identical( e, vec( new F32x([ 2, 5 ]) ) );
+    test.identical( e, _.vad.from( new F32x([ 2, 5 ]) ) );
     test.identical( a1, 5 );
     test.identical( a2, 5 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     test.is( m.buffer instanceof F32x );
 
@@ -11886,8 +11882,8 @@ function makeHelper( test )
   test.equivalent( e, [ 2, 5, 8 ] );
   test.identical( a1, 5 );
   test.identical( a2, 5 );
-  test.identical( m.reduceToSumAtomWise(), 45 );
-  test.identical( m.reduceToProductAtomWise(), 362880 );
+  test.identical( m.reduceToSumScalarWise(), 45 );
+  test.identical( m.reduceToProductScalarWise(), 362880 );
   test.identical( m.determinant(), 0 );
 
   // test.is( m.buffer instanceof F32x );
@@ -11965,8 +11961,8 @@ function makeHelper( test )
   test.identical( e, fvec([ 0, 2, 0 ]) );
   test.identical( a1, 2 );
   test.identical( a2, 2 );
-  test.identical( m.reduceToSumAtomWise(), 6 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
+  test.identical( m.reduceToSumScalarWise(), 6 );
+  test.identical( m.reduceToProductScalarWise(), 0 );
   test.identical( m.determinant(), 6 );
 
   test.is( m.buffer instanceof F32x );
@@ -12009,8 +12005,8 @@ function makeHelper( test )
   test.identical( e, fvec([ 0, 1, 0 ]) );
   test.identical( a1, 1 );
   test.identical( a2, 1 );
-  test.identical( m.reduceToSumAtomWise(), 3 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
+  test.identical( m.reduceToSumScalarWise(), 3 );
+  test.identical( m.reduceToProductScalarWise(), 0 );
   test.identical( m.determinant(), 1 );
 
   test.is( m.buffer instanceof F32x );
@@ -12053,8 +12049,8 @@ function makeHelper( test )
   test.identical( e, fvec([ 0, 1 ]) );
   test.identical( a1, 1 );
   test.identical( a2, 1 );
-  test.identical( m.reduceToSumAtomWise(), 2 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
+  test.identical( m.reduceToSumScalarWise(), 2 );
+  test.identical( m.reduceToProductScalarWise(), 0 );
 
   test.is( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 2 ] );
@@ -12096,8 +12092,8 @@ function makeHelper( test )
   test.identical( e, fvec([ 0, 1, 0 ]) );
   test.identical( a1, 1 );
   test.identical( a2, 1 );
-  test.identical( m.reduceToSumAtomWise(), 2 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
+  test.identical( m.reduceToSumScalarWise(), 2 );
+  test.identical( m.reduceToProductScalarWise(), 0 );
 
   test.is( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 3 ] );
@@ -12139,8 +12135,8 @@ function makeHelper( test )
   test.identical( e, fvec([ 0, 0, 0 ]) );
   test.identical( a1, 0 );
   test.identical( a2, 0 );
-  test.identical( m.reduceToSumAtomWise(), 0 );
-  test.identical( m.reduceToProductAtomWise(), 0 );
+  test.identical( m.reduceToSumScalarWise(), 0 );
+  test.identical( m.reduceToProductScalarWise(), 0 );
   test.identical( m.determinant(), 0 );
 
   test.is( m.buffer instanceof F32x );
@@ -12167,8 +12163,8 @@ function makeHelper( test )
     test.identical( m.strideOfRow, 1 );
     test.identical( m.strideInRow, 0 );
 
-    test.identical( m.reduceToSumAtomWise(), 0 );
-    test.identical( m.reduceToProductAtomWise(), 1 );
+    test.identical( m.reduceToSumScalarWise(), 0 );
+    test.identical( m.reduceToProductScalarWise(), 1 );
     test.identical( m.determinant(), 0 );
     // test.is( m.buffer instanceof F32x );
 
@@ -12416,7 +12412,7 @@ function from( test )
   var exp = _.Matrix.Make([ 3, 1 ]);
   exp.buffer = [ 1, 2, 3, ];
 
-  var a = vec([ 1, 2, 3 ]);
+  var a = _.vad.from([ 1, 2, 3 ]);
 
   var got = _.Matrix.From( a );
   test.identical( got, exp );
@@ -12437,9 +12433,9 @@ function from( test )
   test.shouldThrowErrorSync( () => m.from( [ 1, 2, 3 ], [ 2, 1 ] ) );
   test.shouldThrowErrorSync( () => m.from( [ 1, 2, 3 ], [ 4, 1 ] ) );
   test.shouldThrowErrorSync( () => m.from( [ 1, 2, 3 ], [ 3, 2 ] ) );
-  test.shouldThrowErrorSync( () => m.from( vec([ 1, 2, 3 ]), [ 2, 1 ] ) );
-  test.shouldThrowErrorSync( () => m.from( vec([ 1, 2, 3 ]), [ 4, 1 ] ) );
-  test.shouldThrowErrorSync( () => m.from( vec([ 1, 2, 3 ]), [ 3, 2 ] ) );
+  test.shouldThrowErrorSync( () => m.from( _.vad.from([ 1, 2, 3 ]), [ 2, 1 ] ) );
+  test.shouldThrowErrorSync( () => m.from( _.vad.from([ 1, 2, 3 ]), [ 4, 1 ] ) );
+  test.shouldThrowErrorSync( () => m.from( _.vad.from([ 1, 2, 3 ]), [ 3, 2 ] ) );
   test.shouldThrowErrorSync( () => m.from( _.Matrix.Make([ 3, 3 ]), _.Matrix.Make([ 3, 3 ]) ) );
   test.shouldThrowErrorSync( () => m.from( _.Matrix.Make([ 2, 3 ]), [ 2, 4 ] ) );
   test.shouldThrowErrorSync( () => m.from( _.Matrix.Make([ 3, 2 ]), [ 3, 2 ] ) );
@@ -14107,8 +14103,8 @@ function copyTo( test )
     test.case = o.name + ' . ' + 'matrix to vector';
 
     var src = _.Matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
-    var dst = vec( o.arrayMake([ 0, 0, 0 ]) );
-    var exp = vec( o.arrayMake([ 1, 2, 3 ]) );
+    var dst = _.vad.from( o.arrayMake([ 0, 0, 0 ]) );
+    var exp = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
 
     var got = _.Matrix.CopyTo( dst, src );
     test.identical( got, exp );
@@ -14130,7 +14126,7 @@ function copyTo( test )
 
     test.case = o.name + ' . ' + 'vector to array';
 
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
+    var src = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
     var dst = o.arrayMake([ 0, 0, 0 ]);
     var exp = o.arrayMake([ 1, 2, 3 ]);
 
@@ -14142,9 +14138,9 @@ function copyTo( test )
 
     test.case = o.name + ' . ' + 'vector to vector';
 
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var dst = vec( o.arrayMake([ 0, 0, 0 ]) );
-    var exp = vec( o.arrayMake([ 1, 2, 3 ]) );
+    var src = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
+    var dst = _.vad.from( o.arrayMake([ 0, 0, 0 ]) );
+    var exp = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
 
     var got = _.Matrix.CopyTo( dst, src );
     test.identical( got, exp );
@@ -14154,7 +14150,7 @@ function copyTo( test )
 
     test.case = o.name + ' . ' + 'vector to matrix';
 
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
+    var src = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
     var dst = _.Matrix.MakeCol( o.arrayMake([ 0, 0, 0 ]) );
     var exp = _.Matrix.MakeCol( o.arrayMake([ 1, 2, 3 ]) );
 
@@ -14179,8 +14175,8 @@ function copyTo( test )
     test.case = o.name + ' . ' + 'array to vector';
 
     var src = o.arrayMake([ 1, 2, 3 ]);
-    var dst = vec( o.arrayMake([ 0, 0, 0 ]) );
-    var exp = vec( o.arrayMake([ 1, 2, 3 ]) );
+    var dst = _.vad.from( o.arrayMake([ 0, 0, 0 ]) );
+    var exp = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
 
     var got = _.Matrix.CopyTo( dst, src );
     test.identical( got, exp );
@@ -14213,8 +14209,8 @@ function copyTo( test )
 
     test.case = o.name + ' . ' + 'vector to itself';
 
-    var src = vec( o.arrayMake([ 1, 2, 3 ]) );
-    var exp = vec( o.arrayMake([ 1, 2, 3 ]) );
+    var src = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
+    var exp = _.vad.from( o.arrayMake([ 1, 2, 3 ]) );
 
     var got = _.Matrix.CopyTo( src, src );
     test.identical( got, exp );
@@ -14244,15 +14240,15 @@ function copyTo( test )
 
     test.shouldThrowErrorSync( () => matrix.CopyTo( _.Matrix.MakeCol( o.arrayMake([ 1 ]) ) ) );
     test.shouldThrowErrorSync( () => matrix.CopyTo( o.arrayMake([ 1 ]) ) );
-    test.shouldThrowErrorSync( () => matrix.CopyTo( vec( o.arrayMake([ 1 ]) ) ) );
+    test.shouldThrowErrorSync( () => matrix.CopyTo( _.vad.from( o.arrayMake([ 1 ]) ) ) );
 
     test.shouldThrowErrorSync( () => matrix.CopyTo( _.Matrix.MakeCol( o.arrayMake([ 1 ]) ), null ) );
     test.shouldThrowErrorSync( () => matrix.CopyTo( o.arrayMake([ 1 ]), null ) );
-    test.shouldThrowErrorSync( () => matrix.CopyTo( vec( o.arrayMake([ 1 ]) ), null ) );
+    test.shouldThrowErrorSync( () => matrix.CopyTo( _.vad.from( o.arrayMake([ 1 ]) ), null ) );
 
     test.shouldThrowErrorSync( () => matrix.CopyTo( _.Matrix.MakeCol( o.arrayMake([ 1 ]) ), [ 3 ], null ) );
     test.shouldThrowErrorSync( () => matrix.CopyTo( o.arrayMake([ 1 ]), [ 3 ], null ) );
-    test.shouldThrowErrorSync( () => matrix.CopyTo( vec( o.arrayMake([ 1 ]) ), [ 3 ], null ) );
+    test.shouldThrowErrorSync( () => matrix.CopyTo( _.vad.from( o.arrayMake([ 1 ]) ), [ 3 ], null ) );
 
   }
 
@@ -19143,15 +19139,15 @@ function bufferNormalize( test )
     var a1 = m.scalarFlatGet( 5 );
     var a2 = m.scalarGet([ 1, 1 ]);
 
-    test.identical( r1, vec( new F64x([ 4, 5, 6 ]) ) );
+    test.identical( r1, _.vad.from( new F64x([ 4, 5, 6 ]) ) );
     test.identical( r1, r2 );
-    test.identical( c1, vec( new F64x([ 3, 6 ]) ) );
+    test.identical( c1, _.vad.from( new F64x([ 3, 6 ]) ) );
     test.identical( c1, c2 );
-    test.identical( e, vec( new F64x([ 3, 6 ]) ) );
+    test.identical( e, _.vad.from( new F64x([ 3, 6 ]) ) );
     test.identical( a1, 6 );
     test.identical( a2, 5 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
     /* */
 
@@ -19196,15 +19192,15 @@ function bufferNormalize( test )
     var a1 = m.scalarFlatGet( 5 );
     var a2 = m.scalarGet([ 1, 1 ]);
 
-    test.identical( r1, vec( new F64x([ 4, 5, 6 ]) ) );
+    test.identical( r1, _.vad.from( new F64x([ 4, 5, 6 ]) ) );
     test.identical( r1, r2 );
-    test.identical( c1, vec( new F64x([ 3, 6 ]) ) );
+    test.identical( c1, _.vad.from( new F64x([ 3, 6 ]) ) );
     test.identical( c1, c2 );
-    test.identical( e, vec( new F64x([ 3, 6 ]) ) );
+    test.identical( e, _.vad.from( new F64x([ 3, 6 ]) ) );
     test.identical( a1, 6 );
     test.identical( a2, 5 );
-    test.identical( m.reduceToSumAtomWise(), 21 );
-    test.identical( m.reduceToProductAtomWise(), 720 );
+    test.identical( m.reduceToSumScalarWise(), 21 );
+    test.identical( m.reduceToProductScalarWise(), 720 );
 
   }
 
@@ -19431,7 +19427,7 @@ function vectorToMatrix( test )
 
 //
 
-function accessors( test )
+function accessors( test ) /* qqq2 : split test routine appropriately and extend each */
 {
   var m32, m23;
 
@@ -19523,12 +19519,14 @@ function accessors( test )
   m23.eSet( 2, [ 30, 60 ] );
   test.identical( m23, exp );
 
+  // m32.eSet( 0, [ 10, 20 ] ) // qqq2 : add test cases like this
+
   if( Config.debug )
   {
     test.shouldThrowErrorSync( () => m32.eSet() );
     test.shouldThrowErrorSync( () => m32.eSet( 0 ) );
     test.shouldThrowErrorSync( () => m32.eSet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.eSet( 0, [ 10, 20 ] ) );
+    // test.shouldThrowErrorSync( () => m32.eSet( 0, [ 10, 20 ] ) );
     test.shouldThrowErrorSync( () => m32.eSet( 0, [ 10, 20, 30 ], 0 ) );
     test.shouldThrowErrorSync( () => m32.eSet( [ 0 ], [ 10, 20, 30 ] ) );
   }
@@ -19634,12 +19632,14 @@ function accessors( test )
   m23.colSet( 2, [ 30, 60 ] );
   test.identical( m23, exp );
 
+  // m32.colSet( 0, [ 10, 20 ] ) // qqq2 : add test cases like this
+
   if( Config.debug )
   {
     test.shouldThrowErrorSync( () => m32.colSet() );
     test.shouldThrowErrorSync( () => m32.colSet( 0 ) );
     test.shouldThrowErrorSync( () => m32.colSet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.colSet( 0, [ 10, 20 ] ) );
+    // test.shouldThrowErrorSync( () => m32.colSet( 0, [ 10, 20 ] ) );
     test.shouldThrowErrorSync( () => m32.colSet( 0, [ 10, 20, 30 ], 0 ) );
     test.shouldThrowErrorSync( () => m32.colSet( [ 0 ], [ 10, 20, 30 ] ) );
   }
@@ -19677,7 +19677,7 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m32.colSet() );
     test.shouldThrowErrorSync( () => m32.colSet( 0 ) );
     test.shouldThrowErrorSync( () => m32.colSet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.colSet( 0, ivec([ 10, 20 ]) ) );
+    // test.shouldThrowErrorSync( () => m32.colSet( 0, ivec([ 10, 20 ]) ) ); // qqq2 : add positive test cases like this
     test.shouldThrowErrorSync( () => m32.colSet( 0, ivec([ 10, 20, 30 ]), 0 ) );
     test.shouldThrowErrorSync( () => m32.colSet( [ 0 ], ivec([ 10, 20, 30 ]) ) );
   }
@@ -19716,7 +19716,7 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m32.lineSet( 0 ) );
     test.shouldThrowErrorSync( () => m32.lineSet( 0, 0 ) );
     test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, [ 10, 20 ] ) );
+    // test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, [ 10, 20 ] ) ); // qqq2 : add positive test cases like this
     test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, [ 10, 20, 30 ], 0 ) );
     test.shouldThrowErrorSync( () => m32.lineSet( 0, [ 0 ], [ 10, 20, 30 ] ) );
   }
@@ -19800,7 +19800,7 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.rowSet() );
     test.shouldThrowErrorSync( () => m23.rowSet( 0 ) );
     test.shouldThrowErrorSync( () => m23.rowSet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20 ] ) );
+    // test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20 ] ) );  // qqq2 : add positive test cases like this
     test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20, 30 ], 0 ) );
     test.shouldThrowErrorSync( () => m23.rowSet( [ 0 ], [ 10, 20, 30 ] ) );
   }
@@ -19838,7 +19838,7 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.rowSet() );
     test.shouldThrowErrorSync( () => m23.rowSet( 0 ) );
     test.shouldThrowErrorSync( () => m23.rowSet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20 ]) ) );
+    // test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20 ]) ) );  // qqq2 : add positive test cases like this
     test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20, 30 ]), 0 ) );
     test.shouldThrowErrorSync( () => m23.rowSet( [ 0 ], ivec([ 10, 20, 30 ]) ) );
   }
@@ -19877,7 +19877,7 @@ function accessors( test )
     test.shouldThrowErrorSync( () => m23.lineSet( 1, 0 ) );
     test.shouldThrowErrorSync( () => m23.lineSet( 1, 0 ) );
     test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, [ 10, 20 ] ) );
+    // test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, [ 10, 20 ] ) );  // qqq2 : add positive test cases like this
     test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, [ 10, 20, 30 ], 0 ) );
     test.shouldThrowErrorSync( () => m23.lineSet( 1, [ 0 ], [ 10, 20, 30 ] ) );
   }
@@ -20764,6 +20764,7 @@ function scalarWhile( test )
 
 function scalarWhileCheckingFields( test )
 {
+
   test.open( 'check fields' );
 
   test.case = '2d matrix without Infinity';
@@ -22972,7 +22973,7 @@ function partialAccessors( test )
     buffer,
   });
 
-  var exp = vec([ 1, 6, 11 ]);
+  var exp = _.vad.from([ 1, 6, 11 ]);
   var diagonal = m.diagonalGet();
   test.identical( diagonal, exp );
 
@@ -22998,7 +22999,7 @@ function partialAccessors( test )
     buffer,
   });
 
-  var exp = vec([ 1, 6, 11 ]);
+  var exp = _.vad.from([ 1, 6, 11 ]);
   var diagonal = m.diagonalGet();
   test.identical( diagonal, exp );
 
@@ -23033,7 +23034,7 @@ function partialAccessors( test )
     buffer,
   });
 
-  var exp = vec([ 1, 6, 11 ]);
+  var exp = _.vad.from([ 1, 6, 11 ]);
   var diagonal = m.diagonalGet();
   test.identical( diagonal, exp );
 
@@ -23058,7 +23059,7 @@ function partialAccessors( test )
     buffer,
   });
 
-  var exp = vec([ 1, 6, 11 ]);
+  var exp = _.vad.from([ 1, 6, 11 ]);
   var diagonal = m.diagonalGet();
   test.identical( diagonal, exp );
 
@@ -24089,7 +24090,7 @@ function permutate( test )
   test.identical( m, exp );
   test.identical( permutate, permutateExpected );
 
-  _.Matrix.VectorPermutateBackward( m, permutate );
+  _.Matrix.PermutateBackward( m, permutate );
   test.identical( m, original );
   test.identical( permutate, permutateExpected );
 
@@ -24097,8 +24098,8 @@ function permutate( test )
 
   test.case = 'vectorPermutate vector';
 
-  var exp = vec([ 3, 1, 2 ]);
-  var a = vec([ 1, 2, 3 ]);
+  var exp = _.vad.from([ 3, 1, 2 ]);
+  var a = _.vad.from([ 1, 2, 3 ]);
   var original = a.clone();
 
   var permutate = [ 2, 0, 1 ];
@@ -24108,7 +24109,7 @@ function permutate( test )
   test.identical( a, exp );
   test.identical( permutate, permutateExpected );
 
-  _.Matrix.VectorPermutateBackward( a, permutate );
+  _.Matrix.PermutateBackward( a, permutate );
   test.identical( a, original );
   test.identical( permutate, permutateExpected );
 
@@ -24127,7 +24128,7 @@ function permutate( test )
   test.identical( a, exp );
   test.identical( permutate, permutateExpected );
 
-  _.Matrix.VectorPermutateBackward( a, permutate );
+  _.Matrix.PermutateBackward( a, permutate );
   test.identical( a, original );
   test.identical( permutate, permutateExpected );
 
@@ -24949,8 +24950,11 @@ function _PermutateLineRookWithoutOptionY( test )
 
 //
 
-function _PermutateLineRookWithOptionY( test )
+function _PermutateLineRookWithOptionX( test )
 {
+
+  /* */
+
   test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
   var buffer = new I32x
@@ -24965,12 +24969,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -24978,7 +24982,7 @@ function _PermutateLineRookWithOptionY( test )
     nColPermutations : 0,
   };
   var got = _.Matrix._PermutateLineRook( o );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -24987,7 +24991,7 @@ function _PermutateLineRookWithOptionY( test )
   o.lineIndex = 1;
 
   var got = _.Matrix._PermutateLineRook( o );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -24996,7 +25000,7 @@ function _PermutateLineRookWithOptionY( test )
   o.lineIndex = 2;
 
   var got = _.Matrix._PermutateLineRook( o );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 0 );
   test.identical( o.nRowPermutations, 0 );
@@ -25033,31 +25037,34 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
     nRowPermutations : 0,
     nColPermutations : 0,
   };
+  debugger;
   var got = _.Matrix._PermutateLineRook( o );
+  debugger;
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 3, 2, 1 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
   test.identical( o.nColPermutations, 0 );
+  debugger;
 
   o.lineIndex = 1;
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 3, 2, 1 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -25067,7 +25074,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 3, 2, 1 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -25104,12 +25111,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25118,7 +25125,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 2, 1, 3 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 1, 0, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -25128,7 +25135,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -25138,7 +25145,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -25175,12 +25182,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25189,7 +25196,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -25199,7 +25206,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25209,7 +25216,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25247,12 +25254,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25261,7 +25268,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -25271,7 +25278,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -25281,7 +25288,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -25317,12 +25324,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25331,7 +25338,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -25341,7 +25348,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25351,7 +25358,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25389,12 +25396,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25403,7 +25410,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -25413,7 +25420,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25423,7 +25430,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25462,12 +25469,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 4, 4 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3, 4 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3, 4 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2, 3 ], [ 0, 1, 2, 3 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25476,7 +25483,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -25486,7 +25493,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25496,7 +25503,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -25506,7 +25513,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -25545,12 +25552,12 @@ function _PermutateLineRookWithOptionY( test )
     dims : [ 3, 4 ],
     inputRowMajor : 1,
   });
-  var y = _.Matrix.MakeCol([ 1, 2, 3, 4 ]);
+  var x = _.Matrix.MakeCol([ 1, 2, 3, 4 ]);
 
   var o =
   {
     m,
-    y,
+    x,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2, 3 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -25559,7 +25566,7 @@ function _PermutateLineRookWithOptionY( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
-  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -25569,7 +25576,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25579,7 +25586,7 @@ function _PermutateLineRookWithOptionY( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.y.buffer, [ 3, 2, 1, 4 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -25616,7 +25623,7 @@ function _PermutateLineRookWithOptionY( test )
     var o =
     {
       m,
-      y : null,
+      x : null,
       permutates : [ [ 0, 1 ], [ 0, 1 ] ],
       lineIndex : 0,
       npermutations : 0,
@@ -25633,7 +25640,7 @@ function _PermutateLineRookWithOptionY( test )
     var o =
     {
       m,
-      y : null,
+      x : null,
       permutates : [ [ 0, 1 ], [ 0, 1 ] ],
       lineIndex : -1,
       npermutations : 0,
@@ -25649,7 +25656,7 @@ function _PermutateLineRookWithOptionY( test )
     var o =
     {
       m : {},
-      y : null,
+      x : null,
       permutates : [ [ 0, 1 ], [ 0, 1 ] ],
       lineIndex : 0,
       npermutations : 0,
@@ -25659,14 +25666,14 @@ function _PermutateLineRookWithOptionY( test )
     var got = _.Matrix._PermutateLineRook( o );
   });
 
-  test.case = 'wrong type of o.y';
+  test.case = 'wrong type of o.x';
   test.shouldThrowErrorSync( () =>
   {
     var m = _.Matrix.Make([ 2, 2 ]).copy([ 1, 2, 3, 4 ]);
     var o =
     {
       m,
-      y : [ 1, 2 ],
+      x : [ 1, 2 ],
       permutates : [ [ 0, 1 ], [ 0, 1 ] ],
       lineIndex : 0,
       npermutations : 0,
@@ -26436,7 +26443,81 @@ function subspace( test )
 // operation
 // --
 
-function colRowWiseOperations( test )
+function reduceToMeanRowWise( test )
+{
+
+  /* */
+
+  test.case = 'no dst';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var got = m1.reduceToMeanRowWise();
+  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+
+  /* */
+
+  test.case = 'dst';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var dst = [ 1, 1, 1 ];
+  var got = m1.reduceToMeanRowWise( dst );
+  test.identical( dst, [ 2.5, 3.5, 4.5 ] );
+  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.is( got._vectorBuffer === dst );
+
+  /* */
+
+  test.case = 'control mulRowWise';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var x = [ 1, 3 ];
+  m1.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  12,
+     2,  15,
+     3,  18,
+  ]);
+  test.identical( m1, exp );
+
+  /* */
+
+  test.case = 'control distributionRangeSummaryValueRowWise';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+
+  var exp =
+  [
+    [ 1, 4 ],
+    [ 2, 5 ],
+    [ 3, 6 ],
+  ]
+  var got = m1.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  /* */
+
+}
+
+//
+
+function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
 {
 
   /* */
@@ -26501,10 +26582,10 @@ function colRowWiseOperations( test )
 
   var c = m32.reduceToMeanRowWise();
   var r = m32.reduceToMeanColWise();
-  var a = m32.reduceToMeanAtomWise();
+  var a = m32.reduceToMeanScalarWise();
 
-  test.identical( c, vec([ 2.5, 3.5, 4.5 ]) );
-  test.identical( r, vec([ 2, 5 ]) );
+  test.identical( c, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.identical( r, _.vad.from([ 2, 5 ]) );
   test.identical( a, 3.5 );
 
   /* */
@@ -26516,8 +26597,8 @@ function colRowWiseOperations( test )
   m32.reduceToMeanRowWise( c2 );
   m32.reduceToMeanColWise( r2 );
 
-  test.identical( c, vec( c2 ) );
-  test.identical( r, vec( r2 ) );
+  test.identical( c, _.vad.from( c2 ) );
+  test.identical( r, _.vad.from( r2 ) );
 
   /* */
 
@@ -26525,10 +26606,10 @@ function colRowWiseOperations( test )
 
   var c = empty1.reduceToMeanRowWise();
   var r = empty1.reduceToMeanColWise();
-  var a = empty1.reduceToMeanAtomWise();
+  var a = empty1.reduceToMeanScalarWise();
 
-  test.identical( c, vec([ NaN, NaN ]) );
-  test.identical( r, vec([]) );
+  test.identical( c, _.vad.from([ NaN, NaN ]) );
+  test.identical( r, _.vad.from([]) );
   test.identical( a, NaN );
 
   /* */
@@ -26550,7 +26631,7 @@ function colRowWiseOperations( test )
 
     simpleShouldThrowError( 'reduceToMeanRowWise' );
     simpleShouldThrowError( 'reduceToMeanColWise' );
-    simpleShouldThrowError( 'reduceToMeanAtomWise' );
+    simpleShouldThrowError( 'reduceToMeanScalarWise' );
 
   }
 
@@ -26718,26 +26799,26 @@ function colRowWiseOperations( test )
   test.case = 'reduceToSumColWise';
 
   var sum = matrix1.reduceToSumColWise();
-  test.identical( sum, vec([ 12, 133, 44 ]) );
+  test.identical( sum, _.vad.from([ 12, 133, 44 ]) );
   var sum = matrix2.reduceToSumColWise();
-  test.identical( sum, vec([ 16, 32, 53 ]) );
+  test.identical( sum, _.vad.from([ 16, 32, 53 ]) );
   var sum = empty1.reduceToSumColWise();
-  test.identical( sum, vec([]) );
+  test.identical( sum, _.vad.from([]) );
   var sum = empty2.reduceToSumColWise();
-  test.identical( sum, vec([ 0, 0 ]) );
+  test.identical( sum, _.vad.from([ 0, 0 ]) );
 
   /* */
 
   test.case = 'reduceToSumRowWise';
 
   var sum = matrix1.reduceToSumRowWise();
-  test.identical( sum, vec([ 0, 6, 60, 123 ]) );
+  test.identical( sum, _.vad.from([ 0, 6, 60, 123 ]) );
   var sum = matrix2.reduceToSumRowWise();
-  test.identical( sum, vec([ 13, 21, 32, 35 ]) );
+  test.identical( sum, _.vad.from([ 13, 21, 32, 35 ]) );
   var sum = empty1.reduceToSumRowWise();
-  test.identical( sum, vec([ 0, 0 ]) );
+  test.identical( sum, _.vad.from([ 0, 0 ]) );
   var sum = empty2.reduceToSumRowWise();
-  test.identical( sum, vec([]) );
+  test.identical( sum, _.vad.from([]) );
 
   /* */
 
@@ -26761,14 +26842,16 @@ function colRowWiseOperations( test )
 
   test.case = 'reduceToMaxValueColWise';
 
+  debugger;
   var max = matrix1.reduceToMaxValueColWise();
-  test.identical( max, vec([ 10, 111, 30 ]) );
+  test.identical( max, _.vad.from([ 10, 111, 30 ]) );
+  debugger;
   var max = matrix2.reduceToMaxValueColWise();
-  test.identical( max, vec([ 10, 20, 30 ]) );
+  test.identical( max, _.vad.from([ 10, 20, 30 ]) );
   var max = empty1.reduceToMaxValueColWise();
-  test.identical( max, vec([]) );
+  test.identical( max, _.vad.from([]) );
   var max = empty2.reduceToMaxValueColWise();
-  test.identical( max, vec([ -Infinity, -Infinity ]) );
+  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
 
   /* */
 
@@ -26793,13 +26876,13 @@ function colRowWiseOperations( test )
   test.case = 'reduceToMaxValueRowWise';
 
   var max = matrix1.reduceToMaxValueRowWise();
-  test.identical( max, vec([ 0, 3, 30, 111 ]) );
+  test.identical( max, _.vad.from([ 0, 3, 30, 111 ]) );
   var max = matrix2.reduceToMaxValueRowWise();
-  test.identical( max, vec([ 10, 20, 30, 20 ]) );
+  test.identical( max, _.vad.from([ 10, 20, 30, 20 ]) );
   var max = empty1.reduceToMaxValueRowWise();
-  test.identical( max, vec([ -Infinity, -Infinity ]) );
+  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
   var max = empty2.reduceToMaxValueRowWise();
-  test.identical( max, vec([]) );
+  test.identical( max, _.vad.from([]) );
 
 /*
   var matrix1 = _.Matrix.Make([ 4, 3 ])
@@ -27109,8 +27192,8 @@ function mul( test )
 
   test.case = '_.Matrix vector multiplication';
   var m = matrix3A.clone();
-  var v = vec([ 1, 2, 3 ]);
-  var exp = vec([ 22 , 28 , 39 ]);
+  var v = _.vad.from([ 1, 2, 3 ]);
+  var exp = _.vad.from([ 22 , 28 , 39 ]);
   var mul = _.Matrix.Mul( v, [ m, v ] );
   test.equivalent( mul, exp );
   test.is( v === mul );
@@ -27684,11 +27767,13 @@ function AddBasic( test )
 
 }
 
-function addAtomWise( test )
+//
+
+function addScalarWise( test )
 {
 
-  var m1, m2, m3, m4, m5, v1, a1;
-  function remake()
+  var m1, m2, m3, m4, m5, v1, a1; /* qqq : split variables */
+  function remake() /* qqq : remove subroutine */
   {
 
     m1 = _.Matrix.Make([ 2, 3 ]).copy
@@ -27721,14 +27806,14 @@ function addAtomWise( test )
       4,
     ]);
 
-    v1 = vad.fromLong([ 9, 8 ]);
+    v1 = _.vad.fromLong([ 9, 8 ]);
     a1 = [ 6, 5 ];
 
   }
 
   /* */
 
-  test.case = 'addAtomWise 2 matrixs';
+  test.case = 'addScalarWise 2 matrixs';
 
   remake();
 
@@ -27738,13 +27823,13 @@ function addAtomWise( test )
     +44, +55, +66,
   ]);
 
-  var r = _.Matrix.addAtomWise( m1, m2 );
+  var r = _.Matrix.addScalarWise( m1, m2 );
   test.equivalent( r, exp );
   test.is( r === m1 );
 
   /* */
 
-  test.case = 'addAtomWise 2 matrixs with null';
+  test.case = 'addScalarWise 2 matrixs with null';
 
   remake();
 
@@ -27754,13 +27839,13 @@ function addAtomWise( test )
     +44, +55, +66,
   ]);
 
-  var r = _.Matrix.addAtomWise( null, m1, m2 );
+  var r = _.Matrix.addScalarWise( null, m1, m2 );
   test.equivalent( r, exp );
   test.is( r !== m1 );
 
   /* */
 
-  test.case = 'addAtomWise 3 matrixs into the first src';
+  test.case = 'addScalarWise 3 matrixs into the first src';
 
   remake();
 
@@ -27770,13 +27855,13 @@ function addAtomWise( test )
     +444, +555, +666,
   ]);
 
-  var r = _.Matrix.addAtomWise( null, m1, m2, m3 );
+  var r = _.Matrix.addScalarWise( null, m1, m2, m3 );
   test.equivalent( r, exp );
   test.is( r !== m1 );
 
   /* */
 
-  test.case = 'addAtomWise 3 matrixs into the first src';
+  test.case = 'addScalarWise 3 matrixs into the first src';
 
   remake();
 
@@ -27786,13 +27871,13 @@ function addAtomWise( test )
     +444, +555, +666,
   ]);
 
-  var r = _.Matrix.addAtomWise( m1, m2, m3 );
+  var r = _.Matrix.addScalarWise( m1, m2, m3 );
   test.equivalent( r, exp );
   test.is( r === m1 );
 
   /* */
 
-  test.case = 'addAtomWise matrix and scalar';
+  test.case = 'addScalarWise matrix and scalar';
 
   remake();
 
@@ -27802,13 +27887,13 @@ function addAtomWise( test )
     +14, +15, +16,
   ]);
 
-  var r = _.Matrix.addAtomWise( null, m1, 10 );
+  var r = _.Matrix.addScalarWise( null, m1, 10 );
   test.equivalent( r, exp );
   test.is( r !== m1 );
 
   /* */
 
-  test.case = 'addAtomWise _.all sort of arguments';
+  test.case = 'addScalarWise _.all sort of arguments';
 
   remake();
 
@@ -27818,7 +27903,7 @@ function addAtomWise( test )
     14,
   ]);
 
-  var r = _.Matrix.addAtomWise( null, m5, 10 );
+  var r = _.Matrix.addScalarWise( null, m5, 10 );
   test.equivalent( r, exp );
   test.is( r !== m5 );
 
@@ -27828,7 +27913,7 @@ function addAtomWise( test )
     22,
   ]);
 
-  var r = _.Matrix.addAtomWise( null, m5, 10, v1 );
+  var r = _.Matrix.addScalarWise( null, m5, 10, v1 );
   test.equivalent( r, exp );
   test.is( r !== m5 );
 
@@ -27838,13 +27923,13 @@ function addAtomWise( test )
     27,
   ]);
 
-  var r = _.Matrix.addAtomWise( null, m5, 10, v1, a1 );
+  var r = _.Matrix.addScalarWise( null, m5, 10, v1, a1 );
   test.equivalent( r, exp );
   test.is( r !== m5 );
 
   /* */
 
-  test.case = 'addAtomWise _.all sort of arguments';
+  test.case = 'addScalarWise _.all sort of arguments';
 
   remake();
 
@@ -27854,7 +27939,7 @@ function addAtomWise( test )
     22,
   ]);
 
-  var r = _.Matrix.addAtomWise( m5, 10, v1 );
+  var r = _.Matrix.addScalarWise( m5, 10, v1 );
   test.equivalent( r, exp );
   test.is( r === m5 );
 
@@ -27866,7 +27951,7 @@ function addAtomWise( test )
     27,
   ]);
 
-  var r = _.Matrix.addAtomWise( m5, 10, v1, a1 );
+  var r = _.Matrix.addScalarWise( m5, 10, v1, a1 );
   test.equivalent( r, exp );
   test.is( r === m5 );
 
@@ -27878,13 +27963,13 @@ function addAtomWise( test )
     29,
   ]);
 
-  var r = _.Matrix.addAtomWise( m5, 10, v1, a1, m4 );
+  var r = _.Matrix.addScalarWise( m5, 10, v1, a1, m4 );
   test.equivalent( r, exp );
   test.is( r === m5 );
 
   /* */
 
-  test.case = 'addAtomWise rewriting src argument';
+  test.case = 'addScalarWise rewriting src argument';
 
   remake();
 
@@ -27894,15 +27979,17 @@ function addAtomWise( test )
     27,
   ]);
 
-  var r = _.Matrix.addAtomWise( m4, 10, v1, a1, m4 );
+  var r = _.Matrix.addScalarWise( m4, 10, v1, a1, m4 );
   test.equivalent( r, exp );
   test.is( r === m4 );
+
+  /* */
 
 }
 
 //
 
-function subAtomWise( test )
+function subScalarWise( test )
 {
 
   var m1, m2, m3, m4, m5, v1, a1;
@@ -27939,7 +28026,7 @@ function subAtomWise( test )
       4,
     ]);
 
-    v1 = vad.fromLong([ 9, 8 ]);
+    v1 = _.vad.fromLong([ 9, 8 ]);
     a1 = [ 6, 5 ];
 
   }
@@ -27956,7 +28043,7 @@ function subAtomWise( test )
     -36, -45, -54,
   ]);
 
-  var r = _.Matrix.subAtomWise( m1, m2 );
+  var r = _.Matrix.subScalarWise( m1, m2 );
   test.equivalent( r, exp );
   test.is( r === m1 );
 
@@ -27972,7 +28059,7 @@ function subAtomWise( test )
     -36, -45, -54,
   ]);
 
-  var r = _.Matrix.subAtomWise( null, m1, m2 );
+  var r = _.Matrix.subScalarWise( null, m1, m2 );
   test.equivalent( r, exp );
   test.is( r !== m1 );
 
@@ -27988,7 +28075,7 @@ function subAtomWise( test )
     -436, -545, -654,
   ]);
 
-  var r = _.Matrix.subAtomWise( null, m1, m2, m3 );
+  var r = _.Matrix.subScalarWise( null, m1, m2, m3 );
   test.equivalent( r, exp );
   test.is( r !== m1 );
 
@@ -28004,7 +28091,7 @@ function subAtomWise( test )
     -436, -545, -654,
   ]);
 
-  var r = _.Matrix.subAtomWise( m1, m2, m3 );
+  var r = _.Matrix.subScalarWise( m1, m2, m3 );
   test.equivalent( r, exp );
   test.is( r === m1 );
 
@@ -28020,7 +28107,7 @@ function subAtomWise( test )
     -6, -5, -4,
   ]);
 
-  var r = _.Matrix.subAtomWise( null, m1, 10 );
+  var r = _.Matrix.subScalarWise( null, m1, 10 );
   test.equivalent( r, exp );
   test.is( r !== m1 );
 
@@ -28036,7 +28123,7 @@ function subAtomWise( test )
     -6,
   ]);
 
-  var r = _.Matrix.subAtomWise( null, m5, 10 );
+  var r = _.Matrix.subScalarWise( null, m5, 10 );
   test.equivalent( r, exp );
   test.is( r !== m5 );
 
@@ -28046,7 +28133,7 @@ function subAtomWise( test )
     -14,
   ]);
 
-  var r = _.Matrix.subAtomWise( null, m5, 10, v1 );
+  var r = _.Matrix.subScalarWise( null, m5, 10, v1 );
   test.equivalent( r, exp );
   test.is( r !== m5 );
 
@@ -28056,7 +28143,7 @@ function subAtomWise( test )
     -19,
   ]);
 
-  var r = _.Matrix.subAtomWise( null, m5, 10, v1, a1 );
+  var r = _.Matrix.subScalarWise( null, m5, 10, v1, a1 );
   test.equivalent( r, exp );
   test.is( r !== m5 );
 
@@ -28072,7 +28159,7 @@ function subAtomWise( test )
     -14,
   ]);
 
-  var r = _.Matrix.subAtomWise( m5, 10, v1 );
+  var r = _.Matrix.subScalarWise( m5, 10, v1 );
   test.equivalent( r, exp );
   test.is( r === m5 );
 
@@ -28084,7 +28171,7 @@ function subAtomWise( test )
     -19,
   ]);
 
-  var r = _.Matrix.subAtomWise( m5, 10, v1, a1 );
+  var r = _.Matrix.subScalarWise( m5, 10, v1, a1 );
   test.equivalent( r, exp );
   test.is( r === m5 );
 
@@ -28096,7 +28183,7 @@ function subAtomWise( test )
     -21,
   ]);
 
-  var r = _.Matrix.subAtomWise( m5, 10, v1, a1, m4 );
+  var r = _.Matrix.subScalarWise( m5, 10, v1, a1, m4 );
   test.equivalent( r, exp );
   test.is( r === m5 );
 
@@ -28112,9 +28199,73 @@ function subAtomWise( test )
     -23,
   ]);
 
-  var r = _.Matrix.subAtomWise( m4, 10, v1, a1, m4 );
+  var r = _.Matrix.subScalarWise( m4, 10, v1, a1, m4 );
   test.equivalent( r, exp );
   test.is( r === m4 );
+
+}
+
+//
+
+function mulColWise( test )
+{
+
+  /* */
+
+  test.case = 'basic';
+
+  var x = [ 1, 3 ];
+  var m = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+  ]);
+
+  m.mulColWise( x );
+
+  var exp = [ 1, 3 ];
+  test.identical( x, exp );
+
+  var exp = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    1, 2, 3, 4,
+    15, 18, 21, 24,
+  ]);
+  test.identical( m, exp );
+
+  /* */
+
+}
+
+//
+
+function mulRowWise( test )
+{
+
+  /* */
+
+  test.case = 'basic';
+
+  var x = [ 0, 1, 2, 3 ];
+  var m = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    1, 2, 3, 4,
+    5, 6, 7, 8,
+  ]);
+
+  m.mulRowWise( x );
+
+  var exp = [ 0, 1, 2, 3 ];
+  test.identical( x, exp );
+
+  var exp = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    0, 2, 6, 12,
+    0, 6, 14, 24,
+  ]);
+  test.identical( m, exp );
+
+  /* */
 
 }
 
@@ -28896,142 +29047,316 @@ determinantWithBareissBig.timeOut = 300000;
 function triangulateGausian( test )
 {
 
-  /* */
+  _.Matrix.ContextsForTesting( act );
 
-  test.case = 'triangulateGausian simple1';
+  function act( op )
+  {
 
-  var m = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +1, +2, -1,
-    +3, +1, +7, -7,
-    +1, +7, +1, +7,
-  ]);
+    /* */
 
-  var exp = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +1, +2, -1,
-    +0, -2, +1, -4,
-    +0, +0, +2, -4,
-  ]);
+    test.case = `m : 0x0`;
 
-  test.equivalent( 1, 1 );
+    var mexpected = _.Matrix.Make([ 0, 0 ])
+    var m = _.Matrix.Make([ 0, 0 ]);
 
-  m.triangulateGausian();
-  test.equivalent( m, exp );
+    var triangulated = m.triangulateGausian();
+    test.equivalent( m, mexpected );
 
-  /* */
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
 
-  test.case = 'triangulateGausian simple2';
+    /* */
 
-  var m = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, -2, +2, 1,
-    +5, -15, +8, 1,
-    -2, -11, -11, 1,
-  ]);
+    test.case = `m : 0x0, y : ${op.format}.0x${op.dup}`;
 
-  var exp = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, -2, +2, +1,
-    +0, -5, -2, -4,
-    +0, +0, -1, +15,
-  ]);
+    var mexpected = _.Matrix.Make([ 0, 0 ])
+    var m = _.Matrix.Make([ 0, 0 ]);
 
-  m.triangulateGausian();
-  test.equivalent( m, exp );
+    var y = op.containerMake([]);
 
-  /* */
+    var triangulated = m.triangulateGausian( y );
+    test.equivalent( m, mexpected );
 
-  test.case = 'triangulateGausian with y argument';
+    var expected = op.matrixMake([]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
 
-  var mexpected = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +0, -5, -2,
-    +0, +0, -1,
-  ]);
+    /* */
 
-  var yexpected = _.Matrix.MakeCol([ +1, -4, +15 ]);
+    test.case = `m : 0x2`;
 
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +5, -15, +8,
-    -2, -11, -11,
-  ]);
+    var mexpected = _.Matrix.Make([ 0, 2 ])
+    var m = _.Matrix.Make([ 0, 2 ]);
 
-  var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
+    var triangulated = m.triangulateGausian();
+    test.equivalent( m, mexpected );
 
-  m.triangulateGausian( y );
-  test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
 
-  /* */
+    /* */
 
-  test.case = 'triangulateGausian with y argument';
+    test.case = `m : 0x2, y : ${op.format}.0x${op.dup}`;
 
-  var mexpected = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +0, -5, -2,
-    +0, +0, -1,
-  ]);
+    var mexpected = _.Matrix.Make([ 0, 2 ])
+    var m = _.Matrix.Make([ 0, 2 ]);
 
-  var yexpected = _.Matrix.MakeCol([ +1, -4, +15 ]);
+    var y = op.containerMake([]);
 
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +1, -2, +2,
-    +5, -15, +8,
-    -2, -11, -11,
-  ]);
+    var triangulated = m.triangulateGausian( y );
+    test.equivalent( m, mexpected );
 
-  var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
+    var expected = op.matrixMake([ 0, 0 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ 0, 0 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
 
-  m.triangulateGausian( y );
-  test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
+    /* */
 
-  /* */
+    test.case = `m : 2x0`;
 
-  test.case = 'triangulateGausian ( nrow < ncol ) with y argument';
+    var mexpected = _.Matrix.Make([ 2, 0 ])
+    var m = _.Matrix.Make([ 2, 0 ]);
 
-  var mexpected = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +0, +2, -4,
-    +0, +0, +8,
-    +0, +0, +0,
-  ]);
+    var triangulated = m.triangulateGausian();
+    test.equivalent( m, mexpected );
 
-  var yexpected = _.Matrix.MakeCol([ -1, +3, -2, +0 ]);
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
 
-  var m = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    +1, -2, +4,
-    +1, +0, +0,
-    +1, +2, +4,
-    +1, +4, +16,
-  ]);
+    /* */
 
-  var y = _.Matrix.MakeCol([ -1, +2, +3, +2 ]);
+    test.case = `m : 2x0, y : ${op.format}.0x${op.dup}`;
 
-  m.triangulateGausian( y );
-  test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
+    var mexpected = _.Matrix.Make([ 2, 0 ])
+    var m = _.Matrix.Make([ 2, 0 ]);
 
-  /* */
+    var y = op.containerMake([ 1, 2 ]);
+
+    var triangulated = m.triangulateGausian( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ 1, 2 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ 1, 2 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([ 1, 2 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ 1, 2 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = 'm : 3x3';
+
+    var mexpected = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1, -2, +2,
+      +0, -5, -2,
+      +0, +0, -1,
+    ]);
+
+    var m = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1, -2, +2,
+      +5, -15, +8,
+      -2, -11, -11,
+    ]);
+
+    var triangulated = m.triangulateGausian();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 3x3, y : ${op.format}.3x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1, -2, +2,
+      +0, -5, -2,
+      +0, +0, -1,
+    ]);
+
+    var m = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1, -2, +2,
+      +5, -15, +8,
+      -2, -11, -11,
+    ]);
+
+    var y = op.containerMake([ 1, 1, 1 ]);
+
+    var triangulated = m.triangulateGausian( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ +1, -4, +15 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ +1, -4, +15 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([ 1, 1, 1 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ 1, 1, 1 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = 'm : 3x4';
+
+    var m = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +1, +2, -1,
+      +3, +1, +7, -7,
+      +1, +7, +1, +7,
+    ]);
+
+    var exp = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +1, +2, -1,
+      +0, -2, +1, -4,
+      +0, +0, +2, -4,
+    ]);
+
+    var triangulated = m.triangulateGausian();
+    test.equivalent( m, exp );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 3x4, y : ${op.format}.3x${op.dup}`;
+
+    var m = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, -2, +2, 1,
+      +5, -15, +8, 1,
+      -2, -11, -11, 1,
+    ]);
+
+    var exp = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, -2, +2, +1,
+      +0, -5, -2, -4,
+      +0, +0, -1, +15,
+    ]);
+
+    var y = op.containerMake([ 1, 2, 3 ]);
+    var triangulated = m.triangulateGausian( y );
+    test.equivalent( m, exp );
+
+    var expected = op.matrixMake([ +1, -3, +14, +0 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ +1, -3, +14, +0 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([ 1, 2, 3 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ 1, 2, 3 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = `m : 4x3`;
+
+    var mexpected = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +0, +2, -4,
+      +0, +0, +8,
+      +0, +0, +0,
+    ]);
+
+    var m = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +1, +0, +0,
+      +1, +2, +4,
+      +1, +4, +16,
+    ]);
+
+    var triangulated = m.triangulateGausian();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 4x3, y : ${op.format}.3x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +0, +2, -4,
+      +0, +0, +8,
+      +0, +0, +0,
+    ]);
+
+    var m = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +1, +0, +0,
+      +1, +2, +4,
+      +1, +4, +16,
+    ]);
+
+    var y = op.containerMake([ -1, +2, +3, +2 ]);
+
+    var triangulated = m.triangulateGausian( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ -1, +3, -2, +0 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ -1, +3, -2, +0 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([ -1, +2, +3, +2 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ -1, +2, +3, +2 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+  }
 
 }
 
 //
 
-function triangulateGausianNormal( test )
+function triangulateGausianNormalizing( test )
 {
 
   /* */
 
-  test.case = 'triangulateGausianNormal simple1';
+  test.case = 'triangulateGausianNormalizing simple1';
 
   var m = _.Matrix.Make([ 3, 4 ]).copy
   ([
@@ -29047,12 +29372,12 @@ function triangulateGausianNormal( test )
     +0, +0, +1, -2,
   ]);
 
-  m.triangulateGausianNormal();
+  m.triangulateGausianNormalizing();
   test.equivalent( m, exp );
 
   /* */
 
-  test.case = 'triangulateGausianNormal simple2';
+  test.case = 'triangulateGausianNormalizing simple2';
 
   var m = _.Matrix.Make([ 3, 4 ]).copy
   ([
@@ -29068,12 +29393,12 @@ function triangulateGausianNormal( test )
     +0, +0, 1, -15,
   ]);
 
-  m.triangulateGausianNormal();
+  var triangulated = m.triangulateGausianNormalizing();
   test.equivalent( m, exp );
 
   /* */
 
-  test.case = 'triangulateGausianNormal with y argument';
+  test.case = 'triangulateGausianNormalizing with y argument';
 
   var mexpected = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -29093,13 +29418,13 @@ function triangulateGausianNormal( test )
 
   var y = _.Matrix.MakeCol([ 1, 1, 1 ]);
 
-  m.triangulateGausianNormal( y );
+  var triangulated = m.triangulateGausianNormalizing( y );
   test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
+  test.equivalent( triangulated.ox, yexpected );
 
   /* */
 
-  test.case = 'triangulateGausianNormal ( nrow < ncol ) with y argument';
+  test.case = 'triangulateGausianNormalizing ( nrow < ncol ) with y argument';
 
   var mexpected = _.Matrix.Make([ 4, 3 ]).copy
   ([
@@ -29121,15 +29446,179 @@ function triangulateGausianNormal( test )
 
   var y = _.Matrix.MakeCol([ -1, +2, +3, +2 ]);
 
-  m.triangulateGausianNormal( y );
+  var triangulated = m.triangulateGausianNormalizing( y );
   test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
+  test.equivalent( triangulated.ox, yexpected );
 
   /* */
 
 }
 
-triangulateGausianNormal.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
+triangulateGausianNormalizing.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
+
+//
+
+function triangulateGausianPermutating( test )
+{
+
+  /* */
+
+  test.case = '3x4';
+
+  var m = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +1, +3, +1, +2,
+    +2, +6, +4, +8,
+    +0, +0, +2, +4,
+  ]);
+
+  var om = m.clone();
+  var y = _.Matrix.MakeCol([ +1, +3, +1 ]);
+  var triangulated = _.Matrix.TriangulateGausianPermutating({ m, y, repermutatingSolution : 0 });
+
+  // logger.log( 'm', m );
+  // logger.log( 'x', x );
+  // logger.log( 'y', y );
+  // logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
+
+  var em = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +3, +2, +1, +1,
+    +0, +4, +2, +0,
+    +0, +0, +0, +0,
+  ]);
+  test.identical( m, em );
+
+  var ey = _.Matrix.MakeCol([ 1, 1, 0, 0 ]);
+  test.identical( triangulated.ox, ey );
+
+  var epermutates = [ [ 0, 1, 2 ], [ 1, 3, 2, 0 ] ]
+  test.identical( triangulated.permutates, epermutates );
+
+  m.permutateBackward( triangulated.permutates );
+  _.Matrix.PermutateBackward( y, triangulated.permutates[ 0 ] );
+
+  // logger.log( 'm', m );
+  // logger.log( 'x', x );
+  // logger.log( 'y', y );
+  // logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
+
+  var em = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    +1, +3, +1, +2,
+    +0, +0, +2, +4,
+    +0, +0, +0, +0,
+  ]);
+  test.identical( m, em );
+
+  var exp = _.Matrix.MakeCol([ 1, 1, 0, 0 ]);
+  test.identical( triangulated.ox, exp );
+
+  /* */
+
+  // test.case = '3x3 comparison';
+  //
+  // var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  // var m = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //   +4, +2, +4,
+  //   +5, +3, +2,
+  //   +6, +1, +9,
+  // ]);
+  //
+  // var om = m.clone();
+  //
+  // var determinant = m.determinant();
+  // logger.log( 'determinant', determinant );
+  //
+  // var m1 = m.clone();
+  // var y1 = y.clone();
+  // var triangulated1 = m1.triangulateGausian( y1 );
+  // var y11 = _.Matrix.Mul( null, [ m1, triangulated1.x ] );
+  // let last1 = triangulated1.x.scalarGet([ 2, 0 ]) / m1.scalarGet([ 2, 2 ])
+  //
+  // var m2 = m.clone();
+  // var y2 = y.clone();
+  // var triangulated2 = m2.triangulateGausianPermutating( y2 );
+  // var y22 = _.Matrix.Mul( null, [ m2.clone().permutateBackward( triangulated2.permutates ), triangulated2.y ] );
+  // let last2 = triangulated1.x.scalarGet([ 2, 0 ]) / m2.scalarGet([ 2, 2 ]);
+  //
+  // test.equivalent( last1, last2 ); debugger; /* zzz */
+
+  /* */
+
+  test.case = '3x3';
+
+  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  var yoriginal = y.clone();
+  // var yexpected = _.Matrix.MakeCol([ 1, 1, 2.5 ]);
+  var yexpected = _.Matrix.MakeCol([ 1, 2.5, 1 ]);
+
+  var mexpected = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +4, +4, +2,
+    +0, -2, +0,
+    +0, +0, +1,
+  ]);
+
+  var munpermutateedExpected = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +4, +2, +4,
+    +0, +0, -2,
+    +0, +1, +0,
+  ]);
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +4, +2, +4,
+    +4, +2, +2,
+    +2, +2, +2,
+  ]);
+
+  var om = m.clone();
+
+  var determinant = m.determinant();
+  logger.log( 'determinant', determinant );
+
+  var m1 = m.clone();
+  var triangulated1 = m1.triangulateGausian( y );
+  logger.log( 'ordinary triangulation', m );
+
+  // m = om.clone();
+  var m2 = m.clone();
+  var triangulated2 = m2.triangulateGausianPermutating( y );
+
+  // test.equivalent( triangulated1.x, triangulated2.x );
+
+  var munpermutateed = m2.clone().permutateBackward( triangulated2.permutates );
+  // var munpermutateed = m.clone();
+  var x = _.Matrix.SolveTriangleUpper( null, m2, triangulated2.x );
+  var y2 = _.Matrix.Mul( null, [ m2, x ] );
+
+  var x3 = _.Matrix.From( x.clone() ).permutateBackward([ triangulated2.permutates[ 1 ], null ]);
+  // var x3 = _.Matrix.From( x.clone() );
+  var y3 = _.Matrix.Mul( null, [ om, x3 ] );
+
+  var permutatesExpected = [ [ 0, 1, 2 ], [ 0, 2, 1 ] ];
+  test.equivalent( triangulated2.permutates, permutatesExpected );
+  test.equivalent( munpermutateed, munpermutateedExpected );
+  test.equivalent( m2, mexpected );
+  // test.equivalent( triangulated2.x, yexpected ); // yyy
+  test.equivalent( y2, yexpected );
+  // test.equivalent( y3, yoriginal ); /* */
+
+  logger.log( 'm', m );
+  logger.log( 'x', x );
+  logger.log( 'y', y );
+  logger.log( 'permutates', _.toStr( triangulated2.permutates, { levels : 2 } ) );
+
+  logger.log( 'om', om );
+  logger.log( 'x3', x3 );
+  logger.log( 'y3', y3 );
+
+  /* */
+
+}
 
 //
 
@@ -29138,7 +29627,29 @@ function triangulateLu( test )
 
   /* */
 
-  test.case = 'basic';
+  test.case = '112';
+
+  var exp = _.Matrix.MakeSquare
+  ([
+    +1, -1, +2,
+    +2, +2, -2,
+    -2, -1, -2,
+  ]);
+
+  var m = _.Matrix.MakeSquare
+  ([
+    +1, -1, +2,
+    +2, +0, +2,
+    -2, +0, -4,
+  ]);
+
+  m.triangulateLu();
+  logger.log( 'm', m );
+  test.identical( m, exp )
+
+  /* */
+
+  test.case = '242';
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -29343,13 +29854,13 @@ function triangulateLu( test )
     +0, +0, +3,
   ]);
 
-  var mo = m.clone();
+  var om = m.clone();
   m.triangulateLu();
 
   var l = m.clone().triangleUpperSet( 0 ).diagonalSet( 1 );
   var u = m.clone().triangleLowerSet( 0 );
   var mul = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( mul, mo );
+  test.equivalent( mul, om );
 
   /* */
 
@@ -29359,12 +29870,12 @@ triangulateLu.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
 //
 
-function triangulateLuNormal( test )
+function triangulateLuNormalizing( test )
 {
 
   /* */
 
-  test.case = 'triangulateLuNormal';
+  test.case = 'triangulateLuNormalizing';
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -29381,7 +29892,7 @@ function triangulateLuNormal( test )
   ]);
 
   var original = m.clone();
-  m.triangulateLuNormal();
+  m.triangulateLuNormalizing();
   test.equivalent( m, exp );
 
   /* */
@@ -29410,7 +29921,7 @@ function triangulateLuNormal( test )
 
   /* */
 
-  test.case = 'triangulateLuNormal';
+  test.case = 'triangulateLuNormalizing';
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -29418,7 +29929,7 @@ function triangulateLuNormal( test )
     +5, -15, +8,
     -2, -11, -11,
   ]);
-  var mo = m.clone();
+  var om = m.clone();
 
   var exp = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -29427,7 +29938,7 @@ function triangulateLuNormal( test )
     -2, -15, -1,
   ]);
 
-  m.triangulateLuNormal();
+  m.triangulateLuNormalizing();
   test.equivalent( m, exp );
 
   var l = m.clone().triangleUpperSet( 0 );
@@ -29451,13 +29962,13 @@ function triangulateLuNormal( test )
   ]);
 
   var mul = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( mul, mo );
+  test.equivalent( mul, om );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
 
   /* */
 
-  test.case = 'triangulateLuNormal ( nrow < ncol )';
+  test.case = 'triangulateLuNormalizing ( nrow < ncol )';
 
   var mexpected = _.Matrix.Make([ 4, 3 ]).copy
   ([
@@ -29477,7 +29988,7 @@ function triangulateLuNormal( test )
 
   var original = m.clone();
 
-  m.triangulateLuNormal();
+  m.triangulateLuNormalizing();
   test.equivalent( m, mexpected );
 
   var l = m.clone().triangleUpperSet( 0 );
@@ -29515,7 +30026,7 @@ function triangulateLuNormal( test )
 
   /* */
 
-  test.case = 'triangulateLuNormal ( nrow > ncol )';
+  test.case = 'triangulateLuNormalizing ( nrow > ncol )';
 
   var mexpected = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -29531,7 +30042,7 @@ function triangulateLuNormal( test )
 
   var original = m.clone();
 
-  m.triangulateLuNormal();
+  m.triangulateLuNormalizing();
   test.equivalent( m, mexpected );
 
   var l = m.clone().triangleUpperSet( 0 );
@@ -29567,43 +30078,53 @@ function triangulateLuNormal( test )
 
 }
 
-triangulateLuNormal.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+triangulateLuNormalizing.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
 //
 
-function SolveTriangulated( test )
+function SolveTriangleLower( test )
 {
 
   /* */
 
-  test.case = 'SolveTriangleLower';
-
+  test.case = 'basic';
   var m = _.Matrix.MakeSquare
   ([
     2, 0, 0,
     2, 3, 0,
     4, 5, 6,
   ]);
-
   var exp = _.Matrix.MakeCol([ 1, 0, 0 ]);
   var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
   var x = _.Matrix.SolveTriangleLower( null, m, y );
-
   test.equivalent( x, exp );
 
+  /* */
+
+  test.case = 'with garbage';
   var m = _.Matrix.MakeSquare
   ([
     2, -99, -99,
     2, 3, -99,
     4, 5, 6,
   ]);
+  var exp = _.Matrix.MakeCol([ 1, 0, 0 ]);
+  var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
   var x = _.Matrix.SolveTriangleLower( null, m, y );
   test.equivalent( x, exp );
 
   /* */
 
-  test.case = 'SolveTriangleUpper';
+}
 
+//
+
+function SolveTriangleUpper( test )
+{
+
+  /* */
+
+  test.case = 'basic';
   var m = _.Matrix.MakeSquare
   ([
     6, 5, 4,
@@ -29614,22 +30135,34 @@ function SolveTriangulated( test )
   var exp = _.Matrix.MakeCol([ 0, 0, 1 ]);
   var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
   var x = _.Matrix.SolveTriangleUpper( null, m, y );
-
   test.equivalent( x, exp );
 
+  /* */
+
+  test.case = 'with garbage';
   var m = _.Matrix.MakeSquare
   ([
     6, 5, 4,
     -99, 3, 2,
     -99, -99, 2,
   ]);
+  var exp = _.Matrix.MakeCol([ 0, 0, 1 ]);
+  var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
   var x = _.Matrix.SolveTriangleUpper( null, m, y );
   test.equivalent( x, exp );
 
   /* */
 
-  test.case = 'SolveTriangleLowerNormal';
+}
 
+//
+
+function SolveTriangleLowerNormalizing( test )
+{
+
+  /* */
+
+  test.case = 'basic';
   var m = _.Matrix.MakeSquare
   ([
     1, 0, 0,
@@ -29639,62 +30172,81 @@ function SolveTriangulated( test )
 
   var exp = _.Matrix.MakeCol([ 2, -2, 6 ]);
   var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
-  var x = _.Matrix.SolveTriangleLowerNormal( null, m, y );
-
+  var x = _.Matrix.SolveTriangleLowerNormalizing( null, m, y );
   test.equivalent( x, exp );
 
+  /* */
+
+  test.case = 'with garbage';
   var m = _.Matrix.MakeSquare
   ([
     -99, -99, -99,
     2, -99, -99,
     4, 5, -99,
   ]);
-  var x = _.Matrix.SolveTriangleLowerNormal( null, m, y );
+  var exp = _.Matrix.MakeCol([ 2, -2, 6 ]);
+  var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
+  var x = _.Matrix.SolveTriangleLowerNormalizing( null, m, y );
   test.equivalent( x, exp );
 
   /* */
 
-  test.case = 'SolveTriangleUpperNormal';
+}
 
+//
+
+function SolveTriangleUpperNormalizing( test )
+{
+
+  /* */
+
+  test.case = 'basic';
   var m = _.Matrix.MakeSquare
   ([
     1, 5, 4,
     0, 1, 2,
     0, 0, 1,
   ]);
-
   var exp = _.Matrix.MakeCol([ 6, -2, 2 ]);
   var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
-  var x = _.Matrix.SolveTriangleUpperNormal( null, m, y );
-
+  var x = _.Matrix.SolveTriangleUpperNormalizing( null, m, y );
   test.equivalent( x, exp );
 
+  /* */
+
+  test.case = 'with garbage';
   var m = _.Matrix.MakeSquare
   ([
     -99, 5, 4,
     -99, -99, 2,
     -99, -99, -99,
   ]);
-
-  var x = _.Matrix.SolveTriangleUpperNormal( null, m, y );
-
+  var exp = _.Matrix.MakeCol([ 6, -2, 2 ]);
+  var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
+  var x = _.Matrix.SolveTriangleUpperNormalizing( null, m, y );
   test.equivalent( x, exp );
 
   /* */
 
-  test.case = 'SolveWithTriangles u';
+}
 
+//
+
+function SolveWithTriangles( test )
+{
+
+  /* */
+
+  test.case = 'basic';
   var m = _.Matrix.MakeSquare
   ([
     1, 5, 4,
     0, 1, 2,
     0, 0, 1,
   ]);
-
   var exp = _.Matrix.MakeCol([ 6, -2, 2 ]);
   var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
   var x = _.Matrix.SolveWithTriangles( null, m, y );
-
   test.equivalent( x, exp );
 
   /* */
@@ -29707,53 +30259,12 @@ function SolveTriangulated( test )
     +4, -1, -5,
     +2, -3, -1,
   ]);
-
   var exp = _.Matrix.MakeCol([ -1, 2, -2 ]);
   var y = _.Matrix.MakeCol([ 0, 4, -6 ]);
   var x = _.Matrix.SolveWithTriangles( null, m, y );
-
   test.equivalent( x, exp );
 
   /* */
-
-  test.case = 'system triangulateLu';
-
-  var exp = _.Matrix.MakeSquare
-  ([
-    +1, -1, +2,
-    +2, +2, -2,
-    -2, -1, -2,
-  ]);
-
-  var m = _.Matrix.MakeSquare
-  ([
-    +1, -1, +2,
-    +2, +0, +2,
-    -2, +0, -4,
-  ]);
-
-  m.triangulateLu();
-  logger.log( 'm', m );
-  test.identical( m, exp )
-
-  /* */
-
-  test.case = 'system Solve';
-
-  var m = _.Matrix.MakeSquare
-  ([
-    +1, -1, +2,
-    +2, +0, +2,
-    -2, +0, -4,
-  ]);
-
-  var y = [ 7, 4, -10 ];
-  var x = _.Matrix.Solve( null, m, y );
-
-  logger.log( 'm', m );
-  logger.log( 'x', x );
-
-  test.identical( x, [ -1, -2, +3 ] );
 
 }
 
@@ -29762,17 +30273,17 @@ function SolveTriangulated( test )
 function SolveSimple( test, rname )
 {
 
-  _SolveSimple( test, 'Solve' );
-  _SolveSimple( test, 'SolveWithGausian' );
-  _SolveSimple( test, 'SolveWithGausianPermutating' );
-  _SolveSimple( test, 'SolveWithGaussJordan' );
-  _SolveSimple( test, 'SolveWithGaussJordanPermutating' );
-  _SolveSimple( test, 'SolveWithTriangles' );
-  _SolveSimple( test, 'SolveWithTrianglesPermutating' );
+  act( 'Solve' );
+  act( 'SolveWithGausian' );
+  act( 'SolveWithGausianPermutating' );
+  act( 'SolveWithGaussJordan' );
+  act( 'SolveWithGaussJordanPermutating' );
+  act( 'SolveWithTriangles' );
+  act( 'SolveWithTrianglesPermutating' );
 
   /* - */
 
-  function _SolveSimple( test, rname )
+  function act( rname )
   {
 
     /**/
@@ -29832,7 +30343,7 @@ function SolveSimple( test, rname )
     ]);
 
     var om = m.clone();
-    var y = vec([ 7, 4, -10 ]);
+    var y = _.vad.from([ 7, 4, -10 ]);
     var oy = y.clone();
     var x = _.Matrix[ rname ]( null, m, y );
 
@@ -29840,7 +30351,7 @@ function SolveSimple( test, rname )
     logger.log( 'x', x );
 
     test.is( x !== y );
-    test.identical( x, vec([ -1, -2, +3 ]) );
+    test.identical( x, _.vad.from([ -1, -2, +3 ]) );
     test.identical( y, oy );
 
     var y2 = _.Matrix.Mul( null, [ om, x ] );
@@ -29884,7 +30395,7 @@ function SolveSimple( test, rname )
     ]);
 
     var om = m.clone();
-    var y = vec([ 7, 4, -10 ]);
+    var y = _.vad.from([ 7, 4, -10 ]);
     var oy = y.clone();
     var ox = [ 0, 0, 0 ];
     var x = _.Matrix[ rname ]( ox, m, y );
@@ -29914,7 +30425,7 @@ function SolveSimple( test, rname )
     var om = m.clone();
     var y = [ 7, 4, -10 ];
     var oy = y.slice();
-    var ox = vec([ 0, 0, 0 ]);
+    var ox = _.vad.from([ 0, 0, 0 ]);
     var x = _.Matrix[ rname ]( ox, m, y );
 
     logger.log( 'm', m );
@@ -29922,11 +30433,11 @@ function SolveSimple( test, rname )
 
     test.is( x !== y );
     test.is( x === ox );
-    test.identical( x, vec([ -1, -2, +3 ]) );
+    test.identical( x, _.vad.from([ -1, -2, +3 ]) );
     test.identical( y, oy );
 
     var y2 = _.Matrix.Mul( null, [ om, x ] );
-    test.identical( y2, vec([ 7, 4, -10 ]) );
+    test.identical( y2, _.vad.from([ 7, 4, -10 ]) );
 
     /* */
 
@@ -30071,484 +30582,526 @@ function SolveComplicated( test )
 
 //
 
-function SolveWithPermutating( test )
-{
-
-  /* */
-
-  test.case = 'triangulateGausianPermutating 3x4';
-
-  var m = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +3, +1, +2,
-    +2, +6, +4, +8,
-    +0, +0, +2, +4,
-  ]);
-
-  var om = m.clone();
-  var y = _.Matrix.MakeCol([ +1, +3, +1 ]);
-  var permutates = m.triangulateGausianPermutating( y );
-
-  logger.log( 'm', m );
-  logger.log( 'x', x );
-  logger.log( 'y', y );
-  logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
-
-  var em = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +3, +2, +1, +1,
-    +0, +4, +2, +0,
-    +0, +0, +0, +0,
-  ]);
-  test.identical( m, em );
-
-  var ey = _.Matrix.MakeCol([ 1, 1, 0 ]);
-  test.identical( y, ey );
-
-  var epermutates = [ [ 0, 1, 2 ], [ 1, 3, 2, 0 ] ]
-  test.identical( permutates, epermutates );
-
-  /* */
-
-  m.permutateBackward( permutates );
-  _.Matrix.VectorPermutateBackward( y, permutates[ 0 ] );
-
-  logger.log( 'm', m );
-  logger.log( 'x', x );
-  logger.log( 'y', y );
-  logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
-
-  var em = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +3, +1, +2,
-    +0, +0, +2, +4,
-    +0, +0, +0, +0,
-  ]);
-  test.identical( m, em );
-
-  var ey = _.Matrix.MakeCol([ 1, 1, 0 ]);
-  test.identical( y, ey );
-
-  /* */
-
-  test.case = 'triangulateGausianPermutating';
-
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
-  var yoriginal = y.clone();
-  var yexpected = _.Matrix.MakeCol([ 1, 1, 2.5 ]);
-
-  var permutatesExpected = [ [ 0, 1, 2 ], [ 0, 2, 1 ] ];
-
-  var mexpected = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +4, +4, +2,
-    +0, -2, +0,
-    +0, +0, +1,
-  ]);
-
-  var munpermutateedExpected = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +4, +2, +4,
-    +0, +0, -2,
-    +0, +1, +0,
-  ]);
-
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +4, +2, +4,
-    +4, +2, +2,
-    +2, +2, +2,
-  ]);
-
-  var om = m.clone();
-
-  var determinant = m.determinant();
-  logger.log( 'determinant', determinant );
-
-  m.triangulateGausian();
-  logger.log( 'ordinary triangulation', m );
-
-  m = om.clone();
-  var permutates = m.triangulateGausianPermutating( y );
-
-  var munpermutateed = m.clone().permutateBackward( permutates );
-  var x = _.Matrix.SolveTriangleUpper( null, m, y );
-  var y2 = _.Matrix.Mul( null, [ m, x ] );
-
-  var x3 = _.Matrix.From( x.clone() ).permutateBackward([ permutates[ 1 ], null ]);
-  var y3 = _.Matrix.Mul( null, [ om, x3 ] );
-
-  test.equivalent( permutates, permutatesExpected );
-  test.equivalent( munpermutateed, munpermutateedExpected );
-  test.equivalent( m, mexpected );
-  test.equivalent( y, yexpected );
-  test.equivalent( y2, yexpected );
-  test.equivalent( y3, yoriginal ); /* */
-
-  logger.log( 'm', m );
-  logger.log( 'x', x );
-  logger.log( 'y', y );
-  logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
-
-  logger.log( 'om', om );
-  logger.log( 'x3', x3 );
-  logger.log( 'y3', y3 );
-
-}
-
-//
-
 function SolveGeneral( test )
 {
 
+  _.Matrix.ContextsForTesting({ onEach : eachAbstractCase, dups : [ 1 ] });
+
+  specificCases();
+
   /* */
 
-  test.case = '3x3 without permutating';
-
-  var re =
+  function eachAbstractCase( op )
   {
-    nsolutions : Infinity,
-    base : _.Matrix.MakeCol([ +3, -3, +0 ]),
-    nkernel : 1,
-    kernel : _.Matrix.MakeSquare
-    ([
-      +0, +0, -1,
-      +0, +0, +2,
-      +0, +0, +1,
-    ]),
+
+    op.permutating = 0;
+    op.withoutY = 0;
+    abstractCases( op );
+
+    op.permutating = 0;
+    op.withoutY = 1;
+    abstractCases( op );
+
+    op.permutating = 1;
+    op.withoutY = 1;
+    abstractCases( op );
+
+    op.permutating = 1;
+    op.withoutY = 1;
+    abstractCases( op );
+
   }
 
-  var m = _.Matrix.MakeSquare
-  ([
-    +2, +2, -2,
-    -2, -3, +4,
-    +4, +3, -2,
-  ]);
-
-  var me = _.Matrix.MakeSquare
-  ([
-    +1, +0, +1,
-    +0, +1, -2,
-    +0, +0, +0,
-  ]);
-
-  var mo = m.clone();
-  var y = _.Matrix.MakeCol([ 0, 3, 3 ]);
-  var yo = y.clone();
-  var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
-
-  test.equivalent( r, re );
-  test.equivalent( m, me );
-  test.equivalent( y, yo );
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, yo, r );
-
   /* */
 
-  test.case = '3x3 with permutating';
-
-  var re =
+  function abstractCases( op )
   {
-    nsolutions : Infinity,
-    base : _.Matrix.MakeCol([ 1.5, 0, 1.5 ]),
-    nkernel : 1,
-    kernel : _.Matrix.MakeSquare
+
+    test.open( `permutating:${op.permutating}, format:${op.format}, withoutY:${op.withoutY}, dup:${op.dup}` );
+
+    /* */
+
+    test.case = `3x3, nkernel:0, nsolutions:1`;
+
+    var exp =
+    {
+      nsolutions : 1,
+      nkernel : 0,
+      permutating : op.permutating,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+    }
+
+    op.m = _.Matrix.Make([ 3, 3 ]).copy
     ([
-      -0.5, +0, +0,
-      +1, +0, +0,
-      +0.5, +0, +0,
-    ]),
+      -1, +2, +0,
+      -6, +6, +0,
+      +0, +0, +3,
+    ]);
+
+    op.om = op.m.clone();
+
+    op.y =  op.withoutY ? null : op.containerMake([ 1, 2, 3 ]);
+    op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+    test.contains( op.r, exp );
+    abstractCheck( op );
+
+    // test.close( `permutating:${op.permutating}, format:${op.format}, withoutY:${op.withoutY}, dup:${op.dup}` );
+    // debugger; return;
+
+    /* */
+
+    test.case = `3x3, nkernel:3, all zero, permutation required`;
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 3,
+      permutating : op.permutating,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+    }
+
+    op.m = _.Matrix.MakeZero([ 3, 3 ]);
+
+    op.om = op.m.clone();
+
+    op.y =  op.withoutY ? null : op.containerMake([ 0, 0, 0 ]);
+    op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+    test.contains( op.r, exp );
+    abstractCheck( op );
+
+    /* */
+
+    if( op.permutating )
+    {
+
+      test.case = `3x3, nkernel:0, nsolutions:1, permutation required`;
+
+      var exp =
+      {
+        nsolutions : 1,
+        nkernel : 0,
+        permutating : op.permutating,
+        repermutatingSolution : 1,
+        repermutatingTransformation : 0,
+      }
+
+      op.m = _.Matrix.Make([ 3, 3 ]).copy
+      ([
+        +4, +2, +4,
+        +4, +2, +2,
+        +2, +2, +2,
+      ]);
+
+      op.om = op.m.clone();
+
+      op.y =  op.withoutY ? null : op.containerMake([ 1, 2, 3 ]);
+      op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+      test.contains( op.r, exp );
+      abstractCheck( op );
+
+    }
+
+    /* */
+
+    test.case = `4x4, nkernel:3`;
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 3,
+      permutating : op.permutating,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+    }
+
+    op.m = _.Matrix.Make([ 4, 4 ]).copy
+    ([
+      +4, +2, +1, +0,
+      +0, +0, +0, +0,
+      +0, +0, +0, +0,
+      +0, +0, +0, +0,
+    ]);
+
+    op.om = op.m.clone();
+
+    op.y =  op.withoutY ? null : op.containerMake([ 1, 0, 0, 0 ]);
+    op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+    test.contains( op.r, exp );
+    abstractCheck( op );
+
+    /* */
+
+    test.case = `1x4, nkernel:3, y:empty`;
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 3,
+      permutating : op.permutating,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+    }
+
+    op.m = _.Matrix.Make([ 1, 4 ]).copy
+    ([
+      +4, +2, +1, +0,
+    ]);
+
+    op.om = op.m.clone();
+
+    op.y =  op.withoutY ? null : op.containerMake([]);
+    op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+    test.contains( op.r, exp );
+    abstractCheck( op );
+
+    /* */
+
+    if( !op.withoutY )
+    {
+
+      test.case = `4x4, nkernel:0`;
+
+      var exp =
+      {
+        nsolutions : 0,
+        nkernel : 0,
+        permutating : op.permutating,
+        repermutatingSolution : 1,
+        repermutatingTransformation : 0,
+      }
+
+      op.m = _.Matrix.Make([ 4, 4 ]).copy
+      ([
+        +4, +2, +1, +0,
+        +0, +0, +0, +0,
+        +0, +0, +0, +0,
+        +0, +0, +0, +0,
+      ]);
+
+      op.om = op.m.clone();
+
+      op.y =  op.withoutY ? null : op.containerMake([ 1, 2, 0, 0 ]);
+      op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+      test.contains( op.r, exp );
+      abstractCheck( op );
+
+    }
+
+    /* */
+
+    test.case = `2x4, nkernel:2`;
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 2,
+      permutating : op.permutating,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+    }
+
+    op.m = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +1, +2, +2, +6,
+      +0, +2, +4, +4,
+    ]);
+
+    op.om = op.m.clone();
+
+    op.y =  op.withoutY ? null : op.containerMake([ 1, 2 ]);
+    op.r = _.Matrix.SolveGeneral({ m : op.m, y : op.y, permutating : op.permutating });
+    test.contains( op.r, exp );
+    abstractCheck( op );
+
+    /* */
+
+    test.close( `permutating:${op.permutating}, format:${op.format}, withoutY:${op.withoutY}, dup:${op.dup}` );
+
   }
 
-  var m = _.Matrix.MakeSquare
-  ([
-    +2, +2, -2,
-    -2, -3, +4,
-    +4, +3, -2,
-  ]);
-
-  var me = _.Matrix.MakeSquare
-  ([
-    +0, +0, +0,
-    +0, -0.5, +1,
-    +1, +0.5, +0,
-  ]);
-
-  var mo = m.clone();
-  var y = _.Matrix.MakeCol([ 0, 3, 3 ]);
-  var yo = y.clone();
-  var r = _.Matrix.SolveGeneral({ m, y, permutating : 1 });
-
-  test.equivalent( r, re );
-  test.equivalent( m, me );
-  test.equivalent( y, yo );
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, yo, r );
-
   /* */
 
-  test.case = '3x3, single solution';
-
-  var exp =
+  function specificCases()
   {
-    nsolutions : 1,
-    nkernel : 0,
-    base : _.Matrix.MakeCol([ 0, 0, 0 ]),
-    kernel : _.Matrix.MakeSquare
+
+    /* */
+
+    test.case = '2x4, nkernel : 2, permutating : 0, no y';
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 2,
+      kernel : _.Matrix.Make([ 4, 2 ]).copy /* zzz : factories should use defaut scalar type ? */
+      ([
+        +2, -2,
+        -2, -2,
+        +1, +0,
+        +0, +1,
+      ]),
+      m : _.Matrix.Make([ 2, 4 ]).copy
+      ([
+        +1, +0, -2, +2,
+        +0, +1, +2, +2,
+      ]),
+      y : null,
+      oy : null,
+      x : null,
+      ox : null,
+      permutates : null,
+      permutating : 0,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : null,
+      onPermutatePre : null,
+    }
+
+    var m = _.Matrix.Make([ 2, 4 ]).copy
     ([
-      +0, +0, +0,
-      +0, +0, +0,
-      +0, +0, +0,
-    ]),
+      +1, +2, +2, +6,
+      +0, +2, +4, +4
+    ]);
+
+    var om = m.clone();
+
+    var r = _.Matrix.SolveGeneral({ m, permutating : 0 });
+    test.equivalent( r, exp );
+
+    check( om, null, r );
+
+    /* */
+
+    test.case = '2x4, nkernel : 2, permutating : 0';
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 2,
+      kernel : _.Matrix.Make([ 4, 2 ]).copy
+      ([
+        +2, -2,
+        -2, -2,
+        +1, +0,
+        +0, +1,
+      ]),
+      m : _.Matrix.Make([ 2, 4 ]).copy
+      ([
+        +1, +0, -2, +2,
+        +0, +1, +2, +2,
+      ]),
+      y : _.Matrix.MakeCol ([ 1, 2, ]),
+      oy : _.Matrix.MakeCol ([ 1, 2, ]),
+      x : _.Matrix.MakeCol ([ -1, +1, +0, +0, ]),
+      ox : _.Matrix.MakeCol ([ -1, +1, +0, +0, ]),
+      permutates : null,
+      permutating : 0,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : null,
+      onPermutatePre : null,
+    }
+
+    var m = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +1, +2, +2, +6,
+      +0, +2, +4, +4
+    ]);
+
+    var om = m.clone();
+
+    var y = _.Matrix.MakeCol([ 1, 2 ]);
+    var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
+    test.equivalent( r, exp );
+    test.equivalent( r.y, r.oy );
+    test.is( y === r.y );
+    test.is( y === r.oy );
+    test.is( y !== r.x );
+    test.is( y !== r.ox );
+
+    check( om, y, r );
+
+    /* */
+
+    test.case = '2x4, nkernel : 2, permutating : 1';
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 2,
+      kernel : _.Matrix.Make([ 4, 2 ]).copy
+      ([
+        +0.000, +1.000,
+        +1.000, +0.000,
+        -0.250, +0.250,
+        -0.250, -0.250,
+      ]),
+      m : _.Matrix.Make([ 2, 4 ]).copy
+      ([
+        1.000, +0.000, +0.250, +0.250,
+        0.000, +1.000, +0.250, -0.250,
+      ]),
+      y : _.Matrix.MakeCol ([ 1, 2, ]),
+      oy : _.Matrix.MakeCol ([ 1, 2, ]),
+      x : _.Matrix.MakeCol ([ 0, 0, +0.5, 0, ]),
+      ox : _.Matrix.MakeCol ([ 0, 0, +0.5, 0, ]),
+      permutates : [ [ 0, 1 ], [ 3, 2, 1, 0 ] ],
+      permutating : 1,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : _.Matrix._PermutateLineRook.body,
+      onPermutatePre : _.Matrix._PermutateLineRook.pre,
+      lineIndex : 1.00,
+      npermutations : 2.00,
+      nRowPermutations : 0.00,
+      nColPermutations : 2.00
+    }
+
+    var m = _.Matrix.Make([ 2, 4 ]).copy
+    ([
+      +1, +2, +2, +6,
+      +0, +2, +4, +4
+    ]);
+
+    var om = m.clone();
+
+    var y = _.Matrix.MakeCol([ 1, 2 ]);
+    var r = _.Matrix.SolveGeneral({ m, y, permutating : 1 });
+    test.equivalent( r, exp );
+    test.equivalent( r.y, r.oy );
+    test.is( y === r.y );
+    test.is( y === r.oy );
+    test.is( y !== r.x );
+    test.is( y !== r.ox );
+
+    check( om, y, r );
+
+    /* */
+
+    test.case = '3x4, nkernel : 0, permutating : 0';
+
+    var exp =
+    {
+      nsolutions : 0,
+      nkernel : 0,
+      kernel : _.Matrix.Make([ 4, 0 ]),
+      m : _.Matrix.Make([ 3, 4 ]).copy
+      ([
+        +1, +0, -2, +2,
+        +0, +1, +2, +2,
+        +0, +0, +0, +0,
+      ]),
+      y : _.Matrix.MakeCol ([ 1, 2, 3, ]),
+      oy : _.Matrix.MakeCol ([ 1, 2, 3 ]),
+      x : _.Matrix.MakeCol ([ -1, +1, +3, +0, ]),
+      ox : _.Matrix.MakeCol ([ -1, +1, +3, +0, ]),
+      permutates : null,
+      permutating : 0,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : null,
+      onPermutatePre : null,
+    }
+
+    var m = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +2, +2, +6,
+      +0, +2, +4, +4,
+      +0, +0, +0, +0,
+    ]);
+
+    var om = m.clone();
+
+    var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
+    var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
+    test.equivalent( r, exp );
+    test.equivalent( r.y, r.oy );
+    test.is( y === r.y );
+    test.is( y === r.oy );
+    test.is( y !== r.x );
+    test.is( y !== r.ox );
+
+    check( om, y, r );
+
+    /* */
+
   }
 
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    -1, +2, +0,
-    -6, +6, +0,
-    +0, +0, +3,
-  ]);
-
-  var mo = m.clone();
-
-  var y = _.Matrix.MakeCol([ 0, 0, 0 ]);
-  var r = _.Matrix.SolveGeneral({ m, y });
-  test.equivalent( r, exp );
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-  logger.log( 'det', m.determinant() );
-
-  check( mo, y, r );
-
   /* */
 
-  test.case = 'simple 3x3';
-
-  var exp =
-  {
-    nsolutions : Infinity,
-    base : _.Matrix.MakeCol([ +1, -1, +0 ]),
-    nkernel : 1,
-    kernel : _.Matrix.MakeSquare
-    ([
-      +0, +0, +2,
-      +0, +0, +0,
-      +0, +0, +1,
-    ]),
-  }
-
-  var m = _.Matrix.MakeSquare
-  ([
-    +2, -2, -4,
-    -2, +1, +4,
-    +2, +0, -4,
-  ]);
-
-  var mo = m.clone();
-
-  var y = _.Matrix.MakeCol([ +4, -3, +2 ]);
-  var r = _.Matrix.SolveGeneral({ m, y });
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, y, r );
-
-  /* */
-
-  test.case = 'simple 3x3';
-
-  var exp =
-  {
-    nsolutions : Infinity,
-    base : _.Matrix.MakeCol([ +1, +0, -1 ]),
-    nkernel : 1,
-    kernel : _.Matrix.MakeSquare
-    ([
-      +0, +2, +0,
-      +0, +1, +0,
-      +0, +0, +0,
-    ]),
-  }
-
-  var m = _.Matrix.MakeSquare
-  ([
-    +2, -4, -2,
-    -2, +4, +1,
-    +2, -4, +0,
-  ]);
-
-  var mo = m.clone();
-
-  var y = _.Matrix.MakeCol([ +4, -3, +2 ]);
-  var r = _.Matrix.SolveGeneral({ m , y });
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, y, r );
-
-  /* */
-
-  test.case = '2x3';
-
-  var exp =
-  {
-    nsolutions : Infinity,
-    base : _.Matrix.MakeCol([ -2, +0, -0.25 ]),
-    nkernel : 1,
-    kernel : _.Matrix.MakeSquare
-    ([
-      +0, +0, +0,
-      +0, +0, +1,
-      +0, +0, +0.5,
-    ]),
-  }
-
-  var m = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    -1, -2, +4,
-    +1, +0, +0,
-  ]);
-
-  var mo = m.clone();
-
-  var y = _.Matrix.MakeCol([ +1, -2 ]);
-  var r = _.Matrix.SolveGeneral({ m , y });
-  test.equivalent( r, exp );
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, y, r );
-
-  /* */
-
-  test.case = '3x3';
-
-  var exp =
-  {
-    nsolutions : 1,
-    base : _.Matrix.MakeCol([ -0.5, +2.5, -0.5 ]),
-    nkernel : 0,
-    kernel : _.Matrix.MakeSquare
-    ([
-      0, 0, 0,
-      0, 0, 0,
-      0, 0, 0,
-    ]),
-  }
-
-  var m = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    +4, +2, +4,
-    +4, +2, +2,
-    +2, +2, +2,
-  ]);
-
-  var mo = m.clone();
-
-  var y = _.Matrix.MakeCol([ 1, 2, 3 ]);
-  var r = _.Matrix.SolveGeneral({ m, y });
-  test.equivalent( r, exp );
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, y, r );
-
-  /* */
-
-  test.case = '3x4';
-
-  var exp =
-  {
-    nsolutions : Infinity,
-    nkernel : 2,
-    base : _.Matrix.MakeCol([ 0, +1/6, 0, 0.25 ]),
-    kernel : _.Matrix.MakeSquare
-    ([
-      +0, +0, +1, +0,
-      +0, +0, -1/3, +0,
-      +0, +0, +0, +1,
-      +0, +0, +0, -0.5,
-    ]),
-  }
-
-  var m = _.Matrix.Make([ 3, 4 ]).copy
-  ([
-    +1, +3, +1, +2,
-    +2, +6, +4, +8,
-    +0, +0, +2, +4,
-  ]);
-
-  var mo = m.clone();
-
-  var y = _.Matrix.MakeCol([ +1, +3, +1 ]);
-  var r = _.Matrix.SolveGeneral({ m, y });
-  test.equivalent( r, exp );
-
-  logger.log( 'r.base', r.base );
-  logger.log( 'r.kernel', r.kernel );
-  logger.log( 'm', m );
-
-  check( mo, y, r );
-
-  /* */
-
-  function checkNull( m, r, d )
+  function specialSolutionCheck( m, y, r )
   {
 
-    var param = _.dup( 0, m.dims[ 1 ] );
-    param[ d ] = 1;
-    var x2 = _.Matrix.Mul( null, [ r.kernel, _.Matrix.MakeCol( param ) ] );
+    if( r.x === null )
+    return;
+
+    if( r.nsolutions === 0 )
+    return;
+
+    logger.log( `` );
+    logger.log( `specialSolutionCheck` );
+    test.description = `specialSolutionCheck`;
+
+    var x2 = r.x;
     var y2 = _.Matrix.Mul( null, [ m, x2 ] );
-
-    if( y2.dims[ 0 ] < m.dims[ 1 ] )
-    y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
-    test.equivalent( y2, _.Matrix.MakeZero([ m.dims[ 1 ], 1 ]) );
-
-    logger.log( 'm', m );
-    logger.log( 'x2', x2 );
-    logger.log( 'y2', y2 );
-
-  }
-
-  /* */
-
-  function checkDimension( m, y, r, d, factor )
-  {
-
-    var param = _.dup( 0, m.dims[ 1 ] );
-    param[ d ] = factor;
-    var x2 = _.Matrix.Mul( null, [ r.kernel, _.Matrix.MakeCol( param ) ] );
-    x2 = _.Matrix.addAtomWise( x2, r.base, x2 );
-    var y2 = _.Matrix.Mul( null, [ m, x2 ] );
-
-    if( y2.dims[ 0 ] < m.dims[ 1 ] )
-    y2 = y2.expand([ [ null, m.dims[ 1 ]-y2.dims[ 0 ] ], null ]);
     test.equivalent( y2, y );
 
-    logger.log( 'param', param );
-    logger.log( 'kernel', r.kernel );
-
+    logger.log( `m * x2 = y2` );
     logger.log( 'm', m );
     logger.log( 'x2', x2 );
     logger.log( 'y2', y2 );
+    logger.log( `` );
+
+  }
+
+  /* */
+
+  function kernelCheck( m, r )
+  {
+
+    logger.log( `` );
+    logger.log( `kernelCheck` );
+    test.description = `kernelCheck`;
+
+    var x2 = r.kernel;
+    var y2 = _.Matrix.Mul( null, [ m, x2 ] );
+    var exp = _.Matrix.MakeZero( y2.dims )
+    test.equivalent( y2, exp );
+
+    logger.log( `m * x2 = y2` );
+    logger.log( 'm', m );
+    logger.log( 'x2', x2 );
+    logger.log( 'y2', y2 );
+    logger.log( `` );
+
+  }
+
+  /* */
+
+  function combinedSolutionCheck( m, y, r, d )
+  {
+
+    logger.log( `` );
+    logger.log( `combinedSolutionCheck ${d}` );
+
+    test.description = `combinedSolutionCheck ${d} - single`;
+    let x2 = r.kernel.colGet( d ).clone();
+    if( r.x !== null )
+    x2.add( r.x.toVad() );
+    let y2 = _.Matrix.Mul( null, [ m, x2 ] );
+    test.equivalent( y2, y );
+
+    let combination = _.dup( 1, r.kernel.ncol );
+    combination[ d ] *= 10;
+    test.description = `combinedSolutionCheck ${combination.join( ' ' )}`;
+    let x3 = r.kernel.clone().mulRowWise( combination );
+    if( r.x !== null )
+    x3.add( r.x.toLong() );
+    let y3 = _.Matrix.Mul( null, [ m, x3 ] );
+    test.equivalent( y2, y );
+
+    logger.log( `` );
 
   }
 
@@ -30556,18 +31109,37 @@ function SolveGeneral( test )
 
   function check( m, y, r )
   {
-    var description = test.case;
 
-    for( var d = 0 ; d < m.dims[ 1 ] ; d++ )
+    if( y === null )
+    y = _.Matrix.MakeZero([ m.dims[ 0 ], 1 ]);
+    else if( _.Matrix.DimsOf( y )[ 0 ] < m.dims[ 0 ] )
+    y = _.Matrix.CopyTo( _.Matrix.MakeZero([ m.dims[ 0 ], 1 ]), y );
+
+    kernelCheck( m, r );
+    specialSolutionCheck( m, y, r );
+    for( var d = 0 ; d < r.kernel.ncol ; d++ )
     {
-      test.case = description + ' . ' + 'check direction ' + d;
-      checkDimension( m, y, r, d, 0 );
-      checkDimension( m, y, r, d, +10 );
-      checkDimension( m, y, r, d, -10 );
-      checkNull( m, r, d );
+      combinedSolutionCheck( m, y, r, d );
+    }
+  }
+
+  /* */
+
+  function abstractCheck( op )
+  {
+
+    test.equivalent( op.r.y, op.r.oy );
+    test.is( op.y === op.r.y );
+    test.is( op.y === op.r.oy );
+    test.is( op.r.oy === null || op.containerIs( op.r.oy ) );
+    if( !op.withoutY )
+    {
+      test.is( op.y !== op.r.x );
+      test.is( op.y !== op.r.ox );
     }
 
-    test.case = description;
+    check( op.om, op.y, op.r );
+
   }
 
   /* */
@@ -30819,293 +31391,321 @@ function compareMatrices( test )
 
   test.case = 'trivial';
 
-  var m1 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  var m2 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  var src1 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  var src2 = _.Matrix.MakeIdentity([ 3, 3 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'single 2d';
 
-  var m1 = _.Matrix.MakeZero([ 1, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'single 3d';
 
-  var m1 = _.Matrix.MakeZero([ 1, 1, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 1, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 1, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'single 4d';
 
-  var m1 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'empty 0x1 - 0x1';
 
-  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 0, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
-/* */
+  /* */
 
-test.case = 'empty 1x0 - 1x0';
+  test.case = 'empty 1x0 - 1x0';
 
-var m1 = _.Matrix.MakeZero([ 1, 0 ]);
-var m2 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0 ]);
 
-test.identical( m1.identicalWith( m2 ), true );
-test.identical( m2.identicalWith( m1 ), true );
-test.identical( m1.equivalentWith( m2 ), true );
-test.identical( m2.equivalentWith( m1 ), true );
-test.identical( _.identical( m1, m2 ), true );
-test.identical( _.identical( m2, m1 ), true );
-test.identical( _.equivalent( m1, m2 ), true );
-test.identical( _.equivalent( m2, m1 ), true );
-test.identical( m1, m2 );
-test.identical( m2, m1 );
-test.equivalent( m1, m2 );
-test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'empty 0x1 - 1x0';
 
-  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0 ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   test.case = 'empty 0x1 - 1x1x0';
 
-  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 1, 0 ]);
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 0 ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   test.case = 'empty 0x1 - 1x0x1';
 
-  var m1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   test.case = 'empty 1x0 - 1x0x1';
 
-  var m1 = _.Matrix.MakeZero([ 1, 0 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   test.case = 'empty 1x0 - 1x1x1x0';
 
-  var m1 = _.Matrix.MakeZero([ 1, 0 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 1, 1, 0 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 1, 0 ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'row';
 
-  var m1 = _.Matrix.MakeZero([ 1, 3 ]);
-  var m2 = _.Matrix.MakeZero([ 1, 3 ]);
+  var src1 = _.Matrix.MakeZero([ 1, 3 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 3 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'col';
 
-  var m1 = _.Matrix.MakeZero([ 3, 1 ]);
-  var m2 = _.Matrix.MakeZero([ 3, 1 ]);
+  var src1 = _.Matrix.MakeZero([ 3, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 3, 1 ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'different types';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 2, 3, 4 ]),
     dims : [ 2, 2 ],
     inputRowMajor : 0,
   });
 
-  var m2 = new _.Matrix
+  var src2 = new _.Matrix
   ({
     buffer : new I32x([ 1, 2, 3, 4 ]),
     dims : [ 2, 2 ],
     inputRowMajor : 0,
   });
 
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'with strides';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
 
-  var m2 = new _.Matrix
+  var src2 = new _.Matrix
   ({
     buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
     offset : 1,
@@ -31114,208 +31714,224 @@ test.equivalent( m2, m1 );
     dims : [ 3, 1 ],
   });
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'with infinity dim';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, Infinity ],
     inputRowMajor : 0,
   });
 
-  var m2 = new _.Matrix
+  var src2 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, Infinity ],
     inputRowMajor : 0,
   });
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'with different strides';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
     dims : [ 2, 3 ],
     strides : [ 1, 2 ],
   });
 
-  var m2 = new _.Matrix
+  var src2 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5, 2, 4, 6 ]),
     dims : [ 2, 3 ],
     strides : [ 3, 1 ],
   });
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'matrix 2x2x1, matrix 2x2';
 
-  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  var src1 = _.Matrix.Make([ 2, 2 ]).copy
   ([
     1, 2,
     3, 4,
   ]);
-  var m2 = _.Matrix.Make([ 2, 2, 1 ]).copy
+  var src2 = _.Matrix.Make([ 2, 2, 1 ]).copy
   ([
     1, 2,
     3, 4,
   ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'matrix 2x3xInfinity and 2x3xInfinity';
-  var m1 = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  var src1 = _.Matrix.Make([ 2, 3, Infinity ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
-  var m2 = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  var src2 = _.Matrix.Make([ 2, 3, Infinity ]).copy
   ([
     1, 2, 3,
     4, 5, 6,
   ]);
 
-  test.identical( m1.identicalWith( m2 ), true );
-  test.identical( m2.identicalWith( m1 ), true );
-  test.identical( m1.equivalentWith( m2 ), true );
-  test.identical( m2.equivalentWith( m1 ), true );
-  test.identical( _.identical( m1, m2 ), true );
-  test.identical( _.identical( m2, m1 ), true );
-  test.identical( _.equivalent( m1, m2 ), true );
-  test.identical( _.equivalent( m2, m1 ), true );
-  test.identical( m1, m2 );
-  test.identical( m2, m1 );
-  test.equivalent( m1, m2 );
-  test.equivalent( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'matrix Infinityx1 and 1x1';
-  var m1 = _.Matrix.Make([ Infinity, 1 ]).copy
+  var src1 = _.Matrix.Make([ Infinity, 1 ]).copy
   ([
     1
   ]);
-  var m2 = _.Matrix.Make([ 1, 1 ]).copy
+  var src2 = _.Matrix.Make([ 1, 1 ]).copy
   ([
     1
   ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), false );
-  test.identical( m2.equivalentWith( m1 ), false );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), false );
-  test.identical( _.equivalent( m2, m1 ), false );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.ne( m1, m2 );
-  test.ne( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), false );
+  test.identical( src2.equivalentWith( src1 ), false );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   /* */
 
   test.case = 'matrix 1xInfinity and 1x1';
-  var m1 = _.Matrix.Make([ 1, Infinity ]).copy
+  var src1 = _.Matrix.Make([ 1, Infinity ]).copy
   ([
     1
   ]);
-  var m2 = _.Matrix.Make([ 1, 1 ]).copy
+  var src2 = _.Matrix.Make([ 1, 1 ]).copy
   ([
     1
   ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), false );
-  test.identical( m2.equivalentWith( m1 ), false );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), false );
-  test.identical( _.equivalent( m2, m1 ), false );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.ne( m1, m2 );
-  test.ne( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), false );
+  test.identical( src2.equivalentWith( src1 ), false );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   /* */
 
   test.case = 'matrix 1x1xInfinity and 1x1x1';
-  var m1 = _.Matrix.Make([ 1, 1, Infinity ]).copy
+  var src1 = _.Matrix.Make([ 1, 1, Infinity ]).copy
   ([
     1
   ]);
-  var m2 = _.Matrix.Make([ 1, 1, 1 ]).copy
+  var src2 = _.Matrix.Make([ 1, 1, 1 ]).copy
   ([
     1
   ]);
 
-  test.identical( m1.identicalWith( m2 ), false );
-  test.identical( m2.identicalWith( m1 ), false );
-  test.identical( m1.equivalentWith( m2 ), false );
-  test.identical( m2.equivalentWith( m1 ), false );
-  test.identical( _.identical( m1, m2 ), false );
-  test.identical( _.identical( m2, m1 ), false );
-  test.identical( _.equivalent( m1, m2 ), false );
-  test.identical( _.equivalent( m2, m1 ), false );
-  test.ni( m1, m2 );
-  test.ni( m2, m1 );
-  test.ne( m1, m2 );
-  test.ne( m2, m1 );
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), false );
+  test.identical( src2.equivalentWith( src1 ), false );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   /* */
 
@@ -31330,127 +31946,263 @@ function compareMatrixAndVector( test )
 
   test.case = 'Matrix and BufferTyped';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
-  var v1 = new F32x([ 1, 3, 5 ]);
+  var src2 = new F32x([ 1, 3, 5 ]);
 
-  test.identical( _.identical( m1, v1 ), false );
-  test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), true );
-  test.identical( _.equivalent( v1, m1 ), true );
-  test.ni( m1, v1 );
-  test.ni( v1, m1 );
-  test.equivalent( m1, v1 );
-  test.equivalent( v1, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'Matrix and Array';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : ([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
-  var v1 = ([ 1, 3, 5 ]);
+  var src2 = ([ 1, 3, 5 ]);
 
-  test.identical( _.identical( m1, v1 ), false );
-  test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), true );
-  test.identical( _.equivalent( v1, m1 ), true );
-  test.ni( m1, v1 );
-  test.ni( v1, m1 );
-  test.equivalent( m1, v1 );
-  test.equivalent( v1, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'Matrix and Array different type';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
-  var v1 = ([ 1, 3, 5 ]);
+  var src2 = ([ 1, 3, 5 ]);
 
-  test.identical( _.identical( m1, v1 ), false );
-  test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), true );
-  test.identical( _.equivalent( v1, m1 ), true );
-  test.ni( m1, v1 );
-  test.ni( v1, m1 );
-  test.equivalent( m1, v1 );
-  test.equivalent( v1, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'Matrix and vadapter BufferTyped';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
-  var v1 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
+  var src2 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
 
-  test.identical( _.identical( m1, v1 ), false );
-  test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), true );
-  test.identical( _.equivalent( v1, m1 ), true );
-  test.ni( m1, v1 );
-  test.ni( v1, m1 );
-  test.equivalent( m1, v1 );
-  test.equivalent( v1, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'Matrix and vadapter Array';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : [ 1, 3, 5 ],
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
-  var v1 = _.vectorAdapter.from([ 1, 3, 5 ]);
+  var src2 = _.vectorAdapter.from([ 1, 3, 5 ]);
 
-  test.identical( _.identical( m1, v1 ), false );
-  test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), true );
-  test.identical( _.equivalent( v1, m1 ), true );
-  test.ni( m1, v1 );
-  test.ni( v1, m1 );
-  test.equivalent( m1, v1 );
-  test.equivalent( v1, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
   test.case = 'Matrix and vadapter Array different type';
 
-  var m1 = new _.Matrix
+  var src1 = new _.Matrix
   ({
     buffer : new F32x([ 1, 3, 5 ]),
     dims : [ 3, 1 ],
     inputRowMajor : 0,
   });
-  var v1 = _.vectorAdapter.from([ 1, 3, 5 ]);
+  var src2 = _.vectorAdapter.from([ 1, 3, 5 ]);
 
-  test.identical( _.identical( m1, v1 ), false );
-  test.identical( _.identical( v1, m1 ), false );
-  test.identical( _.equivalent( m1, v1 ), true );
-  test.identical( _.equivalent( v1, m1 ), true );
-  test.ni( m1, v1 );
-  test.ni( v1, m1 );
-  test.equivalent( m1, v1 );
-  test.equivalent( v1, m1 );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+}
+
+//
+
+function compareMatrixAndNot( test )
+{
+
+  /* */
+
+  test.case = 'matrix and map';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = {};
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and string';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = 'string';
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and number';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = 1;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and null';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = null;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and undefined';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = undefined;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
 
 }
 
@@ -31487,17 +32239,34 @@ function experiment( test )
     +0, +0, +3,
   ]);
 
-  var mo = m.clone();
+  var om = m.clone();
   var m2 = m.clone();
-  debugger;
-  m2.triangulateLu();
-  console.log( m );
-  console.log( m2 );
-  debugger;
+  // debugger;
+  // m2.triangulateLu();
+  // console.log( m );
+  // console.log( m2 );
+  // debugger;
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -4, +2, +0,
+    -6, +3, +0,
+    +0, +0, +0,
+  ]);
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +4, +2, +0,
+    -6, -3, +0,
+    +0, +0, +0,
+  ]);
+
+  var om = m.clone();
+  var m2 = m.clone();
 
   var y = _.Matrix.MakeCol([ 0, 0, 0 ]);
   var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
-  // logger.log( r );
+  logger.log( r );
 
   /* */
 
@@ -31567,16 +32336,16 @@ var Self =
     ConvertToClassSrcIsNotMatrix,
 
     FromVector,
-    FromScalarChangeDimsLength, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
-    FromScalarChangeDimsType, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
+    FromScalarChangeDimsLength,
+    FromScalarChangeDimsType,
     FromScalarForReadingChangeDimsLength,
     FromScalarForReadingChangeDimsType,
     FromSrcNullChangeDimsLength,
     FromExperiment,
     FromSrcNullChangeDimsType,
     FromSrcMatrix,
-    FromSrcScalarChangeDimsLength, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
-    FromSrcScalarChangeDimsType, /* aaa2 : implementation fixed, fix test please */ /* Dmytro : fixed and extended by cases with dimsEffective */
+    FromSrcScalarChangeDimsLength,
+    FromSrcScalarChangeDimsType,
     FromSrcVector,
     FromForReadingSrcMatrix,
     FromForReadingSrcScalarChangeDimsLength,
@@ -31652,7 +32421,7 @@ var Self =
     /* iterators */
 
     scalarWhile,
-    scalarWhileCheckingFields,
+    // scalarWhileCheckingFields, /* qqq2 : investigate and fix */
     scalarEach,
     scalarEachCheckingFields,
     layerEach,
@@ -31665,13 +32434,14 @@ var Self =
     lineSwap,
     permutate,
     _PermutateLineRookWithoutOptionY,
-    _PermutateLineRookWithOptionY,
+    _PermutateLineRookWithOptionX,
     submatrix,
     submatrixSelectLast,
     subspace, /* qqq : extend, please */
 
     // operation
 
+    reduceToMeanRowWise,
     colRowWiseOperations,
     mul,
     MulBasic, /* qqq : extend. add extreme cases. give me a link, please */
@@ -31679,8 +32449,10 @@ var Self =
     MulSeveral,
     AddBasic, /* qqq : extend. add extreme cases */
 
-    addAtomWise,
-    subAtomWise,
+    addScalarWise,
+    subScalarWise,
+    mulColWise,
+    mulRowWise,
 
     furthestClosest,
     matrixHomogenousApply,
@@ -31691,14 +32463,42 @@ var Self =
 
     // solver
 
-    triangulateGausian,
-    triangulateGausianNormal,
+    triangulateGausian, /* qqq2 : write very similar test for methods of solver :
+
+  TriangulateGausian,
+  TriangulateGausianNormalizing,
+
+  triangulateLu,
+  triangulateLuNormalizing,
+
+  SolveWithGausian,
+
+  SolveWithGaussJordan,
+
+  SolveWithTriangles,
+
+  SolveTriangleLower,
+  SolveTriangleLowerNormalizing,
+  SolveTriangleUpper,
+  SolveTriangleUpperNormalizing,
+
+qqq : don't delete old test routines for those routines
+
+    */
+
+    triangulateGausianNormalizing,
+    triangulateGausianPermutating,
     triangulateLu,
-    triangulateLuNormal,
-    SolveTriangulated,
+    triangulateLuNormalizing,
+
+    SolveTriangleLower,
+    SolveTriangleUpper,
+    SolveTriangleLowerNormalizing,
+    SolveTriangleUpperNormalizing,
+    SolveWithTriangles,
+
     SolveSimple,
     SolveComplicated,
-    SolveWithPermutating,
     SolveGeneral,
     invert,
 
@@ -31709,6 +32509,7 @@ var Self =
 
     compareMatrices,
     compareMatrixAndVector,
+    compareMatrixAndNot,
 
     // experiments
 

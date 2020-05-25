@@ -14,7 +14,10 @@ function _permutateDimension( d, current, expected )
 {
   let self = this;
 
-  for( let p1 = 0 ; p1 < expected.length ; p1++ )
+  _.assert( current.length <= expected.length );
+  _.assert( expected.length === self.dims[ d ] );
+
+  for( let p1 = 0 ; p1 < current.length ; p1++ )
   {
     if( expected[ p1 ] === current[ p1 ] )
     continue;
@@ -23,8 +26,7 @@ function _permutateDimension( d, current, expected )
     self.linesSwap( d, p2, p1 );
   }
 
-  _.assert( expected.length === self.dims[ d ] );
-  _.assert( _.longIdentical( current, expected ) );
+  _.assert( _.longIdentical( current, expected.slice( 0, current.length ) ) );
 
 }
 
@@ -185,12 +187,12 @@ function VectorPermutateForward( vector, permutate )
 //
 
 /**
- * Static routine VectorPermutateBackward() permutates elements of the vector {-vector-}.
+ * Static routine PermutateBackward() permutates elements of the vector {-vector-}.
  * If {-vector-} is a Matrix instance, then routine permutates the rows.
  *
  * @example
  * var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
- * var got = matrix.VectorPermutateBackward( matrix, [ 1, 0, 2 ] );
+ * var got = matrix.PermutateBackward( matrix, [ 1, 0, 2 ] );
  * console.log( got.toStr() );
  * // log :
  * // +4, +5, +6,
@@ -202,14 +204,15 @@ function VectorPermutateForward( vector, permutate )
  * @throws { Error } If {-permutates-} is not an Array.
  * @throws { Error } If {-permutates-} element defines wrong permutating.
  * @static
- * @function VectorPermutateBackward
+ * @function PermutateBackward
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function VectorPermutateBackward( vector, permutate )
+function PermutateBackward( vector, permutate )
 {
+
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.arrayIs( permutate ) );
 
@@ -260,6 +263,8 @@ function _PermutateLineRook_body( o )
 
   _.assert( arguments.length === 1 );
   _.assert( o.lineIndex >= 0 );
+  // _.assert( o.y === undefined );
+  _.assert( o.x === null || _.matrixIs( o.x ) );
   _.assertMapHasAll( o, _PermutateLineRook.defaults );
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
@@ -284,8 +289,10 @@ function _PermutateLineRook_body( o )
     return false;
     _.longSwapElements( o.permutates[ 0 ], o.lineIndex, i2 );
     o.m.rowsSwap( o.lineIndex, i2 );
-    if( o.y )
-    o.y.rowsSwap( o.lineIndex, i2 );
+    if( o.x )
+    o.x.rowsSwap( o.lineIndex, i2 );
+    // if( o.y )
+    // o.y.rowsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nRowPermutations += 1;
   }
@@ -296,7 +303,8 @@ function _PermutateLineRook_body( o )
 _PermutateLineRook_body.defaults =
 {
   m : null,
-  y : null,
+  x : null,
+  // y : null,
   permutates : null,
   lineIndex : null,
   npermutations : 0,
@@ -330,6 +338,8 @@ function PermutateRook_pre( routine, args )
   let o2 = o1;
 
   _.mapSupplement( o2, routine.defaults );
+  // _.assert( o2.y === undefined );
+  _.assert( o2.x === null || _.matrixIs( o2.x ) );
 
   if( !o2.permutates )
   {
@@ -353,7 +363,7 @@ function PermutateRook_body( o )
   let proto = Self;
 
   _.assert( arguments.length === 1 );
-  _.routineOptions( PermutateRook_body, o );
+  _.assertRoutineOptions( PermutateRook_body, o );
 
   let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
   for( let i = 0 ; i < l ; i++ )
@@ -368,7 +378,8 @@ function PermutateRook_body( o )
 PermutateRook_body.defaults =
 {
   m : null,
-  y : null,
+  x : null,
+  // y : null,
   permutates : null,
   npermutations : 0,
   nRowPermutations : 0,
@@ -403,7 +414,7 @@ let Statics =
 
   _VectorPermutateDimension,
   VectorPermutateForward,
-  VectorPermutateBackward,
+  PermutateBackward,
   // _PermutateLineRook_pre,
   _PermutateLineRook,
   PermutateRook,
@@ -420,12 +431,12 @@ let Extension =
   //
 
   _permutateDimension,
-  permutateForward,
-  permutateBackward,
+  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
+  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
 
   _VectorPermutateDimension,
   VectorPermutateForward,
-  VectorPermutateBackward,
+  PermutateBackward,
 
   // _PermutateLineRook_pre,
   _PermutateLineRook,

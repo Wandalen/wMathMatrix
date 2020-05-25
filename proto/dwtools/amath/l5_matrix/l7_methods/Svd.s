@@ -435,8 +435,8 @@ function _qrDecompositionHh( q, r )
     let m = _.Matrix.OuterProductOfVectors( u, u );
     let mi = identity.clone();
     debugger;
-    // let h = mi.addAtomWise( m.mul( - 2 ) );
-    h = mi.addAtomWise( m.mul( - 2 ) ); // Dmytro : it's local variable, temporary
+    // let h = mi.addScalarWise( m.mul( - 2 ) );
+    h = mi.addScalarWise( m.mul( - 2 ) ); // Dmytro : it's local variable, temporary
     debugger;
     q.mulLeft( h );
 

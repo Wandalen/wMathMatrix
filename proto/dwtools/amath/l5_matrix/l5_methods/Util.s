@@ -453,12 +453,94 @@ function TempBorrow3( src )
  * @module Tools/math/Matrix
  */
 
-function tempBorrow3( src ) 
+function tempBorrow3( src )
 {
   _.assert( arguments.length <= 1 );
   if( src === undefined )
   src = this;
   return Self._TempBorrow( this, src , 3 );
+}
+
+// --
+//
+// --
+
+function ContextsForTesting( o )
+{
+  if( _.routineIs( arguments[ 0 ] ) )
+  o = { onEach : arguments[ 0 ] };
+  _.routineOptions( ContextsForTesting, o );
+
+  if( o.formats === null )
+  o.formats = [ 'Matrix', 'Vad', 'Long' ];
+
+  if( o.dups === null )
+  o.dups = [ 1, 2, 5 ];
+
+  if( !o.dups )
+  o.dups = [ 1 ];
+
+  o.formats = _.arrayAs( o.formats );
+  o.dups = _.arrayAs( o.dups );
+
+  _.assert( _.longHasAll( o.formats, [ 'Matrix', 'Vad', 'Long' ] ) );
+  _.assert( _.longIs( o.dups ) );
+
+  let op = o;
+  op.matrixMake = matrixMake;
+  op.vadMake = vadMake;
+  op.longMake = longMake;
+
+  if( _.longHas( o.formats, 'Matrix' ) )
+  for( let d = 0 ; d < o.dups.length ; d++ )
+  {
+    op.dup = o.dups[ d ];
+    op.format = 'Matrix';
+    op.containerMake = matrixMake;
+    op.containerIs = _.matrixIs;
+    op.onEach( op );
+  }
+
+  if( _.longHas( o.formats, 'Vad' ) )
+  {
+    op.dup = 1;
+    op.format = 'Vad';
+    op.containerMake = vadMake;
+    op.containerIs = _.vadIs;
+    op.onEach( op );
+  }
+
+  if( _.longHas( o.formats, 'Long' ) )
+  {
+    op.dup = 1;
+    op.format = 'Long';
+    op.containerMake = longMake;
+    op.containerIs = _.longIs;
+    op.onEach( op );
+  }
+
+  function matrixMake( src )
+  {
+    return _.Matrix.MakeColDup( src, op.dup );
+  }
+
+  function vadMake( src )
+  {
+    return _.vad.from( src );
+  }
+
+  function longMake( src )
+  {
+    return src;
+  }
+
+}
+
+ContextsForTesting.defaults =
+{
+  onEach : null,
+  formats : null,
+  dups : null,
 }
 
 // --
@@ -468,7 +550,7 @@ function tempBorrow3( src )
 let Statics = /* qqq : split static routines. ask how */
 {
 
-  /* borrow */
+  // borrow
 
   _TempBorrow,
   TempBorrow0,
@@ -477,7 +559,11 @@ let Statics = /* qqq : split static routines. ask how */
   TempBorrow2,
   TempBorrow3,
 
-  /* var */
+  //
+
+  ContextsForTesting,
+
+  // vae
 
   _TempMatrices : [ Object.create( null ), Object.create( null ), Object.create( null ), Object.create( null ) ],
 
@@ -503,6 +589,10 @@ let Extension =
   tempBorrow2,
   TempBorrow3,
   tempBorrow3,
+
+  //
+
+  ContextsForTesting,
 
   //
 
