@@ -79,7 +79,7 @@ function _Solve2_pre( routine, args )
   {
     _.assert( args.length === 3 );
     o = Object.create( null );
-    o.x = args[ 0 ]; /* xxx : swap x and m */
+    o.x = args[ 0 ]; /* zzz : swap x and m */
     o.m = args[ 1 ];
     o.y = args[ 2 ];
   }
@@ -133,7 +133,6 @@ function _Solve2_pre( routine, args )
   _.assert( arguments.length === 2 );
   _.assert( this.NcolOf( o.y ) === this.NcolOf( o.x ), () => inconsistentDims( o.y, o.x ) );
   _.assert( o.m.dims[ 1 ] <= this.NrowOf( o.x ), () => inconsistentDims( o.m, o.x ) );
-  // _.assert( o.m.dims[ 0 ] === this.NrowOf( o.y ), () => inconsistentDims( o.m, o.y ) );
   _.assert( o.m.dims[ 0 ] >= this.NrowOf( o.y ), () => inconsistentDims( o.m, o.y ) );
   _.assert( _.matrixIs( o.m ) );
   _.assert( _.matrixIs( o.x ) || _.vectorIs( o.x ) );
@@ -153,6 +152,44 @@ function _Solve2_pre( routine, args )
 
 //
 
+function _SolveRepermutate( o )
+{
+  let proto = this;
+
+  if( !o.permutating )
+  return o;
+
+  _.assertMapHasAll( o, _SolveRepermutate.defaults );
+
+  if( o.repermutatingSolution )
+  if( o.x )
+  {
+    Self.PermutateBackward( o.x, o.permutates[ 1 ] );
+  }
+
+  if( o.repermutatingTransformation )
+  if( o.m )
+  {
+    o.m.permutateBackward( o.permutates );
+  }
+
+  return o;
+}
+
+_SolveRepermutate.defaults =
+{
+  m : null,
+  x : null,
+  permutates : null,
+  permutating : 0,
+  onPermutate : null,
+  onPermutatePre : null,
+  repermutatingSolution : 1,
+  repermutatingTransformation : 0,
+}
+
+//
+
 function _Solver_functor( fop )
 {
 
@@ -165,9 +202,13 @@ function _Solver_functor( fop )
   _.assert( _.mapIs( fop.method.defaults ) );
   _.assert( _.longHas( [ 'o', 'ox' ], fop.returning ) );
 
-  // let xIsVector = fop.xIsVector;
   let method = fop.method;
   let returning = fop.returning;
+  let repermutate = fop.repermutate;
+
+  if( repermutate === null )
+  repermutate = _SolveRepermutate;
+
   solve.defaults =
   {
     ... fop.method.defaults,
@@ -187,22 +228,11 @@ function _Solver_functor( fop )
 
   function solve()
   {
-    let o = Self._Solve2_pre( solve, arguments );
-
-    // debugger;
-    // if( !xIsVector )
-    // {
-    //   o.x = this.From( o.x );
-    //   o.y = this.From( o.y ); /* xxx : remove? */
-    // }
+    let o = this._Solve2_pre( solve, arguments );
 
     method.call( this, o );
 
-    // debugger;
-    // if( o.permutating && o.repermutatingSolution )
-    // {
-    //   this.PermutateBackward( o.x, popts.permutates[ 1 ] ); /* xxx : remove other usages, maybe */
-    // }
+    repermutate( o );
 
     if( returning === 'ox' )
     return o.ox;
@@ -215,7 +245,7 @@ function _Solver_functor( fop )
 _Solver_functor.defaults =
 {
   method : null,
-  // xIsVector : 0,
+  repermutate : null,
   returning : 'ox',
 }
 
@@ -226,49 +256,33 @@ _Solver_functor.defaults =
 function _TriangulateGausian( o )
 {
   let proto = this;
-
-  // _.routineOptions( _TriangulateGausian, o );
-
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
 
   if( o.x )
   o.x = this.From( o.x );
 
-  // if( o.y !== null )
-  // o.y = Self.From( o.y );
-  // o.m = self;
-
   _.assert( arguments.length === 0 || arguments.length === 1 );
-  // _.assert( !o.x || o.x.dims[ 0 ] === o.m.dims[ 1 ] );
   _.assert( !o.x || o.m.dims[ 1 ] <= this.NrowOf( o.x ) );
-  // _.assert( !o.y || o.y.dims[ 0 ] === o.m.dims[ 0 ] );
-
   _.assertMapHasAll( o, _TriangulateGausian.defaults );
   _.assert( _.matrixIs( o.m ) );
   _.assert( o.x === null || _.matrixIs( o.x ) );
-  // _.assert( _.matrixIs( o.y ) );
-  // _.assert( o.y === undefined );
 
-  let popts;
   if( o.permutating )
-  {
-    popts = o.onPermutatePre( o.onPermutate, [ o ] );
-  }
+  o.onPermutatePre( o.onPermutate, [ o ] );
 
   /* */
 
   if( o.x )
-  triangulateWithRight();
+  triangulateWithX();
   else
-  triangulateWithoutRight();
+  triangulateWithoutX();
 
   return o;
-  // return o.permutates;
 
   /* */
 
-  function triangulateWithRight()
+  function triangulateWithX()
   {
 
     for( let r1 = 0 ; r1 < ncol ; r1++ )
@@ -276,8 +290,8 @@ function _TriangulateGausian( o )
 
       if( o.permutating )
       {
-        popts.lineIndex = r1;
-        o.onPermutate( popts );
+        o.lineIndex = r1;
+        o.onPermutate( o );
       }
 
       let row1 = o.m.rowGet( r1 );
@@ -301,17 +315,13 @@ function _TriangulateGausian( o )
 
     }
 
-    debugger;
-    if( o.permutating && o.repermutatingSolution )
-    {
-      Self.PermutateBackward( o.x, popts.permutates[ 1 ] );
-    }
+    // proto._SolveRepermutate( o );
 
   }
 
   /* */
 
-  function triangulateWithoutRight()
+  function triangulateWithoutX()
   {
 
     for( let r1 = 0 ; r1 < ncol ; r1++ )
@@ -319,8 +329,8 @@ function _TriangulateGausian( o )
 
       if( o.permutating )
       {
-        popts.lineIndex = r1;
-        o.onPermutate( popts );
+        o.lineIndex = r1;
+        o.onPermutate( o );
       }
 
       let row1 = o.m.rowGet( r1 );
@@ -348,15 +358,13 @@ function _TriangulateGausian( o )
 
 _TriangulateGausian.defaults =
 {
+
+  ... _SolveRepermutate.defaults,
+
   m : null,
   x : null,
-  // y : null,
-  onPermutate : null,
-  onPermutatePre : null,
-  permutates : null,
-  permutating : 0,
-  repermutatingSolution : 1,
   normalizing : 0,
+
 }
 
 //
@@ -415,15 +423,6 @@ function triangulateGausian( y )
   return self.TriangulateGausian( o );
 }
 
-// function triangulateGausian( y )
-// {
-//   let self = this;
-//   let o = Object.create( null );
-//   o.y = y;
-//   o.m = self;
-//   return self._TriangulateGausian( o );
-// }
-
 //
 
 /**
@@ -479,16 +478,6 @@ function triangulateGausianNormalizing( y )
   o.m = self;
   return self.TriangulateGausianNormalizing( o );
 }
-
-// function triangulateGausianNormalizing( y )
-// {
-//   let self = this;
-//   let o = Object.create( null );
-//   o.y = x;
-//   o.m = self
-//   o.normalizing = 1;
-//   return self._TriangulateGausian( o );
-// }
 
 //
 
@@ -562,18 +551,6 @@ function triangulateGausianNormalizingPermutating( y )
   return self.TriangulateGausianNormalizingPermutating( o );
 }
 
-// function triangulateGausianPermutating( y )
-// {
-//   let self = this;
-//   let o = Object.create( null );
-//   o.y = y;
-//   o.onPermutate = self._PermutateLineRook;
-//   o.onPermutatePre = self._PermutateLineRook.pre;
-//   _.assert( _.routineIs( o.onPermutate ) );
-//   _.assert( _.routineIs( o.onPermutatePre ) );
-//   return self._TriangulateGausian( o );
-// }
-
 //
 
 /**
@@ -620,7 +597,7 @@ function triangulateLu()
     {
       let row2 = self.rowGet( r2 );
       let scaler = row2.eGet( r1 ) / scaler1;
-      self.vectorAdapter.subScaled( row2.review( r1+1 ), row1, scaler );
+      row2.review( r1+1 ).subScaled( row1, scaler );
       row2.eSet( r1, scaler );
     }
 
@@ -657,7 +634,7 @@ function triangulateLu()
  * @module Tools/math/Matrix
  */
 
-function triangulateLuNormalizing() /* xxx : rename */
+function triangulateLuNormalizing()
 {
   let self = this;
   let nrow = self.nrow;
@@ -798,36 +775,32 @@ function Solve( x, m, y )
 function _SolveWithGausian( o )
 {
   let proto = this;
-  let nrow = o.m.nrow;
-  let ncol = Math.min( o.m.ncol, nrow );
+
+  if( o.x )
+  o.x = proto.From( o.x );
 
   _.assertMapHasAll( o, _SolveWithGausian.defaults );
   _.assert( _.matrixIs( o.m ) );
-  _.assert( _.matrixIs( o.x ) );
-  // _.assert( _.matrixIs( o.y ) );
+  _.assert( o.x === null || _.matrixIs( o.x ) );
 
-  let permutates = o.m.triangulateGausianPermutating( o.x ); /* xxx */
-  this.SolveTriangleUpper( o.x, o.m, o.x );
+  o.normalizing = 1;
+  proto._TriangulateGausian( o );
 
-  // Self.PermutateBackward( o.x, permutates[ 1 ] );
+  o.normalized = 1;
+  proto._SolveTriangleUpper( o );
 
-  if( o.permutating && o.repermutatingSolution )
-  {
-    Self.PermutateBackward( o.x, popts.permutates[ 1 ] );
-  }
+  // proto._SolveRepermutate( o );
 
   return o.ox;
 }
 
 _SolveWithGausian.defaults =
 {
+
+  ... _SolveRepermutate.defaults,
+
   m : null,
   x : null,
-  y : null,
-  permutating : 0,
-  repermutatingSolution : 1,
-  onPermutate : null,
-  onPermutatePre : null,
 }
 
 //
@@ -859,23 +832,13 @@ _SolveWithGausian.defaults =
  * @module Tools/math/Matrix
  */
 
-function SolveWithGausian()
-{
-  let o = this._Solve_pre( arguments );
-
-  let triangulated = this.TriangulateGausian
-  ({
-    m : o.m,
-    x : o.x,
-    permutating : 1,
-    repermutatingSolution : 0,
-  });
-
-  // o.m.triangulateGausian( o.x );
-  this.SolveTriangleUpper( o.x, o.m, o.x );
-
-  return o.ox;
-}
+let SolveWithGausian = _Solver_functor
+({
+  method : _SolveWithGausian,
+  returning : 'ox',
+});
+var defaults = SolveWithGausian.defaults;
+defaults.permutating = 0;
 
 //
 
@@ -905,25 +868,13 @@ function SolveWithGausian()
  * @module Tools/math/Matrix
  */
 
-function SolveWithGausianPermutating()
-{
-  let o = this._Solve_pre( arguments );
-
-  // let permutates = o.m.triangulateGausianPermutating( o.x ); /* xxx */
-
-  let triangulated = this.TriangulateGausianPermutating
-  ({
-    m : o.m,
-    x : o.x,
-    permutating : 1,
-    repermutatingSolution : 0,
-  });
-
-  this.SolveTriangleUpper( o.x, o.m, o.x );
-  Self.PermutateBackward( o.x, triangulated.permutates[ 1 ] ); /* xxx : remove maybe? */
-
-  return o.ox;
-}
+let SolveWithGausianPermutating = _Solver_functor
+({
+  method : _SolveWithGausian,
+  returning : 'ox',
+});
+var defaults = SolveWithGausianPermutating.defaults;
+defaults.permutating = 1;
 
 //
 
@@ -941,7 +892,7 @@ function _SolveWithGaussJordan( o )
   _.assert( _.matrixIs( o.m ) );
   _.assert( o.x === null || _.matrixIs( o.x ) );
 
-  let popts;
+  let popts; /* xxx : remove popts */
   if( o.permutating )
   {
     popts = o.onPermutatePre( o.onPermutate, [ o ] );
@@ -957,10 +908,7 @@ function _SolveWithGaussJordan( o )
 
   /* */
 
-  if( o.permutating && o.repermutatingSolution )
-  {
-    Self.PermutateBackward( o.x, popts.permutates[ 1 ] );
-  }
+  // proto._SolveRepermutate( o );
 
   /* */
 
@@ -1049,14 +997,12 @@ function _SolveWithGaussJordan( o )
 
 _SolveWithGaussJordan.defaults =
 {
+
+  ... _SolveRepermutate.defaults,
+
   m : null,
   x : null,
 
-  permutates : null,
-  permutating : 0,
-  repermutatingSolution : 1,
-  onPermutate : null,
-  onPermutatePre : null,
 }
 
 //
@@ -1173,8 +1119,7 @@ function invertWithGaussJordan( dst )
   {
 
     let row1 = self.rowGet( r1 ).review( r1+1 );
-    let xrow1 = self.rowGet( r1 ).review([ 0, r1 ]); /* xxx */
-    debugger;
+    let xrow1 = self.rowGet( r1 ).review([ 0, r1 ]);
 
     let scaler1 = 1 / xrow1.eGet( r1 );
     xrow1.eSet( r1, 1 );
@@ -1200,6 +1145,42 @@ function invertWithGaussJordan( dst )
   }
 
   return self;
+}
+
+//
+
+function _SolveWithTriangles( o )
+{
+  let proto = this;
+
+  _.assertMapHasAll( o, _SolveWithTriangles.defaults );
+  _.assert( _.matrixIs( o.m ) );
+  _.assert( _.matrixIs( o.x ) );
+
+  let triangulated = m.triangulateLuPermutating(); /* xxx */
+
+  o.y = Self.VectorPermutateForward( o.y, triangulated.permutates[ 0 ] );
+  o.x = this.SolveTriangleLowerNormalized( o.x, o.m, o.y );
+  o.x = this.SolveTriangleUpper( o.x, o.m, o.x );
+
+  Self.PermutateBackward( o.x, triangulated.permutates[ 1 ] );
+  Self.PermutateBackward( o.y, triangulated.permutates[ 0 ] ); /* xxx : remove maybe */
+
+  // proto._SolveRepermutate( o );
+
+  return o;
+}
+
+_SolveWithTriangles.defaults =
+{
+
+  ... _SolveRepermutate.defaults,
+
+  m : null,
+  x : null,
+  normalizing : 0,
+  permutating : 0,
+
 }
 
 //
@@ -1243,7 +1224,7 @@ function SolveWithTriangles( x, m, y )
   m.triangulateLuNormalizing();
 
   o.x = this.SolveTriangleLower( o.x, o.m, o.y );
-  o.x = this.SolveTriangleUpperNormalizing( o.x, o.m, o.x );
+  o.x = this.SolveTriangleUpperNormalized( o.x, o.m, o.x );
 
   return o.ox;
 }
@@ -1279,45 +1260,6 @@ function SolveWithTriangles( x, m, y )
  * @module Tools/math/Matrix
  */
 
-function _SolveWithTriangles( o )
-{
-  let proto = this;
-
-  _.assertMapHasAll( o, _SolveWithTriangles.defaults );
-  _.assert( _.matrixIs( o.m ) );
-  _.assert( _.matrixIs( o.x ) );
-
-  // let o = this._Solve_pre( arguments );
-  let triangulated = m.triangulateLuPermutating();
-
-  o.y = Self.VectorPermutateForward( o.y, triangulated.permutates[ 0 ] );
-
-  debugger;
-  o.x = this.SolveTriangleLowerNormalizing( o.x, o.m, o.y );
-  debugger;
-  o.x = this.SolveTriangleUpper( o.x, o.m, o.x );
-  debugger;
-
-  Self.PermutateBackward( o.x, triangulated.permutates[ 1 ] );
-  Self.PermutateBackward( o.y, triangulated.permutates[ 0 ] ); /* xxx : remove maybe */
-
-  // return o.ox;
-  return o;
-}
-
-_SolveWithTriangles.defaults =
-{
-  m : null,
-  x : null,
-  // y : null,
-  onPermutate : null,
-  onPermutatePre : null,
-  permutates : null,
-  permutating : 0,
-  repermutatingSolution : 1,
-  normalizing : 0,
-}
-
 //
 
 function SolveWithTrianglesPermutating( x, m, y ) /* xxx : remove */
@@ -1328,71 +1270,16 @@ function SolveWithTrianglesPermutating( x, m, y ) /* xxx : remove */
 
   o.y = Self.VectorPermutateForward( o.y, triangulated.permutates[ 0 ] );
 
-  o.x = this.SolveTriangleLowerNormalizing( o.x, o.m, o.y );
+  o.x = this.SolveTriangleLowerNormalized( o.x, o.m, o.y );
   o.x = this.SolveTriangleUpper( o.x, o.m, o.x );
 
   Self.PermutateBackward( o.x, triangulated.permutates[ 1 ] );
   Self.PermutateBackward( o.y, triangulated.permutates[ 0 ] );
 
+  // proto._SolveRepermutate( o ); /* xxx */
+
   return o.ox;
 }
-
-// //
-//
-// function _SolveTriangleWithRoutine( args, onSolve )
-// {
-//   let x = args[ 0 ];
-//   let m = args[ 1 ];
-//   let y = args[ 2 ];
-//
-//   _.assert( args.length === 3 );
-//   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-//   _.assert( y );
-//
-//   if( _.matrixIs( y ) )
-//   {
-//
-//     if( x === null )
-//     {
-//       x = y.clone();
-//     }
-//     else
-//     {
-//       x = Self.From( x, y.dims );
-//       x.copy( y );
-//     }
-//
-//     _.assert( x.hasShape( y ) );
-//     _.assert( x.dims[ 0 ] === m.dims[ 1 ] );
-//
-//     for( let v = 0 ; v < y.dims[ 1 ] ; v++ )
-//     {
-//       onSolve( x.colGet( v ), m, y.colGet( v ) );
-//     }
-//
-//     return x;
-//   }
-//
-//   /* */
-//
-//   y = this.vectorAdapter.from( y );
-//
-//   if( x === null )
-//   {
-//     x = y.clone();
-//   }
-//   else
-//   {
-//     x = this.vectorAdapter.from( x );
-//     x.copy( y );
-//   }
-//
-//   /* */
-//
-//   _.assert( x.length === y.length );
-//
-//   return onSolve( x, m, y );
-// }
 
 //
 
@@ -1428,64 +1315,41 @@ function SolveWithTrianglesPermutating( x, m, y ) /* xxx : remove */
  * @module Tools/math/Matrix
  */
 
-// function SolveTriangleLower( x, m, y )
-// {
-//   let self = this;
-//   return self._SolveTriangleWithRoutine( arguments, handleSolve );
-//
-//   function handleSolve( x, m, y )
-//   {
-//
-//     for( let r1 = 0 ; r1 < y.length ; r1++ )
-//     {
-//       let xu = x.review([ 0, r1-1 ]);
-//       let row = m.rowGet( r1 );
-//       let scaler = row.eGet( r1 );
-//       row = row.review([ 0, r1-1 ]);
-//       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) ) / scaler;
-//       x.eSet( r1, xval );
-//     }
-//
-//     return x;
-//   }
-//
-// }
-
 function _SolveTriangleLower( o )
 {
 
-  // o.x = o.x.toVad({ restriding : 0 });
+  _.assertMapHasAll( o, _SolveTriangleLower.defaults );
 
-  if( o.normalizing )
+  if( o.normalized )
   {
 
     if( _.matrixIs( o.x ) )
-    actMatrixNormalizing( o.x );
+    actMatrixNormalized( o.x );
     else
-    actVectorNormalizing( o.x );
+    actVectorNormalized( o.x );
 
   }
   else
   {
 
     if( _.matrixIs( o.x ) )
-    actMatrixNotNormalizing( o.x );
+    actMatrixNotNormalized( o.x );
     else
-    actVectorNotNormalizing( o.x );
+    actVectorNotNormalized( o.x );
 
   }
 
   return o;
 
-  function actMatrixNormalizing( x ) /* xxx : rewrite? */
+  function actMatrixNormalized( x ) /* zzz : rewrite in vectorized form? */
   {
     for( let i = 0, l = x.ncol ; i < l ; i++ )
     {
-      actVectorNormalizing( x.colGet( i ) );
+      actVectorNormalized( x.colGet( i ) );
     }
   }
 
-  function actVectorNormalizing( x )
+  function actVectorNormalized( x )
   {
     for( let r1 = 0, l = x.length ; r1 < l ; r1++ )
     {
@@ -1497,15 +1361,15 @@ function _SolveTriangleLower( o )
     }
   }
 
-  function actMatrixNotNormalizing( x ) /* xxx : rewrite? */
+  function actMatrixNotNormalized( x )
   {
     for( let i = 0, l = x.ncol ; i < l ; i++ )
     {
-      actVectorNotNormalizing( x.colGet( i ) );
+      actVectorNotNormalized( x.colGet( i ) );
     }
   }
 
-  function actVectorNotNormalizing( x )
+  function actVectorNotNormalized( x )
   {
     for( let r1 = 0, l = x.length ; r1 < l ; r1++ )
     {
@@ -1524,8 +1388,7 @@ _SolveTriangleLower.defaults =
 {
   m : null,
   x : null,
-  // y : null,
-  normalizing : 0,
+  normalized : 0,
 }
 
 //
@@ -1533,16 +1396,15 @@ _SolveTriangleLower.defaults =
 let SolveTriangleLower = _Solver_functor
 ({
   method : _SolveTriangleLower,
-  // xIsVector : 1,
 });
 
 var defaults = SolveTriangleLower.defaults;
-defaults.normalizing = 0;
+defaults.normalized = 0;
 
 //
 
 /**
- * Static routine SolveTriangleLowerNormalizing() solves system of equations with lower triangular matrix.
+ * Static routine SolveTriangleLowerNormalized() solves system of equations with lower triangular matrix.
  *
  * @example
  * var m = _.Matrix.MakeSquare
@@ -1553,7 +1415,7 @@ defaults.normalizing = 0;
  * ]);
  *
  * var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
- * var x = _.Matrix.SolveTriangleLowerNormalizing( null, m, y );
+ * var x = _.Matrix.SolveTriangleLowerNormalized( null, m, y );
  * console.log( x.toStr() );
  * // log :
  * //  2
@@ -1566,41 +1428,19 @@ defaults.normalizing = 0;
  * @returns { Matrix } - Returns the matrix with unknowns.
  * @throws { Error } If dimensions of {-x-} and {-y-} are different.
  * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveTriangleLowerNormalizing
+ * @function SolveTriangleLowerNormalized
  * @static
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-// function SolveTriangleLowerNormalizing( x, m, y )
-// {
-//   let self = this;
-//   return self._SolveTriangleWithRoutine( arguments, handleSolve );
-//
-//   function handleSolve( x, m, y )
-//   {
-//
-//     for( let r1 = 0 ; r1 < y.length ; r1++ )
-//     {
-//       let xu = x.review([ 0, r1-1 ]);
-//       let row = m.rowGet( r1 );
-//       row = row.review([ 0, r1-1 ]);
-//       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) );
-//       x.eSet( r1, xval );
-//     }
-//
-//     return x;
-//   }
-//
-// }
-
-let SolveTriangleLowerNormalizing = _Solver_functor
+let SolveTriangleLowerNormalized = _Solver_functor
 ({
   method : _SolveTriangleLower,
 });
-var defaults = SolveTriangleLowerNormalizing.defaults;
-defaults.normalizing = 1;
+var defaults = SolveTriangleLowerNormalized.defaults;
+defaults.normalized = 1;
 
 //
 
@@ -1639,38 +1479,38 @@ defaults.normalizing = 1;
 function _SolveTriangleUpper( o )
 {
 
-  // o.x = o.x.toVad({ restriding : 0 });
+  _.assertMapHasAll( o, _SolveTriangleUpper.defaults );
 
-  if( o.normalizing )
+  if( o.normalized )
   {
 
     if( _.matrixIs( o.x ) )
-    actMatrixNormalizing( o.x );
+    actMatrixNormalized( o.x );
     else
-    actVectorNormalizing( o.x );
+    actVectorNormalized( o.x );
 
   }
   else
   {
 
     if( _.matrixIs( o.x ) )
-    actMatrixNotNormalizing( o.x );
+    actMatrixNotNormalized( o.x );
     else
-    actVectorNotNormalizing( o.x );
+    actVectorNotNormalized( o.x );
 
   }
 
   return o;
 
-  function actMatrixNormalizing( x )
+  function actMatrixNormalized( x )
   {
     for( let i = 0, l = x.ncol ; i < l ; i++ )
     {
-      actVectorNormalizing( x.colGet( i ) );
+      actVectorNormalized( x.colGet( i ) );
     }
   }
 
-  function actVectorNormalizing( x )
+  function actVectorNormalized( x )
   {
     for( let l = x.length-1, r1 = l ; r1 >= 0 ; r1-- )
     {
@@ -1682,15 +1522,15 @@ function _SolveTriangleUpper( o )
     }
   }
 
-  function actMatrixNotNormalizing( x ) /* zzz : rewrite? */
+  function actMatrixNotNormalized( x ) /* zzz : rewrite? */
   {
     for( let i = 0, l = x.ncol ; i < l ; i++ )
     {
-      actVectorNotNormalizing( x.colGet( i ) );
+      actVectorNotNormalized( x.colGet( i ) );
     }
   }
 
-  function actVectorNotNormalizing( x )
+  function actVectorNotNormalized( x )
   {
     for( let l = x.length-1, r1 = l ; r1 >= 0 ; r1-- )
     {
@@ -1705,80 +1545,21 @@ function _SolveTriangleUpper( o )
 
 }
 
-// {
-//
-//   if( !_.vadIs( o.x ) )
-//   o.x = o.x.toVad({ restriding : 0 });
-//
-//   if( o.normalizing )
-//   {
-//
-//     for( let l = o.x.length-1, r1 = l ; r1 >= 0 ; r1-- )
-//     {
-//       let xu = o.x.review([ r1+1, l ]);
-//       let row = o.m.rowGet( r1 );
-//       row = row.review([ r1+1, row.length-1 ]);
-//       let xval = ( o.x.eGet( r1 ) - row.dot( xu ) );
-//       o.x.eSet( r1, xval );
-//     }
-//
-//   }
-//   else
-//   {
-//
-//     for( let l = o.x.length-1, r1 = l ; r1 >= 0 ; r1-- )
-//     {
-//       let xu = o.x.review([ r1+1, l ]);
-//       let row = o.m.rowGet( r1 );
-//       let scaler = row.eGet( r1 );
-//       row = row.review([ r1+1, row.length-1 ]);
-//       let xval = ( o.x.eGet( r1 ) - row.dot( xu ) ) / scaler;
-//       o.x.eSet( r1, xval );
-//     }
-//
-//   }
-//
-//   return o;
-//   // return o.x;
-// }
-
 _SolveTriangleUpper.defaults =
 {
   m : null,
   x : null,
-  // y : null,
-  normalizing : 0,
+  normalized : 0,
 }
+
+//
 
 let SolveTriangleUpper = _Solver_functor
 ({
   method : _SolveTriangleUpper,
 });
 var defaults = SolveTriangleUpper.defaults;
-defaults.normalizing = 0;
-
-// function SolveTriangleUpper( x, m, y )
-// {
-//   let self = this;
-//   return self._SolveTriangleWithRoutine( arguments, handleSolve );
-//
-//   function handleSolve( x, m, y )
-//   {
-//
-//     for( let r1 = y.length-1 ; r1 >= 0 ; r1-- )
-//     {
-//       let xu = x.review([ r1+1, x.length-1 ]);
-//       let row = m.rowGet( r1 );
-//       let scaler = row.eGet( r1 );
-//       row = row.review([ r1+1, row.length-1 ]);
-//       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) ) / scaler;
-//       x.eSet( r1, xval );
-//     }
-//
-//     return x;
-//   }
-//
-// }
+defaults.normalized = 0;
 
 //
 
@@ -1794,7 +1575,7 @@ defaults.normalizing = 0;
  * ]);
  *
  * var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
- * var x = _.Matrix.SolveTriangleUpperNormalizing( null, m, y );
+ * var x = _.Matrix.SolveTriangleUpperNormalized( null, m, y );
  * console.log( x.toStr() );
  * // log :
  * //  6
@@ -1814,35 +1595,148 @@ defaults.normalizing = 0;
  * @module Tools/math/Matrix
  */
 
-// function SolveTriangleUpperNormalizing( x, m, y )
-// {
-//   let self = this;
-//   return self._SolveTriangleWithRoutine( arguments, handleSolve );
-//
-//   function handleSolve( x, m, y )
-//   {
-//
-//     for( let r1 = y.length-1 ; r1 >= 0 ; r1-- )
-//     {
-//       let xu = x.review([ r1+1, x.length-1 ]);
-//       let row = m.rowGet( r1 );
-//       row = row.review([ r1+1, row.length-1 ]);
-//       let xval = ( x.eGet( r1 ) - self.vectorAdapter.dot( row, xu ) );
-//       x.eSet( r1, xval );
-//     }
-//
-//     return x;
-//   }
-//
-// }
-
-let SolveTriangleUpperNormalizing = _Solver_functor
+let SolveTriangleUpperNormalized = _Solver_functor
 ({
   method : _SolveTriangleUpper,
-  // xIsVector : 1,
 });
-var defaults = SolveTriangleUpperNormalizing.defaults;
-defaults.normalizing = 1;
+var defaults = SolveTriangleUpperNormalized.defaults;
+defaults.normalized = 1;
+
+//
+
+function _SolveGeneralRepermutate( o )
+{
+  let proto = this;
+
+  if( !o.permutating )
+  return o;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assertMapHasAll( o, _SolveGeneralRepermutate.defaults );
+
+  /* permutate backward */
+
+  if( o.repermutatingSolution )
+  {
+    if( o.x !== null )
+    Self.PermutateBackward( o.x, o.permutates[ 1 ] );
+    let permutates2 = [ o.permutates[ 1 ], null ];
+    o.kernel.permutateBackward( permutates2 );
+  }
+  if( o.repermutatingTransformation )
+  {
+    o.m.permutateBackward( o.permutates );
+  }
+
+  /* return */
+
+  return o;
+}
+
+_SolveGeneralRepermutate.defaults =
+{
+
+  ... _SolveRepermutate.defaults,
+
+  x : null,
+  m : null,
+  kernel : null,
+
+  repermutatingSolution : 1,
+  repermutatingTransformation : 0,
+
+}
+
+//
+
+function _SolveGeneral( o )
+{
+  let proto = this;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assertMapHasAll( o, _SolveGeneral.defaults );
+
+  /* alloc */
+
+  if( o.x )
+  o.x = this.From( o.x );
+
+  let ncol = o.m.ncol;
+  let nrow = o.m.nrow;
+  o.nsolutions = 1;
+  o.nkernel = 0;
+
+  /* verify */
+
+  _.assert( o.x === null || o.m.ncol === o.x.nrow );
+  _.assert( o.kernel === null || o.m.ncol === o.kernel.nrow );
+  _.assert( o.kernel === null || o.m.ncol === o.kernel.ncol );
+  _.assert( o.x === null || o.x instanceof Self );
+  _.assert( o.x === null || o.x.dims[ 1 ] === 1 );
+
+  /* solve */
+
+  let x = proto._SolveWithGaussJordan( o );
+
+  /* analyse */
+
+  for( let r = 0 ; r < ncol ; r++ )
+  {
+    let diag = r < nrow ? o.m.scalarGet([ r, r ]) : 0;
+    if( abs( diag ) < proto.accuracy )
+    {
+      if( !o.x || abs( o.x.scalarGet([ r, 0 ]) ) < proto.accuracy )
+      {
+        o.nsolutions = Infinity;
+        o.nkernel += 1;
+      }
+      else
+      {
+        o.nsolutions = 0;
+        if( o.kernel === null )
+        o.kernel = proto.Make([ ncol, 0 ]);
+        return o;
+      }
+    }
+  }
+
+  if( o.kernel === null )
+  o.kernel = proto.Make([ ncol, o.nkernel ]);
+
+  let ckernel = 0;
+  for( let r = 0 ; r < ncol ; r++ )
+  {
+    let diag = r < nrow ? o.m.scalarGet([ r, r ]) : 0;
+    if( abs( diag ) < proto.accuracy )
+    {
+      let kcol = o.kernel.colGet( ckernel );
+      let mcol = o.m.colGet( r );
+      kcol.copy( mcol );
+      kcol.mul( -1 );
+      kcol.eSet( r, 1 );
+      ckernel += 1;
+    }
+  }
+
+  /* permutate backward */
+
+  // proto._SolveGeneralRepermutate( o );
+
+  /* return */
+
+  return o;
+}
+
+_SolveGeneral.defaults =
+{
+
+  ... _SolveGeneralRepermutate.defaults,
+
+  x : null,
+  m : null,
+  kernel : null,
+
+}
 
 //
 
@@ -1896,127 +1790,10 @@ defaults.normalizing = 1;
  * @module Tools/math/Matrix
  */
 
-function _SolveGeneral( o )
-{
-  let proto = this;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assertMapHasAll( o, _SolveGeneral.defaults );
-
-  /* alloc */
-
-  if( o.x )
-  o.x = this.From( o.x );
-
-  let ncol = o.m.ncol;
-  let nrow = o.m.nrow;
-  o.nsolutions = 1;
-  o.nkernel = 0;
-
-  /* verify */
-
-  _.assert( o.x === null || o.m.ncol === o.x.nrow );
-  _.assert( o.kernel === null || o.m.ncol === o.kernel.nrow );
-  _.assert( o.kernel === null || o.m.ncol === o.kernel.ncol );
-  _.assert( o.x === null || o.x instanceof Self );
-  _.assert( o.x === null || o.x.dims[ 1 ] === 1 );
-
-  /* solve */
-
-  if( o.permutating )
-  {
-    let repermutatingSolution = o.repermutatingSolution;
-    o.repermutatingSolution = 0;
-    let x = proto._SolveWithGaussJordan( o );
-    o.repermutatingSolution = repermutatingSolution;
-  }
-  else
-  {
-    let x = proto._SolveWithGaussJordan( o );
-  }
-
-  /* analyse */
-
-  debugger;
-  for( let r = 0 ; r < ncol ; r++ )
-  {
-    let diag = r < nrow ? o.m.scalarGet([ r, r ]) : 0;
-    if( abs( diag ) < proto.accuracy )
-    {
-      if( !o.x || abs( o.x.scalarGet([ r, 0 ]) ) < proto.accuracy )
-      {
-        o.nsolutions = Infinity;
-        o.nkernel += 1;
-      }
-      else
-      {
-        debugger;
-        o.nsolutions = 0;
-        if( o.kernel === null )
-        o.kernel = proto.Make([ ncol, 0 ]);
-        return o;
-      }
-    }
-  }
-
-  if( o.kernel === null )
-  o.kernel = proto.Make([ ncol, o.nkernel ]);
-
-  let ckernel = 0;
-  for( let r = 0 ; r < ncol ; r++ )
-  {
-    let diag = r < nrow ? o.m.scalarGet([ r, r ]) : 0;
-    if( abs( diag ) < proto.accuracy )
-    {
-      let kcol = o.kernel.colGet( ckernel );
-      let mcol = o.m.colGet( r );
-      kcol.copy( mcol );
-      kcol.mul( -1 );
-      kcol.eSet( r, 1 );
-      ckernel += 1;
-    }
-  }
-
-  /* permutate backward */
-
-  if( o.permutating )
-  {
-    if( o.repermutatingSolution )
-    {
-      if( o.x !== null )
-      Self.PermutateBackward( o.x, o.permutates[ 1 ] );
-      // let permutates2 = [ o.permutates[ 1 ], o.permutates[ 0 ] ];
-      let permutates2 = [ o.permutates[ 1 ], null ];
-      o.kernel.permutateBackward( permutates2 );
-    }
-    if( o.repermutatingTransformation )
-    {
-      o.m.permutateBackward( o.permutates );
-    }
-  }
-
-  /* return */
-
-  return o;
-}
-
-_SolveGeneral.defaults =
-{
-
-  ... _SolveWithGaussJordan.defaults,
-
-  x : null,
-  m : null,
-  kernel : null,
-  repermutatingTransformation : 0,
-
-}
-
-//
-
 let SolveGeneral = _Solver_functor
 ({
   method : _SolveGeneral,
+  repermutate : _SolveGeneralRepermutate,
   returning : 'o',
 });
 
@@ -2079,52 +1856,6 @@ function invert( dst )
 
 }
 
-// //
-//
-// /**
-//  * Method copyAndInvert() inverts current matrix by Gauss-Jordan method.
-//  *
-//  * @example
-//  * var m = _.Matrix.MakeSquare( 3 );
-//  * var src = _.Matrix.Make( [ 3, 3 ] ).copy
-//  * ([
-//  *   +2, -3, +4,
-//  *   +2, -2, +3,
-//  *   +6, -7, +9,
-//  * ]);
-//  *
-//  * m.copyAndInvert( src );
-//  * console.log( m.toStr() );
-//  * // log :
-//  * // -1.5, +0.5, +0.5,
-//  * // +0,   +3,   -1,
-//  * // +1,   +2,   -1,
-//  *
-//  * @param { Long|VectorAdapter|Matrix } - Source buffer.
-//  * @returns { Matrix } - Returns the matrix with inverted values of source buffer.
-//  * @method copyAndInvert
-//  * @throws { Error } If number of dimensions is more then two.
-//  * @throws { Error } If current matrix is not a square matrix.
-//  * @throws { Error } If arguments.length is not equal to one.
-//  * @class Matrix
-//  * @namespace wTools
-//  * @module Tools/math/Matrix
-//  */
-//
-// function copyAndInvert( src )
-// {
-//   let self = this;
-//
-//   _.assert( self.dims.length === 2 );
-//   _.assert( self.isSquare() );
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   self.copy( src );
-//   self.invert();
-//
-//   return self;
-// }
-
 // --
 // relations
 // --
@@ -2132,18 +1863,23 @@ function invert( dst )
 let Statics = /* qqq : split static routines. ask how */
 {
 
-  /* Solve */
+  // meta
+
+  _Solve_pre,
+  _Solve2_pre,
+  _SolveRepermutate,
+  _Solver_functor,
+
+  // triangulator
 
   _TriangulateGausian,
   TriangulateGausian,
   TriangulateGausianNormalizing,
   TriangulateGausianPermutating,
 
-  Solve,
+  // solver
 
-  _Solve_pre,
-  _Solve2_pre,
-  _Solver_functor,
+  Solve,
 
   SolveWithGausian,
   SolveWithGausianPermutating,
@@ -2156,24 +1892,18 @@ let Statics = /* qqq : split static routines. ask how */
   SolveWithTriangles,
   SolveWithTrianglesPermutating,
 
-  // _SolveTriangleWithRoutine, /* xxx : check */
   _SolveTriangleLower,
   SolveTriangleLower,
-  SolveTriangleLowerNormalizing,
+  SolveTriangleLowerNormalized,
   _SolveTriangleUpper,
   SolveTriangleUpper,
-  SolveTriangleUpperNormalizing,
+  SolveTriangleUpperNormalized,
 
+  _SolveGeneralRepermutate,
+  _SolveGeneral,
   SolveGeneral,
 
 }
-
-/*
-map
-filter
-reduce
-zip
-*/
 
 // --
 // declare
@@ -2186,6 +1916,7 @@ let Extension =
 
   _Solve_pre, /* xxx : remove */
   _Solve2_pre,
+  _SolveRepermutate,
   _Solver_functor,
 
   // triangulator
@@ -2202,7 +1933,7 @@ let Extension =
   triangulateLuNormalizing,
   triangulateLuPermutating,
 
-  // Solver
+  // solver
 
   Solve,
 
@@ -2219,19 +1950,18 @@ let Extension =
   SolveWithTriangles,
   SolveWithTrianglesPermutating,
 
-  // _SolveTriangleWithRoutine,
   _SolveTriangleLower,
   SolveTriangleLower,
-  SolveTriangleLowerNormalizing,
+  SolveTriangleLowerNormalized,
   _SolveTriangleUpper,
   SolveTriangleUpper,
-  SolveTriangleUpperNormalizing,
+  SolveTriangleUpperNormalized,
 
+  _SolveGeneralRepermutate,
   _SolveGeneral,
   SolveGeneral,
 
   invert,
-  // copyAndInvert,
 
   //
 

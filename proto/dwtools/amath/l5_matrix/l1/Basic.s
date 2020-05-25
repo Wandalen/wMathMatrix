@@ -387,8 +387,7 @@ function _equalAre( it )
 
   it.result = it.src.scalarWhile( function( it2 )
   {
-    let scalar = it.src.scalarGet( it2.indexNd ); /* xxx : optimize */
-    // let scalar = it2.buffer[ it2.offset[ 0 ] ];
+    let scalar = it2.buffer[ it2.offset[ 0 ] ];
     let scalar2 = it.src2.scalarGet( it2.indexNd );
     return it.onNumbersAreEqual( scalar, scalar2 );
   });
@@ -1065,7 +1064,7 @@ function cloneExtending()
  * @module Tools/math/Matrix
  */
 
-function CopyTo( dst, src ) /* qqq3 : cover please. ask */
+function CopyTo( dst, src ) /* qqq3 : cover please. should work even if src.length < dst.length ask */
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -1151,7 +1150,6 @@ function CopyTo( dst, src ) /* qqq3 : cover please. ask */
 
   function copyDstMatrixSrcMatrixIdentical()
   {
-    debugger;
     src.scalarEach( function( it )
     {
       dst.scalarSet( it.indexNd, it.buffer[ it.offset[ 0 ] ] );
@@ -1878,7 +1876,7 @@ function toVad( o )
 
 toVad.defaults =
 {
-  restriding : 0, /* xxx : check */
+  restriding : 0,
 }
 
 // --
@@ -2140,7 +2138,8 @@ function NcolOf( src )
 function DimsOf( src )
 {
   if( src instanceof Self )
-  return src.dims.slice(); /* xxx */
+  return src.dims;
+  // return src.dims.slice(); /* yyy */
   if( _.numberIs( src ) )
   return [ 1, 1 ];
   let result = [ 0, 1 ];
@@ -3296,7 +3295,7 @@ let Aggregates =
 
 let Associates =
 {
-  // buffer : null,
+  // buffer : null, /* zzz : move buffer here */
 }
 
 //
@@ -3304,8 +3303,7 @@ let Associates =
 let Restricts =
 {
 
-  // _dimsWas : null,
-  _changing : [ 1 ], // zzz : remove
+  _changing : [ 1 ], /* zzz : remove */
 
 }
 
@@ -3500,7 +3498,7 @@ let Extension =
 
   toStr,
   toLong,
-  toVad,
+  toVad, /* qqq : light coverage is required */
 
   // size in bytes
 

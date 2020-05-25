@@ -533,7 +533,7 @@ function elementsSwap( i1, i2 )
  * @module Tools/math/Matrix
  */
 
-function lineGet( d, index ) /* xxx : should d be switched */
+function lineGet( d, index )
 {
   let self = this;
 

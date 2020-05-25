@@ -457,7 +457,7 @@ function scalarEach( o )
     it.offset = _.dup( self.offset, dims.length );
     let indexLogical = 0;
 
-    self.layerEach( ( it2 ) =>
+    self.layerEach( ( it2 ) => /* qqq3 : implement without layerEach */
     {
 
       for( let i = 2 ; i < dims.length ; i++ )
@@ -978,7 +978,7 @@ function lineEach( dimension, onEach )
       let i = 0;
       it.indexNd[ fromWithout[ i ] ] += 1;
       it.offset[ i ] += stridesWithout[ i ];
-      // while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] ) /* Dmytro : it can leave range of fromWithout */
+      // while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] ) /* Dmytro : it can leave range of fromWithout qqq2 : ? */
       while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] && i < fromWithout.length - 1 )
       {
         i += 1;

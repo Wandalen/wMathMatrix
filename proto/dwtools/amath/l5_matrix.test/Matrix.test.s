@@ -25049,16 +25049,13 @@ function _PermutateLineRookWithOptionX( test )
     nRowPermutations : 0,
     nColPermutations : 0,
   };
-  debugger;
   var got = _.Matrix._PermutateLineRook( o );
-  debugger;
   test.equivalent( got, true );
   test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
   test.identical( o.nColPermutations, 0 );
-  debugger;
 
   o.lineIndex = 1;
 
@@ -26842,10 +26839,8 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
 
   test.case = 'reduceToMaxValueColWise';
 
-  debugger;
   var max = matrix1.reduceToMaxValueColWise();
   test.identical( max, _.vad.from([ 10, 111, 30 ]) );
-  debugger;
   var max = matrix2.reduceToMaxValueColWise();
   test.identical( max, _.vad.from([ 10, 20, 30 ]) );
   var max = empty1.reduceToMaxValueColWise();
@@ -30157,7 +30152,7 @@ function SolveTriangleUpper( test )
 
 //
 
-function SolveTriangleLowerNormalizing( test )
+function SolveTriangleLowerNormalized( test )
 {
 
   /* */
@@ -30172,7 +30167,7 @@ function SolveTriangleLowerNormalizing( test )
 
   var exp = _.Matrix.MakeCol([ 2, -2, 6 ]);
   var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
-  var x = _.Matrix.SolveTriangleLowerNormalizing( null, m, y );
+  var x = _.Matrix.SolveTriangleLowerNormalized( null, m, y );
   test.equivalent( x, exp );
 
   /* */
@@ -30186,7 +30181,7 @@ function SolveTriangleLowerNormalizing( test )
   ]);
   var exp = _.Matrix.MakeCol([ 2, -2, 6 ]);
   var y = _.Matrix.MakeCol([ 2, 2, 4 ]);
-  var x = _.Matrix.SolveTriangleLowerNormalizing( null, m, y );
+  var x = _.Matrix.SolveTriangleLowerNormalized( null, m, y );
   test.equivalent( x, exp );
 
   /* */
@@ -30195,7 +30190,7 @@ function SolveTriangleLowerNormalizing( test )
 
 //
 
-function SolveTriangleUpperNormalizing( test )
+function SolveTriangleUpperNormalized( test )
 {
 
   /* */
@@ -30209,7 +30204,7 @@ function SolveTriangleUpperNormalizing( test )
   ]);
   var exp = _.Matrix.MakeCol([ 6, -2, 2 ]);
   var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
-  var x = _.Matrix.SolveTriangleUpperNormalizing( null, m, y );
+  var x = _.Matrix.SolveTriangleUpperNormalized( null, m, y );
   test.equivalent( x, exp );
 
   /* */
@@ -30223,7 +30218,7 @@ function SolveTriangleUpperNormalizing( test )
   ]);
   var exp = _.Matrix.MakeCol([ 6, -2, 2 ]);
   var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
-  var x = _.Matrix.SolveTriangleUpperNormalizing( null, m, y );
+  var x = _.Matrix.SolveTriangleUpperNormalized( null, m, y );
   test.equivalent( x, exp );
 
   /* */
@@ -30540,12 +30535,12 @@ SolveSimple.accuracy = _.accuracy*1e+1;
 function SolveComplicated( test )
 {
 
-  _SolveComplicated( 'Solve' );
-  _SolveComplicated( 'SolveWithGausianPermutating' );
-  _SolveComplicated( 'SolveWithGaussJordanPermutating' );
-  _SolveComplicated( 'SolveWithTrianglesPermutating' );
+  act( 'Solve' );
+  act( 'SolveWithGausianPermutating' );
+  act( 'SolveWithGaussJordanPermutating' );
+  act( 'SolveWithTrianglesPermutating' );
 
-  function _SolveComplicated( rname )
+  function act( rname )
   {
 
     /* */
@@ -30891,10 +30886,10 @@ function SolveGeneral( test )
         +1, +0, -2, +2,
         +0, +1, +2, +2,
       ]),
-      y : _.Matrix.MakeCol ([ 1, 2, ]),
-      oy : _.Matrix.MakeCol ([ 1, 2, ]),
-      x : _.Matrix.MakeCol ([ -1, +1, +0, +0, ]),
-      ox : _.Matrix.MakeCol ([ -1, +1, +0, +0, ]),
+      y : _.Matrix.MakeCol([ 1, 2, ]),
+      oy : _.Matrix.MakeCol([ 1, 2, ]),
+      x : _.Matrix.MakeCol([ -1, +1, +0, +0, ]),
+      ox : _.Matrix.MakeCol([ -1, +1, +0, +0, ]),
       permutates : null,
       permutating : 0,
       repermutatingSolution : 1,
@@ -30942,10 +30937,10 @@ function SolveGeneral( test )
         1.000, +0.000, +0.250, +0.250,
         0.000, +1.000, +0.250, -0.250,
       ]),
-      y : _.Matrix.MakeCol ([ 1, 2, ]),
-      oy : _.Matrix.MakeCol ([ 1, 2, ]),
-      x : _.Matrix.MakeCol ([ 0, 0, +0.5, 0, ]),
-      ox : _.Matrix.MakeCol ([ 0, 0, +0.5, 0, ]),
+      y : _.Matrix.MakeCol([ 1, 2, ]),
+      oy : _.Matrix.MakeCol([ 1, 2, ]),
+      x : _.Matrix.MakeCol([ 0, 0, +0.5, 0, ]),
+      ox : _.Matrix.MakeCol([ 0, 0, +0.5, 0, ]),
       permutates : [ [ 0, 1 ], [ 3, 2, 1, 0 ] ],
       permutating : 1,
       repermutatingSolution : 1,
@@ -30992,10 +30987,10 @@ function SolveGeneral( test )
         +0, +1, +2, +2,
         +0, +0, +0, +0,
       ]),
-      y : _.Matrix.MakeCol ([ 1, 2, 3, ]),
-      oy : _.Matrix.MakeCol ([ 1, 2, 3 ]),
-      x : _.Matrix.MakeCol ([ -1, +1, +3, +0, ]),
-      ox : _.Matrix.MakeCol ([ -1, +1, +3, +0, ]),
+      y : _.Matrix.MakeCol([ 1, 2, 3, ]),
+      oy : _.Matrix.MakeCol([ 1, 2, 3 ]),
+      x : _.Matrix.MakeCol([ -1, +1, +3, +0, ]),
+      ox : _.Matrix.MakeCol([ -1, +1, +3, +0, ]),
       permutates : null,
       permutating : 0,
       repermutatingSolution : 1,
@@ -32213,8 +32208,6 @@ function compareMatrixAndNot( test )
 function experiment( test )
 {
 
-  // debugger; return;
-
   /* */
 
   test.case = 'basic';
@@ -32478,9 +32471,9 @@ var Self =
   SolveWithTriangles,
 
   SolveTriangleLower,
-  SolveTriangleLowerNormalizing,
+  SolveTriangleLowerNormalized,
   SolveTriangleUpper,
-  SolveTriangleUpperNormalizing,
+  SolveTriangleUpperNormalized,
 
 qqq : don't delete old test routines for those routines
 
@@ -32493,8 +32486,8 @@ qqq : don't delete old test routines for those routines
 
     SolveTriangleLower,
     SolveTriangleUpper,
-    SolveTriangleLowerNormalizing,
-    SolveTriangleUpperNormalizing,
+    SolveTriangleLowerNormalized,
+    SolveTriangleUpperNormalized,
     SolveWithTriangles,
 
     SolveSimple,
