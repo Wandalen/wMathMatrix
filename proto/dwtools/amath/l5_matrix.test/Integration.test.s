@@ -22,16 +22,6 @@ let fileProvider = _testerGlobal_.wTools.fileProvider;
 let path = fileProvider.path;
 
 // --
-// context
-//
-
-function onSuiteBegin()
-{
-  let context = this;
-  context.sampleDir = path.join( __dirname, '../../../../sample' );
-}
-
-// --
 // test
 // --
 
@@ -40,9 +30,11 @@ function sample( test )
   let context = this;
   let ready = new _.Consequence().take( null );
   
+  let sampleDir = path.join( __dirname, '../../../../sample' );
+  
   let appStartNonThrowing = _.process.starter
   ({  
-    currentPath : context.sampleDir,
+    currentPath : sampleDir,
     outputCollecting : 1,
     outputGraying : 1,
     throwingExitCode : 0,
@@ -52,7 +44,7 @@ function sample( test )
   
   let found = fileProvider.filesFind
   ({
-    filePath : path.join( context.sampleDir, '**/*.(s|js)' ),
+    filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
     withStem : 0,
     withDirs : 0,
     mode : 'distinct',
@@ -114,6 +106,59 @@ function sample( test )
 
 sample.timeOut = 60000;
 
+//
+
+function eslint( test )
+{
+  let rootPath = path.join( __dirname, '../../../..' );
+  let eslint = path.join( rootPath, 'node_modules/.bin/eslint' );
+  
+  let ready = new _.Consequence().take( null );
+  
+  let start = _.process.starter
+  ({ 
+    execPath : eslint, 
+    mode : 'fork', 
+    currentPath : rootPath, 
+    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '**/*.test/**' ],
+    throwingExitCode : 0,
+    ready
+  })
+  
+  //
+  
+  ready.then( () => 
+  {
+    test.case = 'eslint proto';
+    return null;
+  })
+  start( 'proto/**' )
+  .then( ( got ) => 
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+  
+  //
+  
+  ready.then( () => 
+  {
+    test.case = 'eslint samples';
+    return null;
+  })
+  start( 'sample/**' )
+  .then( ( got ) => 
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+  
+  return ready;
+}
+
+eslint.timeOut = 120000;
+
+
 // --
 // declare
 // --
@@ -125,16 +170,10 @@ var Self =
   silencing : 1,
   enabled : 1,
 
-  onSuiteBegin,
-
-  context :
-  {
-    sampleDir : null
-  },
-
   tests :
   {
     sample,
+    eslint
   },
 
 }

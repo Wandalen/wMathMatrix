@@ -30,6 +30,6 @@
     "wmathvector" : "",
     "wentitybasic" : ""
   },
-  "devDependencies" : { "wTesting" : "", "wmathmatrix" : "file:." },
+  "devDependencies" : { "wTesting" : "", "wmathmatrix" : "file:.", "eslint": "" },
   "keywords" : [ "wTools", "math", "matrix", "matrix math", "convolution" ]
 }
