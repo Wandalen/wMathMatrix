@@ -11,9 +11,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wTesting' );
   _.include( 'wFiles' );
-  _.include( 'wappbasic' );
-
-  require( '../l5_matrix/module/full/Include.s' );
+  _.include( 'wAppBasic' );
 
 }
 
@@ -30,23 +28,7 @@ let path = fileProvider.path;
 function onSuiteBegin()
 {
   let context = this;
-  context.assetsOriginalSuitePath = path.join( __dirname, '../../../../sample' );
-}
-
-//
-
-function onSuiteEnd()
-{
-  let context = this;
-}
-
-//
-
-function assetFor( test )
-{
-  let context = this;
-  let a = { originalAssetPath : false, routinePath : context.assetsOriginalSuitePath };
-  return test.assetFor( a );
+  context.sampleDir = path.join( __dirname, '../../../../sample' );
 }
 
 // --
@@ -56,11 +38,23 @@ function assetFor( test )
 function sample( test )
 {
   let context = this;
-  let a = context.assetFor( test );
-  let filter = { filePath : a.abs( './**/*.(s|js)' ), basePath : a.abs( '.' ) };
-  let found = a.fileProvider.filesFind
+  let ready = new _.Consequence().take( null );
+  
+  let appStartNonThrowing = _.process.starter
+  ({  
+    currentPath : context.sampleDir,
+    outputCollecting : 1,
+    outputGraying : 1,
+    throwingExitCode : 0,
+    ready : ready,
+    mode : 'fork'
+  })
+  
+  let found = fileProvider.filesFind
   ({
-    filter,
+    filePath : path.join( context.sampleDir, '**/*.(s|js)' ),
+    withStem : 0,
+    withDirs : 0,
     mode : 'distinct',
     mandatory : 0,
   });
@@ -74,7 +68,7 @@ function sample( test )
     if( _.longHas( found[ i ].exts, 'browser' ) )
     continue;
 
-    a.ready
+    ready
     .then( () =>
     {
       test.case = found[ i ].relative;
@@ -84,7 +78,7 @@ function sample( test )
 
     if( _.longHas( found[ i ].exts, 'throwing' ) )
     {
-      a.appStartNonThrowing({ execPath : found[ i ].relative })
+      appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( got ) =>
       {
         console.log( _.time.spent( startTime ) );
@@ -95,7 +89,7 @@ function sample( test )
     }
     else
     {
-      a.appStartNonThrowing({ execPath : found[ i ].relative })
+      appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( got ) =>
       {
         console.log( _.time.spent( startTime ) );
@@ -115,7 +109,7 @@ function sample( test )
 
   /* */
 
-  return a.ready;
+  return ready;
 }
 
 sample.timeOut = 60000;
@@ -132,14 +126,10 @@ var Self =
   enabled : 1,
 
   onSuiteBegin,
-  onSuiteEnd,
 
   context :
   {
-    assetFor,
-    suiteTempPath : null,
-    assetsOriginalSuitePath : null,
-    appJsPath : null,
+    sampleDir : null
   },
 
   tests :
