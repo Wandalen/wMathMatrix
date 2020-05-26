@@ -9,9 +9,7 @@ if( typeof module !== 'undefined' )
 {
 
   let _ = require( '../../../dwtools/Tools.s' );
-
   _.include( 'wTesting' );
-
   require( '../l5_matrix/module/full/Include.s' );
 
 }

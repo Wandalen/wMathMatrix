@@ -6,13 +6,8 @@
 
 if( typeof module !== 'undefined' )
 {
-
-  let _ = require( 'wTools' );
-
+  let _ = require( '../../../dwtools/Tools.s' );
   _.include( 'wTesting' );
-  _.include( 'wFiles' );
-  _.include( 'wAppBasic' );
-
 }
 
 //
@@ -20,6 +15,8 @@ if( typeof module !== 'undefined' )
 let _ = _global_.wTools;
 let fileProvider = _testerGlobal_.wTools.fileProvider;
 let path = fileProvider.path;
+let Consequence = _testerGlobal_.wTools.Consequence;
+let process = _testerGlobal_.wTools.process
 
 // --
 // test
@@ -28,12 +25,11 @@ let path = fileProvider.path;
 function samples( test )
 {
   let context = this;
-  let ready = new _.Consequence().take( null );
-  
+  let ready = new Consequence().take( null );
   let sampleDir = path.join( __dirname, '../../../../sample' );
-  
-  let appStartNonThrowing = _.process.starter
-  ({  
+
+  let appStartNonThrowing = process.starter
+  ({
     currentPath : sampleDir,
     outputCollecting : 1,
     outputGraying : 1,
@@ -41,7 +37,7 @@ function samples( test )
     ready : ready,
     mode : 'fork'
   })
-  
+
   let found = fileProvider.filesFind
   ({
     filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
@@ -54,6 +50,9 @@ function samples( test )
   /* */
 
   let startTime;
+
+  if( !fileProvider.fileExists( sampleDir ) )
+  return test.is( true );
 
   for( let i = 0 ; i < found.length ; i++ )
   {
@@ -113,46 +112,47 @@ function eslint( test )
   let rootPath = path.join( __dirname, '../../../..' );
   let eslint = path.join( rootPath, 'node_modules/.bin/eslint' );
   let sampleDir = path.join( rootPath, 'sample' );
-  
-  let ready = new _.Consequence().take( null );
-  
-  let start = _.process.starter
-  ({ 
-    execPath : eslint, 
-    mode : 'fork', 
+  let ready = new Consequence().take( null );
+
+  let start = process.starter
+  ({
+    execPath : eslint,
+    mode : 'fork',
     currentPath : rootPath,
     stdio : 'ignore',
     args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss' ],
     throwingExitCode : 0
   })
-  
-  //
-  
-  ready.then( () => 
+
+  if( !fileProvider.fileExists( sampleDir ) )
+  return test.is( true );
+
+  /* */
+
+  ready.then( () =>
   {
     test.case = 'eslint proto';
     return start( 'proto/**' );
   })
-  .then( ( got ) => 
+  .then( ( got ) =>
   {
     test.identical( got.exitCode, 0 );
     return null;
   })
-  
-  //
-  
-  if( fileProvider.fileExists( sampleDir ) )
-  ready.then( () => 
+
+  /* */
+
+  ready.then( () =>
   {
     test.case = 'eslint samples';
     return start( 'sample/**' )
-    .then( ( got ) => 
+    .then( ( got ) =>
     {
       test.identical( got.exitCode, 0 );
       return null;
     })
   })
-  
+
   return ready;
 }
 
@@ -185,4 +185,3 @@ if( typeof module !== 'undefined' && !module.parent )
 _global_.wTester.test( Self.name );
 
 })();
-
