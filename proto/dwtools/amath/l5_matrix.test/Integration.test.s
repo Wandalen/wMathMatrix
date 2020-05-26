@@ -103,8 +103,6 @@ function samples( test )
   return ready;
 }
 
-samples.timeOut = 60000;
-
 //
 
 function eslint( test )
@@ -156,8 +154,7 @@ function eslint( test )
   return ready;
 }
 
-eslint.timeOut = 120000;
-
+eslint.experimental = 1;
 
 // --
 // declare
@@ -169,11 +166,12 @@ var Self =
   name : 'Tools.Math.Integration',
   silencing : 1,
   enabled : 1,
+  routineTimeOut : 300000,
 
   tests :
   {
     samples,
-    eslint
+    eslint /* qqq : switch on, please */
   },
 
 }
