@@ -1034,7 +1034,7 @@ function ConvertToClass( cls, src )
       result = new cls( scalarsPerMatrix );
       array = result;
     }
-    else if( _.constructorIsVector( cls ) )
+    else if( _.constructorIsVad( cls ) )
     {
       array = new src.buffer.constructor( scalarsPerMatrix );
       result = proto.vectorAdapter.fromLong( array );
@@ -1072,7 +1072,7 @@ function ConvertToClass( cls, src )
       for( let i = 0 ; i < src.length ; i += 1 )
       result[ i ] = src.eGet( i );
     }
-    else if( _.constructorIsVector( cls ) )
+    else if( _.constructorIsVad( cls ) )
     {
       let array = new src._vectorBuffer.constructor( scalarsPerMatrix );
       result = proto.vectorAdapter.fromLong( array );

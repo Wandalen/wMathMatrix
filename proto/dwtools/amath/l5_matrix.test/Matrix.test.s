@@ -73,12 +73,134 @@ function matrixIs( test )
 
   /* */
 
+  test.case = 'without argument';
+  var got = _.matrixIs();
+  test.identical( got, false );
+
+  test.case = 'check null';
+  var got = _.matrixIs( null );
+  test.identical( got, false );
+
+  test.case = 'check undefined';
+  var got = _.matrixIs( undefined );
+  test.identical( got, false );
+
+  test.case = 'check _.nothing';
+  var got = _.matrixIs( _.nothing );
+  test.identical( got, false );
+
+  test.case = 'check zero';
+  var got = _.matrixIs( 0 );
+  test.identical( got, false );
+
+  test.case = 'check empty string';
+  var got = _.matrixIs( '' );
+  test.identical( got, false );
+
+  test.case = 'check false';
+  var got = _.matrixIs( false );
+  test.identical( got, false );
+
+  test.case = 'check NaN';
+  var got = _.matrixIs( NaN );
+  test.identical( got, false );
+
+  test.case = 'check Symbol';
+  var got = _.matrixIs( Symbol() );
+  test.identical( got, false );
+
+  test.case = 'check empty array';
+  var got = _.matrixIs( [] );
+  test.identical( got, false );
+
+  test.case = 'check empty arguments array';
+  var got = _.matrixIs( _.argumentsArrayMake( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty unroll';
+  var got = _.matrixIs( _.unrollMake( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty map';
+  var got = _.matrixIs( {} );
+  test.identical( got, false );
+
+  test.case = 'check empty pure map';
+  var got = _.matrixIs( Object.create( null ) );
+  test.identical( got, false );
+
+  test.case = 'check empty Set';
+  var got = _.matrixIs( new Set( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty Map';
+  var got = _.matrixIs( new Map( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty BufferRaw';
+  var got = _.matrixIs( new BufferRaw() );
+  test.identical( got, false );
+
+  test.case = 'check empty BufferTyped';
+  var got = _.matrixIs( new U8x() );
+  test.identical( got, false );
+
+  test.case = 'check number';
+  var got = _.matrixIs( 3 );
+  test.identical( got, false );
+
+  test.case = 'check bigInt';
+  var got = _.matrixIs( 1n );
+  test.identical( got, false );
+
+  test.case = 'check object Number';
+  var got = _.matrixIs( new Number( 2 ) );
+  test.identical( got, false );
+
+  test.case = 'check string';
+  var got = _.matrixIs( 'str' );
+  test.identical( got, false );
+
+  test.case = 'check not empty array';
+  var got = _.matrixIs( [ null ] );
+  test.identical( got, false );
+
+  test.case = 'check not empty map';
+  var got = _.matrixIs( { '' : null } );
+  test.identical( got, false );
+
+  test.case = 'check not empty map';
+  var src = Object.create( null );
+  var got = _.matrixIs( src );
+  test.identical( got, false );
+
+  test.case = 'check not empty map';
+  var src = Object.create( null );
+  src.some = false;
+  var got = _.matrixIs( src );
+  test.identical( got, false );
+
+  test.case = 'check instance of constructor with not own property "constructor"';
+  var Constr = function()
+  {
+    this.x = 1;
+    return this;
+  };
+  var src = new Constr();
+  var got = _.matrixIs( src );
+  test.identical( got, false );
+
+  /* */
+
 }
 
 //
 
 function constructorIsMatrix( test )
 {
+
+  /* */
+
   test.case = 'instance of _.Matrix';
   var src = new _.Matrix
   ({
@@ -95,6 +217,127 @@ function constructorIsMatrix( test )
   test.case = '_.Matrix';
   var got = _.constructorIsMatrix( _.Matrix );
   test.identical( got, true );
+
+  /* */
+  test.case = 'without argument';
+  var got = _.constructorIsMatrix();
+  test.identical( got, false );
+
+  test.case = 'check null';
+  var got = _.constructorIsMatrix( null );
+  test.identical( got, false );
+
+  test.case = 'check undefined';
+  var got = _.constructorIsMatrix( undefined );
+  test.identical( got, false );
+
+  test.case = 'check _.nothing';
+  var got = _.constructorIsMatrix( _.nothing );
+  test.identical( got, false );
+
+  test.case = 'check zero';
+  var got = _.constructorIsMatrix( 0 );
+  test.identical( got, false );
+
+  test.case = 'check empty string';
+  var got = _.constructorIsMatrix( '' );
+  test.identical( got, false );
+
+  test.case = 'check false';
+  var got = _.constructorIsMatrix( false );
+  test.identical( got, false );
+
+  test.case = 'check NaN';
+  var got = _.constructorIsMatrix( NaN );
+  test.identical( got, false );
+
+  test.case = 'check Symbol';
+  var got = _.constructorIsMatrix( Symbol() );
+  test.identical( got, false );
+
+  test.case = 'check empty array';
+  var got = _.constructorIsMatrix( [] );
+  test.identical( got, false );
+
+  test.case = 'check empty arguments array';
+  var got = _.constructorIsMatrix( _.argumentsArrayMake( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty unroll';
+  var got = _.constructorIsMatrix( _.unrollMake( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty map';
+  var got = _.constructorIsMatrix( {} );
+  test.identical( got, false );
+
+  test.case = 'check empty pure map';
+  var got = _.constructorIsMatrix( Object.create( null ) );
+  test.identical( got, false );
+
+  test.case = 'check empty Set';
+  var got = _.constructorIsMatrix( new Set( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty Map';
+  var got = _.constructorIsMatrix( new Map( [] ) );
+  test.identical( got, false );
+
+  test.case = 'check empty BufferRaw';
+  var got = _.constructorIsMatrix( new BufferRaw() );
+  test.identical( got, false );
+
+  test.case = 'check empty BufferTyped';
+  var got = _.constructorIsMatrix( new U8x() );
+  test.identical( got, false );
+
+  test.case = 'check number';
+  var got = _.constructorIsMatrix( 3 );
+  test.identical( got, false );
+
+  test.case = 'check bigInt';
+  var got = _.constructorIsMatrix( 1n );
+  test.identical( got, false );
+
+  test.case = 'check object Number';
+  var got = _.constructorIsMatrix( new Number( 2 ) );
+  test.identical( got, false );
+
+  test.case = 'check string';
+  var got = _.constructorIsMatrix( 'str' );
+  test.identical( got, false );
+
+  test.case = 'check not empty array';
+  var got = _.constructorIsMatrix( [ null ] );
+  test.identical( got, false );
+
+  test.case = 'check not empty map';
+  var got = _.constructorIsMatrix( { '' : null } );
+  test.identical( got, false );
+
+  test.case = 'check not empty map';
+  var src = Object.create( null );
+  var got = _.constructorIsMatrix( src );
+  test.identical( got, false );
+
+  test.case = 'check not empty map';
+  var src = Object.create( null );
+  src.some = false;
+  var got = _.constructorIsMatrix( src );
+  test.identical( got, false );
+
+  test.case = 'check instance of constructor with not own property "constructor"';
+  var Constr = function()
+  {
+    this.x = 1;
+    return this;
+  };
+  var src = new Constr();
+  var got = _.constructorIsMatrix( src );
+  test.identical( got, false );
+
+  /* */
+
 }
 
 //
@@ -26440,469 +26683,6 @@ function subspace( test )
 // operation
 // --
 
-function reduceToMeanRowWise( test )
-{
-
-  /* */
-
-  test.case = 'no dst';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-  var got = m1.reduceToMeanRowWise();
-  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-
-  /* */
-
-  test.case = 'dst';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-  var dst = [ 1, 1, 1 ];
-  var got = m1.reduceToMeanRowWise( dst );
-  test.identical( dst, [ 2.5, 3.5, 4.5 ] );
-  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-  test.is( got._vectorBuffer === dst );
-
-  /* */
-
-  test.case = 'control mulRowWise';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-  var x = [ 1, 3 ];
-  m1.mulRowWise( x );
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  12,
-     2,  15,
-     3,  18,
-  ]);
-  test.identical( m1, exp );
-
-  /* */
-
-  test.case = 'control distributionRangeSummaryValueRowWise';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-
-  var exp =
-  [
-    [ 1, 4 ],
-    [ 2, 5 ],
-    [ 3, 6 ],
-  ]
-  var got = m1.distributionRangeSummaryValueRowWise();
-  test.identical( got, exp );
-
-  /* */
-
-}
-
-//
-
-function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
-{
-
-  /* */
-
-  test.case = 'data';
-
-  var buffer = new I32x
-  ([
-    1, 2, 3, 4, 5, 6
-  ]);
-
-  var m32 = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 2 ],
-    inputRowMajor : 0,
-  });
-
-  var empty1 = _.Matrix.Make([ 2, 0 ]);
-  empty1.buffer = new F64x();
-  test.identical( empty1.dims, [ 2, 0 ] );
-  test.identical( empty1.stridesEffective, [ 1, 2 ] );
-
-  var empty2 = _.Matrix.Make([ 0, 2 ]);
-  test.identical( empty2.dims, [ 0, 2 ] );
-  test.identical( empty2.stridesEffective, [ 1, 0 ] );
-  empty2.buffer = new F64x();
-  test.identical( empty2.dims, [ 0, 2 ] );
-  test.identical( empty2.stridesEffective, [ 1, 0 ] );
-
-  var matrix1 = new _.Matrix
-  ({
-    dims : [ 4, 3 ],
-    inputRowMajor : 1,
-    buffer : new F64x
-    ([
-      0, 0, 0,
-      1, 2, 3,
-      10, 20, 30,
-      1, 111, 11,
-    ]),
-  });
-
-  var matrix2 = new _.Matrix
-  ({
-    dims : [ 4, 3 ],
-    inputRowMajor : 1,
-    buffer : new F64x
-    ([
-      10, 0, 3,
-      1, 20, 0,
-      0, 2, 30,
-      5, 10, 20,
-    ]),
-  });
-
-  matrix2.bufferNormalize();
-
-  /* */
-
-  test.case = 'reduceToMean';
-
-  var c = m32.reduceToMeanRowWise();
-  var r = m32.reduceToMeanColWise();
-  var a = m32.reduceToMeanScalarWise();
-
-  test.identical( c, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-  test.identical( r, _.vad.from([ 2, 5 ]) );
-  test.identical( a, 3.5 );
-
-  /* */
-
-  test.case = 'reduceToMean with output argument';
-
-  var c2 = [ 1, 1, 1 ];
-  var r2 = [ 1 ];
-  m32.reduceToMeanRowWise( c2 );
-  m32.reduceToMeanColWise( r2 );
-
-  test.identical( c, _.vad.from( c2 ) );
-  test.identical( r, _.vad.from( r2 ) );
-
-  /* */
-
-  test.case = 'reduceToMean with empty matrixs';
-
-  var c = empty1.reduceToMeanRowWise();
-  var r = empty1.reduceToMeanColWise();
-  var a = empty1.reduceToMeanScalarWise();
-
-  test.identical( c, _.vad.from([ NaN, NaN ]) );
-  test.identical( r, _.vad.from([]) );
-  test.identical( a, NaN );
-
-  /* */
-
-  test.case = 'reduceToMean bad arguments';
-
-  function simpleShouldThrowError( f )
-  {
-    test.shouldThrowErrorSync( () => m[ f ]( 1 ) );
-    test.shouldThrowErrorSync( () => m[ f ]( null ) );
-    test.shouldThrowErrorSync( () => m[ f ]( 'x' ) );
-    test.shouldThrowErrorSync( () => m[ f ]( [], 1 ) );
-    test.shouldThrowErrorSync( () => m[ f ]( [], [] ) );
-    test.shouldThrowErrorSync( () => m[ f ]( matrix1.clone() ) );
-  }
-
-  if( Config.debug )
-  {
-
-    simpleShouldThrowError( 'reduceToMeanRowWise' );
-    simpleShouldThrowError( 'reduceToMeanColWise' );
-    simpleShouldThrowError( 'reduceToMeanScalarWise' );
-
-  }
-
-  /* */
-
-  test.case = 'distributionRangeSummaryColWise';
-
-  var exp =
-  [
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 10, index : 2 },
-    },
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 111, index : 3 },
-    },
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 30, index : 2 },
-    },
-  ]
-
-  var r = matrix1.distributionRangeSummaryColWise();
-  test.contains( r, exp );
-
-  var exp =
-  [
-  ]
-
-  var r = empty1.distributionRangeSummaryColWise();
-  test.identical( r, exp );
-
-  var exp =
-  [
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-  ]
-
-  var r = empty2.distributionRangeSummaryColWise();
-  test.identical( r, exp );
-
-  /* */
-
-  test.case = 'minmaxColWise';
-
-  var exp =
-  {
-    min : new F64x([ 0, 0, 0 ]),
-    max : new F64x([ 10, 111, 30 ]),
-  }
-  var r = matrix1.minmaxColWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([]),
-    max : new F64x([]),
-  }
-
-  var r = empty1.minmaxColWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([ NaN, NaN ]),
-    max : new F64x([ NaN, NaN ]),
-  }
-
-  var r = empty2.minmaxColWise();
-  var identical = _.entityIdentical( r, exp );
-  test.identical( r, exp );
-
-  /* */
-
-  test.case = 'distributionRangeSummaryRowWise';
-
-  var exp =
-  [
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 0, index : 0 },
-    },
-    {
-      min : { value : 1, index : 0 },
-      max : { value : 3, index : 2 },
-    },
-    {
-      min : { value : 10, index : 0 },
-      max : { value : 30, index : 2 },
-    },
-    {
-      min : { value : 1, index : 0 },
-      max : { value : 111, index : 1 },
-    },
-  ]
-
-  var r = matrix1.distributionRangeSummaryRowWise();
-  test.contains( r, exp );
-
-  var exp =
-  [
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-  ]
-
-  var r = empty1.distributionRangeSummaryRowWise();
-  test.identical( r, exp );
-
-  var exp =
-  [
-  ]
-
-  var r = empty2.distributionRangeSummaryRowWise();
-  test.identical( r, exp );
-
-  /* */
-
-  test.case = 'minmaxRowWise';
-
-  var exp =
-  {
-    min : new F64x([ 0, 1, 10, 1 ]),
-    max : new F64x([ 0, 3, 30, 111 ]),
-  }
-  var r = matrix1.minmaxRowWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([ NaN, NaN ]),
-    max : new F64x([ NaN, NaN ]),
-  }
-
-  var r = empty1.minmaxRowWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([]),
-    max : new F64x([]),
-  }
-
-  var r = empty2.minmaxRowWise();
-  test.identical( r, exp );
-
-  /* */
-
-  test.case = 'reduceToSumColWise';
-
-  var sum = matrix1.reduceToSumColWise();
-  test.identical( sum, _.vad.from([ 12, 133, 44 ]) );
-  var sum = matrix2.reduceToSumColWise();
-  test.identical( sum, _.vad.from([ 16, 32, 53 ]) );
-  var sum = empty1.reduceToSumColWise();
-  test.identical( sum, _.vad.from([]) );
-  var sum = empty2.reduceToSumColWise();
-  test.identical( sum, _.vad.from([ 0, 0 ]) );
-
-  /* */
-
-  test.case = 'reduceToSumRowWise';
-
-  var sum = matrix1.reduceToSumRowWise();
-  test.identical( sum, _.vad.from([ 0, 6, 60, 123 ]) );
-  var sum = matrix2.reduceToSumRowWise();
-  test.identical( sum, _.vad.from([ 13, 21, 32, 35 ]) );
-  var sum = empty1.reduceToSumRowWise();
-  test.identical( sum, _.vad.from([ 0, 0 ]) );
-  var sum = empty2.reduceToSumRowWise();
-  test.identical( sum, _.vad.from([]) );
-
-  /* */
-
-  test.case = 'reduceToMaxColWise';
-
-  var max = matrix1.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 10, 111, 30 ] );
-  var max = matrix2.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 10, 20, 30 ] );
-
-  var max = empty1.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [] );
-  var max = empty2.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ -Infinity, -Infinity ] );
-
-  /* */
-
-  test.case = 'reduceToMaxValueColWise';
-
-  var max = matrix1.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([ 10, 111, 30 ]) );
-  var max = matrix2.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([ 10, 20, 30 ]) );
-  var max = empty1.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([]) );
-  var max = empty2.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
-
-  /* */
-
-  test.case = 'reduceToMaxRowWise';
-
-  var max = matrix1.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 0, 3, 30, 111 ] );
-  var max = matrix2.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 10, 20, 30, 20 ] );
-
-  var max = empty1.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ -Infinity, -Infinity ] );
-  var max = empty2.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [] );
-
-  /* */
-
-  test.case = 'reduceToMaxValueRowWise';
-
-  var max = matrix1.reduceToMaxValueRowWise();
-  test.identical( max, _.vad.from([ 0, 3, 30, 111 ]) );
-  var max = matrix2.reduceToMaxValueRowWise();
-  test.identical( max, _.vad.from([ 10, 20, 30, 20 ]) );
-  var max = empty1.reduceToMaxValueRowWise();
-  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
-  var max = empty2.reduceToMaxValueRowWise();
-  test.identical( max, _.vad.from([]) );
-
-/*
-  var matrix1 = _.Matrix.Make([ 4, 3 ])
-  .copy
-  ( new F64x([
-    0, 0, 0,
-    1, 2, 3,
-    10, 20, 30,
-    1, 111, 11,
-  ]));
-
-  var matrix2 = _.Matrix.Make([ 4, 3 ])
-  .copy
-  ( new F64x([
-    10, 0, 3,
-    1, 20, 0,
-    0, 2, 30,
-    5, 10, 20,
-  ]));
-*/
-
-}
-
-//
-
 function mul( test )
 {
   /* data */
@@ -28200,6 +27980,467 @@ function subScalarWise( test )
 
 }
 
+function reduceToMeanRowWise( test )
+{
+
+  /* */
+
+  test.case = 'no dst';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var got = m1.reduceToMeanRowWise();
+  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+
+  /* */
+
+  test.case = 'dst';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var dst = [ 1, 1, 1 ];
+  var got = m1.reduceToMeanRowWise( dst );
+  test.identical( dst, [ 2.5, 3.5, 4.5 ] );
+  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.is( got._vectorBuffer === dst );
+
+  /* */
+
+  test.case = 'control mulRowWise';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var x = [ 1, 3 ];
+  m1.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  12,
+     2,  15,
+     3,  18,
+  ]);
+  test.identical( m1, exp );
+
+  /* */
+
+  test.case = 'control distributionRangeSummaryValueRowWise';
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+
+  var exp =
+  [
+    [ 1, 4 ],
+    [ 2, 5 ],
+    [ 3, 6 ],
+  ]
+  var got = m1.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  /* */
+
+}
+
+//
+
+function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
+{
+
+  /* */
+
+  test.case = 'data';
+
+  var buffer = new I32x
+  ([
+    1, 2, 3, 4, 5, 6
+  ]);
+
+  var m32 = new _.Matrix
+  ({
+    buffer,
+    dims : [ 3, 2 ],
+    inputRowMajor : 0,
+  });
+
+  var empty1 = _.Matrix.Make([ 2, 0 ]);
+  empty1.buffer = new F64x();
+  test.identical( empty1.dims, [ 2, 0 ] );
+  test.identical( empty1.stridesEffective, [ 1, 2 ] );
+
+  var empty2 = _.Matrix.Make([ 0, 2 ]);
+  test.identical( empty2.dims, [ 0, 2 ] );
+  test.identical( empty2.stridesEffective, [ 1, 0 ] );
+  empty2.buffer = new F64x();
+  test.identical( empty2.dims, [ 0, 2 ] );
+  test.identical( empty2.stridesEffective, [ 1, 0 ] );
+
+  var matrix1 = new _.Matrix
+  ({
+    dims : [ 4, 3 ],
+    inputRowMajor : 1,
+    buffer : new F64x
+    ([
+      0, 0, 0,
+      1, 2, 3,
+      10, 20, 30,
+      1, 111, 11,
+    ]),
+  });
+
+  var matrix2 = new _.Matrix
+  ({
+    dims : [ 4, 3 ],
+    inputRowMajor : 1,
+    buffer : new F64x
+    ([
+      10, 0, 3,
+      1, 20, 0,
+      0, 2, 30,
+      5, 10, 20,
+    ]),
+  });
+
+  matrix2.bufferNormalize();
+
+  /* */
+
+  test.case = 'reduceToMean';
+
+  var c = m32.reduceToMeanRowWise();
+  var r = m32.reduceToMeanColWise();
+  var a = m32.reduceToMeanScalarWise();
+
+  test.identical( c, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.identical( r, _.vad.from([ 2, 5 ]) );
+  test.identical( a, 3.5 );
+
+  /* */
+
+  test.case = 'reduceToMean with output argument';
+
+  var c2 = [ 1, 1, 1 ];
+  var r2 = [ 1 ];
+  m32.reduceToMeanRowWise( c2 );
+  m32.reduceToMeanColWise( r2 );
+
+  test.identical( c, _.vad.from( c2 ) );
+  test.identical( r, _.vad.from( r2 ) );
+
+  /* */
+
+  test.case = 'reduceToMean with empty matrixs';
+
+  var c = empty1.reduceToMeanRowWise();
+  var r = empty1.reduceToMeanColWise();
+  var a = empty1.reduceToMeanScalarWise();
+
+  test.identical( c, _.vad.from([ NaN, NaN ]) );
+  test.identical( r, _.vad.from([]) );
+  test.identical( a, NaN );
+
+  /* */
+
+  test.case = 'reduceToMean bad arguments';
+
+  function simpleShouldThrowError( f )
+  {
+    test.shouldThrowErrorSync( () => m[ f ]( 1 ) );
+    test.shouldThrowErrorSync( () => m[ f ]( null ) );
+    test.shouldThrowErrorSync( () => m[ f ]( 'x' ) );
+    test.shouldThrowErrorSync( () => m[ f ]( [], 1 ) );
+    test.shouldThrowErrorSync( () => m[ f ]( [], [] ) );
+    test.shouldThrowErrorSync( () => m[ f ]( matrix1.clone() ) );
+  }
+
+  if( Config.debug )
+  {
+
+    simpleShouldThrowError( 'reduceToMeanRowWise' );
+    simpleShouldThrowError( 'reduceToMeanColWise' );
+    simpleShouldThrowError( 'reduceToMeanScalarWise' );
+
+  }
+
+  /* */
+
+  test.case = 'distributionRangeSummaryColWise';
+
+  var exp =
+  [
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 10, index : 2 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 111, index : 3 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 30, index : 2 },
+    },
+  ]
+
+  var r = matrix1.distributionRangeSummaryColWise();
+  test.contains( r, exp );
+
+  var exp =
+  [
+  ]
+
+  var r = empty1.distributionRangeSummaryColWise();
+  test.identical( r, exp );
+
+  var exp =
+  [
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+  ]
+
+  var r = empty2.distributionRangeSummaryColWise();
+  test.identical( r, exp );
+
+  /* */
+
+  test.case = 'minmaxColWise';
+
+  var exp =
+  {
+    min : new F64x([ 0, 0, 0 ]),
+    max : new F64x([ 10, 111, 30 ]),
+  }
+  var r = matrix1.minmaxColWise();
+  test.identical( r, exp );
+
+  var exp =
+  {
+    min : new F64x([]),
+    max : new F64x([]),
+  }
+
+  var r = empty1.minmaxColWise();
+  test.identical( r, exp );
+
+  var exp =
+  {
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
+  }
+
+  var r = empty2.minmaxColWise();
+  var identical = _.entityIdentical( r, exp );
+  test.identical( r, exp );
+
+  /* */
+
+  test.case = 'distributionRangeSummaryRowWise';
+
+  var exp =
+  [
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 0, index : 0 },
+    },
+    {
+      min : { value : 1, index : 0 },
+      max : { value : 3, index : 2 },
+    },
+    {
+      min : { value : 10, index : 0 },
+      max : { value : 30, index : 2 },
+    },
+    {
+      min : { value : 1, index : 0 },
+      max : { value : 111, index : 1 },
+    },
+  ]
+
+  var r = matrix1.distributionRangeSummaryRowWise();
+  test.contains( r, exp );
+
+  var exp =
+  [
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+  ]
+
+  var r = empty1.distributionRangeSummaryRowWise();
+  test.identical( r, exp );
+
+  var exp =
+  [
+  ]
+
+  var r = empty2.distributionRangeSummaryRowWise();
+  test.identical( r, exp );
+
+  /* */
+
+  test.case = 'minmaxRowWise';
+
+  var exp =
+  {
+    min : new F64x([ 0, 1, 10, 1 ]),
+    max : new F64x([ 0, 3, 30, 111 ]),
+  }
+  var r = matrix1.minmaxRowWise();
+  test.identical( r, exp );
+
+  var exp =
+  {
+    min : new F64x([ NaN, NaN ]),
+    max : new F64x([ NaN, NaN ]),
+  }
+
+  var r = empty1.minmaxRowWise();
+  test.identical( r, exp );
+
+  var exp =
+  {
+    min : new F64x([]),
+    max : new F64x([]),
+  }
+
+  var r = empty2.minmaxRowWise();
+  test.identical( r, exp );
+
+  /* */
+
+  test.case = 'reduceToSumColWise';
+
+  var sum = matrix1.reduceToSumColWise();
+  test.identical( sum, _.vad.from([ 12, 133, 44 ]) );
+  var sum = matrix2.reduceToSumColWise();
+  test.identical( sum, _.vad.from([ 16, 32, 53 ]) );
+  var sum = empty1.reduceToSumColWise();
+  test.identical( sum, _.vad.from([]) );
+  var sum = empty2.reduceToSumColWise();
+  test.identical( sum, _.vad.from([ 0, 0 ]) );
+
+  /* */
+
+  test.case = 'reduceToSumRowWise';
+
+  var sum = matrix1.reduceToSumRowWise();
+  test.identical( sum, _.vad.from([ 0, 6, 60, 123 ]) );
+  var sum = matrix2.reduceToSumRowWise();
+  test.identical( sum, _.vad.from([ 13, 21, 32, 35 ]) );
+  var sum = empty1.reduceToSumRowWise();
+  test.identical( sum, _.vad.from([ 0, 0 ]) );
+  var sum = empty2.reduceToSumRowWise();
+  test.identical( sum, _.vad.from([]) );
+
+  /* */
+
+  test.case = 'reduceToMaxColWise';
+
+  var max = matrix1.reduceToMaxColWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [ 10, 111, 30 ] );
+  var max = matrix2.reduceToMaxColWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [ 10, 20, 30 ] );
+
+  var max = empty1.reduceToMaxColWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [] );
+  var max = empty2.reduceToMaxColWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [ -Infinity, -Infinity ] );
+
+  /* */
+
+  test.case = 'reduceToMaxValueColWise';
+
+  var max = matrix1.reduceToMaxValueColWise();
+  test.identical( max, _.vad.from([ 10, 111, 30 ]) );
+  var max = matrix2.reduceToMaxValueColWise();
+  test.identical( max, _.vad.from([ 10, 20, 30 ]) );
+  var max = empty1.reduceToMaxValueColWise();
+  test.identical( max, _.vad.from([]) );
+  var max = empty2.reduceToMaxValueColWise();
+  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
+
+  /* */
+
+  test.case = 'reduceToMaxRowWise';
+
+  var max = matrix1.reduceToMaxRowWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [ 0, 3, 30, 111 ] );
+  var max = matrix2.reduceToMaxRowWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [ 10, 20, 30, 20 ] );
+
+  var max = empty1.reduceToMaxRowWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [ -Infinity, -Infinity ] );
+  var max = empty2.reduceToMaxRowWise();
+  max = _.select( max, '*/value' );
+  test.identical( max, [] );
+
+  /* */
+
+  test.case = 'reduceToMaxValueRowWise';
+
+  var max = matrix1.reduceToMaxValueRowWise();
+  test.identical( max, _.vad.from([ 0, 3, 30, 111 ]) );
+  var max = matrix2.reduceToMaxValueRowWise();
+  test.identical( max, _.vad.from([ 10, 20, 30, 20 ]) );
+  var max = empty1.reduceToMaxValueRowWise();
+  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
+  var max = empty2.reduceToMaxValueRowWise();
+  test.identical( max, _.vad.from([]) );
+
+/*
+  var matrix1 = _.Matrix.Make([ 4, 3 ])
+  .copy
+  ( new F64x([
+    0, 0, 0,
+    1, 2, 3,
+    10, 20, 30,
+    1, 111, 11,
+  ]));
+
+  var matrix2 = _.Matrix.Make([ 4, 3 ])
+  .copy
+  ( new F64x([
+    10, 0, 3,
+    1, 20, 0,
+    0, 2, 30,
+    5, 10, 20,
+  ]));
+*/
+
+}
+
 //
 
 function mulColWise( test )
@@ -28257,6 +28498,35 @@ function mulRowWise( test )
   ([
     0, 2, 6, 12,
     0, 6, 14, 24,
+  ]);
+  test.identical( m, exp );
+
+  /* */
+
+}
+
+//
+
+function mulScalarWise( test )
+{
+
+  /* */
+
+  test.case = 'basic';
+
+  var x = 2;
+  var m = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+
+  m.mulScalarWise( x );
+
+  var exp = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    2, 4, 6,
+    8, 10, 12,
   ]);
   test.identical( m, exp );
 
@@ -30283,7 +30553,7 @@ function SolveSimple( test, rname )
 
     /**/
 
-    test.case = rname + ' . y array . Solve 2x2 system';
+    test.case = rname + ' . y array . Solve 2x2 system . control';
 
     var m = _.Matrix.MakeSquare
     ([
@@ -31375,6 +31645,8 @@ function PolynomClosestFor( test )
 
 }
 
+PolynomClosestFor.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+
 // --
 // equaler
 // --
@@ -32434,8 +32706,6 @@ var Self =
 
     // operation
 
-    reduceToMeanRowWise,
-    colRowWiseOperations,
     mul,
     MulBasic, /* qqq : extend. add extreme cases. give me a link, please */
     MulSubmatirices,
@@ -32444,8 +32714,11 @@ var Self =
 
     addScalarWise,
     subScalarWise,
+    reduceToMeanRowWise,
+    colRowWiseOperations,
     mulColWise,
     mulRowWise,
+    mulScalarWise,
 
     furthestClosest,
     matrixHomogenousApply,

@@ -13,6 +13,7 @@ if( typeof module !== 'undefined' )
 {
 
   require( '../l1/Basic.s' );
+  require( '../l1/Namespace.s' );
 
   require( '../l3/RoutinesFromVector.s' );
 
