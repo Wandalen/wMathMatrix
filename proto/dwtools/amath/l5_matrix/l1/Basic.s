@@ -1450,7 +1450,7 @@ function dimsExportString( o )
   let self = this;
   o = _.routineOptions( dimsExportString, arguments );
 
-  o.dst += self.dims[ 0 ];
+  o.dst += self.dims[ 0 ]; /* xxx : use _.math.dimsExportString */
 
   for( let i = 1 ; i < self.dims.length ; i++ )
   o.dst += `x${self.dims[ i ]}`;
@@ -2138,7 +2138,7 @@ function NcolOf( src )
 function DimsOf( src )
 {
   if( src instanceof Self )
-  return src.dims;
+  return src.dims; /* xxx : use _.matrix.dimsOf */
   // return src.dims.slice(); /* yyy */
   if( _.numberIs( src ) )
   return [ 1, 1 ];

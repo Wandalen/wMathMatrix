@@ -101,10 +101,7 @@ function _Solve2_pre( routine, args )
 
   function inconsistentDims( m1, m2 )
   {
-    return `Inconsistent dimensions of 2 matrix-like structures ${_.Matrix.DimsOf( m1 )} and ${_.Matrix.DimsOf( m2 )}`;
-    /* xxx : implement _.matrixLike */
-    /* xxx : move _.matrixIs? */
-    /* xxx : implement static routine _.Matrix.DimsExportString */
+    return `Inconsistent dimensions of 2 matrix-like ${_.matrix.dimsExportString( m1 )} and ${_.matrix.dimsExportString( m2 )}`;
   }
 
 }
@@ -1348,7 +1345,7 @@ function _SolveTriangleLower( o )
 
   return o;
 
-  function actMatrixNormalized( x ) /* xxx : rewrite in vectorized form? */
+  function actMatrixNormalized( x )
   {
     for( let i = 0, l = x.ncol ; i < l ; i++ )
     {
@@ -1361,9 +1358,8 @@ function _SolveTriangleLower( o )
     for( let r1 = 0, l = x.length ; r1 < l ; r1++ )
     {
       let xu = x.review([ 0, r1-1 ]);
-      let row = o.m.rowGet( r1 );
-      row = row.review([ 0, r1-1 ]);
-      let xval = ( x.eGet( r1 ) - row.dot( xu ) );
+      let row = o.m.rowGet( r1 ).review([ 0, r1-1 ]);
+      let xval = x.eGet( r1 ) - row.dot( xu );
       x.eSet( r1, xval );
     }
   }

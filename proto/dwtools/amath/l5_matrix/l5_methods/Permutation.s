@@ -235,24 +235,6 @@ function PermutateBackward( vector, permutate )
 function _PermutateLineRook_pre( routine, args )
 {
   return Self.PermutateRook.pre.call( Self, ... arguments );
-  // let o1 = args[ 0 ];
-  // let o2 = o1;
-  //
-  // _.mapSupplement( o2, routine.defaults );
-  //
-  // if( !o2.permutates )
-  // {
-  //   o2.permutates = [];
-  //   for( let i = 0 ; i < o2.m.dims.length ; i += 1 )
-  //   o2.permutates[ i ] = _.longFromRange([ 0, o2.m.dims[ i ] ]);
-  // }
-  //
-  // _.assert( arguments.length === 2 );
-  // _.assert( args.length === 1 );
-  // _.assert( _.longIs( o2.permutates ) );
-  // _.assert( !!o2.m );
-  //
-  // return o2;
 }
 
 //
@@ -263,7 +245,6 @@ function _PermutateLineRook_body( o )
 
   _.assert( arguments.length === 1 );
   _.assert( o.lineIndex >= 0 );
-  // _.assert( o.y === undefined );
   _.assert( o.x === null || _.matrixIs( o.x ) );
   _.assertMapHasAll( o, _PermutateLineRook.defaults );
 
@@ -291,8 +272,6 @@ function _PermutateLineRook_body( o )
     o.m.rowsSwap( o.lineIndex, i2 );
     if( o.x )
     o.x.rowsSwap( o.lineIndex, i2 );
-    // if( o.y )
-    // o.y.rowsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nRowPermutations += 1;
   }
@@ -304,7 +283,6 @@ _PermutateLineRook_body.defaults =
 {
   m : null,
   x : null,
-  // y : null,
   permutates : null,
   lineIndex : null,
   npermutations : 0,
@@ -415,7 +393,6 @@ let Statics =
   _VectorPermutateDimension,
   VectorPermutateForward,
   PermutateBackward,
-  // _PermutateLineRook_pre,
   _PermutateLineRook,
   PermutateRook,
 
@@ -438,7 +415,6 @@ let Extension =
   VectorPermutateForward,
   PermutateBackward,
 
-  // _PermutateLineRook_pre,
   _PermutateLineRook,
   _permutateLineRook,
   PermutateRook, /* qqq : cover please */
