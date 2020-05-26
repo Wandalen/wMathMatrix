@@ -11,7 +11,7 @@ var matrix2 = _.Matrix.MakeSquare
   2, 1
 ]);
 
-matrix1.mulAtomWise( matrix2 );
+matrix1.mulScalarWise( matrix2 );
 console.log( matrix1 );
 /* log :
 Matrix.Array.2x2 ::
