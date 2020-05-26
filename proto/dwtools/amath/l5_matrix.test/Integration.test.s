@@ -11,9 +11,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wTesting' );
   _.include( 'wFiles' );
-  _.include( 'wappbasic' );
-
-  require( '../l5_matrix/module/full/Include.s' );
+  _.include( 'wAppBasic' );
 
 }
 
@@ -24,43 +22,31 @@ let fileProvider = _testerGlobal_.wTools.fileProvider;
 let path = fileProvider.path;
 
 // --
-// context
-//
-
-function onSuiteBegin()
-{
-  let context = this;
-  context.assetsOriginalSuitePath = path.join( __dirname, '../../../../sample' );
-}
-
-//
-
-function onSuiteEnd()
-{
-  let context = this;
-}
-
-//
-
-function assetFor( test )
-{
-  let context = this;
-  let a = { originalAssetPath : false, routinePath : context.assetsOriginalSuitePath };
-  return test.assetFor( a );
-}
-
-// --
 // test
 // --
 
-function sample( test )
+function samples( test )
 {
   let context = this;
-  let a = context.assetFor( test );
-  let filter = { filePath : a.abs( './**/*.(s|js)' ), basePath : a.abs( '.' ) };
-  let found = a.fileProvider.filesFind
+  let ready = new _.Consequence().take( null );
+  
+  let sampleDir = path.join( __dirname, '../../../../sample' );
+  
+  let appStartNonThrowing = _.process.starter
+  ({  
+    currentPath : sampleDir,
+    outputCollecting : 1,
+    outputGraying : 1,
+    throwingExitCode : 0,
+    ready : ready,
+    mode : 'fork'
+  })
+  
+  let found = fileProvider.filesFind
   ({
-    filter,
+    filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
+    withStem : 0,
+    withDirs : 0,
     mode : 'distinct',
     mandatory : 0,
   });
@@ -74,7 +60,7 @@ function sample( test )
     if( _.longHas( found[ i ].exts, 'browser' ) )
     continue;
 
-    a.ready
+    ready
     .then( () =>
     {
       test.case = found[ i ].relative;
@@ -84,7 +70,7 @@ function sample( test )
 
     if( _.longHas( found[ i ].exts, 'throwing' ) )
     {
-      a.appStartNonThrowing({ execPath : found[ i ].relative })
+      appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( got ) =>
       {
         console.log( _.time.spent( startTime ) );
@@ -95,7 +81,7 @@ function sample( test )
     }
     else
     {
-      a.appStartNonThrowing({ execPath : found[ i ].relative })
+      appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( got ) =>
       {
         console.log( _.time.spent( startTime ) );
@@ -115,10 +101,63 @@ function sample( test )
 
   /* */
 
-  return a.ready;
+  return ready;
 }
 
-sample.timeOut = 60000;
+samples.timeOut = 60000;
+
+//
+
+function eslint( test )
+{
+  let rootPath = path.join( __dirname, '../../../..' );
+  let eslint = path.join( rootPath, 'node_modules/.bin/eslint' );
+  let sampleDir = path.join( rootPath, 'sample' );
+  
+  let ready = new _.Consequence().take( null );
+  
+  let start = _.process.starter
+  ({ 
+    execPath : eslint, 
+    mode : 'fork', 
+    currentPath : rootPath,
+    stdio : 'ignore',
+    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss' ],
+    throwingExitCode : 0
+  })
+  
+  //
+  
+  ready.then( () => 
+  {
+    test.case = 'eslint proto';
+    return start( 'proto/**' );
+  })
+  .then( ( got ) => 
+  {
+    test.identical( got.exitCode, 0 );
+    return null;
+  })
+  
+  //
+  
+  if( fileProvider.fileExists( sampleDir ) )
+  ready.then( () => 
+  {
+    test.case = 'eslint samples';
+    return start( 'sample/**' )
+    .then( ( got ) => 
+    {
+      test.identical( got.exitCode, 0 );
+      return null;
+    })
+  })
+  
+  return ready;
+}
+
+eslint.timeOut = 120000;
+
 
 // --
 // declare
@@ -131,20 +170,10 @@ var Self =
   silencing : 1,
   enabled : 1,
 
-  onSuiteBegin,
-  onSuiteEnd,
-
-  context :
-  {
-    assetFor,
-    suiteTempPath : null,
-    assetsOriginalSuitePath : null,
-    appJsPath : null,
-  },
-
   tests :
   {
-    sample,
+    samples,
+    eslint
   },
 
 }

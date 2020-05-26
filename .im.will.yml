@@ -26,6 +26,11 @@ submodule :
     enabled : 0 # submodule
     criterion :
       development : 1
+  eslint :
+    path : npm:///eslint
+    enabled : 0 # submodule
+    criterion :
+      development : 1
 
 path :
 
