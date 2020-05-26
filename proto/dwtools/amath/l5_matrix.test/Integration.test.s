@@ -25,7 +25,7 @@ let path = fileProvider.path;
 // test
 // --
 
-function sample( test )
+function samples( test )
 {
   let context = this;
   let ready = new _.Consequence().take( null );
@@ -104,7 +104,7 @@ function sample( test )
   return ready;
 }
 
-sample.timeOut = 60000;
+samples.timeOut = 60000;
 
 //
 
@@ -112,6 +112,7 @@ function eslint( test )
 {
   let rootPath = path.join( __dirname, '../../../..' );
   let eslint = path.join( rootPath, 'node_modules/.bin/eslint' );
+  let sampleDir = path.join( rootPath, 'sample' );
   
   let ready = new _.Consequence().take( null );
   
@@ -119,10 +120,10 @@ function eslint( test )
   ({ 
     execPath : eslint, 
     mode : 'fork', 
-    currentPath : rootPath, 
-    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '**/*.test/**' ],
-    throwingExitCode : 0,
-    ready
+    currentPath : rootPath,
+    stdio : 'ignore',
+    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss' ],
+    throwingExitCode : 0
   })
   
   //
@@ -130,9 +131,8 @@ function eslint( test )
   ready.then( () => 
   {
     test.case = 'eslint proto';
-    return null;
+    return start( 'proto/**' );
   })
-  start( 'proto/**' )
   .then( ( got ) => 
   {
     test.identical( got.exitCode, 0 );
@@ -141,16 +141,16 @@ function eslint( test )
   
   //
   
+  if( fileProvider.fileExists( sampleDir ) )
   ready.then( () => 
   {
     test.case = 'eslint samples';
-    return null;
-  })
-  start( 'sample/**' )
-  .then( ( got ) => 
-  {
-    test.identical( got.exitCode, 0 );
-    return null;
+    return start( 'sample/**' )
+    .then( ( got ) => 
+    {
+      test.identical( got.exitCode, 0 );
+      return null;
+    })
   })
   
   return ready;
@@ -172,7 +172,7 @@ var Self =
 
   tests :
   {
-    sample,
+    samples,
     eslint
   },
 
