@@ -241,7 +241,6 @@ function _TriangulateGausian( o )
   function triangulateWithX() /* xxx : split */
   {
 
-    debugger;
     for( let r1 = 0 ; r1 < ncol ; r1++ )
     {
 
