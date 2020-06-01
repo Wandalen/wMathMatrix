@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wMathMatrix.out
 consistency:
-  wMathMatrix.out.will.yml: &ref_0
-    hash: 8ca346faa629fc8d9a937aaa339c1a91
-    size: 43494
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: cd42951ae305785a681970483147ebe7
     size: 2689
-  ../.im.will.yml: &ref_2
-    hash: 60faa80ce09d0d3e4f2a920aa671026e
-    size: 5256
+  ../.im.will.yml: &ref_1
+    hash: ea555bef4a2719d701154933743b0934
+    size: 5358
 module:
   wMathMatrix.out:
     about:
@@ -33,11 +30,11 @@ module:
         multidimensional data.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
         - math
         - matrix
@@ -45,11 +42,11 @@ module:
         - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
         - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -177,12 +174,45 @@ module:
           - ../proto/dwtools/Tools.s
           - ../proto/dwtools/abase
           - ../proto/dwtools/amath
+          - ../proto/dwtools/amath/-l5_matrix
+          - ../proto/dwtools/amath/-l5_matrix/include
+          - ../proto/dwtools/amath/-l5_matrix/include/Basic.s
+          - ../proto/dwtools/amath/-l5_matrix/include/Mid.s
+          - ../proto/dwtools/amath/-l5_matrix/l1
+          - ../proto/dwtools/amath/-l5_matrix/l1/Basic.s
+          - ../proto/dwtools/amath/-l5_matrix/l1/NamespaceMath.s
+          - ../proto/dwtools/amath/-l5_matrix/l1/NamespaceMatrix.s
+          - ../proto/dwtools/amath/-l5_matrix/l3
+          - ../proto/dwtools/amath/-l5_matrix/l3/RoutinesFromVector.s
+          - ../proto/dwtools/amath/-l5_matrix/l3_methods
+          - ../proto/dwtools/amath/-l5_matrix/l3_methods/Component.s
+          - ../proto/dwtools/amath/-l5_matrix/l3_methods/Iterator.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Advanced.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Checker.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Component.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Iterator.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Maker.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Operation.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Permutation.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Solver.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Transformation.s
+          - ../proto/dwtools/amath/-l5_matrix/l5_methods/Util.s
+          - ../proto/dwtools/amath/-l5_matrix/l7_methods
+          - ../proto/dwtools/amath/-l5_matrix/l7_methods/Svd.s
+          - ../proto/dwtools/amath/-l5_matrix/module
+          - ../proto/dwtools/amath/-l5_matrix/module/compact
+          - ../proto/dwtools/amath/-l5_matrix/module/full
+          - ../proto/dwtools/amath/-l5_matrix/module/full/Include.s
+          - ../proto/dwtools/amath/-l5_matrix/module/minimal
           - ../proto/dwtools/amath/l5_matrix
           - ../proto/dwtools/amath/l5_matrix/include
           - ../proto/dwtools/amath/l5_matrix/include/Basic.s
           - ../proto/dwtools/amath/l5_matrix/include/Mid.s
           - ../proto/dwtools/amath/l5_matrix/l1
           - ../proto/dwtools/amath/l5_matrix/l1/Basic.s
+          - ../proto/dwtools/amath/l5_matrix/l1/NamespaceMath.s
+          - ../proto/dwtools/amath/l5_matrix/l1/NamespaceMatrix.s
           - ../proto/dwtools/amath/l5_matrix/l3
           - ../proto/dwtools/amath/l5_matrix/l3/RoutinesFromVector.s
           - ../proto/dwtools/amath/l5_matrix/l3_methods
@@ -192,6 +222,7 @@ module:
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Advanced.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Checker.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Component.s
+          - ../proto/dwtools/amath/l5_matrix/l5_methods/Eigen.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Iterator.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Maker.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Operation.s
@@ -199,13 +230,16 @@ module:
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Solver.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Transformation.s
           - ../proto/dwtools/amath/l5_matrix/l5_methods/Util.s
+          - ../proto/dwtools/amath/l5_matrix/l7
+          - ../proto/dwtools/amath/l5_matrix/l7/NamespaceMatrix.s
           - ../proto/dwtools/amath/l5_matrix/l7_methods
           - ../proto/dwtools/amath/l5_matrix/l7_methods/Svd.s
           - ../proto/dwtools/amath/l5_matrix/module
+          - ../proto/dwtools/amath/l5_matrix/module/basic
+          - ../proto/dwtools/amath/l5_matrix/module/basic/Include.s
           - ../proto/dwtools/amath/l5_matrix/module/compact
           - ../proto/dwtools/amath/l5_matrix/module/full
           - ../proto/dwtools/amath/l5_matrix/module/full/Include.s
-          - ../proto/dwtools/amath/l5_matrix/module/minimal
           - ../proto/dwtools/amath/l5_matrix.test
           - ../proto/dwtools/amath/l5_matrix.test/Integration.test.s
           - ../proto/dwtools/amath/l5_matrix.test/Matrix.test.s
@@ -245,6 +279,12 @@ module:
         enabled: 0
         criterion:
           development: 1
+      eslint:
+        path: 'npm:///eslint'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
     reflector:
       reflect.proto.debug.raw:
         src:
@@ -255,6 +295,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: debug
@@ -271,6 +312,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: release
@@ -287,6 +329,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: debug
@@ -303,6 +346,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: release
@@ -319,6 +363,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           raw: raw
           debug: release
@@ -336,6 +381,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           raw: compiled
@@ -354,6 +400,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           raw: compiled
@@ -371,6 +418,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: only.tests
           raw: compiled
@@ -388,6 +436,7 @@ module:
           prefixPath: ''
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: only.tests
           raw: compiled
@@ -402,6 +451,7 @@ module:
           prefixPath: ../proto
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           generated: 1
           content: proto
@@ -416,6 +466,7 @@ module:
         recursive: 0
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           generated: 1
           content: proto
@@ -677,7 +728,7 @@ module:
           debug: release
       reflect.proto.debug.raw:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: debug
@@ -687,7 +738,7 @@ module:
           - files.reflect
       reflect.proto.release.raw:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: release
@@ -697,7 +748,7 @@ module:
           - files.reflect
       reflect.proto.debug.compiled:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: debug
@@ -707,7 +758,7 @@ module:
           - files.reflect
       reflect.proto.release.compiled:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: release
@@ -718,7 +769,7 @@ module:
       transpile.proto.raw:
         opts:
           entry: 'path::entry.proto.no.tests'
-          reflector: 'reflector::transpile.proto.raw*'
+          filePath: 'reflector::transpile.proto.raw*'
         criterion:
           raw: raw
           debug: release
@@ -728,7 +779,7 @@ module:
       transpile.proto.no.tests.compiled.debug:
         opts:
           entry: 'path::entry.proto.*=1'
-          reflector: 'reflector::transpile.proto.no.tests.compiled*'
+          filePath: 'reflector::transpile.proto.no.tests.compiled*'
         criterion:
           tests: no.tests
           raw: compiled
@@ -739,7 +790,7 @@ module:
       transpile.proto.no.tests.compiled.release:
         opts:
           entry: 'path::entry.proto.*=1'
-          reflector: 'reflector::transpile.proto.no.tests.compiled*'
+          filePath: 'reflector::transpile.proto.no.tests.compiled*'
         criterion:
           tests: no.tests
           raw: compiled
@@ -751,7 +802,7 @@ module:
         opts:
           entry: 'path::entry.proto.*=1'
           external.before: '{path::out.*=1}/Main.s'
-          reflector: 'reflector::transpile.proto.only.tests.compiled*'
+          filePath: 'reflector::transpile.proto.only.tests.compiled*'
         criterion:
           tests: only.tests
           raw: compiled
@@ -763,7 +814,7 @@ module:
         opts:
           entry: 'path::entry.proto.*=1'
           external.before: '{path::out.*=1}/Main.s'
-          reflector: 'reflector::transpile.proto.only.tests.compiled*'
+          filePath: 'reflector::transpile.proto.only.tests.compiled*'
         criterion:
           tests: only.tests
           raw: compiled
@@ -771,24 +822,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          reflector: 'reflector::exported.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          reflector: 'reflector::exported.files.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -877,9 +910,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wMathMatrix.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wMathMatrix
@@ -901,25 +933,13 @@ module:
         multidimensional data.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 8.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
-        - math
-        - matrix
-        - matrix math
-        - convolution
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
-        - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
+      contributors: *ref_4
       npm.name: wmathmatrix
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -1061,6 +1081,12 @@ module:
         enabled: 0
         criterion:
           development: 1
+      eslint:
+        path: 'npm:///eslint'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
     reflector:
       reflect.proto.debug.raw:
         src:
@@ -1068,6 +1094,7 @@ module:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: debug
@@ -1081,6 +1108,7 @@ module:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: release
@@ -1094,6 +1122,7 @@ module:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: debug
@@ -1107,6 +1136,7 @@ module:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           debug: release
@@ -1120,6 +1150,7 @@ module:
             'path::proto': '{path::out.raw.release}'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           raw: raw
           debug: release
@@ -1134,6 +1165,7 @@ module:
             'path::proto': '{path::out.*=1}/Main.s'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           raw: compiled
@@ -1149,6 +1181,7 @@ module:
             'path::proto': '{path::out.*=1}/Main.s'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: no.tests
           raw: compiled
@@ -1163,6 +1196,7 @@ module:
             'path::proto': '{path::out.*=1}/Tests.test.s'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: only.tests
           raw: compiled
@@ -1177,6 +1211,7 @@ module:
             'path::proto': '{path::out.*=1}/Tests.test.s'
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           tests: only.tests
           raw: compiled
@@ -1614,6 +1649,5 @@ module:
         hash: cd42951ae305785a681970483147ebe7
         size: 2689
       ../.im.will.yml:
-        hash: 60faa80ce09d0d3e4f2a920aa671026e
-        size: 5256
-      wMathMatrix.out.will.yml: *ref_0
+        hash: ea555bef4a2719d701154933743b0934
+        size: 5358
