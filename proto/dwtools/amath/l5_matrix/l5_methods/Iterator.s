@@ -955,6 +955,18 @@ let Extension =
   /* qqq2 : implement and light cover colMap */
   /* qqq2 : implement and light cover rowMap */
 
+  /* qqq2 :
+
+  null -> clone
+  nothing -> original
+  _.self -> original
+
+  3x3.colFilter( onCol ) -> 3x0
+  3x3.colFilter( null, onCol ) -> 3x0
+  3x3.colFilter( _.self, onCol ) -> 3x0
+
+  */
+
   /*
 
   iterators :

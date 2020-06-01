@@ -32769,7 +32769,7 @@ invert.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
-function Eigen( test )
+function eigen( test )
 {
 
   /* */
@@ -33055,7 +33055,7 @@ function Eigen( test )
 
 }
 
-Eigen.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+eigen.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
 // --
 // advanced
@@ -33487,7 +33487,7 @@ var Self =
     SolveGeneral,
     invert,
 
-    Eigen,
+    eigen,
 
     // advanced
 
