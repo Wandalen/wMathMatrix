@@ -1,4 +1,4 @@
-(function _Check_s_() {
+(function _Checker_s_() {
 
 'use strict';
 
@@ -277,17 +277,17 @@ function isSymmetric( accuracy )
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
   accuracy = self.accuracySqrt;
 
-  let cols = self.length;
-  let rows = self.scalarsPerElement;
+  let ncol = self.ncol;
+  let nrow = self.nrow;
 
-  if( cols !== rows )
+  if( ncol !== nrow )
   {
     return false;
   }
 
-  for( let i = 0; i < rows; i++ )
+  for( let i = 0; i < nrow; i++ )
   {
-    for( let j = 0; j < cols; j++ )
+    for( let j = 0; j < ncol; j++ )
     {
       if( i > j )
       {
@@ -303,12 +303,140 @@ function isSymmetric( accuracy )
   return true;
 }
 
+//
+
+function _EquivalentSpace_pre( routine, args )
+{
+  let proto = this;
+  let o = args[ 0 ];
+
+  if( !_.mapIs( o ) )
+  o = { m1 : args[ 0 ], m2 : args[ 1 ] }
+
+  o = _.routineOptions( routine, o );
+
+  if( o.m1 )
+  o.m1 = proto.From( o.m1 );
+  if( o.m2 )
+  o.m2 = proto.From( o.m2 );
+
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+
+  return o;
+}
+
+//
+
+function _EquivalentSpace( o )
+{
+  let proto = this;
+
+  _.assertMapHasAll( o, _EquivalentSpace.defaults );
+
+  let dim2 = o.dim + 1 === 2 ? 0 : 1;
+
+  if( o.m1.dims[ dim2 ] < o.m2.dims[ dim2 ] )
+  {
+    let ex = o.m1;
+    o.m1 = o.m2;
+    o.m2 = ex;
+  }
+
+  let ncol1 = o.m1.dims[ dim2 ];
+  let ncol2 = o.m2.dims[ dim2 ];
+  let nrow1 = o.m1.dims[ o.dim ];
+  let nrow2 = o.m2.dims[ o.dim ];
+
+  o.left = ncol2;
+  o.found = _.dup( 0, ncol1 + ncol2 );
+
+  if( nrow1 !== nrow2 )
+  {
+    o.result = false;
+    return o;
+  }
+
+  for( let c1 = 0 ; c1 < ncol1 ; c1++ )
+  {
+    let col1 = o.m1.lineGet( o.dim, c1 );
+    if( col1.magSqr() <= proto.accuracySqr )
+    continue;
+    for( let c2 = 0 ; c2 < ncol2 ; c2++ )
+    {
+      let col2 = o.m2.lineGet( o.dim, c2 );
+      if( col2.magSqr() <= proto.accuracySqr )
+      {
+        o.left -= 1;
+        continue;
+      }
+      if( col1.areParallel( col2 ) )
+      {
+        if( o.found[ ncol1 + c2 ] === 0 )
+        o.left -= 1;
+        o.found[ c1 ] += 1;
+        o.found[ ncol1 + c2 ] += 1;
+      }
+    }
+  }
+
+  o.result = o.left === 0;
+
+  return o;
+}
+
+_EquivalentSpace.defaults =
+{
+  m1 : null,
+  m2 : null,
+  dim : null,
+}
+
+//
+
+function EquivalentColumnSpace_body( o )
+{
+  let proto = this;
+  _.assert( arguments.length === 1 );
+  o = proto._EquivalentSpace( o );
+  return o.result;
+}
+
+EquivalentColumnSpace_body.defaults =
+{
+  ... _EquivalentSpace.defaults,
+  dim : 0,
+}
+
+let EquivalentColumnSpace = _.routineFromPreAndBody( _EquivalentSpace_pre, EquivalentColumnSpace_body );
+
+//
+
+function EquivalentRowSpace_body( o )
+{
+  let proto = this;
+  _.assert( arguments.length === 1 );
+  o = proto._EquivalentSpace( o );
+  return o.result;
+}
+
+EquivalentRowSpace_body.defaults =
+{
+  ... _EquivalentSpace.defaults,
+  dim : 1,
+}
+
+let EquivalentRowSpace = _.routineFromPreAndBody( _EquivalentSpace_pre, EquivalentRowSpace_body );
+
 // --
 // relations
 // --
 
 let Statics =
 {
+
+  _EquivalentSpace,
+  EquivalentColumnSpace,
+  EquivalentRowSpace,
 
 }
 
@@ -327,6 +455,10 @@ let Extension =
   isDiagonal,
   isUpperTriangle,
   isSymmetric,
+
+  _EquivalentSpace,
+  EquivalentColumnSpace,
+  EquivalentRowSpace,
 
   //
 

@@ -855,218 +855,991 @@ function isSymmetric( test )
 
 //
 
-function clone( test )
+function EquivalentSpace( test )
 {
 
-  /* */
+  /* - */
 
-  test.case = 'clone';
+  test.case = '0x0 vs 0x0';
 
-  var buffer = new F32x([ 1, 2, 3, 4, 5, 6 ]);
-  var a = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 2 ],
-    inputRowMajor : 0,
-  });
+  var m1 = _.Matrix.MakeSquare([]);
+  var m2 = _.Matrix.MakeSquare([]);
 
-  var b = a.clone();
-  test.identical( a, b );
-  test.is( a.buffer !== b.buffer );
-  test.is( a.buffer === buffer );
-
-  test.identical( a.size, 24 );
-  test.identical( a.sizeOfElementStride, 12 );
-  test.identical( a.sizeOfElement, 12 );
-  test.identical( a.sizeOfCol, 12 );
-  test.identical( a.sizeOfRow, 8 );
-  test.identical( a.dims, [ 3, 2 ] );
-  test.identical( a.length, 2 );
-
-  test.identical( a.stridesEffective, [ 1, 3 ] );
-  test.identical( a.strideOfElement, 3 );
-  test.identical( a.strideOfCol, 3 );
-  test.identical( a.strideInCol, 1 );
-  test.identical( a.strideOfRow, 1 );
-  test.identical( a.strideInRow, 3 );
+  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.is( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* */
+
+  test.case = '0x0 vs 0x2';
+
+  var m1 = _.Matrix.MakeSquare([]);
+  var m2 = _.Matrix.Make([ 0, 2 ]);
+
+  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+
+  /* */
+
+  test.case = '0x0 vs 2x0';
+
+  var m1 = _.Matrix.MakeSquare([]);
+  var m2 = _.Matrix.Make([ 2, 0 ]);
+
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.is( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+
+  /* */
+
+  test.case = 'diff space, 2x2 vs 2x2';
+
+  var m1 = _.Matrix.MakeSquare
+  ([
+    1, 2,
+    4, 3,
+  ]);
+
+  var m2 = _.Matrix.MakeSquare
+  ([
+    11, 12,
+    14, 13,
+  ]);
+
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+
+  /* - */
+
+  test.case = 'eq col space, 2x2 vs 2x2';
+
+  var m1 = _.Matrix.MakeSquare
+  ([
+    1/3, 4/10,
+    1, 1,
+  ]);
+
+  var m2 = _.Matrix.MakeSquare
+  ([
+    2, 1,
+    5, 3,
+  ]);
+
+  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+
+  /* */
+
+  test.case = 'eq col space, 2x2 vs 2x3';
+
+  var m1 = _.Matrix.MakeSquare
+  ([
+    1/3, 4/10,
+    1, 1,
+  ]);
+
+  var m2 = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    2, 0, 1,
+    5, 0, 3,
+  ]);
+
+  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+
+  /* */
+
+  test.case = 'eq col space, 3x2 vs 2x2';
+
+  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1/3, 4/10,
+    0, 0,
+    1, 1,
+  ]);
+
+  var m2 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    2, 1,
+    5, 3,
+  ]);
+
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.isNot( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+
+  /* - */
 
 }
 
-//
+// --
+// equaler
+// --
 
-function cloneSerializing( test )
+function compareMatrices( test )
 {
 
   /* */
 
-  test.case = 'inputRowMajor : 0';
+  test.case = 'trivial';
 
-  var a = new _.Matrix
+  var src1 = _.Matrix.MakeIdentity([ 3, 3 ]);
+  var src2 = _.Matrix.MakeIdentity([ 3, 3 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'single 2d';
+
+  var src1 = _.Matrix.MakeZero([ 1, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'single 3d';
+
+  var src1 = _.Matrix.MakeZero([ 1, 1, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'single 4d';
+
+  var src1 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'empty 0x1 - 0x1';
+
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 0, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'empty 1x0 - 1x0';
+
+  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'empty 0x1 - 1x0';
+
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0 ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  test.case = 'empty 0x1 - 1x1x0';
+
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 0 ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  test.case = 'empty 0x1 - 1x0x1';
+
+  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  test.case = 'empty 1x0 - 1x0x1';
+
+  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  test.case = 'empty 1x0 - 1x1x1x0';
+
+  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 1, 1, 0 ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'row';
+
+  var src1 = _.Matrix.MakeZero([ 1, 3 ]);
+  var src2 = _.Matrix.MakeZero([ 1, 3 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'col';
+
+  var src1 = _.Matrix.MakeZero([ 3, 1 ]);
+  var src2 = _.Matrix.MakeZero([ 3, 1 ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'different types';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 0,
+  });
+
+  var src2 = new _.Matrix
+  ({
+    buffer : new I32x([ 1, 2, 3, 4 ]),
+    dims : [ 2, 2 ],
+    inputRowMajor : 0,
+  });
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'with strides';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+
+  var src2 = new _.Matrix
   ({
     buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
     offset : 1,
-    scalarsPerElement : 3,
     inputRowMajor : 0,
     strides : [ 2, 6 ],
     dims : [ 3, 1 ],
   });
 
-  var cloned = a.cloneSerializing();
-
-  var exp =
-  {
-    "data" :
-    {
-      "dims" : [ 3, 1 ],
-      "buffer" : `--buffer-->0<--buffer--`,
-      "offset" : 0,
-      "strides" : [ 1, 3 ]
-    },
-    "descriptorsMap" :
-    {
-      "--buffer-->0<--buffer--" :
-      {
-        "bufferConstructorName" : `F32x`,
-        "sizeOfScalar" : 4,
-        "offset" : 0,
-        "size" : 12,
-        "index" : 0
-      }
-    },
-    "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
-  }
-
-  test.identical( cloned, exp );
-
-  test.description = 'deserializing clone';
-
-  var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
-  b.copyDeserializing( cloned );
-  test.identical( b, a );
-  test.is( a.buffer !== b.buffer );
-
-  test.identical( a.buffer.length, 8 );
-  test.identical( a.size, 12 );
-  test.identical( a.sizeOfElement, 12 );
-  test.identical( a.sizeOfCol, 12 );
-  test.identical( a.sizeOfRow, 4 );
-  test.identical( a.dims, [ 3, 1 ] );
-  test.identical( a.length, 1 );
-  test.identical( a.offset, 1 );
-
-  test.identical( a.strides, [ 2, 6 ] );
-  test.identical( a.stridesEffective, [ 2, 6 ] );
-  test.identical( a.strideOfElement, 6 );
-  test.identical( a.strideOfCol, 6 );
-  test.identical( a.strideInCol, 2 );
-  test.identical( a.strideOfRow, 2 );
-  test.identical( a.strideInRow, 6 );
-
-  test.identical( b.buffer.length, 3 );
-  test.identical( b.size, 12 );
-  test.identical( b.sizeOfElement, 12 );
-  test.identical( b.sizeOfCol, 12 );
-  test.identical( b.sizeOfRow, 4 );
-  test.identical( b.dims, [ 3, 1 ] );
-  test.identical( b.length, 1 );
-  test.identical( b.offset, 0 );
-
-  test.identical( b.strides, [ 1, 3 ] );
-  test.identical( b.stridesEffective, [ 1, 3 ] );
-  test.identical( b.strideOfElement, 3 );
-  test.identical( b.strideOfCol, 3 );
-  test.identical( b.strideInCol, 1 );
-  test.identical( b.strideOfRow, 1 );
-  test.identical( b.strideInRow, 3 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
   /* */
 
-  test.case = 'inputRowMajor : 1';
+  test.case = 'with infinity dim';
 
-  var a = new _.Matrix
+  var src1 = new _.Matrix
   ({
-    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
-    offset : 1,
-    scalarsPerElement : 3,
-    inputRowMajor : 1,
-    strides : [ 2, 6 ],
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, Infinity ],
+    inputRowMajor : 0,
   });
 
-  var cloned = a.cloneSerializing();
+  var src2 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, Infinity ],
+    inputRowMajor : 0,
+  });
 
-  var exp =
-  {
-    "data" :
-    {
-      "dims" : [ 3, 1 ],
-      "buffer" : `--buffer-->0<--buffer--`,
-      "offset" : 0,
-      "strides" : [ 1, 3 ],
-    },
-    "descriptorsMap" :
-    {
-      "--buffer-->0<--buffer--" :
-      {
-        "bufferConstructorName" : `F32x`,
-        "sizeOfScalar" : 4,
-        "offset" : 0,
-        "size" : 12,
-        "index" : 0
-      }
-    },
-    "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
-  }
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
-  test.identical( cloned, exp );
+  /* */
 
-  test.description = 'deserializing clone';
+  test.case = 'with different strides';
 
-  var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
-  b.copyDeserializing( cloned );
-  test.identical( b, a );
-  test.is( a.buffer !== b.buffer );
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
+    dims : [ 2, 3 ],
+    strides : [ 1, 2 ],
+  });
 
-  test.identical( a.buffer.length, 8 );
-  test.identical( a.size, 12 );
-  test.identical( a.sizeOfElement, 12 );
-  test.identical( a.sizeOfCol, 12 );
-  test.identical( a.sizeOfRow, 4 );
-  test.identical( a.dims, [ 3, 1 ] );
-  test.identical( a.length, 1 );
-  test.identical( a.offset, 1 );
+  var src2 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5, 2, 4, 6 ]),
+    dims : [ 2, 3 ],
+    strides : [ 3, 1 ],
+  });
 
-  test.identical( a.strides, [ 2, 6 ] );
-  test.identical( a.stridesEffective, [ 2, 6 ] );
-  test.identical( a.strideOfElement, 6 );
-  test.identical( a.strideOfCol, 6 );
-  test.identical( a.strideInCol, 2 );
-  test.identical( a.strideOfRow, 2 );
-  test.identical( a.strideInRow, 6 );
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
 
-  test.identical( b.buffer.length, 3 );
-  test.identical( b.size, 12 );
-  test.identical( b.sizeOfElement, 12 );
-  test.identical( b.sizeOfCol, 12 );
-  test.identical( b.sizeOfRow, 4 );
-  test.identical( b.dims, [ 3, 1 ] );
-  test.identical( b.length, 1 );
-  test.identical( b.offset, 0 );
+  /* */
 
-  test.identical( b.strides, [ 1, 3 ] );
-  test.identical( b.stridesEffective, [ 1, 3 ] );
-  test.identical( b.strideOfElement, 3 );
-  test.identical( b.strideOfCol, 3 );
-  test.identical( b.strideInCol, 1 );
-  test.identical( b.strideOfRow, 1 );
-  test.identical( b.strideInRow, 3 );
+  test.case = 'matrix 2x2x1, matrix 2x2';
+
+  var src1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+  var src2 = _.Matrix.Make([ 2, 2, 1 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix 2x3xInfinity and 2x3xInfinity';
+  var src1 = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var src2 = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+
+  test.identical( src1.identicalWith( src2 ), true );
+  test.identical( src2.identicalWith( src1 ), true );
+  test.identical( src1.equivalentWith( src2 ), true );
+  test.identical( src2.equivalentWith( src1 ), true );
+  test.identical( _.identical( src1, src2 ), true );
+  test.identical( _.identical( src2, src1 ), true );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.identical( src1, src2 );
+  test.identical( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix Infinityx1 and 1x1';
+  var src1 = _.Matrix.Make([ Infinity, 1 ]).copy
+  ([
+    1
+  ]);
+  var src2 = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    1
+  ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), false );
+  test.identical( src2.equivalentWith( src1 ), false );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix 1xInfinity and 1x1';
+  var src1 = _.Matrix.Make([ 1, Infinity ]).copy
+  ([
+    1
+  ]);
+  var src2 = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    1
+  ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), false );
+  test.identical( src2.equivalentWith( src1 ), false );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix 1x1xInfinity and 1x1x1';
+  var src1 = _.Matrix.Make([ 1, 1, Infinity ]).copy
+  ([
+    1
+  ]);
+  var src2 = _.Matrix.Make([ 1, 1, 1 ]).copy
+  ([
+    1
+  ]);
+
+  test.identical( src1.identicalWith( src2 ), false );
+  test.identical( src2.identicalWith( src1 ), false );
+  test.identical( src1.equivalentWith( src2 ), false );
+  test.identical( src2.equivalentWith( src1 ), false );
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
 
   /* */
 
 }
 
 //
+
+function compareMatrixAndVector( test )
+{
+
+  /* */
+
+  test.case = 'Matrix and BufferTyped';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = new F32x([ 1, 3, 5 ]);
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'Matrix and Array';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : ([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = ([ 1, 3, 5 ]);
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'Matrix and Array different type';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = ([ 1, 3, 5 ]);
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'Matrix and vadapter BufferTyped';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'Matrix and vadapter Array';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : [ 1, 3, 5 ],
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = _.vectorAdapter.from([ 1, 3, 5 ]);
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+  /* */
+
+  test.case = 'Matrix and vadapter Array different type';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = _.vectorAdapter.from([ 1, 3, 5 ]);
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), true );
+  test.identical( _.equivalent( src2, src1 ), true );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), true );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.equivalent( src1, src2 );
+  test.equivalent( src2, src1 );
+
+}
+
+//
+
+function compareMatrixAndNot( test )
+{
+
+  /* */
+
+  test.case = 'matrix and map';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = {};
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and string';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = 'string';
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and number';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = 1;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and null';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = null;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and undefined';
+
+  var src1 = new _.Matrix
+  ({
+    buffer : new F32x([ 1, 3, 5 ]),
+    dims : [ 3, 1 ],
+    inputRowMajor : 0,
+  });
+  var src2 = undefined;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+}
+
+// --
+// maker
+// --
 
 function MakeChangeDimsLength( test )
 {
@@ -12383,7 +13156,7 @@ function makeHelper( test )
   test.is( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 3 ] );
 
-  //
+  /* */
 
   function checkNull( m )
   {
@@ -12459,6 +13232,54 @@ function makeHelper( test )
 
   var m = _.Matrix.MakeDiagonal([]);
   checkNull( m );
+
+}
+
+//
+
+function makeMultyMatrix( test )
+{
+
+  /* */
+
+  test.case = 'basic';
+
+  var simpleMatrix = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+
+  console.log( `\n= simple matrix\n${ simpleMatrix.toStr() }` );
+
+  var superMatrix = _.Matrix.Make([ 2, 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8,
+  ]);
+
+  console.log( `\n= super matrix\n${ superMatrix.toStr() }` );
+
+  var subMatrix1 = superMatrix.submatrix( _.all, _.all, 0 );
+  var subMatrix2 = superMatrix.submatrix( _.all, _.all, 1 );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+  ]);
+  test.equivalent( subMatrix1, exp );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    5, 6,
+    7, 8,
+  ]);
+  test.equivalent( subMatrix2, exp );
+
+  /* */
 
 }
 
@@ -13045,530 +13866,6 @@ function constructWithScalarsPerElement( test )
 
 //
 
-function copySubmatrix( test )
-{
-
-  /* */
-
-  test.case = 'copy from matrix with different srides';
-
-  var src1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    1, 4,
-    2, 5,
-    3, 6,
-  ]);
-
-  var src2 = src1.submatrix( [ 0, src1.dims[ 0 ]-2 ], [ 0, src1.dims[ 1 ]-2 ] );
-
-  var dst = _.Matrix.Make([ 2, 1 ]).copy
-  ([
-    11,
-    22,
-  ]);
-
-  test.identical( src1.stridesEffective, [ 1, 3 ] );
-  test.identical( src2.stridesEffective, [ 1, 3 ] );
-  test.identical( dst.stridesEffective, [ 1, 2 ] );
-
-  test.identical( src1.dims, [ 3, 2 ] );
-  test.identical( src2.dims, [ 2, 1 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-
-  console.log( 'src1', src1.toStr() );
-  console.log( 'src2', src2.toStr() );
-  console.log( 'dst', dst.toStr() );
-
-  dst.copy( src2 );
-
-  test.identical( src1.stridesEffective, [ 1, 3 ] );
-  test.identical( src2.stridesEffective, [ 1, 3 ] );
-  test.identical( dst.stridesEffective, [ 1, 2 ] );
-
-  test.identical( src1.dims, [ 3, 2 ] );
-  test.identical( src2.dims, [ 2, 1 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-
-  console.log( 'src1', src1.toStr() );
-  console.log( 'src2', src2.toStr() );
-
-  /* */
-
-}
-
-//
-
-function copyInstanceInstance( test )
-{
-
-  /* */
-
-  test.case = 'src : 1, dst : 1';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 3, 2 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, null );
-  test.identical( src.stridesEffective, [ 2, 1 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 2, 1 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 1 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* */
-
-  test.case = 'src : 0, dst : 1';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 3, 2 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, null );
-  test.identical( src.stridesEffective, [ 1, 3 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 2, 1 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 1 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* */
-
-  test.case = 'src : 1, dst : 0';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 3, 2 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, null );
-  test.identical( src.stridesEffective, [ 2, 1 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 2, 1 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 2 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* */
-
-  test.case = 'src : 0, dst : 0';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 3, 2 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, null );
-  test.identical( src.stridesEffective, [ 1, 3 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 2, 1 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 2 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  test.case = 'src : 1, dst : 1, with strides';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 3, 2 ],
-    strides : [ 1, 3 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, [ 1, 3 ] );
-  test.identical( src.stridesEffective, [ 1, 3 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 2, 1 ],
-    strides : [ 1, 2 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, [ 1, 2 ] );
-  test.identical( dst.stridesEffective, [ 1, 2 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* */
-
-  test.case = 'src : 0, dst : 1, with strides';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 3, 2 ],
-    strides : [ 2, 1 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, [ 2, 1 ] );
-  test.identical( src.stridesEffective, [ 2, 1 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 2, 1 ],
-    strides : [ 1, 2 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, [ 1, 2 ] );
-  test.identical( dst.stridesEffective, [ 1, 2 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* */
-
-  test.case = 'src : 1, dst : 0, with strides';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 1,
-    dims : [ 3, 2 ],
-    strides : [ 1, 3 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, [ 1, 3 ] );
-  test.identical( src.stridesEffective, [ 1, 3 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 2, 1 ],
-    strides : [ 1, 1 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, [ 1, 1 ] );
-  test.identical( dst.stridesEffective, [ 1, 1 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* - */
-
-  test.case = 'src : 0, dst : 0, with strides';
-
-  var src = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 3, 2 ],
-    strides : [ 2, 1 ],
-    buffer :
-    [
-      1, 2,
-      3, 4,
-      5, 6,
-    ]
-  });
-
-  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
-  test.identical( src.dims, [ 3, 2 ] );
-  test.identical( src.dimsEffective, [ 3, 2 ] );
-  test.identical( src.strides, [ 2, 1 ] );
-  test.identical( src.stridesEffective, [ 2, 1 ] );
-
-  var dst = _.Matrix
-  ({
-    inputRowMajor : 0,
-    dims : [ 2, 1 ],
-    strides : [ 1, 1 ],
-    buffer :
-    [
-      11,
-      22,
-    ]
-  });
-
-  test.identical( dst.buffer, [ 11, 22 ] );
-  test.identical( dst.dims, [ 2, 1 ] );
-  test.identical( dst.dimsEffective, [ 2, 1 ] );
-  test.identical( dst.strides, [ 1, 1 ] );
-  test.identical( dst.stridesEffective, [ 1, 1 ] );
-
-  dst.copy( src );
-
-  logger.log( `dst\n${dst.toStr()}` );
-  logger.log( `src\n${src.toStr()}` );
-
-  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
-  test.identical( dst.dims, src.dims );
-  test.identical( dst.dimsEffective, src.dimsEffective );
-  test.identical( dst.strides, null );
-  test.identical( dst.stridesEffective, [ 1, 3 ] );
-  test.identical( dst, src );
-
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
-
-  /* - */
-
-}
-
-//
-
 function constructWithoutBuffer( test )
 {
 
@@ -14011,52 +14308,216 @@ function constructDeducing( test )
 
 //
 
-function makeMultyMatrix( test )
+function clone( test )
 {
 
   /* */
 
-  test.case = 'basic';
+  test.case = 'clone';
 
-  var simpleMatrix = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-  ]);
+  var buffer = new F32x([ 1, 2, 3, 4, 5, 6 ]);
+  var a = new _.Matrix
+  ({
+    buffer,
+    dims : [ 3, 2 ],
+    inputRowMajor : 0,
+  });
 
-  console.log( `\n= simple matrix\n${ simpleMatrix.toStr() }` );
+  var b = a.clone();
+  test.identical( a, b );
+  test.is( a.buffer !== b.buffer );
+  test.is( a.buffer === buffer );
 
-  var superMatrix = _.Matrix.Make([ 2, 2, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-    7, 8,
-  ]);
+  test.identical( a.size, 24 );
+  test.identical( a.sizeOfElementStride, 12 );
+  test.identical( a.sizeOfElement, 12 );
+  test.identical( a.sizeOfCol, 12 );
+  test.identical( a.sizeOfRow, 8 );
+  test.identical( a.dims, [ 3, 2 ] );
+  test.identical( a.length, 2 );
 
-  console.log( `\n= super matrix\n${ superMatrix.toStr() }` );
-
-  var subMatrix1 = superMatrix.submatrix( _.all, _.all, 0 );
-  var subMatrix2 = superMatrix.submatrix( _.all, _.all, 1 );
-
-  var exp = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-  ]);
-  test.equivalent( subMatrix1, exp );
-
-  var exp = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    5, 6,
-    7, 8,
-  ]);
-  test.equivalent( subMatrix2, exp );
+  test.identical( a.stridesEffective, [ 1, 3 ] );
+  test.identical( a.strideOfElement, 3 );
+  test.identical( a.strideOfCol, 3 );
+  test.identical( a.strideInCol, 1 );
+  test.identical( a.strideOfRow, 1 );
+  test.identical( a.strideInRow, 3 );
 
   /* */
 
 }
 
+//
+
+function cloneSerializing( test )
+{
+
+  /* */
+
+  test.case = 'inputRowMajor : 0';
+
+  var a = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+    offset : 1,
+    scalarsPerElement : 3,
+    inputRowMajor : 0,
+    strides : [ 2, 6 ],
+    dims : [ 3, 1 ],
+  });
+
+  var cloned = a.cloneSerializing();
+
+  var exp =
+  {
+    "data" :
+    {
+      "dims" : [ 3, 1 ],
+      "buffer" : `--buffer-->0<--buffer--`,
+      "offset" : 0,
+      "strides" : [ 1, 3 ]
+    },
+    "descriptorsMap" :
+    {
+      "--buffer-->0<--buffer--" :
+      {
+        "bufferConstructorName" : `F32x`,
+        "sizeOfScalar" : 4,
+        "offset" : 0,
+        "size" : 12,
+        "index" : 0
+      }
+    },
+    "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
+  }
+
+  test.identical( cloned, exp );
+
+  test.description = 'deserializing clone';
+
+  var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
+  b.copyDeserializing( cloned );
+  test.identical( b, a );
+  test.is( a.buffer !== b.buffer );
+
+  test.identical( a.buffer.length, 8 );
+  test.identical( a.size, 12 );
+  test.identical( a.sizeOfElement, 12 );
+  test.identical( a.sizeOfCol, 12 );
+  test.identical( a.sizeOfRow, 4 );
+  test.identical( a.dims, [ 3, 1 ] );
+  test.identical( a.length, 1 );
+  test.identical( a.offset, 1 );
+
+  test.identical( a.strides, [ 2, 6 ] );
+  test.identical( a.stridesEffective, [ 2, 6 ] );
+  test.identical( a.strideOfElement, 6 );
+  test.identical( a.strideOfCol, 6 );
+  test.identical( a.strideInCol, 2 );
+  test.identical( a.strideOfRow, 2 );
+  test.identical( a.strideInRow, 6 );
+
+  test.identical( b.buffer.length, 3 );
+  test.identical( b.size, 12 );
+  test.identical( b.sizeOfElement, 12 );
+  test.identical( b.sizeOfCol, 12 );
+  test.identical( b.sizeOfRow, 4 );
+  test.identical( b.dims, [ 3, 1 ] );
+  test.identical( b.length, 1 );
+  test.identical( b.offset, 0 );
+
+  test.identical( b.strides, [ 1, 3 ] );
+  test.identical( b.stridesEffective, [ 1, 3 ] );
+  test.identical( b.strideOfElement, 3 );
+  test.identical( b.strideOfCol, 3 );
+  test.identical( b.strideInCol, 1 );
+  test.identical( b.strideOfRow, 1 );
+  test.identical( b.strideInRow, 3 );
+
+  /* */
+
+  test.case = 'inputRowMajor : 1';
+
+  var a = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
+    offset : 1,
+    scalarsPerElement : 3,
+    inputRowMajor : 1,
+    strides : [ 2, 6 ],
+  });
+
+  var cloned = a.cloneSerializing();
+
+  var exp =
+  {
+    "data" :
+    {
+      "dims" : [ 3, 1 ],
+      "buffer" : `--buffer-->0<--buffer--`,
+      "offset" : 0,
+      "strides" : [ 1, 3 ],
+    },
+    "descriptorsMap" :
+    {
+      "--buffer-->0<--buffer--" :
+      {
+        "bufferConstructorName" : `F32x`,
+        "sizeOfScalar" : 4,
+        "offset" : 0,
+        "size" : 12,
+        "index" : 0
+      }
+    },
+    "buffer" : ( new U8x([ 0x0, 0x0, 0x80, 0x3f, 0x0, 0x0, 0x40, 0x40, 0x0, 0x0, 0xa0, 0x40 ]) ).buffer
+  }
+
+  test.identical( cloned, exp );
+
+  test.description = 'deserializing clone';
+
+  var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
+  b.copyDeserializing( cloned );
+  test.identical( b, a );
+  test.is( a.buffer !== b.buffer );
+
+  test.identical( a.buffer.length, 8 );
+  test.identical( a.size, 12 );
+  test.identical( a.sizeOfElement, 12 );
+  test.identical( a.sizeOfCol, 12 );
+  test.identical( a.sizeOfRow, 4 );
+  test.identical( a.dims, [ 3, 1 ] );
+  test.identical( a.length, 1 );
+  test.identical( a.offset, 1 );
+
+  test.identical( a.strides, [ 2, 6 ] );
+  test.identical( a.stridesEffective, [ 2, 6 ] );
+  test.identical( a.strideOfElement, 6 );
+  test.identical( a.strideOfCol, 6 );
+  test.identical( a.strideInCol, 2 );
+  test.identical( a.strideOfRow, 2 );
+  test.identical( a.strideInRow, 6 );
+
+  test.identical( b.buffer.length, 3 );
+  test.identical( b.size, 12 );
+  test.identical( b.sizeOfElement, 12 );
+  test.identical( b.sizeOfCol, 12 );
+  test.identical( b.sizeOfRow, 4 );
+  test.identical( b.dims, [ 3, 1 ] );
+  test.identical( b.length, 1 );
+  test.identical( b.offset, 0 );
+
+  test.identical( b.strides, [ 1, 3 ] );
+  test.identical( b.stridesEffective, [ 1, 3 ] );
+  test.identical( b.strideOfElement, 3 );
+  test.identical( b.strideOfCol, 3 );
+  test.identical( b.strideInCol, 1 );
+  test.identical( b.strideOfRow, 1 );
+  test.identical( b.strideInRow, 3 );
+
+  /* */
+
+}
 
 // --
 // exporter
@@ -14815,6 +15276,530 @@ function copy( test )
   test.case = 'throwing';
 
   test.shouldThrowErrorSync( () => _.Matrix.Make([ 3, 2 ]).copy( 'x' ) );
+
+}
+
+//
+
+function copySubmatrix( test )
+{
+
+  /* */
+
+  test.case = 'copy from matrix with different srides';
+
+  var src1 = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 4,
+    2, 5,
+    3, 6,
+  ]);
+
+  var src2 = src1.submatrix( [ 0, src1.dims[ 0 ]-2 ], [ 0, src1.dims[ 1 ]-2 ] );
+
+  var dst = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    11,
+    22,
+  ]);
+
+  test.identical( src1.stridesEffective, [ 1, 3 ] );
+  test.identical( src2.stridesEffective, [ 1, 3 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
+
+  test.identical( src1.dims, [ 3, 2 ] );
+  test.identical( src2.dims, [ 2, 1 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+
+  console.log( 'src1', src1.toStr() );
+  console.log( 'src2', src2.toStr() );
+  console.log( 'dst', dst.toStr() );
+
+  dst.copy( src2 );
+
+  test.identical( src1.stridesEffective, [ 1, 3 ] );
+  test.identical( src2.stridesEffective, [ 1, 3 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
+
+  test.identical( src1.dims, [ 3, 2 ] );
+  test.identical( src2.dims, [ 2, 1 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+
+  console.log( 'src1', src1.toStr() );
+  console.log( 'src2', src2.toStr() );
+
+  /* */
+
+}
+
+//
+
+function copyInstanceInstance( test )
+{
+
+  /* */
+
+  test.case = 'src : 1, dst : 1';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 3, 2 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, null );
+  test.identical( src.stridesEffective, [ 2, 1 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 2, 1 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 1 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* */
+
+  test.case = 'src : 0, dst : 1';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 3, 2 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, null );
+  test.identical( src.stridesEffective, [ 1, 3 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 2, 1 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 1 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* */
+
+  test.case = 'src : 1, dst : 0';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 3, 2 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, null );
+  test.identical( src.stridesEffective, [ 2, 1 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 2, 1 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* */
+
+  test.case = 'src : 0, dst : 0';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 3, 2 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, null );
+  test.identical( src.stridesEffective, [ 1, 3 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 2, 1 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  test.case = 'src : 1, dst : 1, with strides';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 3, 2 ],
+    strides : [ 1, 3 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, [ 1, 3 ] );
+  test.identical( src.stridesEffective, [ 1, 3 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 2, 1 ],
+    strides : [ 1, 2 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, [ 1, 2 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* */
+
+  test.case = 'src : 0, dst : 1, with strides';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 3, 2 ],
+    strides : [ 2, 1 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, [ 2, 1 ] );
+  test.identical( src.stridesEffective, [ 2, 1 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 2, 1 ],
+    strides : [ 1, 2 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, [ 1, 2 ] );
+  test.identical( dst.stridesEffective, [ 1, 2 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* */
+
+  test.case = 'src : 1, dst : 0, with strides';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 1,
+    dims : [ 3, 2 ],
+    strides : [ 1, 3 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, [ 1, 3 ] );
+  test.identical( src.stridesEffective, [ 1, 3 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 2, 1 ],
+    strides : [ 1, 1 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, [ 1, 1 ] );
+  test.identical( dst.stridesEffective, [ 1, 1 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* - */
+
+  test.case = 'src : 0, dst : 0, with strides';
+
+  var src = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 3, 2 ],
+    strides : [ 2, 1 ],
+    buffer :
+    [
+      1, 2,
+      3, 4,
+      5, 6,
+    ]
+  });
+
+  test.identical( src.buffer, [ 1, 2, 3, 4, 5, 6 ] );
+  test.identical( src.dims, [ 3, 2 ] );
+  test.identical( src.dimsEffective, [ 3, 2 ] );
+  test.identical( src.strides, [ 2, 1 ] );
+  test.identical( src.stridesEffective, [ 2, 1 ] );
+
+  var dst = _.Matrix
+  ({
+    inputRowMajor : 0,
+    dims : [ 2, 1 ],
+    strides : [ 1, 1 ],
+    buffer :
+    [
+      11,
+      22,
+    ]
+  });
+
+  test.identical( dst.buffer, [ 11, 22 ] );
+  test.identical( dst.dims, [ 2, 1 ] );
+  test.identical( dst.dimsEffective, [ 2, 1 ] );
+  test.identical( dst.strides, [ 1, 1 ] );
+  test.identical( dst.stridesEffective, [ 1, 1 ] );
+
+  dst.copy( src );
+
+  logger.log( `dst\n${dst.toStr()}` );
+  logger.log( `src\n${src.toStr()}` );
+
+  test.identical( dst.buffer, [ 1, 3, 5, 2, 4, 6 ] );
+  test.identical( dst.dims, src.dims );
+  test.identical( dst.dimsEffective, src.dimsEffective );
+  test.identical( dst.strides, null );
+  test.identical( dst.stridesEffective, [ 1, 3 ] );
+  test.identical( dst, src );
+
+  test.is( dst.buffer !== src.buffer );
+  test.is( dst.dims !== src.dims );
+  test.is( dst.dimsEffective !== src.dimsEffective );
+  test.is( dst.strides === null );
+  test.is( dst.stridesEffective !== src.stridesEffective );
+
+  /* - */
 
 }
 
@@ -23121,7 +24106,7 @@ function lineEachNonStandardStrides( test )
 
 //
 
-function partialAccessors( test )
+function partialAccessors( test ) /* qqq : split */
 {
 
   /* */
@@ -29885,34 +30870,12 @@ function triangulateGausianPermutating( test )
 
 //
 
-function triangulateLu( test )
+function triangulateLuBasic( test )
 {
 
   /* */
 
-  test.case = '112';
-
-  var exp = _.Matrix.MakeSquare
-  ([
-    +1, -1, +2,
-    +2, +2, -2,
-    -2, -1, -2,
-  ]);
-
-  var m = _.Matrix.MakeSquare
-  ([
-    +1, -1, +2,
-    +2, +0, +2,
-    -2, +0, -4,
-  ]);
-
-  m.triangulateLu();
-  logger.log( 'm', m );
-  test.identical( m, exp )
-
-  /* */
-
-  test.case = '242';
+  test.case = 'triangulateLu . 3x3';
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -29928,7 +30891,7 @@ function triangulateLu( test )
     +3, +1.6, -8,
   ]);
 
-  var original = m.clone();
+  var om = m.clone();
   m.triangulateLu();
   test.equivalent( m, exp );
 
@@ -29950,9 +30913,86 @@ function triangulateLu( test )
   ]);
 
   var got = _.Matrix.Mul( null, [ l, u ] );
-  test.equivalent( got, original );
+  test.equivalent( got, om );
   test.equivalent( l, ll );
   test.equivalent( u, uu );
+
+  /* */
+
+  test.case = 'triangulateLuNormalizing . 3x3';
+
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +2, +4, -2,
+    +4, -2, +6,
+    +6, -4, +2,
+  ]);
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +2, +2, -1,
+    +4, -10, -1,
+    +6, -16, -8,
+  ]);
+
+  var om = m.clone();
+  m.triangulateLuNormalizing();
+  test.equivalent( m, exp );
+
+  var l = m.clone().triangleUpperSet( 0 );
+  var u = m.clone().triangleLowerSet( 0 ).diagonalSet( 1 );
+
+  var ll = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +2, +0, +0,
+    +4, -10, +0,
+    +6, -16, -8,
+  ]);
+
+  var uu = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, -1,
+    +0, +1, -1,
+    +0, +0, +1,
+  ]);
+
+  var got = _.Matrix.Mul( null, [ l, u ] );
+  test.equivalent( got, om );
+  test.equivalent( l, ll );
+  test.equivalent( u, uu );
+
+  /* */
+
+}
+
+triangulateLuBasic.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+
+//
+
+function triangulateLu( test )
+{
+
+  /* */
+
+  test.case = '3x3';
+
+  var exp = _.Matrix.MakeSquare
+  ([
+    +1, -1, +2,
+    +2, +2, -2,
+    -2, -1, -2,
+  ]);
+
+  var m = _.Matrix.MakeSquare
+  ([
+    +1, -1, +2,
+    +2, +0, +2,
+    -2, +0, -4,
+  ]);
+
+  m.triangulateLu();
+  logger.log( 'm', m );
+  test.identical( m, exp )
 
   /* */
 
@@ -30538,11 +31578,17 @@ function SolveSimple( test, rname )
 
   act( 'Solve' );
   act( 'SolveWithGausian' );
+  act( 'SolveWithGausianNormalizing' );
   act( 'SolveWithGausianPermutating' );
+  act( 'SolveWithGausianNormalizingPermutating' );
   act( 'SolveWithGaussJordan' );
+  act( 'SolveWithGaussJordanNormalizing' );
   act( 'SolveWithGaussJordanPermutating' );
+  act( 'SolveWithGaussJordanNormalizingPermutating' );
   act( 'SolveWithTriangles' );
+  act( 'SolveWithTrianglesNormalizing' );
   act( 'SolveWithTrianglesPermutating' );
+  act( 'SolveWithTrianglesNormalizingPermutating' );
 
   /* - */
 
@@ -30800,20 +31846,23 @@ SolveSimple.accuracy = _.accuracy*1e+1;
 
 //
 
-function SolveComplicated( test )
+function SolvePermutating( test )
 {
 
   act( 'Solve' );
   act( 'SolveWithGausianPermutating' );
+  act( 'SolveWithGausianNormalizingPermutating' );
   act( 'SolveWithGaussJordanPermutating' );
+  act( 'SolveWithGaussJordanNormalizingPermutating' );
   act( 'SolveWithTrianglesPermutating' );
+  act( 'SolveWithTrianglesNormalizingPermutating' );
 
   function act( rname )
   {
 
     /* */
 
-    test.case = rname + ' . y array . Solve 3x3 system1';
+    test.case = rname + ' . y array . 3x3';
 
     var m = _.Matrix.MakeSquare
     ([
@@ -30827,9 +31876,6 @@ function SolveComplicated( test )
     var oy = y.slice();
     var x = _.Matrix[ rname ]( null, m, y );
 
-    logger.log( 'm', m );
-    logger.log( 'x', x );
-
     test.is( x !== y );
     test.identical( x, [ -0.5, +2.5, -0.5 ] );
     test.identical( y, oy );
@@ -30842,6 +31888,105 @@ function SolveComplicated( test )
   }
 
 }
+
+SolvePermutating.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+
+//
+
+function SolveAccuracyProblem( test )
+{
+
+  act( 'Solve', true );
+  act( 'SolveWithGausian' );
+  act( 'SolveWithGausianNormalizing' );
+  act( 'SolveWithGausianPermutating' );
+  act( 'SolveWithGausianNormalizingPermutating' );
+  act( 'SolveWithGaussJordan' );
+  act( 'SolveWithGaussJordanNormalizing' );
+  act( 'SolveWithGaussJordanPermutating' );
+  act( 'SolveWithGaussJordanNormalizingPermutating' );
+  act( 'SolveWithTriangles', true );
+  act( 'SolveWithTrianglesNormalizing', true );
+  act( 'SolveWithTrianglesPermutating', true );
+  act( 'SolveWithTrianglesNormalizingPermutating', true );
+
+  function act( rname, isLu )
+  {
+
+    /* */
+
+    test.case = rname + ' . y array . 2x2 rank:1 . accuracy problem . no x';
+
+    var m = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +18, -6,
+      +45, -15,
+    ]);
+
+    var om = m.clone();
+    var o = { m }
+    var x = _.Matrix[ rname ]( o );
+
+    test.is( x === null );
+    test.is( o.x === null );
+    test.is( o.ox === null );
+    test.is( o.y === null );
+    test.is( o.oy === null );
+
+    if( isLu )
+    {
+      test.equivalent( m.scalarGet([ 1, 1 ]), 0 );
+    }
+    else
+    {
+      test.equivalent( o.m.rowGet( 1 ), [ 0, 0 ] );
+    }
+
+    /* */
+
+    // test.case = rname + ' . y array . 2x2 rank:1 . accuracy problem . with x';
+    //
+    // var m = _.Matrix.Make([ 2, 2 ]).copy
+    // ([
+    //   +18, -6,
+    //   +45, -15,
+    // ]);
+    //
+    // var y = [ 2, 5 ]
+    // var oy = y.slice();
+    // var om = m.clone();
+    // var o = { m, y }
+    // var x = _.Matrix[ rname ]( o );
+    //
+    // test.equivalent( x, [ 1 / 9, 0 ] );
+    // test.is( x !== null );
+    // test.is( o.x !== x );
+    // test.equivalent( o.x, x );
+    // test.is( o.ox === x );
+    // test.equivalent( y, oy );
+    // test.is( o.y === y );
+    // test.is( o.y === o.oy );
+    // test.is( o.y !== x );
+    //
+    // if( isLu )
+    // {
+    //   test.equivalent( m.scalarGet([ 1, 1 ]), 0 );
+    // }
+    // else
+    // {
+    //   test.equivalent( o.m.rowGet( 1 ), [ 0, 0 ] );
+    // }
+    //
+    // var y2 = _.Matrix.Mul( null, [ om, x ] );
+    // test.equivalent( y2, oy );
+
+    /* */
+
+  }
+
+}
+
+SolveAccuracyProblem.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
 //
 
@@ -31091,12 +32236,103 @@ function SolveGeneral( test )
 
     /* */
 
+    test.case = '2x4, nkernel : 1, permutating : 0, no y';
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 1,
+      okernel : 1,
+      kernel : _.Matrix.Make([ 2, 1 ]).copy
+      ([
+        1 / 3,
+        1,
+      ]),
+      m : _.Matrix.Make([ 2, 2 ]).copy
+      ([
+        +1, -1/3,
+        +0, 0,
+      ]),
+      y : null,
+      oy : null,
+      x : null,
+      ox : null,
+      permutates : null,
+      permutating : 0,
+      normalizing : 1,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : null,
+      onPermutatePre : null,
+    }
+
+    var m = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +18, -6,
+      +45, -15,
+    ]);
+
+    var om = m.clone();
+
+    var r = _.Matrix.SolveGeneral({ m, permutating : 0 });
+    test.equivalent( r, exp );
+
+    check( om, null, r );
+
+    /* */
+
+    test.case = '2x4, nkernel : 1, permutating : 0, no y, specified kernel and okernel';
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 1,
+      okernel : 2,
+      kernel : _.Matrix.Make([ 2, 5 ]).copy
+      ([
+        0, 1 / 3, 0, 0, 0,
+        0, 1    , 0, 0, 0,
+      ]),
+      m : _.Matrix.Make([ 2, 2 ]).copy
+      ([
+        +1, -1/3,
+        +0, 0,
+      ]),
+      y : null,
+      oy : null,
+      x : null,
+      ox : null,
+      permutates : null,
+      permutating : 0,
+      normalizing : 1,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : null,
+      onPermutatePre : null,
+    }
+
+    var m = _.Matrix.Make([ 2, 2 ]).copy
+    ([
+      +18, -6,
+      +45, -15,
+    ]);
+
+    var om = m.clone();
+
+    var r = _.Matrix.SolveGeneral({ m, permutating : 0, kernel : _.Matrix.MakeZero([ 2, 5 ]), okernel : 1 });
+    test.equivalent( r, exp );
+
+    check( om, null, r );
+
+    /* */
+
     test.case = '2x4, nkernel : 2, permutating : 0, no y';
 
     var exp =
     {
       nsolutions : Infinity,
       nkernel : 2,
+      okernel : 2,
       kernel : _.Matrix.Make([ 4, 2 ]).copy /* zzz : factories should use defaut scalar type ? */
       ([
         +2, -2,
@@ -31115,6 +32351,7 @@ function SolveGeneral( test )
       ox : null,
       permutates : null,
       permutating : 0,
+      normalizing : 1,
       repermutatingSolution : 1,
       repermutatingTransformation : 0,
       onPermutate : null,
@@ -31142,6 +32379,7 @@ function SolveGeneral( test )
     {
       nsolutions : Infinity,
       nkernel : 2,
+      okernel : 2,
       kernel : _.Matrix.Make([ 4, 2 ]).copy
       ([
         +2, -2,
@@ -31160,6 +32398,7 @@ function SolveGeneral( test )
       ox : _.Matrix.MakeCol([ -1, +1, +0, +0, ]),
       permutates : null,
       permutating : 0,
+      normalizing : 1,
       repermutatingSolution : 1,
       repermutatingTransformation : 0,
       onPermutate : null,
@@ -31193,6 +32432,7 @@ function SolveGeneral( test )
     {
       nsolutions : Infinity,
       nkernel : 2,
+      okernel : 2,
       kernel : _.Matrix.Make([ 4, 2 ]).copy
       ([
         +0.000, +1.000,
@@ -31211,6 +32451,7 @@ function SolveGeneral( test )
       ox : _.Matrix.MakeCol([ 0, 0, +0.5, 0, ]),
       permutates : [ [ 0, 1 ], [ 3, 2, 1, 0 ] ],
       permutating : 1,
+      normalizing : 1,
       repermutatingSolution : 1,
       repermutatingTransformation : 0,
       onPermutate : _.Matrix._PermutateLineRook.body,
@@ -31238,6 +32479,9 @@ function SolveGeneral( test )
     test.is( y !== r.x );
     test.is( y !== r.ox );
 
+    var nullspace = om.nullspace();
+    test.identical( r.kernel, nullspace );
+
     check( om, y, r );
 
     /* */
@@ -31248,6 +32492,7 @@ function SolveGeneral( test )
     {
       nsolutions : 0,
       nkernel : 0,
+      okernel : 0,
       kernel : _.Matrix.Make([ 4, 0 ]),
       m : _.Matrix.Make([ 3, 4 ]).copy
       ([
@@ -31261,6 +32506,7 @@ function SolveGeneral( test )
       ox : _.Matrix.MakeCol([ -1, +1, +3, +0, ]),
       permutates : null,
       permutating : 0,
+      normalizing : 1,
       repermutatingSolution : 1,
       repermutatingTransformation : 0,
       onPermutate : null,
@@ -31523,6 +32769,298 @@ invert.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
+function Eigen( test )
+{
+
+  /* */
+
+  test.case = '0x0';
+  var op = {};
+  var m = _.Matrix.Make([ 0, 0 ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 0 );
+
+  var exp = [];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+
+  var exp = _.Matrix.Make([ 0, 0 ]);
+  op.vectors = m.eigenVectors();
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '1x1';
+  var op = {};
+  var m = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    13
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 13 );
+
+  var exp = [ 13 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    1
+  ]);
+  op.vectors = m.eigenVectors();
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '2x2';
+  var op = {};
+  var m = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    +17, -6,
+    +45, -16,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, -2 );
+
+  var exp = [ -1, +2 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    +1/3, +4/10,
+    +1, +1,
+  ]);
+  op.vectors = m.eigenVectors();
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '3x3'
+  var op = {};
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +5, +2, +0,
+    +2, +5, +0,
+    -3, +4, +6,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 126 );
+
+  var exp = [ 3, 6, 7 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +0.4285714328289032, +0.000, +1.000,
+    -0.4285714328289032, +0.000, +1.000,
+    +1.000, +1.000, +1.000,
+  ]);
+  op.vectors = m.eigenVectors();
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '3x3 - multiplicity 2'
+  var op = {};
+  op.generalizating = 0;
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 18 );
+
+  var exp = [ 2, 3, 3 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2/3, 0.5, 0.0,
+    1.0, 1.0, 0.0,
+    0.0, 0.0, 1.0,
+  ]);
+  op.vectors = m.eigenVectors({ generalizating : op.generalizating });
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '2x2 - deffective, generalizating:0'
+  var op = {};
+  op.generalizating = 0;
+  var m = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    +3, +2,
+    +0, +3,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 9 );
+
+  var exp = [ 3, 3 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 0,
+    0, 0,
+  ]);
+  op.vectors = m.eigenVectors({ generalizating : 0 });
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '2x2 - deffective, generalizating:1'
+  var op = {};
+  op.generalizating = 1;
+  var m = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    +3, +2,
+    +0, +3,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 9 );
+
+  var exp = [ 3, 3 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1, 0,
+    0, 0.5,
+  ]);
+  op.vectors = m.eigenVectors({ generalizating : 1 });
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  test.case = '3x3 - deffective, generalizating:0'
+  var op = {};
+  op.generalizating = 0;
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +6, -2, -1,
+    +3, +1, -1,
+    +2, -1, +2,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 27 );
+
+  var exp = [ 3, 3, 3 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +0, +0,
+    +1, +0, +0,
+    +1, +0, +0,
+  ]);
+  op.vectors = m.eigenVectors({ generalizating : 0 });
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+
+  /* */
+
+  test.case = '3x3 - deffective, generalizating:1'
+  var op = {};
+  op.generalizating = 1;
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +6, -2, -1,
+    +3, +1, -1,
+    +2, -1, +2,
+  ]);
+  op.m = m.clone();
+  op.determinant = m.determinant();
+  test.equivalent( op.determinant, 27 );
+
+  var exp = [ 3, 3, 3 ];
+  op.vals = m.eigenVals();
+  test.equivalent( op.vals, exp );
+  test.equivalent( _.vector.reduceToProduct( op.vals ), op.determinant );
+
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +1, -1,
+    +1, +1, -2,
+    +1, +0, -0,
+  ]);
+  op.vectors = m.eigenVectors({ generalizating : 1 });
+  test.equivalent( op.vectors, exp );
+  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  check( op );
+
+  /* */
+
+  function check( op )
+  {
+    for( let i = 0 ; i < op.vectors.ncol ; i++ )
+    {
+      var vector = op.vectors.colGet( i );
+      if( !op.generalizating || i === 0 )
+      {
+        var y1 = _.Matrix.Mul( null, [ op.m, vector ] );
+        var y2 = vector.clone().mul( op.vals[ i ] );
+        test.equivalent( y1, y2 );
+      }
+    }
+    if( !op.generalizating )
+    return;
+    let m2 = op.m.clone();
+    m2.diagonalGet().sub( op.vals[ 0 ] );
+    for( let i = 1 ; i < op.vectors.ncol ; i++ )
+    {
+      var vector = op.vectors.colGet( i );
+      var y = _.Matrix.Mul( null, [ m2, vector ] );
+      var count = 0;
+      op.vectors.lineEach( 0, ( it ) => it.line.equivalentWith( y, { accuracy : test.accuracy } ) ? count += 1 : undefined );
+      test.ge( count, 1 );
+    }
+  }
+
+}
+
+Eigen.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
+
+// --
+// advanced
+// --
+
 function PolynomExactFor( test )
 {
 
@@ -31646,832 +33184,6 @@ function PolynomClosestFor( test )
 PolynomClosestFor.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
 // --
-// equaler
-// --
-
-function compareMatrices( test )
-{
-
-  /* */
-
-  test.case = 'trivial';
-
-  var src1 = _.Matrix.MakeIdentity([ 3, 3 ]);
-  var src2 = _.Matrix.MakeIdentity([ 3, 3 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'single 2d';
-
-  var src1 = _.Matrix.MakeZero([ 1, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'single 3d';
-
-  var src1 = _.Matrix.MakeZero([ 1, 1, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 1, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'single 4d';
-
-  var src1 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 1, 1, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'empty 0x1 - 0x1';
-
-  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 0, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'empty 1x0 - 1x0';
-
-  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 0 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'empty 0x1 - 1x0';
-
-  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 0 ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  test.case = 'empty 0x1 - 1x1x0';
-
-  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 1, 0 ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  test.case = 'empty 0x1 - 1x0x1';
-
-  var src1 = _.Matrix.MakeZero([ 0, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  test.case = 'empty 1x0 - 1x0x1';
-
-  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 0, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  test.case = 'empty 1x0 - 1x1x1x0';
-
-  var src1 = _.Matrix.MakeZero([ 1, 0 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 1, 1, 0 ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'row';
-
-  var src1 = _.Matrix.MakeZero([ 1, 3 ]);
-  var src2 = _.Matrix.MakeZero([ 1, 3 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'col';
-
-  var src1 = _.Matrix.MakeZero([ 3, 1 ]);
-  var src2 = _.Matrix.MakeZero([ 3, 1 ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'different types';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 2, 3, 4 ]),
-    dims : [ 2, 2 ],
-    inputRowMajor : 0,
-  });
-
-  var src2 = new _.Matrix
-  ({
-    buffer : new I32x([ 1, 2, 3, 4 ]),
-    dims : [ 2, 2 ],
-    inputRowMajor : 0,
-  });
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'with strides';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-
-  var src2 = new _.Matrix
-  ({
-    buffer : new F32x([ 0, 1, 2, 3, 4, 5, 6, 7 ]),
-    offset : 1,
-    inputRowMajor : 0,
-    strides : [ 2, 6 ],
-    dims : [ 3, 1 ],
-  });
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'with infinity dim';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, Infinity ],
-    inputRowMajor : 0,
-  });
-
-  var src2 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, Infinity ],
-    inputRowMajor : 0,
-  });
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'with different strides';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]),
-    dims : [ 2, 3 ],
-    strides : [ 1, 2 ],
-  });
-
-  var src2 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5, 2, 4, 6 ]),
-    dims : [ 2, 3 ],
-    strides : [ 3, 1 ],
-  });
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix 2x2x1, matrix 2x2';
-
-  var src1 = _.Matrix.Make([ 2, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-  ]);
-  var src2 = _.Matrix.Make([ 2, 2, 1 ]).copy
-  ([
-    1, 2,
-    3, 4,
-  ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix 2x3xInfinity and 2x3xInfinity';
-  var src1 = _.Matrix.Make([ 2, 3, Infinity ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  var src2 = _.Matrix.Make([ 2, 3, Infinity ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-
-  test.identical( src1.identicalWith( src2 ), true );
-  test.identical( src2.identicalWith( src1 ), true );
-  test.identical( src1.equivalentWith( src2 ), true );
-  test.identical( src2.equivalentWith( src1 ), true );
-  test.identical( _.identical( src1, src2 ), true );
-  test.identical( _.identical( src2, src1 ), true );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.identical( src1, src2 );
-  test.identical( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix Infinityx1 and 1x1';
-  var src1 = _.Matrix.Make([ Infinity, 1 ]).copy
-  ([
-    1
-  ]);
-  var src2 = _.Matrix.Make([ 1, 1 ]).copy
-  ([
-    1
-  ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), false );
-  test.identical( src2.equivalentWith( src1 ), false );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix 1xInfinity and 1x1';
-  var src1 = _.Matrix.Make([ 1, Infinity ]).copy
-  ([
-    1
-  ]);
-  var src2 = _.Matrix.Make([ 1, 1 ]).copy
-  ([
-    1
-  ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), false );
-  test.identical( src2.equivalentWith( src1 ), false );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix 1x1xInfinity and 1x1x1';
-  var src1 = _.Matrix.Make([ 1, 1, Infinity ]).copy
-  ([
-    1
-  ]);
-  var src2 = _.Matrix.Make([ 1, 1, 1 ]).copy
-  ([
-    1
-  ]);
-
-  test.identical( src1.identicalWith( src2 ), false );
-  test.identical( src2.identicalWith( src1 ), false );
-  test.identical( src1.equivalentWith( src2 ), false );
-  test.identical( src2.equivalentWith( src1 ), false );
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-}
-
-//
-
-function compareMatrixAndVector( test )
-{
-
-  /* */
-
-  test.case = 'Matrix and BufferTyped';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = new F32x([ 1, 3, 5 ]);
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'Matrix and Array';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : ([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = ([ 1, 3, 5 ]);
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'Matrix and Array different type';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = ([ 1, 3, 5 ]);
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'Matrix and vadapter BufferTyped';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = _.vectorAdapter.from( new F32x([ 1, 3, 5 ]) );
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'Matrix and vadapter Array';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : [ 1, 3, 5 ],
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = _.vectorAdapter.from([ 1, 3, 5 ]);
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-  /* */
-
-  test.case = 'Matrix and vadapter Array different type';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = _.vectorAdapter.from([ 1, 3, 5 ]);
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), true );
-  test.identical( _.equivalent( src2, src1 ), true );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.equivalent( src1, src2 );
-  test.equivalent( src2, src1 );
-
-}
-
-//
-
-function compareMatrixAndNot( test )
-{
-
-  /* */
-
-  test.case = 'matrix and map';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = {};
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), true );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix and string';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = 'string';
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix and number';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = 1;
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix and null';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = null;
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-  test.case = 'matrix and undefined';
-
-  var src1 = new _.Matrix
-  ({
-    buffer : new F32x([ 1, 3, 5 ]),
-    dims : [ 3, 1 ],
-    inputRowMajor : 0,
-  });
-  var src2 = undefined;
-
-  test.identical( _.identical( src1, src2 ), false );
-  test.identical( _.identical( src2, src1 ), false );
-  test.identical( _.equivalent( src1, src2 ), false );
-  test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), false );
-  test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
-
-  /* */
-
-}
-
-// --
 // experiment
 // --
 
@@ -32566,6 +33278,13 @@ var Self =
     isDiagonal,
     isUpperTriangle,
     isSymmetric,
+    EquivalentSpace,
+
+    // equaler
+
+    compareMatrices,
+    compareMatrixAndVector,
+    compareMatrixAndNot,
 
     // maker
 
@@ -32618,6 +33337,7 @@ var Self =
 
     make,
     makeHelper,
+    makeMultyMatrix,
     from,
     bufferSetLarger,
     constructTransposing,
@@ -32626,7 +33346,6 @@ var Self =
     constructWithoutBuffer,
     constructWithoutDims,
     constructDeducing,
-    makeMultyMatrix,
 
     // exporter
 
@@ -32729,29 +33448,30 @@ var Self =
 
     triangulateGausian, /* qqq2 : write very similar test for methods of solver :
 
-  TriangulateGausian,
-  TriangulateGausianNormalizing,
+    TriangulateGausian,
+    TriangulateGausianNormalizing,
 
-  triangulateLu,
-  triangulateLuNormalizing,
+    triangulateLu,
+    triangulateLuNormalizing,
 
-  SolveWithGausian,
+    SolveWithGausian,
 
-  SolveWithGaussJordan,
+    SolveWithGaussJordan,
 
-  SolveWithTriangles,
+    SolveWithTriangles,
 
-  SolveTriangleLower,
-  SolveTriangleLowerNormalized,
-  SolveTriangleUpper,
-  SolveTriangleUpperNormalized,
+    SolveTriangleLower,
+    SolveTriangleLowerNormalized,
+    SolveTriangleUpper,
+    SolveTriangleUpperNormalized,
 
-qqq : don't delete old test routines for those routines
+    qqq : don't delete old test routines for those routines
 
     */
 
     triangulateGausianNormalizing,
     triangulateGausianPermutating,
+    triangulateLuBasic,
     triangulateLu,
     triangulateLuNormalizing,
 
@@ -32762,18 +33482,17 @@ qqq : don't delete old test routines for those routines
     SolveWithTriangles,
 
     SolveSimple,
-    SolveComplicated,
+    SolvePermutating,
+    SolveAccuracyProblem,
     SolveGeneral,
     invert,
 
+    Eigen,
+
+    // advanced
+
     PolynomExactFor,
     PolynomClosestFor,
-
-    // equaler
-
-    compareMatrices,
-    compareMatrixAndVector,
-    compareMatrixAndNot,
 
     // experiments
 

@@ -947,6 +947,14 @@ let Extension =
   rowEachCollecting,
   colEachCollecting,
 
+  /* qqq2 : implement and cover lineFilter */
+  /* qqq2 : implement and light cover colFilter */
+  /* qqq2 : implement and light cover rowFilter */
+
+  /* qqq2 : implement and cover lineMap */
+  /* qqq2 : implement and light cover colMap */
+  /* qqq2 : implement and light cover rowMap */
+
   /*
 
   iterators :

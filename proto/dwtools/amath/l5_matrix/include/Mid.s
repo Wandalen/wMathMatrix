@@ -24,6 +24,7 @@ if( typeof module !== 'undefined' )
   require( '../l5_methods/Advanced.s' );
   require( '../l5_methods/Checker.s' );
   require( '../l5_methods/Component.s' );
+  require( '../l5_methods/Eigen.s' );
   require( '../l5_methods/Iterator.s' );
   require( '../l5_methods/Maker.s' );
   require( '../l5_methods/Operation.s' );
@@ -31,6 +32,8 @@ if( typeof module !== 'undefined' )
   require( '../l5_methods/Solver.s' );
   require( '../l5_methods/Transformation.s' );
   require( '../l5_methods/Util.s' );
+
+  require( '../l7/NamespaceMatrix.s' );
 
   require( '../l7_methods/Svd.s' );
 

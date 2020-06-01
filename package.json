@@ -22,7 +22,7 @@
     "out"
   ],
   "scripts": {
-    "test": "wtest .run proto/**",
+    "test": "wtest .run 'proto/**'",
     "docgen": "wdocgen proto"
   },
   "repository": {

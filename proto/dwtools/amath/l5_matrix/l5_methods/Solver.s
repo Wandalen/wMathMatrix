@@ -238,9 +238,10 @@ function _TriangulateGausian( o )
 
   /* */
 
-  function triangulateWithX()
+  function triangulateWithX() /* xxx : split */
   {
 
+    debugger;
     for( let r1 = 0 ; r1 < ncol ; r1++ )
     {
 
@@ -253,20 +254,36 @@ function _TriangulateGausian( o )
       let row1 = o.m.rowGet( r1 );
       let xrow1 = o.x.rowGet( r1 );
       let scaler1 = row1.eGet( r1 );
+
+      if( Math.abs( scaler1 ) < proto.accuracySqrt )
+      continue;
+
       if( o.normalizing )
       {
+        row1.eSet( r1, 1 );
+        row1 = row1.review( r1+1 );
         row1.div( scaler1 );
         xrow1.div( scaler1 );
         scaler1 = 1;
+      }
+      else
+      {
+        row1 = row1.review( r1+1 );
       }
 
       for( let r2 = r1+1 ; r2 < nrow ; r2++ )
       {
         let row2 = o.m.rowGet( r2 );
-        let yrow2 = o.x.rowGet( r2 );
+        let xrow2 = o.x.rowGet( r2 );
         let scaler = row2.eGet( r1 ) / scaler1;
+
+        if( Math.abs( scaler ) < proto.accuracy )
+        continue;
+
+        row2.eSet( r1, 0 );
+        row2 = row2.review( r1+1 );
         row2.subScaled( row1, scaler );
-        yrow2.subScaled( xrow1, scaler );
+        xrow2.subScaled( xrow1, scaler );
       }
 
     }
@@ -291,16 +308,32 @@ function _TriangulateGausian( o )
 
       let row1 = o.m.rowGet( r1 );
       let scaler1 = row1.eGet( r1 );
+
+      if( Math.abs( scaler1 ) < proto.accuracySqrt )
+      continue;
+
       if( o.normalizing )
       {
+        row1.eSet( r1, 1 );
+        row1 = row1.review( r1+1 );
         row1.div( scaler1 );
         scaler1 = 1;
+      }
+      else
+      {
+        row1 = row1.review( r1+1 );
       }
 
       for( let r2 = r1+1 ; r2 < nrow ; r2++ )
       {
         let row2 = o.m.rowGet( r2 );
         let scaler = row2.eGet( r1 ) / scaler1;
+
+        if( Math.abs( scaler ) < proto.accuracy )
+        continue;
+
+        row2.eSet( r1, 0 );
+        row2 = row2.review( r1+1 ); /* xxx */
         row2.subScaled( row1, scaler );
       }
 
@@ -557,7 +590,6 @@ function _TriangulateLu( o )
         let row2 = o.m.rowGet( r2 );
         let scaler = row2.eGet( r1 );
         row2.review( r1+1 ).subScaled( row1, scaler );
-        row2.eSet( r1, scaler );
       }
 
     }
@@ -578,12 +610,13 @@ function _TriangulateLu( o )
 
       let row1 = o.m.rowGet( r1 );
       let scaler1 = row1.eGet( r1 );
+      row1 = row1.review( r1+1 )
 
       for( let r2 = r1+1 ; r2 < nrow ; r2++ )
       {
         let row2 = o.m.rowGet( r2 );
         let scaler = row2.eGet( r1 ) / scaler1;
-        row2.review( r1+1 ).subScaled( row1.review( r1+1 ), scaler );
+        row2.review( r1+1 ).subScaled( row1, scaler );
         row2.eSet( r1, scaler );
       }
 
@@ -735,7 +768,6 @@ triangulateLuNormalizing.defaults =
  * @module Tools/math/Matrix
  */
 
-
 let TriangulateLuPermutating = _Solver_functor
 ({
   method : _TriangulateLu,
@@ -758,532 +790,34 @@ triangulateLuPermutating.defaults =
   ... _.mapBut( TriangulateLuPermutating.defaults, [ 'm' ] ),
 }
 
+//
+
+let TriangulateLuNormalizingPermutating = _Solver_functor
+({
+  method : _TriangulateLu,
+  returning : 'o',
+});
+var defaults = TriangulateLuNormalizingPermutating.defaults;
+defaults.normalizing = 1;
+defaults.permutating = 1;
+
+function triangulateLuNormalizingPermutating( o )
+{
+  let self = this;
+  o = o || Object.create( null );
+  o.m = self;
+  return self.TriangulateLuNormalizingPermutating( o );
+}
+
+triangulateLuNormalizingPermutating.defaults =
+{
+  ... _.mapBut( TriangulateLuNormalizingPermutating.defaults, [ 'm' ] ),
+}
+
 // --
 // Solver
 // --
 
-/**
- * Static routine Solve() solves system of equations.
- *
- * @example
- * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
- * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
- *
- * var matrixX = _.Matrix.Solve( null, matrixA, matrixB );
- *
- * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
- * // log :
- * // x1 : 0.5384615659713745,
- * // x2 : 0.307692289352417
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If arguments.length is not equal to three.
- * @function Solve
- * @static
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function Solve( x, m, y )
-{
-  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-  return this.SolveWithTrianglesPermutating( x, m, y )
-}
-
-//
-
-function _SolveWithGausian( o )
-{
-  let proto = this;
-
-  if( o.x )
-  o.x = proto.From( o.x );
-
-  _.assertMapHasAll( o, _SolveWithGausian.defaults );
-  _.assert( _.matrixIs( o.m ) );
-  _.assert( o.x === null || _.matrixIs( o.x ) );
-
-  o.normalizing = 1;
-  proto._TriangulateGausian( o );
-
-  o.normalized = 1;
-  proto._SolveTriangleUpper( o );
-
-  // proto._SolveRepermutate( o );
-
-  return o.ox;
-}
-
-_SolveWithGausian.defaults =
-{
-
-  ... _SolveRepermutate.defaults,
-
-  m : null,
-  x : null,
-}
-
-//
-
-/**
- * Static routine SolveWithGausian() solves system of equations by Gaussian method.
- *
- * @example
- * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
- * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
- *
- * var matrixX = _.Matrix.SolveWithGausian( null, matrixA, matrixB );
- *
- * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
- * // log :
- * // x1 : 0.538,
- * // x2 : 0.308
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithGausian
- * @static
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-let SolveWithGausian = _Solver_functor
-({
-  method : _SolveWithGausian,
-  returning : 'ox',
-});
-var defaults = SolveWithGausian.defaults;
-defaults.permutating = 0;
-
-//
-
-/**
- * Static routine SolveWithGausianPermutating() solves system of equations by Gaussian method with permutating.
- *
- * @example
- * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
- * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
- *
- * var matrixX = _.Matrix.SolveWithGausianPermutating( null, matrixA, matrixB );
- *
- * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
- * // log :
- * // x1 : 0.641,
- * // x2 : 0.462
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @method SolveWithGausianPermutating
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-let SolveWithGausianPermutating = _Solver_functor
-({
-  method : _SolveWithGausian,
-  returning : 'ox',
-});
-var defaults = SolveWithGausianPermutating.defaults;
-defaults.permutating = 1;
-
-//
-
-function _SolveWithGaussJordan( o )
-{
-  let proto = this;
-  let nrow = o.m.nrow;
-  let ncol = Math.min( o.m.ncol, nrow );
-
-  _.assertMapHasAll( o, _SolveWithGaussJordan.defaults );
-
-  if( o.x )
-  o.x = proto.From( o.x );
-
-  _.assert( _.matrixIs( o.m ) );
-  _.assert( o.x === null || _.matrixIs( o.x ) );
-
-  if( o.permutating )
-  o.onPermutatePre( o.onPermutate, [ o ] );
-
-  /* */
-
-  if( o.x )
-  solveWithX();
-  else
-  solveWithoutX();
-
-  /* */
-
-  // proto._SolveRepermutate( o );
-
-  /* */
-
-  return o;
-
-  function solveWithX()
-  {
-    for( let r1 = 0 ; r1 < ncol ; r1++ )
-    {
-
-      if( o.permutating )
-      {
-        o.lineIndex = r1;
-        o.onPermutate( o );
-      }
-
-      let row1 = o.m.rowGet( r1 );
-      let scaler1 = row1.eGet( r1 );
-
-      if( abs( scaler1 ) < proto.accuracy )
-      continue;
-
-      row1.mul( 1/scaler1 );
-
-      let xrow1 = o.x.rowGet( r1 );
-      xrow1.mul( 1/scaler1 );
-
-      for( let r2 = 0 ; r2 < nrow ; r2++ )
-      {
-
-        if( r1 === r2 )
-        continue;
-
-        let xrow2 = o.x.rowGet( r2 );
-        let row2 = o.m.rowGet( r2 );
-        let scaler2 = row2.eGet( r1 );
-
-        row2.subScaled( row1, scaler2 );
-        xrow2.subScaled( xrow1, scaler2 );
-
-      }
-
-    }
-  }
-
-  /* */
-
-  function solveWithoutX()
-  {
-    for( let r1 = 0 ; r1 < ncol ; r1++ )
-    {
-
-      if( o.permutating )
-      {
-        o.lineIndex = r1;
-        o.onPermutate( o );
-      }
-
-      let row1 = o.m.rowGet( r1 );
-      let scaler1 = row1.eGet( r1 );
-
-      if( abs( scaler1 ) < proto.accuracy )
-      continue;
-
-      row1.mul( 1/scaler1 );
-
-      for( let r2 = 0 ; r2 < nrow ; r2++ )
-      {
-
-        if( r1 === r2 )
-        continue;
-
-        let row2 = o.m.rowGet( r2 );
-        let scaler2 = row2.eGet( r1 );
-
-        row2.subScaled( row1, scaler2 );
-
-      }
-
-    }
-  }
-
-  /* */
-
-}
-
-_SolveWithGaussJordan.defaults =
-{
-
-  ... _SolveRepermutate.defaults,
-
-  m : null,
-  x : null,
-
-}
-
-//
-
-/**
- * Static routine SolveWithGaussJordan() solves system of equations by Gauss-Jordan method.
- *
- * @example
- * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
- * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
- *
- * var matrixX = _.Matrix.SolveWithGaussJordan( null, matrixA, matrixB );
- *
- * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
- * // log :
- * // x1 : 0.641,
- * // x2 : 0.462
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithGaussJordan
- * @static
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-let SolveWithGaussJordan = _Solver_functor( _SolveWithGaussJordan );
-var defaults = SolveWithGaussJordan.defaults;
-defaults.permutating = 0;
-
-//
-
-/**
- * Static routine SolveWithGaussJordanPermutating() solves system of equations by Gauss-Jordan method with permutating.
- *
- * @example
- * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
- * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
- *
- * var matrixX = _.Matrix.SolveWithGaussJordanPermutating( null, matrixA, matrixB );
- *
- * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
- * // log :
- * // x1 : 1,
- * // x2 : 2
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithGaussJordanPermutating
- * @static
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-let SolveWithGaussJordanPermutating = _Solver_functor( _SolveWithGaussJordan );
-var defaults = SolveWithGaussJordanPermutating.defaults;
-defaults.permutating = 1;
-
-//
-
-/**
- * Method invertWithGaussJordan() inverts the values of matrix by Gauss-Jordan method.
- *
- * @example
- * var matrix = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
- * var got = matrix.invertWithGaussJordan();
- *
- * console.log( got.toStr() );
- * // log :
- * // 0.231, 0.154,
- * // -0.154, 0, 231
- *
- * @returns { Matrix } - Returns the matrix with inverted values.
- * @method invertWithGaussJordan
- * @throws { Error } If arguments is passed.
- * @throws { Error } If current matrix is not square matrix.
- * @function invertWithGaussJordan
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-function invertWithGaussJordan( dst )
-{
-  let self = this;
-
-  _.assert( arguments.length === 0 || arguments.length === 1 );
-  _.assert( self.dims[ 0 ] === self.dims[ 1 ] );
-
-  if( dst === null )
-  {
-    dst = self.clone();
-    return dst.invertWithGaussJordan();
-  }
-  else if( dst === undefined || dst === _.self )
-  {
-    dst = self;
-  }
-
-  _.assert( dst === self, 'not implemented' ); /* qqq : implement */
-
-  let nrow = self.nrow;
-
-  for( let r1 = 0 ; r1 < nrow ; r1++ )
-  {
-
-    let row1 = self.rowGet( r1 ).review( r1+1 );
-    let xrow1 = self.rowGet( r1 ).review([ 0, r1 ]);
-
-    let scaler1 = 1 / xrow1.eGet( r1 );
-    xrow1.eSet( r1, 1 );
-    self.vectorAdapter.mul( row1, scaler1 );
-    self.vectorAdapter.mul( xrow1, scaler1 );
-
-    for( let r2 = 0 ; r2 < nrow ; r2++ )
-    {
-
-      if( r1 === r2 )
-      continue;
-
-      let row2 = self.rowGet( r2 ).review( r1+1 );
-      let xrow2 = self.rowGet( r2 ).review([ 0, r1 ]);
-      let scaler2 = xrow2.eGet( r1 );
-      xrow2.eSet( r1, 0 )
-
-      self.vectorAdapter.subScaled( row2, row1, scaler2 );
-      self.vectorAdapter.subScaled( xrow2, xrow1, scaler2 );
-
-    }
-
-  }
-
-  return self;
-}
-
-//
-
-function _SolveWithTriangles( o )
-{
-  let proto = this;
-
-  if( o.x )
-  o.x = this.From( o.x );
-
-  _.assertMapHasAll( o, _SolveWithTriangles.defaults );
-  _.assert( _.matrixIs( o.m ) );
-  _.assert( _.matrixIs( o.x ) );
-
-  o.normalizing = 1;
-  proto._TriangulateLu( o );
-
-  /* _TriangulateLu permutate both o.m and ox. no need to permutate o.x individually */
-
-  // debugger;
-  // if( o.permutating )
-  // o.x = Self.VectorPermutateForward( o.x, o.permutates[ 0 ] );
-
-  o.normalized = 0;
-  proto._SolveTriangleLower( o );
-
-  o.normalized = 1;
-  proto._SolveTriangleUpper( o );
-
-  return o;
-}
-
-_SolveWithTriangles.defaults =
-{
-
-  ... _SolveRepermutate.defaults,
-
-  m : null,
-  x : null,
-  permutating : 0,
-
-}
-
-//
-
-/**
- * Static routine SolveWithTriangles() solves system of equations by triangles method.
- *
- * @example
- * var m = _.Matrix.MakeSquare
- * ([
- *   1, 5, 4,
- *   0, 1, 2,
- *   0, 0, 1,
- * ]);
- *
- * var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
- * var x = _.Matrix.SolveWithTriangles( null, m, y );
- * console.log( x.toStr() );
- * // log :
- * //  6,
- * // -2,
- * //  2,
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithTriangles
- * @static
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-let SolveWithTriangles = _Solver_functor( _SolveWithTriangles );
-var defaults = SolveWithTriangles.defaults;
-defaults.permutating = 0;
-
-//
-
-/**
- * Static routine SolveWithTrianglesPermutating() solves system of equations by triangles method with permutating.
- *
- * @example
- * var m = _.Matrix.MakeSquare
- * ([
- *   +1, -1, +2,
- *   +2, +0, +2,
- *   -2, +0, -4,
- * ]);
- *
- * var y = [ 7, 4, -10 ];
- * var x = _.Matrix.SolveWithTrianglesPermutating( null, m, y );
- * console.log( x );
- * // log : [ -1, -2, +3 ]
- *
- * @param { Null|Matrix } x - Destination matrix.
- * @param { Matrix } m - Matrix of coefficients.
- * @param { Matrix } y - Matrix of results.
- * @returns { Matrix } - Returns the matrix with unknowns.
- * @throws { Error } If dimensions of {-x-} and {-y-} are different.
- * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
- * @function SolveWithTrianglesPermutating
- * @static
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-//
-
-let SolveWithTrianglesPermutating = _Solver_functor( _SolveWithTriangles );
-var defaults = SolveWithTrianglesPermutating.defaults;
-defaults.permutating = 1;
 
 //
 
@@ -1356,6 +890,7 @@ function _SolveTriangleLower( o )
   function actVectorNormalized( x )
   {
     for( let r1 = 0, l = x.length ; r1 < l ; r1++ )
+    // for( let r1 = 0, l = m.ncol ; r1 < l ; r1++ )
     {
       let xu = x.review([ 0, r1-1 ]);
       let row = o.m.rowGet( r1 ).review([ 0, r1-1 ]);
@@ -1375,6 +910,7 @@ function _SolveTriangleLower( o )
   function actVectorNotNormalized( x )
   {
     for( let r1 = 0, l = x.length ; r1 < l ; r1++ )
+    // for( let r1 = 0, l = m.ncol ; r1 < l ; r1++ )
     {
       let xu = x.review([ 0, r1-1 ]);
       let row = o.m.rowGet( r1 );
@@ -1481,6 +1017,7 @@ defaults.normalized = 1;
 
 function _SolveTriangleUpper( o )
 {
+  let proto = this;
 
   _.assertMapHasAll( o, _SolveTriangleUpper.defaults );
 
@@ -1520,7 +1057,7 @@ function _SolveTriangleUpper( o )
       let xu = x.review([ r1+1, l ]);
       let row = o.m.rowGet( r1 );
       row = row.review([ r1+1, row.length-1 ]);
-      let xval = ( x.eGet( r1 ) - row.dot( xu ) );
+      let xval = x.eGet( r1 ) - row.dot( xu );
       x.eSet( r1, xval );
     }
   }
@@ -1537,11 +1074,15 @@ function _SolveTriangleUpper( o )
   {
     for( let l = x.length-1, r1 = l ; r1 >= 0 ; r1-- )
     {
-      let xu = x.review([ r1+1, l ]);
       let row = o.m.rowGet( r1 );
       let scaler = row.eGet( r1 );
+      let xu = x.review([ r1+1, l ]);
       row = row.review([ r1+1, row.length-1 ]);
-      let xval = ( x.eGet( r1 ) - row.dot( xu ) ) / scaler;
+      let xval = ( x.eGet( r1 ) - row.dot( xu ) );
+      if( Math.abs( scaler ) > proto.accuracy )
+      {
+        xval /= scaler;
+      }
       x.eSet( r1, xval );
     }
   }
@@ -1607,6 +1148,681 @@ defaults.normalized = 1;
 
 //
 
+function _SolveWithGausian( o )
+{
+  let proto = this;
+
+  if( o.x )
+  o.x = proto.From( o.x );
+
+  _.assertMapHasAll( o, _SolveWithGausian.defaults );
+  _.assert( _.matrixIs( o.m ) );
+  _.assert( o.x === null || _.matrixIs( o.x ) );
+
+  // o.normalizing = 1;
+  proto._TriangulateGausian( o );
+
+  if( o.ox === null )
+  return o.ox;
+
+  o.normalized = o.normalizing;
+  proto._SolveTriangleUpper( o );
+
+  // proto._SolveRepermutate( o );
+
+  return o.ox;
+}
+
+_SolveWithGausian.defaults =
+{
+
+  ... _SolveRepermutate.defaults,
+
+  normalizing : 1,
+  m : null,
+  x : null,
+}
+
+//
+
+/**
+ * Static routine SolveWithGausian() solves system of equations by Gaussian method.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGausian( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.538,
+ * // x2 : 0.308
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithGausian
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+let SolveWithGausian = _Solver_functor
+({
+  method : _SolveWithGausian,
+  returning : 'ox',
+});
+var defaults = SolveWithGausian.defaults;
+defaults.permutating = 0;
+defaults.normalizing = 0;
+
+//
+
+let SolveWithGausianNormalizing = _Solver_functor
+({
+  method : _SolveWithGausian,
+  returning : 'ox',
+});
+var defaults = SolveWithGausianNormalizing.defaults;
+defaults.permutating = 0;
+defaults.normalizing = 1;
+
+//
+
+/**
+ * Static routine SolveWithGausianPermutating() solves system of equations by Gaussian method with permutating.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGausianPermutating( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.641,
+ * // x2 : 0.462
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @method SolveWithGausianPermutating
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+let SolveWithGausianPermutating = _Solver_functor
+({
+  method : _SolveWithGausian,
+  returning : 'ox',
+});
+var defaults = SolveWithGausianPermutating.defaults;
+defaults.permutating = 1;
+defaults.normalizing = 0;
+
+let SolveWithGausianNormalizingPermutating = _Solver_functor
+({
+  method : _SolveWithGausian,
+  returning : 'ox',
+});
+var defaults = SolveWithGausianNormalizingPermutating.defaults;
+defaults.permutating = 1;
+defaults.normalizing = 1;
+
+//
+
+function _SolveWithGaussJordan( o )
+{
+  let proto = this;
+  let nrow = o.m.nrow;
+  let ncol = Math.min( o.m.ncol, nrow );
+
+  _.assertMapHasAll( o, _SolveWithGaussJordan.defaults );
+
+  if( o.x )
+  o.x = proto.From( o.x );
+
+  _.assert( _.matrixIs( o.m ) );
+  _.assert( o.x === null || _.matrixIs( o.x ) );
+
+  if( o.permutating )
+  o.onPermutatePre( o.onPermutate, [ o ] );
+
+  /* */
+
+  if( o.x )
+  solveWithX();
+  else
+  solveWithoutX();
+
+  if( !o.normalizing && o.x )
+  {
+    let diag = o.m.diagonalGet();
+    for( let d = diag.length-1 ; d >= 0 ; d-- )
+    {
+      let scaler = diag.eGet( d );
+      if( Math.abs( scaler ) >= proto.accuracy )
+      o.x.rowGet( d ).div( scaler );
+    }
+  }
+
+  /* */
+
+  // proto._SolveRepermutate( o );
+
+  /* */
+
+  return o;
+
+  function solveWithX() /* qqq2 : factorize by option o.normalizing */
+  {
+    for( let r1 = 0 ; r1 < ncol ; r1++ )
+    {
+
+      if( o.permutating )
+      {
+        o.lineIndex = r1;
+        o.onPermutate( o );
+      }
+
+      let row1 = o.m.rowGet( r1 );
+      let scaler1 = row1.eGet( r1 );
+
+      if( abs( scaler1 ) < proto.accuracySqrt )
+      continue;
+
+      if( o.normalizing )
+      row1.eSet( r1, 1 );
+      row1 = row1.review( r1+1 );
+      if( o.normalizing )
+      row1.mul( 1/scaler1 );
+
+      let xrow1 = o.x.rowGet( r1 );
+      if( o.normalizing )
+      xrow1.mul( 1/scaler1 );
+
+      for( let r2 = 0 ; r2 < nrow ; r2++ )
+      {
+
+        if( r1 === r2 )
+        continue;
+
+        let xrow2 = o.x.rowGet( r2 );
+        let row2 = o.m.rowGet( r2 );
+        let scaler2 = row2.eGet( r1 );
+
+        if( !o.normalizing )
+        scaler2 = scaler2 / scaler1;
+
+        if( abs( scaler2 ) < proto.accuracy )
+        continue;
+
+        row2.eSet( r1, 0 );
+        row2 = row2.review( r1+1 );
+        row2.subScaled( row1, scaler2 );
+        xrow2.subScaled( xrow1, scaler2 );
+
+      }
+
+    }
+  }
+
+  /* */
+
+  function solveWithoutX()  /* qqq2 : factorize by option o.normalizing */
+  {
+    for( let r1 = 0 ; r1 < ncol ; r1++ )
+    {
+
+      if( o.permutating )
+      {
+        o.lineIndex = r1;
+        o.onPermutate( o );
+      }
+
+      let row1 = o.m.rowGet( r1 );
+      let scaler1 = row1.eGet( r1 );
+
+      if( abs( scaler1 ) < proto.accuracySqrt )
+      continue;
+
+      if( o.normalizing )
+      row1.eSet( r1, 1 );
+      row1 = row1.review( r1+1 );
+      if( o.normalizing )
+      row1.mul( 1/scaler1 );
+
+      for( let r2 = 0 ; r2 < nrow ; r2++ )
+      {
+
+        if( r1 === r2 )
+        continue;
+
+        let row2 = o.m.rowGet( r2 );
+        let scaler2 = row2.eGet( r1 );
+
+        if( !o.normalizing )
+        scaler2 = scaler2 / scaler1;
+
+        if( abs( scaler2 ) < proto.accuracy )
+        continue;
+
+        row2.eSet( r1, 0 );
+        row2 = row2.review( r1+1 );
+        row2.subScaled( row1, scaler2 );
+
+      }
+
+    }
+  }
+
+  /* */
+
+}
+
+_SolveWithGaussJordan.defaults =
+{
+
+  ... _SolveRepermutate.defaults,
+
+  m : null,
+  x : null,
+  normalizing : 1,
+
+}
+
+//
+
+/**
+ * Static routine SolveWithGaussJordan() solves system of equations by Gauss-Jordan method.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGaussJordan( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.641,
+ * // x2 : 0.462
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithGaussJordan
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+let SolveWithGaussJordan = _Solver_functor( _SolveWithGaussJordan );
+var defaults = SolveWithGaussJordan.defaults;
+defaults.permutating = 0;
+defaults.normalizing = 0;
+
+let SolveWithGaussJordanNormalizing = _Solver_functor( _SolveWithGaussJordan );
+var defaults = SolveWithGaussJordanNormalizing.defaults;
+defaults.permutating = 0;
+defaults.normalizing = 1;
+
+//
+
+/**
+ * Static routine SolveWithGaussJordanPermutating() solves system of equations by Gauss-Jordan method with permutating.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.SolveWithGaussJordanPermutating( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 1,
+ * // x2 : 2
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithGaussJordanPermutating
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+let SolveWithGaussJordanPermutating = _Solver_functor( _SolveWithGaussJordan );
+var defaults = SolveWithGaussJordanPermutating.defaults;
+defaults.permutating = 1;
+defaults.normalizing = 0;
+
+let SolveWithGaussJordanNormalizingPermutating = _Solver_functor( _SolveWithGaussJordan );
+var defaults = SolveWithGaussJordanNormalizingPermutating.defaults;
+defaults.permutating = 1;
+defaults.normalizing = 1;
+
+//
+
+/**
+ * Method invertWithGaussJordan() inverts the values of matrix by Gauss-Jordan method.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var got = matrix.invertWithGaussJordan();
+ *
+ * console.log( got.toStr() );
+ * // log :
+ * // 0.231, 0.154,
+ * // -0.154, 0, 231
+ *
+ * @returns { Matrix } - Returns the matrix with inverted values.
+ * @method invertWithGaussJordan
+ * @throws { Error } If arguments is passed.
+ * @throws { Error } If current matrix is not square matrix.
+ * @function invertWithGaussJordan
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function invertWithGaussJordan( dst )
+{
+  let self = this;
+
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+  _.assert( self.dims[ 0 ] === self.dims[ 1 ] );
+
+  if( dst === null )
+  {
+    dst = self.clone();
+    return dst.invertWithGaussJordan();
+  }
+  else if( dst === undefined || dst === _.self )
+  {
+    dst = self;
+  }
+
+  _.assert( dst === self, 'not implemented' ); /* qqq : implement */
+
+  let nrow = self.nrow;
+
+  for( let r1 = 0 ; r1 < nrow ; r1++ )
+  {
+
+    let row1 = self.rowGet( r1 ).review( r1+1 );
+    let xrow1 = self.rowGet( r1 ).review([ 0, r1 ]);
+
+    let scaler1 = 1 / xrow1.eGet( r1 );
+    xrow1.eSet( r1, 1 );
+    self.vectorAdapter.mul( row1, scaler1 );
+    self.vectorAdapter.mul( xrow1, scaler1 );
+
+    for( let r2 = 0 ; r2 < nrow ; r2++ )
+    {
+
+      if( r1 === r2 )
+      continue;
+
+      let row2 = self.rowGet( r2 ).review( r1+1 );
+      let xrow2 = self.rowGet( r2 ).review([ 0, r1 ]);
+      let scaler2 = xrow2.eGet( r1 );
+      xrow2.eSet( r1, 0 )
+
+      self.vectorAdapter.subScaled( row2, row1, scaler2 );
+      self.vectorAdapter.subScaled( xrow2, xrow1, scaler2 );
+
+    }
+
+  }
+
+  return self;
+}
+
+//
+
+function _SolveWithTriangles( o )
+{
+  let proto = this;
+
+  if( o.x )
+  o.x = this.From( o.x );
+
+  _.assertMapHasAll( o, _SolveWithTriangles.defaults );
+  _.assert( _.matrixIs( o.m ) );
+  _.assert( _.matrixIs( o.x ) || o.x === null ); /* yyy */
+
+  // o.normalizing = 1;
+  proto._TriangulateLu( o );
+
+  /* _TriangulateLu permutate both o.m and ox. no need to permutate o.x individually */
+
+  // debugger;
+  // if( o.permutating )
+  // o.x = Self.VectorPermutateForward( o.x, o.permutates[ 0 ] );
+
+  if( o.x === null )
+  return o;
+
+  o.normalized = !o.normalizing;
+  proto._SolveTriangleLower( o );
+
+  o.normalized = o.normalizing;
+  proto._SolveTriangleUpper( o );
+
+  return o;
+}
+
+_SolveWithTriangles.defaults =
+{
+
+  ... _SolveRepermutate.defaults,
+
+  m : null,
+  x : null,
+  permutating : 0,
+  normalizing : 1,
+
+}
+
+//
+
+/**
+ * Static routine SolveWithTriangles() solves system of equations by triangles method.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   1, 5, 4,
+ *   0, 1, 2,
+ *   0, 0, 1,
+ * ]);
+ *
+ * var y = _.Matrix.MakeCol([ 4, 2, 2 ]);
+ * var x = _.Matrix.SolveWithTriangles( null, m, y );
+ * console.log( x.toStr() );
+ * // log :
+ * //  6,
+ * // -2,
+ * //  2,
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithTriangles
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+let SolveWithTriangles = _Solver_functor( _SolveWithTriangles );
+var defaults = SolveWithTriangles.defaults;
+defaults.permutating = 0;
+defaults.normalizing = 0;
+
+let SolveWithTrianglesNormalizing = _Solver_functor( _SolveWithTriangles );
+var defaults = SolveWithTrianglesNormalizing.defaults;
+defaults.permutating = 0;
+defaults.normalizing = 1;
+
+//
+
+/**
+ * Static routine SolveWithTrianglesPermutating() solves system of equations by triangles method with permutating.
+ *
+ * @example
+ * var m = _.Matrix.MakeSquare
+ * ([
+ *   +1, -1, +2,
+ *   +2, +0, +2,
+ *   -2, +0, -4,
+ * ]);
+ *
+ * var y = [ 7, 4, -10 ];
+ * var x = _.Matrix.SolveWithTrianglesPermutating( null, m, y );
+ * console.log( x );
+ * // log : [ -1, -2, +3 ]
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If dimensions of {-x-} and {-y-} are different.
+ * @throws { Error } If number of rows of {-m-} is not equal to number of rows of {-x-}.
+ * @function SolveWithTrianglesPermutating
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+let SolveWithTrianglesPermutating = _Solver_functor( _SolveWithTriangles );
+var defaults = SolveWithTrianglesPermutating.defaults;
+defaults.permutating = 1;
+defaults.normalizing = 0;
+
+let SolveWithTrianglesNormalizingPermutating = _Solver_functor( _SolveWithTriangles );
+var defaults = SolveWithTrianglesNormalizingPermutating.defaults;
+defaults.permutating = 1;
+defaults.normalizing = 1;
+
+/**
+ * Static routine Solve() solves system of equations.
+ *
+ * @example
+ * var matrixA = _.Matrix.MakeSquare( [ [ 3, -2, 2, 3 ] ] );
+ * var matrixB = _.Matrix.MakeCol( [ 1, 2 ] );
+ *
+ * var matrixX = _.Matrix.Solve( null, matrixA, matrixB );
+ *
+ * console.log( `x1 : ${ matrixX.scalarGet( [ 0, 0 ] ) },\nx2 : ${ matrixX.scalarGet( [ 1, 0 ] ) }` );
+ * // log :
+ * // x1 : 0.5384615659713745,
+ * // x2 : 0.307692289352417
+ *
+ * @param { Null|Matrix } x - Destination matrix.
+ * @param { Matrix } m - Matrix of coefficients.
+ * @param { Matrix } y - Matrix of results.
+ * @returns { Matrix } - Returns the matrix with unknowns.
+ * @throws { Error } If arguments.length is not equal to three.
+ * @function Solve
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+// function Solve( x, m, y )
+// {
+//   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
+//   return this.SolveWithTrianglesPermutating( x, m, y )
+// }
+
+let Solve = SolveWithTrianglesNormalizingPermutating;
+
+//
+
+/**
+ * Method invert() inverts current matrix by Gauss-Jordan method.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   +2, -3, +4,
+ *   +2, -2, +3,
+ *   +6, -7, +9,
+ * ]);
+ *
+ * m.invert();
+ * console.log( m.toStr() );
+ * // log :
+ * // -1.5, +0.5, +0.5,
+ * // +0,   +3,   -1,
+ * // +1,   +2,   -1,
+ *
+ * @returns { Matrix } - Returns the matrix with inverted values.
+ * @method invert
+ * @throws { Error } If number of dimensions is more then two.
+ * @throws { Error } If current matrix is not a square matrix.
+ * @throws { Error } If arguments are passed.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+/*
+qqq : update documentation
+qqq : implement good coverage
+*/
+
+function invert( dst )
+{
+  let self = this;
+
+  _.assert( self.dims.length === 2 );
+  _.assert( self.isSquare(), `Matrix should be square to be inverted` );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( dst === undefined || dst === _.self )
+  dst = self;
+
+  if( dst === self )
+  {
+    return self.invertWithGaussJordan();
+  }
+  else
+  {
+    let clone = self.clone();
+    dst = Self.SolveWithGaussJordan( dst, clone, self.Self.MakeIdentity( self.dims[ 0 ] ) );
+    return dst;
+  }
+
+}
+
+// --
+// general
+// --
+
 function _SolveGeneralRepermutate( o )
 {
   let proto = this;
@@ -1623,8 +1839,11 @@ function _SolveGeneralRepermutate( o )
   {
     if( o.x !== null )
     Self.PermutateBackward( o.x, o.permutates[ 1 ] );
-    let permutates2 = [ o.permutates[ 1 ], null ];
-    o.kernel.permutateBackward( permutates2 );
+    if( o.okernel === o.nkernel && o.nkernel > 0 )
+    {
+      let permutates2 = [ o.permutates[ 1 ], null ];
+      o.kernel.permutateBackward( permutates2 );
+    }
   }
   if( o.repermutatingTransformation )
   {
@@ -1673,22 +1892,23 @@ function _SolveGeneral( o )
 
   _.assert( o.x === null || o.m.ncol === o.x.nrow );
   _.assert( o.kernel === null || o.m.ncol === o.kernel.nrow );
-  _.assert( o.kernel === null || o.m.ncol === o.kernel.ncol );
+  _.assert( o.kernel === null || o.m.ncol <= o.kernel.ncol );
   _.assert( o.x === null || o.x instanceof Self );
   _.assert( o.x === null || o.x.dims[ 1 ] === 1 );
 
   /* solve */
 
+  o.normalizing = 1;
   let x = proto._SolveWithGaussJordan( o );
 
-  /* analyse */
+  /* estimate */
 
   for( let r = 0 ; r < ncol ; r++ )
   {
     let diag = r < nrow ? o.m.scalarGet([ r, r ]) : 0;
-    if( abs( diag ) < proto.accuracy )
+    if( abs( diag ) < proto.accuracySqrt )
     {
-      if( !o.x || abs( o.x.scalarGet([ r, 0 ]) ) < proto.accuracy )
+      if( !o.x || abs( o.x.scalarGet([ r, 0 ]) ) < proto.accuracySqrt )
       {
         o.nsolutions = Infinity;
         o.nkernel += 1;
@@ -1703,21 +1923,25 @@ function _SolveGeneral( o )
     }
   }
 
+  /* reval */
+
   if( o.kernel === null )
   o.kernel = proto.Make([ ncol, o.nkernel ]);
 
-  let ckernel = 0;
+  _.assert( o.kernel.dims[ 0 ] === o.m.dims[ 1 ] );
+  _.assert( o.kernel.dims[ 1 ] >= o.nkernel - o.okernel );
+
   for( let r = 0 ; r < ncol ; r++ )
   {
     let diag = r < nrow ? o.m.scalarGet([ r, r ]) : 0;
-    if( abs( diag ) < proto.accuracy )
+    if( abs( diag ) < proto.accuracySqrt )
     {
-      let kcol = o.kernel.colGet( ckernel );
+      let kcol = o.kernel.colGet( o.okernel );
       let mcol = o.m.colGet( r );
       kcol.copy( mcol );
       kcol.mul( -1 );
       kcol.eSet( r, 1 );
-      ckernel += 1;
+      o.okernel += 1;
     }
   }
 
@@ -1738,6 +1962,8 @@ _SolveGeneral.defaults =
   x : null,
   m : null,
   kernel : null,
+  okernel : 0,
+  permutating : 1,
 
 }
 
@@ -1802,61 +2028,59 @@ let SolveGeneral = _Solver_functor
 
 //
 
-/**
- * Method invert() inverts current matrix by Gauss-Jordan method.
- *
- * @example
- * var m = _.Matrix.Make([ 3, 3 ]).copy
- * ([
- *   +2, -3, +4,
- *   +2, -2, +3,
- *   +6, -7, +9,
- * ]);
- *
- * m.invert();
- * console.log( m.toStr() );
- * // log :
- * // -1.5, +0.5, +0.5,
- * // +0,   +3,   -1,
- * // +1,   +2,   -1,
- *
- * @returns { Matrix } - Returns the matrix with inverted values.
- * @method invert
- * @throws { Error } If number of dimensions is more then two.
- * @throws { Error } If current matrix is not a square matrix.
- * @throws { Error } If arguments are passed.
- * @class Matrix
- * @namespace wTools
- * @module Tools/math/Matrix
- */
-
-/*
-qqq : update documentation
-qqq : implement good coverage
-*/
-
-function invert( dst )
+function nullspace( dst )
 {
   let self = this;
 
-  _.assert( self.dims.length === 2 );
-  _.assert( self.isSquare(), `Matrix should be square to be inverted` );
   _.assert( arguments.length === 0 || arguments.length === 1 );
+  _.assert( dst === undefined || dst === null || dst === _.self || _.matrixIs( dst ) );
 
-  if( dst === undefined || dst === _.self )
-  dst = self;
+  let o = { m : self.clone() };
 
-  if( dst === self )
+  if( dst === _.self || dst === self )
   {
-    return self.invertWithGaussJordan();
+    o.kernel = self;
+  }
+  else if( dst === null || dst === undefined )
+  {
   }
   else
   {
-    let clone = self.clone();
-    dst = Self.SolveWithGaussJordan( dst, clone, self.Self.MakeIdentity( self.dims[ 0 ] ) );
-    return dst;
+    o.kernel = dst;
   }
 
+  self.SolveGeneral( o );
+  return o.kernel;
+}
+
+//
+
+function rref( dst, y )
+{
+  let self = this;
+
+  _.assert( arguments.length === 0 || arguments.length === 1 || arguments.length === 2 );
+  _.assert( dst === undefined || dst === null || dst === _.self || _.matrixIs( dst ) );
+
+  let o = { y };
+
+  if( dst === _.self || dst === self || dst === undefined )
+  {
+    o.m = self;
+  }
+  else if( dst === null )
+  {
+    o.m = self.clone();
+  }
+  else
+  {
+    dst.copy( self );
+    o.m = dst;
+  }
+
+  self.SolveWithGaussJordanNormalizingPermutating( o );
+  // self.SolveGeneral( o );
+  return o.m;
 }
 
 // --
@@ -1878,26 +2102,15 @@ let Statics = /* qqq : split static routines. ask how */
   TriangulateGausian,
   TriangulateGausianNormalizing,
   TriangulateGausianPermutating,
+  TriangulateGausianNormalizingPermutating,
 
   _TriangulateLu,
   TriangulateLu,
   TriangulateLuNormalizing,
   TriangulateLuPermutating,
+  TriangulateLuNormalizingPermutating,
 
   // solver
-
-  Solve,
-
-  SolveWithGausian,
-  SolveWithGausianPermutating,
-
-  _SolveWithGaussJordan,
-  SolveWithGaussJordan,
-  SolveWithGaussJordanPermutating,
-
-  _SolveWithTriangles,
-  SolveWithTriangles,
-  SolveWithTrianglesPermutating,
 
   _SolveTriangleLower,
   SolveTriangleLower,
@@ -1905,6 +2118,28 @@ let Statics = /* qqq : split static routines. ask how */
   _SolveTriangleUpper,
   SolveTriangleUpper,
   SolveTriangleUpperNormalized,
+
+  _SolveWithGausian,
+  SolveWithGausian,
+  SolveWithGausianNormalizing,
+  SolveWithGausianPermutating,
+  SolveWithGausianNormalizingPermutating,
+
+  _SolveWithGaussJordan,
+  SolveWithGaussJordan,
+  SolveWithGaussJordanNormalizing,
+  SolveWithGaussJordanPermutating,
+  SolveWithGaussJordanNormalizingPermutating,
+
+  _SolveWithTriangles,
+  SolveWithTriangles,
+  SolveWithTrianglesNormalizing,
+  SolveWithTrianglesPermutating,
+  SolveWithTrianglesNormalizingPermutating,
+
+  Solve,
+
+  // general
 
   _SolveGeneralRepermutate,
   _SolveGeneral,
@@ -1934,6 +2169,8 @@ let Extension =
   triangulateGausianNormalizing,
   TriangulateGausianPermutating,
   triangulateGausianPermutating,
+  TriangulateGausianNormalizingPermutating,
+  triangulateGausianNormalizingPermutating,
 
   _TriangulateLu,
   TriangulateLu,
@@ -1942,23 +2179,10 @@ let Extension =
   triangulateLuNormalizing,
   TriangulateLuPermutating,
   triangulateLuPermutating,
+  TriangulateLuNormalizingPermutating,
+  triangulateLuNormalizingPermutating,
 
   // solver
-
-  Solve,
-
-  _SolveWithGausian,
-  SolveWithGausian,
-  SolveWithGausianPermutating,
-
-  _SolveWithGaussJordan,
-  SolveWithGaussJordan,
-  SolveWithGaussJordanPermutating,
-  invertWithGaussJordan,
-
-  _SolveWithTriangles,
-  SolveWithTriangles,
-  SolveWithTrianglesPermutating,
 
   _SolveTriangleLower,
   SolveTriangleLower,
@@ -1967,11 +2191,35 @@ let Extension =
   SolveTriangleUpper,
   SolveTriangleUpperNormalized,
 
+  _SolveWithGausian,
+  SolveWithGausian,
+  SolveWithGausianNormalizing,
+  SolveWithGausianPermutating,
+  SolveWithGausianNormalizingPermutating,
+
+  _SolveWithGaussJordan,
+  SolveWithGaussJordan,
+  SolveWithGaussJordanNormalizing,
+  SolveWithGaussJordanPermutating,
+  SolveWithGaussJordanNormalizingPermutating,
+  invertWithGaussJordan,
+
+  _SolveWithTriangles,
+  SolveWithTriangles,
+  SolveWithTrianglesNormalizing,
+  SolveWithTrianglesPermutating,
+  SolveWithTrianglesNormalizingPermutating,
+
+  Solve,
+  invert,
+
+  // general
+
   _SolveGeneralRepermutate,
   _SolveGeneral,
   SolveGeneral,
-
-  invert,
+  nullspace, /* qqq : cover please */
+  rref, /* qqq : cover please */
 
   //
 

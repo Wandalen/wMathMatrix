@@ -54,8 +54,10 @@ function dimsOf( src )
 
 let Extension =
 {
+
   dimsExportString,
   dimsOf,
+
 }
 
 _.mapSupplement( _.matrix, Extension );

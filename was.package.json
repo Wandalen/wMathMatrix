@@ -12,7 +12,7 @@
   "license" : "MIT",
   "main" : "proto/dwtools/amath/l5_matrix/module/full/Include.s",
   "files" : [ "proto/dwtools/amath/l5_matrix", "proto/dwtools/Tools.s", "out" ],
-  "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen proto" },
+  "scripts" : { "test" : "wtest .run 'proto/**'", "docgen" : "wdocgen proto" },
   "repository" :
   {
     "type" : "git",

@@ -12,11 +12,9 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools;
-let fileProvider = _testerGlobal_.wTools.fileProvider;
+let _ = _testerGlobal_.wTools;
+let fileProvider = _.fileProvider;
 let path = fileProvider.path;
-let Consequence = _testerGlobal_.wTools.Consequence;
-let process = _testerGlobal_.wTools.process
 
 // --
 // test
@@ -25,10 +23,10 @@ let process = _testerGlobal_.wTools.process
 function samples( test )
 {
   let context = this;
-  let ready = new Consequence().take( null );
+  let ready = new _.Consequence().take( null );
   let sampleDir = path.join( __dirname, '../../../../sample' );
 
-  let appStartNonThrowing = process.starter
+  let appStartNonThrowing = _.process.starter
   ({
     currentPath : sampleDir,
     outputCollecting : 1,
@@ -110,16 +108,16 @@ function eslint( test )
   let rootPath = path.join( __dirname, '../../../..' );
   let eslint = path.join( rootPath, 'node_modules/.bin/eslint' );
   let sampleDir = path.join( rootPath, 'sample' );
-  let ready = new Consequence().take( null );
+  let ready = new _.Consequence().take( null );
 
-  let start = process.starter
+  let start = _.process.starter
   ({
     execPath : eslint,
     mode : 'fork',
     currentPath : rootPath,
     stdio : 'ignore',
     args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss' ],
-    throwingExitCode : 0
+    throwingExitCode : 0,
   })
 
   if( !fileProvider.fileExists( sampleDir ) )
