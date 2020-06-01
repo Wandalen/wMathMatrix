@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wMathMatrix.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wMathMatrix.out.will.yml: &ref_0
+    hash: 063e5017d90df0cc78d15e1a5dc17a9c
+    size: 46674
+  ../.ex.will.yml: &ref_1
     hash: cd42951ae305785a681970483147ebe7
     size: 2689
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: ea555bef4a2719d701154933743b0934
     size: 5358
 module:
@@ -30,11 +33,11 @@ module:
         multidimensional data.
       enabled: 1
       version: 0.4.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
         - math
         - matrix
@@ -42,11 +45,11 @@ module:
         - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
         - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -822,6 +825,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          filePath: 'reflector::exported.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          filePath: 'reflector::exported.files.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -910,8 +931,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wMathMatrix.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wMathMatrix
@@ -933,13 +955,25 @@ module:
         multidimensional data.
       enabled: 1
       version: 0.4.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 8.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
+        - math
+        - matrix
+        - matrix math
+        - convolution
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@01.school>
+        - Pablo Garcimartin <pablogarcimartinruiz@gmail.com>
       npm.name: wmathmatrix
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1651,3 +1685,6 @@ module:
       ../.im.will.yml:
         hash: ea555bef4a2719d701154933743b0934
         size: 5358
+      wMathMatrix.out.will.yml:
+        hash: 063e5017d90df0cc78d15e1a5dc17a9c
+        size: 46674
