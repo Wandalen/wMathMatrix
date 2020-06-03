@@ -23090,6 +23090,7 @@ function scalarWhileCheckingFields( test )
     offset : [ 23, 23, 22, 18 ],
     indexLogical : 23
   };
+  debugger;
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
   test.is( got[ 0 ] === got[ 1 ] );
@@ -23792,7 +23793,7 @@ function scalarEachCheckingFields( test )
     args : [],
     indexNd : [ 0, 1, 2, 3 ],
     strides : [ 1, 1, 2, 6 ],
-    offset : [ 24, 24, 22, 18 ],
+    offset : [ 23, 23, 22, 18 ],
     indexLogical : 23
   };
   test.identical( got[ 0 ], exp );
@@ -23818,7 +23819,7 @@ function scalarEachCheckingFields( test )
     args : [],
     indexNd : [ 0, 1, 2, 3 ],
     strides : [ 0, 1, 2, 6 ],
-    offset : [ 24, 24, 22, 18 ],
+    offset : [ 23, 23, 22, 18 ],
     indexLogical : 23
   };
   test.identical( got[ 0 ], exp );
@@ -23844,7 +23845,7 @@ function scalarEachCheckingFields( test )
     args : [],
     indexNd : [ 0, 0, 2, 3 ],
     strides : [ 1, 0, 1, 3 ],
-    offset : [ 12, 12, 11, 9 ],
+    offset : [ 11, 11, 11, 9 ],
     indexLogical : 11
   };
   test.identical( got[ 0 ], exp );
@@ -23870,7 +23871,7 @@ function scalarEachCheckingFields( test )
     args : [],
     indexNd : [ 0, 1, 0, 3 ],
     strides : [ 1, 1, 2, 2 ],
-    offset : [ 8, 8, 6, 6 ],
+    offset : [ 7, 7, 6, 6 ],
     indexLogical : 7
   };
   test.identical( got[ 0 ], exp );
@@ -34293,7 +34294,7 @@ var Self =
     /* iterators */
 
     scalarWhile,
-    // scalarWhileCheckingFields, /* qqq2 : investigate and fix */
+    scalarWhileCheckingFields, /* qqq2 : investigate and fix */
     scalarEach,
     scalarEachCheckingFields,
     layerEach,
