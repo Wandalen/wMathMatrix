@@ -194,6 +194,7 @@ function scalarWhile( o )
     it.indexLogical = 0;
 
     let ranges = [];
+    let lastIndex = dims.length - 1;
     for( let i = 0 ; i < dims.length ; i++ )
     ranges.push( [ 0, dims[ i ] ] );
 
@@ -208,12 +209,15 @@ function scalarWhile( o )
 
     function handleEach( indexNd, indexLogical )
     {
-      it.indexNd = indexNd;
+      it.indexNd[ lastIndex ] = indexNd[ lastIndex ];
       it.indexLogical = indexLogical;
 
-      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+      it.offset[ lastIndex ] = it.indexNd[ lastIndex ] * it.strides[ lastIndex ] + self.offset;
       for( let i = dims.length - 2 ; i >= 0 ; i-- )
-      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      {
+        it.indexNd[ i ] = indexNd[ i ];
+        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      }
 
       result = o.onScalar.call( self, it );
 
