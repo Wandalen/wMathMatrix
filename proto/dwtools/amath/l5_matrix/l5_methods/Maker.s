@@ -647,7 +647,7 @@ function MakeLine( o )
 
     if( o.zeroing )
     {
-      // o.buffer = o.buffer.dims[ o.dimension ]; qqq2 : ?
+      // o.buffer = o.buffer.dims[ o.dimension ]; aaa2 : ? /* Dmytro : the first version of routine had many not optimal features like this */
       // length = o.buffer;
       length = o.buffer.dims[ o.dimension ];
     }
