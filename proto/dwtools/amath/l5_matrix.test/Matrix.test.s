@@ -15209,7 +15209,89 @@ function CopyToSrcIsNotMatrix( test )
 
     /* - */
 
-    test.open( 'dst is a flat Matrix' );
+    test.open( 'dst is a column Matrix - second dimension is Infinity' );
+
+    test.case = `dst - matrix from long ${ a.format }, src - empty long ${ a.format }`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 0, 0, 0 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - empty long ${ a.format }`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
+    var src = a.longMake([]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 0, 0, 0 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - empty vector ${ a.format }`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
+    var src = a.vadMake([]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 0, 0, 0 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    /* */
+
+    test.case = `dst - matrix from long ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2, 2 ]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 2, 2, 2 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2, 2 ]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 2 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length === src.length`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
+    var src = a.vadMake([ 2, 2, 2 ]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 2 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    /* */
+
+    test.case = `dst - matrix from long ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2 ]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 2, 2, 0 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2 ]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 0 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length > src.length`;
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
+    var src = a.vadMake([ 2, 2 ]);
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 0 ]) );
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.close( 'dst is a column Matrix - second dimension is Infinity' );
+
+    /* - */
+
+    test.open( 'dst is a 2D Matrix' );
 
     test.case = `dst - matrix from long ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.longMake
@@ -15321,7 +15403,7 @@ function CopyToSrcIsNotMatrix( test )
     test.identical( got, exp );
     test.is( got === dst );
 
-    test.close( 'dst is a flat Matrix' );
+    test.close( 'dst is a 2D Matrix' );
   }
 
   /* - */
