@@ -503,7 +503,7 @@ function scalarEach( o )
   //   it.offset = _.dup( self.offset, dims.length );
   //   let indexLogical = 0;
   //
-  //   self.layerEach( ( it2 ) => /* qqq3 : implement without layerEach */
+  //   self.layerEach( ( it2 ) => /* aaa3 : implement without layerEach */ /* Dmytro : implemented */
   //   {
   //
   //     for( let i = 2 ; i < dims.length ; i++ )
