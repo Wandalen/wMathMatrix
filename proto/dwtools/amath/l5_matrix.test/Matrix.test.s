@@ -15887,6 +15887,68 @@ function CopyToSrcIsMatrix( test )
 
     /* */
 
+    test.case = `dst - matrix from long ${ a.format }, src - from long ${ a.format }, dst.dims and src.dims have Infinity`;
+    var dst = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.longMake
+    ([
+      1, 0, 1,
+      2, 1, 2,
+    ]));
+    var src = _.Matrix.Make([ 2, 2, Infinity ]).copy( a.longMake
+    ([
+      3, 3,
+      5, 5,
+    ]));
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.longMake
+    ([
+      3, 3, 0,
+      5, 5, 0,
+    ]));
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims and src.dims have Infinity`;
+    var dst = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.vadMake
+    ([
+      1, 0, 1,
+      2, 1, 2,
+    ]));
+    var src = _.Matrix.Make([ 2, 2, Infinity ]).copy( a.longMake
+    ([
+      3, 3,
+      5, 5,
+    ]));
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.vadMake
+    ([
+      3, 3, 0,
+      5, 5, 0,
+    ]));
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims has Infinity`;
+    var dst = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.vadMake
+    ([
+      1, 0, 1,
+      2, 1, 2,
+    ]));
+    var src = _.Matrix.Make([ 2, 2, 1 ]).copy( a.vadMake
+    ([
+      3, 3,
+      5, 5,
+    ]));
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.vadMake
+    ([
+      3, 3, 0,
+      5, 5, 0,
+    ]));
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    /* */
+
     test.case = `dst - matrix from long ${ a.format }, src - from long ${ a.format }, dst.dims values is identical to src.dims.values`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.longMake
     ([
@@ -16077,6 +16139,67 @@ function CopyToSrcIsMatrix( test )
     ([
       3, 3, 0, 3, 3, 0,
       5, 5, 0, 5, 5, 0,
+    ]));
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    /* */
+
+    test.case = `dst - matrix from long ${ a.format }, src - from long ${ a.format }, dst.dims and src.dims have Infinity`;
+    var dst = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.longMake
+    ([
+      1, 0, 1,
+      2, 1, 2,
+    ]));
+    var src = _.Matrix.Make([ 1, 2, 2, Infinity ]).copy( a.longMake
+    ([
+      3, 3,
+      5, 5,
+    ]));
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.longMake
+    ([
+      3, 3, 0,
+      5, 5, 0,
+    ]));
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims and src.dims have Infinity`;
+    var dst = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.vadMake
+    ([
+      1, 0, 1,
+      2, 1, 2,
+    ]));
+    var src = _.Matrix.Make([ 1, 2, 2, Infinity ]).copy( a.longMake
+    ([
+      3, 3,
+      5, 5,
+    ]));
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.vadMake
+    ([
+      3, 3, 0,
+      5, 5, 0,
+    ]));
+    test.identical( got, exp );
+    test.is( got === dst );
+
+    test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims has Infinity`;
+    var dst = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.vadMake
+    ([
+      1, 0, 1, 2, 1, 2,
+    ]));
+    var src = _.Matrix.Make([ 1, 2, 2, 1 ]).copy( a.vadMake
+    ([
+      3, 3,
+      5, 5,
+    ]));
+    var got = _.Matrix.CopyTo( dst, src );
+    var exp = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.vadMake
+    ([
+      3, 3, 0,
+      5, 5, 0,
     ]));
     test.identical( got, exp );
     test.is( got === dst );
