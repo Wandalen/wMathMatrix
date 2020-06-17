@@ -22,7 +22,8 @@ _.assert( !!_.all );
  */
 
 let Parent = null;
-let Self = function wMatrix( o )
+let Self = wMatrix;
+function wMatrix( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
