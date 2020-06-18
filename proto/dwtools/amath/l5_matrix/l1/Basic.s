@@ -1406,6 +1406,7 @@ ExportString.defaults =
   precision : 3,
   usingSign : 1,
   withHead : 1,
+  verbosity : 9,
 }
 
 //
