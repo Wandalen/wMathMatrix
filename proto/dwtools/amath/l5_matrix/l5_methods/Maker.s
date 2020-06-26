@@ -647,7 +647,7 @@ function MakeLine( o )
 
     if( o.zeroing )
     {
-      // o.buffer = o.buffer.dims[ o.dimension ]; qqq2 : ?
+      // o.buffer = o.buffer.dims[ o.dimension ]; aaa2 : ? /* Dmytro : the first version of routine had many not optimal features like this */
       // length = o.buffer;
       length = o.buffer.dims[ o.dimension ];
     }
@@ -2194,6 +2194,99 @@ function normalProjectionMatrixGet( src )
 //
 
 /**
+ * Static routine FormPerspective() transforms provided arguments {-dst-}, {-fov-}, {-size-} and {-depth-} to perspective projection.
+ * The result applies to the destination matrix.
+ *
+ * @example
+ * var matrix = _.Matrix.MakeSquare
+ * ([
+ *   1, 2, 3, 4,
+ *   0, 4, 5, 6,
+ *   0, 0, 6, 7,
+ *   1, 2, 3, 8,
+ * ]);
+ *
+ * var got = _.Matrix.FormPerspective( matrix, 60, [ 3, 4 ], [ 5, 6 ] );
+ * console.log( matrix.toStr() );
+ * // log :
+ * // 1.732  0.000   0.000   0.000
+ * // 0.000  1.299   0.000   0.000
+ * // 0.000  0.000 -11.000 -60.000
+ * // 0.000  0.000  -1.000   0.000
+ *
+ * @param { Matrix } dst - Destination matrix of size 4x4.
+ * @param { Number } fov - Field of view, an angle of view.
+ * @param { Long } size - The x and y coordinates.
+ * @param { Long } depth - Depth vector.
+ * @returns { Matrix } - Returns current matrix with result of transformation.
+ * @function FormPerspective
+ * @throws { Error } If arguments.length is not 4 or 3.
+ * @throws { Error } If size.length is not 2.
+ * @throws { Error } If depth.length is not 2.
+ * @throws { Error } If current matrix is not square matrix, and it length is not 4.
+ * @static
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function FormPerspective( dst, fov, size, depth )
+{
+  if( arguments.length === 3 )
+  {
+    dst = this.MakeSquare( 4 );
+    fov = arguments[ 0 ];
+    size = arguments[ 1 ];
+    depth = arguments[ 2 ];
+  }
+  else if( arguments.length === 4 )
+  {
+    if( dst === null )
+    dst = this.MakeSquare( 4 );
+    else
+    dst = this.From( dst );
+  }
+  else
+  {
+    _.assert( 0, 'Expects four or three arguments' );
+  }
+
+  _.assert( size.length === 2 );
+  _.assert( depth.length === 2 );
+  _.assert( dst.hasShape([ 4, 4 ]) );
+
+  fov = Math.tan( _.math.degToRad( fov * 0.5 ) );
+
+  let ymin = - depth[ 0 ] * fov;
+  let ymax = - ymin;
+
+  let xmin = ymin;
+  let xmax = ymax;
+
+
+  let aspect = size[ 0 ] / size[ 1 ];
+
+  if( aspect > 1 )
+  {
+
+    xmin *= aspect;
+    xmax *= aspect;
+
+  }
+  else
+  {
+
+    ymin /= aspect;
+    ymax /= aspect;
+
+  }
+
+  return dst.formFrustum( [ xmin, xmax ], [ ymin, ymax ], depth );
+}
+
+//
+
+/**
  * The method formPerspective() transforms provided arguments {-fov-}, {-size-} and {-depth-} to perspective projection.
  * The result applies to current matrix.
  *
@@ -2232,42 +2325,47 @@ function normalProjectionMatrixGet( src )
 function formPerspective( fov, size, depth )
 {
   let self = this;
-  let aspect = size[ 0 ] / size[ 1 ];
-
-  // debugger;
-  // _.assert( 0, 'not tested' );
 
   _.assert( arguments.length === 3, 'Expects exactly three arguments' );
-  _.assert( size.length === 2 );
-  _.assert( depth.length === 2 );
-  _.assert( self.hasShape([ 4, 4 ]) );
 
-  fov = Math.tan( _.math.degToRad( fov * 0.5 ) );
-
-  let ymin = - depth[ 0 ] * fov;
-  let ymax = - ymin;
-
-  let xmin = ymin;
-  let xmax = ymax;
-
-  if( aspect > 1 )
-  {
-
-    xmin *= aspect;
-    xmax *= aspect;
-
-  }
-  else
-  {
-
-    ymin /= aspect;
-    ymax /= aspect;
-
-  }
-
-  /* console.log({ xmin, xmax, ymin, ymax }); */
-
-  return self.formFrustum( [ xmin, xmax ], [ ymin, ymax ], depth );
+  return Self.FormPerspective( self, fov, size, depth );
+  // let self = this;
+  // let aspect = size[ 0 ] / size[ 1 ];
+  //
+  // // debugger;
+  // // _.assert( 0, 'not tested' );
+  //
+  // _.assert( arguments.length === 3, 'Expects exactly three arguments' );
+  // _.assert( size.length === 2 );
+  // _.assert( depth.length === 2 );
+  // _.assert( self.hasShape([ 4, 4 ]) );
+  //
+  // fov = Math.tan( _.math.degToRad( fov * 0.5 ) );
+  //
+  // let ymin = - depth[ 0 ] * fov;
+  // let ymax = - ymin;
+  //
+  // let xmin = ymin;
+  // let xmax = ymax;
+  //
+  // if( aspect > 1 )
+  // {
+  //
+  //   xmin *= aspect;
+  //   xmax *= aspect;
+  //
+  // }
+  // else
+  // {
+  //
+  //   ymin /= aspect;
+  //   ymax /= aspect;
+  //
+  // }
+  //
+  // /* console.log({ xmin, xmax, ymin, ymax }); */
+  //
+  // return self.formFrustum( [ xmin, xmax ], [ ymin, ymax ], depth );
 }
 
 //
@@ -2578,6 +2676,7 @@ let Statics = /* qqq : split static routines. ask how */
   ColFrom,
   RowFrom,
   FromTransformations,
+  FormPerspective,
 
 }
 
@@ -2647,7 +2746,8 @@ let Extension =
   normalProjectionMatrixMake,
   normalProjectionMatrixGet,
 
-  formPerspective, /* qqq : implement static, cover */
+  FormPerspective,
+  formPerspective, /* qqq : implement static, cover */ /* Dmytro : implemented */
   formFrustum, /* qqq : implement static, cover */
   formOrthographic, /* qqq : implement static, cover */
   lookAt, /* qqq : implement static, cover */

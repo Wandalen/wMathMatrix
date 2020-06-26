@@ -1065,7 +1065,7 @@ function cloneExtending()
  * @module Tools/math/Matrix
  */
 
-function CopyTo( dst, src ) /* qqq3 : cover please. should work even if src.length < dst.length ask */
+function CopyTo( dst, src ) /* aaa3 : cover please. should work even if src.length < dst.length ask */ /* Dmytro : covered */
 {
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
@@ -1184,7 +1184,7 @@ function CopyTo( dst, src ) /* qqq3 : cover please. should work even if src.leng
 
   function copyDstVadSrcMatrixDifferent()
   {
-    _.assert( 0, 'not tested' );
+    // _.assert( 0, 'not tested' );
     dst.copy( 0 );
     src.scalarEach( function( it )
     {
