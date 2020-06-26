@@ -35,7 +35,7 @@ console.log( `equivalent : ${ equivalent }` );
 
 Both matrices have the same buffers, dimensions, and element values, so both routines `_.identical` and `_.equivalent` return `true`.
 
-### Comparison matrices with different strides widths
+### Comparison matrices with different strides
 
 Strides do not affect the result of the matrix comparison.
 
