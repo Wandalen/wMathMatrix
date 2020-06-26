@@ -194,6 +194,7 @@ function scalarWhile( o )
     it.indexLogical = 0;
 
     let ranges = [];
+    let lastIndex = dims.length - 1;
     for( let i = 0 ; i < dims.length ; i++ )
     ranges.push( [ 0, dims[ i ] ] );
 
@@ -208,12 +209,15 @@ function scalarWhile( o )
 
     function handleEach( indexNd, indexLogical )
     {
-      it.indexNd = indexNd;
+      it.indexNd[ lastIndex ] = indexNd[ lastIndex ];
       it.indexLogical = indexLogical;
 
-      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+      it.offset[ lastIndex ] = it.indexNd[ lastIndex ] * it.strides[ lastIndex ] + self.offset;
       for( let i = dims.length - 2 ; i >= 0 ; i-- )
-      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      {
+        it.indexNd[ i ] = indexNd[ i ];
+        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+      }
 
       result = o.onScalar.call( self, it );
 
@@ -438,15 +442,6 @@ function scalarEach( o )
 
   function iterateN()
   {
-    let dims0 = dims[ 0 ];
-    let dims1 = dims[ 1 ];
-    // let strides = self.stridesEffective;
-
-    if( dims0 === Infinity )
-    dims0 = 1;
-    // dims1 = 1;
-    if( dims1 === Infinity )
-    dims1 = 1;
 
     let it = Object.create( null );
     it.matrix = self;
@@ -455,51 +450,102 @@ function scalarEach( o )
     it.args = o.args;
     it.indexNd = _.dup( 0, dims.length );
     it.offset = _.dup( self.offset, dims.length );
-    let indexLogical = 0;
+    it.indexLogical = 0;
 
-    self.layerEach( ( it2 ) => /* qqq3 : implement without layerEach */
+    let ranges = [];
+    let lastIndex = dims.length - 1;
+    for( let i = 0 ; i < dims.length ; i++ )
+    ranges.push( [ 0, dims[ i ] ] );
+
+    _.eachInMultiRange_.body
+    ({
+      ranges,
+      onEach : handleEach,
+      breaking : 0,
+    })
+
+
+    function handleEach( indexNd, indexLogical )
     {
+      it.indexNd[ lastIndex ] = indexNd[ lastIndex ];
+      it.indexLogical = indexLogical;
 
-      for( let i = 2 ; i < dims.length ; i++ )
-      it.indexNd[ i ] = it2.indexNd[ i-2 ];
-
-      it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
-      for( let i = dims.length - 2 ; i >= 2 ; i-- )
-      it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
-      it.offset[ 1 ] = it.offset[ 2 ];
-      it.offset[ 0 ] = it.offset[ 2 ];
-
-      for( let c = 0 ; c < dims1 ; c++ )
+      it.offset[ lastIndex ] = it.indexNd[ lastIndex ] * it.strides[ lastIndex ] + self.offset;
+      for( let i = dims.length - 2 ; i >= 0 ; i-- )
       {
-        it.indexNd[ 1 ] = c;
-        for( let r = 0 ; r < dims0 ; r++ )
-        {
-          it.indexNd[ 0 ] = r;
-          it.indexLogical = indexLogical;
-          o.onScalar.call( self, it );
-          it.offset[ 0 ] += it.strides[ 0 ];
-          indexLogical += 1;
-        }
-        it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims0 : it.strides[ 1 ];
-        it.offset[ 0 ] = it.offset[ 1 ];
+        it.indexNd[ i ] = indexNd[ i ];
+        it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
       }
 
-      /* Dmytro : imitation of counter in cycles */
-      // if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
-      // {
-      //   for( let i = dims.length - 1 ; i >= 2 ; i-- )
-      //   it.offset[ i ] = it.offset[ 1 ];
-      // }
-      // else
-      // {
-      //   it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
-      //   for( let i = dims.length - 2 ; i >= 2 ; i-- )
-      //   it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
-      // }
-
-    });
+      return o.onScalar.call( self, it );
+    }
 
   }
+
+  // function iterateN()
+  // {
+  //   let dims0 = dims[ 0 ];
+  //   let dims1 = dims[ 1 ];
+  //   // let strides = self.stridesEffective;
+  //
+  //   if( dims0 === Infinity )
+  //   dims0 = 1;
+  //   // dims1 = 1;
+  //   if( dims1 === Infinity )
+  //   dims1 = 1;
+  //
+  //   let it = Object.create( null );
+  //   it.matrix = self;
+  //   it.buffer = self.buffer;
+  //   it.strides = self.stridesEffective;
+  //   it.args = o.args;
+  //   it.indexNd = _.dup( 0, dims.length );
+  //   it.offset = _.dup( self.offset, dims.length );
+  //   let indexLogical = 0;
+  //
+  //   self.layerEach( ( it2 ) => /* aaa3 : implement without layerEach */ /* Dmytro : implemented */
+  //   {
+  //
+  //     for( let i = 2 ; i < dims.length ; i++ )
+  //     it.indexNd[ i ] = it2.indexNd[ i-2 ];
+  //
+  //     it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ] + self.offset;
+  //     for( let i = dims.length - 2 ; i >= 2 ; i-- )
+  //     it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+  //     it.offset[ 1 ] = it.offset[ 2 ];
+  //     it.offset[ 0 ] = it.offset[ 2 ];
+  //
+  //     for( let c = 0 ; c < dims1 ; c++ )
+  //     {
+  //       it.indexNd[ 1 ] = c;
+  //       for( let r = 0 ; r < dims0 ; r++ )
+  //       {
+  //         it.indexNd[ 0 ] = r;
+  //         it.indexLogical = indexLogical;
+  //         o.onScalar.call( self, it );
+  //         it.offset[ 0 ] += it.strides[ 0 ];
+  //         indexLogical += 1;
+  //       }
+  //       it.offset[ 1 ] += it.strides[ 1 ] === 0 ? dims0 : it.strides[ 1 ];
+  //       it.offset[ 0 ] = it.offset[ 1 ];
+  //     }
+  //
+  //     /* Dmytro : imitation of counter in cycles */
+  //     // if( it.offset[ 1 ] % it.strides[ dims.length - 1 ] === 0 && it.indexNd[ dims.length - 2 ] === dims[ dims.length - 2 ] - 1 )
+  //     // {
+  //     //   for( let i = dims.length - 1 ; i >= 2 ; i-- )
+  //     //   it.offset[ i ] = it.offset[ 1 ];
+  //     // }
+  //     // else
+  //     // {
+  //     //   it.offset[ dims.length - 1 ] = it.indexNd[ dims.length - 1 ] * it.strides[ dims.length - 1 ];
+  //     //   for( let i = dims.length - 2 ; i >= 2 ; i-- )
+  //     //   it.offset[ i ] = it.indexNd[ i ] * it.strides[ i ] + it.offset[ i+1 ];
+  //     // }
+  //
+  //   });
+  //
+  // }
 
 }
 
@@ -978,7 +1024,7 @@ function lineEach( dimension, onEach )
       let i = 0;
       it.indexNd[ fromWithout[ i ] ] += 1;
       it.offset[ i ] += stridesWithout[ i ];
-      // while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] ) /* Dmytro : it can leave range of fromWithout qqq2 : ? */
+      // while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] ) /* Dmytro : it can leave range of fromWithout aaa2 : ? */ /* Dmytro : the last index of the fromWithout is ( fromWithout.length - 1 ). If condition does not checks it, then i can be greater */
       while( it.indexNd[ fromWithout[ i ] ] >= dimsWithout[ i ] && i < fromWithout.length - 1 )
       {
         i += 1;
