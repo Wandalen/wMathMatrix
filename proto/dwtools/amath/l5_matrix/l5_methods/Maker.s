@@ -1724,10 +1724,14 @@ function fromQuat( q )
   let self = this;
 
   q = self.vectorAdapter.from( q );
-  let x = q.eGet( 0 );
-  let y = q.eGet( 1 );
-  let z = q.eGet( 2 );
-  let w = q.eGet( 3 );
+  let w = q.eGet( 0 );
+  let x = q.eGet( 1 );
+  let y = q.eGet( 2 );
+  let z = q.eGet( 3 );
+  // let x = q.eGet( 0 );
+  // let y = q.eGet( 1 );
+  // let z = q.eGet( 2 );
+  // let w = q.eGet( 3 );
 
   _.assert( self.scalarsPerElement >= 3 );
   _.assert( self.length >= 3 );
