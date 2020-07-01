@@ -9904,7 +9904,7 @@ function FromSrcMatrix( test )
   test.case = 'routine FromTransformations';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
-  var quaternion = [ 0, 0, 0, 1 ];
+  var quaternion = [ 1, 0, 0, 0 ];
   var scale = [ 1, 1, 1 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var got = _.Matrix.From( src );
@@ -9921,7 +9921,7 @@ function FromSrcMatrix( test )
   test.case = 'method fromTransformations';
   var matrix = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
-  var quaternion = [ 0, 0, 0, 1 ];
+  var quaternion = [ 1, 0, 0, 0 ];
   var scale = [ 1, 1, 1 ];
   var src = matrix.fromTransformations( position, quaternion, scale );
   var got = _.Matrix.From( src );
@@ -9943,7 +9943,7 @@ function FromSrcMatrix( test )
     0, 0, 6, 1,
     0, 0, 6, 1,
   ]);
-  var quaternion = [ 0, 0, 0, 1 ];
+  var quaternion = [ 1, 0, 0, 0 ];
   var src = matrix.fromQuat( quaternion );
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 4, 4 ]).copy
@@ -10896,7 +10896,7 @@ function FromForReadingSrcMatrix( test )
   test.case = 'routine FromTransformations';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
-  var quaternion = [ 0, 0, 0, 1 ];
+  var quaternion = [ 1, 0, 0, 0 ];
   var scale = [ 1, 1, 1 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var got = _.Matrix.FromForReading( src );
@@ -10913,7 +10913,7 @@ function FromForReadingSrcMatrix( test )
   test.case = 'method fromTransformations';
   var matrix = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
-  var quaternion = [ 0, 0, 0, 1 ];
+  var quaternion = [ 1, 0, 0, 0 ];
   var scale = [ 1, 1, 1 ];
   var src = matrix.fromTransformations( position, quaternion, scale );
   var got = _.Matrix.FromForReading( src );
@@ -10935,7 +10935,7 @@ function FromForReadingSrcMatrix( test )
     0, 0, 6, 1,
     0, 0, 6, 1,
   ]);
-  var quaternion = [ 0, 0, 0, 1 ];
+  var quaternion = [ 1, 0, 0, 0 ];
   var src = matrix.fromQuat( quaternion );
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 4, 4 ]).copy
