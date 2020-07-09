@@ -71,7 +71,7 @@ path :
       content : prime
 
   entry.proto.no.tests :
-    path : proto/dwtools/amath/l5_matrix/module/full/Include.s
+    path : proto/wtools/amath/l5_matrix/module/full/Include.s
     criterion :
       tests : 'no.tests'
   entry.proto.only.tests :
@@ -79,11 +79,11 @@ path :
     criterion :
       tests : 'only.tests'
 
-  # npm.entry : proto/dwtools/abase/Layer2.s
+  # npm.entry : proto/wtools/abase/Layer2.s
   # npm.files : proto
 
   entry.out.raw.debug :
-    path : '{path::out.*=1}/source/dwtools/amath/l5_matrix/Include.s'
+    path : '{path::out.*=1}/source/wtools/amath/l5_matrix/Include.s'
     criterion :
       debug : [ debug, release ]
       raw : raw

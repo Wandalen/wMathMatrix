@@ -131,7 +131,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/amath/l5_matrix/module/full/Include.s
+        path: ../proto/wtools/amath/l5_matrix/module/full/Include.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -141,13 +141,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amath/l5_matrix/Include.s'
+        path: '{path::out.*=1}/source/wtools/amath/l5_matrix/Include.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amath/l5_matrix/Include.s'
+        path: '{path::out.*=1}/source/wtools/amath/l5_matrix/Include.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -174,50 +174,50 @@ module:
         path:
           - ../proto
           - ../proto/Integration.test.s
-          - ../proto/dwtools
-          - ../proto/dwtools/Tools.s
-          - ../proto/dwtools/abase
-          - ../proto/dwtools/amath
-          - ../proto/dwtools/amath/l5_matrix
-          - ../proto/dwtools/amath/l5_matrix/include
-          - ../proto/dwtools/amath/l5_matrix/include/Basic.s
-          - ../proto/dwtools/amath/l5_matrix/include/Mid.s
-          - ../proto/dwtools/amath/l5_matrix/l1
-          - ../proto/dwtools/amath/l5_matrix/l1/Basic.s
-          - ../proto/dwtools/amath/l5_matrix/l1/NamespaceMath.s
-          - ../proto/dwtools/amath/l5_matrix/l1/NamespaceMatrix.s
-          - ../proto/dwtools/amath/l5_matrix/l3
-          - ../proto/dwtools/amath/l5_matrix/l3/RoutinesFromVector.s
-          - ../proto/dwtools/amath/l5_matrix/l3_methods
-          - ../proto/dwtools/amath/l5_matrix/l3_methods/Component.s
-          - ../proto/dwtools/amath/l5_matrix/l3_methods/Iterator.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Advanced.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Checker.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Component.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Eigen.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Iterator.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Maker.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Operation.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Permutation.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Solver.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Transformation.s
-          - ../proto/dwtools/amath/l5_matrix/l5_methods/Util.s
-          - ../proto/dwtools/amath/l5_matrix/l7
-          - ../proto/dwtools/amath/l5_matrix/l7/NamespaceMatrix.s
-          - ../proto/dwtools/amath/l5_matrix/l7_methods
-          - ../proto/dwtools/amath/l5_matrix/l7_methods/Svd.s
-          - ../proto/dwtools/amath/l5_matrix/module
-          - ../proto/dwtools/amath/l5_matrix/module/basic
-          - ../proto/dwtools/amath/l5_matrix/module/basic/Include.s
-          - ../proto/dwtools/amath/l5_matrix/module/compact
-          - ../proto/dwtools/amath/l5_matrix/module/full
-          - ../proto/dwtools/amath/l5_matrix/module/full/Include.s
-          - ../proto/dwtools/amath/l5_matrix.test
-          - ../proto/dwtools/amath/l5_matrix.test/Matrix.test.s
-          - ../proto/dwtools/amath/l5_matrix.test/Svd.test.s
-          - ../proto/dwtools/amid
-          - ../proto/dwtools/atop
+          - ../proto/wtools
+          - ../proto/wtools/Tools.s
+          - ../proto/wtools/abase
+          - ../proto/wtools/amath
+          - ../proto/wtools/amath/l5_matrix
+          - ../proto/wtools/amath/l5_matrix/include
+          - ../proto/wtools/amath/l5_matrix/include/Basic.s
+          - ../proto/wtools/amath/l5_matrix/include/Mid.s
+          - ../proto/wtools/amath/l5_matrix/l1
+          - ../proto/wtools/amath/l5_matrix/l1/Basic.s
+          - ../proto/wtools/amath/l5_matrix/l1/NamespaceMath.s
+          - ../proto/wtools/amath/l5_matrix/l1/NamespaceMatrix.s
+          - ../proto/wtools/amath/l5_matrix/l3
+          - ../proto/wtools/amath/l5_matrix/l3/RoutinesFromVector.s
+          - ../proto/wtools/amath/l5_matrix/l3_methods
+          - ../proto/wtools/amath/l5_matrix/l3_methods/Component.s
+          - ../proto/wtools/amath/l5_matrix/l3_methods/Iterator.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Advanced.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Checker.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Component.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Eigen.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Iterator.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Maker.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Operation.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Permutation.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Solver.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Transformation.s
+          - ../proto/wtools/amath/l5_matrix/l5_methods/Util.s
+          - ../proto/wtools/amath/l5_matrix/l7
+          - ../proto/wtools/amath/l5_matrix/l7/NamespaceMatrix.s
+          - ../proto/wtools/amath/l5_matrix/l7_methods
+          - ../proto/wtools/amath/l5_matrix/l7_methods/Svd.s
+          - ../proto/wtools/amath/l5_matrix/module
+          - ../proto/wtools/amath/l5_matrix/module/basic
+          - ../proto/wtools/amath/l5_matrix/module/basic/Include.s
+          - ../proto/wtools/amath/l5_matrix/module/compact
+          - ../proto/wtools/amath/l5_matrix/module/full
+          - ../proto/wtools/amath/l5_matrix/module/full/Include.s
+          - ../proto/wtools/amath/l5_matrix.test
+          - ../proto/wtools/amath/l5_matrix.test/Matrix.test.s
+          - ../proto/wtools/amath/l5_matrix.test/Svd.test.s
+          - ../proto/wtools/amid
+          - ../proto/wtools/atop
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -992,7 +992,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/amath/l5_matrix/module/full/Include.s
+        path: proto/wtools/amath/l5_matrix/module/full/Include.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -1002,13 +1002,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amath/l5_matrix/Include.s'
+        path: '{path::out.*=1}/source/wtools/amath/l5_matrix/Include.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amath/l5_matrix/Include.s'
+        path: '{path::out.*=1}/source/wtools/amath/l5_matrix/Include.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug

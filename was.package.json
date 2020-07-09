@@ -10,8 +10,8 @@
     { "name" : "Pablo Garcimartin", "email" : "pablogarcimartinruiz@gmail.com" }
   ],
   "license" : "MIT",
-  "main" : "proto/dwtools/amath/l5_matrix/module/full/Include.s",
-  "files" : [ "proto/dwtools/amath/l5_matrix", "proto/dwtools/Tools.s", "out" ],
+  "main" : "proto/wtools/amath/l5_matrix/module/full/Include.s",
+  "files" : [ "proto/wtools/amath/l5_matrix", "proto/wtools/Tools.s", "out" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :
   {
