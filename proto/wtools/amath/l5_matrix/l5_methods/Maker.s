@@ -1119,9 +1119,16 @@ function FromVector( src )
 
   if( _.vectorAdapterIs( src ) )
   {
+    let buffer = src._vectorBuffer; /* Dmytro : duplicates buffer which is maiden by fromNumber */
+    if( src.length > src._vectorBuffer.length )
+    {
+      buffer = _.longMakeUndefined( buffer, src.length );
+      buffer = _.longFill( buffer, src._vectorBuffer );
+    }
+
     result = new this.Self
     ({
-      buffer : src.length > src._vectorBuffer.length ? _.dup( src._vectorBuffer, src.length ) : src._vectorBuffer, /* Dmytro : duplicates buffer VectorAdapter which is maiden by fromNumber */
+      buffer,
       dims : [ src.length, 1 ],
       offset : src.offset !== 0 ? src.offset : 0,
       strides : src.stride > 1 ? [ src.stride, 1 ] : [ 1, src.length ],
