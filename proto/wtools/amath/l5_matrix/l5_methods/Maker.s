@@ -65,7 +65,7 @@ function Make( dims )
   }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let buffer = proto.long.longMake( lengthFlat );
+  let buffer = proto.longType.longMake( lengthFlat );
   let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
@@ -132,7 +132,7 @@ function MakeSquare( buffer )
   if( _.numberIs( buffer ) )
   {
     inputRowMajor = 0;
-    buffer = this.long.longMake( scalarsPerMatrix );
+    buffer = this.longType.longMake( scalarsPerMatrix );
   }
 
   let result = new proto.constructor
@@ -188,7 +188,7 @@ function MakeZero( dims )
   }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let buffer = proto.long.longMakeZeroed( lengthFlat );
+  let buffer = proto.longType.longMakeZeroed( lengthFlat );
   let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
@@ -246,7 +246,7 @@ function MakeIdentity( dims )
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesFromDimensions( dims, 0 );
-  let buffer = proto.long.longMakeZeroed( lengthFlat );
+  let buffer = proto.longType.longMakeZeroed( lengthFlat );
   let result = new proto.Self
   ({
     buffer,
@@ -420,7 +420,7 @@ function MakeDiagonal( diagonal )
   let length = diagonal.length;
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
-  let buffer = this.long.longMakeZeroed( scalarsPerMatrix );
+  let buffer = this.longType.longMakeZeroed( scalarsPerMatrix );
   let result = new this.Self
   ({
     buffer,
@@ -503,7 +503,7 @@ function MakeSimilar( m, dims )
   {
 
     let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
-    let buffer = proto.long.longMake( m.buffer, scalarsPerMatrix );
+    let buffer = proto.longType.longMake( m.buffer, scalarsPerMatrix );
     let strides = proto.StridesFromDimensions( dims, 0 );
 
     result = new m.constructor
@@ -519,7 +519,7 @@ function MakeSimilar( m, dims )
   {
 
     _.assert( dims.length === 2 && dims[ 1 ] === 1 );
-    result = proto.long.longMakeUndefined( m, dims[ 0 ] );
+    result = proto.longType.longMakeUndefined( m, dims[ 0 ] );
 
   }
   else if( _.vectorAdapterIs( m ) )
@@ -663,24 +663,24 @@ function MakeLine( o )
 
   if( o.zeroing )
   {
-    o.buffer = this.long.longMakeZeroed( length );
+    o.buffer = this.longType.longMakeZeroed( length );
   }
   else
   {
     if( _.numberIs( o.buffer ) )
     {
-      o.buffer = this.long.longMake( length * o.times );
+      o.buffer = this.longType.longMake( length * o.times );
     }
     else if( _.argumentsArrayIs( o.buffer ) )
     {
       if( o.times === 1 )
       {
-        o.buffer = proto.long.longMake( o.buffer );
+        o.buffer = proto.longType.longMake( o.buffer );
       }
       else
       {
         _.assert( 0, 'not tested' ); /* qqq2 : cover */
-        let buffer = proto.long.longMakeUndefined( length * o.times );
+        let buffer = proto.longType.longMakeUndefined( length * o.times );
         o.buffer = _.longDuplicate
         ({
           dst : buffer,
@@ -1194,8 +1194,8 @@ function FromScalar( scalar, dims ) /* aaa2 : can accept scalar without dims! */
   }
 
   // debugger;
-  // let buffer = this.long.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
-  let buffer = this.long.longMakeUndefined( this.ScalarsPerMatrixForDimensions( dims ) );
+  // let buffer = this.longType.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
+  let buffer = this.longType.longMakeUndefined( this.ScalarsPerMatrixForDimensions( dims ) );
   _.longFill( buffer, scalar );
   // let strides = this.StridesFromDimensions( dims, 0 );
 
@@ -1262,7 +1262,7 @@ function FromScalarForReading( scalar, dims )
     _.assert( 0, 'Expects vector {-dims-}' );
   }
 
-  let buffer = this.long.longMake( 1 );
+  let buffer = this.longType.longMake( 1 );
   buffer[ 0 ] = scalar;
 
   let result = new this.Self
@@ -1485,7 +1485,7 @@ function ColFrom( src )
   }
   else if( _.numberIs( src ) )
   {
-    let buffer = this.long.longMake( 1 );
+    let buffer = this.longType.longMake( 1 );
     buffer[ 0 ] = src;
 
     return this.MakeLine
@@ -1549,7 +1549,7 @@ function RowFrom( src )
   }
   else if( _.numberIs( src ) )
   {
-    let buffer = this.long.longMake( 1 );
+    let buffer = this.longType.longMake( 1 );
     buffer[ 0 ] = src;
 
     return this.MakeLine

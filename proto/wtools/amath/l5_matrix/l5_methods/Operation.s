@@ -1034,8 +1034,8 @@ function minmaxColWise()
   let minmax = self.distributionRangeSummaryValueColWise();
   let result = Object.create( null );
 
-  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+  result.min = self.longType.longMakeUndefined( self.buffer, minmax.length );
+  result.max = self.longType.longMakeUndefined( self.buffer, minmax.length );
 
   for( let i = 0 ; i < minmax.length ; i += 1 )
   {
@@ -1082,8 +1082,8 @@ function minmaxRowWise()
   let minmax = self.distributionRangeSummaryValueRowWise();
   let result = Object.create( null );
 
-  result.min = self.long.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.long.longMakeUndefined( self.buffer, minmax.length );
+  result.min = self.longType.longMakeUndefined( self.buffer, minmax.length );
+  result.max = self.longType.longMakeUndefined( self.buffer, minmax.length );
 
   for( let i = 0 ; i < minmax.length ; i += 1 )
   {

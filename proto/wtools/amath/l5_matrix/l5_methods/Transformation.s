@@ -470,7 +470,7 @@ function scaleGet( dst )
   if( dst ) /* Dmytro : bug if dst is not an Array */
   l = dst.length;
   else
-  dst = self.vectorAdapter.from( self.long.longMakeZeroed( self.length-1 ) );
+  dst = self.vectorAdapter.from( self.longType.longMakeZeroed( self.length-1 ) );
 
   let dstv = self.vectorAdapter.from( dst );
 

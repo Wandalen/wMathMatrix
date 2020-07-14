@@ -331,7 +331,7 @@ function _qrDecompositionGS( q, r )
   for( let i = 0; i < cols; i++ )
   {
     let col = matrix.colGet( i );
-    let sum = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
+    let sum = self.vectorAdapter.from( self.longType.longMakeZeroed( rows ) );
     for( let j = 0; j < i ; j ++ )
     {
       let dot = self.vectorAdapter.dot( col, self.vectorAdapter.from( qInt.colGet( j ) ) );
@@ -409,7 +409,7 @@ function _qrDecompositionHh( q, r )
 
   for( let j = 0; j < cols; j++ )
   {
-    let u = self.vectorAdapter.from( self.long.longMakeZeroed( rows ) );
+    let u = self.vectorAdapter.from( self.longType.longMakeZeroed( rows ) );
     let e = identity.clone().colGet( j );
     let col = matrix.clone().colGet( j );
 

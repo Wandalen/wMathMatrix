@@ -16,7 +16,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-var _ = _global_.wTools.withDefaultLong.Fx;
+var _ = _global_.wTools.withDefaultLongType.Fx;
 function fvec( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
 function ivec( src ){ return _.vectorAdapter.fromLong( new I32x( src ) ) }
 var sqr = _.math.sqr;
@@ -1734,7 +1734,7 @@ function compareMatrixAndNot( test )
   test.identical( _.identical( src2, src1 ), false );
   test.identical( _.equivalent( src1, src2 ), false );
   test.identical( _.equivalent( src2, src1 ), false );
-  test.identical( _.contains( src1, src2 ), true );
+  test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
   test.ni( src1, src2 );
   test.ni( src2, src1 );
@@ -8316,7 +8316,7 @@ function FromVector( test )
     5,
     5,
   ]);
-  test.equivalent( got, exp );
+  test.equivalent( got, exp ); /* xxx */
   test.is( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, number';
@@ -17748,7 +17748,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = _.withDefaultLongType.F64x.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
@@ -17765,7 +17765,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]);
+  var exp = _.withDefaultLongType.F64x.longDescriptor.make([ 1, -1, 2, 3 ]);
   test.identical( got, exp );
 
   /* */
@@ -17784,7 +17784,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     dstObject : 0,
     asFloat : 1,
   });
-  var exp = _.withDefaultLong.F32x.longDescriptor.make([ 1, 2, -1, 3 ]);
+  var exp = _.withDefaultLongType.F32x.longDescriptor.make([ 1, 2, -1, 3 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
@@ -17915,7 +17915,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLongType.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -17938,7 +17938,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLongType.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -17989,7 +17989,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLongType.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -18014,7 +18014,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
   });
   var exp =
   {
-    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
+    buffer : _.withDefaultLongType.F64x.longDescriptor.make([ 1, -1, 2, 3 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 1 ],
     offset : 0
@@ -18116,7 +18116,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     dstObject : 0,
     asFloat : 0,
   });
-  var exp = _.withDefaultLong.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
+  var exp = _.withDefaultLongType.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]);
   test.identical( got, exp );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
@@ -18292,7 +18292,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
   });
   var exp =
   {
-    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    buffer : _.withDefaultLongType.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 3 ],
     offset : 1
@@ -18369,7 +18369,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
   });
   var exp =
   {
-    buffer : _.withDefaultLong.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
+    buffer : _.withDefaultLongType.F64x.longDescriptor.make([ 0, 1, -1, 2, 3, 4, 5, 6, 7 ]),
     dims : [ 2, 2 ],
     strides : [ 2, 3 ],
     offset : 1
@@ -23836,7 +23836,6 @@ function scalarWhileCheckingFields( test )
     offset : [ 23, 23, 22, 18 ],
     indexLogical : 23
   };
-  debugger;
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
   test.is( got[ 0 ] === got[ 1 ] );

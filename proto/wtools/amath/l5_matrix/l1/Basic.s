@@ -204,8 +204,8 @@ function _traverseAct( it ) /* zzz : deprecate */
   if( !it.dst )
   {
     _.assert( it.technique === 'object' );
-    _.assert( it.src instanceof Self );
-    it.dst = it.src.clone();
+    _.assert( it.srcEffective instanceof Self );
+    it.dst = it.srcEffective.clone();
     return it.dst;
   }
 
@@ -214,7 +214,7 @@ function _traverseAct( it ) /* zzz : deprecate */
   _.assert( !!it.dst );
 
   let dst = it.dst;
-  let src = it.src;
+  let src = it.srcEffective;
   let srcIsInstance = src instanceof Self;
   let dstIsInstance = dst instanceof Self;
 
@@ -268,14 +268,14 @@ function _traverseAct( it ) /* zzz : deprecate */
     }
     else if( src.buffer && !dst.buffer && src.scalarsPerMatrix !== undefined )
     {
-      dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
+      dst.buffer = self.longType.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst._.stridesEffective = dst.StridesFromDimensions( src.dims, !!dst.inputRowMajor );
     }
     else if( src.buffer && dst.scalarsPerMatrix !== src.scalarsPerMatrix )
     {
-      dst.buffer = self.long.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
+      dst.buffer = self.longType.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst._.stridesEffective = dst.StridesFromDimensions( src.dims, !!dst.inputRowMajor );
@@ -292,7 +292,7 @@ function _traverseAct( it ) /* zzz : deprecate */
     if( dstIsInstance )
     dst._dimsSet( src.dims );
     else
-    dst.dims = self.long.longMake( src.dims, src.dims );
+    dst.dims = self.longType.longMake( src.dims, src.dims );
   }
 
   it.copyingAggregates = 0;
@@ -320,7 +320,7 @@ function _traverseAct( it ) /* zzz : deprecate */
     }
     else
     {
-      let extract = it.src._exportNormalized();
+      let extract = it.srcEffective._exportNormalized();
       let newIteration = it.iterationNew();
       newIteration.select( 'buffer' );
       newIteration.src = extract.buffer;
@@ -350,14 +350,14 @@ function _equalAre( it )
 
   it.continue = false;
 
-  if( !_.matrixIs( it.src ) || !_.matrixIs( it.src2 ) )
+  if( !_.matrixIs( it.srcEffective ) || !_.matrixIs( it.srcEffective2 ) )
   {
     it.result = false;
     return;
   }
 
   if( it.strictTyping )
-  if( it.src.buffer.constructor !== it.src2.buffer.constructor )
+  if( it.srcEffective.buffer.constructor !== it.srcEffective2.buffer.constructor )
   {
     it.result = false;
     return it.result;
@@ -365,7 +365,7 @@ function _equalAre( it )
 
   if( it.strictContainer )
   {
-    if( !_.longIdentical( [ ... it.src.dims ], [ ... it.src2.dims ] )  )
+    if( !_.longIdentical( [ ... it.srcEffective.dims ], [ ... it.srcEffective2.dims ] )  )
     {
       it.result = false;
       return it.result;
@@ -373,23 +373,23 @@ function _equalAre( it )
   }
   else
   {
-    if( it.src.scalarsPerMatrix )
-    if( it.src.dims.length < it.src2.dims.length )
+    if( it.srcEffective.scalarsPerMatrix )
+    if( it.srcEffective.dims.length < it.srcEffective2.dims.length )
     {
-      if( !dimsCompare( it.src.dims, it.src2.dims ) )
+      if( !dimsCompare( it.srcEffective.dims, it.srcEffective2.dims ) )
       return it.result;
     }
     else
     {
-      if( !dimsCompare( it.src2.dims, it.src.dims ) )
+      if( !dimsCompare( it.srcEffective2.dims, it.srcEffective.dims ) )
       return it.result;
     }
   }
 
-  it.result = it.src.scalarWhile( function( it2 )
+  it.result = it.srcEffective.scalarWhile( function( it2 )
   {
     let scalar = it2.buffer[ it2.offset[ 0 ] ];
-    let scalar2 = it.src2.scalarGet( it2.indexNd );
+    let scalar2 = it.srcEffective2.scalarGet( it2.indexNd );
     return it.onNumbersAreEqual( scalar, scalar2 );
   });
 
@@ -431,14 +431,14 @@ function _equalSecondCoerce( it )
   if( it.strictContainer )
   return;
 
-  if( _.longIs( it.src ) || _.vectorAdapterIs( it.src ) )
+  if( _.longIs( it.srcEffective ) || _.vectorAdapterIs( it.srcEffective ) )
   {
-    it.src = _.Matrix.FromVector( it.src );
+    it.srcEffective = _.Matrix.FromVector( it.srcEffective );
   }
 
-  if( _.longIs( it.src2 ) || _.vectorAdapterIs( it.src2 ) )
+  if( _.longIs( it.srcEffective2 ) || _.vectorAdapterIs( it.srcEffective2 ) )
   {
-    it.src2 = _.Matrix.FromVector( it.src2 );
+    it.srcEffective2 = _.Matrix.FromVector( it.srcEffective2 );
   }
 
 }
@@ -450,7 +450,7 @@ function _longGet()
   let self = this;
   if( _.routineIs( self ) )
   self = self.prototype;
-  let result = self.vectorAdapter.long;
+  let result = self.vectorAdapter.longType;
   _.assert( _.objectIs( result ) );
   return result;
 }
@@ -555,7 +555,7 @@ function ExportStructure( o )
 
       if( o.src.scalarsPerMatrix !== o.dst.scalarsPerMatrix )
       {
-        o.dst._.buffer = this.long.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+        o.dst._.buffer = this.longType.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
         o.dst._.offset = 0;
         o.dst._.strides = null;
         o.dst._.occupiedRange = null;
@@ -690,7 +690,7 @@ function ExportStructure( o )
     if( dims )
     {
       o.dst._dimsSet( dims );
-      // o.dst._.dims = o.dst.long.longMake( dims );
+      // o.dst._.dims = o.dst.longType.longMake( dims );
       return dims;
     }
     else
@@ -793,7 +793,7 @@ function _exportNormalized()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  result.buffer = self.long.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
+  result.buffer = self.longType.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
   result.offset = 0;
   result.strides = self.StridesFromDimensions( self.dims, 0 );
 
@@ -1525,24 +1525,24 @@ function bufferExport( o )
       if( self.buffer instanceof F64x )
       {
         if( o.restriding )
-        o.dstBuffer = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
+        o.dstBuffer = self.longType.longMakeUndefined( self.buffer, scalarsPerMatrix );
         else
-        o.dstBuffer = self.long.longMake( F64x, self.buffer );
+        o.dstBuffer = self.longType.longMake( F64x, self.buffer );
       }
       else
       {
         if( o.restriding )
-        o.dstBuffer = self.long.longMakeUndefined( F32x, scalarsPerMatrix );
+        o.dstBuffer = self.longType.longMakeUndefined( F32x, scalarsPerMatrix );
         else
-        o.dstBuffer = self.long.longMake( F32x, self.buffer );
+        o.dstBuffer = self.longType.longMake( F32x, self.buffer );
       }
     }
     else
     {
       if( o.restriding )
-      o.dstBuffer = self.long.longMakeUndefined( self.buffer, scalarsPerMatrix );
+      o.dstBuffer = self.longType.longMakeUndefined( self.buffer, scalarsPerMatrix );
       else
-      o.dstBuffer = self.long.longMake( self.buffer );
+      o.dstBuffer = self.longType.longMake( self.buffer );
     }
   }
 
@@ -2489,12 +2489,12 @@ function bufferSet( src )
   return;
 
   if( _.numberIs( src ) )
-  src = self.long.longMake([ src ]);
+  src = self.longType.longMake([ src ]);
 
   _.assert( _.longIs( src ) || src === null );
 
   self._.buffer = src;
-  // self._.buffer = self.long.make( src );
+  // self._.buffer = self.longType.make( src );
 
   if( !self._changing[ 0 ] ) /* zzz : remove */
   {
@@ -2641,7 +2641,7 @@ function _adjustAct()
   if( self.buffer === null )
   {
     let lengthFlat = self.ScalarsPerMatrixForDimensions( self.dims );
-    self.buffer = self.long.longMake( lengthFlat );
+    self.buffer = self.longType.longMake( lengthFlat );
   }
 
   self._.dimsEffective = self.DimsEffectiveFrom( self.dims );
@@ -3387,6 +3387,7 @@ let Forbids =
   ncols : 'ncols',
   nrows : 'nrows',
   growingDimension : 'growingDimension',
+  long : 'long',
 
 }
 
@@ -3617,21 +3618,21 @@ _metaDefine( 'field', Symbol.for( 'notLong' ), true );
 _metaDefine( 'static', 'accuracy', _accuracyGet );
 _metaDefine( 'static', 'accuracySqr', _accuracySqrGet );
 _metaDefine( 'static', 'accuracySqrt', _accuracySqrtGet );
-_metaDefine( 'static', 'long', _longGet );
+_metaDefine( 'static', 'longType', _longGet );
 
 _.Matrix = Self;
 
 _.assert( !!_.vectorAdapter );
-_.assert( !!_.vectorAdapter.long );
+_.assert( !!_.vectorAdapter.longType );
 
-_.assert( _.objectIs( _.withDefaultLong ) );
-_.assert( _.objectIs( _.withDefaultLong.Fx ) );
+_.assert( _.objectIs( _.withDefaultLongType ) );
+_.assert( _.objectIs( _.withDefaultLongType.Fx ) );
 _.assert( _.routineIs( Self.prototype[ Symbol.for( 'equalAre' ) ] ) );
 
-_.assert( Self.prototype.vectorAdapter.long === Self.vectorAdapter.long );
-_.assert( Self.long === Self.vectorAdapter.long );
-_.assert( Self.prototype.long === Self.vectorAdapter.long );
-_.assert( Self.long === _.vectorAdapter.long );
+_.assert( Self.prototype.vectorAdapter.longType === Self.vectorAdapter.longType );
+_.assert( Self.longType === Self.vectorAdapter.longType );
+_.assert( Self.prototype.longType === Self.vectorAdapter.longType );
+_.assert( Self.longType === _.vectorAdapter.longType );
 _.assert( Self.vectorAdapter === _.vectorAdapter );
 _.assert( Self.vad === _.vectorAdapter );
 _.assert( Self.vector === _.vector );
