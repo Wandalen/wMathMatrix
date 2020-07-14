@@ -204,8 +204,8 @@ function _traverseAct( it ) /* zzz : deprecate */
   if( !it.dst )
   {
     _.assert( it.technique === 'object' );
-    _.assert( it.srcEffective instanceof Self );
-    it.dst = it.srcEffective.clone();
+    _.assert( it.src instanceof Self );
+    it.dst = it.src.clone();
     return it.dst;
   }
 
@@ -214,7 +214,7 @@ function _traverseAct( it ) /* zzz : deprecate */
   _.assert( !!it.dst );
 
   let dst = it.dst;
-  let src = it.srcEffective;
+  let src = it.src;
   let srcIsInstance = src instanceof Self;
   let dstIsInstance = dst instanceof Self;
 
@@ -320,7 +320,7 @@ function _traverseAct( it ) /* zzz : deprecate */
     }
     else
     {
-      let extract = it.srcEffective._exportNormalized();
+      let extract = it.src._exportNormalized();
       let newIteration = it.iterationNew();
       newIteration.select( 'buffer' );
       newIteration.src = extract.buffer;

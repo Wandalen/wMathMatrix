@@ -21130,9 +21130,7 @@ function bufferSetBasic( test )
     inputRowMajor : 1,
   });
 
-  debugger;
   m.dims = [ 2, 2 ];
-  debugger;
 
   test.identical( m.dims, [ 2, 2 ] );
   test.identical( m.dimsEffective, [ 2, 2 ] );
