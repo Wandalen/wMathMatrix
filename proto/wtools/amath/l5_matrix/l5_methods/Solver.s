@@ -57,8 +57,8 @@ function _Solve2_pre( routine, args )
   {
     if( _.longIs( o.y ) )
     {
-      let l = Math.max( o.m.dims[ 1 ], this.NrowOf( o.y ) );
-      o.x = _.longGrow_( null, o.y, [ 0, l-1 ], 0 );
+      let l = Math.max( o.m.dims[ 1 ], this.NrowOf( o.y ) ) - 1;
+      o.x = _.longGrow_( null, o.y, [ 0, l ], 0 );
     }
     else if( o.y !== null )
     {
