@@ -3625,8 +3625,8 @@ _.Matrix = Self;
 _.assert( !!_.vectorAdapter );
 _.assert( !!_.vectorAdapter.longType );
 
-_.assert( _.objectIs( _.withDefaultLongType ) );
-_.assert( _.objectIs( _.withDefaultLongType.Fx ) );
+_.assert( _.objectIs( _.withDefaultLong ) );
+_.assert( _.objectIs( _.withDefaultLong.Fx ) );
 _.assert( _.routineIs( Self.prototype[ Symbol.for( 'equalAre' ) ] ) );
 
 _.assert( Self.prototype.vectorAdapter.longType === Self.vectorAdapter.longType );

@@ -16,7 +16,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-var _ = _global_.wTools.withDefaultLongType.Fx;
+var _ = _global_.wTools.withDefaultLong.Fx;
 // var vectorAdapter = _.vectorAdapter;
 // var vec = _.vectorAdapter.fromLong;
 // var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
