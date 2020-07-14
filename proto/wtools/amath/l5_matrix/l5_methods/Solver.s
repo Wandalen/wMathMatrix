@@ -58,7 +58,7 @@ function _Solve2_pre( routine, args )
     if( _.longIs( o.y ) )
     {
       let l = Math.max( o.m.dims[ 1 ], this.NrowOf( o.y ) );
-      o.x = _.longGrow_( null, o.y, [ 0, l ], 0 );
+      o.x = _.longGrow_( null, o.y, [ 0, l-1 ], 0 );
     }
     else if( o.y !== null )
     {
@@ -1607,6 +1607,7 @@ function _SolveWithTriangles( o )
   _.assert( _.matrixIs( o.m ) );
   _.assert( _.matrixIs( o.x ) || o.x === null ); /* yyy */
 
+  debugger;
   // o.normalizing = 1;
   proto._TriangulateLu( o );
 
