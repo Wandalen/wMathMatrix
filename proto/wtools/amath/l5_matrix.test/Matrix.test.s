@@ -16,7 +16,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-var _ = _global_.wTools.withDefaultLong.Fx;
+let _ = _global_.wTools.withDefaultLong.Fx;
 function fvec( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
 function ivec( src ){ return _.vectorAdapter.fromLong( new I32x( src ) ) }
 var sqr = _.math.sqr;
@@ -34888,7 +34888,7 @@ experiment.experimental = 1;
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Tools.Math.Matrix',

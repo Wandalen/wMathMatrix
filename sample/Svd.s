@@ -2,7 +2,7 @@ if( typeof module !== 'undefined' )
 require( 'wmathmatrix' );
 require('wFiles');
 
-var _ = wTools;
+let _ = wTools;
 
 var matrix =  _.Matrix.Make( [ 4, 5 ] ).copy
 ([

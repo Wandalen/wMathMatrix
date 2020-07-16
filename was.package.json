@@ -12,7 +12,7 @@
   "license" : "MIT",
   "main" : "proto/wtools/amath/l5_matrix/module/full/Include.s",
   "files" : [ "proto/wtools/amath/l5_matrix", "proto/wtools/Tools.s", "out" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-1", "docgen" : "wdocgen proto" },
   "repository" :
   {
     "type" : "git",
@@ -30,6 +30,6 @@
     "wmathvector" : "",
     "wentitybasic" : ""
   },
-  "devDependencies" : { "wTesting" : "", "wmathmatrix" : "file:.", "eslint" : "" },
+  "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wmathmatrix" : "file:." },
   "keywords" : [ "wTools", "math", "matrix", "matrix math", "convolution" ]
 }

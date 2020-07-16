@@ -16,7 +16,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-var _ = _global_.wTools.withDefaultLong.Fx;
+let _ = _global_.wTools.withDefaultLong.Fx;
 // var vectorAdapter = _.vectorAdapter;
 // var vec = _.vectorAdapter.fromLong;
 // var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
@@ -1001,7 +1001,7 @@ qrDecompose.accuracy = [ _.accuracy*10, 1e-1 ];
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Tools/Math/Svd',
