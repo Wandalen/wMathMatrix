@@ -1,4 +1,4 @@
-# module::MathMatrix [![Status](https://github.com/Wandalen/wMathMatrix/workflows/Publish/badge.svg)](https://github.com/Wandalen/wMathMatrix/actions?query=workflow%3APublish) [![experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
+# module::MathMatrix [![Status](https://github.com/Wandalen/wMathMatrix/workflows/publish/badge.svg)](https://github.com/Wandalen/wMathMatrix/actions?query=workflow%3Apublish) [![experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 
 Abstract implementation of matrix math. MathMatrix introduces class Matrix, which is a multidimensional structure which, in the most trivial case, is a 2D matrix. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. A Vector adapter is an implementation of the abstract interface, a kind of link that defines how to interpret data as the vector. An adapter is a special object to make algorithms more abstract and to use the same code for very different formats of vector specifying. Use module MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a particular or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container. You may use it to continuously store multidimensional data.
 
@@ -579,3 +579,9 @@ Routine `Solve` found the solution of a system of linear equations specified by 
 npm install
 node sample/Sample.s
 ```
+
+## To add to your project
+```
+npm add 'wmathmatrix@alpha'
+```
+
