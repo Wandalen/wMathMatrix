@@ -35046,7 +35046,7 @@ let Self =
     /* iterators */
 
     scalarWhile,
-    scalarWhileCheckingFields, /* aaa2 : investigate and fix */ /* Dmytro : if counter in routine eachInMultyRanges_ overflows, then it fills indexNd by zeros, fixed */
+    scalarWhileCheckingFields, 
     scalarEach,
     scalarEachCheckingFields,
     layerEach,

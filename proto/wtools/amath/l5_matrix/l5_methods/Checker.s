@@ -455,6 +455,7 @@ let Extension =
   isDiagonal,
   isUpperTriangle,
   isSymmetric,
+  /* qqq : missing checks? */
 
   _EquivalentSpace,
   EquivalentColumnSpace,
