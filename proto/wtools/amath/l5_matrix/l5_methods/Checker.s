@@ -34,7 +34,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * // log : true
  *
  * @returns { Boolean } - Returns value of whether the matrix is column.
- * @method isSquare
+ * @method isCol
  * @throws { Error } If arguments are provided.
  * @class Matrix
  * @namespace wTools
@@ -43,6 +43,8 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 
 function isCol()
 {
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
   let self = this;
   if( self.dims[ 1 ] !== 1 )
   return false;

@@ -2119,7 +2119,7 @@ function NcolOf( src )
 //
 
 /**
- * Static routine DimsOf() returns dimentions of source Matrix {-src-}.
+ * Static routine DimsOf() returns dimensions of source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 5 ] );

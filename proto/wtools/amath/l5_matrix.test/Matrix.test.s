@@ -340,6 +340,80 @@ function constructorIsMatrix( test )
 
 //
 
+function isCol( test )
+{
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make( [ 0, 1 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from long';
+  var matrix = _.Matrix.MakeCol( [ 1, 2, 3 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'From FromVector';
+  var array = [ 1, 2, 3, 4, 5, 6 ];
+  var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
+  var matrix = _.Matrix.FromVector( vector );
+  test.is( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make( [ 5, 1, 1, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  test.is( matrix.isCol() );
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make( [ 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from long';
+  var matrix = _.Matrix.MakeRow( [ 1, 2, 3 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make( [ 1, 1, 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make( [ 1, Infinity ] ).copy( [ 1 ] );
+  test.isNot( matrix.isCol() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  test.shouldThrowErrorSync( () => matrix.isCol( 1 ) );
+
+}
+
+//
+
 function isDiagonal( test )
 {
 
@@ -35391,6 +35465,7 @@ let Self =
 
     matrixIs,
     constructorIsMatrix,
+    isCol,
     isDiagonal,
     isUpperTriangle,
     isSymmetric,
