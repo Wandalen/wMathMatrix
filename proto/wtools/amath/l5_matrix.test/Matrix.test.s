@@ -2330,6 +2330,487 @@ function scalarSet( test )
 
 //
 
+function hasIndex( test )
+{
+  _.vectorAdapter.contextsForTesting( { onEach : act } );
+
+  function act( a )
+  {
+
+    test.open( 'empty matrix' );
+
+    test.case = `buffer - long ${ a.format }, empty buffer, 0x0 matrix`;
+    var buffer = a.longMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, empty buffer, 1x0 matrix`;
+    var buffer = a.longMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, empty buffer, 0x1 matrix`;
+    var buffer = a.longMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, filled buffer, 0x0 matrix`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, filled buffer, 1x0 matrix`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, filled buffer, 0x1 matrix`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    /* */
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 0x0 matrix`;
+    var buffer = a.vadMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 1x0 matrix`;
+    var buffer = a.vadMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 0x1 matrix`;
+    var buffer = a.vadMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 0x0 matrix`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 1x0 matrix`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 0x1 matrix`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.close( 'empty matrix' );
+
+    /* - */
+
+    test.open( '2D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 8,
+      strides : [ -2, -1 ],
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 100 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 100, 0 ] ) );
+    test.is( matrix.hasIndex( [ 100, 1 ] ) );
+    test.is( matrix.hasIndex( [ 100, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 0,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 100 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 100, 0 ] ) );
+    test.is( matrix.hasIndex( [ 100, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 8,
+      strides : [ -2, -1 ],
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 100, 0 ] ) );
+    test.is( matrix.hasIndex( [ 100, 1 ] ) );
+    test.is( matrix.hasIndex( [ 100, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.close( '2D matrix' );
+
+    /* - */
+
+    test.open( '3D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 4 ],
+      offset : 1,
+      strides : [ 1, 2, 1 ],
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 2, 4 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3000 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 5, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 4 ],
+      offset : 1,
+      strides : [ 1, 2, 1 ],
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 2, 4 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3000 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 5, 0 ] ) );
+
+    test.close( '3D matrix' );
+
+    /* - */
+
+    test.open( '4D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
+
+    test.close( '4D matrix' );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => matrix.hasIndex() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( [ 1, 1 ], [ 0, 0 ] ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( 0 ) );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( null ) );
+
+  test.case = 'index dimension more then matrix';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( [ 0, 0, 0 ] ) );
+  var matrix = _.Matrix.Make( [ 2, 2, 2, 2, 2 ] );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( [ 0, 0, 0, 0, 0, 0 ] ) );
+
+}
+
+//
+
 function eGet( test )
 {
   _.vectorAdapter.contextsForTesting({ onEach : act });
@@ -34925,6 +35406,7 @@ let Self =
 
     scalarGet,
     scalarSet,
+    hasIndex,
     eGet,
     eSet,
 
@@ -35046,7 +35528,7 @@ let Self =
     /* iterators */
 
     scalarWhile,
-    scalarWhileCheckingFields, 
+    scalarWhileCheckingFields,
     scalarEach,
     scalarEachCheckingFields,
     layerEach,
