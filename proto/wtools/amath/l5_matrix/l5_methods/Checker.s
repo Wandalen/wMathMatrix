@@ -64,12 +64,12 @@ function isCol()
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 2 ] );
- * var got = matrix.isCol();
+ * var got = matrix.isRow();
  * console.log( got );
  * // log : true
  *
  * @returns { Boolean } - Returns value of whether the matrix is row.
- * @method isSquare
+ * @method isRow
  * @throws { Error } If arguments are provided.
  * @class Matrix
  * @namespace wTools
@@ -78,6 +78,8 @@ function isCol()
 
 function isRow()
 {
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
   let self = this;
   if( self.dims[ 0 ] !== 1 )
   return false;
