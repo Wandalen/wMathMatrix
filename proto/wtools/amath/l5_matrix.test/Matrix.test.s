@@ -2801,7 +2801,7 @@ function hasIndex( test )
   test.shouldThrowErrorSync( () => matrix.hasIndex( 0 ) );
   test.shouldThrowErrorSync( () => matrix.hasIndex( null ) );
 
-  test.case = 'index dimension more then matrix';
+  test.case = 'index dimension is larger than matrix dimension';
   var matrix = _.Matrix.Make( 2 );
   test.shouldThrowErrorSync( () => matrix.hasIndex( [ 0, 0, 0 ] ) );
   var matrix = _.Matrix.Make( [ 2, 2, 2, 2, 2 ] );
