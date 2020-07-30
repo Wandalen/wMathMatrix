@@ -2065,9 +2065,9 @@ function ScalarsPerMatrixForDimensions( dims )
  * console.log( rows );
  * // log : 3
  *
- * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @param { Matrix|VectorAdapter|Long|Number } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of rows in source matrix.
- * @throws { Error } If {-src-} is not a Matrix, not a Long.
+ * @throws { Error } If {-src-} is not a Matrix, not a Long or not a number.
  * @static
  * @function NrowOf
  * @class Matrix
@@ -3338,7 +3338,7 @@ let Statics =
   CopyTo,
 
   ScalarsPerMatrixForDimensions,
-  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */
+  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */ /* Andrey : covered*/
   NcolOf, /* qqq : cover routine NcolOf. should work for any vector, matrix and scalar */
   DimsOf, /* qqq : cover routine DimsOf. should work for any vector, matrix and scalar */
   _FlatScalarIndexFromIndexNd,

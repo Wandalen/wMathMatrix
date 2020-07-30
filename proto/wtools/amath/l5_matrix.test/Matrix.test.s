@@ -22307,6 +22307,761 @@ function bufferSetFromVectorAdapter( test )
 // utils
 // --
 
+function NrowOf( test )
+{
+
+  /* */
+
+  test.case = 'Scalar';
+  var src = 5;
+  var exp = 1;
+  var got = _.Matrix.NrowOf( src )
+  test.identical( got, exp );
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+
+    test.open( `src - long, ${a.format}` );
+
+    test.case = 'empty';
+    var src = a.longMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.close( `src - long, ${a.format}` );
+
+    /* */
+
+    test.open( `src - vectorAdapter, ${a.format} ${a.form}` );
+
+    test.case = 'empty';
+    var src = a.vadMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.close( `src - vectorAdapter, ${a.format} ${a.form}` );
+
+  }
+
+  /* */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act1 });
+
+  function act1( a ) {
+
+    test.case = `buffer - long ${a.format}, regular dims values`;
+    var buffer = a.longMake([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims: [2, 3],
+      offset: 1,
+      inputRowMajor: 1,
+    });
+    var exp = 2;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `buffer - long ${a.format}, dims with Infinity`;
+    var buffer = a.longMake([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims: [Infinity, 3],
+      offset: 1,
+      inputRowMajor: 1,
+    });
+    var exp = Infinity;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+
+    /* */
+
+    test.case = `buffer - vectorAdapter from ${a.format}, regular dims values`;
+    var buffer = a.vadMake([1, 2, 3, 4, 5, 6, 5, 8, 9]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims: [2, 3],
+      offset: 1,
+      inputRowMajor: 1,
+    });
+    var exp = 2;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `buffer - vectorAdapter from ${a.format}, dims with Infinity`;
+    var buffer = a.vadMake([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims: [Infinity, 3],
+      offset: 1,
+      inputRowMajor: 1,
+    });
+    var exp = Infinity;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+  }
+
+  test.case = 'MakeCol';
+  var matrix = _.Matrix.MakeCol([ 4, 3 ]);
+  var exp = 2;
+  var got = _.Matrix.NrowOf( matrix )
+  test.identical( got, exp );
+
+  test.case = 'MakeRow';
+  var matrix = _.Matrix.MakeRow([ 4, 3 ]);
+  var exp = 1;
+  var got = _.Matrix.NrowOf( matrix )
+  test.identical( got, exp );
+
+  test.case = '3D matrix';
+  var matrix = _.Matrix.Make([ 2, 4, 3 ]);
+  var exp = 2;
+  var got = _.Matrix.NrowOf( matrix )
+  test.identical( got, exp );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed null';
+  test.shouldThrowErrorSync( () => _.Matrix.NrowOf( null ) );
+
+}
+
+//
+
+function NcolOf( test )
+{
+
+  /* */
+
+  test.case = 'Scalar';
+  var src = 5;
+  var exp = 1;
+  var got = _.Matrix.NrowOf( src )
+  test.identical( got, exp );
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = 'empty';
+    var dst = a.longMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var dst = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'empty';
+    var dst = a.vadMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var dst = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.open( '2D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 0, 8, 9 ]);
+    matrix.scalarSet( [ 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9 ]);
+    matrix.scalarSet([ 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 5, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 5, 6, 0, 8, 9 ]);
+    matrix.scalarSet( [ 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9 ]);
+    matrix.scalarSet( [ 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( '2D matrix' );
+
+    /* - */
+
+    test.open( '3D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2, 0 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var got = matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 0 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( '3D matrix' );
+
+    /* - */
+
+    test.open( '4D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( '4D matrix' );
+  }
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from long';
+  var matrix = _.Matrix.MakeCol( [ 1, 2, 3 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'From FromVector';
+  var array = [ 1, 2, 3, 4, 5, 6 ];
+  var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
+  var matrix = _.Matrix.FromVector( vector );
+  test.is( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make( [ 5, 1, 1, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  test.is( matrix.isCol() );
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make( [ 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from long';
+  var matrix = _.Matrix.MakeRow( [ 1, 2, 3 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make( [ 1, 1, 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make( [ 1, Infinity ] ).copy( [ 1 ] );
+  test.isNot( matrix.isCol() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  test.shouldThrowErrorSync( () => matrix.isCol( 1 ) );
+
+}
+
+function DimsOf( test )
+{
+
+  /* */
+
+  test.case = 'Scalar';
+  var src = 5;
+  var exp = 1;
+  var got = _.Matrix.NrowOf( src )
+  test.identical( got, exp );
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = 'empty';
+    var dst = a.longMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var dst = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'empty';
+    var dst = a.vadMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var dst = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.open( '2D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 0, 8, 9 ]);
+    matrix.scalarSet( [ 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9 ]);
+    matrix.scalarSet([ 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 5, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 5, 6, 0, 8, 9 ]);
+    matrix.scalarSet( [ 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9 ]);
+    matrix.scalarSet( [ 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( '2D matrix' );
+
+    /* - */
+
+    test.open( '3D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2, 0 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var got = matrix.scalarSet( [ 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 0 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( '3D matrix' );
+
+    /* - */
+
+    test.open( '4D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 0, 3, 0, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
+    test.identical( got.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 0, 3, 0, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
+    matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
+    var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
+    test.identical( got.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( '4D matrix' );
+  }
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from long';
+  var matrix = _.Matrix.MakeCol( [ 1, 2, 3 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'From FromVector';
+  var array = [ 1, 2, 3, 4, 5, 6 ];
+  var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
+  var matrix = _.Matrix.FromVector( vector );
+  test.is( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make( [ 5, 1, 1, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.is( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  test.is( matrix.isCol() );
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make( [ 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from long';
+  var matrix = _.Matrix.MakeRow( [ 1, 2, 3 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make( [ 1, 1, 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make( [ 1, Infinity ] ).copy( [ 1 ] );
+  test.isNot( matrix.isCol() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  test.shouldThrowErrorSync( () => matrix.isCol( 1 ) );
+
+}
+
+//
+
 function StridesFromDimensions( test )
 {
 
@@ -35724,6 +36479,9 @@ let Self =
 
     // utils
 
+    NrowOf,
+    NcolOf,
+    DimsOf,
     StridesFromDimensions,
     TempBorrow,
 
