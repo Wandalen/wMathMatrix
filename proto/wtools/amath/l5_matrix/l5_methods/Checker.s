@@ -121,6 +121,37 @@ function isSquare()
 //
 
 /**
+ * Method isHorizontal() checks whether the number of rows is less than the number of columns.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 2, 4 ] );
+ * var got = matrix.isHorizontal();
+ * console.log( got );
+ * // log : true
+ *
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
+ * var got = matrix.isHorizontal();
+ * console.log( got );
+ * // log : false
+ *
+ * @returns { Boolean } - Returns value whether is the instance horizontal matrix.
+ * @method isHorizontal
+ * @throws { Error } If arguments are provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isHorizontal()
+{
+  let self = this;
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  return self.dims[ 0 ] < self.dims[ 1 ];
+}
+
+//
+
+/**
  * Method isDiagonal() checks whether the current matrix is diagonal.
  *
  * @example
@@ -453,9 +484,10 @@ let Extension =
 
   //
 
-  isCol, /* qqq : cover and document, please */
-  isRow, /* qqq : cover and document, please */
+  isCol, /* qqq : cover and document, please */ /* Andrey: covered */
+  isRow, /* qqq : cover and document, please */ /* Andrey: covered */
   isSquare,
+  isHorizontal,
   isDiagonal,
   isUpperTriangle,
   isSymmetric,
