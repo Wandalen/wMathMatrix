@@ -479,6 +479,60 @@ function isUpperTriangle( accuracy )
 //
 
 /**
+ * Method isLowerTriangle() checks whether the current matrix is upper triangular.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   3,  2,  3,
+ *   0,  1,  1,
+ *   0,  0,  2
+ * ]);
+ * matrix.isLowerTriangle();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   3,  2,  3,
+ *   0,  1,  1,
+ *   4,  0,  2
+ * ]);
+ * matrix.isLowerTriangle();
+ * // returns false;
+ *
+ * @returns { Boolean } - Returns true if the matrix is upper triangular, and false if not.
+ * @function isLowerTriangle
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isLowerTriangle( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  for( let i = 0; i < nrow; i++ )
+  for( let j = 0; j < ncol; j++ )
+  if( i < j && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+  return false;
+
+  return true;
+}
+
+//
+
+/**
  * Method isSymmetric() checks whether the current matrix is symmetric.
  *
  * @example
@@ -702,6 +756,7 @@ let Extension =
   isScalar,
   isZero,
   isUpperTriangle,
+  isLowerTriangle,
   isSymmetric,
   /* qqq : missing checks? */
 
