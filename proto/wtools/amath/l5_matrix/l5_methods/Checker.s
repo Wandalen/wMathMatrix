@@ -231,9 +231,78 @@ function isDiagonal( accuracy )
   {
     for( let j = 0; j < ncol; j++ )
     {
-      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
-        //
-        // if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
+      // if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
+      let elementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
+      if( j !== i && !elementEqualToZero )
+      return false
+    }
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isIdentity() checks whether the current matrix is identity.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  2,   3,
+ *   0,  -1,  1,
+ *   4,  -5,  2
+ * ]);
+ * matrix.isIdentity();
+ * // returns : false;
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   1,  0,  0,
+ *   0,  1,  0,
+ *   0,  0,  1
+ * ]);
+ * matrix.isIdentity();
+ * // returns : true
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is identity, and false if not.
+ * @function isIdentity
+ * @throws { Error } If arguments.length is more then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isIdentity( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  for( let i = 0; i < nrow; i++ )
+  {
+    for( let j = 0; j < ncol; j++ )
+    {
+      let elementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
+      if( j !== i && !elementEqualToZero )
+      return false
+
+      let elementEqualToOne = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 1, accuracy );
+      if( j === i && !elementEqualToOne )
       return false
     }
   }
@@ -527,6 +596,7 @@ let Extension =
   isHorizontal,
   isVertical,
   isDiagonal,
+  isIdentity,
   isUpperTriangle,
   isSymmetric,
   /* qqq : missing checks? */

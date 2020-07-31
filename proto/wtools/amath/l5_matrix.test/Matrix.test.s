@@ -843,10 +843,10 @@ function isDiagonal( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    1,  0+1e-4, 0, 0,
+    1,  0+1e-5, 0, 0,
     0, -1,      0, 0,
-    0,  0,      0, 0,
-    0,  0-1e-4, -0, 0
+    0,  0,      4, 0,
+    0,  0-1e-5, -0, 5
   ]);
   var exp = true;
   var got = m1.isDiagonal();
@@ -859,11 +859,11 @@ function isDiagonal( test )
   ([
     1,  0+1e-3, 0, 0,
     0, -1,      0, 0,
-    0,  0,      0, 0,
-    0,  0-1e-3, -0, 0
+    0,  0,      3, 0,
+    0,  0-1e-3, -0, 4
   ]);
   var exp = true;
-  var got = m1.isDiagonal(1e-2);
+  var got = m1.isDiagonal( 1e-2 );
   test.identical( got, exp );
 
   /* */
@@ -873,11 +873,11 @@ function isDiagonal( test )
   ([
     1,  0+1e-7, 0, 0,
     0, -1,      0, 0,
-    0,  0,      0, 0,
-    0,  0-1e-7, -0, 0
+    0,  0,      2, 0,
+    0,  0-1e-7, -0, 3
   ]);
   var exp = false;
-  var got = m1.isDiagonal(1e-7);
+  var got = m1.isDiagonal( 1e-7 );
   test.identical( got, exp );
 
   /* */
@@ -895,6 +895,171 @@ function isDiagonal( test )
   test.shouldThrowErrorSync( () => m1.isDiagonal( m1 ));
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isDiagonal( m1 ));
+
+}
+
+//
+
+function isIdentity( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0,   1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,   1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix Not diagonal - Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,    0,   0,  0,
+    1,    1,   0,  0,
+    2,    0,   1,  0,
+    -1, 3.4,  -1,  1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1,  0,
+    0,  1,
+    0,  0,
+    0,  0
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix Identical';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0, 0, 0,
+    0,  1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 1
+  ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix Identical 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    1,  0, 0, 0, 0, 0,
+    0,  1, 0, 0, 0, 0,
+    0,  0,  1, 0, 0, 0,
+    0,  0, -0, 1, 0, 0,
+    0,  0,  0, 0, 1, 0,
+    0,  0,  0, 0, 0, 1
+  ]);
+  test.is( m1.isIdentity() );
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-5, 0, 0,
+    0,  1+1e-5, 0, 0,
+    0,  0,      1, 0,
+    0,  0-1e-5, -0, 1
+  ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-3, 0, 0,
+    0,  1+1e-3, 0, 0,
+    0,  0,      1, 0,
+    0,  0-1e-3, -0, 1
+  ]);
+  test.is( m1.isIdentity( 1e-2 ) );
+
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-3, 0, 0,
+    0,  1+1e-3, 0, 0,
+    0,  0,      1, 0,
+    0,  0-1e-3, -0, 1
+  ]);
+  test.isNot( m1.isIdentity( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
 
 }
 
@@ -36214,6 +36379,7 @@ let Self =
     isRow,
     isSquare,
     isDiagonal,
+    isIdentity,
     isHorizontal,
     isVertical,
     isUpperTriangle,
