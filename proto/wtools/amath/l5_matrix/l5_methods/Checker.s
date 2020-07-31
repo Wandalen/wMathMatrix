@@ -205,29 +205,35 @@ function isVertical()
  * matrix.isDiagonal();
  * // returns : true
  *
+ * @param { Number } accuracy - The accuracy of comparing.
  * @returns { Boolean } - Returns true if the matrix is diagonal, and false if not.
  * @function isDiagonal
- * @throws { Error } If arguments are provided.
+ * @throws { Error } If arguments.length is more then 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function isDiagonal()
+function isDiagonal( accuracy )
 {
   let self = this;
 
   _.assert( _.Matrix.Is( self ) );
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  let cols = self.length;
-  let rows = self.scalarsPerElement;
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
 
-  for( let i = 0; i < rows; i++ )
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  for( let i = 0; i < nrow; i++ )
   {
-    for( let j = 0; j < cols; j++ )
+    for( let j = 0; j < ncol; j++ )
     {
-      if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
+      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+        //
+        // if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
       return false
     }
   }

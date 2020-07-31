@@ -840,6 +840,48 @@ function isDiagonal( test )
 
   /* */
 
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-4, 0, 0,
+    0, -1,      0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-4, -0, 0
+  ]);
+  var exp = true;
+  var got = m1.isDiagonal();
+  test.identical( got, exp );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-3, 0, 0,
+    0, -1,      0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  var exp = true;
+  var got = m1.isDiagonal(1e-2);
+  test.identical( got, exp );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-7, 0, 0,
+    0, -1,      0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-7, -0, 0
+  ]);
+  var exp = false;
+  var got = m1.isDiagonal(1e-7);
+  test.identical( got, exp );
+
+  /* */
+
   if( !Config.debug )
   return;
 
