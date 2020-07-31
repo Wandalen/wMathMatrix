@@ -346,11 +346,11 @@ function isCol( test )
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 0, 1 ] );
+  var matrix = _.Matrix.Make([ 0, 1 ]);
   test.is( matrix.isCol() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.is( matrix.isCol() );
 
   test.case = 'From MakeCol from number';
@@ -358,7 +358,7 @@ function isCol( test )
   test.is( matrix.isCol() );
 
   test.case = 'From MakeCol from long';
-  var matrix = _.Matrix.MakeCol( [ 1, 2, 3 ] );
+  var matrix = _.Matrix.MakeCol([ 1, 2, 3 ]);
   test.is( matrix.isCol() );
 
   test.case = 'From FromVector';
@@ -368,21 +368,21 @@ function isCol( test )
   test.is( matrix.isCol() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 5, 1, 1, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 5, 1, 1, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.is( matrix.isCol() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
   test.is( matrix.isCol() );
 
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  var matrix = _.Matrix.Make([ 0, 2 ]);
   test.isNot( matrix.isCol() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isCol() );
 
   test.case = 'From MakeRow from number';
@@ -390,15 +390,15 @@ function isCol( test )
   test.isNot( matrix.isCol() );
 
   test.case = 'From MakeRow from long';
-  var matrix = _.Matrix.MakeRow( [ 1, 2, 3 ] );
+  var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.isNot( matrix.isCol() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 1, 1, 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 1, 1, 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isCol() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ 1, Infinity ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
   test.isNot( matrix.isCol() );
 
   /* */
@@ -407,7 +407,7 @@ function isCol( test )
   return;
 
   test.case = 'Passed argumens';
-  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  var matrix = _.Matrix.Make([ 0, 2 ]);
   test.shouldThrowErrorSync( () => matrix.isCol( 1 ) );
 
 }
@@ -420,11 +420,11 @@ function isRow( test )
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 1, 0 ] );
+  var matrix = _.Matrix.Make([ 1, 0 ]);
   test.is( matrix.isRow() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.is( matrix.isRow() );
 
   test.case = 'From MakeRow from number';
@@ -432,25 +432,25 @@ function isRow( test )
   test.is( matrix.isRow() );
 
   test.case = 'From MakeRow from long';
-  var matrix = _.Matrix.MakeRow( [ 1, 2, 3 ] );
+  var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.is( matrix.isRow() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 1, 5, 1, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 1, 5, 1, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.is( matrix.isRow() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ 1, Infinity ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
   test.is( matrix.isRow() );
 
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 2, 0 ] );
+  var matrix = _.Matrix.Make([ 2, 0 ]);
   test.isNot( matrix.isRow() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isRow() );
 
   test.case = 'From MakeCol from number';
@@ -458,7 +458,7 @@ function isRow( test )
   test.isNot( matrix.isRow() );
 
   test.case = 'From MakeCol from long';
-  var matrix = _.Matrix.MakeCol( [ 1, 2, 3 ] );
+  var matrix = _.Matrix.MakeCol([ 1, 2, 3 ]);
   test.isNot( matrix.isRow() );
 
   test.case = 'From FromVector';
@@ -468,11 +468,11 @@ function isRow( test )
   test.isNot( matrix.isRow() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 1, 1, 1, 5 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 1, 1, 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isRow() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
   test.isNot( matrix.isRow() );
 
   /* */
@@ -481,7 +481,7 @@ function isRow( test )
   return;
 
   test.case = 'Passed argumens';
-  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  var matrix = _.Matrix.Make([ 0, 2 ]);
   test.shouldThrowErrorSync( () => matrix.isRow( 1 ) );
 
 }
@@ -494,11 +494,11 @@ function isSquare( test )
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 0, 0 ] );
+  var matrix = _.Matrix.Make([ 0, 0 ]);
   test.is( matrix.isSquare() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 1, 1 ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ 1, 1 ]).copy([ 1 ]);
   test.is( matrix.isSquare() );
 
   test.case = 'From MakeSquare from number';
@@ -506,21 +506,21 @@ function isSquare( test )
   test.is( matrix.isSquare() );
 
   test.case = 'From MakeSquare from long';
-  var matrix = _.Matrix.MakeSquare( [ 1, 2, 3, 4 ] );
+  var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
   test.is( matrix.isSquare() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 2, 2, 1, 2 ] ).copy( [ 0, 1, 0, - 1, 0, 1, 0, - 1 ] );
+  var matrix = _.Matrix.Make([ 2, 2, 1, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
   test.is( matrix.isSquare() );
 
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 2, 0 ] );
+  var matrix = _.Matrix.Make([ 2, 0 ]);
   test.isNot( matrix.isSquare() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isSquare() );
 
   test.case = 'From MakeCol from number';
@@ -528,15 +528,15 @@ function isSquare( test )
   test.isNot( matrix.isSquare() );
 
   test.case = 'From MakeRow from long';
-  var matrix = _.Matrix.MakeRow( [ 1, 2, 3 ] );
+  var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.isNot( matrix.isSquare() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 1, 2, 1, 3 ] ).copy( [ 0, 1, 0, - 1, 2, 3 ] );
+  var matrix = _.Matrix.Make([ 1, 2, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
   test.isNot( matrix.isSquare() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
   test.isNot( matrix.isSquare() );
 
   /* */
@@ -545,7 +545,7 @@ function isSquare( test )
   return;
 
   test.case = 'Passed argumens';
-  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  var matrix = _.Matrix.Make([ 0, 2 ]);
   test.shouldThrowErrorSync( () => matrix.isSquare( 1 ) );
 
 }
@@ -558,11 +558,11 @@ function isHorizontal( test )
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  var matrix = _.Matrix.Make([ 0, 2 ]);
   test.is( matrix.isHorizontal() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 1, 2 ] ).copy( [ 2, 2 ] );
+  var matrix = _.Matrix.Make([ 1, 2 ]).copy([ 2, 2 ]);
   test.is( matrix.isHorizontal() );
 
   test.case = 'From MakeRow from number';
@@ -570,21 +570,21 @@ function isHorizontal( test )
   test.is( matrix.isHorizontal() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ 1, Infinity ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
   test.is( matrix.isHorizontal() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 1, 2, 2, 2 ] ).copy( [ 0, 1, 0, - 1, 0, 1, 0, - 1 ] );
+  var matrix = _.Matrix.Make([ 1, 2, 2, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
   test.is( matrix.isHorizontal() );
 
   /* */
 
   test.case = 'Empty';
-  var matrix = _.Matrix.Make( [ 2, 0 ] );
+  var matrix = _.Matrix.Make([ 2, 0 ]);
   test.isNot( matrix.isHorizontal() );
 
   test.case = 'Filled';
-  var matrix = _.Matrix.Make( [ 5, 1 ] ).copy( [ 0, 1, 0, - 1, 2 ] );
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isHorizontal() );
 
   test.case = 'From MakeCol from number';
@@ -596,11 +596,11 @@ function isHorizontal( test )
   test.isNot( matrix.isHorizontal() );
 
   test.case = 'Multidimensional';
-  var matrix = _.Matrix.Make( [ 2, 1, 1, 3 ] ).copy( [ 0, 1, 0, - 1, 2, 3 ] );
+  var matrix = _.Matrix.Make([ 2, 1, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
   test.isNot( matrix.isHorizontal() );
 
   test.case = 'Dims with Infinity';
-  var matrix = _.Matrix.Make( [ Infinity, 1 ] ).copy( [ 1 ] );
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
   test.isNot( matrix.isHorizontal() );
 
   /* */
@@ -609,8 +609,72 @@ function isHorizontal( test )
   return;
 
   test.case = 'Passed argumens';
-  var matrix = _.Matrix.Make( [ 0, 2 ] );
+  var matrix = _.Matrix.Make([ 0, 2 ]);
   test.shouldThrowErrorSync( () => matrix.isHorizontal( 1 ) );
+
+}
+
+//
+
+function isVertical( test )
+{
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  test.is( matrix.isVertical() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make([ 2, 1 ]).copy([ 2, 2 ]);
+  test.is( matrix.isVertical() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.is( matrix.isVertical() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
+  test.is( matrix.isVertical() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 2, 1, 2, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
+  test.is( matrix.isVertical() );
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'From MakeSquare from number';
+  var matrix = _.Matrix.MakeSquare( 2 );
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 2, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
+  test.isNot( matrix.isVertical() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.shouldThrowErrorSync( () => matrix.isVertical( 1 ) );
 
 }
 
@@ -36109,6 +36173,7 @@ let Self =
     isSquare,
     isDiagonal,
     isHorizontal,
+    isVertical,
     isUpperTriangle,
     isSymmetric,
     EquivalentSpace,
