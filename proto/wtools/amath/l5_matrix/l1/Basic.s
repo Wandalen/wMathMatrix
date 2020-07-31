@@ -3338,8 +3338,8 @@ let Statics =
   CopyTo,
 
   ScalarsPerMatrixForDimensions,
-  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */ /* Andrey : covered*/
-  NcolOf, /* qqq : cover routine NcolOf. should work for any vector, matrix and scalar */
+  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */ /* Andrey : covered */
+  NcolOf, /* qqq : cover routine NcolOf. should work for any vector, matrix and scalar */ /* Andrey : covered */
   DimsOf, /* qqq : cover routine DimsOf. should work for any vector, matrix and scalar */
   _FlatScalarIndexFromIndexNd,
 
