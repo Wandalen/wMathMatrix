@@ -1776,6 +1776,146 @@ function isLowerTriangle( test )
 
 //
 
+function isOrthogonal( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1,   0
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1,   0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix not orthogonal - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+
+  test.description = 'Matrix not orthogonal - not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  5,
+    0,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'Matrix orthogonal';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2/3, -2/3,  1/3,
+    1/3,  2/3,  2/3,
+    2/3,  1/3, -2/3
+  ]);
+  test.is( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'Permutation matrix 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0, 1, 0, 0, 0, 0,
+    1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0,
+    0, 0, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 1,
+    0, 0, 0, 1, 0, 0
+  ]);
+  test.is( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0 +1e-5, 1 -1e-5, 0 +1e-5, 0 -1e-5,
+    1 +1e-5, 0 -1e-5, 0 -1e-5, 0 +1e-5,
+    0 +1e-5, 0 -1e-5, 1 +1e-5, 0 -1e-5,
+    0 +1e-5, 0 -1e-5, 0 -1e-5, 1 +1e-5
+  ]);
+  test.is( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0 +1e-3, 1 -1e-3, 0 +1e-3, 0 -1e-3,
+    1 +1e-3, 0 -1e-3, 0 -1e-3, 0 +1e-3,
+    0 +1e-3, 0 -1e-3, 1 +1e-3, 0 -1e-3,
+    0 +1e-3, 0 -1e-3, 0 -1e-3, 1 +1e-3
+  ]);
+  test.is( m1.isOrthogonal( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,       1, 0, 0,
+    1 -1e-5, 0, 0, 0,
+    0,       0, 0, 0,
+    0,       0, 1, 0,
+  ]);
+  test.isNot( m1.isOrthogonal( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+
+}
+
+//
+
 function isSymmetric( test )
 {
 
@@ -36918,6 +37058,7 @@ let Self =
     isVertical,
     isUpperTriangle,
     isLowerTriangle,
+    isOrthogonal,
     isSymmetric,
     EquivalentSpace,
 

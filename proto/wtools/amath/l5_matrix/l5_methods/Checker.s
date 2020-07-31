@@ -484,9 +484,9 @@ function isUpperTriangle( accuracy )
  * @example
  * var matrix =  _.Matrix.MakeSquare
  * ([
- *   3,  2,  3,
- *   0,  1,  1,
- *   0,  0,  2
+ *   3,  0,  0,
+ *   2,  1,  0,
+ *   5,  2,  0
  * ]);
  * matrix.isLowerTriangle();
  * // returns true;
@@ -494,7 +494,7 @@ function isUpperTriangle( accuracy )
  * @example
  * var matrix =  _.Matrix.MakeSquare
  * ([
- *   3,  2,  3,
+ *   3,  2,  0,
  *   0,  1,  1,
  *   4,  0,  2
  * ]);
@@ -526,6 +526,70 @@ function isLowerTriangle( accuracy )
   for( let j = 0; j < ncol; j++ )
   if( i < j && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
   return false;
+
+  return true;
+}
+
+//
+
+/**
+ * Method isOrthogonal() checks whether the current matrix is orthogonal.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2/3,  -2/3,  1/3,
+ *   1/3,  2/3,  2/3,
+ *   2/3,  1/3,  -2/3
+ * ]);
+ * matrix.isOrthogonal();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   3,  2,  3,
+ *   0,  1,  1,
+ *   4,  0,  2
+ * ]);
+ * matrix.isOrthogonal();
+ * // returns false;
+ *
+ * @returns { Boolean } - Returns true if the matrix is orthogonal, and false if not.
+ * @function isOrthogonal
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isOrthogonal( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  for( let i = 0; i < ncol; i++ )
+  for( let j = i; j < ncol; j++ )
+  {
+    let dot = self.colGet( i ).dot( self.colGet( j ) )
+    if( i === j && !_.numbersAreEquivalent( dot, 1, accuracy ) )
+    return false
+    if( i !== j && !_.numbersAreEquivalent( dot, 0, accuracy ) )
+    return false
+  }
 
   return true;
 }
@@ -757,6 +821,7 @@ let Extension =
   isZero,
   isUpperTriangle,
   isLowerTriangle,
+  isOrthogonal,
   isSymmetric,
   /* qqq : missing checks? */
 
