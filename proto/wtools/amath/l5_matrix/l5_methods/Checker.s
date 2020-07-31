@@ -465,23 +465,13 @@ function isUpperTriangle( accuracy )
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
   accuracy = self.accuracySqrt;
 
-  let cols = self.length;
-  let rows = self.scalarsPerElement;
+  let ncol = self.ncol;
+  let nrow = self.nrow;
 
-  for( let i = 0; i < rows; i++ )
-  {
-    for( let j = 0; j < cols; j++ )
-    {
-      if( i > j )
-      {
-        let point = self.scalarGet([ i, j ]);
-        if( 0 - accuracy > point || point > 0 + accuracy )
-        {
-          return false
-        }
-      }
-    }
-  }
+  for( let i = 0; i < nrow; i++ )
+  for( let j = 0; j < ncol; j++ )
+  if( i > j && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+  return false;
 
   return true;
 }

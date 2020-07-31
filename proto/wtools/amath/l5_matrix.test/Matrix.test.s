@@ -1426,7 +1426,6 @@ function isUpperTriangle( test )
   /* */
 
   test.description = 'Matrix remains unchanged';
-
   var m1 = _.Matrix.Make([ 4, 6 ]).copy
   ([
     0,   0,   0,   0, - 1,   1,
@@ -1434,10 +1433,7 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,   0,   0,
     - 1,   0, - 1,   0,   0, - 1
   ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.isNot( m1.isUpperTriangle() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -1451,7 +1447,6 @@ function isUpperTriangle( test )
   /* */
 
   test.description = 'Matrix Not triangular - square';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
@@ -1459,15 +1454,11 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.isNot( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Not diagonal - Lower Triangular';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
@@ -1475,15 +1466,11 @@ function isUpperTriangle( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.isNot( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix not square';
-
   var m1 = _.Matrix.Make([ 4, 2 ]).copy
   ([
     0.5,  0,
@@ -1491,15 +1478,11 @@ function isUpperTriangle( test )
     2,    0,
     - 1, 3.4
   ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.isNot( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Upper Triangular';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     1,   0,   3,   4,
@@ -1507,15 +1490,11 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Diagonal';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
@@ -1523,15 +1502,11 @@ function isUpperTriangle( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Upper Triangular 6x6';
-
   var m1 = _.Matrix.Make([ 6, 6 ]).copy
   ([
     0.5, 5, 8, 0, 3, -0.5,
@@ -1541,15 +1516,11 @@ function isUpperTriangle( test )
     0,  0,  0, 0, 3, 7,
     0,  0,  0, 0, 0, - 1
   ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Upper Triangular not square';
-
   var m1 = _.Matrix.Make([ 4, 3 ]).copy
   ([
     0.5, 0, 0,
@@ -1557,15 +1528,11 @@ function isUpperTriangle( test )
     0,  0,  1,
     0,  0, -0
   ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
-  test.description = 'Zero matrix ';
-
+  test.description = 'Zero matrix';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
@@ -1573,10 +1540,43 @@ function isUpperTriangle( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  var exp = true;
+  test.is( m1.isUpperTriangle() );
 
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  1+1e-5, 0, 3,
+    0,  5+1e-5, 0, 2,
+    0,  0,      0, 0,
+    0,  0-1e-5, -0, 0
+  ]);
+  test.is( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  1+1e-3, 0, 3,
+    0,  5+1e-3, 0, 2,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.is( m1.isUpperTriangle( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  1+1e-3, 0, 3,
+    0,  5+1e-3, 0, 2,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isUpperTriangle( 1e-7 ) );
 
   /* */
 
