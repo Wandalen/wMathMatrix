@@ -232,8 +232,8 @@ function isDiagonal( accuracy )
     for( let j = 0; j < ncol; j++ )
     {
       // if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
-      let elementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
-      if( j !== i && !elementEqualToZero )
+      let isElementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
+      if( j !== i && !isElementEqualToZero )
       return false
     }
   }
@@ -288,21 +288,78 @@ function isIdentity( accuracy )
   let ncol = self.ncol;
   let nrow = self.nrow;
 
-  if( ncol !== nrow )
+  for( let i = 0; i < nrow; i++ )
   {
-    return false;
+    for( let j = 0; j < ncol; j++ )
+    {
+      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+      return false
+
+      if( j === i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 1, accuracy ) )
+      return false
+    }
   }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isScalar() checks whether all diagonal elements are equal to same scalar and all other elements are zero.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,  0,
+ *   0, -1,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isScalar();
+ * // returns : false;
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,  0,
+ *   0,  3,  0,
+ *   0,  0,  3
+ * ]);
+ * matrix.isScalar();
+ * // returns : true
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is scalar matrix, and false if not.
+ * @function isScalar
+ * @throws { Error } If arguments.length is more then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isScalar( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  let firstElem = self.scalarGet([ 0, 0 ]);
 
   for( let i = 0; i < nrow; i++ )
   {
     for( let j = 0; j < ncol; j++ )
     {
-      let elementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
-      if( j !== i && !elementEqualToZero )
+      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
       return false
 
-      let elementEqualToOne = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 1, accuracy );
-      if( j === i && !elementEqualToOne )
+      if( j === i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), firstElem, accuracy ) )
       return false
     }
   }
@@ -597,6 +654,7 @@ let Extension =
   isVertical,
   isDiagonal,
   isIdentity,
+  isScalar,
   isUpperTriangle,
   isSymmetric,
   /* qqq : missing checks? */
