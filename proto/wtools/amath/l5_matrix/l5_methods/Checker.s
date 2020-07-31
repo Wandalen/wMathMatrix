@@ -370,6 +370,61 @@ function isScalar( accuracy )
 //
 
 /**
+ * Method isZero() checks whether all elements are zero.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,  0,
+ *   0, -1,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isZero();
+ * // returns : false;
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   0,  0,  0,
+ *   0,  0,  0,
+ *   0,  0,  0
+ * ]);
+ * matrix.isZero();
+ * // returns : true
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is zero, and false if not.
+ * @function isZero
+ * @throws { Error } If arguments.length is more then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isZero( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  for( let i = 0; i < nrow; i++ )
+  for( let j = 0; j < ncol; j++ )
+  if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+  return false;
+
+  return true;
+}
+
+//
+
+/**
  * Method isUpperTriangle() checks whether the current matrix is upper triangular.
  *
  * @example
@@ -655,6 +710,7 @@ let Extension =
   isDiagonal,
   isIdentity,
   isScalar,
+  isZero,
   isUpperTriangle,
   isSymmetric,
   /* qqq : missing checks? */

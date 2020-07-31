@@ -824,6 +824,16 @@ function isDiagonal( test )
 
   /* */
 
+  test.description = 'From makeDiagonal';
+
+  var m1 = _.Matrix.MakeDiagonal( [ 2, 3, 1 ] );
+  var exp = true;
+
+  var got = m1.isDiagonal();
+  test.identical( got, exp );
+
+  /* */
+
   test.description = 'Zero matrix';
 
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
@@ -970,6 +980,12 @@ function isIdentity( test )
     0,  0,  1, 0,
     0,  0, -0, 1
   ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'From makeIdentity';
+  var m1 = _.Matrix.MakeIdentity( [ 2, 3 ] );
   test.is( m1.isIdentity() );
 
   /* */
@@ -1239,6 +1255,166 @@ function isScalar( test )
   test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
+
+}
+
+//
+
+function isZero( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.isNot( m1.isZero() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix is not zero - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   0,   0,
+    1,   1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  1
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is not zero - Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0,   1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,   1
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is not zero - Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,    0,   0,  0,
+    1,    1,   0,  0,
+    2,    0,   1,  0,
+    -1, 3.4,  -1,  1
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is zero';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0,  0, 0,
+    0,  0,  0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'From makeZero';
+  var m1 = _.Matrix.makeZero( [ 2, 3 ] );
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is zero, not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0,  0,
+    0,  0,
+    0,  0,
+    0,  0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is zero 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0,  0,  0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0,
+    0,  0, -0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-5, 0, 0,
+    0,  0+1e-5, 0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-5, -0, 0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 0,
+    0,  0+1e-3, 0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.is( m1.isZero( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 0,
+    0,  0+1e-3, 0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isZero( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
 
 }
 
