@@ -1306,6 +1306,18 @@ function isZero( test )
 
   /* */
 
+  test.description = 'Matrix is not zero - Diagonal';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
   test.description = 'Matrix is not zero - Upper Triangular';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -1342,8 +1354,8 @@ function isZero( test )
 
   /* */
 
-  test.description = 'From makeZero';
-  var m1 = _.Matrix.makeZero( [ 2, 3 ] );
+  test.description = 'From MakeZero';
+  var m1 = _.Matrix.MakeZero( [ 2, 3 ] );
   test.is( m1.isZero() );
 
   /* */
@@ -1421,8 +1433,6 @@ function isZero( test )
   test.shouldThrowErrorSync( () => m1.isZero( m1 ));
   var m1 = [ 0, 0, 0 ];
   test.shouldThrowErrorSync( () => m1.isZero( m1 ));
-  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
-  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
 
 }
 
@@ -1454,42 +1464,6 @@ function isUpperTriangle( test )
 
   /* */
 
-  test.description = 'Matrix Not triangular - square';
-  var m1 = _.Matrix.Make([ 4, 4 ]).copy
-  ([
-    0,   0,   0,   0,
-    1, - 1,   0,   0,
-    0,   0,   1, - 1,
-    - 1, 0,  - 1,  0
-  ]);
-  test.isNot( m1.isUpperTriangle() );
-
-  /* */
-
-  test.description = 'Matrix is Lower Triangular';
-  var m1 = _.Matrix.Make([ 4, 4 ]).copy
-  ([
-    0.5,  0,   0,  0,
-    1,  - 1,   0,  0,
-    2,    0,   1,  0,
-    - 1, 3.4, - 1, 2
-  ]);
-  test.isNot( m1.isUpperTriangle() );
-
-  /* */
-
-  test.description = 'Matrix not square';
-  var m1 = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    0.5,  0,
-    1,  - 1,
-    2,    0,
-    - 1, 3.4
-  ]);
-  test.isNot( m1.isUpperTriangle() );
-
-  /* */
-
   test.description = 'Matrix Upper Triangular';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -1514,6 +1488,30 @@ function isUpperTriangle( test )
 
   /* */
 
+  test.description = 'Matrix Upper Triangular - vertical';
+  var m1 = _.Matrix.Make([ 5, 3 ]).copy
+  ([
+    0.5, 0, 5,
+    0, - 1, 0,
+    0,  0,  1,
+    0,  0, -0,
+    0,  0, -0
+  ]);
+  test.is( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 3, 5 ]).copy
+  ([
+    0.5, 0, 5, 2, 3,
+    0, - 1, 0, 2, 0,
+    0,  0,  1, 0, 3
+  ]);
+  test.is( m1.isUpperTriangle() );
+
+  /* */
+
   test.description = 'Matrix Upper Triangular 6x6';
   var m1 = _.Matrix.Make([ 6, 6 ]).copy
   ([
@@ -1528,18 +1526,6 @@ function isUpperTriangle( test )
 
   /* */
 
-  test.description = 'Matrix Upper Triangular not square';
-  var m1 = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    0.5, 0, 5,
-    0, - 1, 0,
-    0,  0,  1,
-    0,  0, -0
-  ]);
-  test.is( m1.isUpperTriangle() );
-
-  /* */
-
   test.description = 'Zero matrix';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -1549,6 +1535,52 @@ function isUpperTriangle( test )
     0,  0, -0, 0
   ]);
   test.is( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Not triangular - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is not Upper Triangular - vertical';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  0,
+    1,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is not Upper Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    0.5,  0, 0.5,  0,
+    1,  - 1, 1,  - 1
+  ]);
+  test.isNot( m1.isUpperTriangle() );
 
   /* */
 
@@ -1632,43 +1664,7 @@ function isLowerTriangle( test )
 
   /* */
 
-  test.description = 'Matrix not triangular - square';
-  var m1 = _.Matrix.Make([ 4, 4 ]).copy
-  ([
-    0,   0,   0,   0,
-    1, - 1,   0,   0,
-    0,   0,   1, - 1,
-    - 1, 0,  - 1,  0
-  ]);
-  test.isNot( m1.isLowerTriangle() );
-
-  /* */
-
-  test.description = 'Matrix is Upper Triangular';
-  var m1 = _.Matrix.Make([ 4, 4 ]).copy
-  ([
-    1,   0,   3,   4,
-    0, - 1,   2,   0,
-    0,   0,   1, - 1,
-    0,   0,   0,  0.5
-  ]);
-  test.isNot( m1.isLowerTriangle() );
-
-  /* */
-
-  test.description = 'Matrix not square';
-  var m1 = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    0.5,  5,
-    0,  - 1,
-    2,    0,
-    - 1, 3.4
-  ]);
-  test.isNot( m1.isLowerTriangle() );
-
-  /* */
-
-  test.description = 'Matrix Lower Triangular';
+  test.description = 'Matrix Lower Triangular - square';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
@@ -1692,6 +1688,76 @@ function isLowerTriangle( test )
 
   /* */
 
+  test.description = 'Matrix Lower Triangular - vertical';
+  var m1 = _.Matrix.Make([ 5, 3 ]).copy
+  ([
+    0.5,   0,    0,
+    1,   - 1,    0,
+    2,     0,    1,
+    - 1, 3.4,  - 1,
+    1,     4,  - 1
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 3, 5 ]).copy
+  ([
+    0.5,  0,   0,  0,  0,
+    1,  - 1,   0,  0,  0,
+    2,    0,   1,  0,  0
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix not Lower Triangular - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix not Lower Triangular - vertical';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  5,
+    0,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix not Lower Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    0.5,  5, 0.5,  5,
+    0,  - 1, 0,  - 1
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
   test.description = 'Matrix Lower Triangular 6x6';
   var m1 = _.Matrix.Make([ 6, 6 ]).copy
   ([
@@ -1701,18 +1767,6 @@ function isLowerTriangle( test )
     0,  0, -0,  2, 0, 0,
     0,  6,  0,  0, 3, 0,
     7,  0,  0,  0, 0, - 1
-  ]);
-  test.is( m1.isLowerTriangle() );
-
-  /* */
-
-  test.description = 'Matrix Lower Triangular not square';
-  var m1 = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    0.5, 0, 0,
-    0, - 1, 0,
-    0,  0,  1,
-    6,  3, -0
   ]);
   test.is( m1.isLowerTriangle() );
 
@@ -2214,6 +2268,194 @@ function isSymmetric( test )
   test.shouldThrowErrorSync( () => m1.isSymmetric());
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isSymmetric());
+
+}
+
+//
+
+function isSkewSymmetric( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Not Symmetric';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Diagonal';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Symmetric';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 5, 8, 0.1,
+    5, - 1, 2, 8,
+    8,  2,  1, 0,
+    0.1,  8, -0, 2
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Diagonal not zeros';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,    5, -8, -0.1,
+    -5,   2,  2,  8,
+    8,    2,  3,  0,
+    0.1, -8, -0,  0
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Skew-Symmetric';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,    5, -8, -0.1,
+    -5,   0,  2,  8,
+    8,   -2,  0,  0,
+    0.1, -8, -0,  0
+  ]);
+  test.is( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,        5+1e-5, -8, -0.1,
+    -5-1e-5,  0+1e-5,  2,  8,
+    8,       -2,       0,  0,
+    0.1,     -8-1e-5, -0,  0
+  ]);
+  test.is( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,        5+1e-3, -8, -0.1,
+    -5-1e-3,  0+1e-3,  2,  8,
+    8,       -2,       0,  0,
+    0.1,     -8-1e-3, -0,  0
+  ]);
+  test.is( m1.isSkewSymmetric( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,        5+1e-3, -8, -0.1,
+    -5-1e-3,  0+1e-3,  2,  8,
+    8,       -2,       0,  0,
+    0.1,     -8-1e-3, -0,  0
+  ]);
+  test.isNot( m1.isSkewSymmetric( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
 
 }
 
@@ -37195,16 +37437,18 @@ let Self =
     isCol,
     isRow,
     isSquare,
+    isHorizontal,
+    isVertical,
     isDiagonal,
     isIdentity,
     isScalar,
-    isHorizontal,
-    isVertical,
+    isZero,
     isUpperTriangle,
     isLowerTriangle,
     isOrthogonal,
     isSingular,
     isSymmetric,
+    isSkewSymmetric,
     EquivalentSpace,
 
     // equaler

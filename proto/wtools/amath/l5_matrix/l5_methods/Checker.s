@@ -416,7 +416,7 @@ function isZero( accuracy )
 
   for( let i = 0; i < nrow; i++ )
   for( let j = 0; j < ncol; j++ )
-  if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+  if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
   return false;
 
   return true;
@@ -466,13 +466,16 @@ function isUpperTriangle( accuracy )
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
   accuracy = self.accuracySqrt;
 
-  let ncol = self.ncol;
   let nrow = self.nrow;
+  let ncol = self.ncol;
 
   for( let i = 0; i < nrow; i++ )
-  for( let j = 0; j < ncol; j++ )
-  if( i > j && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
-  return false;
+  {
+    let colIndex = min( i, ncol )
+    for( let j = 0; j < colIndex; j++ )
+    if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+    return false;
+  }
 
   return true;
 }
@@ -521,13 +524,15 @@ function isLowerTriangle( accuracy )
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
   accuracy = self.accuracySqrt;
 
-  let ncol = self.ncol;
   let nrow = self.nrow;
+  let ncol = self.ncol;
 
   for( let i = 0; i < nrow; i++ )
-  for( let j = 0; j < ncol; j++ )
-  if( i < j && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
-  return false;
+  {
+    for( let j = i + 1; j < ncol; j++ )
+    if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+    return false;
+  }
 
   return true;
 }
@@ -714,17 +719,76 @@ function isSymmetric( accuracy )
 
   for( let i = 0; i < nrow; i++ )
   {
-    for( let j = 0; j < ncol; j++ )
+    for( let j = 0; j < i; j++ )
     {
-      if( i > j )
-      {
-        let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
-        // if( 0 - accuracy > dif || dif > 0 + accuracy )
-        if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
-        {
-          return false
-        }
-      }
+      let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
+      if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isSkewSymmetric() checks whether the transpose of current matrix is equal to its negative and elements of diagonal are zeros.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   0,  2, -3,
+ *  -2,  0,  2,
+ *   3, -2,  0,
+ * ]);
+ * matrix.isSkewSymmetric();
+ * // returns : true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   0,  2,  3,
+ *   2,  0,  2,
+ *   3,  2,  0,
+ * ]);
+ * matrix.isSkewSymmetric();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is skew-symmetric, and false if not.
+ * @function isSkewSymmetric
+ * @throws { Error } If arguments.length is greater then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isSkewSymmetric( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  for( let i = 0; i < nrow; i++ )
+  {
+    for( let j = 0; j <= i; j++ )
+    {
+      let dif = self.scalarGet([ i, j ]) + self.scalarGet([ j, i ]);
+      if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
+      return false;
     }
   }
 
@@ -891,6 +955,7 @@ let Extension =
   isOrthogonal,
   isSingular,
   isSymmetric,
+  isSkewSymmetric,
   /* qqq : missing checks? */
 
   _EquivalentSpace,
