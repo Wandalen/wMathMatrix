@@ -2461,6 +2461,117 @@ function isSkewSymmetric( test )
 
 //
 
+function isNilpotent( test )
+{
+
+  test.description = 'Matrix is nilpotent 2x2';
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    0,   1,
+    0,   0
+  ]);
+  test.is( m1.isNilpotent() );
+
+  /* */
+
+  test.description = 'Matrix is nilpotent 2x2';
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    6,   2,
+    -18, -6
+  ]);
+  test.is( m1.isNilpotent() );
+
+  /* */
+
+  test.description = 'Matrix is not nilpotent 2x2';
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1,  0,
+    0,  1
+  ]);
+  test.isNot( m1.isNilpotent() );
+
+
+  // Uncoment when finding eigenvalues for n > 3 were implement
+  /* */
+
+  // test.description = 'Matrix is nilpotent 3x3';
+  // var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //    5, -3,  2,
+  //   15, -9,  6,
+  //   10, -6,  4
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Matrix Lower Triangular';
+  // var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  // ([
+  //   0.5,  0,   0,  0,
+  //   1,  - 1,   0,  0,
+  //   2,    0,   1,  0,
+  //   - 1, 3.4, - 1, 2
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Matrix Upper Triangular';
+  // var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  // ([
+  //   1,   0,   3,   4,
+  //   0, - 1,   2,   0,
+  //   0,   0,   1, - 1,
+  //   0,   0,   0,  0.5
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Matrix Not Squared';
+  // var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  // ([
+  //   1,   0,   3,   4,
+  //   0, - 1,   2,   0,
+  //   3,   2,   1, - 1,
+  // ]);
+  // test.isNot( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Zero matrix';
+  // var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  // ([
+  //   0,  0, 0, 0,
+  //   0,  0, 0, 0,
+  //   0,  0,  0, 0,
+  //   0,  0, -0, 0
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+
+}
+
+//
+
 function EquivalentSpace( test )
 {
 
@@ -37449,6 +37560,7 @@ let Self =
     isSingular,
     isSymmetric,
     isSkewSymmetric,
+    isNilpotent,
     EquivalentSpace,
 
     // equaler

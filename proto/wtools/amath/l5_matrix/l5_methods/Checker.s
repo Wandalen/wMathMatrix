@@ -797,6 +797,69 @@ function isSkewSymmetric( accuracy )
 
 //
 
+/**
+ * Method isNilpotent() checks whether the current matrix is nilpotent, i.e. A^m = 0 for some positive integer m.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   5, -3,  2,
+ *  15, -9,  6,
+ *  10, -6,  4
+ * ]);
+ * matrix.isNilpotent();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  0,  0,
+ *   0,  1,  0,
+ *   0,  0,  1
+ * ]);
+ * matrix.isNilpotent();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is nilpotent, and false if not.
+ * @function isNilpotent
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isNilpotent( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  let eigenVals = self.eigenVals();
+  let l = eigenVals.length;
+  for( let i = 0; i < l; i++ )
+  {
+    if( !_.numbersAreEquivalent( eigenVals[ i ], 0, accuracy ) )
+    return false;
+  }
+
+  return true;
+}
+
+//
+
 function _EquivalentSpace_pre( routine, args )
 {
   let proto = this;
@@ -956,6 +1019,7 @@ let Extension =
   isSingular,
   isSymmetric,
   isSkewSymmetric,
+  isNilpotent,
   /* qqq : missing checks? */
 
   _EquivalentSpace,
