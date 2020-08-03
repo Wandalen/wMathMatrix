@@ -2061,7 +2061,6 @@ function isSymmetric( test )
   /* */
 
   test.description = 'Matrix remains unchanged';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
@@ -2069,10 +2068,7 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     - 1,   0, - 1, 0
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2086,7 +2082,6 @@ function isSymmetric( test )
   /* */
 
   test.description = 'Matrix Not Symmetric';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   2,   0,
@@ -2094,15 +2089,11 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Lower Triangular';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
@@ -2110,10 +2101,7 @@ function isSymmetric( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
@@ -2126,30 +2114,22 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Not Squared';
-
   var m1 = _.Matrix.Make([ 3, 4 ]).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
     3,   2,   1, - 1,
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Diagonal';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
@@ -2157,15 +2137,11 @@ function isSymmetric( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  var exp = true;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.is( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Symmetric';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 5, 8, 0.1,
@@ -2173,15 +2149,11 @@ function isSymmetric( test )
     8,  2,  1, 0,
     0.1,  8, -0, 2
   ]);
-  var exp = true;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.is( m1.isSymmetric() );
 
   /* */
 
-  test.description = 'Zero matrix ';
-
+  test.description = 'Zero matrix';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
@@ -2189,10 +2161,43 @@ function isSymmetric( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  var exp = true;
+  test.is( m1.isSymmetric() );
 
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,       0+1e-5, 0, 4,
+    0-1e-5,  2+1e-5, 0, 5,
+    0,       0,      0, 0,
+    4,       5-1e-5, -0, 0
+  ]);
+  test.is( m1.isSymmetric() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 4,
+    0,  2+1e-3, 0, 5,
+    0,  0,      0, 0,
+    4,  5-1e-3, -0, 0
+  ]);
+  test.is( m1.isSymmetric( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 4,
+    0,  2+1e-3, 0, 5,
+    0,  0,      0, 0,
+    4,  5-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isSymmetric( 1e-7 ) );
 
   /* */
 

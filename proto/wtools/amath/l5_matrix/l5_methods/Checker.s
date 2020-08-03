@@ -719,7 +719,8 @@ function isSymmetric( accuracy )
       if( i > j )
       {
         let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
-        if( 0 - accuracy > dif || dif > 0 + accuracy )
+        // if( 0 - accuracy > dif || dif > 0 + accuracy )
+        if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
         {
           return false
         }
