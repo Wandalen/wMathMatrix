@@ -447,6 +447,7 @@ function isZero( accuracy )
  * matrix.isUpperTriangle();
  * // returns false;
  *
+ * @param { Number } accuracy - The accuracy of comparing.
  * @returns { Boolean } - Returns true if the matrix is upper triangular, and false if not.
  * @function isUpperTriangle
  * @throws { Error } An Error if ( this ) is not a matrix.
@@ -501,6 +502,7 @@ function isUpperTriangle( accuracy )
  * matrix.isLowerTriangle();
  * // returns false;
  *
+ * @param { Number } accuracy - The accuracy of comparing.
  * @returns { Boolean } - Returns true if the matrix is upper triangular, and false if not.
  * @function isLowerTriangle
  * @throws { Error } An Error if ( this ) is not a matrix.
@@ -555,6 +557,7 @@ function isLowerTriangle( accuracy )
  * matrix.isOrthogonal();
  * // returns false;
  *
+ * @param { Number } accuracy - The accuracy of comparing.
  * @returns { Boolean } - Returns true if the matrix is orthogonal, and false if not.
  * @function isOrthogonal
  * @throws { Error } An Error if ( this ) is not a matrix.
@@ -587,11 +590,74 @@ function isOrthogonal( accuracy )
     let dot = self.colGet( i ).dot( self.colGet( j ) )
     if( i === j && !_.numbersAreEquivalent( dot, 1, accuracy ) )
     return false
+
     if( i !== j && !_.numbersAreEquivalent( dot, 0, accuracy ) )
     return false
   }
 
   return true;
+}
+
+//
+
+/**
+ * Method isSingular() checks whether the current matrix is singular.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  2,  3,
+ *   4,  5,  6,
+ *   7,  8,  9
+ * ]);
+ * matrix.isSingular();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  0,  0,
+ *   0,  1,  0,
+ *   0,  0,  1
+ * ]);
+ * matrix.isSingular();
+ * // returns false;
+ *
+ * @returns { Boolean } - Returns true if the matrix is singular, and false if not.
+ * @function isSingular
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isSingular()
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 );
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  /*
+  Possibly naive implementation using determinant. May produce rounding errors.
+  Better implementation use svd.
+  https://www.mathworks.com/matlabcentral/answers/400327-why-is-det-a-bad-way-to-check-matrix-singularity
+  https://stackoverflow.com/questions/13145948/how-to-find-out-if-a-matrix-is-singular
+  */
+
+  let accuracy = self.accuracySqrt;
+  // let det = self.determinant()
+  let det = self._determinantWithBareiss()
+
+  return _.numbersAreEquivalent( det, 0, accuracy );
 }
 
 //
@@ -822,6 +888,7 @@ let Extension =
   isUpperTriangle,
   isLowerTriangle,
   isOrthogonal,
+  isSingular,
   isSymmetric,
   /* qqq : missing checks? */
 

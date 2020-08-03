@@ -493,12 +493,20 @@ function isSquare( test )
 
   /* */
 
-  test.case = 'Empty';
+  test.case = '0x0';
   var matrix = _.Matrix.Make([ 0, 0 ]);
   test.is( matrix.isSquare() );
 
-  test.case = 'Filled';
+  test.case = '1x1';
   var matrix = _.Matrix.Make([ 1, 1 ]).copy([ 1 ]);
+  test.is( matrix.isSquare() );
+
+  test.case = '2x2';
+  var matrix = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1,  2,
+    -3, 4
+  ]);
   test.is( matrix.isSquare() );
 
   test.case = 'From MakeSquare from number';
@@ -515,11 +523,11 @@ function isSquare( test )
 
   /* */
 
-  test.case = 'Empty';
+  test.case = '2x0';
   var matrix = _.Matrix.Make([ 2, 0 ]);
   test.isNot( matrix.isSquare() );
 
-  test.case = 'Filled';
+  test.case = '5x1';
   var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isSquare() );
 
@@ -557,11 +565,11 @@ function isHorizontal( test )
 
   /* */
 
-  test.case = 'Empty';
+  test.case = '0x2';
   var matrix = _.Matrix.Make([ 0, 2 ]);
   test.is( matrix.isHorizontal() );
 
-  test.case = 'Filled';
+  test.case = '1x2';
   var matrix = _.Matrix.Make([ 1, 2 ]).copy([ 2, 2 ]);
   test.is( matrix.isHorizontal() );
 
@@ -579,11 +587,11 @@ function isHorizontal( test )
 
   /* */
 
-  test.case = 'Empty';
+  test.case = '2x0';
   var matrix = _.Matrix.Make([ 2, 0 ]);
   test.isNot( matrix.isHorizontal() );
 
-  test.case = 'Filled';
+  test.case = '5x1';
   var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isHorizontal() );
 
@@ -621,11 +629,11 @@ function isVertical( test )
 
   /* */
 
-  test.case = 'Empty';
+  test.case = '2x0';
   var matrix = _.Matrix.Make([ 2, 0 ]);
   test.is( matrix.isVertical() );
 
-  test.case = 'Filled';
+  test.case = '2x1';
   var matrix = _.Matrix.Make([ 2, 1 ]).copy([ 2, 2 ]);
   test.is( matrix.isVertical() );
 
@@ -643,11 +651,11 @@ function isVertical( test )
 
   /* */
 
-  test.case = 'Empty';
+  test.case = '0x2';
   var matrix = _.Matrix.Make([ 0, 2 ]);
   test.isNot( matrix.isVertical() );
 
-  test.case = 'Filled';
+  test.case = '1x5';
   var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
   test.isNot( matrix.isVertical() );
 
@@ -1911,6 +1919,137 @@ function isOrthogonal( test )
   test.shouldThrowErrorSync( () => m1.isOrthogonal());
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isOrthogonal());
+
+}
+
+//
+
+function isSingular( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0, - 1,   0
+  ]);
+  test.is( m1.isSingular() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0, - 1,   0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix is singular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix is singular, magic square 4x4, determinate may be calculated with rounded error';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    16,     2,     3,    13,
+     5,    11,    10,     8,
+     9,     7,     6,    12,
+     4,    14,    15,     1
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix is singular, magic square 6x6, determinate may be calculated with rounded error';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    35,    1,     6,    26,    19,    24,
+    3,    32,     7,    21,    23,    25,
+    31,    9,     2,    22,    27,    20,
+    8,    28,    33,    17,    10,    15,
+    30,    5,    34,    12,    14,    16,
+    4,    36,    29,    13,    18,    11
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  5,
+    0,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix not singular';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2,	1,	1,
+    1,	2,	1,
+    1,	1,	1
+  ]);
+  test.isNot( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Permutation matrix 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0, 1, 0, 0, 0, 0,
+    1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0,
+    0, 0, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 1,
+    0, 0, 0, 1, 0, 0
+  ]);
+  test.isNot( m1.isSingular() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isSingular());
 
 }
 
@@ -37059,6 +37198,7 @@ let Self =
     isUpperTriangle,
     isLowerTriangle,
     isOrthogonal,
+    isSingular,
     isSymmetric,
     EquivalentSpace,
 
