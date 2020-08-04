@@ -2493,7 +2493,7 @@ function isNilpotent( test )
   test.isNot( m1.isNilpotent() );
 
 
-  // Uncoment when finding eigenvalues for n > 3 were implement
+  /* Andrey: Uncoment when finding eigenvalues for n > 3 were implement */
   /* */
 
   // test.description = 'Matrix is nilpotent 3x3';
@@ -2567,6 +2567,167 @@ function isNilpotent( test )
   test.shouldThrowErrorSync( () => m1.isNilpotent());
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isNilpotent());
+
+}
+
+//
+
+function isInvolutary( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( m1, oldMatrix );
+
+   /* */
+
+  test.description = 'Matrix Is Involutary';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+   -5, -8,  0,
+    3,  5,  0,
+    1,  2, -1
+  ]);
+  test.is( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Not Involutary';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Identity';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0,  0,  0,
+    0,  1,  0,  0,
+    0,  0,  1,  0,
+    0,  0, -0,  1
+  ]);
+  test.is( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  debugger
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -5,      -8+1e-6,  0,
+    3-1e-6,  5+1e-6,  0,
+    1,       2,      -1
+  ]);
+  test.is( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -5, -8+1e-4,  0,
+    3,  5+1e-4,  0,
+    1,  2,      -1
+  ]);
+  test.is( m1.isInvolutary( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -5, -8+1e-3, 0,
+    3,  5+1e-3, 0,
+    1,  2,     -1
+  ]);
+  test.isNot( m1.isInvolutary( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
 
 }
 
@@ -37561,6 +37722,7 @@ let Self =
     isSymmetric,
     isSkewSymmetric,
     isNilpotent,
+    isInvolutary,
     EquivalentSpace,
 
     // equaler

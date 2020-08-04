@@ -652,7 +652,7 @@ function isSingular()
   }
 
   /*
-  Possibly naive implementation using determinant. May produce rounding errors.
+  Andrey: Possibly naive implementation using determinant. May produce rounding errors.
   Better implementation use svd.
   https://www.mathworks.com/matlabcentral/answers/400327-why-is-det-a-bad-way-to-check-matrix-singularity
   https://stackoverflow.com/questions/13145948/how-to-find-out-if-a-matrix-is-singular
@@ -860,6 +860,63 @@ function isNilpotent( accuracy )
 
 //
 
+/**
+ * Method isInvolutary() checks whether the current matrix is involutary, i.e. A^2 = I.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   -5, -8,  0,
+ *   3,  5,  0,
+ *   1,  2, -1
+ * ]);
+ * matrix.isInvolutary();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2,  0,  0,
+ *   0,  2,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isInvolutary();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is involutary, and false if not.
+ * @function isInvolutary
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isInvolutary( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  let AA = _.Matrix.Mul( null, [ self, self ] );
+
+  return AA.isIdentity( accuracy );
+}
+
+//
+
 function _EquivalentSpace_pre( routine, args )
 {
   let proto = this;
@@ -1020,6 +1077,7 @@ let Extension =
   isSymmetric,
   isSkewSymmetric,
   isNilpotent,
+  isInvolutary,
   /* qqq : missing checks? */
 
   _EquivalentSpace,
