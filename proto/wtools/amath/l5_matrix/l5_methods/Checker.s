@@ -917,6 +917,63 @@ function isInvolutary( accuracy )
 
 //
 
+/**
+ * Method isIdempotent() checks whether the current matrix is idempotent, i.e. A^2 = A.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2, -2, -4,
+ *  -1,  3,  4,
+ *   1, -2, -3
+ * ]);
+ * matrix.isIdempotent();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2,  0,  0,
+ *   0,  2,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isIdempotent();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is idempotent, and false if not.
+ * @function isIdempotent
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isIdempotent( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  let AA = _.Matrix.Mul( null, [ self, self ] );
+
+  return _.equivalent( AA, self, { accuracy } );
+}
+
+//
+
 function _EquivalentSpace_pre( routine, args )
 {
   let proto = this;
@@ -1078,6 +1135,7 @@ let Extension =
   isSkewSymmetric,
   isNilpotent,
   isInvolutary,
+  isIdempotent,
   /* qqq : missing checks? */
 
   _EquivalentSpace,

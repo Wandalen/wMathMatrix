@@ -2596,7 +2596,7 @@ function isInvolutary( test )
   ]);
   test.identical( m1, oldMatrix );
 
-   /* */
+  /* */
 
   test.description = 'Matrix Is Involutary';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
@@ -2681,7 +2681,6 @@ function isInvolutary( test )
 
   /* */
 
-  debugger
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -2728,6 +2727,166 @@ function isInvolutary( test )
   test.shouldThrowErrorSync( () => m1.isInvolutary());
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isInvolutary());
+
+}
+
+//
+
+function isIdempotent( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Is idempotent';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2, -2, -4,
+    -1,  3,  4,
+    1, -2, -3
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix not idempotent';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Identity';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0,  0,  0,
+    0,  1,  0,  0,
+    0,  0,  1,  0,
+    0,  0, -0,  1
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2,      -2+1e-5, -4,
+   -1-1e-5,  3+1e-5,  4,
+    1,      -2,      -3
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2, -2+1e-3, -4,
+   -1,  3+1e-3,  4,
+    1, -2,      -3
+  ]);
+  test.is( m1.isIdempotent( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2, -2+1e-3, -4,
+   -1,  3+1e-3,  4,
+    1, -2,      -3
+  ]);
+  test.isNot( m1.isIdempotent( 1e-5 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
 
 }
 
@@ -37723,6 +37882,7 @@ let Self =
     isSkewSymmetric,
     isNilpotent,
     isInvolutary,
+    isIdempotent,
     EquivalentSpace,
 
     // equaler
