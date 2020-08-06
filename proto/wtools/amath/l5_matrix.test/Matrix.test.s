@@ -34884,6 +34884,47 @@ function experiment( test )
 
 experiment.experimental = 1;
 
+function experiment2( test )
+{
+
+  /* */
+
+  test.case = 'Must be not equal, but it is... Matrix Matrix';
+
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var m2 = _.Matrix.Make([ 0, 0 ])
+  console.log(m1)
+  console.log(m2)
+  test.notEquivalent( m1, m2 )
+
+  /* */
+
+  test.case = 'Must be not equal, but it is... Matrix Long';
+
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var m2 = []
+  console.log(m1)
+  console.log(m2)
+  test.notEquivalent( m1, m2 )
+
+  /* */
+
+}
+
+experiment2.experimental = 1;
+
 // --
 // declare
 // --
@@ -35140,6 +35181,7 @@ let Self =
     // experiments
 
     experiment,
+    experiment2,
 
   },
 
