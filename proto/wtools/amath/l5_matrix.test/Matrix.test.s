@@ -38141,7 +38141,7 @@ function experiment( test )
 
 experiment.experimental = 1;
 
-function experiment2( test )
+function equivalentBug( test )
 {
 
   /* */
@@ -38180,7 +38180,7 @@ function experiment2( test )
 
 }
 
-experiment2.experimental = 1;
+equivalentBug.experimental = 1;
 
 function permutateFails( test )
 {
@@ -38645,7 +38645,7 @@ let Self =
     // experiments
 
     experiment,
-    experiment2,
+    equivalentBug,
     permutateFails,
     myPermutate
 
