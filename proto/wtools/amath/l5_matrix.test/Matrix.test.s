@@ -34404,6 +34404,261 @@ invert.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 
 //
 
+function nullspace( test )
+{
+
+  // test is m change !!!!!
+  // test dst null !!!!!
+
+  /* */
+
+  test.case = '0x0';
+  var m = _.Matrix.Make([ 0, 0 ]);
+  var exp = _.Matrix.Make([ 0, 0 ]);
+  var got = m.nullspace();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x1';
+  var m = _.Matrix.Make([ 1, 1 ]).copy
+  ([
+    13
+  ]);
+  var exp = _.Matrix.Make([ 1, 0 ]);
+  var got = m.nullspace();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x2 nonsingular, 2 pivots, nullspace dim = 0';
+  var m = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    +17, -6,
+    +45, -16,
+  ]);
+  var exp = _.Matrix.Make([ 2, 0 ]);
+  var got = m.nullspace();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x2 singular, 1 pivot, nullspace dim = 1';
+  var m = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    5, 1,
+    10, 2,
+  ]);
+  var exp = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    -1/5,
+    1
+  ]);
+  var got = m.nullspace();
+  test.identical( got, exp );
+  test.equivalent( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 1 ] ) );
+
+  /* */
+
+  test.case = '2x3, 2 pivots, nullspace dim = 1';
+  var m = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 1, 1,
+    1, 1, 2,
+  ]);
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    -1,
+    1,
+    0
+  ]);
+  var got = m.nullspace();
+  test.equivalent( got, exp );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 1 ] ) );
+
+  /* */
+
+  test.case = '2x3, 1 pivot, nullspace dim = 2';
+  var m = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 1, 1,
+    1, 1, 1
+  ]);
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    -1, -1,
+     1,  0,
+     0,  1,
+  ]);
+  var got = m.nullspace();
+  test.equivalent( got, exp );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 2 ] ) );
+
+  /* */
+
+  test.case = '3x2, 2 pivots, nullspace dim = 0';
+  var m = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 2,
+    1, 2,
+    2, 1,
+  ]);
+  var exp = _.Matrix.Make([ 2, 0 ]);
+  var got = m.nullspace();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3x2, 1 pivot, nullspace dim = 1';
+  var m = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 2,
+    1, 2,
+    1, 2,
+  ]);
+  var exp = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    1,
+    -1/2,
+  ]);
+  var got = m.nullspace();
+  test.equivalent( got, exp );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
+
+  /* */
+
+  test.case = '3x3, 3 pivots, nullspace dim = 0';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +5, +2, +0,
+    +2, +5, +0,
+    -3, +4, +6
+  ]);
+  var exp = _.Matrix.Make([ 3, 0 ]);
+  var got = m.nullspace();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '3x3, 2 pivots, nullspace dim = 1';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, +4,
+    +2, +1, +2,
+    +2, +1, +2,
+  ]);
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    0,
+    1,
+    -1/2,
+  ]);
+  var got = m.nullspace();
+
+  test.equivalent( got, exp );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
+
+  /* */
+
+  test.case = '3x3, 1 pivots, nullspace dim = 2';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, +4,
+    +1, +2, +4,
+    +1, +2, +4,
+  ]);
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    0,    1,
+    1,    0,
+    -1/2, -1/4,
+  ]);
+  var got = m.nullspace();
+
+  test.equivalent( got, exp );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 2 ] ) );
+
+  /* */
+
+}
+
+//
+
+function rref( test )
+{
+
+  // test is m change !!!!!
+  /* */
+
+  test.case = '3x3, 3 pivots, nullspace dim = 0';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    8,  1,  6,
+    3,  5,  7,
+    4,  9,  2,
+  ]);
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 0, 0,
+    0, 1, 0,
+    0, 0, 1,
+  ]);
+  debugger
+  var got = m.rref();
+  console.log(got)
+  test.identical( got, exp );
+
+  test.case = '3x3, 3 pivots, nullspace dim = 0';
+  var m = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1, 3, 3, 2,
+    2, 6, 9, 7,
+    -1, -3, 3, 4
+  ]);
+  var exp = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1, 3, 0, -1,
+    0, 0, 1, 1,
+    0, 0, 0, 0,
+  ]);
+  debugger
+  var got = m.rref();
+  // console.log(got)
+  // test.identical( got, exp );
+
+
+  test.case = '3x3, 3 pivots, nullspace dim = 0';
+  var m = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1, 3, 3, 2,
+    2, 6, 9, 7,
+    -1, -3, 3, 4
+  ]);
+  var exp = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1, 3, 0, -1,
+    0, 0, 1, 1,
+    0, 0, 0, 0,
+  ]);
+  var y = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+   0,
+   0,
+   0
+  ]);
+  debugger
+  var got = m.rref(null ,y);
+  // console.log(got)
+  // console.log(y)
+  // test.identical( got, exp );
+
+  /* */
+
+}
+
+//
+
+
 function eigen( test )
 {
 
@@ -35129,6 +35384,8 @@ let Self =
     SolveAccuracyProblem,
     SolveGeneral,
     invert,
+    nullspace,
+    rref,
 
     eigen,
 
