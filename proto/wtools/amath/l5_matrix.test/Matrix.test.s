@@ -33871,7 +33871,7 @@ function SolveGeneral( test )
 
     /* */
 
-    test.case = '2x4, nkernel : 1, permutating : 0, no y';
+    test.case = '2x2, nkernel : 1, permutating : 0, no y';
 
     var exp =
     {
@@ -33916,7 +33916,7 @@ function SolveGeneral( test )
 
     /* */
 
-    test.case = '2x4, nkernel : 1, permutating : 0, no y, specified kernel and okernel';
+    test.case = '2x2, nkernel : 1, permutating : 0, no y, specified kernel and okernel';
 
     var exp =
     {
@@ -34167,6 +34167,53 @@ function SolveGeneral( test )
     test.is( y !== r.ox );
 
     check( om, y, r );
+
+    /* */
+
+    test.case = '3x2, nkernel : 1, permutating : 0, no y';
+
+    var exp =
+    {
+      nsolutions : Infinity,
+      nkernel : 1,
+      okernel : 1,
+      kernel : _.Matrix.Make([ 2, 1 ]).copy
+      ([
+        -2,
+        1
+      ]),
+      m : _.Matrix.Make([ 3, 2 ]).copy
+      ([
+        +1, +2,
+        +0, +0,
+        +0, +0
+      ]),
+      y : null,
+      oy : null,
+      x : null,
+      ox : null,
+      permutates : null,
+      permutating : 0,
+      normalizing : 1,
+      repermutatingSolution : 1,
+      repermutatingTransformation : 0,
+      onPermutate : null,
+      onPermutatePre : null,
+    }
+
+    var m = _.Matrix.Make([ 3, 2 ]).copy
+    ([
+      +1, +2,
+      +1, +2,
+      +1, +2,
+    ]);
+
+    var om = m.clone();
+
+    var r = _.Matrix.SolveGeneral({ m, permutating : 0 });
+    test.equivalent( r, exp );
+
+    check( om, null, r );
 
     /* */
 
