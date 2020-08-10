@@ -34407,9 +34407,6 @@ invert.accuracy = [ _.accuracy * 1e+2, 1e-1 ];
 function nullspace( test )
 {
 
-  // test is m change !!!!!
-  // test dst null !!!!!
-
   /* */
 
   test.case = '0x0';
@@ -34554,7 +34551,6 @@ function nullspace( test )
     -1/2,
   ]);
   var got = m.nullspace();
-
   test.equivalent( got, exp );
   test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
 
@@ -34574,12 +34570,98 @@ function nullspace( test )
     -1/2, -1/4,
   ]);
   var got = m.nullspace();
-
   test.equivalent( got, exp );
   test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 2 ] ) );
 
   /* */
 
+  test.case = 'matrix don\'t change';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, +4,
+    +1, +2, +4,
+    +1, +2, +4,
+  ]);
+  var exp = m.clone();
+  m.nullspace();
+  test.identical( m, exp );
+
+  /* */
+
+  test.case = 'dst is self';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, +4,
+    +1, +2, +4,
+    +1, +2, +4,
+  ]);
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    0,    1,
+    1,    0,
+    -1/2, -1/4,
+  ]);
+  var got = m.nullspace( m );
+  test.equivalent( got.submatrix( [ 0, 2 ], [ 0, 1 ] ), exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = 'dst is null';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, +4,
+    +1, +2, +4,
+    +1, +2, +4,
+  ]);
+  var origin = m.clone();
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    0,    1,
+    1,    0,
+    -1/2, -1/4,
+  ]);
+  var got = m.nullspace( null );
+  test.equivalent( got, exp );
+  test.equivalent( m, origin );
+  test.is( got !== m );
+
+  /* */
+
+  test.case = 'dst is not null';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    +1, +2, +4,
+    +1, +2, +4,
+    +1, +2, +4,
+  ]);
+  var origin = m.clone();
+  var dst = _.Matrix.Make([ 3, 3 ]); // _.Matrix.Make([ 3, 2 ]) ??
+  var exp = _.Matrix.Make([ 3, 3 ]).copy // [ 3, 2 ]
+  ([
+    0,    1,   0,                    // without last zero column
+    1,    0,   0,
+    -1/2, -1/4,   0
+  ]);
+  var got = m.nullspace( dst );
+  test.equivalent( got, exp );
+  test.equivalent( m, origin );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var m = _.Matrix.Make([ 3, 3 ])
+  test.shouldThrowErrorSync( () => m.nullspace( 5, 5 ) );
+
+  test.case = 'wrong type of dst';
+  var m = _.Matrix.Make([ 3, 3 ])
+  test.shouldThrowErrorSync( () => m.nullspace( 5 ) );
+
+  //  test.case = 'wrong dst dims';
 }
 
 //
