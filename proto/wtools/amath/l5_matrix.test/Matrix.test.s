@@ -27193,7 +27193,7 @@ function permutate( test )
 
 //
 
-function _PermutateLineRookWithoutOptionY( test )
+function _PermutateLineRookWithoutOptionX( test )
 {
   test.case = '3x3, npermutations:0 nRowPermutations:0 nColPermutations:0';
 
@@ -27213,7 +27213,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27277,7 +27277,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27344,7 +27344,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27412,7 +27412,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27480,7 +27480,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27546,7 +27546,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27614,7 +27614,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27683,7 +27683,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2, 3 ], [ 0, 1, 2, 3 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -27761,7 +27761,7 @@ function _PermutateLineRookWithoutOptionY( test )
   var o =
   {
     m,
-    y : null,
+    x : null,
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2, 3 ] ],
     lineIndex : 0,
     npermutations : 0,
@@ -35058,7 +35058,7 @@ let Self =
     partialAccessors,
     lineSwap,
     permutate,
-    _PermutateLineRookWithoutOptionY,
+    _PermutateLineRookWithoutOptionX,
     _PermutateLineRookWithOptionX,
     submatrix,
     submatrixSelectLast,
