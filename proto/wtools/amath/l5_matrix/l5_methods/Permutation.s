@@ -343,7 +343,8 @@ function PermutateRook_body( o )
   _.assert( arguments.length === 1 );
   _.assertRoutineOptions( PermutateRook_body, o );
 
-  let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  // let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  let l = Math.min( o.m.dims[ 0 ], o.m.dims[ 1 ] );
   for( let i = 0 ; i < l ; i++ )
   {
     o.lineIndex = i;
