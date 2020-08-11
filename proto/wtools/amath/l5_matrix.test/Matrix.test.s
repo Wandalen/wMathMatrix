@@ -25504,6 +25504,254 @@ function lineEachCheckFields( test )
 
 //
 
+function colFilter ( test )
+{
+
+  const all = ( e, i, m ) => true;
+  const none = ( e, i, m ) => false;
+
+  /* */
+
+  test.case = '0x0, all';
+  var m = _.Matrix.Make([ 0, 0 ]);
+  var exp = m.clone();
+  var got = m.colFilter( all );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '0x0, none';
+  var m = _.Matrix.Make([ 0, 0 ]);
+  var exp = _.Matrix.Make([ 0, 0 ]);
+  var got = m.colFilter( none );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '1x1, all';
+  var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
+  var exp = m.clone();
+  var got = m.colFilter( all );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '1x1, none';
+  var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
+  var exp = _.Matrix.Make([ 1, 0 ]);
+  var got = m.colFilter( none );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '2x2, all';
+  var m = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    5, 10,
+    10, 3,
+  ]);
+  var exp =  m.clone();
+  var got = m.colFilter( all );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 0 0 0';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var exp = _.Matrix.Make([ 3, 0 ]);
+  var got = m.colFilter( none );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 1 0 0';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return e.reduceToSum() === 12
+  };
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    4,
+    7,
+  ]);
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 0 1 0';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return e.reduceToSum() === 15
+  };
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    2,
+    5,
+    8,
+  ]);
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 0 0 1';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return e.reduceToSum() === 18
+  };
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    3,
+    6,
+    9,
+  ]);
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 1 1 0';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return e.reduceToSum() < 18
+  };
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 2,
+    4, 5,
+    7, 8,
+  ]);
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 1 0 1';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return e.reduceToSum() !== 15
+  };
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 3,
+    4, 6,
+    7, 9
+  ]);
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, colums - 0 1 1';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return e.reduceToSum() > 12
+  };
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    2, 3,
+    5, 6,
+    8, 9
+  ]);
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = '3x3, all';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var exp = m.clone();
+  var got = m.colFilter( all );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+
+  test.case = 'using index';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9
+  ]);
+  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    2,
+    5,
+    8,
+  ]);
+  var onCol = function( e, i, m )
+  {
+    return i === 1
+  };
+  var got = m.colFilter( onCol );
+  test.identical( got, exp );
+  test.is( got === m );
+
+  /* */
+}
+//
+
 function lineEachNonStandardStrides( test )
 {
   test.case = '2x3. iterate dimension 0';
@@ -35054,6 +35302,8 @@ let Self =
     lineEachStandardStrides,
     lineEachNonStandardStrides,
     lineEachCheckFields,
+
+    colFilter,
 
     partialAccessors,
     lineSwap,

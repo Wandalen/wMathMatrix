@@ -910,6 +910,92 @@ function rowEachCollecting( onEach , args , returningNumber )
   return result;
 }
 
+//
+
+/*
+null -> clone
+nothing -> original
+_.self -> original
+
+3x3.colFilter( onCol ) -> 3x0
+3x3.colFilter( null, onCol ) -> 3x0
+3x3.colFilter( _.self, onCol ) -> 3x0
+*/
+
+function _lineFilter( o )
+{
+  let self = this;
+  let length = self.dims[ o.dim ? 0 : 1 ];
+
+  let newDim = 0
+  for( let i = 0, l = length ; i < l ; i++ )
+  {
+    let line = self.lineGet( o.dim, i );
+    let res = o.onLine.call( self, line, i, self );
+    if( res )
+    {
+      if( newDim !== i )
+      {
+        self.lineSet( o.dim, newDim, line )
+      }
+      newDim += 1
+    }
+  }
+
+  let newDims = self.dims.slice()
+  newDims[ o.dim ? 0 : 1 ] = newDim
+  self._dimsSet( newDims )
+  self._adjust()
+
+  return self
+
+}
+
+_lineFilter.defaults =
+{
+  onLine : null,
+  // args : null,
+  dim : null,
+  // returningNumber : null,
+  // collecting : 1,
+}
+
+//
+
+function colFilter( onCol )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1, 'Expects exactly one arguments' );
+
+  let result = self._lineFilter
+  ({
+    onLine : onCol,
+    dim : 0,
+  });
+
+  return result;
+}
+
+//
+
+function rowFilter( onRow )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1, 'Expects exactly one arguments' );
+
+  let result = self._lineFilter
+  ({
+    onLine : onRow,
+    dim : 1,
+  });
+
+  return result;
+}
+
+//
+
 // --
 // relations
 // --
@@ -944,12 +1030,12 @@ let Extension =
   elementsZip,
 
   _lineEachCollecting,
-  rowEachCollecting,
   colEachCollecting,
+  rowEachCollecting,
 
-  /* qqq2 : implement and cover lineFilter */
-  /* qqq2 : implement and light cover colFilter */
-  /* qqq2 : implement and light cover rowFilter */
+  _lineFilter,
+  colFilter,
+  rowFilter,
 
   /* qqq2 : implement and cover lineMap */
   /* qqq2 : implement and light cover colMap */
