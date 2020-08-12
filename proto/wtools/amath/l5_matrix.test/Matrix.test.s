@@ -37839,6 +37839,233 @@ function experiment( test )
 
 experiment.experimental = 1;
 
+function equivalentBug( test )
+{
+
+  /* */
+
+  test.case = 'Must be not equal, but it is... Matrix Matrix';
+
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var m2 = _.Matrix.Make([ 0, 0 ])
+  console.log(m1)
+  console.log(m2)
+  test.notEquivalent( m1, m2 )
+
+  /* */
+
+  test.case = 'Must be not equal, but it is... Matrix Long';
+
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var m2 = []
+  console.log(m1)
+  console.log(m2)
+  test.notEquivalent( m1, m2 )
+
+  /* */
+
+}
+
+equivalentBug.experimental = 1;
+
+function permutateFails( test )
+{
+
+  /* */
+
+  test.case = 'permutateBackward fail';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    3, 4,
+    5, 6,
+    7, 8,
+    1, 2,
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
+  test.case = 'permutateForward fail';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    7, 8,
+    1, 2,
+    3, 4,
+    5, 6
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
+}
+
+permutateFails.experimental = 1;
+
+function myPermutate( test )
+{
+
+  /* */
+
+  test.case = 'permutateBackward2 don\'t fail';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    3, 4,
+    5, 6,
+    7, 8,
+    1, 2,
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward2( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward2( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
+  test.case = 'permutateForward2 don\'t fail';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    7, 8,
+    1, 2,
+    3, 4,
+    5, 6
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward2( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward2( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
+}
+
+myPermutate.experimental = 1;
+
 // --
 // declare
 // --
@@ -38114,6 +38341,9 @@ let Self =
     // experiments
 
     experiment,
+    equivalentBug,
+    permutateFails,
+    myPermutate
 
   },
 
