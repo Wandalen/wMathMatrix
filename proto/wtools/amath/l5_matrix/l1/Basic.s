@@ -2065,9 +2065,9 @@ function ScalarsPerMatrixForDimensions( dims )
  * console.log( rows );
  * // log : 3
  *
- * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @param { Matrix|VectorAdapter|Long|Number } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of rows in source matrix.
- * @throws { Error } If {-src-} is not a Matrix, not a Long.
+ * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long or not a Number.
  * @static
  * @function NrowOf
  * @class Matrix
@@ -2096,9 +2096,9 @@ function NrowOf( src )
  * console.log( cols );
  * // log : 5
  *
- * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @param { Matrix|VectorAdapter|Long|Number } src - Source matrix or Long.
  * @returns { Number } - Returns quantity of columns in source matrix.
- * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long or not a Number.
  * @static
  * @function NcolOf
  * @class Matrix
@@ -2119,7 +2119,7 @@ function NcolOf( src )
 //
 
 /**
- * Static routine DimsOf() returns dimentions of source Matrix {-src-}.
+ * Static routine DimsOf() returns dimensions of source Matrix {-src-}.
  *
  * @example
  * var matrix = _.Matrix.Make( [ 3, 5 ] );
@@ -2127,9 +2127,9 @@ function NcolOf( src )
  * console.log( dims );
  * // log : [ 3, 5 ]
  *
- * @param { Matrix|VectorAdapter|Long } src - Source matrix or Long.
+ * @param { Matrix|VectorAdapter|Long|Number } src - Source matrix or Long.
  * @returns { Array } - Returns dimensions in source matrix.
- * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long.
+ * @throws { Error } If {-src-} is not a Matrix, not a VectorAdapter, not a Long or not a Number.
  * @static
  * @function DimsOf
  * @class Matrix
@@ -3338,9 +3338,9 @@ let Statics =
   CopyTo,
 
   ScalarsPerMatrixForDimensions,
-  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */
-  NcolOf, /* qqq : cover routine NcolOf. should work for any vector, matrix and scalar */
-  DimsOf, /* qqq : cover routine DimsOf. should work for any vector, matrix and scalar */
+  NrowOf, /* qqq : cover routine NrowOf. should work for any vector, matrix and scalar */ /* Andrey : covered */
+  NcolOf, /* qqq : cover routine NcolOf. should work for any vector, matrix and scalar */ /* Andrey : covered */
+  DimsOf, /* qqq : cover routine DimsOf. should work for any vector, matrix and scalar */ /* Andrey : covered */
   _FlatScalarIndexFromIndexNd,
 
   StridesFromDimensions,
