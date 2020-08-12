@@ -912,66 +912,74 @@ function rowEachCollecting( onEach , args , returningNumber )
 
 //
 
-/*
-null -> clone
-nothing -> original
-_.self -> original
-
-3x3.colFilter( onCol ) -> 3x0
-3x3.colFilter( null, onCol ) -> 3x0
-3x3.colFilter( _.self, onCol ) -> 3x0
-*/
-
 function _lineFilter( o )
 {
   let self = this;
-  let length = self.dims[ o.dim ? 0 : 1 ];
+  o = _.routineOptions( _lineFilter, arguments );
 
-  let newDim = 0
+  let length = self.dimsEffective[ o.dim ? 0 : 1 ];
+  let result = o.dst || _.Matrix.Make( self.dims )
+  let dsti = 0;
+
   for( let i = 0, l = length ; i < l ; i++ )
   {
     let line = self.lineGet( o.dim, i );
-    let res = o.onLine.call( self, line, i, self );
-    if( res )
+    let it = Object.create( null );
+    it.line = line;
+    it.index = i;
+    it.matrix = self;
+    let resLine = o.onLine.call( self, it );
+    if( _.vectorIs( resLine ) )
     {
-      if( newDim !== i )
-      {
-        self.lineSet( o.dim, newDim, line )
-      }
-      newDim += 1
+      _.assert( line.length === resLine.length );
+      result.lineSet( o.dim, dsti, line )
+      dsti += 1
     }
+    else if( resLine === undefined )
+    {
+    }
+    else
+    _.assert( 0, 'onCol result must be Vector or undefined' )
   }
 
-  let newDims = self.dims.slice()
-  newDims[ o.dim ? 0 : 1 ] = newDim
-  self._dimsSet( newDims )
-  self._adjust()
+  let newDims = result.dims.slice()
+  newDims[ o.dim ? 0 : 1 ] = dsti
+  result._dimsSet( newDims )
+  result._adjust()
 
-  return self
-
+  return result
 }
 
 _lineFilter.defaults =
 {
   onLine : null,
-  // args : null,
-  dim : null,
-  // returningNumber : null,
-  // collecting : 1,
+  dst : null,
+  dim : null
 }
 
 //
 
-function colFilter( onCol )
+function colFilter( dst, onCol )
 {
   let self = this;
 
-  _.assert( arguments.length === 1, 'Expects exactly one arguments' );
+  _.assert( arguments.length === 1 || arguments.length === 2, 'Expects one or two arguments' );
+  if( arguments.length === 1 )
+  {
+    onCol = arguments[ 0 ];
+    dst = self
+  }
+  else if( dst === _.self )
+  {
+    dst = self
+  }
+  _.assert( dst === null || _.matrixIs( dst ) );
 
   let result = self._lineFilter
   ({
     onLine : onCol,
-    dim : 0,
+    dst,
+    dim : 0
   });
 
   return result;
@@ -979,22 +987,31 @@ function colFilter( onCol )
 
 //
 
-function rowFilter( onRow )
+function rowFilter( dst, onRow )
 {
   let self = this;
 
-  _.assert( arguments.length === 1, 'Expects exactly one arguments' );
+  _.assert( arguments.length === 1 || arguments.length === 2, 'Expects one or two arguments' );
+  if( arguments.length === 1 )
+  {
+    onRow = arguments[ 0 ];
+    dst = self
+  }
+  else if( dst === _.self )
+  {
+    dst = self
+  }
+  _.assert( dst === null || _.matrixIs( dst ) );
 
   let result = self._lineFilter
   ({
     onLine : onRow,
-    dim : 1,
+    dst,
+    dim : 1
   });
 
   return result;
 }
-
-//
 
 // --
 // relations
