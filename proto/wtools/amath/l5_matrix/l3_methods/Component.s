@@ -157,10 +157,46 @@ function scalarSet( index, value )
 
 //
 
+/**
+ * Method hasIndex() return true if matrix has element by provided index.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( 3 );
+ * var got = matrix.scalarSet( [ 1, 1 ], 1 );
+ * console.log( matrix.hasIndex( [0, 0] ) );
+ * // true
+ * console.log( matrix.hasIndex( [2, 1] ) );
+ * // true
+ * console.log( matrix.hasIndex( [3, 1] ) );
+ * // false
+ * console.log( matrix.hasIndex( [ 1 ] ) );
+ * // true
+ *
+ * var matrix = _.Matrix.Make( [ 2, 3, 1 ] )
+ * console.log( matrix.hasIndex( [0, 0] ) );
+ * // true
+ * console.log( matrix.hasIndex( [1, 2, 0] ) );
+ * // true
+ * console.log( matrix.hasIndex( [1, 2, 1] ) );
+ * // false
+ *
+ * @param { Array } index - Position of matrix element.
+ * @returns { Boolean } - Returns whether the matrix has element by index.
+ * @method hasIndex
+ * @throws { Error } If arguments.length is not equal to one.
+ * @throws { Error } If {-index-} is not an Array.
+ * @throws { Error } If {-index-} dimension is larger than matrix dimension.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function hasIndex( index )
 {
   let self = this;
   let dims = self.dims;
+  _.assert( arguments.length === 1, 'Expects exactly one argument' );
+  _.assert( _.arrayIs( index ), 'Expects array {-index-}' );
   _.assert( index.length <= dims.length );
   for( let i = 0 ; i < index.length ; i++ )
   {

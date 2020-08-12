@@ -30,6 +30,26 @@ function _permutateDimension( d, current, expected )
 
 }
 
+function _permutateDimension2( d, current, expected )
+{
+  let self = this;
+
+  _.assert( current.length <= expected.length );
+  _.assert( expected.length === self.dims[ d ] );
+
+  for( let p1 = 0 ; p1 < current.length ; p1++ )
+  {
+    if( expected[ p1 ] === current[ p1 ] )
+    continue;
+    let p2 = _.longLeftIndex( current, expected[ p1 ], p1 );
+    _.longSwapElements( current, p2, p1 );
+    self.linesSwap( d, p2, p1 );
+
+  }
+  _.assert( _.longIdentical( current, expected.slice( 0, current.length ) ), 'current:', current, 'expected:', expected  );
+
+}
+
 //
 
 /**
@@ -69,6 +89,25 @@ function permutateForward( permutates )
     if( expected === null )
     continue;
     self._permutateDimension( d, current, expected )
+  }
+
+  return self;
+}
+
+function permutateForward2( permutates )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( permutates.length === self.dims.length );
+
+  for( let d = 0 ; d < permutates.length ; d++ )
+  {
+    let current = _.longFromRange([ 0, self.dims[ d ] ]);
+    let expected = permutates[ d ];
+    if( expected === null )
+    continue;
+    self._permutateDimension2( d, current, expected )
   }
 
   return self;
@@ -114,6 +153,25 @@ function permutateBackward( permutates )
     continue;
     current = current.slice();
     self._permutateDimension( d, current, expected )
+  }
+
+  return self;
+}
+function permutateBackward2( permutates )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( permutates.length === self.dims.length );
+
+  for( let d = 0 ; d < permutates.length ; d++ )
+  {
+    let current = permutates[ d ];
+    let expected = _.longFromRange([ 0, self.dims[ d ] ]);
+    if( current === null )
+    continue;
+    current = current.slice();
+    self._permutateDimension2( d, current, expected )
   }
 
   return self;
@@ -408,6 +466,9 @@ let Extension =
   //
 
   _permutateDimension,
+  _permutateDimension2,
+  permutateForward2,
+  permutateBackward2,
   permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
   permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
 

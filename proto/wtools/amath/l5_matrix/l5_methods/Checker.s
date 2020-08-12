@@ -34,7 +34,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
  * // log : true
  *
  * @returns { Boolean } - Returns value of whether the matrix is column.
- * @method isSquare
+ * @method isCol
  * @throws { Error } If arguments are provided.
  * @class Matrix
  * @namespace wTools
@@ -43,6 +43,8 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 
 function isCol()
 {
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
   let self = this;
   if( self.dims[ 1 ] !== 1 )
   return false;
@@ -62,12 +64,12 @@ function isCol()
  *
  * @example
  * var matrix = _.Matrix.Make( [ 1, 2 ] );
- * var got = matrix.isCol();
+ * var got = matrix.isRow();
  * console.log( got );
  * // log : true
  *
  * @returns { Boolean } - Returns value of whether the matrix is row.
- * @method isSquare
+ * @method isRow
  * @throws { Error } If arguments are provided.
  * @class Matrix
  * @namespace wTools
@@ -76,6 +78,8 @@ function isCol()
 
 function isRow()
 {
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+
   let self = this;
   if( self.dims[ 0 ] !== 1 )
   return false;
@@ -117,6 +121,68 @@ function isSquare()
 //
 
 /**
+ * Method isHorizontal() checks whether the number of rows is less than the number of columns.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 2, 4 ] );
+ * var got = matrix.isHorizontal();
+ * console.log( got );
+ * // log : true
+ *
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
+ * var got = matrix.isHorizontal();
+ * console.log( got );
+ * // log : false
+ *
+ * @returns { Boolean } - Returns value whether is the instance horizontal matrix.
+ * @method isHorizontal
+ * @throws { Error } If arguments are provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isHorizontal()
+{
+  let self = this;
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  return self.dims[ 0 ] < self.dims[ 1 ];
+}
+
+//
+
+/**
+ * Method isVertical() checks whether the number of rows is more than the number of columns.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 4, 2 ] );
+ * var got = matrix.isVertical();
+ * console.log( got );
+ * // log : true
+ *
+ * var matrix = _.Matrix.Make( [ 2, 2 ] );
+ * var got = matrix.isVertical();
+ * console.log( got );
+ * // log : false
+ *
+ * @returns { Boolean } - Returns value whether is the instance vertical matrix.
+ * @method isVertical
+ * @throws { Error } If arguments are provided.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isVertical()
+{
+  let self = this;
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  return self.dims[ 0 ] > self.dims[ 1 ];
+}
+
+//
+
+/**
  * Method isDiagonal() checks whether the current matrix is diagonal.
  *
  * @example
@@ -139,32 +205,219 @@ function isSquare()
  * matrix.isDiagonal();
  * // returns : true
  *
+ * @param { Number } accuracy - The accuracy of comparing.
  * @returns { Boolean } - Returns true if the matrix is diagonal, and false if not.
  * @function isDiagonal
- * @throws { Error } If arguments are provided.
+ * @throws { Error } If arguments.length is more then 1.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
  */
 
-function isDiagonal()
+function isDiagonal( accuracy )
 {
   let self = this;
 
   _.assert( _.Matrix.Is( self ) );
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  let cols = self.length;
-  let rows = self.scalarsPerElement;
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
 
-  for( let i = 0; i < rows; i++ )
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  for( let i = 0; i < nrow; i++ )
   {
-    for( let j = 0; j < cols; j++ )
+    for( let j = 0; j < ncol; j++ )
     {
-      if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
+      // if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
+      let isElementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
+      if( j !== i && !isElementEqualToZero )
       return false
     }
   }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isIdentity() checks whether the current matrix is identity.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  2,   3,
+ *   0,  -1,  1,
+ *   4,  -5,  2
+ * ]);
+ * matrix.isIdentity();
+ * // returns : false;
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   1,  0,  0,
+ *   0,  1,  0,
+ *   0,  0,  1
+ * ]);
+ * matrix.isIdentity();
+ * // returns : true
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is identity, and false if not.
+ * @function isIdentity
+ * @throws { Error } If arguments.length is more then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isIdentity( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  for( let i = 0; i < nrow; i++ )
+  {
+    for( let j = 0; j < ncol; j++ )
+    {
+      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+      return false
+
+      if( j === i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 1, accuracy ) )
+      return false
+    }
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isScalar() checks whether all diagonal elements are equal to same scalar and all other elements are zero.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,  0,
+ *   0, -1,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isScalar();
+ * // returns : false;
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,  0,
+ *   0,  3,  0,
+ *   0,  0,  3
+ * ]);
+ * matrix.isScalar();
+ * // returns : true
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is scalar matrix, and false if not.
+ * @function isScalar
+ * @throws { Error } If arguments.length is more then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isScalar( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  let firstElem = self.scalarGet([ 0, 0 ]);
+
+  for( let i = 0; i < nrow; i++ )
+  {
+    for( let j = 0; j < ncol; j++ )
+    {
+      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+      return false
+
+      if( j === i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), firstElem, accuracy ) )
+      return false
+    }
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isZero() checks whether all elements are zero.
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   3,  0,  0,
+ *   0, -1,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isZero();
+ * // returns : false;
+ *
+ * @example
+ * var matrix = _.Matrix.Make( [ 3, 3 ] ).copy
+ * ([
+ *   0,  0,  0,
+ *   0,  0,  0,
+ *   0,  0,  0
+ * ]);
+ * matrix.isZero();
+ * // returns : true
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is zero, and false if not.
+ * @function isZero
+ * @throws { Error } If arguments.length is more then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isZero( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  for( let i = 0; i < nrow; i++ )
+  for( let j = 0; j < ncol; j++ )
+  if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+  return false;
 
   return true;
 }
@@ -194,6 +447,7 @@ function isDiagonal()
  * matrix.isUpperTriangle();
  * // returns false;
  *
+ * @param { Number } accuracy - The accuracy of comparing.
  * @returns { Boolean } - Returns true if the matrix is upper triangular, and false if not.
  * @function isUpperTriangle
  * @throws { Error } An Error if ( this ) is not a matrix.
@@ -212,25 +466,203 @@ function isUpperTriangle( accuracy )
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
   accuracy = self.accuracySqrt;
 
-  let cols = self.length;
-  let rows = self.scalarsPerElement;
+  let nrow = self.nrow;
+  let ncol = self.ncol;
 
-  for( let i = 0; i < rows; i++ )
+  for( let i = 0; i < nrow; i++ )
   {
-    for( let j = 0; j < cols; j++ )
-    {
-      if( i > j )
-      {
-        let point = self.scalarGet([ i, j ]);
-        if( 0 - accuracy > point || point > 0 + accuracy )
-        {
-          return false
-        }
-      }
-    }
+    let colIndex = min( i, ncol )
+    for( let j = 0; j < colIndex; j++ )
+    if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+    return false;
   }
 
   return true;
+}
+
+//
+
+/**
+ * Method isLowerTriangle() checks whether the current matrix is upper triangular.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   3,  0,  0,
+ *   2,  1,  0,
+ *   5,  2,  0
+ * ]);
+ * matrix.isLowerTriangle();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   3,  2,  0,
+ *   0,  1,  1,
+ *   4,  0,  2
+ * ]);
+ * matrix.isLowerTriangle();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is upper triangular, and false if not.
+ * @function isLowerTriangle
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isLowerTriangle( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let nrow = self.nrow;
+  let ncol = self.ncol;
+
+  for( let i = 0; i < nrow; i++ )
+  {
+    for( let j = i + 1; j < ncol; j++ )
+    if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+    return false;
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isOrthogonal() checks whether the current matrix is orthogonal.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2/3,  -2/3,  1/3,
+ *   1/3,  2/3,  2/3,
+ *   2/3,  1/3,  -2/3
+ * ]);
+ * matrix.isOrthogonal();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   3,  2,  3,
+ *   0,  1,  1,
+ *   4,  0,  2
+ * ]);
+ * matrix.isOrthogonal();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is orthogonal, and false if not.
+ * @function isOrthogonal
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isOrthogonal( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  for( let i = 0; i < ncol; i++ )
+  for( let j = i; j < ncol; j++ )
+  {
+    let dot = self.colGet( i ).dot( self.colGet( j ) )
+    if( i === j && !_.numbersAreEquivalent( dot, 1, accuracy ) )
+    return false
+
+    if( i !== j && !_.numbersAreEquivalent( dot, 0, accuracy ) )
+    return false
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isSingular() checks whether the current matrix is singular.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  2,  3,
+ *   4,  5,  6,
+ *   7,  8,  9
+ * ]);
+ * matrix.isSingular();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  0,  0,
+ *   0,  1,  0,
+ *   0,  0,  1
+ * ]);
+ * matrix.isSingular();
+ * // returns false;
+ *
+ * @returns { Boolean } - Returns true if the matrix is singular, and false if not.
+ * @function isSingular
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isSingular()
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 );
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  /*
+  Andrey: Possibly naive implementation using determinant. May produce rounding errors.
+  Better implementation use svd.
+  https://www.mathworks.com/matlabcentral/answers/400327-why-is-det-a-bad-way-to-check-matrix-singularity
+  https://stackoverflow.com/questions/13145948/how-to-find-out-if-a-matrix-is-singular
+  */
+
+  let accuracy = self.accuracySqrt;
+  // let det = self.determinant()
+  let det = self._determinantWithBareiss()
+
+  return _.numbersAreEquivalent( det, 0, accuracy );
 }
 
 //
@@ -287,20 +719,257 @@ function isSymmetric( accuracy )
 
   for( let i = 0; i < nrow; i++ )
   {
-    for( let j = 0; j < ncol; j++ )
+    for( let j = 0; j < i; j++ )
     {
-      if( i > j )
-      {
-        let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
-        if( 0 - accuracy > dif || dif > 0 + accuracy )
-        {
-          return false
-        }
-      }
+      let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
+      if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
+      return false;
     }
   }
 
   return true;
+}
+
+//
+
+/**
+ * Method isSkewSymmetric() checks whether the transpose of current matrix is equal to its negative and elements of diagonal are zeros.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   0,  2, -3,
+ *  -2,  0,  2,
+ *   3, -2,  0,
+ * ]);
+ * matrix.isSkewSymmetric();
+ * // returns : true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   0,  2,  3,
+ *   2,  0,  2,
+ *   3,  2,  0,
+ * ]);
+ * matrix.isSkewSymmetric();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is skew-symmetric, and false if not.
+ * @function isSkewSymmetric
+ * @throws { Error } If arguments.length is greater then 1.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isSkewSymmetric( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  for( let i = 0; i < nrow; i++ )
+  {
+    for( let j = 0; j <= i; j++ )
+    {
+      let dif = self.scalarGet([ i, j ]) + self.scalarGet([ j, i ]);
+      if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isNilpotent() checks whether the current matrix is nilpotent, i.e. A^m = 0 for some positive integer m.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   5, -3,  2,
+ *  15, -9,  6,
+ *  10, -6,  4
+ * ]);
+ * matrix.isNilpotent();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   1,  0,  0,
+ *   0,  1,  0,
+ *   0,  0,  1
+ * ]);
+ * matrix.isNilpotent();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is nilpotent, and false if not.
+ * @function isNilpotent
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isNilpotent( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  let eigenVals = self.eigenVals();
+  let l = eigenVals.length;
+  for( let i = 0; i < l; i++ )
+  {
+    if( !_.numbersAreEquivalent( eigenVals[ i ], 0, accuracy ) )
+    return false;
+  }
+
+  return true;
+}
+
+//
+
+/**
+ * Method isInvolutary() checks whether the current matrix is involutary, i.e. A^2 = I.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   -5, -8,  0,
+ *   3,  5,  0,
+ *   1,  2, -1
+ * ]);
+ * matrix.isInvolutary();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2,  0,  0,
+ *   0,  2,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isInvolutary();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is involutary, and false if not.
+ * @function isInvolutary
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isInvolutary( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  let AA = _.Matrix.Mul( null, [ self, self ] );
+
+  return AA.isIdentity( accuracy );
+}
+
+//
+
+/**
+ * Method isIdempotent() checks whether the current matrix is idempotent, i.e. A^2 = A.
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2, -2, -4,
+ *  -1,  3,  4,
+ *   1, -2, -3
+ * ]);
+ * matrix.isIdempotent();
+ * // returns true;
+ *
+ * @example
+ * var matrix =  _.Matrix.MakeSquare
+ * ([
+ *   2,  0,  0,
+ *   0,  2,  0,
+ *   0,  0,  2
+ * ]);
+ * matrix.isIdempotent();
+ * // returns false;
+ *
+ * @param { Number } accuracy - The accuracy of comparing.
+ * @returns { Boolean } - Returns true if the matrix is idempotent, and false if not.
+ * @function isIdempotent
+ * @throws { Error } An Error if ( this ) is not a matrix.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function isIdempotent( accuracy )
+{
+  let self = this;
+
+  _.assert( _.Matrix.Is( self ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  if( !_.numberIs( accuracy ) || arguments.length === 0 )
+  accuracy = self.accuracySqrt;
+
+  let ncol = self.ncol;
+  let nrow = self.nrow;
+
+  if( ncol !== nrow )
+  {
+    return false;
+  }
+
+  let AA = _.Matrix.Mul( null, [ self, self ] );
+
+  return _.equivalent( AA, self, { accuracy } );
 }
 
 //
@@ -449,12 +1118,24 @@ let Extension =
 
   //
 
-  isCol, /* qqq : cover and document, please */
-  isRow, /* qqq : cover and document, please */
+  isCol, /* qqq : cover and document, please */ /* Andrey: covered */
+  isRow, /* qqq : cover and document, please */ /* Andrey: covered */
   isSquare,
+  isHorizontal,
+  isVertical,
   isDiagonal,
+  isIdentity,
+  isScalar,
+  isZero,
   isUpperTriangle,
+  isLowerTriangle,
+  isOrthogonal,
+  isSingular,
   isSymmetric,
+  isSkewSymmetric,
+  isNilpotent,
+  isInvolutary,
+  isIdempotent,
   /* qqq : missing checks? */
 
   _EquivalentSpace,
