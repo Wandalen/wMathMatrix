@@ -1607,15 +1607,9 @@ function _SolveWithTriangles( o )
   _.assert( _.matrixIs( o.m ) );
   _.assert( _.matrixIs( o.x ) || o.x === null ); /* yyy */
 
-  debugger;
-  // o.normalizing = 1;
   proto._TriangulateLu( o );
 
   /* _TriangulateLu permutate both o.m and ox. no need to permutate o.x individually */
-
-  // debugger;
-  // if( o.permutating )
-  // o.x = Self.VectorPermutateForward( o.x, o.permutates[ 0 ] );
 
   if( o.x === null )
   return o;

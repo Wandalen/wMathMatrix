@@ -373,8 +373,12 @@ function _equalAre( it )
   }
   else
   {
-    if( it.srcEffective.scalarsPerMatrix )
-    if( it.srcEffective.dims.length < it.srcEffective2.dims.length )
+    if( !it.srcEffective.scalarsPerMatrix || !it.srcEffective2.scalarsPerMatrix )
+    {
+      if( it.srcEffective.scalarsPerMatrix || it.srcEffective2.scalarsPerMatrix )
+      return it.stop( false );
+    }
+    else if( it.srcEffective.dims.length < it.srcEffective2.dims.length )
     {
       if( !dimsCompare( it.srcEffective.dims, it.srcEffective2.dims ) )
       return it.result;

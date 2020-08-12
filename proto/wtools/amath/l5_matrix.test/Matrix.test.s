@@ -3603,6 +3603,30 @@ function compareMatrices( test )
 
   /* */
 
+  test.case = 'matrix and empty matrix';
+
+  var src1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var src2 = _.Matrix.Make([ 0, 0 ])
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
 }
 
 //
@@ -3748,6 +3772,32 @@ function compareMatrixAndVector( test )
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
+  /* */
+
+  test.case = 'matrix and empty vector';
+
+  var src1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var src2 = _.vad.from( [] );
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
 }
 
 //
@@ -3858,6 +3908,30 @@ function compareMatrixAndNot( test )
     inputRowMajor : 0,
   });
   var src2 = undefined;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and empty long';
+
+  var src1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var src2 = [];
 
   test.identical( _.identical( src1, src2 ), false );
   test.identical( _.identical( src2, src1 ), false );
@@ -37839,46 +37913,7 @@ function experiment( test )
 
 experiment.experimental = 1;
 
-function equivalentBug( test )
-{
-
-  /* */
-
-  test.case = 'Must be not equal, but it is... Matrix Matrix';
-
-  var m1 = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    -1, +2, +0,
-    -6, +6, +0,
-    +0, +0, +3,
-  ]);
-
-  var m2 = _.Matrix.Make([ 0, 0 ])
-  console.log(m1)
-  console.log(m2)
-  test.notEquivalent( m1, m2 )
-
-  /* */
-
-  test.case = 'Must be not equal, but it is... Matrix Long';
-
-  var m1 = _.Matrix.Make([ 3, 3 ]).copy
-  ([
-    -1, +2, +0,
-    -6, +6, +0,
-    +0, +0, +3,
-  ]);
-
-  var m2 = []
-  console.log(m1)
-  console.log(m2)
-  test.notEquivalent( m1, m2 )
-
-  /* */
-
-}
-
-equivalentBug.experimental = 1;
+//
 
 function permutateFails( test )
 {
@@ -37972,6 +38007,8 @@ function permutateFails( test )
 }
 
 permutateFails.experimental = 1;
+
+//
 
 function myPermutate( test )
 {
@@ -38341,7 +38378,6 @@ let Self =
     // experiments
 
     experiment,
-    equivalentBug,
     permutateFails,
     myPermutate
 
