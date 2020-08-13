@@ -944,8 +944,7 @@ function _lineFilter( o )
 
   let newDims = result.dims.slice()
   newDims[ o.dim ? 0 : 1 ] = dsti
-  result._dimsSet( newDims )
-  result._adjust()
+  result.dimsSet( newDims )
 
   return result
 }
