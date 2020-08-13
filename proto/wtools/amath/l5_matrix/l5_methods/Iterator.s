@@ -932,14 +932,14 @@ function _lineFilter( o )
     if( _.vectorIs( resLine ) )
     {
       _.assert( line.length === resLine.length );
-      result.lineSet( o.dim, dsti, line )
+      result.lineSet( o.dim, dsti, resLine )
       dsti += 1
     }
     else if( resLine === undefined )
     {
     }
     else
-    _.assert( 0, 'onCol result must be Vector or undefined' )
+    _.assert( 0, 'callback result must be Vector or undefined' )
   }
 
   let newDims = result.dims.slice()
@@ -988,6 +988,7 @@ _lineFilter.defaults =
  * @method colFilter
  * @throws { Error } If arguments.length is not equal one or two.
  * @throws { Error } If {-dst-} is not a matrix or not a null.
+ * @throws { Error } If {-onCol-} result is not a vector or is not undefined.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1049,6 +1050,7 @@ function colFilter( dst, onCol )
  * @method rowFilter
  * @throws { Error } If arguments.length is not equal one or two.
  * @throws { Error } If {-dst-} is not a matrix or not a null.
+ * @throws { Error } If {-onCol-} result is not a vector or is not undefined.
  * @class Matrix
  * @namespace wTools
  * @module Tools/math/Matrix
@@ -1071,6 +1073,176 @@ function rowFilter( dst, onRow )
   _.assert( dst === null || _.matrixIs( dst ) );
 
   let result = self._lineFilter
+  ({
+    onLine : onRow,
+    dst,
+    dim : 1
+  });
+
+  return result;
+}
+
+//
+
+function _lineMap( o )
+{
+  let self = this;
+  o = _.routineOptions( _lineMap, arguments );
+
+  let length = self.dimsEffective[ o.dim ? 0 : 1 ];
+  let result = o.dst || _.Matrix.Make( self.dims )
+
+  for( let i = 0, l = length ; i < l ; i++ )
+  {
+    let line = self.lineGet( o.dim, i );
+    let it = Object.create( null );
+    it.line = line;
+    it.index = i;
+    it.matrix = self;
+    let resLine = o.onLine.call( self, it );
+    if( _.vectorIs( resLine ) )
+    {
+      _.assert( line.length === resLine.length );
+      result.lineSet( o.dim, i, resLine )
+    }
+    else if( resLine === undefined )
+    {
+      if( result !== o.dst )
+      result.lineSet( o.dim, i, line )
+    }
+    else
+    _.assert( 0, 'callback result must be Vector or undefined' )
+  }
+
+  return result
+}
+
+_lineMap.defaults =
+{
+  onLine : null,
+  dst : null,
+  dim : null
+}
+
+//
+
+/**
+ * Method colMap() executes callback {-onCol-} on each column of matrix and write result to {-dst-}.
+ * If callback return undefined column will be not changed.
+ * Callback accept object { line, index, matrix } with current column, its index, and whole matrix.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ * 1, 2, 3,
+ * 4, 5, 6,
+ * 7, 8, 9
+ * ]);
+ * var add1 = function({ line, index, matrix })
+ * {
+ *   return _.vad.add( null, line, 1 );
+ * };
+ * var got = m.colMap( add1 );
+ * console.log( got )
+ * // Matrix.F32x.3x3 ::
+ * // +2 +3 +4
+ * // +5 +6 +7
+ * // +8 +9 +10
+ *
+ * @param { Function } onCol - Callback that executes on each column of matrix.
+ * Accept object { line, index, matrix }.
+ * @param { Matrix|Null } dst - Container for result. If null - new container will be created.
+ * @returns { Matrix } - Returns changed matrix.
+ * @method colMap
+ * @throws { Error } If arguments.length is not equal one or two.
+ * @throws { Error } If {-dst-} is not a matrix or not a null.
+ * @throws { Error } If {-onCol-} result is not a vector or is not undefined.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function colMap( dst, onCol )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1 || arguments.length === 2, 'Expects one or two arguments' );
+  if( arguments.length === 1 )
+  {
+    onCol = arguments[ 0 ];
+    dst = self
+  }
+  else if( dst === _.self )
+  {
+    dst = self
+  }
+  _.assert( dst === null || _.matrixIs( dst ) );
+
+  let result = self._lineMap
+  ({
+    onLine : onCol,
+    dst,
+    dim : 0
+  });
+
+  return result;
+}
+
+//
+
+/**
+ * Method rowMap() executes callback {-onRow-} on each row of matrix and write result to {-dst-}.
+ * If callback return undefined row will be not changed..
+ * Callback accept object { line, index, matrix } with current row, its index, and whole matrix.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ * 1, 2, 3,
+ * 4, 5, 6,
+ * 7, 8, 9
+ * ]);
+ * var add1 = function({ line, index, matrix })
+ * {
+ *   return _.vad.add( null, line, 1 );
+ * };
+ * var got = m.rowMap( add1 );
+ * console.log( got )
+ * // Matrix.F32x.3x3 ::
+ * // +2 +3 +4
+ * // +5 +6 +7
+ * // +8 +9 +10
+ *
+ * @param { Function } onRow - Callback that executes on each row of matrix.
+ * Accept object { line, index, matrix }.
+ * @param { Matrix|Null } dst - Container for result. If null - new container will be created.
+ * @returns { Matrix } - Returns changed matrix.
+ * @method rowMap
+ * @throws { Error } If arguments.length is not equal one or two.
+ * @throws { Error } If {-dst-} is not a matrix or not a null.
+ * @throws { Error } If {-onRow-} result is not a vector or is not undefined.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
+function rowMap( dst, onRow )
+{
+  let self = this;
+
+  _.assert( arguments.length === 1 || arguments.length === 2, 'Expects one or two arguments' );
+  if( arguments.length === 1 )
+  {
+    onRow = arguments[ 0 ];
+    dst = self
+  }
+  else if( dst === _.self )
+  {
+    dst = self
+  }
+  _.assert( dst === null || _.matrixIs( dst ) );
+
+  let result = self._lineMap
   ({
     onLine : onRow,
     dst,
@@ -1121,21 +1293,9 @@ let Extension =
   colFilter,
   rowFilter,
 
-  /* qqq2 : implement and cover lineMap */
-  /* qqq2 : implement and light cover colMap */
-  /* qqq2 : implement and light cover rowMap */
-
-  /* qqq2 :
-
-  null -> clone
-  nothing -> original
-  _.self -> original
-
-  3x3.colFilter( onCol ) -> 3x0
-  3x3.colFilter( null, onCol ) -> 3x0
-  3x3.colFilter( _.self, onCol ) -> 3x0
-
-  */
+  _lineMap,
+  colMap,
+  rowMap,
 
   /*
 
