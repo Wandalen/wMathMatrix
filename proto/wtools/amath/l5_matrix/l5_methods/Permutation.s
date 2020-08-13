@@ -321,6 +321,7 @@ function PermutateRook_pre( routine, args )
   _.mapSupplement( o2, routine.defaults );
   // _.assert( o2.y === undefined );
   _.assert( o2.x === null || _.matrixIs( o2.x ) );
+  _.assert( o2.x === null || o2.m.ncol === o2.x.nrow );
 
   if( !o2.permutates )
   {
@@ -346,6 +347,7 @@ function PermutateRook_body( o )
   _.assert( arguments.length === 1 );
   _.assertRoutineOptions( PermutateRook_body, o );
 
+  // Andrey: on non-square matrix max will be a problem. We need swaps only to diagonal end, so min correct here
   // let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
   let l = Math.min( o.m.dims[ 0 ], o.m.dims[ 1 ] );
   for( let i = 0 ; i < l ; i++ )
