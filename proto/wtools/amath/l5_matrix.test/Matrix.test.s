@@ -27915,7 +27915,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 3, 2, 1 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -27925,7 +27925,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 3, 2, 1 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -27935,7 +27935,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 3, 2, 1 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -27986,7 +27986,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 2, 1, 3 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 1, 0, 2 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -27996,7 +27996,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -28006,7 +28006,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3 ] );
   test.identical( o.permutates, [ [ 1, 2, 0 ], [ 0, 1, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 2 );
@@ -28057,7 +28057,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -28067,7 +28067,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28077,7 +28077,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28129,7 +28129,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -28139,7 +28139,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -28149,7 +28149,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 2, 3, 1 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 2, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 0 );
@@ -28199,7 +28199,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -28209,7 +28209,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28219,7 +28219,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 2, 1, 3 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 1, 0, 2 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28271,7 +28271,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
-  test.identical( o.x.buffer, [ 1, 2, 3 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 0, 1, 2 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 0 );
@@ -28281,7 +28281,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28291,7 +28291,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 1, 3, 2 ] );
+  test.identical( o.x.buffer, [ 3, 2, 1 ] );
   test.identical( o.permutates, [ [ 0, 2, 1 ], [ 2, 1, 0 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28344,7 +28344,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
-  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3, 4 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -28354,7 +28354,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2, 4 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28364,7 +28364,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 1, 3, 4, 2 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -28374,7 +28374,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 4, 2, 3, 1 ] );
+  test.identical( o.x.buffer, [ 1, 3, 4, 2 ] );
   test.identical( o.permutates, [ [ 3, 1, 2, 0 ], [ 0, 2, 3, 1 ] ] );
   test.identical( o.npermutations, 3 );
   test.identical( o.nRowPermutations, 1 );
@@ -28427,7 +28427,7 @@ function _PermutateLineRookWithOptionX( test )
   };
   var got = _.Matrix._PermutateLineRook( o );
   test.identical( got, true );
-  test.identical( o.x.buffer, [ 3, 2, 1, 4 ] );
+  test.identical( o.x.buffer, [ 1, 2, 3, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 1, 2, 3 ] ] );
   test.identical( o.npermutations, 1 );
   test.identical( o.nRowPermutations, 1 );
@@ -28437,7 +28437,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, true );
-  test.identical( o.x.buffer, [ 3, 2, 1, 4 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
@@ -28447,7 +28447,7 @@ function _PermutateLineRookWithOptionX( test )
 
   var got = _.Matrix._PermutateLineRook( o );
   test.equivalent( got, false );
-  test.identical( o.x.buffer, [ 3, 2, 1, 4 ] );
+  test.identical( o.x.buffer, [ 1, 3, 2, 4 ] );
   test.identical( o.permutates, [ [ 2, 1, 0 ], [ 0, 2, 1, 3 ] ] );
   test.identical( o.npermutations, 2 );
   test.identical( o.nRowPermutations, 1 );
