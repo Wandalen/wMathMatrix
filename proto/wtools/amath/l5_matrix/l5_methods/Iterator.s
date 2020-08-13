@@ -958,6 +958,41 @@ _lineFilter.defaults =
 
 //
 
+/**
+ * Method colFilter() executes callback {-onCol-} on each column of matrix and write result to {-dst-}.
+ * If callback return undefined column will be filtered.
+ * Callback accept object { line, index, matrix } with current column, its index, and whole matrix.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ * 1, 2, 3,
+ * 4, 5, 6,
+ * 7, 8, 9
+ * ]);
+ * var onCol = function({ line, index, matrix })
+ * {
+ *    if( line.reduceToSum() > 12 ) return line;
+ * };
+ * var got = m.colFilter( onCol );
+ * console.log( got )
+ * // Matrix.F32x.3x2 ::
+ * // +2 +3
+ * // +5 +6
+ * // +8 +9
+ *
+ * @param { Function } onCol - Callback that executes on each column of matrix.
+ * Accept object { line, index, matrix }.
+ * @param { Matrix|Null } dst - Container for result. If null - new container will be created.
+ * @returns { Matrix } - Returns changed matrix.
+ * @method colFilter
+ * @throws { Error } If arguments.length is not equal one or two.
+ * @throws { Error } If {-dst-} is not a matrix or not a null.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
+
 function colFilter( dst, onCol )
 {
   let self = this;
@@ -985,6 +1020,39 @@ function colFilter( dst, onCol )
 }
 
 //
+
+/**
+ * Method rowFilter() executes callback {-onRow-} on each row of matrix and write result to {-dst-}.
+ * If callback return undefined row will be filtered.
+ * Callback accept object { line, index, matrix } with current row, its index, and whole matrix.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ * 1, 2, 3,
+ * 4, 5, 6,
+ * 7, 8, 9
+ * ]);
+ * var onRow = function({ line, index, matrix })
+ * {
+ *    if( index === 1 ) return line;
+ * };
+ * var got = m.rowFilter( onRow );
+ * console.log( got )
+ * // Matrix.F32x.1x3 ::
+ * // +4 +5 +6
+ *
+ * @param { Function } onRow - Callback that executes on each row of matrix.
+ * Accept object { line, index, matrix }.
+ * @param { Matrix|Null } dst - Container for result. If null - new container will be created.
+ * @returns { Matrix } - Returns changed matrix.
+ * @method rowFilter
+ * @throws { Error } If arguments.length is not equal one or two.
+ * @throws { Error } If {-dst-} is not a matrix or not a null.
+ * @class Matrix
+ * @namespace wTools
+ * @module Tools/math/Matrix
+ */
 
 function rowFilter( dst, onRow )
 {

@@ -26166,14 +26166,14 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix }) {
+  var onRow = function({ line, index, matrix }) {
     if( line.reduceToSum() === 6 ) return line;
   }
   var exp = _.Matrix.Make([ 1, 3 ]).copy
   ([
     1, 2, 3
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26186,7 +26186,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     if( line.reduceToSum() === 15 ) return line;
   };
@@ -26194,7 +26194,7 @@ function rowFilter( test )
   ([
     4, 5, 6
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26207,7 +26207,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     if( line.reduceToSum() === 24 ) return line;
   };
@@ -26215,7 +26215,7 @@ function rowFilter( test )
   ([
     7, 8, 9
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26228,7 +26228,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     if( line.reduceToSum() < 24 ) return line;
   };
@@ -26237,7 +26237,7 @@ function rowFilter( test )
     1, 2, 3,
     4, 5, 6,
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26250,7 +26250,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     if( line.reduceToSum() !== 15 ) return line;
   };
@@ -26259,7 +26259,7 @@ function rowFilter( test )
     1, 2, 3,
     7, 8, 9
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26272,7 +26272,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     if( line.reduceToSum() > 6 ) return line;
   };
@@ -26281,7 +26281,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26308,7 +26308,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     for (let i = 0; i < 3; i++) {
       line.eSet(  i, line.eGet(i) + 1 );
@@ -26321,7 +26321,7 @@ function rowFilter( test )
     5, 6, 7,
     8, 9, 10
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26334,7 +26334,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     if( line.reduceToSum() < 24 ) return;
     for (let i = 0; i < 3; i++) {
@@ -26346,7 +26346,7 @@ function rowFilter( test )
   ([
     8, 9, 10
   ]);
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26380,12 +26380,12 @@ function rowFilter( test )
   ([
     4, 5, 6,
   ]);
-  var onCol = function({ line, index : i, matrix : m })
+  var onRow = function({ line, index : i, matrix : m })
   {
     if( i + 1 >= m.dims[ 1 ] ) return;
     if( m.colGet( i+1 ).eGet( 2 ) === 9 ) return line;
   };
-  var got = m.rowFilter( onCol );
+  var got = m.rowFilter( onRow );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26510,21 +26510,21 @@ function rowFilter( test )
   test.shouldThrowErrorSync( () => m.rowFilter( [ 1, 2, 3 ], all ) );
   test.shouldThrowErrorSync( () => m.rowFilter( {}, all ) );
 
-  test.case = 'onCol return not vector';
+  test.case = 'onRow return not vector';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     return index
   };
-  test.shouldThrowErrorSync( () => m.rowFilter( onCol ) );
+  test.shouldThrowErrorSync( () => m.rowFilter( onRow ) );
 
-  test.case = 'onCol return vector with different length from origin';
+  test.case = 'onRow return vector with different length from origin';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onCol = function({ line, index, matrix })
+  var onRow = function({ line, index, matrix })
   {
     return line.review( 1 )
   };
-  test.shouldThrowErrorSync( () => m.rowFilter( onCol ) );
+  test.shouldThrowErrorSync( () => m.rowFilter( onRow ) );
 }
 
 //
