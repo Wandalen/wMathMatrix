@@ -5950,6 +5950,109 @@ function rowGet( test )
 
 //
 
+function rowSet( test )
+{
+  // m32.rowSet( 0, [ 10, 20 ] ) // aaa2 : add test cases like this /* Dmytro : implemented */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = `buffer - long ${ a.format }, full replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.rowSet( 1, a.longMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, full replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.vadMake([ 55, 55 ]) );
+    var got = matrix.rowSet( 1, a.vadMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    /* */
+
+    test.case = `buffer - long ${ a.format }, partial replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.longMake([ 55 ]) );
+    var got = matrix.rowSet( 1, a.longMake([ 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, partial replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.vadMake([ 55 ]) );
+    var got = matrix.rowSet( 1, a.vadMake([ 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet() );
+
+  test.case = 'not enough arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( 0 ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( 0, [ 1, 2 ], [ 2, 1 ] ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( -1, [ 1, 2 ] ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( 2, [ 2, 2 ] ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( [ 0 ], [ 2, 2 ]) );
+}
+
+//
+
 function colGet( test )
 {
   _.vectorAdapter.contextsForTesting({ onEach : act });
@@ -26477,82 +26580,6 @@ function accessors( test ) /* qqq2 : split test routine appropriately and extend
     test.shouldThrowErrorSync( () => m32.colSet( 0, ivec([ 10, 20, 30 ]), 0 ) );
     test.shouldThrowErrorSync( () => m32.colSet( [ 0 ], ivec([ 10, 20, 30 ]) ) );
   }
-
-  /* */
-
-  test.case = 'rowSet';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 20, 30,
-    40, 50, 60,
-  ]);
-
-  m23.rowSet( 0, [ 10, 20, 30 ] );
-  m23.rowSet( 1, [ 40, 50, 60 ] );
-  test.identical( m23, exp );
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 20,
-    0, 0,
-    50, 60,
-  ]);
-
-  m32.rowSet( 0, [ 10, 20 ] );
-  m32.rowSet( 1, 0 );
-  m32.rowSet( 2, [ 50, 60 ] );
-  test.identical( m32, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.rowSet() );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20 ] ) );  // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20, 30 ], 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( [ 0 ], [ 10, 20, 30 ] ) );
-  }
-
-  /* */
-
-  test.case = 'rowSet vector';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 20, 30,
-    40, 50, 60,
-  ]);
-
-  m23.rowSet( 0, ivec([ 10, 20, 30 ]) );
-  m23.rowSet( 1, ivec([ 40, 50, 60 ]) );
-  test.identical( m23, exp );
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 20,
-    0, 0,
-    50, 60,
-  ]);
-
-  m32.rowSet( 0, ivec([ 10, 20 ]) );
-  m32.rowSet( 1, 0 );
-  m32.rowSet( 2, ivec([ 50, 60 ]) );
-  test.identical( m32, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.rowSet() );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20 ]) ) );  // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20, 30 ]), 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( [ 0 ], ivec([ 10, 20, 30 ]) ) );
-  }
 }
 
 //
@@ -38434,6 +38461,7 @@ let Self =
     lineNdGet, /* aaa : add 4d cases */ /* Dmytro : added, extended by throwing test cases */
     lineNdGetIterate,
     rowGet,
+    rowSet,
     colGet,
 
     // maker
