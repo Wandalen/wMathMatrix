@@ -33908,38 +33908,10 @@ function subScalarWise( test )
 
 }
 
-function reduceToMeanRowWise( test )
+//
+
+function distributionRangeSummaryValueRowWise( test )
 {
-
-  /* */
-
-  test.case = 'no dst';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-  var got = m1.reduceToMeanRowWise();
-  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-
-  /* */
-
-  test.case = 'dst';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-  var dst = [ 1, 1, 1 ];
-  var got = m1.reduceToMeanRowWise( dst );
-  test.identical( dst, [ 2.5, 3.5, 4.5 ] );
-  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-  test.is( got._vectorBuffer === dst );
-
-  /* */
-
   test.case = 'control mulRowWise';
   var m1 = _.Matrix.Make([ 3, 2 ]).copy
   ([
@@ -33975,17 +33947,60 @@ function reduceToMeanRowWise( test )
   ]
   var got = m1.distributionRangeSummaryValueRowWise();
   test.identical( got, exp );
+}
 
-  /* */
+//
 
+function reduceToMeanRowWise( test )
+{
+  test.case = 'number of columns - 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var got = matrix.reduceToMeanRowWise();
+  test.identical( got, _.vad.from([ NaN, NaN ]) );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'without dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var got = matrix.reduceToMeanRowWise();
+  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'with dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var dst = [ 1, 1, 1 ];
+  var got = matrix.reduceToMeanRowWise( dst );
+  test.identical( dst, [ 2.5, 3.5, 4.5 ] );
+  test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.is( got._vectorBuffer === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( [], [] ) );
 }
 
 //
 
 function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
 {
-
-  /* */
 
   test.case = 'data';
 
@@ -34045,11 +34060,9 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
 
   test.case = 'reduceToMean';
 
-  var c = m32.reduceToMeanRowWise();
   var r = m32.reduceToMeanColWise();
   var a = m32.reduceToMeanScalarWise();
 
-  test.identical( c, _.vad.from([ 2.5, 3.5, 4.5 ]) );
   test.identical( r, _.vad.from([ 2, 5 ]) );
   test.identical( a, 3.5 );
 
@@ -34057,23 +34070,18 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
 
   test.case = 'reduceToMean with output argument';
 
-  var c2 = [ 1, 1, 1 ];
   var r2 = [ 1 ];
-  m32.reduceToMeanRowWise( c2 );
-  m32.reduceToMeanColWise( r2 );
 
-  test.identical( c, _.vad.from( c2 ) );
+  m32.reduceToMeanColWise( r2 );
   test.identical( r, _.vad.from( r2 ) );
 
   /* */
 
   test.case = 'reduceToMean with empty matrixs';
 
-  var c = empty1.reduceToMeanRowWise();
   var r = empty1.reduceToMeanColWise();
   var a = empty1.reduceToMeanScalarWise();
 
-  test.identical( c, _.vad.from([ NaN, NaN ]) );
   test.identical( r, _.vad.from([]) );
   test.identical( a, NaN );
 
@@ -34094,7 +34102,6 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
   if( Config.debug )
   {
 
-    simpleShouldThrowError( 'reduceToMeanRowWise' );
     simpleShouldThrowError( 'reduceToMeanColWise' );
     simpleShouldThrowError( 'reduceToMeanScalarWise' );
 
@@ -38598,6 +38605,7 @@ let Self =
 
     addScalarWise,
     subScalarWise,
+    distributionRangeSummaryValueRowWise,
     reduceToMeanRowWise,
     colRowWiseOperations,
     mulColWise,
