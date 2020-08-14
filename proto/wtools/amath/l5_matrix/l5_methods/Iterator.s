@@ -1297,6 +1297,26 @@ let Extension =
   colMap,
   rowMap,
 
+  /* aaa2 : implement and cover lineFilter */ /* Andrey: Implemented as private base method for colFilter and rowFilter, so not tested */
+  /* aaa2 : implement and light cover colFilter */ /* Andrey: Implemented and tested */
+  /* aaa2 : implement and light cover rowFilter */ /* Andrey: Implemented and tested */
+
+  /* aaa2 : implement and cover lineMap */ /* Andrey: Implemented as private base method for colFilter and rowFilter, so not tested */
+  /* aaa2 : implement and light cover colMap */ /* Andrey: Implemented and tested */
+  /* aaa2 : implement and light cover rowMap */ /* Andrey: Implemented and tested */
+
+  /* qqq2 :
+
+  null -> clone
+  nothing -> original
+  _.self -> original
+
+  3x3.colFilter( onCol ) -> 3x0
+  3x3.colFilter( null, onCol ) -> 3x0
+  3x3.colFilter( _.self, onCol ) -> 3x0
+
+  */
+
   /*
 
   iterators :

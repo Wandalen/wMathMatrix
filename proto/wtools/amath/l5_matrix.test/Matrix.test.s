@@ -25509,16 +25509,10 @@ function colFilter( test )
 
   /* */
 
-  const all = ({ line }) => line;
-  const none = () => undefined;
-  const first = ({ line, index }) => index === 0 ? line : undefined;
-
-  /* */
-
   test.case = '0x0, all';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = m.clone();
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25527,7 +25521,7 @@ function colFilter( test )
   test.case = '0x0, none';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
-  var got = m.colFilter( none );
+  var got = m.colFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25536,7 +25530,7 @@ function colFilter( test )
   test.case = '1x1, all';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = m.clone();
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25545,7 +25539,7 @@ function colFilter( test )
   test.case = '1x1, none';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = _.Matrix.Make([ 1, 0 ]);
-  var got = m.colFilter( none );
+  var got = m.colFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25558,7 +25552,7 @@ function colFilter( test )
     10, 3,
   ]);
   var exp = m.clone();
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25571,7 +25565,7 @@ function colFilter( test )
     10, 3, 10, 3,
   ]);
   var exp = _.Matrix.Make([ 2, 0 ]);
-  var got = m.colFilter( none );
+  var got = m.colFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25584,7 +25578,7 @@ function colFilter( test )
     10, 3, 10, 3,
   ]);
   var exp = m.clone();
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25599,7 +25593,7 @@ function colFilter( test )
     10, 3,
   ]);
   var exp = _.Matrix.Make([ 4, 0 ]);
-  var got = m.colFilter( none );
+  var got = m.colFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25614,7 +25608,7 @@ function colFilter( test )
     10, 3,
   ]);
   var exp = m.clone();
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25628,7 +25622,7 @@ function colFilter( test )
     7, 8, 9
   ]);
   var exp = _.Matrix.Make([ 3, 0 ]);
-  var got = m.colFilter( none );
+  var got = m.colFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25641,8 +25635,8 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix }) {
-    if( line.reduceToSum() === 12 ) return line;
+  var onCol = function( o ) {
+    if( o.line.reduceToSum() === 12 ) return o.line;
   }
   var exp = _.Matrix.Make([ 3, 1 ]).copy
   ([
@@ -25663,9 +25657,9 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    if( line.reduceToSum() === 15 ) return line;
+    if( o.line.reduceToSum() === 15 ) return o.line;
   };
   var exp = _.Matrix.Make([ 3, 1 ]).copy
   ([
@@ -25686,9 +25680,9 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    if( line.reduceToSum() === 18 ) return line;
+    if( o.line.reduceToSum() === 18 ) return o.line;
   };
   var exp = _.Matrix.Make([ 3, 1 ]).copy
   ([
@@ -25709,9 +25703,9 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    if( line.reduceToSum() < 18 ) return line;
+    if( o.line.reduceToSum() < 18 ) return o.line;
   };
   var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
@@ -25732,9 +25726,9 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    if( line.reduceToSum() !== 15 ) return line;
+    if( o.line.reduceToSum() !== 15 ) return o.line;
   };
   var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
@@ -25755,9 +25749,9 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    if( line.reduceToSum() > 12 ) return line;
+    if( o.line.reduceToSum() > 12 ) return o.line;
   };
   var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
@@ -25779,7 +25773,7 @@ function colFilter( test )
     7, 8, 9
   ]);
   var exp = m.clone();
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25792,12 +25786,12 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
     for (let i = 0; i < 3; i++) {
-      line.eSet(  i, line.eGet(i) + 1 );
+      o.line.eSet(  i, o.line.eGet(i) + 1 );
     }
-    return line;
+    return o.line;
   };
   var exp = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -25818,13 +25812,13 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    if( line.reduceToSum() < 18 ) return;
+    if( o.line.reduceToSum() < 18 ) return;
     for (let i = 0; i < 3; i++) {
-      line.eSet( i, line.eGet(i) + 1 );
+      o.line.eSet( i, o.line.eGet(i) + 1 );
     }
-    return line;
+    return o.line;
   };
   var exp = _.Matrix.Make([ 3, 1 ]).copy
   ([
@@ -25845,7 +25839,7 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
     return [ 0, 1, 0 ];
   };
@@ -25868,7 +25862,7 @@ function colFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
     return _.vad.from([ 0, 1, 0 ]);
   };
@@ -25897,7 +25891,7 @@ function colFilter( test )
     4,
     7,
   ]);
-  var got = m.colFilter( first );
+  var got = m.colFilter( ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25916,10 +25910,10 @@ function colFilter( test )
     5,
     8,
   ]);
-  var onCol = function({ line, index : i, matrix : m })
+  var onCol = function( o )
   {
-    if( i + 1 >= m.dims[ 1 ] ) return;
-    if( m.colGet( i+1 ).eGet( 2 ) === 9 ) return line;
+    if( o.index + 1 >= o.matrix.ncol ) return;
+    if( o.matrix.colGet( o.index+1 ).eGet( 2 ) === 9 ) return o.line;
   };
   var got = m.colFilter( onCol );
   test.identical( got, exp );
@@ -25940,7 +25934,7 @@ function colFilter( test )
     4,
     7,
   ]);
-  var got = m.colFilter( m, first );
+  var got = m.colFilter( m, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25959,7 +25953,7 @@ function colFilter( test )
     4,
     7,
   ]);
-  var got = m.colFilter( _.self, first );
+  var got = m.colFilter( _.self, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -25980,7 +25974,7 @@ function colFilter( test )
     7,
   ]);
   var dst = _.Matrix.Make([ 3, 3 ]);
-  var got = m.colFilter( dst, first );
+  var got = m.colFilter( dst, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got === dst );
@@ -26002,7 +25996,7 @@ function colFilter( test )
     4,
     7,
   ]);
-  var got = m.colFilter( null, first );
+  var got = m.colFilter( null, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got !== m );
@@ -26018,7 +26012,7 @@ function colFilter( test )
   ([
     1
   ]);
-  var got = m.colFilter( first );
+  var got = m.colFilter( ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26037,7 +26031,7 @@ function colFilter( test )
     4,
     7,
   ]);
-  var got = m.colFilter( all );
+  var got = m.colFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26058,17 +26052,17 @@ function colFilter( test )
 
   test.case = 'onCol return not vector';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    return index
+    return o.index
   };
   test.shouldThrowErrorSync( () => m.colFilter( onCol ) );
 
   test.case = 'onCol return vector with different length from origin';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    return line.review( 1 )
+    return o.line.review( 1 )
   };
   test.shouldThrowErrorSync( () => m.colFilter( onCol ) );
 }
@@ -26080,16 +26074,10 @@ function rowFilter( test )
 
   /* */
 
-  const all = ({ line }) => line;
-  const none = () => undefined;
-  const first = ({ line, index }) => index === 0 ? line : undefined;
-
-  /* */
-
   test.case = '0x0, all';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = m.clone();
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26098,7 +26086,7 @@ function rowFilter( test )
   test.case = '0x0, none';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
-  var got = m.rowFilter( none );
+  var got = m.rowFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26107,7 +26095,7 @@ function rowFilter( test )
   test.case = '1x1, all';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = m.clone();
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26116,7 +26104,7 @@ function rowFilter( test )
   test.case = '1x1, none';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = _.Matrix.Make([ 0, 1 ]);
-  var got = m.rowFilter( none );
+  var got = m.rowFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26129,7 +26117,7 @@ function rowFilter( test )
     10, 3,
   ]);
   var exp = m.clone();
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26142,7 +26130,7 @@ function rowFilter( test )
     10, 3, 10, 3,
   ]);
   var exp = _.Matrix.Make([ 0, 4 ]);
-  var got = m.rowFilter( none );
+  var got = m.rowFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26155,7 +26143,7 @@ function rowFilter( test )
     10, 3, 10, 3,
   ]);
   var exp = m.clone();
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26170,7 +26158,7 @@ function rowFilter( test )
     10, 3,
   ]);
   var exp = _.Matrix.Make([ 0, 2 ]);
-  var got = m.rowFilter( none );
+  var got = m.rowFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26185,7 +26173,7 @@ function rowFilter( test )
     10, 3,
   ]);
   var exp = m.clone();
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26199,7 +26187,7 @@ function rowFilter( test )
     7, 8, 9
   ]);
   var exp = _.Matrix.Make([ 0, 3 ]);
-  var got = m.rowFilter( none );
+  var got = m.rowFilter( () => undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26212,8 +26200,8 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix }) {
-    if( line.reduceToSum() === 6 ) return line;
+  var onRow = function( o ) {
+    if( o.line.reduceToSum() === 6 ) return o.line;
   }
   var exp = _.Matrix.Make([ 1, 3 ]).copy
   ([
@@ -26232,9 +26220,9 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    if( line.reduceToSum() === 15 ) return line;
+    if( o.line.reduceToSum() === 15 ) return o.line;
   };
   var exp = _.Matrix.Make([ 1, 3 ]).copy
   ([
@@ -26253,9 +26241,9 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    if( line.reduceToSum() === 24 ) return line;
+    if( o.line.reduceToSum() === 24 ) return o.line;
   };
   var exp = _.Matrix.Make([ 1, 3 ]).copy
   ([
@@ -26274,9 +26262,9 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    if( line.reduceToSum() < 24 ) return line;
+    if( o.line.reduceToSum() < 24 ) return o.line;
   };
   var exp = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -26296,9 +26284,9 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    if( line.reduceToSum() !== 15 ) return line;
+    if( o.line.reduceToSum() !== 15 ) return o.line;
   };
   var exp = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -26318,9 +26306,9 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    if( line.reduceToSum() > 6 ) return line;
+    if( o.line.reduceToSum() > 6 ) return o.line;
   };
   var exp = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -26341,7 +26329,7 @@ function rowFilter( test )
     7, 8, 9
   ]);
   var exp = m.clone();
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26354,12 +26342,12 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
     for (let i = 0; i < 3; i++) {
-      line.eSet(  i, line.eGet(i) + 1 );
+      o.line.eSet(  i, o.line.eGet(i) + 1 );
     }
-    return line;
+    return o.line;
   };
   var exp = _.Matrix.Make([ 3, 3 ]).copy
   ([
@@ -26380,13 +26368,13 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    if( line.reduceToSum() < 24 ) return;
+    if( o.line.reduceToSum() < 24 ) return;
     for (let i = 0; i < 3; i++) {
-      line.eSet( i, line.eGet(i) + 1 );
+      o.line.eSet( i, o.line.eGet(i) + 1 );
     }
-    return line;
+    return o.line;
   };
   var exp = _.Matrix.Make([ 1, 3 ]).copy
   ([
@@ -26405,7 +26393,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
     return [ 0, 1, 0 ];
   };
@@ -26428,7 +26416,7 @@ function rowFilter( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
     return _.vad.from([ 0, 1, 0 ]);
   };
@@ -26455,7 +26443,7 @@ function rowFilter( test )
   ([
     1, 2, 3,
   ]);
-  var got = m.rowFilter( first );
+  var got = m.rowFilter( ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26472,10 +26460,10 @@ function rowFilter( test )
   ([
     4, 5, 6,
   ]);
-  var onRow = function({ line, index : i, matrix : m })
+  var onRow = function( o )
   {
-    if( i + 1 >= m.dims[ 1 ] ) return;
-    if( m.colGet( i+1 ).eGet( 2 ) === 9 ) return line;
+    if( o.index + 1 >= o.matrix.nrow ) return;
+    if( o.matrix.colGet( o.index+1 ).eGet( 2 ) === 9 ) return o.line;
   };
   var got = m.rowFilter( onRow );
   test.identical( got, exp );
@@ -26494,7 +26482,7 @@ function rowFilter( test )
   ([
     1, 2, 3,
   ]);
-  var got = m.rowFilter( m, first );
+  var got = m.rowFilter( m, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26511,7 +26499,7 @@ function rowFilter( test )
   ([
     1, 2, 3,
   ]);
-  var got = m.rowFilter( _.self, first );
+  var got = m.rowFilter( _.self, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26530,7 +26518,7 @@ function rowFilter( test )
     1, 2, 3,
   ]);
   var dst = _.Matrix.Make([ 3, 3 ]);
-  var got = m.rowFilter( dst, first );
+  var got = m.rowFilter( dst, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got === dst );
@@ -26550,7 +26538,7 @@ function rowFilter( test )
   ([
     1, 2, 3,
   ]);
-  var got = m.rowFilter( null, first );
+  var got = m.rowFilter( null, ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got !== m );
@@ -26566,7 +26554,7 @@ function rowFilter( test )
   ([
     1, 4, 7
   ]);
-  var got = m.rowFilter( all );
+  var got = m.rowFilter( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26583,7 +26571,7 @@ function rowFilter( test )
   ([
     1
   ]);
-  var got = m.rowFilter( first );
+  var got = m.rowFilter( ( o ) => o.index === 0 ? o.line : undefined );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26604,17 +26592,17 @@ function rowFilter( test )
 
   test.case = 'onRow return not vector';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    return index
+    return o.index
   };
   test.shouldThrowErrorSync( () => m.rowFilter( onRow ) );
 
   test.case = 'onRow return vector with different length from origin';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    return line.review( 1 )
+    return o.line.review( 1 )
   };
   test.shouldThrowErrorSync( () => m.rowFilter( onRow ) );
 }
@@ -26626,17 +26614,10 @@ function colMap( test )
 
   /* */
 
-  var add1 = function({ line, index, matrix })
-  {
-    return _.vad.add( null, line, 1 );
-  };
-
-  /* */
-
   test.case = '0x0, don\'t change';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = m.clone();
-  var got = m.colMap( ({ line }) => line );
+  var got = m.colMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26645,7 +26626,7 @@ function colMap( test )
   test.case = '0x0, add1';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26654,7 +26635,7 @@ function colMap( test )
   test.case = '1x1, don\'t change';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = m.clone();
-  var got = m.colMap( ({ line }) => line );
+  var got = m.colMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26663,7 +26644,7 @@ function colMap( test )
   test.case = '1x1, add1';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = _.Matrix.Make([ 1, 1 ]).copy([ 6 ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26676,7 +26657,7 @@ function colMap( test )
     10, 3,
   ]);
   var exp = m.clone();
-  var got = m.colMap( ({ line }) => line );
+  var got = m.colMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26693,7 +26674,7 @@ function colMap( test )
     6, 11,
     11, 4,
   ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26705,8 +26686,8 @@ function colMap( test )
     5, 1, 5, 1,
     1, 3, 1, 3,
   ]);
-  var exp = m.clone();;
-  var got = m.colMap( ({ line }) => line );
+  var exp = m.clone();
+  var got = m.colMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26723,7 +26704,7 @@ function colMap( test )
     6, 2, 6, 2,
     2, 4, 2, 4,
   ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26738,7 +26719,7 @@ function colMap( test )
     1, 3,
   ]);
   var exp = m.clone();
-  var got = m.colMap( ({ line }) => line );
+  var got = m.colMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26759,7 +26740,7 @@ function colMap( test )
     2, 4,
     2, 4,
   ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26773,7 +26754,7 @@ function colMap( test )
     7, 8, 9
   ]);
   var exp = m.clone();
-  var got = m.colMap( ({ line }) => line );
+  var got = m.colMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26792,7 +26773,7 @@ function colMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26868,7 +26849,7 @@ function colMap( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
     return [ 0, 1, 0 ];
   };
@@ -26891,7 +26872,7 @@ function colMap( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
     return _.vad.from([ 0, 1, 0 ]);
   };
@@ -26920,11 +26901,11 @@ function colMap( test )
     4, 10, 6,
     7, 16, 9
   ]);
-  var onCol = function({ line, index : i, matrix : m })
+  var onCol = function( o )
   {
-    if( i + 1 >= m.dims[ 1 ] ) return;
-    if( m.colGet( i+1 ).eGet( 2 ) === 9 )
-    return line.mul( 2 );
+    if( o.index + 1 >= o.matrix.ncol ) return;
+    if( o.matrix.colGet( o.index+1 ).eGet( 2 ) === 9 )
+    return o.line.mul( 2 );
   };
   var got = m.colMap( onCol );
   test.identical( got, exp );
@@ -26964,7 +26945,7 @@ function colMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.colMap( m, add1 );
+  var got = m.colMap( m, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -26983,7 +26964,7 @@ function colMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.colMap( _.self, add1 );
+  var got = m.colMap( _.self, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27004,7 +26985,7 @@ function colMap( test )
     8, 9, 10,
   ]);
   var dst = _.Matrix.Make([ 3, 3 ]);
-  var got = m.colMap( dst, add1 );
+  var got = m.colMap( dst, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got === dst );
@@ -27026,7 +27007,7 @@ function colMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.colMap( null, add1 );
+  var got = m.colMap( null, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got !== m );
@@ -27042,7 +27023,7 @@ function colMap( test )
   ([
     2, 5, 8
   ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27061,7 +27042,7 @@ function colMap( test )
     5,
     8,
   ]);
-  var got = m.colMap( add1 );
+  var got = m.colMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27082,17 +27063,17 @@ function colMap( test )
 
   test.case = 'onCol return not vector';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    return index
+    return o.index
   };
   test.shouldThrowErrorSync( () => m.colMap( onCol ) );
 
   test.case = 'onCol return vector with different length from origin';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onCol = function({ line, index, matrix })
+  var onCol = function( o )
   {
-    return line.review( 1 )
+    return o.line.review( 1 )
   };
   test.shouldThrowErrorSync( () => m.colMap( onCol ) );
 }
@@ -27104,17 +27085,10 @@ function rowMap( test )
 
   /* */
 
-  var add1 = function({ line, index, matrix })
-  {
-    return _.vad.add( null, line, 1 );
-  };
-
-  /* */
-
   test.case = '0x0, don\'t change';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = m.clone();
-  var got = m.rowMap( ({ line }) => line );
+  var got = m.rowMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27123,7 +27097,7 @@ function rowMap( test )
   test.case = '0x0, add1';
   var m = _.Matrix.Make([ 0, 0 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27132,7 +27106,7 @@ function rowMap( test )
   test.case = '1x1, don\'t change';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = m.clone();
-  var got = m.rowMap( ({ line }) => line );
+  var got = m.rowMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27141,7 +27115,7 @@ function rowMap( test )
   test.case = '1x1, add1';
   var m =  _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
   var exp = _.Matrix.Make([ 1, 1 ]).copy([ 6 ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27154,7 +27128,7 @@ function rowMap( test )
     10, 3,
   ]);
   var exp = m.clone();
-  var got = m.rowMap( ({ line }) => line );
+  var got = m.rowMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27171,7 +27145,7 @@ function rowMap( test )
     6, 11,
     11, 4,
   ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27183,8 +27157,8 @@ function rowMap( test )
     5, 1, 5, 1,
     1, 3, 1, 3,
   ]);
-  var exp = m.clone();;
-  var got = m.rowMap( ({ line }) => line );
+  var exp = m.clone();
+  var got = m.rowMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27201,7 +27175,7 @@ function rowMap( test )
     6, 2, 6, 2,
     2, 4, 2, 4,
   ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27216,7 +27190,7 @@ function rowMap( test )
     1, 3,
   ]);
   var exp = m.clone();
-  var got = m.rowMap( ({ line }) => line );
+  var got = m.rowMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27237,7 +27211,7 @@ function rowMap( test )
     2, 4,
     2, 4,
   ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27251,7 +27225,7 @@ function rowMap( test )
     7, 8, 9
   ]);
   var exp = m.clone();
-  var got = m.rowMap( ({ line }) => line );
+  var got = m.rowMap( ( o ) => o.line );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27270,7 +27244,7 @@ function rowMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27346,7 +27320,7 @@ function rowMap( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
     return [ 0, 1, 0 ];
   };
@@ -27369,7 +27343,7 @@ function rowMap( test )
     4, 5, 6,
     7, 8, 9
   ]);
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
     return _.vad.from([ 0, 1, 0 ]);
   };
@@ -27398,11 +27372,11 @@ function rowMap( test )
     8, 10, 12,
     7, 8, 9
   ]);
-  var onRow = function({ line, index : i, matrix : m })
+  var onRow = function( o )
   {
-    if( i + 1 >= m.dims[ 1 ] ) return;
-    if( m.rowGet( i+1 ).eGet( 2 ) === 9 )
-    return line.mul( 2 );
+    if( o.index + 1 >= o.matrix.nrow ) return;
+    if( o.matrix.rowGet( o.index+1 ).eGet( 2 ) === 9 )
+    return o.line.mul( 2 );
   };
   var got = m.rowMap( onRow );
   test.identical( got, exp );
@@ -27442,7 +27416,7 @@ function rowMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.rowMap( m, add1 );
+  var got = m.rowMap( m, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27461,7 +27435,7 @@ function rowMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.rowMap( _.self, add1 );
+  var got = m.rowMap( _.self, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27482,7 +27456,7 @@ function rowMap( test )
     8, 9, 10,
   ]);
   var dst = _.Matrix.Make([ 3, 3 ]);
-  var got = m.rowMap( dst, add1 );
+  var got = m.rowMap( dst, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got === dst );
@@ -27504,7 +27478,7 @@ function rowMap( test )
     5, 6, 7,
     8, 9, 10,
   ]);
-  var got = m.rowMap( null, add1 );
+  var got = m.rowMap( null, o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.identical( m, original );
   test.is( got !== m );
@@ -27520,7 +27494,7 @@ function rowMap( test )
   ([
     2, 5, 8
   ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27539,7 +27513,7 @@ function rowMap( test )
     5,
     8,
   ]);
-  var got = m.rowMap( add1 );
+  var got = m.rowMap( o => _.vad.add( null, o.line, 1 ) );
   test.identical( got, exp );
   test.is( got === m );
 
@@ -27560,17 +27534,17 @@ function rowMap( test )
 
   test.case = 'onRow return not vector';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    return index
+    return o.index
   };
   test.shouldThrowErrorSync( () => m.rowMap( onRow ) );
 
   test.case = 'onRow return vector with different length from origin';
   var m = _.Matrix.Make([ 3, 3 ]).copy( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] )
-  var onRow = function({ line, index, matrix })
+  var onRow = function( o )
   {
-    return line.review( 1 )
+    return o.line.review( 1 )
   };
   test.shouldThrowErrorSync( () => m.rowMap( onRow ) );
 }
