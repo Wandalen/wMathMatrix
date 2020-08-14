@@ -4955,36 +4955,6 @@ function eGet( test )
     test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
     test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-
-    /* */
-
-    test.case = `buffer - long ${ a.format }`;
-    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    var matrix = new _.Matrix
-    ({
-      buffer,
-      dims : [ 2, 3 ],
-      offset : 1,
-      inputRowMajor : 1,
-    });
-    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
-    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
-    test.identical( matrix.buffer, exp );
-
-    test.case = `buffer - vector ${ a.form }`;
-    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    var matrix = new _.Matrix
-    ({
-      buffer,
-      dims : [ 2, 3 ],
-      offset : 1,
-      inputRowMajor : 1,
-    });
-    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
-    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
-    test.identical( matrix.buffer, exp._vectorBuffer );
   }
 
   /* - */
@@ -5114,6 +5084,108 @@ function eSet( test )
   test.case = 'wrong type of index';
   var matrix = _.Matrix.Make( 2 );
   test.shouldThrowErrorSync( () => matrix.eSet([ 0 ], [ 2, 2 ]) );
+}
+
+//
+
+function lineGet( test )
+{
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.open( 'lineGet col' );
+
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+
+    test.close( 'lineGet col' );
+
+    /* - */
+
+    test.open( 'lineGet row' );
+
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+
+    test.close( 'lineGet row' );
+
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet( 0, 0, 0 ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet( -1 ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet( 2 ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet([ 0 ]) );
 }
 
 // --
@@ -25529,29 +25601,6 @@ function accessors( test ) /* qqq2 : split test routine appropriately and extend
 
   /* */
 
-  test.case = 'lineGet col';
-
-  remake();
-
-  test.identical( m32.lineGet( 0, 0 ), fvec([ 1, 3, 5 ]) );
-  test.identical( m32.lineGet( 0, 1 ), fvec([ 2, 4, 6 ]) );
-  test.identical( m23.lineGet( 0, 0 ), fvec([ 1, 4 ]) );
-  test.identical( m23.lineGet( 0, 2 ), fvec([ 3, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.lineGet( 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 0, -1 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 0, 2 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, -1 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, 3 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, [ 0 ] ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( [ 0 ] ) );
-  }
-
-  /* */
-
   test.case = 'colSet';
 
   remake();
@@ -25688,29 +25737,6 @@ function accessors( test ) /* qqq2 : split test routine appropriately and extend
     test.shouldThrowErrorSync( () => m32.rowGet( 3 ) );
     test.shouldThrowErrorSync( () => m32.rowGet( 0, 0 ) );
     test.shouldThrowErrorSync( () => m32.rowGet( [ 0 ] ) );
-  }
-
-  /* */
-
-  test.case = 'lineGet row';
-
-  remake();
-
-  test.identical( m23.lineGet( 1, 0 ), fvec([ 1, 2, 3 ]) );
-  test.identical( m23.lineGet( 1, 1 ), fvec([ 4, 5, 6 ]) );
-  test.identical( m32.lineGet( 1, 0 ), fvec([ 1, 2 ]) );
-  test.identical( m32.lineGet( 1, 2 ), fvec([ 5, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.lineGet() );
-    test.shouldThrowErrorSync( () => m23.lineGet( 1 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 1, -1 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 1, 2 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, -1 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, 3 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, [ 0 ] ) );
   }
 
   /* */
@@ -38162,6 +38188,7 @@ let Self =
     hasIndex,
     eGet,
     eSet,
+    lineGet,
 
     // maker
 
