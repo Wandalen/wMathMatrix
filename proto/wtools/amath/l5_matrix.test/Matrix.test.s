@@ -34171,9 +34171,48 @@ function reduceToMeanColWise( test )
 
 //
 
+function reduceToMeanScalarWise( test )
+{
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var got = matrix.reduceToMeanScalarWise();
+  test.identical( got, NaN );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'without dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var got = matrix.reduceToMeanScalarWise();
+  test.identical( got, 3.5 );
+  test.is( got !== matrix.buffer );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise([ 2, 1 ]) );
+}
+
+//
+
 function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
 {
-
   test.case = 'data';
 
   var buffer = new I32x
@@ -34225,39 +34264,7 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
       5, 10, 20,
     ]),
   });
-
   matrix2.bufferNormalize();
-
-  /* */
-
-  test.case = 'reduceToMean';
-  var a = m32.reduceToMeanScalarWise();
-  test.identical( a, 3.5 );
-
-  /* */
-
-  test.case = 'reduceToMean with empty matrixs';
-  var a = empty1.reduceToMeanScalarWise();
-  test.identical( a, NaN );
-
-  /* */
-
-  test.case = 'reduceToMean bad arguments';
-
-  function simpleShouldThrowError( f )
-  {
-    test.shouldThrowErrorSync( () => m[ f ]( 1 ) );
-    test.shouldThrowErrorSync( () => m[ f ]( null ) );
-    test.shouldThrowErrorSync( () => m[ f ]( 'x' ) );
-    test.shouldThrowErrorSync( () => m[ f ]( [], 1 ) );
-    test.shouldThrowErrorSync( () => m[ f ]( [], [] ) );
-    test.shouldThrowErrorSync( () => m[ f ]( matrix1.clone() ) );
-  }
-
-  if( Config.debug )
-  {
-    simpleShouldThrowError( 'reduceToMeanScalarWise' );
-  }
 
   /* */
 
@@ -38810,6 +38817,7 @@ let Self =
     distributionRangeSummaryValueRowWise,
     reduceToMeanRowWise,
     reduceToMeanColWise,
+    reduceToMeanScalarWise,
     colRowWiseOperations,
     mulColWise,
     mulRowWise,
