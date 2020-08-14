@@ -34397,37 +34397,6 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
 
   /* */
 
-  test.case = 'minmaxColWise';
-
-  var exp =
-  {
-    min : new F64x([ 0, 0, 0 ]),
-    max : new F64x([ 10, 111, 30 ]),
-  }
-  var r = matrix1.minmaxColWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([]),
-    max : new F64x([]),
-  }
-
-  var r = empty1.minmaxColWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([ NaN, NaN ]),
-    max : new F64x([ NaN, NaN ]),
-  }
-
-  var r = empty2.minmaxColWise();
-  var identical = _.entityIdentical( r, exp );
-  test.identical( r, exp );
-
-  /* */
-
   test.case = 'distributionRangeSummaryRowWise';
 
   var exp =
@@ -34615,6 +34584,74 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
   ]));
 */
 
+}
+
+//
+
+function minmaxColWise( test )
+{
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  {
+    min : new F32x([]),
+    max : new F32x([]),
+  };
+  var got = matrix.minmaxColWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = {};
+  var exp =
+  {
+    min : new F32x([]),
+    max : new F32x([]),
+  };
+  var got = matrix.minmaxColWise( dst );
+  test.identical( got, exp );
+  test.is( got !== dst ); /* Dmytro : it's strange, maybe routine needs assertion */
+
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp =
+  {
+    min : new F32x([ NaN, NaN ]),
+    max : new F32x([ NaN, NaN ]),
+  };
+  var got = matrix.minmaxColWise();
+  var identical = _.entityIdentical( got, exp );
+  test.identical( got, exp );
+
+  test.case = 'minmaxColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  {
+    min : new F32x([ 0, 0, 0 ]),
+    max : new F32x([ 10, 111, 30 ]),
+  };
+  var got = matrix.minmaxColWise();
+  test.identical( got, exp );
+
+  /* - */
+
+  // if( !Config.debug )
+  // return;
+  //
+  // test.case = 'extra arguments';
+  // var matrix = _.Matrix.Make( 2 )
+  // test.shouldThrowErrorSync( () => matrix.minmaxColWise( [], [] ) );
+  //
+  // test.case = 'wrong type of dst';
+  // var matrix = _.Matrix.Make( 2 )
+  // test.shouldThrowErrorSync( () => matrix.minmaxColWise( null ) );
+  // test.shouldThrowErrorSync( () => matrix.minmaxColWise( _.Matrix.Make( 2 ) ) );
 }
 
 //
@@ -38902,6 +38939,7 @@ let Self =
     reduceToMeanColWise,
     reduceToMeanScalarWise,
     colRowWiseOperations,
+    minmaxColWise,
     mulColWise,
     mulRowWise,
     mulScalarWise,
