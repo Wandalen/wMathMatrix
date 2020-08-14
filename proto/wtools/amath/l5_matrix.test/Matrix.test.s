@@ -5341,7 +5341,7 @@ function lineSet( test )
 
   test.case = 'without arguments';
   var matrix = _.Matrix.Make( 2 );
-  test.shouldThrowErrorSync( () => matrix.eSet() );
+  test.shouldThrowErrorSync( () => matrix.lineSet() );
 
   test.case = 'not enough arguments';
   var matrix = _.Matrix.Make( 2 );
@@ -5353,7 +5353,7 @@ function lineSet( test )
 
   test.case = 'negative index';
   var matrix = _.Matrix.Make( 2 );
-  test.shouldThrowErrorSync( () => matrix.eSet( -1, [ 1, 2 ] ) );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, -1, [ 1, 2 ] ) );
 
   test.case = 'index is greater than max dimension value';
   var matrix = _.Matrix.Make( 2 );
@@ -5361,7 +5361,261 @@ function lineSet( test )
 
   test.case = 'wrong type of index';
   var matrix = _.Matrix.Make( 2 );
-  test.shouldThrowErrorSync( () => matrix.eSet([ 0 ], [ 2, 2 ]) );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, [ 0 ], [ 2, 2 ]) );
+}
+
+//
+
+function lineNdGet( test )
+{
+  test.case = '2x3';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+
+  test.description = 'd:0 i:1';
+  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
+  var line = matrix.lineGet( 0, 1 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
+  var line = matrix.lineGet( 0, 0 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2';
+  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
+  var line = matrix.lineGet( 0, 2 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 2 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
+  var line = matrix.lineGet( 1, 0 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 1, [ 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1';
+  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
+  var line = matrix.lineGet( 1, 1 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 1, [ 1 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '2x3x4 d:0';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+
+  test.description = 'd:0 i:0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
+  var line = matrix.lineNdGet( 0, [ 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:1,0';
+  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
+  var line = matrix.lineNdGet( 0, [ 1, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2,0';
+  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
+  var line = matrix.lineNdGet( 0, [ 2, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:0,1';
+  var exp = _.vectorAdapter.from( new F32x([ 7, 10 ]) );
+  var line = matrix.lineNdGet( 0, [ 0, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 8, 11 ]) );
+  var line = matrix.lineNdGet( 0, [ 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2,1';
+  var exp = _.vectorAdapter.from( new F32x([ 9, 12 ]) );
+  var line = matrix.lineNdGet( 0, [ 2, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:0,3';
+  var exp = _.vectorAdapter.from( new F32x([ 19, 22 ]) );
+  var line = matrix.lineNdGet( 0, [ 0, 3 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:1,3';
+  var exp = _.vectorAdapter.from( new F32x([ 20, 23 ]) );
+  var line = matrix.lineNdGet( 0, [ 1, 3 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2,3';
+  var exp = _.vectorAdapter.from( new F32x([ 21, 24 ]) );
+  var line = matrix.lineNdGet( 0, [ 2, 3 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '2x3x4 d:1';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+
+  test.description = 'd:1 i:0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
+  var line = matrix.lineNdGet( 1, [ 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1,0';
+  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
+  var line = matrix.lineNdGet( 1, [ 1, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:0,1';
+  var exp = _.vectorAdapter.from( new F32x([ 7, 8, 9 ]) );
+  var line = matrix.lineNdGet( 1, [ 0, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 10, 11, 12 ]) );
+  var line = matrix.lineNdGet( 1, [ 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:0,3';
+  var exp = _.vectorAdapter.from( new F32x([ 19, 20, 21 ]) );
+  var line = matrix.lineNdGet( 1, [ 0, 3 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1,3';
+  var exp = _.vectorAdapter.from( new F32x([ 22, 23, 24 ]) );
+  var line = matrix.lineNdGet( 1, [ 1, 3 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '2x3x4 d:2';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+
+  test.description = 'd:2 i:0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 7, 13, 19 ]) );
+  var line = matrix.lineNdGet( 2, [ 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:2 i:1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 5, 11, 17, 23 ]) );
+  var line = matrix.lineNdGet( 2, [ 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:2 i:1,2';
+  var exp = _.vectorAdapter.from( new F32x([ 6, 12, 18, 24 ]) );
+  var line = matrix.lineNdGet( 2, [ 1, 2 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '1x3x4x2 d:2';
+  var matrix = _.Matrix.Make([ 1, 3, 4, 2 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+  ]);
+
+  test.description = 'd:3 i:0,0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 1 ]) );
+  var line = matrix.lineNdGet( 3, [ 0, 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:3 i:0,1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 5, 5 ]) );
+  var line = matrix.lineNdGet( 3, [ 0, 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:3 i:0,2,1';
+  var exp = _.vectorAdapter.from( new F32x([ 6, 6 ]) );
+  var line = matrix.lineNdGet( 3, [ 0, 2, 1 ] );
+  test.identical( line, exp );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet() );
+
+  test.case = 'not enough arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0 ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, 0, [ 1 ], [ 2, 1 ] ) );
+
+  test.case = 'negative indexNd';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, [ -1 ] ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, [ 2 ] ) );
+
+  test.case = 'wrong type of indexNd';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, 2 ) );
+
+  test.case = 'negative dimension';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( -1, [ 1 ] ) );
+
+  test.case = 'value of dimension is bigger than number of dimensions';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 2, [ 1 ] ) );
+
+  test.case = 'wrong type of dimension';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( [ 0 ], [ 2, 2 ] ) );
 }
 
 // --
@@ -25955,194 +26209,6 @@ function accessors( test ) /* qqq2 : split test routine appropriately and extend
 
 //
 
-function lineNdGet( test )
-{
-
-  /* */
-
-  test.case = '2x3';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-
-  test.description = 'd:0 i:1';
-  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
-  var line = matrix.lineGet( 0, 1 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 0, [ 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
-  var line = matrix.lineGet( 0, 0 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 0, [ 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2';
-  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
-  var line = matrix.lineGet( 0, 2 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 0, [ 2 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
-  var line = matrix.lineGet( 1, 0 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 1, [ 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1';
-  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
-  var line = matrix.lineGet( 1, 1 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 1, [ 1 ] );
-  test.identical( line, exp );
-
-  /* */
-
-  test.case = '2x3x4 d:0';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-
-  test.description = 'd:0 i:0,0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
-  var line = matrix.lineNdGet( 0, [ 0, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:1,0';
-  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
-  var line = matrix.lineNdGet( 0, [ 1, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2,0';
-  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
-  var line = matrix.lineNdGet( 0, [ 2, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:0,1';
-  var exp = _.vectorAdapter.from( new F32x([ 7, 10 ]) );
-  var line = matrix.lineNdGet( 0, [ 0, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:1,1';
-  var exp = _.vectorAdapter.from( new F32x([ 8, 11 ]) );
-  var line = matrix.lineNdGet( 0, [ 1, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2,1';
-  var exp = _.vectorAdapter.from( new F32x([ 9, 12 ]) );
-  var line = matrix.lineNdGet( 0, [ 2, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:0,3';
-  var exp = _.vectorAdapter.from( new F32x([ 19, 22 ]) );
-  var line = matrix.lineNdGet( 0, [ 0, 3 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:1,3';
-  var exp = _.vectorAdapter.from( new F32x([ 20, 23 ]) );
-  var line = matrix.lineNdGet( 0, [ 1, 3 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2,3';
-  var exp = _.vectorAdapter.from( new F32x([ 21, 24 ]) );
-  var line = matrix.lineNdGet( 0, [ 2, 3 ] );
-  test.identical( line, exp );
-
-  /* */
-
-  test.case = '2x3x4 d:1';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-
-  test.description = 'd:1 i:0,0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
-  var line = matrix.lineNdGet( 1, [ 0, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1,0';
-  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
-  var line = matrix.lineNdGet( 1, [ 1, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:0,1';
-  var exp = _.vectorAdapter.from( new F32x([ 7, 8, 9 ]) );
-  var line = matrix.lineNdGet( 1, [ 0, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1,1';
-  var exp = _.vectorAdapter.from( new F32x([ 10, 11, 12 ]) );
-  var line = matrix.lineNdGet( 1, [ 1, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:0,3';
-  var exp = _.vectorAdapter.from( new F32x([ 19, 20, 21 ]) );
-  var line = matrix.lineNdGet( 1, [ 0, 3 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1,3';
-  var exp = _.vectorAdapter.from( new F32x([ 22, 23, 24 ]) );
-  var line = matrix.lineNdGet( 1, [ 1, 3 ] );
-  test.identical( line, exp );
-
-  /* */
-
-  test.case = '2x3x4 d:2';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-
-  test.description = 'd:2 i:0,0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 7, 13, 19 ]) );
-  var line = matrix.lineNdGet( 2, [ 0, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:2 i:1,1';
-  var exp = _.vectorAdapter.from( new F32x([ 5, 11, 17, 23 ]) );
-  var line = matrix.lineNdGet( 2, [ 1, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:2 i:1,2';
-  var exp = _.vectorAdapter.from( new F32x([ 6, 12, 18, 24 ]) );
-  var line = matrix.lineNdGet( 2, [ 1, 2 ] );
-  test.identical( line, exp );
-
-  /* */
-
-}
-
-//
-
 function lineNdGetIterate( test )
 {
 
@@ -38288,6 +38354,7 @@ let Self =
     eSet,
     lineGet,
     lineSet,
+    lineNdGet, /* aaa : add 4d cases */ /* Dmytro : added, extended by throwing test cases */
 
     // maker
 
@@ -38404,7 +38471,6 @@ let Self =
     expand,
     vectorToMatrix,
     accessors,
-    lineNdGet, /* qqq : add 4d cases */
     lineNdGetIterate,
 
     /* iterators */
