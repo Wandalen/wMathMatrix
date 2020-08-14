@@ -33912,25 +33912,6 @@ function subScalarWise( test )
 
 function distributionRangeSummaryValueRowWise( test )
 {
-  test.case = 'control mulRowWise';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
-  var x = [ 1, 3 ];
-  m1.mulRowWise( x );
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  12,
-     2,  15,
-     3,  18,
-  ]);
-  test.identical( m1, exp );
-
-  /* */
-
   test.case = 'control distributionRangeSummaryValueRowWise';
   var m1 = _.Matrix.Make([ 3, 2 ]).copy
   ([
@@ -33994,7 +33975,12 @@ function reduceToMeanRowWise( test )
   test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( _.Matrix.Make([ 1, 2 ]) ) );
 
   test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
   test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise([ 2, 1 ]) );
 }
 
 //
@@ -34403,41 +34389,91 @@ function mulColWise( test )
     15, 18, 21, 24,
   ]);
   test.identical( m, exp );
-
-  /* */
-
 }
 
 //
 
 function mulRowWise( test )
 {
+  test.case = 'dims[ 1 ] === 0, mul on Number';
+  var matrix = _.Matrix.Make([ 3, 0 ]);
+  var x = 10;
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 0 ]);
+  test.identical( got, exp );
+  test.is( got === matrix );
 
-  /* */
+  test.case = 'dims[ 1 ] === 0, mul on empty array';
+  var matrix = _.Matrix.Make([ 3, 0 ]);
+  var x = [];
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 0 ]);
+  test.identical( x, [] );
+  test.identical( got, exp );
+  test.is( got === matrix );
 
-  test.case = 'basic';
-
-  var x = [ 0, 1, 2, 3 ];
-  var m = _.Matrix.Make([ 2, 4 ]).copy
+  test.case = 'plane matrix, mul on Numbers';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
-    1, 2, 3, 4,
-    5, 6, 7, 8,
+     1,  4,
+     2,  5,
+     3,  6,
   ]);
-
-  m.mulRowWise( x );
-
-  var exp = [ 0, 1, 2, 3 ];
-  test.identical( x, exp );
-
-  var exp = _.Matrix.Make([ 2, 4 ]).copy
+  var x = 2;
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
-    0, 2, 6, 12,
-    0, 6, 14, 24,
+     2,  8,
+     4,  10,
+     6,  12,
   ]);
-  test.identical( m, exp );
+  test.identical( got, exp );
+  test.is( got === matrix );
 
-  /* */
+  test.case = 'plane matrix, mul on array of numbers';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var x = [ 1, 3 ];
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  12,
+     2,  15,
+     3,  18,
+  ]);
+  test.identical( x, [ 1, 3 ] );
+  test.identical( got, exp );
+  test.is( got === matrix );
 
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( null ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( [ 1, 2 ], [ 1, 2 ] ) );
+
+  test.case = 'wrong type of multiplicator';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'wrong length of multiplicator';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise([ 1, 2, 3 ]) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.mulRowWise([ 2, 1 ]) );
 }
 
 //
