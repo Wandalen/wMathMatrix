@@ -34041,12 +34041,141 @@ function distributionRangeSummaryValueRowWise( test )
 
   test.case = 'extra arguments';
   var matrix = _.Matrix.Make( 2 )
-  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryRowWise( [], [] ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryValueRowWise( [], [] ) );
 
   test.case = 'wrong type of dst';
   var matrix = _.Matrix.Make( 2 )
-  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryRowWise( null ) );
-  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryRowWise( _.Matrix.Make( 2 ) ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryValueRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryValueRowWise( _.Matrix.Make( 2 ) ) );
+}
+
+//
+
+function distributionRangeSummaryColWise( test )
+{
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = [];
+  var got = matrix.distributionRangeSummaryColWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var exp = [];
+  var got = matrix.distributionRangeSummaryColWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp =
+  [
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+  ];
+  var r = matrix.distributionRangeSummaryColWise();
+  test.identical( r, exp );
+
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var exp =
+  [
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+  ];
+  var got = matrix.distributionRangeSummaryColWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'distributionRangeSummaryColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  [
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 10, index : 2 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 111, index : 3 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 30, index : 2 },
+    },
+  ];
+  var got = matrix.distributionRangeSummaryColWise();
+  test.contains( got, exp );
+
+  test.case = 'distributionRangeSummaryColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var dst = [];
+  var exp =
+  [
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 10, index : 2 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 111, index : 3 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 30, index : 2 },
+    },
+  ];
+  var got = matrix.distributionRangeSummaryColWise( dst );
+  test.contains( got, exp );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( [], [] ) );
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( _.Matrix.Make( 2 ) ) );
 }
 
 //
@@ -34265,53 +34394,6 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
     ]),
   });
   matrix2.bufferNormalize();
-
-  /* */
-
-  test.case = 'distributionRangeSummaryColWise';
-
-  var exp =
-  [
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 10, index : 2 },
-    },
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 111, index : 3 },
-    },
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 30, index : 2 },
-    },
-  ]
-
-  var r = matrix1.distributionRangeSummaryColWise();
-  test.contains( r, exp );
-
-  var exp =
-  [
-  ]
-
-  var r = empty1.distributionRangeSummaryColWise();
-  test.identical( r, exp );
-
-  var exp =
-  [
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-  ]
-
-  var r = empty2.distributionRangeSummaryColWise();
-  test.identical( r, exp );
 
   /* */
 
@@ -38815,6 +38897,7 @@ let Self =
     addScalarWise,
     subScalarWise,
     distributionRangeSummaryValueRowWise,
+    distributionRangeSummaryColWise,
     reduceToMeanRowWise,
     reduceToMeanColWise,
     reduceToMeanScalarWise,
