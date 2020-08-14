@@ -33912,22 +33912,141 @@ function subScalarWise( test )
 
 function distributionRangeSummaryValueRowWise( test )
 {
-  test.case = 'control distributionRangeSummaryValueRowWise';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  [
+    [ NaN, NaN ],
+    [ NaN, NaN ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  [
+    [ NaN, NaN ],
+    [ NaN, NaN ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 1, without dst';
+  var matrix = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    1,
+    2,
+  ])
+  var exp =
+  [
+    [ 1, 1 ],
+    [ 2, 2 ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 1, with dst';
+  var matrix = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    1,
+    2,
+  ])
+  var exp =
+  [
+    [ 1, 1 ],
+    [ 2, 2 ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 2, without dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
-     2,  5,
-     3,  6,
+     5,  2,
+     6,  3,
   ]);
-
   var exp =
   [
     [ 1, 4 ],
     [ 2, 5 ],
     [ 3, 6 ],
-  ]
-  var got = m1.distributionRangeSummaryValueRowWise();
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
   test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 2, with dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     5,  2,
+     6,  3,
+  ]);
+  var exp =
+  [
+    [ 1, 4 ],
+    [ 2, 5 ],
+    [ 3, 6 ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] > 2, without dst';
+  var matrix = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+     4,  2,  5,  1,
+     6,  3, -1,  4,
+  ]);
+  var exp =
+  [
+    [  1,  5 ],
+    [ -1,  6 ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] > 2, with dst';
+  var matrix = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+     4,  2,  5,  1,
+     6,  3, -1,  4,
+  ]);
+  var exp =
+  [
+    [  1,  5 ],
+    [ -1,  6 ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryRowWise( [], [] ) );
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryRowWise( _.Matrix.Make( 2 ) ) );
 }
 
 //
