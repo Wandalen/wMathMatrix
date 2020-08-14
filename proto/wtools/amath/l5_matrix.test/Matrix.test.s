@@ -5887,6 +5887,69 @@ function lineNdGetIterate( test )
 
 //
 
+function rowGet( test )
+{
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet( 0, 0 ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet( -1 ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet( 2 ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet([ 0 ]) );
+}
+
+//
+
 function colGet( test )
 {
   _.vectorAdapter.contextsForTesting({ onEach : act });
@@ -26417,29 +26480,6 @@ function accessors( test ) /* qqq2 : split test routine appropriately and extend
 
   /* */
 
-  test.case = 'rowGet';
-
-  remake();
-
-  test.identical( m23.rowGet( 0 ), fvec([ 1, 2, 3 ]) );
-  test.identical( m23.rowGet( 1 ), fvec([ 4, 5, 6 ]) );
-  test.identical( m32.rowGet( 0 ), fvec([ 1, 2 ]) );
-  test.identical( m32.rowGet( 2 ), fvec([ 5, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.rowGet() );
-    test.shouldThrowErrorSync( () => m23.rowGet( -1 ) );
-    test.shouldThrowErrorSync( () => m23.rowGet( 2 ) );
-
-    test.shouldThrowErrorSync( () => m32.rowGet( -1 ) );
-    test.shouldThrowErrorSync( () => m32.rowGet( 3 ) );
-    test.shouldThrowErrorSync( () => m32.rowGet( 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.rowGet( [ 0 ] ) );
-  }
-
-  /* */
-
   test.case = 'rowSet';
 
   remake();
@@ -38393,6 +38433,7 @@ let Self =
     lineSet,
     lineNdGet, /* aaa : add 4d cases */ /* Dmytro : added, extended by throwing test cases */
     lineNdGetIterate,
+    rowGet,
     colGet,
 
     // maker
