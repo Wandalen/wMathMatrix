@@ -197,7 +197,7 @@ Unlike the previous example, strides in this example are specified explicitly, b
 
 The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `inputRowMajor` specifies in which sequence row and column go.
 
-Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
+Alternatively, one of the [static routines](doc/eng/tutorial/MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
 
 ### Non-standard strides
 
@@ -208,16 +208,16 @@ var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  offset : 8,
-  strides : [ -2, -1 ],
+  strides : [ 3, 1 ],
+  offset : 1,
 });
 
 console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
 Matrix.Array.3x2 ::
-  +9 +8
-  +7 +6
-  +5 +4
+  +1 +2
+  +4 +5
+  +7 +8
 */
 ```
 
@@ -384,7 +384,7 @@ Matrix.Array.4x3 ::
 
 ![Submatrices.png](doc/img/Submatrices.png)
 
-The diagram above shows how two submatrices `sub1` and` sub2` of the same matrix `matrix` can be used independently of each other. Matrices do not own data buffer but refer to it. The dotted lines show how the matrices are put in the buffer and the corresponding matrix. All matrices use the same buffer, so common scalars of submatrices have increased `20` times.
+The diagram above shows how two submatrices `sub1` and `sub2` of the same matrix `matrix` can be used independently of each other. Matrices do not own data buffer but refer to it. The dotted lines show how the matrices are put in the buffer and the corresponding matrix. All matrices use the same buffer, so common scalars of submatrices have increased `20` times.
 
 ### Multidimensional matrix
 
