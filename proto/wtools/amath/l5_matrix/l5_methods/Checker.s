@@ -222,7 +222,7 @@ function isDiagonal( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -283,7 +283,7 @@ function isIdentity( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -345,7 +345,7 @@ function isScalar( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -409,7 +409,7 @@ function isZero( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -464,7 +464,7 @@ function isUpperTriangle( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let nrow = self.nrow;
   let ncol = self.ncol;
@@ -522,7 +522,7 @@ function isLowerTriangle( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let nrow = self.nrow;
   let ncol = self.ncol;
@@ -579,7 +579,7 @@ function isOrthogonal( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -658,7 +658,7 @@ function isSingular()
   https://stackoverflow.com/questions/13145948/how-to-find-out-if-a-matrix-is-singular
   */
 
-  let accuracy = self.accuracySqrt;
+  let accuracy = self.accuracy;
   // let det = self.determinant()
   let det = self._determinantWithBareiss()
 
@@ -707,7 +707,7 @@ function isSymmetric( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -772,7 +772,7 @@ function isSkewSymmetric( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -837,7 +837,7 @@ function isNilpotent( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -900,7 +900,7 @@ function isInvolutary( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
@@ -957,7 +957,7 @@ function isIdempotent( accuracy )
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
   if( !_.numberIs( accuracy ) || arguments.length === 0 )
-  accuracy = self.accuracySqrt;
+  accuracy = self.accuracy;
 
   let ncol = self.ncol;
   let nrow = self.nrow;
