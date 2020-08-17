@@ -2727,9 +2727,6 @@ function isInvolutary( test )
 
 function isIdempotent( test )
 {
-
-  /* */
-
   test.description = 'Matrix remains unchanged';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2777,10 +2774,10 @@ function isIdempotent( test )
   test.description = 'Matrix Lower Triangular';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0.5,   0,   0,  0,
-    +1,   -1,   0,  0,
-    +2,    0,   1,  0,
-    -1,  3.4, - 1,  2
+    +0.5,  0,    0,   0,
+    +1,   -1,    0,   0,
+    +2,    0,    1,   0,
+    -1,    3.4, -1,   2
   ]);
   test.isNot( m1.isIdempotent() );
 
@@ -2791,9 +2788,9 @@ function isIdempotent( test )
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     1,   0,   3,   4,
-    0, - 1,   2,   0,
-    0,   0,   1, - 1,
-    0,   0,   0,  0.5
+    0,  -1,   2,   0,
+    0,   0,   1,  -1,
+    0,   0,   0,   0.5
   ]);
   test.isNot( m1.isIdempotent() );
 
@@ -2803,8 +2800,8 @@ function isIdempotent( test )
   var m1 = _.Matrix.Make([ 3, 4 ]).copy
   ([
     1,   0,   3,   4,
-    0, - 1,   2,   0,
-    3,   2,   1, - 1,
+    0,  -1,   2,   0,
+    3,   2,   1,  -1,
   ]);
   test.isNot( m1.isIdempotent() );
 
@@ -2837,9 +2834,9 @@ function isIdempotent( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
-   +2,      -2+1e-8, -4,
-   -1-1e-8, +3+1e-8, +4,
-   +1,      -2,      -3
+    +2,      -2+1e-8, -4,
+    -1-1e-8, +3+1e-8, +4,
+    +1,      -2,      -3
   ]);
   test.is( m1.isIdempotent() );
 
