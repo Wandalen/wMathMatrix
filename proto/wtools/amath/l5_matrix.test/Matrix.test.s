@@ -35127,74 +35127,93 @@ function reduceToMaxValueRowWise( test )
 
 //
 
-function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
+function reduceToMaxValueColWise( test )
 {
-  test.case = 'data';
+  test.case = 'dims[ 0 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = [];
+  var got = matrix.reduceToMaxValueColWise();
+  test.identical( got, _.vectorAdapter.from( exp ) );
 
-  var buffer = new I32x
-  ([
-    1, 2, 3, 4, 5, 6
-  ]);
+  test.case = 'dims[ 0 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var exp = [];
+  var got = matrix.reduceToMaxValueColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, _.vectorAdapter.from( exp ) );
+  test.is( got._vectorBuffer === dst );
 
-  var m32 = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 2 ],
-    inputRowMajor : 0,
-  });
+  /* */
 
-  var empty1 = _.Matrix.Make([ 2, 0 ]);
-  empty1.buffer = new F64x();
-  test.identical( empty1.dims, [ 2, 0 ] );
-  test.identical( empty1.stridesEffective, [ 1, 2 ] );
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp = [ -Infinity, -Infinity ];
+  var got = matrix.reduceToMaxValueColWise();
+  test.identical( got, _.vectorAdapter.from( exp ) );
 
-  var empty2 = _.Matrix.Make([ 0, 2 ]);
-  test.identical( empty2.dims, [ 0, 2 ] );
-  test.identical( empty2.stridesEffective, [ 1, 0 ] );
-  empty2.buffer = new F64x();
-  test.identical( empty2.dims, [ 0, 2 ] );
-  test.identical( empty2.stridesEffective, [ 1, 0 ] );
-
-  var matrix1 = new _.Matrix
-  ({
-    dims : [ 4, 3 ],
-    inputRowMajor : 1,
-    buffer : new F64x
-    ([
-      0, 0, 0,
-      1, 2, 3,
-      10, 20, 30,
-      1, 111, 11,
-    ]),
-  });
-
-  var matrix2 = new _.Matrix
-  ({
-    dims : [ 4, 3 ],
-    inputRowMajor : 1,
-    buffer : new F64x
-    ([
-      10, 0, 3,
-      1, 20, 0,
-      0, 2, 30,
-      5, 10, 20,
-    ]),
-  });
-  matrix2.bufferNormalize();
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var exp = [ -Infinity, -Infinity ];
+  var got = matrix.reduceToMaxValueColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, _.vectorAdapter.from( exp ) );
+  test.is( got._vectorBuffer === dst );
 
   /* */
 
   test.case = 'reduceToMaxValueColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp = [ 10, 111, 30 ];
+  var got = matrix.reduceToMaxValueColWise();
+  test.contains( got, _.vectorAdapter.from( exp ) );
 
-  var max = matrix1.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([ 10, 111, 30 ]) );
-  var max = matrix2.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([ 10, 20, 30 ]) );
-  var max = empty1.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([]) );
-  var max = empty2.reduceToMaxValueColWise();
-  test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
+  test.case = 'reduceToMaxValueColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var dst = [];
+  var exp = [ 10, 111, 30 ];
+  var got = matrix.reduceToMaxValueColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, _.vectorAdapter.from( exp ) );
+  test.is( got._vectorBuffer === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxValueColWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxValueColWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxValueColWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxValueColWise([ 2, 1 ]) );
 }
+
+//
+
+// function colRowWiseOperations( test )  /* aaa2 : split test routine appropriately and extend each */ /* Dmytro : done */
+// {
+// }
 
 //
 
@@ -39414,7 +39433,7 @@ let Self =
     reduceToMaxColWise,
     reduceToMaxRowWise,
     reduceToMaxValueRowWise,
-    colRowWiseOperations,
+    reduceToMaxValueColWise,
     minmaxColWise,
 
     furthestClosest,
