@@ -507,8 +507,8 @@ let Extension =
   // _permutateDimension2,
   // permutateForward2,
   // permutateBackward2,
-  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
-  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
+  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */ /* Andrey: Covered. Added throwing cases with different length of permutation array and dims of the matrix */
+  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */ /* Andrey: Covered. Added throwing cases with different length of permutation array and dims of the matrix */
 
   _VectorPermutateDimension,
   VectorPermutateForward,
