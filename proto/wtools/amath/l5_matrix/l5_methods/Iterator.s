@@ -1272,6 +1272,8 @@ let Statics =
 
   ScalarWiseHomogeneous,
   ScalarWiseZip,
+  _LineFilter,
+  _LineMap,
 
 }
 
@@ -1298,11 +1300,9 @@ let Extension =
   colEachCollecting,
   rowEachCollecting,
 
-  _LineFilter,
   colFilter,
   rowFilter,
 
-  _LineMap,
   colMap,
   rowMap,
 
