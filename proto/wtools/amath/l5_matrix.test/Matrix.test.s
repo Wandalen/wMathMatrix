@@ -28554,7 +28554,8 @@ function PermutateRook( test )
 
   test.case = '0x0';
   var m = _.Matrix.Make([ 0, 0 ]);
-  var exp = {
+  var exp =
+  {
     m : m.clone(),
     x : null,
     permutates : [ [], [] ],
@@ -28570,14 +28571,14 @@ function PermutateRook( test )
 
   test.case = '1x1';
   var m = _.Matrix.Make([ 1, 1 ]).copy([ 5 ]);
-  var exp = {
+  var exp =
+  {
     m : m.clone(),
     x : null,
     permutates : [ [ 0 ], [ 0 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 0 // unnecessary?
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28591,7 +28592,8 @@ function PermutateRook( test )
     5, 10,
     10, 3,
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 2, 2 ]).copy
     ([
       10, 3,
@@ -28601,8 +28603,7 @@ function PermutateRook( test )
     permutates : [ [ 1, 0 ], [ 0, 1 ] ],
     npermutations : 1,
     nRowPermutations : 1,
-    nColPermutations : 0,
-    lineIndex : 1
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28617,7 +28618,8 @@ function PermutateRook( test )
     2, 3, 1,
     1, 2, 3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       3, 2, 1,
@@ -28628,8 +28630,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28644,7 +28645,8 @@ function PermutateRook( test )
     2, 3, 1,
     1, 4, 3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       3, 2, 1,
@@ -28655,8 +28657,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 2, 1 ], [ 0, 1, 2 ] ],
     npermutations : 1,
     nRowPermutations : 1,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28671,7 +28672,8 @@ function PermutateRook( test )
     2, 3, 1,
     -6, 2, 3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       -6, 2, 3,
@@ -28682,8 +28684,7 @@ function PermutateRook( test )
     permutates : [ [ 2, 0, 1 ], [ 0, 1, 2 ] ],
     npermutations : 2,
     nRowPermutations : 2,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28698,7 +28699,8 @@ function PermutateRook( test )
     2, 3, 1,
     1, 2, 3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       4, 3, 1,
@@ -28709,8 +28711,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 1, 0, 2 ] ],
     npermutations : 1,
     nRowPermutations : 0,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28725,7 +28726,8 @@ function PermutateRook( test )
     2, 3, -5,
     1, 2, 3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       4, 1, 3,
@@ -28736,8 +28738,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 1, 2, 0 ] ],
     npermutations : 2,
     nRowPermutations : 0,
-    nColPermutations : 2,
-    lineIndex : 2
+    nColPermutations : 2
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28752,7 +28753,8 @@ function PermutateRook( test )
     2, 3, -4,
     -5, 2, 3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       -5, 3, 2,
@@ -28763,8 +28765,7 @@ function PermutateRook( test )
     permutates : [ [ 2, 1, 0 ], [ 0, 2, 1 ] ],
     npermutations : 2,
     nRowPermutations : 1,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28779,7 +28780,8 @@ function PermutateRook( test )
     1, 3, 1, 1, 1,
     1, 1, 4, 1, 1
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 5 ]).copy
     ([
       5, 1, 1, 1, 1,
@@ -28790,8 +28792,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2, 3, 4 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28806,7 +28807,8 @@ function PermutateRook( test )
     1, 1, 4, 1, 1,
     5, 1, 1, 1, 1
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 5 ]).copy
     ([
       5, 1, 1, 1, 1,
@@ -28817,8 +28819,7 @@ function PermutateRook( test )
     permutates : [ [ 2, 1, 0 ], [ 0, 2, 1, 3, 4 ] ],
     npermutations : 2,
     nRowPermutations : 1,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28835,7 +28836,8 @@ function PermutateRook( test )
     1, 1, 1,
     1, 1, 1,
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 5, 3 ]).copy
     ([
       5, 1, 1,
@@ -28848,8 +28850,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2, 3, 4 ], [ 0, 1, 2 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28866,7 +28867,8 @@ function PermutateRook( test )
     1, 1, 1,
     5, 1, 1,
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 5, 3 ]).copy
     ([
       5, 1, 1,
@@ -28879,8 +28881,7 @@ function PermutateRook( test )
     permutates : [ [ 4, 1, 2, 3, 0 ], [ 0, 2, 1 ] ],
     npermutations : 2,
     nRowPermutations : 1,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
@@ -28897,7 +28898,8 @@ function PermutateRook( test )
   ]);
   var permutates = [ [ 0, 1, 2 ], [ 0, 1, 2 ] ];
 
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       -5, 3, 2,
@@ -28908,8 +28910,7 @@ function PermutateRook( test )
     permutates : [ [ 2, 1, 0 ], [ 0, 2, 1 ] ],
     npermutations : 2,
     nRowPermutations : 1,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m, permutates });
   test.identical( got, exp );
@@ -28926,7 +28927,8 @@ function PermutateRook( test )
     -5, 2, 3
   ]);
   var permutates = [ [ 2, 1, 0 ], [ 0, 2, 1 ] ];
-  var o = {
+  var o =
+  {
     m,
     x : null,
     permutates,
@@ -28934,7 +28936,8 @@ function PermutateRook( test )
     nRowPermutations : 2,
     nColPermutations : 2
   };
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       -5, 3, 2,
@@ -28945,8 +28948,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     npermutations : 7,
     nRowPermutations : 3,
-    nColPermutations : 3,
-    lineIndex : 2
+    nColPermutations : 3
   };
   var got = _.Matrix.PermutateRook( o );
   test.identical( got, exp );
@@ -28958,7 +28960,8 @@ function PermutateRook( test )
   test.case = '0x0, with x';
   var m = _.Matrix.Make([ 0, 0 ]);
   var x = _.Matrix.Make([ 0, 0 ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 0, 0 ]),
     x : _.Matrix.Make([ 0, 0 ]),
     permutates : [ [], [] ],
@@ -28984,7 +28987,8 @@ function PermutateRook( test )
     1,
     2
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 2, 2 ]).copy
     ([
       10, 3,
@@ -28998,10 +29002,8 @@ function PermutateRook( test )
     permutates : [ [ 1, 0 ], [ 0, 1 ] ],
     npermutations : 1,
     nRowPermutations : 1,
-    nColPermutations : 0,
-    lineIndex : 1
+    nColPermutations : 0
   };
-  debugger
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
   test.is( got.m === m );
@@ -29022,7 +29024,8 @@ function PermutateRook( test )
     2,
     3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       3, 2, 1,
@@ -29038,8 +29041,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29061,7 +29063,8 @@ function PermutateRook( test )
     2,
     3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       3, 2, 1,
@@ -29077,8 +29080,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 2, 1 ], [ 0, 1, 2 ] ],
     npermutations : 1,
     nRowPermutations : 1,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29100,7 +29102,8 @@ function PermutateRook( test )
     2,
     3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       4, 3, 1,
@@ -29116,10 +29119,8 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 1, 0, 2 ] ],
     npermutations : 1,
     nRowPermutations : 0,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
-  debugger
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
   test.is( got.m === m );
@@ -29140,7 +29141,8 @@ function PermutateRook( test )
     2,
     3
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 3 ]).copy
     ([
       4, 1, 3,
@@ -29156,8 +29158,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 1, 2, 0 ] ],
     npermutations : 2,
     nRowPermutations : 0,
-    nColPermutations : 2,
-    lineIndex : 2
+    nColPermutations : 2
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29179,7 +29180,8 @@ function PermutateRook( test )
     2,
     3,
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 5 ]).copy
     ([
       5, 1, 1, 1, 1,
@@ -29195,8 +29197,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2, 3, 4 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29218,7 +29219,8 @@ function PermutateRook( test )
     2,
     3,
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 3, 5 ]).copy
     ([
       5, 1, 1, 1, 1,
@@ -29234,8 +29236,7 @@ function PermutateRook( test )
     permutates : [ [ 2, 1, 0 ], [ 0, 2, 1, 3, 4 ] ],
     npermutations : 2,
     nRowPermutations : 1,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29261,7 +29262,8 @@ function PermutateRook( test )
     4,
     5
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 5, 3 ]).copy
     ([
       5, 1, 1,
@@ -29281,8 +29283,7 @@ function PermutateRook( test )
     permutates : [ [ 0, 1, 2, 3, 4 ], [ 0, 1, 2 ] ],
     npermutations : 0,
     nRowPermutations : 0,
-    nColPermutations : 0,
-    lineIndex : 2
+    nColPermutations : 0
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29308,7 +29309,8 @@ function PermutateRook( test )
     4,
     5
   ]);
-  var exp = {
+  var exp =
+  {
     m : _.Matrix.Make([ 5, 3 ]).copy
     ([
       5, 1, 1,
@@ -29328,8 +29330,7 @@ function PermutateRook( test )
     permutates : [ [ 4, 1, 2, 3, 0 ], [ 0, 2, 1 ] ],
     npermutations : 2,
     nRowPermutations : 1,
-    nColPermutations : 1,
-    lineIndex : 2
+    nColPermutations : 1
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
@@ -29374,7 +29375,8 @@ function PermutateRook( test )
       -5, 2, 3
     ]);
     var permutates = [ 2, 1, 0 ];
-    var o = {
+    var o =
+    {
       m,
       permutates,
       npermutations : 5,

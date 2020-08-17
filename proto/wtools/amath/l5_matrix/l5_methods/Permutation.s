@@ -353,6 +353,8 @@ function PermutateRook_body( o )
     proto._PermutateLineRook.body.call( proto, o );
   }
 
+  delete o.lineIndex
+
   return o;
 }
 
