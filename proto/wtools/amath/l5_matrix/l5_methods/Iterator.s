@@ -912,23 +912,27 @@ function rowEachCollecting( onEach , args , returningNumber )
 
 //
 
-function _lineFilter( o )
+function _LineFilter( o )
 {
-  let self = this;
-  o = _.routineOptions( _lineFilter, arguments );
 
-  let length = self.dimsEffective[ o.dim ? 0 : 1 ];
-  let result = o.dst || _.Matrix.Make( self.dims )
+  o = _.routineOptions( _LineFilter, arguments );
+  _.assert( _.routineIs( o.onLine ) );
+  _.assert( _.matrixIs( o.src ) );
+  _.assert( o.dst === null || _.matrixIs( o.dst ) );
+  _.assert( o.dim === 0 || o.dim === 1 );
+
+  let length = o.src.dimsEffective[ o.dim ? 0 : 1 ];
+  let result = o.dst || _.Matrix.Make( o.src.dims )
   let dsti = 0;
 
   for( let i = 0, l = length ; i < l ; i++ )
   {
-    let line = self.lineGet( o.dim, i );
+    let line = o.src.lineGet( o.dim, i );
     let it = Object.create( null );
     it.line = line;
     it.index = i;
-    it.matrix = self;
-    let resLine = o.onLine.call( self, it );
+    it.matrix = o.src;
+    let resLine = o.onLine.call( o.src, it );
     if( _.vectorIs( resLine ) )
     {
       _.assert( line.length === resLine.length );
@@ -949,9 +953,10 @@ function _lineFilter( o )
   return result
 }
 
-_lineFilter.defaults =
+_LineFilter.defaults =
 {
   onLine : null,
+  src : null,
   dst : null,
   dim : null
 }
@@ -1008,12 +1013,12 @@ function colFilter( dst, onCol )
   {
     dst = self
   }
-  _.assert( dst === null || _.matrixIs( dst ) );
 
-  let result = self._lineFilter
+  let result = _LineFilter
   ({
     onLine : onCol,
     dst,
+    src : self,
     dim : 0
   });
 
@@ -1070,12 +1075,12 @@ function rowFilter( dst, onRow )
   {
     dst = self
   }
-  _.assert( dst === null || _.matrixIs( dst ) );
 
-  let result = self._lineFilter
+  let result = _LineFilter
   ({
     onLine : onRow,
     dst,
+    src : self,
     dim : 1
   });
 
@@ -1084,22 +1089,25 @@ function rowFilter( dst, onRow )
 
 //
 
-function _lineMap( o )
+function _LineMap( o )
 {
-  let self = this;
-  o = _.routineOptions( _lineMap, arguments );
+  o = _.routineOptions( _LineMap, arguments );
+  _.assert( _.routineIs( o.onLine ) );
+  _.assert( _.matrixIs( o.src ) );
+  _.assert( o.dst === null || _.matrixIs( o.dst ) );
+  _.assert( o.dim === 0 || o.dim === 1 );
 
-  let length = self.dimsEffective[ o.dim ? 0 : 1 ];
-  let result = o.dst || _.Matrix.Make( self.dims )
+  let length = o.src.dimsEffective[ o.dim ? 0 : 1 ];
+  let result = o.dst || _.Matrix.Make( o.src.dims )
 
   for( let i = 0, l = length ; i < l ; i++ )
   {
-    let line = self.lineGet( o.dim, i );
+    let line = o.src.lineGet( o.dim, i );
     let it = Object.create( null );
     it.line = line;
     it.index = i;
-    it.matrix = self;
-    let resLine = o.onLine.call( self, it );
+    it.matrix = o.src;
+    let resLine = o.onLine.call( o.src, it );
     if( _.vectorIs( resLine ) )
     {
       _.assert( line.length === resLine.length );
@@ -1117,10 +1125,11 @@ function _lineMap( o )
   return result
 }
 
-_lineMap.defaults =
+_LineMap.defaults =
 {
   onLine : null,
   dst : null,
+  src : null,
   dim : null
 }
 
@@ -1176,12 +1185,12 @@ function colMap( dst, onCol )
   {
     dst = self
   }
-  _.assert( dst === null || _.matrixIs( dst ) );
 
-  let result = self._lineMap
+  let result = _LineMap
   ({
     onLine : onCol,
     dst,
+    src : self,
     dim : 0
   });
 
@@ -1240,12 +1249,12 @@ function rowMap( dst, onRow )
   {
     dst = self
   }
-  _.assert( dst === null || _.matrixIs( dst ) );
 
-  let result = self._lineMap
+  let result = _LineMap
   ({
     onLine : onRow,
     dst,
+    src : self,
     dim : 1
   });
 
@@ -1289,11 +1298,11 @@ let Extension =
   colEachCollecting,
   rowEachCollecting,
 
-  _lineFilter,
+  _LineFilter,
   colFilter,
   rowFilter,
 
-  _lineMap,
+  _LineMap,
   colMap,
   rowMap,
 
