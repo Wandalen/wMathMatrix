@@ -34781,6 +34781,142 @@ function reduceToMeanScalarWise( test )
 
 //
 
+function reduceToMaxRowWise( test )
+{
+  test.case = 'dims[ 0 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  [
+    { container : null, index : -1, value : -Infinity },
+    { container : null, index : -1, value : -Infinity },
+  ];
+  var got = matrix.reduceToMaxRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 0 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var exp =
+  [
+    { container : null, index : -1, value : -Infinity },
+    { container : null, index : -1, value : -Infinity },
+  ];
+  var got = matrix.reduceToMaxRowWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp = [];
+  var got = matrix.reduceToMaxRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var exp = [];
+  var got = matrix.reduceToMaxRowWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'flat matrix, without dst';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  [
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 0, 0 ]) ),
+      index : 0,
+      value : 0
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) ),
+      index : 2,
+      value : 3
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 10, 20, 30 ]) ),
+      index : 2,
+      value : 30
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 1, 111, 11 ]) ),
+      index : 1,
+      value : 111
+    }
+  ];
+  var got = matrix.reduceToMaxRowWise();
+  test.contains( got, exp );
+
+  test.case = 'flat matrix, with dst';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var dst = [];
+  var exp =
+  [
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 0, 0 ]) ),
+      index : 0,
+      value : 0
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) ),
+      index : 2,
+      value : 3
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 10, 20, 30 ]) ),
+      index : 2,
+      value : 30
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 1, 111, 11 ]) ),
+      index : 1,
+      value : 111
+    }
+  ];
+  var got = matrix.reduceToMaxRowWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxRowWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxRowWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxRowWise([ 2, 1 ]) );
+}
+
+//
+
 function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
 {
   test.case = 'data';
@@ -34866,24 +35002,6 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
   test.identical( max, _.vad.from([]) );
   var max = empty2.reduceToMaxValueColWise();
   test.identical( max, _.vad.from([ -Infinity, -Infinity ]) );
-
-  /* */
-
-  test.case = 'reduceToMaxRowWise';
-
-  var max = matrix1.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 0, 3, 30, 111 ] );
-  var max = matrix2.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 10, 20, 30, 20 ] );
-
-  var max = empty1.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ -Infinity, -Infinity ] );
-  var max = empty2.reduceToMaxRowWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [] );
 
   /* */
 
@@ -39135,6 +39253,7 @@ let Self =
     reduceToMeanRowWise,
     reduceToMeanColWise,
     reduceToMeanScalarWise,
+    reduceToMaxRowWise,
     colRowWiseOperations,
     minmaxColWise,
 
