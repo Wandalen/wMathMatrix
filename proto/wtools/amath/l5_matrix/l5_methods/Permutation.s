@@ -318,7 +318,7 @@ function PermutateRook_pre( routine, args )
   _.mapSupplement( o2, routine.defaults );
   // _.assert( o2.y === undefined );
   _.assert( o2.x === null || _.matrixIs( o2.x ) );
-  _.assert( o2.x === null || o2.m.ncol === o2.x.nrow );
+  _.assert( o2.x === null || o2.m.nrow === o2.x.nrow );
 
   if( !o2.permutates )
   {

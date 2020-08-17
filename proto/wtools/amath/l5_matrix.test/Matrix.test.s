@@ -28992,8 +28992,8 @@ function PermutateRook( test )
     ]),
     x : _.Matrix.Make([ 2, 1 ]).copy
     ([
-      1,
-      2
+      2,
+      1
     ]),
     permutates : [ [ 1, 0 ], [ 0, 1 ] ],
     npermutations : 1,
@@ -29071,8 +29071,8 @@ function PermutateRook( test )
     x : _.Matrix.Make([ 3, 1 ]).copy
     ([
       1,
-      2,
-      3
+      3,
+      2
     ]),
     permutates : [ [ 0, 2, 1 ], [ 0, 1, 2 ] ],
     npermutations : 1,
@@ -29109,8 +29109,8 @@ function PermutateRook( test )
     ]),
     x : _.Matrix.Make([ 3, 1 ]).copy
     ([
-      2,
       1,
+      2,
       3
     ]),
     permutates : [ [ 0, 1, 2 ], [ 1, 0, 2 ] ],
@@ -29149,9 +29149,9 @@ function PermutateRook( test )
     ]),
     x : _.Matrix.Make([ 3, 1 ]).copy
     ([
+      1,
       2,
-      3,
-      1
+      3
     ]),
     permutates : [ [ 0, 1, 2 ], [ 1, 2, 0 ] ],
     npermutations : 2,
@@ -29173,13 +29173,11 @@ function PermutateRook( test )
     1, 3, 1, 1, 1,
     1, 1, 4, 1, 1
   ]);
-  var x = _.Matrix.Make([ 5, 1 ]).copy
+  var x = _.Matrix.Make([ 3, 1 ]).copy
   ([
     1,
     2,
     3,
-    4,
-    5
   ]);
   var exp = {
     m : _.Matrix.Make([ 3, 5 ]).copy
@@ -29188,13 +29186,11 @@ function PermutateRook( test )
       1, 3, 1, 1, 1,
       1, 1, 4, 1, 1
     ]),
-    x : _.Matrix.Make([ 5, 1 ]).copy
+    x : _.Matrix.Make([ 3, 1 ]).copy
     ([
       1,
       2,
-      3,
-      4,
-      5
+      3
     ]),
     permutates : [ [ 0, 1, 2 ], [ 0, 1, 2, 3, 4 ] ],
     npermutations : 0,
@@ -29216,13 +29212,11 @@ function PermutateRook( test )
     1, 1, 4, 1, 1,
     5, 1, 1, 1, 1
   ]);
-  var x = _.Matrix.Make([ 5, 1 ]).copy
+  var x = _.Matrix.Make([ 3, 1 ]).copy
   ([
     1,
     2,
     3,
-    4,
-    5
   ]);
   var exp = {
     m : _.Matrix.Make([ 3, 5 ]).copy
@@ -29231,13 +29225,11 @@ function PermutateRook( test )
       1, 4, 1, 1, 1,
       1, 1, 3, 1, 1
     ]),
-    x : _.Matrix.Make([ 5, 1 ]).copy
+    x : _.Matrix.Make([ 3, 1 ]).copy
     ([
-      1,
       3,
       2,
-      4,
-      5
+      1,
     ]),
     permutates : [ [ 2, 1, 0 ], [ 0, 2, 1, 3, 4 ] ],
     npermutations : 2,
@@ -29261,11 +29253,13 @@ function PermutateRook( test )
     1, 1, 1,
     1, 1, 1,
   ]);
-  var x = _.Matrix.Make([ 3, 1 ]).copy
+  var x = _.Matrix.Make([ 5, 1 ]).copy
   ([
     1,
     2,
-    3
+    3,
+    4,
+    5
   ]);
   var exp = {
     m : _.Matrix.Make([ 5, 3 ]).copy
@@ -29276,11 +29270,13 @@ function PermutateRook( test )
       1, 1, 1,
       1, 1, 1,
     ]),
-    x : _.Matrix.Make([ 3, 1 ]).copy
+    x : _.Matrix.Make([ 5, 1 ]).copy
     ([
       1,
       2,
-      3
+      3,
+      4,
+      5
     ]),
     permutates : [ [ 0, 1, 2, 3, 4 ], [ 0, 1, 2 ] ],
     npermutations : 0,
@@ -29304,11 +29300,13 @@ function PermutateRook( test )
     1, 1, 1,
     5, 1, 1,
   ]);
-  var x = _.Matrix.Make([ 3, 1 ]).copy
+  var x = _.Matrix.Make([ 5, 1 ]).copy
   ([
     1,
     2,
-    3
+    3,
+    4,
+    5
   ]);
   var exp = {
     m : _.Matrix.Make([ 5, 3 ]).copy
@@ -29319,11 +29317,13 @@ function PermutateRook( test )
       1, 1, 1,
       1, 1, 1,
     ]),
-    x : _.Matrix.Make([ 3, 1 ]).copy
+    x : _.Matrix.Make([ 5, 1 ]).copy
     ([
-      1,
+      5,
+      2,
       3,
-      2
+      4,
+      1
     ]),
     permutates : [ [ 4, 1, 2, 3, 0 ], [ 0, 2, 1 ] ],
     npermutations : 2,
@@ -29349,7 +29349,7 @@ function PermutateRook( test )
   test.shouldThrowErrorSync( () =>
   {
     var m = [ 3, 2, 1, 2, 3, -4, -5, 2, 3 ];
-    var got = _.Matrix._PermutateLineRook({ m });
+    var got = _.Matrix.PermutateRook({ m });
   });
 
   test.case = 'wrong type of o.x';
@@ -29361,7 +29361,7 @@ function PermutateRook( test )
       2, 3, -4,
       -5, 2, 3
     ]);
-    var got = _.Matrix._PermutateLineRook({ m, x : 5 });
+    var got = _.Matrix.PermutateRook({ m, x : 5 });
   });
 
   test.case = 'wrong type of o.permutates';
@@ -29381,24 +29381,24 @@ function PermutateRook( test )
       nRowPermutations : 2,
       nColPermutations : 2
     };
-    var got = _.Matrix._PermutateLineRook({ m, x : 5 });
+    var got = _.Matrix.PermutateRook({ m, x : 5 });
   });
 
-  test.case = 'm.ncol must be equal to x.nrow';
+  test.case = 'm.nrow must be equal to x.nrow';
   test.shouldThrowErrorSync( () =>
   {
-    var m = _.Matrix.Make([ 3, 3 ]).copy
+    var m = _.Matrix.Make([ 3, 2 ]).copy
     ([
-      3, 2, 1,
-      2, 3, -4,
-      -5, 2, 3
+      3, 2,
+      2, 3,
+      -5, 2,
     ]);
     var x = _.Matrix.Make([ 2, 1 ]).copy
     ([
       1,
       3
     ]);
-    var got = _.Matrix._PermutateLineRook({ m, x });
+    var got = _.Matrix.PermutateRook({ m, x });
   });
 
 }
