@@ -29407,6 +29407,89 @@ function PermutateRook( test )
 
 //
 
+function permutateRook( test )
+{
+  /* */
+
+  test.case = 'basic';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    3, 2, 1,
+    2, 3, -4,
+    -5, 2, 3
+  ]);
+  var exp =
+  {
+    m : _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      -5, 3, 2,
+      2, -4, 3,
+      3, 1, 2
+    ]),
+    x : null,
+    permutates : [ [ 2, 1, 0 ], [ 0, 2, 1 ] ],
+    npermutations : 2,
+    nRowPermutations : 1,
+    nColPermutations : 1
+  };
+  var got = m.permutateRook();
+  test.identical( got, exp );
+  test.is( got.m === m );
+
+  /* */
+
+  test.case = 'with options';
+  var m = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    3, 2, 1,
+    2, 3, -4,
+    -5, 2, 3
+  ]);
+  var x = _.Matrix.Make([ 3, 1 ]).copy
+  ([
+    1,
+    2,
+    3
+  ]);
+  var permutates = [ [ 2, 1, 0 ], [ 0, 2, 1 ] ];
+  var o =
+  {
+    x,
+    permutates,
+    npermutations : 0,
+    nRowPermutations : 0,
+    nColPermutations : 0
+  };
+  var exp =
+  {
+    m : _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      -5, 3, 2,
+      2, -4, 3,
+      3, 1, 2
+    ]),
+    x : _.Matrix.Make([ 3, 1 ]).copy
+    ([
+      3,
+      2,
+      1
+    ]),
+    permutates : [ [ 0, 1, 2 ], [ 0, 1, 2 ] ],
+    npermutations : 2,
+    nRowPermutations : 1,
+    nColPermutations : 1
+  };
+  var got = m.permutateRook( o );
+  test.identical( got, exp );
+  test.is( got.m === m );
+  test.is( got.x === x );
+  test.is( got.permutates === permutates );
+
+  /* */
+}
+
+//
+
 function submatrix( test )
 {
   let context = this;
@@ -35924,6 +36007,7 @@ let Self =
     _PermutateLineRookWithoutOptionX,
     _PermutateLineRookWithOptionX,
     PermutateRook,
+    permutateRook,
     submatrix,
     submatrixSelectLast,
     subspace, /* qqq : extend, please */
