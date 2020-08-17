@@ -854,10 +854,10 @@ function isDiagonal( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    1,  0+1e-5, 0, 0,
+    1,  0+1e-8, 0, 0,
     0, -1,      0, 0,
     0,  0,      4, 0,
-    0,  0-1e-5, -0, 5
+    0,  0-1e-8, -0, 5
   ]);
   var exp = true;
   var got = m1.isDiagonal();
@@ -882,10 +882,10 @@ function isDiagonal( test )
   test.description = 'With passed accuracy (fail)';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    1,  0+1e-7, 0, 0,
+    1,  0+1e-6, 0, 0,
     0, -1,      0, 0,
     0,  0,      2, 0,
-    0,  0-1e-7, -0, 3
+    0,  0-1e-6, -0, 3
   ]);
   var exp = false;
   var got = m1.isDiagonal( 1e-7 );
@@ -1032,10 +1032,10 @@ function isIdentity( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    1,  0+1e-5, 0, 0,
-    0,  1+1e-5, 0, 0,
+    1,  0+1e-8, 0, 0,
+    0,  1+1e-8, 0, 0,
     0,  0,      1, 0,
-    0,  0-1e-5, -0, 1
+    0,  0-1e-8, -0, 1
   ]);
   test.is( m1.isIdentity() );
 
@@ -1210,10 +1210,10 @@ function isScalar( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    5,  0+1e-5, 0, 0,
-    0,  5+1e-5, 0, 0,
+    5,  0+1e-8, 0, 0,
+    0,  5+1e-8, 0, 0,
     0,  0,      5, 0,
-    0,  0-1e-5, -0, 5
+    0,  0-1e-8, -0, 5
   ]);
   test.is( m1.isScalar() );
 
@@ -1382,10 +1382,10 @@ function isZero( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,  0+1e-5, 0, 0,
-    0,  0+1e-5, 0, 0,
+    0,  0+1e-8, 0, 0,
+    0,  0+1e-8, 0, 0,
     0,  0,      0, 0,
-    0,  0-1e-5, -0, 0
+    0,  0-1e-8, -0, 0
   ]);
   test.is( m1.isZero() );
 
@@ -1580,10 +1580,10 @@ function isUpperTriangle( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,  1+1e-5, 0, 3,
-    0,  5+1e-5, 0, 2,
+    0,  1+1e-8, 0, 3,
+    0,  5+1e-8, 0, 2,
     0,  0,      0, 0,
-    0,  0-1e-5, -0, 0
+    0,  0-1e-8, -0, 0
   ]);
   test.is( m1.isUpperTriangle() );
 
@@ -1780,10 +1780,10 @@ function isLowerTriangle( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,  0+1e-5, 0, 0,
-    0,  2+1e-5, 0, 0,
+    0,  0+1e-8, 0, 0,
+    0,  2+1e-8, 0, 0,
     0,  0,      0, 0,
-    4,  5-1e-5, -0, 0
+    4,  5-1e-8, -0, 0
   ]);
   test.is( m1.isLowerTriangle() );
 
@@ -1920,10 +1920,10 @@ function isOrthogonal( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0 +1e-5, 1 -1e-5, 0 +1e-5, 0 -1e-5,
-    1 +1e-5, 0 -1e-5, 0 -1e-5, 0 +1e-5,
-    0 +1e-5, 0 -1e-5, 1 +1e-5, 0 -1e-5,
-    0 +1e-5, 0 -1e-5, 0 -1e-5, 1 +1e-5
+    0 +1e-8, 1 -1e-8, 0 +1e-8, 0 -1e-8,
+    1 +1e-8, 0 -1e-8, 0 -1e-8, 0 +1e-8,
+    0 +1e-8, 0 -1e-8, 1 +1e-8, 0 -1e-8,
+    0 +1e-8, 0 -1e-8, 0 -1e-8, 1 +1e-8
   ]);
   test.is( m1.isOrthogonal() );
 
@@ -2215,10 +2215,10 @@ function isSymmetric( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,       0+1e-5, 0, 4,
-    0-1e-5,  2+1e-5, 0, 5,
+    0,       0+1e-8, 0, 4,
+    0-1e-8,  2+1e-8, 0, 5,
     0,       0,      0, 0,
-    4,       5-1e-5, -0, 0
+    4,       5-1e-8, -0, 0
   ]);
   test.is( m1.isSymmetric() );
 
@@ -2403,10 +2403,10 @@ function isSkewSymmetric( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,        5+1e-5, -8, -0.1,
-    -5-1e-5,  0+1e-5,  2,  8,
+    0,        5+1e-8, -8, -0.1,
+    -5-1e-8,  0+1e-8,  2,  8,
     8,       -2,       0,  0,
-    0.1,     -8-1e-5, -0,  0
+    0.1,     -8-1e-8, -0,  0
   ]);
   test.is( m1.isSkewSymmetric() );
 
@@ -2677,8 +2677,8 @@ function isInvolutary( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    -5,      -8+1e-6,  0,
-    3-1e-6,  5+1e-6,  0,
+    -5,      -8+1e-8,  0,
+    3-1e-8,  5+1e-8,  0,
     1,       2,      -1
   ]);
   test.is( m1.isInvolutary() );
@@ -2733,19 +2733,19 @@ function isIdempotent( test )
   test.description = 'Matrix remains unchanged';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,   0,   0,   0,
-    1, - 1,   0,   0,
-    0,   0,   1, - 1,
-    - 1,   0, - 1, 0
+    +0,   0,   0,   0,
+    +1,  -1,   0,   0,
+    +0,   0,   1,  -1,
+    -1,   0,  -1,   0
   ]);
   test.isNot( m1.isIdempotent() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,   0,   0,   0,
-    1, - 1,   0,   0,
-    0,   0,   1, - 1,
-    - 1,   0, - 1, 0
+    +0,   0,   0,   0,
+    +1,  -1,   0,   0,
+    +0,   0,   1,  -1,
+    -1,   0,  -1,   0
   ]);
   test.identical( m1, oldMatrix );
 
@@ -2754,9 +2754,9 @@ function isIdempotent( test )
   test.description = 'Matrix Is idempotent';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    2, -2, -4,
-    -1,  3,  4,
-    1, -2, -3
+    +2, -2, -4,
+    -1, +3, +4,
+    +1, -2, -3
   ]);
   test.is( m1.isIdempotent() );
 
@@ -2765,10 +2765,10 @@ function isIdempotent( test )
   test.description = 'Matrix not idempotent';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,   0,   2,   0,
-    1, - 1,   0,   0,
-    0,   0,   1, - 1,
-    - 1, 0,  - 1,  0
+    +0,  +0,  +2,  +0,
+    +1,  -1,  +0,  +0,
+    +0,  +0,  +1,  -1,
+    -1,  +0,  -1,  +0
   ]);
   test.isNot( m1.isIdempotent() );
 
@@ -2777,10 +2777,10 @@ function isIdempotent( test )
   test.description = 'Matrix Lower Triangular';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0.5,  0,   0,  0,
-    1,  - 1,   0,  0,
-    2,    0,   1,  0,
-    - 1, 3.4, - 1, 2
+    0.5,   0,   0,  0,
+    +1,   -1,   0,  0,
+    +2,    0,   1,  0,
+    -1,  3.4, - 1,  2
   ]);
   test.isNot( m1.isIdempotent() );
 
@@ -2825,10 +2825,10 @@ function isIdempotent( test )
   test.description = 'Zero matrix';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
-    0,  0, 0, 0,
-    0,  0, 0, 0,
-    0,  0,  0, 0,
-    0,  0, -0, 0
+    +0, +0, +0, +0,
+    +0, +0, +0, +0,
+    +0, +0, +0, +0,
+    +0, +0, -0, +0
   ]);
   test.is( m1.isIdempotent() );
 
@@ -2837,9 +2837,9 @@ function isIdempotent( test )
   test.description = 'With accuracy from enviroment';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    2,        -2+1e-5,  -4,
-    -1-1e-5,   3+1e-5,   4,
-    1,        -2,       -3
+   +2,      -2+1e-8, -4,
+   -1-1e-8, +3+1e-8, +4,
+   +1,      -2,      -3
   ]);
   test.is( m1.isIdempotent() );
 
@@ -2848,9 +2848,9 @@ function isIdempotent( test )
   test.description = 'With passed accuracy';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    2,   -2+1e-3,  -4,
-    -1,   3+1e-3,   4,
-    1,   -2,       -3
+    +2,   -2+1e-3,  -4,
+    -1,   +3+1e-3,  +4,
+    +1,   -2,       -3
   ]);
   test.is( m1.isIdempotent( 1e-2 ) );
 
@@ -2859,9 +2859,9 @@ function isIdempotent( test )
   test.description = 'With passed accuracy (fail)';
   var m1 = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    2,  -2+1e-3, -4,
-    -1,  3+1e-3,  4,
-    1,  -2,      -3
+    +2,  -2+1e-3, -4,
+    -1,  +3+1e-3, +4,
+    +1,  -2,      -3
   ]);
   test.isNot( m1.isIdempotent( 1e-5 ) );
 
@@ -30393,6 +30393,92 @@ function permutate( test )
   test.identical( m, original );
   test.identical( permutates, permutatesExpected );
 
+  /* */
+
+  test.case = 'permutateBackward bug';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    3, 4,
+    5, 6,
+    7, 8,
+    1, 2,
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
+  test.case = 'permutateForward bug';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    7, 8,
+    1, 2,
+    3, 4,
+    5, 6
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
 }
 
 //
@@ -39197,196 +39283,101 @@ function experiment( test )
 }
 
 experiment.experimental = 1;
-
 //
-
-function permutateFails( test )
-{
-
-  /* */
-
-  test.case = 'permutateBackward fail';
-
-  var exp = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    3, 4,
-    5, 6,
-    7, 8,
-    1, 2,
-  ]);
-
-  var m = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-    7, 8
-  ]);
-
-  var original = m.clone();
-
-  var permutates =
-  [
-    [ 1, 2, 3, 0 ],
-    [ 0, 1 ],
-  ]
-
-  var permutatesExpected =
-  [
-    [ 1, 2, 3, 0 ],
-    [ 0, 1 ],
-  ]
-
-  m.permutateForward( permutates );
-  test.identical( m, exp );
-  test.identical( permutates, permutatesExpected );
-
-  m.permutateBackward( permutates );
-  test.identical( m, original );
-  test.identical( permutates, permutatesExpected );
-
-  /* */
-
-  test.case = 'permutateForward fail';
-
-  var exp = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    7, 8,
-    1, 2,
-    3, 4,
-    5, 6
-  ]);
-
-  var m = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-    7, 8
-  ]);
-
-  var original = m.clone();
-
-  var permutates =
-  [
-    [ 3, 0, 1, 2 ],
-    [ 0, 1 ],
-  ]
-
-  var permutatesExpected =
-  [
-    [ 3, 0, 1, 2 ],
-    [ 0, 1 ],
-  ]
-
-  m.permutateForward( permutates );
-  test.identical( m, exp );
-  test.identical( permutates, permutatesExpected );
-
-  m.permutateBackward( permutates );
-  test.identical( m, original );
-  test.identical( permutates, permutatesExpected );
-
-  /* */
-
-}
-
-permutateFails.experimental = 1;
-
+// //
 //
-
-function myPermutate( test )
-{
-
-  /* */
-
-  test.case = 'permutateBackward2 don\'t fail';
-
-  var exp = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    3, 4,
-    5, 6,
-    7, 8,
-    1, 2,
-  ]);
-
-  var m = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-    7, 8
-  ]);
-
-  var original = m.clone();
-
-  var permutates =
-  [
-    [ 1, 2, 3, 0 ],
-    [ 0, 1 ],
-  ]
-
-  var permutatesExpected =
-  [
-    [ 1, 2, 3, 0 ],
-    [ 0, 1 ],
-  ]
-
-  m.permutateForward2( permutates );
-  test.identical( m, exp );
-  test.identical( permutates, permutatesExpected );
-
-  m.permutateBackward2( permutates );
-  test.identical( m, original );
-  test.identical( permutates, permutatesExpected );
-
-  /* */
-
-  test.case = 'permutateForward2 don\'t fail';
-
-  var exp = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    7, 8,
-    1, 2,
-    3, 4,
-    5, 6
-  ]);
-
-  var m = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-    7, 8
-  ]);
-
-  var original = m.clone();
-
-  var permutates =
-  [
-    [ 3, 0, 1, 2 ],
-    [ 0, 1 ],
-  ]
-
-  var permutatesExpected =
-  [
-    [ 3, 0, 1, 2 ],
-    [ 0, 1 ],
-  ]
-
-  m.permutateForward2( permutates );
-  test.identical( m, exp );
-  test.identical( permutates, permutatesExpected );
-
-  m.permutateBackward2( permutates );
-  test.identical( m, original );
-  test.identical( permutates, permutatesExpected );
-
-  /* */
-
-}
-
-myPermutate.experimental = 1;
+// function myPermutate( test )
+// {
+//
+//   /* */
+//
+//   test.case = 'permutateBackward2 don\'t fail';
+//
+//   var exp = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     3, 4,
+//     5, 6,
+//     7, 8,
+//     1, 2,
+//   ]);
+//
+//   var m = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     1, 2,
+//     3, 4,
+//     5, 6,
+//     7, 8
+//   ]);
+//
+//   var original = m.clone();
+//
+//   var permutates =
+//   [
+//     [ 1, 2, 3, 0 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   var permutatesExpected =
+//   [
+//     [ 1, 2, 3, 0 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   m.permutateForward2( permutates );
+//   test.identical( m, exp );
+//   test.identical( permutates, permutatesExpected );
+//
+//   m.permutateBackward2( permutates );
+//   test.identical( m, original );
+//   test.identical( permutates, permutatesExpected );
+//
+//   /* */
+//
+//   test.case = 'permutateForward2 don\'t fail';
+//
+//   var exp = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     7, 8,
+//     1, 2,
+//     3, 4,
+//     5, 6
+//   ]);
+//
+//   var m = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     1, 2,
+//     3, 4,
+//     5, 6,
+//     7, 8
+//   ]);
+//
+//   var original = m.clone();
+//
+//   var permutates =
+//   [
+//     [ 3, 0, 1, 2 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   var permutatesExpected =
+//   [
+//     [ 3, 0, 1, 2 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   m.permutateForward2( permutates );
+//   test.identical( m, exp );
+//   test.identical( permutates, permutatesExpected );
+//
+//   m.permutateBackward2( permutates );
+//   test.identical( m, original );
+//   test.identical( permutates, permutatesExpected );
+//
+//   /* */
+//
+// }
+//
+// myPermutate.experimental = 1;
 
 // --
 // declare
@@ -39680,8 +39671,8 @@ let Self =
     // experiments
 
     experiment,
-    permutateFails,
-    myPermutate
+    // permutateFails,
+    // myPermutate
 
   },
 
