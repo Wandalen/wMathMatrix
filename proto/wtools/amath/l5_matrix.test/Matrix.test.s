@@ -36016,9 +36016,6 @@ function triangulateGausian( test )
 
   function act( op )
   {
-
-    /* */
-
     test.case = `m : 0x0`;
 
     var mexpected = _.Matrix.Make([ 0, 0 ])
@@ -36307,9 +36304,6 @@ function triangulateGausian( test )
     var expected = op.containerMake([ -1, +2, +3, +2 ]);
     test.identical( triangulated.oy, expected );
     test.is( y === triangulated.oy );
-
-    /* */
-
   }
 
 }
@@ -36617,6 +36611,309 @@ function TriangulateGausian( test )
 
 //
 
+function triangulateGausianNormalizingNew( test )
+{
+
+  _.Matrix.ContextsForTesting( act );
+
+  function act( op )
+  {
+    test.case = `m : 0x0`;
+
+    var mexpected = _.Matrix.Make([ 0, 0 ])
+    var m = _.Matrix.Make([ 0, 0 ]);
+
+    var triangulated = m.triangulateGausianNormalizing();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 0x0, y : ${op.format}.0x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 0, 0 ])
+    var m = _.Matrix.Make([ 0, 0 ]);
+
+    var y = op.containerMake([]);
+
+    var triangulated = m.triangulateGausianNormalizing( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = `m : 0x2`;
+
+    var mexpected = _.Matrix.Make([ 0, 2 ])
+    var m = _.Matrix.Make([ 0, 2 ]);
+
+    var triangulated = m.triangulateGausianNormalizing();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 0x2, y : ${op.format}.0x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 0, 2 ])
+    var m = _.Matrix.Make([ 0, 2 ]);
+
+    var y = op.containerMake([]);
+
+    var triangulated = m.triangulateGausianNormalizing( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ 0, 0 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ 0, 0 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = `m : 2x0`;
+
+    var mexpected = _.Matrix.Make([ 2, 0 ])
+    var m = _.Matrix.Make([ 2, 0 ]);
+
+    var triangulated = m.triangulateGausianNormalizing();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 2x0, y : ${op.format}.0x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 2, 0 ])
+    var m = _.Matrix.Make([ 2, 0 ]);
+
+    var y = op.containerMake([ 1, 2 ]);
+
+    var triangulated = m.triangulateGausianNormalizing( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ 1, 2 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ 1, 2 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([ 1, 2 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ 1, 2 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = 'm : 3x3';
+
+    var mexpected = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1, -2, +2,
+      +0, +1, +0.4,
+      +0, +0, +1,
+    ]);
+
+    var m = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1,  -2,  +2,
+      +5, -15,  +8,
+      -2, -11, -11,
+    ]);
+
+    var triangulated = m.triangulateGausianNormalizing();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 3x3, y : ${op.format}.3x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1, -2, +2,
+      +0, +1, +0.4,
+      +0, +0, +1,
+    ]);
+
+    var m = _.Matrix.Make([ 3, 3 ]).copy
+    ([
+      +1,  -2,  +2,
+      +5, -15,  +8,
+      -2, -11, -11,
+    ]);
+
+    var y = op.containerMake([ 1, 1, 1 ]);
+
+    var triangulated = m.triangulateGausianNormalizing( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ +1, +0.8, -15 ]);
+    test.equivalent( triangulated.x, expected );
+    var expected = op.containerMake([ +1, +0.8, -15 ]);
+    test.equivalent( triangulated.ox, expected );
+    var expected = op.containerMake([ 1, 1, 1 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ 1, 1, 1 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = 'm : 3x4';
+
+    var m = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1, +1, +2, -1,
+      +3, +1, +7, -7,
+      +1, +7, +1, +7,
+    ]);
+
+    var exp = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1,  +1,  +2,   -1,
+      +0,  +1,  -0.5, +2,
+      +0,  +0,  +1,   -2,
+    ]);
+
+    var triangulated = m.triangulateGausianNormalizing();
+    test.equivalent( m, exp );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 3x4, y : ${op.format}.3x${op.dup}`;
+
+    var m = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1,  -2,  +2,  1,
+      +5, -15,  +8,  1,
+      -2, -11, -11,  1,
+    ]);
+
+    var exp = _.Matrix.Make([ 3, 4 ]).copy
+    ([
+      +1,  -2,  +2,    +1,
+      +0,  +1,  +0.4,  +0.8,
+      +0,  +0,  +1,   -15,
+    ]);
+
+    var y = op.containerMake([ 1, 2, 3 ]);
+    var triangulated = m.triangulateGausianNormalizing( y );
+    test.equivalent( m, exp );
+
+    var expected = op.matrixMake([ +1, +0.6, -14, +0 ]);
+    test.equivalent( triangulated.x, expected );
+    var expected = op.containerMake([ +1, +0.6, -14, +0 ]);
+    test.equivalent( triangulated.ox, expected );
+    var expected = op.containerMake([ 1, 2, 3 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ 1, 2, 3 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+
+    /* */
+
+    test.case = `m : 4x3`;
+
+    var mexpected = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +0, +1, -2,
+      +0, +0, +1,
+      +0, +0, +0,
+    ]);
+
+    var m = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +1, +0, +0,
+      +1, +2, +4,
+      +1, +4, +16,
+    ]);
+
+    var triangulated = m.triangulateGausianNormalizing();
+    test.equivalent( m, mexpected );
+
+    test.identical( triangulated.x, null );
+    test.identical( triangulated.ox, null );
+    test.identical( triangulated.y, null );
+    test.identical( triangulated.oy, null );
+
+    /* */
+
+    test.case = `m : 4x3, y : ${op.format}.3x${op.dup}`;
+
+    var mexpected = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +0, +1, -2,
+      +0, +0, +1,
+      +0, +0, +0,
+    ]);
+
+    var m = _.Matrix.Make([ 4, 3 ]).copy
+    ([
+      +1, -2, +4,
+      +1, +0, +0,
+      +1, +2, +4,
+      +1, +4, +16,
+    ]);
+
+    var y = op.containerMake([ -1, +2, +3, +2 ]);
+
+    var triangulated = m.triangulateGausianNormalizing( y );
+    test.equivalent( m, mexpected );
+
+    var expected = op.matrixMake([ -1, +1.5, -0.25, +0 ]);
+    test.identical( triangulated.x, expected );
+    var expected = op.containerMake([ -1, +1.5, -0.25, +0 ]);
+    test.identical( triangulated.ox, expected );
+    var expected = op.containerMake([ -1, +2, +3, +2 ]);
+    test.identical( triangulated.y, expected );
+    var expected = op.containerMake([ -1, +2, +3, +2 ]);
+    test.identical( triangulated.oy, expected );
+    test.is( y === triangulated.oy );
+  }
+
+}
+
+triangulateGausianNormalizingNew.accuracy = 1e-5;
+
+//
+
 function triangulateGausianNormalizing( test )
 {
 
@@ -36633,9 +36930,9 @@ function triangulateGausianNormalizing( test )
 
   var exp = _.Matrix.Make([ 3, 4 ]).copy
   ([
-    +1, +1, +2, -1,
-    +0, +1, -0.5, +2,
-    +0, +0, +1, -2,
+    +1,  +1,  +2,   -1,
+    +0,  +1,  -0.5, +2,
+    +0,  +0,  +1,   -2,
   ]);
 
   m.triangulateGausianNormalizing();
@@ -36647,16 +36944,16 @@ function triangulateGausianNormalizing( test )
 
   var m = _.Matrix.Make([ 3, 4 ]).copy
   ([
-    +1, -2, +2, 1,
-    +5, -15, +8, 1,
-    -2, -11, -11, 1,
+    +1,  -2,  +2,  1,
+    +5, -15,  +8,  1,
+    -2, -11, -11,  1,
   ]);
 
   var exp = _.Matrix.Make([ 3, 4 ]).copy
   ([
-    +1, -2, +2, +1.0,
-    +0, +1, 0.4, +0.8,
-    +0, +0, 1, -15,
+    +1,  -2,  +2,    +1.0,
+    +0,  +1,  +0.4,  +0.8,
+    +0,  +0,  +1,   -15
   ]);
 
   var triangulated = m.triangulateGausianNormalizing();
@@ -36669,16 +36966,16 @@ function triangulateGausianNormalizing( test )
   var mexpected = _.Matrix.Make([ 3, 3 ]).copy
   ([
     +1, -2, +2,
-    +0, +1, 0.4,
-    +0, +0, 1,
+    +0, +1,  0.4,
+    +0, +0,  1,
   ]);
 
   var yexpected = _.Matrix.MakeCol([ +1, +0.8, -15 ]);
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    +1, -2, +2,
-    +5, -15, +8,
+    +1,  -2,  +2,
+    +5, -15,  +8,
     -2, -11, -11,
   ]);
 
@@ -39618,6 +39915,7 @@ let Self =
 
     triangulateGausian,
     TriangulateGausian,
+    triangulateGausianNormalizingNew,
     /* qqq2 : write very similar test for methods of solver :
     TriangulateGausian,
     TriangulateGausianNormalizing,
