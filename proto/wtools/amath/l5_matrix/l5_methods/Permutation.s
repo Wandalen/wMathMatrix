@@ -260,8 +260,6 @@ function _PermutateLineRook_body( o )
     return false;
     _.longSwapElements( o.permutates[ 1 ], o.lineIndex, i2 );
     o.m.colsSwap( o.lineIndex, i2 );
-    if( o.x )
-    o.x.rowsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nColPermutations += 1;
   }
@@ -272,9 +270,8 @@ function _PermutateLineRook_body( o )
     return false;
     _.longSwapElements( o.permutates[ 0 ], o.lineIndex, i2 );
     o.m.rowsSwap( o.lineIndex, i2 );
-    // Andrey: solution array must swaps with cols, not rows
-    // if( o.x )
-    // o.x.rowsSwap( o.lineIndex, i2 );
+    if( o.x )
+    o.x.rowsSwap( o.lineIndex, i2 );
     o.npermutations += 1;
     o.nRowPermutations += 1;
   }
