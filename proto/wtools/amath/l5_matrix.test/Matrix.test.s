@@ -34917,6 +34917,132 @@ function reduceToMaxRowWise( test )
 
 //
 
+function reduceToMaxColWise( test )
+{
+  test.case = 'dims[ 0 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = [];
+  var got = matrix.reduceToMaxColWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 0 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var exp = [];
+  var got = matrix.reduceToMaxColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp =
+  [
+    { container : null, index : -1, value : -Infinity },
+    { container : null, index : -1, value : -Infinity },
+  ];
+  var got = matrix.reduceToMaxColWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var exp =
+  [
+    { container : null, index : -1, value : -Infinity },
+    { container : null, index : -1, value : -Infinity },
+  ];
+  var got = matrix.reduceToMaxColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'flat matrix, without dst';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  [
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 1, 10, 1 ]) ),
+      index : 2,
+      value : 10
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 2, 20, 111 ]) ),
+      index : 3,
+      value : 111
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 3, 30, 11 ]) ),
+      index : 2,
+      value : 30
+    },
+  ];
+  var got = matrix.reduceToMaxColWise();
+  test.contains( got, exp );
+
+  test.case = 'flat matrix, with dst';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var dst = [];
+  var exp =
+  [
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 1, 10, 1 ]) ),
+      index : 2,
+      value : 10
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 2, 20, 111 ]) ),
+      index : 3,
+      value : 111
+    },
+    {
+      container : _.vectorAdapter.from( new F32x([ 0, 3, 30, 11 ]) ),
+      index : 2,
+      value : 30
+    },
+  ];
+  var got = matrix.reduceToMaxColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxColWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxColWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxColWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMaxColWise([ 2, 1 ]) );
+}
+
+//
+
 function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
 {
   test.case = 'data';
@@ -34971,24 +35097,6 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
     ]),
   });
   matrix2.bufferNormalize();
-
-  /* */
-
-  test.case = 'reduceToMaxColWise';
-
-  var max = matrix1.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 10, 111, 30 ] );
-  var max = matrix2.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ 10, 20, 30 ] );
-
-  var max = empty1.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [] );
-  var max = empty2.reduceToMaxColWise();
-  max = _.select( max, '*/value' );
-  test.identical( max, [ -Infinity, -Infinity ] );
 
   /* */
 
@@ -39253,6 +39361,7 @@ let Self =
     reduceToMeanRowWise,
     reduceToMeanColWise,
     reduceToMeanScalarWise,
+    reduceToMaxColWise,
     reduceToMaxRowWise,
     colRowWiseOperations,
     minmaxColWise,
