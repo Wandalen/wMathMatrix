@@ -340,6 +340,354 @@ function constructorIsMatrix( test )
 
 //
 
+function isCol( test )
+{
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make([ 0, 1 ]);
+  test.is( matrix.isCol() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.is( matrix.isCol() );
+
+  test.case = 'From MakeCol from long';
+  var matrix = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  test.is( matrix.isCol() );
+
+  test.case = 'From FromVector';
+  var array = [ 1, 2, 3, 4, 5, 6 ];
+  var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
+  var matrix = _.Matrix.FromVector( vector );
+  test.is( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 5, 1, 1, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.is( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
+  test.is( matrix.isCol() );
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.isNot( matrix.isCol() );
+
+  test.case = 'From MakeRow from long';
+  var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 1, 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isCol() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
+  test.isNot( matrix.isCol() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.shouldThrowErrorSync( () => matrix.isCol( 1 ) );
+
+}
+
+//
+
+function isRow( test )
+{
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make([ 1, 0 ]);
+  test.is( matrix.isRow() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.is( matrix.isRow() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.is( matrix.isRow() );
+
+  test.case = 'From MakeRow from long';
+  var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
+  test.is( matrix.isRow() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 5, 1, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.is( matrix.isRow() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
+  test.is( matrix.isRow() );
+
+  /* */
+
+  test.case = 'Empty';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  test.isNot( matrix.isRow() );
+
+  test.case = 'Filled';
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isRow() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.isNot( matrix.isRow() );
+
+  test.case = 'From MakeCol from long';
+  var matrix = _.Matrix.MakeCol([ 1, 2, 3 ]);
+  test.isNot( matrix.isRow() );
+
+  test.case = 'From FromVector';
+  var array = [ 1, 2, 3, 4, 5, 6 ];
+  var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
+  var matrix = _.Matrix.FromVector( vector );
+  test.isNot( matrix.isRow() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 1, 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isRow() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
+  test.isNot( matrix.isRow() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.shouldThrowErrorSync( () => matrix.isRow( 1 ) );
+
+}
+
+//
+
+function isSquare( test )
+{
+
+  /* */
+
+  test.case = '0x0';
+  var matrix = _.Matrix.Make([ 0, 0 ]);
+  test.is( matrix.isSquare() );
+
+  test.case = '1x1';
+  var matrix = _.Matrix.Make([ 1, 1 ]).copy([ 1 ]);
+  test.is( matrix.isSquare() );
+
+  test.case = '2x2';
+  var matrix = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1,  2,
+    -3, 4
+  ]);
+  test.is( matrix.isSquare() );
+
+  test.case = 'From MakeSquare from number';
+  var matrix = _.Matrix.MakeSquare( 2 );
+  test.is( matrix.isSquare() );
+
+  test.case = 'From MakeSquare from long';
+  var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
+  test.is( matrix.isSquare() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 2, 2, 1, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
+  test.is( matrix.isSquare() );
+
+  /* */
+
+  test.case = '2x0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  test.isNot( matrix.isSquare() );
+
+  test.case = '5x1';
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isSquare() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.isNot( matrix.isSquare() );
+
+  test.case = 'From MakeRow from long';
+  var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
+  test.isNot( matrix.isSquare() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 2, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
+  test.isNot( matrix.isSquare() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
+  test.isNot( matrix.isSquare() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.shouldThrowErrorSync( () => matrix.isSquare( 1 ) );
+
+}
+
+//
+
+function isHorizontal( test )
+{
+
+  /* */
+
+  test.case = '0x2';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.is( matrix.isHorizontal() );
+
+  test.case = '1x2';
+  var matrix = _.Matrix.Make([ 1, 2 ]).copy([ 2, 2 ]);
+  test.is( matrix.isHorizontal() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.is( matrix.isHorizontal() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
+  test.is( matrix.isHorizontal() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 2, 2, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
+  test.is( matrix.isHorizontal() );
+
+  /* */
+
+  test.case = '2x0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  test.isNot( matrix.isHorizontal() );
+
+  test.case = '5x1';
+  var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isHorizontal() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.isNot( matrix.isHorizontal() );
+
+  test.case = 'From MakeSquare from number';
+  var matrix = _.Matrix.MakeSquare( 2 );
+  test.isNot( matrix.isHorizontal() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 2, 1, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
+  test.isNot( matrix.isHorizontal() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
+  test.isNot( matrix.isHorizontal() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.shouldThrowErrorSync( () => matrix.isHorizontal( 1 ) );
+
+}
+
+//
+
+function isVertical( test )
+{
+
+  /* */
+
+  test.case = '2x0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  test.is( matrix.isVertical() );
+
+  test.case = '2x1';
+  var matrix = _.Matrix.Make([ 2, 1 ]).copy([ 2, 2 ]);
+  test.is( matrix.isVertical() );
+
+  test.case = 'From MakeCol from number';
+  var matrix = _.Matrix.MakeCol( 2 );
+  test.is( matrix.isVertical() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
+  test.is( matrix.isVertical() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 2, 1, 2, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
+  test.is( matrix.isVertical() );
+
+  /* */
+
+  test.case = '0x2';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.isNot( matrix.isVertical() );
+
+  test.case = '1x5';
+  var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'From MakeRow from number';
+  var matrix = _.Matrix.MakeRow( 2 );
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'From MakeSquare from number';
+  var matrix = _.Matrix.MakeSquare( 2 );
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'Multidimensional';
+  var matrix = _.Matrix.Make([ 1, 2, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
+  test.isNot( matrix.isVertical() );
+
+  test.case = 'Dims with Infinity';
+  var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
+  test.isNot( matrix.isVertical() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed argumens';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  test.shouldThrowErrorSync( () => matrix.isVertical( 1 ) );
+
+}
+
+//
+
 function isDiagonal( test )
 {
 
@@ -484,6 +832,16 @@ function isDiagonal( test )
 
   /* */
 
+  test.description = 'From makeDiagonal';
+
+  var m1 = _.Matrix.MakeDiagonal( [ 2, 3, 1 ] );
+  var exp = true;
+
+  var got = m1.isDiagonal();
+  test.identical( got, exp );
+
+  /* */
+
   test.description = 'Zero matrix';
 
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
@@ -500,6 +858,48 @@ function isDiagonal( test )
 
   /* */
 
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-8, 0, 0,
+    0, -1,      0, 0,
+    0,  0,      4, 0,
+    0,  0-1e-8, -0, 5
+  ]);
+  var exp = true;
+  var got = m1.isDiagonal();
+  test.identical( got, exp );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-3, 0, 0,
+    0, -1,      0, 0,
+    0,  0,      3, 0,
+    0,  0-1e-3, -0, 4
+  ]);
+  var exp = true;
+  var got = m1.isDiagonal( 1e-2 );
+  test.identical( got, exp );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-6, 0, 0,
+    0, -1,      0, 0,
+    0,  0,      2, 0,
+    0,  0-1e-6, -0, 3
+  ]);
+  var exp = false;
+  var got = m1.isDiagonal( 1e-7 );
+  test.identical( got, exp );
+
+  /* */
+
   if( !Config.debug )
   return;
 
@@ -518,13 +918,532 @@ function isDiagonal( test )
 
 //
 
+function isIdentity( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix is not identity - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   0,   0,
+    1,   1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix is not identity - Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0,   1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,   1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix is not identity - Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,    0,   0,  0,
+    1,    1,   0,  0,
+    2,    0,   1,  0,
+    -1, 3.4,  -1,  1
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix is identity';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0, 0, 0,
+    0,  1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 1
+  ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'From makeIdentity';
+  var m1 = _.Matrix.MakeIdentity( [ 2, 3 ] );
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix is identity, not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1,  0,
+    0,  1,
+    0,  0,
+    0,  0
+  ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Matrix is identity 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    1,  0, 0, 0, 0, 0,
+    0,  1, 0, 0, 0, 0,
+    0,  0,  1, 0, 0, 0,
+    0,  0, -0, 1, 0, 0,
+    0,  0,  0, 0, 1, 0,
+    0,  0,  0, 0, 0, 1
+  ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.isNot( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-8, 0, 0,
+    0,  1+1e-8, 0, 0,
+    0,  0,      1, 0,
+    0,  0-1e-8, -0, 1
+  ]);
+  test.is( m1.isIdentity() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-3, 0, 0,
+    0,  1+1e-3, 0, 0,
+    0,  0,      1, 0,
+    0,  0-1e-3, -0, 1
+  ]);
+  test.is( m1.isIdentity( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0+1e-3, 0, 0,
+    0,  1+1e-3, 0, 0,
+    0,  0,      1, 0,
+    0,  0-1e-3, -0, 1
+  ]);
+  test.isNot( m1.isIdentity( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isIdentity( m1 ));
+
+}
+
+//
+
+function isScalar( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.isNot( m1.isScalar() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix is not scalar - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,   0,   0,   0,
+    1,   5,   0,   0,
+    0,   0,   5, - 1,
+    - 1, 0,  - 1,  5
+  ]);
+  test.isNot( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Matrix is not scalar - Diagonal';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,   0,   0,   0,
+    0,  -3,   0,   0,
+    0,   0,   5,   0,
+    0,   0,   0,   5
+  ]);
+  test.isNot( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Matrix is not scalar - Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,   0,   3,   4,
+    0,   5,   2,   0,
+    0,   0,   5, - 1,
+    0,   0,   0,   5
+  ]);
+  test.isNot( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Matrix is not scalar - Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,    0,   0,  0,
+    1,    5,   0,  0,
+    2,    0,   5,  0,
+    -1, 3.4,  -1,  5
+  ]);
+  test.isNot( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Matrix is scalar';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,  0, 0, 0,
+    0,  5, 0, 0,
+    0,  0,  5, 0,
+    0,  0, -0, 5
+  ]);
+  test.is( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Matrix is scalar, not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    5,  0,
+    0,  5,
+    0,  0,
+    0,  0
+  ]);
+  test.is( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Matrix is identity 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    7,  0, 0, 0, 0, 0,
+    0,  7, 0, 0, 0, 0,
+    0,  0,  7, 0, 0, 0,
+    0,  0, -0, 7, 0, 0,
+    0,  0,  0, 0, 7, 0,
+    0,  0,  0, 0, 0, 7
+  ]);
+  test.is( m1.isScalar() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isScalar() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,  0+1e-8, 0, 0,
+    0,  5+1e-8, 0, 0,
+    0,  0,      5, 0,
+    0,  0-1e-8, -0, 5
+  ]);
+  test.is( m1.isScalar() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,  0+1e-3, 0, 0,
+    0,  5+1e-3, 0, 0,
+    0,  0,      5, 0,
+    0,  0-1e-3, -0, 5
+  ]);
+  test.is( m1.isScalar( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    5,  0+1e-3, 0, 0,
+    0,  5+1e-3, 0, 0,
+    0,  0,      5, 0,
+    0,  0-1e-3, -0, 5
+  ]);
+  test.isNot( m1.isScalar( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isScalar( m1 ));
+
+}
+
+//
+
+function isZero( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.isNot( m1.isZero() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,    0,   0,   0, - 1,   1,
+    1,  - 1,   0,   0,   0,   0,
+    0,    0,   1, - 1,   0,   0,
+    - 1,  0, - 1,   0,   0, - 1
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix is not zero - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   0,   0,
+    1,   1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  1
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is not zero - Diagonal';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is not zero - Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0,   1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,   1
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is not zero - Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,    0,   0,  0,
+    1,    1,   0,  0,
+    2,    0,   1,  0,
+    -1, 3.4,  -1,  1
+  ]);
+  test.isNot( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is zero';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0,  0, 0,
+    0,  0,  0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'From MakeZero';
+  var m1 = _.Matrix.MakeZero( [ 2, 3 ] );
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is zero, not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0,  0,
+    0,  0,
+    0,  0,
+    0,  0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'Matrix is zero 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0,  0,  0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0,
+    0,  0, -0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0,
+    0,  0,  0, 0, 0, 0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-8, 0, 0,
+    0,  0+1e-8, 0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-8, -0, 0
+  ]);
+  test.is( m1.isZero() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 0,
+    0,  0+1e-3, 0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.is( m1.isZero( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 0,
+    0,  0+1e-3, 0, 0,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isZero( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isZero( m1 ));
+
+}
+
+//
+
 function isUpperTriangle( test )
 {
 
   /* */
 
   test.description = 'Matrix remains unchanged';
-
   var m1 = _.Matrix.Make([ 4, 6 ]).copy
   ([
     0,   0,   0,   0, - 1,   1,
@@ -532,10 +1451,7 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,   0,   0,
     - 1,   0, - 1,   0,   0, - 1
   ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.isNot( m1.isUpperTriangle() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -548,56 +1464,7 @@ function isUpperTriangle( test )
 
   /* */
 
-  test.description = 'Matrix Not triangular - square';
-
-  var m1 = _.Matrix.Make([ 4, 4 ]).copy
-  ([
-    0,   0,   0,   0,
-    1, - 1,   0,   0,
-    0,   0,   1, - 1,
-    - 1, 0,  - 1,  0
-  ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
-
-  /* */
-
-  test.description = 'Matrix Not diagonal - Lower Triangular';
-
-  var m1 = _.Matrix.Make([ 4, 4 ]).copy
-  ([
-    0.5,  0,   0,  0,
-    1,  - 1,   0,  0,
-    2,    0,   1,  0,
-    - 1, 3.4, - 1, 2
-  ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
-
-  /* */
-
-  test.description = 'Matrix not square';
-
-  var m1 = _.Matrix.Make([ 4, 2 ]).copy
-  ([
-    0.5,  0,
-    1,  - 1,
-    2,    0,
-    - 1, 3.4
-  ]);
-  var exp = false;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
-
-  /* */
-
   test.description = 'Matrix Upper Triangular';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     1,   0,   3,   4,
@@ -605,15 +1472,11 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Diagonal';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
@@ -621,15 +1484,35 @@ function isUpperTriangle( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  var exp = true;
+  test.is( m1.isUpperTriangle() );
 
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  /* */
+
+  test.description = 'Matrix Upper Triangular - vertical';
+  var m1 = _.Matrix.Make([ 5, 3 ]).copy
+  ([
+    0.5, 0, 5,
+    0, - 1, 0,
+    0,  0,  1,
+    0,  0, -0,
+    0,  0, -0
+  ]);
+  test.is( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 3, 5 ]).copy
+  ([
+    0.5, 0, 5, 2, 3,
+    0, - 1, 0, 2, 0,
+    0,  0,  1, 0, 3
+  ]);
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
   test.description = 'Matrix Upper Triangular 6x6';
-
   var m1 = _.Matrix.Make([ 6, 6 ]).copy
   ([
     0.5, 5, 8, 0, 3, -0.5,
@@ -639,31 +1522,11 @@ function isUpperTriangle( test )
     0,  0,  0, 0, 3, 7,
     0,  0,  0, 0, 0, - 1
   ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  test.is( m1.isUpperTriangle() );
 
   /* */
 
-  test.description = 'Matrix Upper Triangular not square';
-
-  var m1 = _.Matrix.Make([ 4, 3 ]).copy
-  ([
-    0.5, 0, 0,
-    0, - 1, 0,
-    0,  0,  1,
-    0,  0, -0
-  ]);
-  var exp = true;
-
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
-
-  /* */
-
-  test.description = 'Zero matrix ';
-
+  test.description = 'Zero matrix';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
@@ -671,10 +1534,89 @@ function isUpperTriangle( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  var exp = true;
+  test.is( m1.isUpperTriangle() );
 
-  var got = m1.isUpperTriangle();
-  test.identical( got, exp );
+  /* */
+
+  test.description = 'Matrix Not triangular - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is not Upper Triangular - vertical';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  0,
+    1,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is not Upper Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    0.5,  0, 0.5,  0,
+    1,  - 1, 1,  - 1
+  ]);
+  test.isNot( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  1+1e-8, 0, 3,
+    0,  5+1e-8, 0, 2,
+    0,  0,      0, 0,
+    0,  0-1e-8, -0, 0
+  ]);
+  test.is( m1.isUpperTriangle() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  1+1e-3, 0, 3,
+    0,  5+1e-3, 0, 2,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.is( m1.isUpperTriangle( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  1+1e-3, 0, 3,
+    0,  5+1e-3, 0, 2,
+    0,  0,      0, 0,
+    0,  0-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isUpperTriangle( 1e-7 ) );
 
   /* */
 
@@ -696,13 +1638,483 @@ function isUpperTriangle( test )
 
 //
 
+function isLowerTriangle( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,   0,   0,   0, - 1,   1,
+    1, - 1,   0,   0,   0,   0,
+    0,   0,   1, - 1,   0,   0,
+    - 1,   0, - 1,   0,   0, - 1
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
+  ([
+    0,   0,   0,   0, - 1,   1,
+    1, - 1,   0,   0,   0,   0,
+    0,   0,   1, - 1,   0,   0,
+    - 1,   0, - 1,   0,   0, - 1
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Diagonal';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular - vertical';
+  var m1 = _.Matrix.Make([ 5, 3 ]).copy
+  ([
+    0.5,   0,    0,
+    1,   - 1,    0,
+    2,     0,    1,
+    - 1, 3.4,  - 1,
+    1,     4,  - 1
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 3, 5 ]).copy
+  ([
+    0.5,  0,   0,  0,  0,
+    1,  - 1,   0,  0,  0,
+    2,    0,   1,  0,  0
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix not Lower Triangular - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix is Upper Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix not Lower Triangular - vertical';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  5,
+    0,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix not Lower Triangular - horizontal';
+  var m1 = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+    0.5,  5, 0.5,  5,
+    0,  - 1, 0,  - 1
+  ]);
+  test.isNot( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0,  0,  0, -0, 0, 0,
+    0, - 1, 0,  0, 0, 0,
+    4,  0,  1,  0, 0, 0,
+    0,  0, -0,  2, 0, 0,
+    0,  6,  0,  0, 3, 0,
+    7,  0,  0,  0, 0, - 1
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-8, 0, 0,
+    0,  2+1e-8, 0, 0,
+    0,  0,      0, 0,
+    4,  5-1e-8, -0, 0
+  ]);
+  test.is( m1.isLowerTriangle() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 0,
+    0,  2+1e-3, 0, 0,
+    0,  0,      0, 0,
+    4,  5-1e-3, -0, 0
+  ]);
+  test.is( m1.isLowerTriangle( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 0,
+    0,  2+1e-3, 0, 0,
+    0,  0,      0, 0,
+    4,  5-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isLowerTriangle( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isLowerTriangle());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isLowerTriangle());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isLowerTriangle());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isLowerTriangle());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isLowerTriangle());
+
+}
+
+//
+
+function isOrthogonal( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1,   0
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1,   0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix not orthogonal - square';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+
+  test.description = 'Matrix not orthogonal - not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  5,
+    0,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'Matrix orthogonal';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2/3, -2/3,  1/3,
+    1/3,  2/3,  2/3,
+    2/3,  1/3, -2/3
+  ]);
+  test.is( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'Permutation matrix 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0, 1, 0, 0, 0, 0,
+    1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0,
+    0, 0, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 1,
+    0, 0, 0, 1, 0, 0
+  ]);
+  test.is( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.isNot( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0 +1e-8, 1 -1e-8, 0 +1e-8, 0 -1e-8,
+    1 +1e-8, 0 -1e-8, 0 -1e-8, 0 +1e-8,
+    0 +1e-8, 0 -1e-8, 1 +1e-8, 0 -1e-8,
+    0 +1e-8, 0 -1e-8, 0 -1e-8, 1 +1e-8
+  ]);
+  test.is( m1.isOrthogonal() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0 +1e-3, 1 -1e-3, 0 +1e-3, 0 -1e-3,
+    1 +1e-3, 0 -1e-3, 0 -1e-3, 0 +1e-3,
+    0 +1e-3, 0 -1e-3, 1 +1e-3, 0 -1e-3,
+    0 +1e-3, 0 -1e-3, 0 -1e-3, 1 +1e-3
+  ]);
+  test.is( m1.isOrthogonal( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,       1, 0, 0,
+    1 -1e-5, 0, 0, 0,
+    0,       0, 0, 0,
+    0,       0, 1, 0,
+  ]);
+  test.isNot( m1.isOrthogonal( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isOrthogonal());
+
+}
+
+//
+
+function isSingular( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0, - 1,   0
+  ]);
+  test.is( m1.isSingular() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0, - 1,   0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix is singular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix is singular, magic square 4x4, determinate may be calculated with rounded error';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    16,     2,     3,    13,
+     5,    11,    10,     8,
+     9,     7,     6,    12,
+     4,    14,    15,     1
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix is singular, magic square 6x6, determinate may be calculated with rounded error';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    35,    1,     6,    26,    19,    24,
+    3,    32,     7,    21,    23,    25,
+    31,    9,     2,    22,    27,    20,
+    8,    28,    33,    17,    10,    15,
+    30,    5,    34,    12,    14,    16,
+    4,    36,    29,    13,    18,    11
+  ]);
+  test.is( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix not square';
+  var m1 = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    0.5,  5,
+    0,  - 1,
+    2,    0,
+    - 1, 3.4
+  ]);
+  test.isNot( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Matrix not singular';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2,	1,	1,
+    1,	2,	1,
+    1,	1,	1
+  ]);
+  test.isNot( m1.isSingular() );
+
+  /* */
+
+  test.description = 'Permutation matrix 6x6';
+  var m1 = _.Matrix.Make([ 6, 6 ]).copy
+  ([
+    0, 1, 0, 0, 0, 0,
+    1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0,
+    0, 0, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 1,
+    0, 0, 0, 1, 0, 0
+  ]);
+  test.isNot( m1.isSingular() );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isSingular());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isSingular());
+
+}
+
+//
+
 function isSymmetric( test )
 {
 
   /* */
 
   test.description = 'Matrix remains unchanged';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   0,   0,
@@ -710,10 +2122,7 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     - 1,   0, - 1, 0
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -727,7 +2136,6 @@ function isSymmetric( test )
   /* */
 
   test.description = 'Matrix Not Symmetric';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,   0,   2,   0,
@@ -735,15 +2143,11 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Lower Triangular';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5,  0,   0,  0,
@@ -751,10 +2155,7 @@ function isSymmetric( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
@@ -767,30 +2168,22 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Not Squared';
-
   var m1 = _.Matrix.Make([ 3, 4 ]).copy
   ([
     1,   0,   3,   4,
     0, - 1,   2,   0,
     3,   2,   1, - 1,
   ]);
-  var exp = false;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.isNot( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Diagonal';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 0, 0, 0,
@@ -798,15 +2191,11 @@ function isSymmetric( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  var exp = true;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.is( m1.isSymmetric() );
 
   /* */
 
   test.description = 'Matrix Symmetric';
-
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0.5, 5, 8, 0.1,
@@ -814,15 +2203,11 @@ function isSymmetric( test )
     8,  2,  1, 0,
     0.1,  8, -0, 2
   ]);
-  var exp = true;
-
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  test.is( m1.isSymmetric() );
 
   /* */
 
-  test.description = 'Zero matrix ';
-
+  test.description = 'Zero matrix';
   var m1 = _.Matrix.Make([ 4, 4 ]).copy
   ([
     0,  0, 0, 0,
@@ -830,10 +2215,43 @@ function isSymmetric( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  var exp = true;
+  test.is( m1.isSymmetric() );
 
-  var got = m1.isSymmetric();
-  test.identical( got, exp );
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,       0+1e-8, 0, 4,
+    0-1e-8,  2+1e-8, 0, 5,
+    0,       0,      0, 0,
+    4,       5-1e-8, -0, 0
+  ]);
+  test.is( m1.isSymmetric() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 4,
+    0,  2+1e-3, 0, 5,
+    0,  0,      0, 0,
+    4,  5-1e-3, -0, 0
+  ]);
+  test.is( m1.isSymmetric( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0+1e-3, 0, 4,
+    0,  2+1e-3, 0, 5,
+    0,  0,      0, 0,
+    4,  5-1e-3, -0, 0
+  ]);
+  test.isNot( m1.isSymmetric( 1e-7 ) );
 
   /* */
 
@@ -850,6 +2268,625 @@ function isSymmetric( test )
   test.shouldThrowErrorSync( () => m1.isSymmetric());
   var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
   test.shouldThrowErrorSync( () => m1.isSymmetric());
+
+}
+
+//
+
+function isSkewSymmetric( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Not Symmetric';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Diagonal';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 0, 0, 0,
+    0, - 1, 0, 0,
+    0,  0,  1, 0,
+    0,  0, -0, 2
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Symmetric';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5, 5, 8, 0.1,
+    5, - 1, 2, 8,
+    8,  2,  1, 0,
+    0.1,  8, -0, 2
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Diagonal not zeros';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,    5, -8, -0.1,
+    -5,   2,  2,  8,
+    8,    2,  3,  0,
+    0.1, -8, -0,  0
+  ]);
+  test.isNot( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'Matrix Skew-Symmetric';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,    5, -8, -0.1,
+    -5,   0,  2,  8,
+    8,   -2,  0,  0,
+    0.1, -8, -0,  0
+  ]);
+  test.is( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,        5+1e-8, -8, -0.1,
+    -5-1e-8,  0+1e-8,  2,  8,
+    8,       -2,       0,  0,
+    0.1,     -8-1e-8, -0,  0
+  ]);
+  test.is( m1.isSkewSymmetric() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,        5+1e-3, -8, -0.1,
+    -5-1e-3,  0+1e-3,  2,  8,
+    8,       -2,       0,  0,
+    0.1,     -8-1e-3, -0,  0
+  ]);
+  test.is( m1.isSkewSymmetric( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,        5+1e-3, -8, -0.1,
+    -5-1e-3,  0+1e-3,  2,  8,
+    8,       -2,       0,  0,
+    0.1,     -8-1e-3, -0,  0
+  ]);
+  test.isNot( m1.isSkewSymmetric( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isSkewSymmetric());
+
+}
+
+//
+
+function isNilpotent( test )
+{
+
+  test.description = 'Matrix is nilpotent 2x2';
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    0,   1,
+    0,   0
+  ]);
+  test.is( m1.isNilpotent() );
+
+  /* */
+
+  test.description = 'Matrix is nilpotent 2x2';
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    6,   2,
+    -18, -6
+  ]);
+  test.is( m1.isNilpotent() );
+
+  /* */
+
+  test.description = 'Matrix is not nilpotent 2x2';
+  var m1 = _.Matrix.Make([ 2, 2 ]).copy
+  ([
+    1,  0,
+    0,  1
+  ]);
+  test.isNot( m1.isNilpotent() );
+
+
+  /* Andrey: Uncoment when finding eigenvalues for n > 3 were implement */
+  /* */
+
+  // test.description = 'Matrix is nilpotent 3x3';
+  // var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  // ([
+  //    5, -3,  2,
+  //   15, -9,  6,
+  //   10, -6,  4
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Matrix Lower Triangular';
+  // var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  // ([
+  //   0.5,  0,   0,  0,
+  //   1,  - 1,   0,  0,
+  //   2,    0,   1,  0,
+  //   - 1, 3.4, - 1, 2
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Matrix Upper Triangular';
+  // var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  // ([
+  //   1,   0,   3,   4,
+  //   0, - 1,   2,   0,
+  //   0,   0,   1, - 1,
+  //   0,   0,   0,  0.5
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Matrix Not Squared';
+  // var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  // ([
+  //   1,   0,   3,   4,
+  //   0, - 1,   2,   0,
+  //   3,   2,   1, - 1,
+  // ]);
+  // test.isNot( m1.isNilpotent() );
+  //
+  // /* */
+  //
+  // test.description = 'Zero matrix';
+  // var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  // ([
+  //   0,  0, 0, 0,
+  //   0,  0, 0, 0,
+  //   0,  0,  0, 0,
+  //   0,  0, -0, 0
+  // ]);
+  // test.is( m1.isNilpotent() );
+  //
+  // /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isNilpotent());
+
+}
+
+//
+
+function isInvolutary( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Is Involutary';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+   -5, -8,  0,
+    3,  5,  0,
+    1,  2, -1
+  ]);
+  test.is( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Not Involutary';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Matrix Identity';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0,  0,  0,
+    0,  1,  0,  0,
+    0,  0,  1,  0,
+    0,  0, -0,  1
+  ]);
+  test.is( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.isNot( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -5,      -8+1e-8,  0,
+    3-1e-8,  5+1e-8,  0,
+    1,       2,      -1
+  ]);
+  test.is( m1.isInvolutary() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -5, -8+1e-4,  0,
+    3,  5+1e-4,  0,
+    1,  2,      -1
+  ]);
+  test.is( m1.isInvolutary( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -5, -8+1e-3, 0,
+    3,  5+1e-3, 0,
+    1,  2,     -1
+  ]);
+  test.isNot( m1.isInvolutary( 1e-7 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isInvolutary());
+
+}
+
+//
+
+function isIdempotent( test )
+{
+
+  /* */
+
+  test.description = 'Matrix remains unchanged';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   0,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1,   0, - 1, 0
+  ]);
+  test.identical( m1, oldMatrix );
+
+  /* */
+
+  test.description = 'Matrix Is idempotent';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2, -2, -4,
+    -1,  3,  4,
+    1, -2, -3
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix not idempotent';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,   0,   2,   0,
+    1, - 1,   0,   0,
+    0,   0,   1, - 1,
+    - 1, 0,  - 1,  0
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Lower Triangular';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0.5,  0,   0,  0,
+    1,  - 1,   0,  0,
+    2,    0,   1,  0,
+    - 1, 3.4, - 1, 2
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Upper Triangular';
+
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    0,   0,   1, - 1,
+    0,   0,   0,  0.5
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Not Squared';
+  var m1 = _.Matrix.Make([ 3, 4 ]).copy
+  ([
+    1,   0,   3,   4,
+    0, - 1,   2,   0,
+    3,   2,   1, - 1,
+  ]);
+  test.isNot( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Matrix Identity';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    1,  0,  0,  0,
+    0,  1,  0,  0,
+    0,  0,  1,  0,
+    0,  0, -0,  1
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'Zero matrix';
+  var m1 = _.Matrix.Make([ 4, 4 ]).copy
+  ([
+    0,  0, 0, 0,
+    0,  0, 0, 0,
+    0,  0,  0, 0,
+    0,  0, -0, 0
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'With accuracy from enviroment';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2,      -2+1e-8, -4,
+   -1-1e-8,  3+1e-8,  4,
+    1,      -2,      -3
+  ]);
+  test.is( m1.isIdempotent() );
+
+  /* */
+
+  test.description = 'With passed accuracy';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2, -2+1e-3, -4,
+   -1,  3+1e-3,  4,
+    1, -2,      -3
+  ]);
+  test.is( m1.isIdempotent( 1e-2 ) );
+
+  /* */
+
+  test.description = 'With passed accuracy (fail)';
+  var m1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    2, -2+1e-3, -4,
+   -1,  3+1e-3,  4,
+    1, -2,      -3
+  ]);
+  test.isNot( m1.isIdempotent( 1e-5 ) );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  var m1 = 'matrix';
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = NaN;
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = null;
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = [ 0, 0, 0 ];
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
+  var m1 = _.vectorAdapter.from([ 0, 0, 0 ]);
+  test.shouldThrowErrorSync( () => m1.isIdempotent());
 
 }
 
@@ -1566,6 +3603,30 @@ function compareMatrices( test )
 
   /* */
 
+  test.case = 'matrix and empty matrix';
+
+  var src1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var src2 = _.Matrix.Make([ 0, 0 ])
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
 }
 
 //
@@ -1711,6 +3772,32 @@ function compareMatrixAndVector( test )
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
+  /* */
+
+  test.case = 'matrix and empty vector';
+
+  var src1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var src2 = _.vad.from( [] );
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
 }
 
 //
@@ -1821,6 +3908,30 @@ function compareMatrixAndNot( test )
     inputRowMajor : 0,
   });
   var src2 = undefined;
+
+  test.identical( _.identical( src1, src2 ), false );
+  test.identical( _.identical( src2, src1 ), false );
+  test.identical( _.equivalent( src1, src2 ), false );
+  test.identical( _.equivalent( src2, src1 ), false );
+  test.identical( _.contains( src1, src2 ), false );
+  test.identical( _.contains( src2, src1 ), false );
+  test.ni( src1, src2 );
+  test.ni( src2, src1 );
+  test.ne( src1, src2 );
+  test.ne( src2, src1 );
+
+  /* */
+
+  test.case = 'matrix and empty long';
+
+  var src1 = _.Matrix.Make([ 3, 3 ]).copy
+  ([
+    -1, +2, +0,
+    -6, +6, +0,
+    +0, +0, +3,
+  ]);
+
+  var src2 = [];
 
   test.identical( _.identical( src1, src2 ), false );
   test.identical( _.identical( src2, src1 ), false );
@@ -2330,42 +4441,493 @@ function scalarSet( test )
 
 //
 
+function hasIndex( test )
+{
+  _.vectorAdapter.contextsForTesting( { onEach : act } );
+
+  function act( a )
+  {
+
+    test.open( 'empty matrix' );
+
+    test.case = `buffer - long ${ a.format }, empty buffer, 0x0 matrix`;
+    var buffer = a.longMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, empty buffer, 1x0 matrix`;
+    var buffer = a.longMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, empty buffer, 0x1 matrix`;
+    var buffer = a.longMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, filled buffer, 0x0 matrix`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, filled buffer, 1x0 matrix`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - long ${ a.format }, filled buffer, 0x1 matrix`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    /* */
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 0x0 matrix`;
+    var buffer = a.vadMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 1x0 matrix`;
+    var buffer = a.vadMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 0x1 matrix`;
+    var buffer = a.vadMake( [] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 0x0 matrix`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 1x0 matrix`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 0 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 0x1 matrix`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 0, 1 ],
+      inputRowMajor : 1,
+    });
+    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+
+    test.close( 'empty matrix' );
+
+    /* - */
+
+    test.open( '2D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 8,
+      strides : [ -2, -1 ],
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 100 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 100, 0 ] ) );
+    test.is( matrix.hasIndex( [ 100, 1 ] ) );
+    test.is( matrix.hasIndex( [ 100, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 0,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 100 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 100, 0 ] ) );
+    test.is( matrix.hasIndex( [ 100, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 8,
+      strides : [ -2, -1 ],
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 0 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 100, 0 ] ) );
+    test.is( matrix.hasIndex( [ 100, 1 ] ) );
+    test.is( matrix.hasIndex( [ 100, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+
+    test.close( '2D matrix' );
+
+    /* - */
+
+    test.open( '3D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 4 ],
+      offset : 1,
+      strides : [ 1, 2, 1 ],
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 2, 4 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3000 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 5, 0 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3, 4 ],
+      offset : 1,
+      strides : [ 1, 2, 1 ],
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 1 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2 ] ) );
+    test.is( matrix.hasIndex( [ 1, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 1, 2, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 1, 2, 4 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 3000 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 5, 0 ] ) );
+
+    test.close( '3D matrix' );
+
+    /* - */
+
+    test.open( '4D matrix' );
+
+    test.case = `buffer - long ${ a.format }, regular dims values`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
+
+    test.case = `buffer - long ${ a.format }, dims with Infinity`;
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 1, 3, 2, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 1 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
+
+    test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
+    var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3, 2, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    test.is( matrix.hasIndex( [ 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1 ] ) );
+    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.is( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2 ] ) );
+    test.isNot( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
+
+    test.close( '4D matrix' );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => matrix.hasIndex() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( [ 1, 1 ], [ 0, 0 ] ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( 0 ) );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( null ) );
+
+  test.case = 'index dimension is larger than matrix dimension';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( [ 0, 0, 0 ] ) );
+  var matrix = _.Matrix.Make( [ 2, 2, 2, 2, 2 ] );
+  test.shouldThrowErrorSync( () => matrix.hasIndex( [ 0, 0, 0, 0, 0, 0 ] ) );
+
+}
+
+//
+
 function eGet( test )
 {
   _.vectorAdapter.contextsForTesting({ onEach : act });
 
   function act( a )
   {
-    test.case = `buffer - long ${ a.format }`;
-    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    var matrix = new _.Matrix
-    ({
-      buffer,
-      dims : [ 2, 3 ],
-      offset : 1,
-      inputRowMajor : 1,
-    });
-    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
-    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
-    test.identical( matrix.buffer, exp );
-
-    test.case = `buffer - vector ${ a.form }`;
-    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    var matrix = new _.Matrix
-    ({
-      buffer,
-      dims : [ 2, 3 ],
-      offset : 1,
-      inputRowMajor : 1,
-    });
-    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
-    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
-    test.identical( matrix.buffer, exp._vectorBuffer );
-
-    /* */
-
     test.case = `buffer - long ${ a.format }`;
     var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
@@ -2522,6 +5084,1137 @@ function eSet( test )
   test.case = 'wrong type of index';
   var matrix = _.Matrix.Make( 2 );
   test.shouldThrowErrorSync( () => matrix.eSet([ 0 ], [ 2, 2 ]) );
+}
+
+//
+
+function lineGet( test )
+{
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.open( 'lineGet col' );
+
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+
+    test.close( 'lineGet col' );
+
+    /* - */
+
+    test.open( 'lineGet row' );
+
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+
+    test.close( 'lineGet row' );
+
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet( 0, 0, 0 ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet( -1 ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet( 2 ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineGet([ 0 ]) );
+}
+
+//
+
+function lineSet( test )
+{
+  // m32.lineSet( 0, 0, [ 10, 20 ] ) // aaa2 : add test cases like this /* Dmytro : implemented */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.open( 'lineSet col' );
+
+    test.case = `buffer - long ${ a.format }, full replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.lineSet( 0, 0, a.longMake([ 55, 55, 55 ]) );
+    var got = matrix.lineSet( 0, 1, a.longMake([ 77, 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, full replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.lineSet( 0, 0, a.vadMake([ 55, 55, 55 ]) );
+    var got = matrix.lineSet( 0, 1, a.vadMake([ 77, 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    /* */
+
+    test.case = `buffer - long ${ a.format }, partial replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.lineSet( 0, 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.lineSet( 0, 1, a.longMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, partial replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.lineSet( 0, 0, a.vadMake([ 55, 55 ]) );
+    var got = matrix.lineSet( 0, 1, a.vadMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( 'lineSet col' );
+
+    /* - */
+
+    test.open( 'lineSet row' );
+
+    test.case = `buffer - long ${ a.format }, full replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.lineSet( 1, 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.lineSet( 1, 1, a.longMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, full replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.lineSet( 1, 0, a.vadMake([ 55, 55 ]) );
+    var got = matrix.lineSet( 1, 1, a.vadMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    /* */
+
+    test.case = `buffer - long ${ a.format }, partial replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.lineSet( 1, 0, a.longMake([ 55 ]) );
+    var got = matrix.lineSet( 1, 1, a.longMake([ 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, partial replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.lineSet( 1, 0, a.vadMake([ 55 ]) );
+    var got = matrix.lineSet( 1, 1, a.vadMake([ 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    test.close( 'lineSet row' );
+
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineSet() );
+
+  test.case = 'not enough arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, 0 ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, 0, [ 1, 2 ], [ 2, 1 ] ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, -1, [ 1, 2 ] ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, 2, [ 2, 2 ] ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineSet( 0, [ 0 ], [ 2, 2 ]) );
+}
+
+//
+
+function lineNdGet( test )
+{
+  test.case = '2x3';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+
+  test.description = 'd:0 i:1';
+  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
+  var line = matrix.lineGet( 0, 1 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
+  var line = matrix.lineGet( 0, 0 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2';
+  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
+  var line = matrix.lineGet( 0, 2 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 0, [ 2 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
+  var line = matrix.lineGet( 1, 0 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 1, [ 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1';
+  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
+  var line = matrix.lineGet( 1, 1 );
+  test.identical( line, exp );
+  var line = matrix.lineNdGet( 1, [ 1 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '2x3x4 d:0';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+
+  test.description = 'd:0 i:0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
+  var line = matrix.lineNdGet( 0, [ 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:1,0';
+  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
+  var line = matrix.lineNdGet( 0, [ 1, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2,0';
+  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
+  var line = matrix.lineNdGet( 0, [ 2, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:0,1';
+  var exp = _.vectorAdapter.from( new F32x([ 7, 10 ]) );
+  var line = matrix.lineNdGet( 0, [ 0, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 8, 11 ]) );
+  var line = matrix.lineNdGet( 0, [ 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2,1';
+  var exp = _.vectorAdapter.from( new F32x([ 9, 12 ]) );
+  var line = matrix.lineNdGet( 0, [ 2, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:0,3';
+  var exp = _.vectorAdapter.from( new F32x([ 19, 22 ]) );
+  var line = matrix.lineNdGet( 0, [ 0, 3 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:1,3';
+  var exp = _.vectorAdapter.from( new F32x([ 20, 23 ]) );
+  var line = matrix.lineNdGet( 0, [ 1, 3 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:0 i:2,3';
+  var exp = _.vectorAdapter.from( new F32x([ 21, 24 ]) );
+  var line = matrix.lineNdGet( 0, [ 2, 3 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '2x3x4 d:1';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+
+  test.description = 'd:1 i:0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
+  var line = matrix.lineNdGet( 1, [ 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1,0';
+  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
+  var line = matrix.lineNdGet( 1, [ 1, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:0,1';
+  var exp = _.vectorAdapter.from( new F32x([ 7, 8, 9 ]) );
+  var line = matrix.lineNdGet( 1, [ 0, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 10, 11, 12 ]) );
+  var line = matrix.lineNdGet( 1, [ 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:0,3';
+  var exp = _.vectorAdapter.from( new F32x([ 19, 20, 21 ]) );
+  var line = matrix.lineNdGet( 1, [ 0, 3 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:1 i:1,3';
+  var exp = _.vectorAdapter.from( new F32x([ 22, 23, 24 ]) );
+  var line = matrix.lineNdGet( 1, [ 1, 3 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '2x3x4 d:2';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+
+  test.description = 'd:2 i:0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 7, 13, 19 ]) );
+  var line = matrix.lineNdGet( 2, [ 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:2 i:1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 5, 11, 17, 23 ]) );
+  var line = matrix.lineNdGet( 2, [ 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:2 i:1,2';
+  var exp = _.vectorAdapter.from( new F32x([ 6, 12, 18, 24 ]) );
+  var line = matrix.lineNdGet( 2, [ 1, 2 ] );
+  test.identical( line, exp );
+
+  /* */
+
+  test.case = '1x3x4x2 d:2';
+  var matrix = _.Matrix.Make([ 1, 3, 4, 2 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+  ]);
+
+  test.description = 'd:3 i:0,0,0';
+  var exp = _.vectorAdapter.from( new F32x([ 1, 1 ]) );
+  var line = matrix.lineNdGet( 3, [ 0, 0, 0 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:3 i:0,1,1';
+  var exp = _.vectorAdapter.from( new F32x([ 5, 5 ]) );
+  var line = matrix.lineNdGet( 3, [ 0, 1, 1 ] );
+  test.identical( line, exp );
+
+  test.description = 'd:3 i:0,2,1';
+  var exp = _.vectorAdapter.from( new F32x([ 6, 6 ]) );
+  var line = matrix.lineNdGet( 3, [ 0, 2, 1 ] );
+  test.identical( line, exp );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet() );
+
+  test.case = 'not enough arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0 ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, 0, [ 1 ], [ 2, 1 ] ) );
+
+  test.case = 'negative indexNd';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, [ -1 ] ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, [ 2 ] ) );
+
+  test.case = 'wrong type of indexNd';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 0, 2 ) );
+
+  test.case = 'negative dimension';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( -1, [ 1 ] ) );
+
+  test.case = 'value of dimension is bigger than number of dimensions';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( 2, [ 1 ] ) );
+
+  test.case = 'wrong type of dimension';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.lineNdGet( [ 0 ], [ 2, 2 ] ) );
+}
+
+//
+
+function lineNdGetIterate( test )
+{
+  test.case = '2x3. iterate dimension 0';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let v = 0; v < dims[ 1 ]; v += 1 )
+  {
+    let line = matrix.lineNdGet( 0, [ v ] );
+    got.push( ... line, '.' );
+  }
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3. iterate dimension 1';
+
+  var dims = [ 2, 3 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let v = 0; v < dims[ 0 ]; v += 1 )
+  {
+    let line = matrix.lineNdGet( 1, [ v ] );
+    got.push( ... line, '.' );
+  }
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 0';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 1 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 0, [ v, x ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 1';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 0 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 1, [ v, x ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4. iterate dimension 2';
+
+  var dims = [ 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 0 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 2, [ v, x ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 0';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0; v < dims[ 1 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 0, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, '.', 2, '.', 3, '.', 4, '.', 5, '.', 6, '.', 7, '.', 8, '.', 9, '.', 10, '.', 11, '.', 12, '.', 13, '.', 14, '.', 15, '.', 16, '.', 17, '.', 18, '.', 19, '.', 20, '.', 21, '.', 22, '.', 23, '.', 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 1';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
+  {
+    for( let v = 0 ; v < dims[ 0 ]; v += 1 )
+    {
+      let line = matrix.lineNdGet( 1, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 2';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
+  {
+    for( let v = 0 ; v < dims[ 0 ] ; v += 1 )
+    {
+      let line = matrix.lineNdGet( 2, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x2x3x4. iterate dimension 3';
+
+  var dims = [ 1, 2, 3, 4 ];
+  var length = _.avector.reduceToProduct( dims );
+  var buffer = new I32x( length );
+  for( let i = 0 ; i < length ; i++ )
+  buffer[ i ] = i+1;
+
+  var matrix = new wTools.Matrix
+  ({
+    buffer,
+    dims,
+    inputRowMajor : 0,
+  });
+
+  var got = [];
+  for( let y = 0 ; y < dims[ 2 ] ; y += 1 )
+  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
+  {
+    for( let v = 0 ; v < dims[ 0 ] ; v += 1 )
+    {
+      let line = matrix.lineNdGet( 3, [ v, x, y ] );
+      got.push( ... line, '.' );
+    }
+  }
+  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
+  test.identical( got, exp );
+
+  /* */
+
+  console.log( matrix );
+  console.log( _.vad.from([ 1, 2, 3 ]) );
+}
+
+//
+
+function rowGet( test )
+{
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet( 0, 0 ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet( -1 ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet( 2 ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowGet([ 0 ]) );
+}
+
+//
+
+function rowSet( test )
+{
+  // m32.rowSet( 0, [ 10, 20 ] ) // aaa2 : add test cases like this /* Dmytro : implemented */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = `buffer - long ${ a.format }, full replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.rowSet( 1, a.longMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, full replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.vadMake([ 55, 55 ]) );
+    var got = matrix.rowSet( 1, a.vadMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    /* */
+
+    test.case = `buffer - long ${ a.format }, partial replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.longMake([ 55 ]) );
+    var got = matrix.rowSet( 1, a.longMake([ 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, partial replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.vadMake([ 55 ]) );
+    var got = matrix.rowSet( 1, a.vadMake([ 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet() );
+
+  test.case = 'not enough arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( 0 ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( 0, [ 1, 2 ], [ 2, 1 ] ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( -1, [ 1, 2 ] ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( 2, [ 2, 2 ] ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.rowSet( [ 0 ], [ 2, 2 ]) );
+}
+
+//
+
+function colGet( test )
+{
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = `buffer - long ${ a.format }`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.colGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.colGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
+    test.identical( matrix.buffer, exp );
+
+    test.case = `buffer - vector ${ a.form }`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.colGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.colGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colGet() );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colGet( 0, 0 ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colGet( -1 ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colGet( 2 ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colGet([ 0 ]) );
+}
+
+//
+
+function colSet( test )
+{
+  // m32.colSet( 0, [ 10, 20 ] ) // aaa2 : add test cases like this /* Dmytro : implemented */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+    test.case = `buffer - long ${ a.format }, full replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.colSet( 0, a.longMake([ 55, 55, 55 ]) );
+    var got = matrix.colSet( 1, a.longMake([ 77, 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, full replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.colSet( 0, a.vadMake([ 55, 55, 55 ]) );
+    var got = matrix.colSet( 1, a.vadMake([ 77, 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+
+    /* */
+
+    test.case = `buffer - long ${ a.format }, partial replacing`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.colSet( 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.colSet( 1, a.longMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp );
+    test.is( got === matrix );
+
+    test.case = `buffer - vector ${ a.form }, partial replacing`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, 2 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = a.vadMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.colSet( 0, a.vadMake([ 55, 55 ]) );
+    var got = matrix.colSet( 1, a.vadMake([ 77, 77 ]) );
+    test.identical( matrix.buffer, exp._vectorBuffer );
+    test.is( got === matrix );
+  }
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colSet() );
+
+  test.case = 'not enough arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colSet( 0 ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colSet( 0, [ 1, 2 ], [ 2, 1 ] ) );
+
+  test.case = 'negative index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colSet( -1, [ 1, 2 ] ) );
+
+  test.case = 'index is greater than max dimension value';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colSet( 2, [ 2, 2 ] ) );
+
+  test.case = 'wrong type of index';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.colSet( [ 0 ], [ 2, 2 ]) );
 }
 
 // --
@@ -21614,6 +25307,443 @@ function bufferSetFromVectorAdapter( test )
 // utils
 // --
 
+function NrowOf( test )
+{
+
+  /* */
+
+  test.case = 'scalar';
+  var src = 5;
+  var exp = 1;
+  var got = _.Matrix.NrowOf( src )
+  test.identical( got, exp );
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+
+    test.open( `long, ${a.format}` );
+
+    test.case = 'empty';
+    var src = a.longMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.close( `long, ${a.format}` );
+
+    /* */
+
+    test.open( `vectorAdapter, ${a.format} ${a.form}` );
+
+    test.case = 'empty';
+    var src = a.vadMake([]);
+    var exp = 0;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 6;
+    var got = _.Matrix.NrowOf( src )
+    test.identical( got, exp );
+
+    test.close( `vectorAdapter, ${a.format} ${a.form}` );
+
+  }
+
+  /* */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act1 });
+
+  function act1( a ) {
+
+    test.case = `matrix with buffer - long ${a.format}, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = 2;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = Infinity;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+
+    /* */
+
+    test.case = `matrix with buffer - vectorAdapter from ${a.format}, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 5, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = 2;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `matrix with buffer - vectorAdapter from ${a.format}, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ Infinity, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = Infinity;
+    var got = _.Matrix.NrowOf( matrix )
+    test.identical( got, exp );
+  }
+
+  test.case = 'from MakeCol';
+  var matrix = _.Matrix.MakeCol([ 4, 3 ]);
+  var exp = 2;
+  var got = _.Matrix.NrowOf( matrix )
+  test.identical( got, exp );
+
+  test.case = 'from MakeRow';
+  var matrix = _.Matrix.MakeRow([ 4, 3 ]);
+  var exp = 1;
+  var got = _.Matrix.NrowOf( matrix )
+  test.identical( got, exp );
+
+  test.case = '3D matrix';
+  var matrix = _.Matrix.Make([ 2, 4, 3 ]);
+  var exp = 2;
+  var got = _.Matrix.NrowOf( matrix )
+  test.identical( got, exp );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed null';
+  test.shouldThrowErrorSync( () => _.Matrix.NrowOf( null ) );
+
+}
+
+//
+
+function NcolOf( test )
+{
+
+  /* */
+
+  test.case = 'scalar';
+  var src = 5;
+  var exp = 1;
+  var got = _.Matrix.NcolOf( src )
+  test.identical( got, exp );
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+
+    test.open( `long, ${a.format}` );
+
+    test.case = 'empty';
+    var src = a.longMake([]);
+    var exp = 1;
+    var got = _.Matrix.NcolOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 1;
+    var got = _.Matrix.NcolOf( src )
+    test.identical( got, exp );
+
+    test.close( `long, ${a.format}` );
+
+    /* */
+
+    test.open( `vectorAdapter, ${a.format} ${a.form}` );
+
+    test.case = 'empty';
+    var src = a.vadMake([]);
+    var exp = 1;
+    var got = _.Matrix.NcolOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = 1;
+    var got = _.Matrix.NcolOf( src )
+    test.identical( got, exp );
+
+    test.close( `vectorAdapter, ${a.format} ${a.form}` );
+
+  }
+
+  /* */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act1 });
+
+  function act1( a ) {
+
+    test.case = `matrix with buffer - long ${a.format}, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = 3;
+    var got = _.Matrix.NcolOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 4, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = Infinity;
+    var got = _.Matrix.NcolOf( matrix )
+    test.identical( got, exp );
+
+    /* */
+
+    test.case = `matrix with buffer - vectorAdapter from ${a.format}, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 5, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = 3;
+    var got = _.Matrix.NcolOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `matrix with buffer - vectorAdapter from ${a.format}, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = Infinity;
+    var got = _.Matrix.NcolOf( matrix )
+    test.identical( got, exp );
+  }
+
+  /* */
+
+  test.case = 'from MakeCol';
+  var matrix = _.Matrix.MakeCol([ 4, 3 ]);
+  var exp = 1;
+  var got = _.Matrix.NcolOf( matrix )
+  test.identical( got, exp );
+
+  test.case = 'from MakeRow';
+  var matrix = _.Matrix.MakeRow([ 4, 3 ]);
+  var exp = 2;
+  var got = _.Matrix.NcolOf( matrix )
+  test.identical( got, exp );
+
+  test.case = '3D matrix';
+  var matrix = _.Matrix.Make([ 2, 4, 3 ]);
+  var exp = 4;
+  var got = _.Matrix.NcolOf( matrix )
+  test.identical( got, exp );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed null';
+  test.shouldThrowErrorSync( () => _.Matrix.NcolOf( null ) );
+
+}
+
+function DimsOf( test )
+{
+
+  /* */
+
+  test.case = 'scalar';
+  var src = 5;
+  var exp = [ 1, 1 ];
+  var got = _.Matrix.DimsOf( src )
+  test.identical( got, exp );
+
+  _.vectorAdapter.contextsForTesting({ onEach : act });
+
+  function act( a )
+  {
+
+    test.open( `long, ${a.format}` );
+
+    test.case = 'empty';
+    var src = a.longMake([]);
+    var exp = [ 0, 1 ];
+    var got = _.Matrix.DimsOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = [ 6, 1 ];
+    var got = _.Matrix.DimsOf( src )
+    test.identical( got, exp );
+
+    test.close( `long, ${a.format}` );
+
+    /* */
+
+    test.open( `vectorAdapter, ${a.format} ${a.form}` );
+
+    test.case = 'empty';
+    var src = a.vadMake([]);
+    var exp = [ 0, 1 ];
+    var got = _.Matrix.DimsOf( src )
+    test.identical( got, exp );
+
+    test.case = 'filled';
+    var src = a.vadMake([ 0, 1, 2, 3, 4, 5 ]);
+    var exp = [ 6, 1 ];
+    var got = _.Matrix.DimsOf( src )
+    test.identical( got, exp );
+
+    test.close( `vectorAdapter, ${a.format} ${a.form}` );
+
+  }
+
+  /* */
+
+  _.vectorAdapter.contextsForTesting({ onEach : act1 });
+
+  function act1( a ) {
+
+    test.case = `matrix with buffer - long ${a.format}, regular dims values`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = [ 2, 3 ];
+    var got = _.Matrix.DimsOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 4, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = [ 4, Infinity ];
+    var got = _.Matrix.DimsOf( matrix )
+    test.identical( got, exp );
+
+    /* */
+
+    test.case = `matrix with buffer - vectorAdapter from ${a.format}, regular dims values`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 5, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 2, 3 ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = [ 2, 3 ];
+    var got = _.Matrix.DimsOf( matrix )
+    test.identical( got, exp );
+
+    test.case = `matrix with buffer - vectorAdapter from ${a.format}, dims with Infinity`;
+    var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var matrix = new _.Matrix
+    ({
+      buffer,
+      dims : [ 3, Infinity ],
+      offset : 1,
+      inputRowMajor : 1,
+    });
+    var exp = [ 3, Infinity ];
+    var got = _.Matrix.DimsOf( matrix )
+    test.identical( got, exp );
+  }
+
+  /* */
+
+  test.case = 'from MakeCol';
+  var matrix = _.Matrix.MakeCol([ 4, 3 ]);
+  var exp = [ 2, 1 ];
+  var got = _.Matrix.DimsOf( matrix )
+  test.identical( got, exp );
+
+  test.case = 'from MakeRow';
+  var matrix = _.Matrix.MakeRow([ 4, 3 ]);
+  var exp = [ 1, 2 ];
+  var got = _.Matrix.DimsOf( matrix )
+  test.identical( got, exp );
+
+  test.case = '3D matrix';
+  var matrix = _.Matrix.Make([ 2, 4, 3 ]);
+  var exp = [ 2, 4, 3 ];
+  var got = _.Matrix.DimsOf( matrix )
+  test.identical( got, exp );
+
+  test.case = 'multidimensional matrix';
+  var matrix = _.Matrix.Make([ 1, 4, 3, 8, Infinity, 5 ]);
+  var exp = [ 1, 4, 3, 8, Infinity, 5 ];
+  var got = _.Matrix.DimsOf( matrix )
+  test.identical( got, exp );
+
+  /* */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'Passed null';
+  test.shouldThrowErrorSync( () => _.Matrix.DimsOf( null ) );
+
+}
+
+//
+
 function StridesFromDimensions( test )
 {
 
@@ -22434,830 +26564,10 @@ function vectorToMatrix( test )
 
 //
 
-function accessors( test ) /* qqq2 : split test routine appropriately and extend each */
-{
-  var m32, m23;
-
-  function remake()
-  {
-
-    var buffer = new F32x
-    ([
-      -1,
-      1, 2,
-      3, 4,
-      5, 6,
-      -1,
-    ]);
-
-    m32 = _.Matrix
-    ({
-      dims : [ 3, 2 ],
-      inputRowMajor : 1,
-      offset : 1,
-      buffer,
-    });
-
-    var buffer = new F32x
-    ([
-      -1,
-      1, 2, 3,
-      4, 5, 6,
-      -1,
-    ]);
-
-    m23 = _.Matrix
-    ({
-      dims : [ 2, 3 ],
-      inputRowMajor : 1,
-      offset : 1,
-      buffer,
-    });
-
-  }
-
-  /* */
-
-  test.case = 'colGet';
-
-  remake();
-
-  test.identical( m32.colGet( 0 ), fvec([ 1, 3, 5 ]) );
-  test.identical( m32.colGet( 1 ), fvec([ 2, 4, 6 ]) );
-  test.identical( m23.colGet( 0 ), fvec([ 1, 4 ]) );
-  test.identical( m23.colGet( 2 ), fvec([ 3, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.colGet() );
-    test.shouldThrowErrorSync( () => m32.colGet( -1 ) );
-    test.shouldThrowErrorSync( () => m32.colGet( 2 ) );
-    test.shouldThrowErrorSync( () => m23.colGet( -1 ) );
-    test.shouldThrowErrorSync( () => m23.colGet( 3 ) );
-    test.shouldThrowErrorSync( () => m23.colGet( 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.colGet( [ 0 ] ) );
-  }
-
-  /* */
-
-  test.case = 'lineGet col';
-
-  remake();
-
-  test.identical( m32.lineGet( 0, 0 ), fvec([ 1, 3, 5 ]) );
-  test.identical( m32.lineGet( 0, 1 ), fvec([ 2, 4, 6 ]) );
-  test.identical( m23.lineGet( 0, 0 ), fvec([ 1, 4 ]) );
-  test.identical( m23.lineGet( 0, 2 ), fvec([ 3, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.lineGet( 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 0, -1 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 0, 2 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, -1 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, 3 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 0, [ 0 ] ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( [ 0 ] ) );
-  }
-
-  /* */
-
-  test.case = 'colSet';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 40,
-    20, 50,
-    30, 60,
-  ]);
-
-  m32.colSet( 0, [ 10, 20, 30 ] );
-  m32.colSet( 1, [ 40, 50, 60 ] );
-  test.identical( m32, exp );
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 0, 30,
-    40, 0, 60,
-  ]);
-
-  m23.colSet( 0, [ 10, 40 ] );
-  m23.colSet( 1, 0 );
-  m23.colSet( 2, [ 30, 60 ] );
-  test.identical( m23, exp );
-
-  // m32.colSet( 0, [ 10, 20 ] ) // qqq2 : add test cases like this
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m32.colSet() );
-    test.shouldThrowErrorSync( () => m32.colSet( 0 ) );
-    test.shouldThrowErrorSync( () => m32.colSet( 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m32.colSet( 0, [ 10, 20 ] ) );
-    test.shouldThrowErrorSync( () => m32.colSet( 0, [ 10, 20, 30 ], 0 ) );
-    test.shouldThrowErrorSync( () => m32.colSet( [ 0 ], [ 10, 20, 30 ] ) );
-  }
-
-  /* */
-
-  test.case = 'colSet vector';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 40,
-    20, 50,
-    30, 60,
-  ]);
-
-  m32.colSet( 0, ivec([ 10, 20, 30 ]) );
-  m32.colSet( 1, ivec([ 40, 50, 60 ]) );
-  test.identical( m32, exp );
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 0, 30,
-    40, 0, 60,
-  ]);
-
-  m23.colSet( 0, ivec([ 10, 40 ]) );
-  m23.colSet( 1, 0 );
-  m23.colSet( 2, ivec([ 30, 60 ]) );
-  test.identical( m23, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m32.colSet() );
-    test.shouldThrowErrorSync( () => m32.colSet( 0 ) );
-    test.shouldThrowErrorSync( () => m32.colSet( 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m32.colSet( 0, ivec([ 10, 20 ]) ) ); // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m32.colSet( 0, ivec([ 10, 20, 30 ]), 0 ) );
-    test.shouldThrowErrorSync( () => m32.colSet( [ 0 ], ivec([ 10, 20, 30 ]) ) );
-  }
-
-  /* */
-
-  test.case = 'lineSet col';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 40,
-    20, 50,
-    30, 60,
-  ]);
-
-  m32.lineSet( 0, 0, [ 10, 20, 30 ] );
-  m32.lineSet( 0, 1, [ 40, 50, 60 ] );
-  test.identical( m32, exp );
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 0, 30,
-    40, 0, 60,
-  ]);
-
-  m23.lineSet( 0, 0, [ 10, 40 ] );
-  m23.lineSet( 0, 1, 0 );
-  m23.lineSet( 0, 2, [ 30, 60 ] );
-  test.identical( m23, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m32.lineSet() );
-    test.shouldThrowErrorSync( () => m32.lineSet( 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineSet( 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, [ 10, 20 ] ) ); // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m32.lineSet( 0, 0, [ 10, 20, 30 ], 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineSet( 0, [ 0 ], [ 10, 20, 30 ] ) );
-  }
-
-  /* */
-
-  test.case = 'rowGet';
-
-  remake();
-
-  test.identical( m23.rowGet( 0 ), fvec([ 1, 2, 3 ]) );
-  test.identical( m23.rowGet( 1 ), fvec([ 4, 5, 6 ]) );
-  test.identical( m32.rowGet( 0 ), fvec([ 1, 2 ]) );
-  test.identical( m32.rowGet( 2 ), fvec([ 5, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.rowGet() );
-    test.shouldThrowErrorSync( () => m23.rowGet( -1 ) );
-    test.shouldThrowErrorSync( () => m23.rowGet( 2 ) );
-
-    test.shouldThrowErrorSync( () => m32.rowGet( -1 ) );
-    test.shouldThrowErrorSync( () => m32.rowGet( 3 ) );
-    test.shouldThrowErrorSync( () => m32.rowGet( 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.rowGet( [ 0 ] ) );
-  }
-
-  /* */
-
-  test.case = 'lineGet row';
-
-  remake();
-
-  test.identical( m23.lineGet( 1, 0 ), fvec([ 1, 2, 3 ]) );
-  test.identical( m23.lineGet( 1, 1 ), fvec([ 4, 5, 6 ]) );
-  test.identical( m32.lineGet( 1, 0 ), fvec([ 1, 2 ]) );
-  test.identical( m32.lineGet( 1, 2 ), fvec([ 5, 6 ]) );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.lineGet() );
-    test.shouldThrowErrorSync( () => m23.lineGet( 1 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 1, -1 ) );
-    test.shouldThrowErrorSync( () => m23.lineGet( 1, 2 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, -1 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, 3 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, 0, 0 ) );
-    test.shouldThrowErrorSync( () => m32.lineGet( 1, [ 0 ] ) );
-  }
-
-  /* */
-
-  test.case = 'rowSet';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 20, 30,
-    40, 50, 60,
-  ]);
-
-  m23.rowSet( 0, [ 10, 20, 30 ] );
-  m23.rowSet( 1, [ 40, 50, 60 ] );
-  test.identical( m23, exp );
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 20,
-    0, 0,
-    50, 60,
-  ]);
-
-  m32.rowSet( 0, [ 10, 20 ] );
-  m32.rowSet( 1, 0 );
-  m32.rowSet( 2, [ 50, 60 ] );
-  test.identical( m32, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.rowSet() );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20 ] ) );  // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, [ 10, 20, 30 ], 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( [ 0 ], [ 10, 20, 30 ] ) );
-  }
-
-  /* */
-
-  test.case = 'rowSet vector';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 20, 30,
-    40, 50, 60,
-  ]);
-
-  m23.rowSet( 0, ivec([ 10, 20, 30 ]) );
-  m23.rowSet( 1, ivec([ 40, 50, 60 ]) );
-  test.identical( m23, exp );
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 20,
-    0, 0,
-    50, 60,
-  ]);
-
-  m32.rowSet( 0, ivec([ 10, 20 ]) );
-  m32.rowSet( 1, 0 );
-  m32.rowSet( 2, ivec([ 50, 60 ]) );
-  test.identical( m32, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.rowSet() );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20 ]) ) );  // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m23.rowSet( 0, ivec([ 10, 20, 30 ]), 0 ) );
-    test.shouldThrowErrorSync( () => m23.rowSet( [ 0 ], ivec([ 10, 20, 30 ]) ) );
-  }
-
-  /* */
-
-  test.case = 'lineSet row';
-
-  remake();
-
-  var exp = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    10, 20, 30,
-    40, 50, 60,
-  ]);
-
-  m23.lineSet( 1, 0, [ 10, 20, 30 ] );
-  m23.lineSet( 1, 1, [ 40, 50, 60 ] );
-  test.identical( m23, exp );
-
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    10, 20,
-    0, 0,
-    50, 60,
-  ]);
-
-  m32.lineSet( 1, 0, [ 10, 20 ] );
-  m32.lineSet( 1, 1, 0 );
-  m32.lineSet( 1, 2, [ 50, 60 ] );
-  test.identical( m32, exp );
-
-  if( Config.debug )
-  {
-    test.shouldThrowErrorSync( () => m23.lineSet() );
-    test.shouldThrowErrorSync( () => m23.lineSet( 1, 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineSet( 1, 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, 0, 0 ) );
-    // test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, [ 10, 20 ] ) );  // qqq2 : add positive test cases like this
-    test.shouldThrowErrorSync( () => m23.lineSet( 1, 0, [ 10, 20, 30 ], 0 ) );
-    test.shouldThrowErrorSync( () => m23.lineSet( 1, [ 0 ], [ 10, 20, 30 ] ) );
-  }
-}
-
+// function accessors( test ) /* aaa2 : split test routine appropriately and extend each */ /* Dmytro : routine is split, extended */
+// {
 //
-
-function lineNdGet( test )
-{
-
-  /* */
-
-  test.case = '2x3';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-
-  test.description = 'd:0 i:1';
-  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
-  var line = matrix.lineGet( 0, 1 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 0, [ 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
-  var line = matrix.lineGet( 0, 0 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 0, [ 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2';
-  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
-  var line = matrix.lineGet( 0, 2 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 0, [ 2 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
-  var line = matrix.lineGet( 1, 0 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 1, [ 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1';
-  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
-  var line = matrix.lineGet( 1, 1 );
-  test.identical( line, exp );
-  var line = matrix.lineNdGet( 1, [ 1 ] );
-  test.identical( line, exp );
-
-  /* */
-
-  test.case = '2x3x4 d:0';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-
-  test.description = 'd:0 i:0,0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 4 ]) );
-  var line = matrix.lineNdGet( 0, [ 0, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:1,0';
-  var exp = _.vectorAdapter.from( new F32x([ 2, 5 ]) );
-  var line = matrix.lineNdGet( 0, [ 1, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2,0';
-  var exp = _.vectorAdapter.from( new F32x([ 3, 6 ]) );
-  var line = matrix.lineNdGet( 0, [ 2, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:0,1';
-  var exp = _.vectorAdapter.from( new F32x([ 7, 10 ]) );
-  var line = matrix.lineNdGet( 0, [ 0, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:1,1';
-  var exp = _.vectorAdapter.from( new F32x([ 8, 11 ]) );
-  var line = matrix.lineNdGet( 0, [ 1, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2,1';
-  var exp = _.vectorAdapter.from( new F32x([ 9, 12 ]) );
-  var line = matrix.lineNdGet( 0, [ 2, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:0,3';
-  var exp = _.vectorAdapter.from( new F32x([ 19, 22 ]) );
-  var line = matrix.lineNdGet( 0, [ 0, 3 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:1,3';
-  var exp = _.vectorAdapter.from( new F32x([ 20, 23 ]) );
-  var line = matrix.lineNdGet( 0, [ 1, 3 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:0 i:2,3';
-  var exp = _.vectorAdapter.from( new F32x([ 21, 24 ]) );
-  var line = matrix.lineNdGet( 0, [ 2, 3 ] );
-  test.identical( line, exp );
-
-  /* */
-
-  test.case = '2x3x4 d:1';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-
-  test.description = 'd:1 i:0,0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 2, 3 ]) );
-  var line = matrix.lineNdGet( 1, [ 0, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1,0';
-  var exp = _.vectorAdapter.from( new F32x([ 4, 5, 6 ]) );
-  var line = matrix.lineNdGet( 1, [ 1, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:0,1';
-  var exp = _.vectorAdapter.from( new F32x([ 7, 8, 9 ]) );
-  var line = matrix.lineNdGet( 1, [ 0, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1,1';
-  var exp = _.vectorAdapter.from( new F32x([ 10, 11, 12 ]) );
-  var line = matrix.lineNdGet( 1, [ 1, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:0,3';
-  var exp = _.vectorAdapter.from( new F32x([ 19, 20, 21 ]) );
-  var line = matrix.lineNdGet( 1, [ 0, 3 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:1 i:1,3';
-  var exp = _.vectorAdapter.from( new F32x([ 22, 23, 24 ]) );
-  var line = matrix.lineNdGet( 1, [ 1, 3 ] );
-  test.identical( line, exp );
-
-  /* */
-
-  test.case = '2x3x4 d:2';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-
-  test.description = 'd:2 i:0,0';
-  var exp = _.vectorAdapter.from( new F32x([ 1, 7, 13, 19 ]) );
-  var line = matrix.lineNdGet( 2, [ 0, 0 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:2 i:1,1';
-  var exp = _.vectorAdapter.from( new F32x([ 5, 11, 17, 23 ]) );
-  var line = matrix.lineNdGet( 2, [ 1, 1 ] );
-  test.identical( line, exp );
-
-  test.description = 'd:2 i:1,2';
-  var exp = _.vectorAdapter.from( new F32x([ 6, 12, 18, 24 ]) );
-  var line = matrix.lineNdGet( 2, [ 1, 2 ] );
-  test.identical( line, exp );
-
-  /* */
-
-}
-
-//
-
-function lineNdGetIterate( test )
-{
-
-  /* */
-
-  test.case = '2x3. iterate dimension 0';
-
-  var dims = [ 2, 3 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let v = 0; v < dims[ 1 ]; v += 1 )
-  {
-    let line = matrix.lineNdGet( 0, [ v ] );
-    got.push( ... line, '.' );
-  }
-  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '2x3. iterate dimension 1';
-
-  var dims = [ 2, 3 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let v = 0; v < dims[ 0 ]; v += 1 )
-  {
-    let line = matrix.lineNdGet( 1, [ v ] );
-    got.push( ... line, '.' );
-  }
-  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '2x3x4. iterate dimension 0';
-
-  var dims = [ 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
-  {
-    for( let v = 0; v < dims[ 1 ]; v += 1 )
-    {
-      let line = matrix.lineNdGet( 0, [ v, x ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '2x3x4. iterate dimension 1';
-
-  var dims = [ 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
-  {
-    for( let v = 0; v < dims[ 0 ]; v += 1 )
-    {
-      let line = matrix.lineNdGet( 1, [ v, x ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '2x3x4. iterate dimension 2';
-
-  var dims = [ 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
-  {
-    for( let v = 0; v < dims[ 0 ]; v += 1 )
-    {
-      let line = matrix.lineNdGet( 2, [ v, x ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '1x2x3x4. iterate dimension 0';
-
-  var dims = [ 1, 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
-  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
-  {
-    for( let v = 0; v < dims[ 1 ]; v += 1 )
-    {
-      let line = matrix.lineNdGet( 0, [ v, x, y ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, '.', 2, '.', 3, '.', 4, '.', 5, '.', 6, '.', 7, '.', 8, '.', 9, '.', 10, '.', 11, '.', 12, '.', 13, '.', 14, '.', 15, '.', 16, '.', 17, '.', 18, '.', 19, '.', 20, '.', 21, '.', 22, '.', 23, '.', 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '1x2x3x4. iterate dimension 1';
-
-  var dims = [ 1, 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
-  for( let x = 0 ; x < dims[ 2 ] ; x += 1 )
-  {
-    for( let v = 0 ; v < dims[ 0 ]; v += 1 )
-    {
-      let line = matrix.lineNdGet( 1, [ v, x, y ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, 2, '.', 3, 4, '.', 5, 6, '.', 7, 8, '.', 9, 10, '.', 11, 12, '.', 13, 14, '.', 15, 16, '.', 17, 18, '.', 19, 20, '.', 21, 22, '.', 23, 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '1x2x3x4. iterate dimension 2';
-
-  var dims = [ 1, 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let y = 0 ; y < dims[ 3 ] ; y += 1 )
-  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
-  {
-    for( let v = 0 ; v < dims[ 0 ] ; v += 1 )
-    {
-      let line = matrix.lineNdGet( 2, [ v, x, y ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, 3, 5, '.', 2, 4, 6, '.', 7, 9, 11, '.', 8, 10, 12, '.', 13, 15, 17, '.', 14, 16, 18, '.', 19, 21, 23, '.', 20, 22, 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '1x2x3x4. iterate dimension 3';
-
-  var dims = [ 1, 2, 3, 4 ];
-  var length = _.avector.reduceToProduct( dims );
-  var buffer = new I32x( length );
-  for( let i = 0 ; i < length ; i++ )
-  buffer[ i ] = i+1;
-
-  var matrix = new wTools.Matrix
-  ({
-    buffer,
-    dims,
-    inputRowMajor : 0,
-  });
-
-  var got = [];
-  for( let y = 0 ; y < dims[ 2 ] ; y += 1 )
-  for( let x = 0 ; x < dims[ 1 ] ; x += 1 )
-  {
-    for( let v = 0 ; v < dims[ 0 ] ; v += 1 )
-    {
-      let line = matrix.lineNdGet( 3, [ v, x, y ] );
-      got.push( ... line, '.' );
-    }
-  }
-  var exp = [ 1, 7, 13, 19, '.', 2, 8, 14, 20, '.', 3, 9, 15, 21, '.', 4, 10, 16, 22, '.', 5, 11, 17, 23, '.', 6, 12, 18, 24, '.' ];
-  test.identical( got, exp );
-
-  /* */
-
-  console.log( matrix );
-  console.log( _.vad.from([ 1, 2, 3 ]) );
-
-}
+// }
 
 //
 
@@ -27188,6 +30498,92 @@ function permutate( test )
   m.permutateBackward( permutates );
   test.identical( m, original );
   test.identical( permutates, permutatesExpected );
+
+  /* */
+
+  test.case = 'permutateBackward bug';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    3, 4,
+    5, 6,
+    7, 8,
+    1, 2,
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 1, 2, 3, 0 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
+
+  test.case = 'permutateForward bug';
+
+  var exp = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    7, 8,
+    1, 2,
+    3, 4,
+    5, 6
+  ]);
+
+  var m = _.Matrix.Make([ 4, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+    7, 8
+  ]);
+
+  var original = m.clone();
+
+  var permutates =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  var permutatesExpected =
+  [
+    [ 3, 0, 1, 2 ],
+    [ 0, 1 ],
+  ]
+
+  m.permutateForward( permutates );
+  test.identical( m, exp );
+  test.identical( permutates, permutatesExpected );
+
+  m.permutateBackward( permutates );
+  test.identical( m, original );
+  test.identical( permutates, permutatesExpected );
+
+  /* */
 
 }
 
@@ -31544,85 +34940,440 @@ function subScalarWise( test )
 
 }
 
-function reduceToMeanRowWise( test )
+//
+
+function distributionRangeSummaryValueRowWise( test )
 {
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  [
+    [ NaN, NaN ],
+    [ NaN, NaN ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  [
+    [ NaN, NaN ],
+    [ NaN, NaN ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
 
   /* */
 
-  test.case = 'no dst';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  test.case = 'dims[ 1 ] === 1, without dst';
+  var matrix = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    1,
+    2,
+  ])
+  var exp =
+  [
+    [ 1, 1 ],
+    [ 2, 2 ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 1, with dst';
+  var matrix = _.Matrix.Make([ 2, 1 ]).copy
+  ([
+    1,
+    2,
+  ])
+  var exp =
+  [
+    [ 1, 1 ],
+    [ 2, 2 ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 2, without dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     5,  2,
+     6,  3,
+  ]);
+  var exp =
+  [
+    [ 1, 4 ],
+    [ 2, 5 ],
+    [ 3, 6 ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 2, with dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     5,  2,
+     6,  3,
+  ]);
+  var exp =
+  [
+    [ 1, 4 ],
+    [ 2, 5 ],
+    [ 3, 6 ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] > 2, without dst';
+  var matrix = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+     4,  2,  5,  1,
+     6,  3, -1,  4,
+  ]);
+  var exp =
+  [
+    [  1,  5 ],
+    [ -1,  6 ],
+  ];
+  var got = matrix.distributionRangeSummaryValueRowWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] > 2, with dst';
+  var matrix = _.Matrix.Make([ 2, 4 ]).copy
+  ([
+     4,  2,  5,  1,
+     6,  3, -1,  4,
+  ]);
+  var exp =
+  [
+    [  1,  5 ],
+    [ -1,  6 ],
+  ];
+  var dst = [];
+  var got = matrix.distributionRangeSummaryValueRowWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryValueRowWise( [], [] ) );
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryValueRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryValueRowWise( _.Matrix.Make( 2 ) ) );
+}
+
+//
+
+function distributionRangeSummaryColWise( test )
+{
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = [];
+  var got = matrix.distributionRangeSummaryColWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var exp = [];
+  var got = matrix.distributionRangeSummaryColWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp =
+  [
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+  ];
+  var r = matrix.distributionRangeSummaryColWise();
+  test.identical( r, exp );
+
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var exp =
+  [
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+    {
+      min : { value : NaN, index : -1, container : null },
+      max : { value : NaN, index : -1, container : null },
+      median : NaN,
+    },
+  ];
+  var got = matrix.distributionRangeSummaryColWise( dst );
+  test.identical( got, exp );
+  test.is( got === dst );
+
+  /* */
+
+  test.case = 'distributionRangeSummaryColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  [
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 10, index : 2 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 111, index : 3 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 30, index : 2 },
+    },
+  ];
+  var got = matrix.distributionRangeSummaryColWise();
+  test.contains( got, exp );
+
+  test.case = 'distributionRangeSummaryColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var dst = [];
+  var exp =
+  [
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 10, index : 2 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 111, index : 3 },
+    },
+    {
+      min : { value : 0, index : 0 },
+      max : { value : 30, index : 2 },
+    },
+  ];
+  var got = matrix.distributionRangeSummaryColWise( dst );
+  test.contains( got, exp );
+  test.is( got === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( [], [] ) );
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( _.Matrix.Make( 2 ) ) );
+}
+
+//
+
+function reduceToMeanRowWise( test )
+{
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var got = matrix.reduceToMeanRowWise();
+  test.identical( got, _.vad.from([ NaN, NaN ]) );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var got = matrix.reduceToMeanRowWise( dst );
+  test.identical( dst, [ NaN, NaN ] );
+  test.identical( got, _.vad.from([ NaN, NaN ]) );
+  test.is( got._vectorBuffer === dst );
+
+  test.case = 'without dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
      2,  5,
      3,  6,
   ]);
-  var got = m1.reduceToMeanRowWise();
+  var got = matrix.reduceToMeanRowWise();
   test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
+  test.is( got !== matrix.buffer );
 
-  /* */
-
-  test.case = 'dst';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  test.case = 'with dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
      2,  5,
      3,  6,
   ]);
   var dst = [ 1, 1, 1 ];
-  var got = m1.reduceToMeanRowWise( dst );
+  var got = matrix.reduceToMeanRowWise( dst );
   test.identical( dst, [ 2.5, 3.5, 4.5 ] );
   test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
   test.is( got._vectorBuffer === dst );
 
-  /* */
+  /* - */
 
-  test.case = 'control mulRowWise';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanRowWise([ 2, 1 ]) );
+}
+
+//
+
+function reduceToMeanColWise( test )
+{
+  test.case = 'dims[ 0 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var got = matrix.reduceToMeanColWise();
+  test.identical( got, _.vad.from([ NaN, NaN ]) );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'dims[ 0 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var got = matrix.reduceToMeanColWise( dst );
+  test.identical( dst, [ NaN, NaN ] );
+  test.identical( got, _.vad.from([ NaN, NaN ]) );
+  test.is( got._vectorBuffer === dst );
+
+  test.case = 'without dst';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+     1, 4, 2,
+     5, 3, 6,
+  ]);
+  var got = matrix.reduceToMeanColWise();
+  test.identical( got, _.vad.from([ 3, 3.5, 4 ]) );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'with dst';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+     1, 4, 2,
+     5, 3, 6,
+  ]);
+  var dst = [ 1, 2, 3 ];
+  var got = matrix.reduceToMeanColWise( dst );
+  test.identical( dst, [ 3, 3.5, 4 ] );
+  test.identical( got, _.vad.from([ 3, 3.5, 4 ]) );
+  test.is( got._vectorBuffer === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanColWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanColWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanColWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanColWise([ 2, 1 ]) );
+}
+
+//
+
+function reduceToMeanScalarWise( test )
+{
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var got = matrix.reduceToMeanScalarWise();
+  test.identical( got, NaN );
+  test.is( got !== matrix.buffer );
+
+  test.case = 'without dst';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
      1,  4,
      2,  5,
      3,  6,
   ]);
-  var x = [ 1, 3 ];
-  m1.mulRowWise( x );
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  12,
-     2,  15,
-     3,  18,
-  ]);
-  test.identical( m1, exp );
+  var got = matrix.reduceToMeanScalarWise();
+  test.identical( got, 3.5 );
+  test.is( got !== matrix.buffer );
 
-  /* */
+  /* - */
 
-  test.case = 'control distributionRangeSummaryValueRowWise';
-  var m1 = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-     1,  4,
-     2,  5,
-     3,  6,
-  ]);
+  if( !Config.debug )
+  return;
 
-  var exp =
-  [
-    [ 1, 4 ],
-    [ 2, 5 ],
-    [ 3, 6 ],
-  ]
-  var got = m1.distributionRangeSummaryValueRowWise();
-  test.identical( got, exp );
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise( _.Matrix.Make([ 1, 2 ]) ) );
 
-  /* */
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise( [], [] ) );
 
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToMeanScalarWise([ 2, 1 ]) );
 }
 
 //
 
 function colRowWiseOperations( test )  /* qqq2 : split test routine appropriately and extend each */
 {
-
-  /* */
-
   test.case = 'data';
 
   var buffer = new I32x
@@ -31674,145 +35425,7 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
       5, 10, 20,
     ]),
   });
-
   matrix2.bufferNormalize();
-
-  /* */
-
-  test.case = 'reduceToMean';
-
-  var c = m32.reduceToMeanRowWise();
-  var r = m32.reduceToMeanColWise();
-  var a = m32.reduceToMeanScalarWise();
-
-  test.identical( c, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-  test.identical( r, _.vad.from([ 2, 5 ]) );
-  test.identical( a, 3.5 );
-
-  /* */
-
-  test.case = 'reduceToMean with output argument';
-
-  var c2 = [ 1, 1, 1 ];
-  var r2 = [ 1 ];
-  m32.reduceToMeanRowWise( c2 );
-  m32.reduceToMeanColWise( r2 );
-
-  test.identical( c, _.vad.from( c2 ) );
-  test.identical( r, _.vad.from( r2 ) );
-
-  /* */
-
-  test.case = 'reduceToMean with empty matrixs';
-
-  var c = empty1.reduceToMeanRowWise();
-  var r = empty1.reduceToMeanColWise();
-  var a = empty1.reduceToMeanScalarWise();
-
-  test.identical( c, _.vad.from([ NaN, NaN ]) );
-  test.identical( r, _.vad.from([]) );
-  test.identical( a, NaN );
-
-  /* */
-
-  test.case = 'reduceToMean bad arguments';
-
-  function simpleShouldThrowError( f )
-  {
-    test.shouldThrowErrorSync( () => m[ f ]( 1 ) );
-    test.shouldThrowErrorSync( () => m[ f ]( null ) );
-    test.shouldThrowErrorSync( () => m[ f ]( 'x' ) );
-    test.shouldThrowErrorSync( () => m[ f ]( [], 1 ) );
-    test.shouldThrowErrorSync( () => m[ f ]( [], [] ) );
-    test.shouldThrowErrorSync( () => m[ f ]( matrix1.clone() ) );
-  }
-
-  if( Config.debug )
-  {
-
-    simpleShouldThrowError( 'reduceToMeanRowWise' );
-    simpleShouldThrowError( 'reduceToMeanColWise' );
-    simpleShouldThrowError( 'reduceToMeanScalarWise' );
-
-  }
-
-  /* */
-
-  test.case = 'distributionRangeSummaryColWise';
-
-  var exp =
-  [
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 10, index : 2 },
-    },
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 111, index : 3 },
-    },
-    {
-      min : { value : 0, index : 0 },
-      max : { value : 30, index : 2 },
-    },
-  ]
-
-  var r = matrix1.distributionRangeSummaryColWise();
-  test.contains( r, exp );
-
-  var exp =
-  [
-  ]
-
-  var r = empty1.distributionRangeSummaryColWise();
-  test.identical( r, exp );
-
-  var exp =
-  [
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-    {
-      min : { value : NaN, index : -1, container : null },
-      max : { value : NaN, index : -1, container : null },
-      median : NaN,
-    },
-  ]
-
-  var r = empty2.distributionRangeSummaryColWise();
-  test.identical( r, exp );
-
-  /* */
-
-  test.case = 'minmaxColWise';
-
-  var exp =
-  {
-    min : new F64x([ 0, 0, 0 ]),
-    max : new F64x([ 10, 111, 30 ]),
-  }
-  var r = matrix1.minmaxColWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([]),
-    max : new F64x([]),
-  }
-
-  var r = empty1.minmaxColWise();
-  test.identical( r, exp );
-
-  var exp =
-  {
-    min : new F64x([ NaN, NaN ]),
-    max : new F64x([ NaN, NaN ]),
-  }
-
-  var r = empty2.minmaxColWise();
-  var identical = _.entityIdentical( r, exp );
-  test.identical( r, exp );
 
   /* */
 
@@ -32007,6 +35620,74 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
 
 //
 
+function minmaxColWise( test )
+{
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  {
+    min : new F32x([]),
+    max : new F32x([]),
+  };
+  var got = matrix.minmaxColWise();
+  test.identical( got, exp );
+
+  test.case = 'dims[ 1 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = {};
+  var exp =
+  {
+    min : new F32x([]),
+    max : new F32x([]),
+  };
+  var got = matrix.minmaxColWise( dst );
+  test.identical( got, exp );
+  test.is( got !== dst ); /* Dmytro : it's strange, maybe routine needs assertion */
+
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp =
+  {
+    min : new F32x([ NaN, NaN ]),
+    max : new F32x([ NaN, NaN ]),
+  };
+  var got = matrix.minmaxColWise();
+  var identical = _.entityIdentical( got, exp );
+  test.identical( got, exp );
+
+  test.case = 'minmaxColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  {
+    min : new F32x([ 0, 0, 0 ]),
+    max : new F32x([ 10, 111, 30 ]),
+  };
+  var got = matrix.minmaxColWise();
+  test.identical( got, exp );
+
+  /* - */
+
+  // if( !Config.debug )
+  // return;
+  //
+  // test.case = 'extra arguments';
+  // var matrix = _.Matrix.Make( 2 )
+  // test.shouldThrowErrorSync( () => matrix.minmaxColWise( [], [] ) );
+  //
+  // test.case = 'wrong type of dst';
+  // var matrix = _.Matrix.Make( 2 )
+  // test.shouldThrowErrorSync( () => matrix.minmaxColWise( null ) );
+  // test.shouldThrowErrorSync( () => matrix.minmaxColWise( _.Matrix.Make( 2 ) ) );
+}
+
+//
+
 function mulColWise( test )
 {
 
@@ -32032,41 +35713,91 @@ function mulColWise( test )
     15, 18, 21, 24,
   ]);
   test.identical( m, exp );
-
-  /* */
-
 }
 
 //
 
 function mulRowWise( test )
 {
+  test.case = 'dims[ 1 ] === 0, mul on Number';
+  var matrix = _.Matrix.Make([ 3, 0 ]);
+  var x = 10;
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 0 ]);
+  test.identical( got, exp );
+  test.is( got === matrix );
 
-  /* */
+  test.case = 'dims[ 1 ] === 0, mul on empty array';
+  var matrix = _.Matrix.Make([ 3, 0 ]);
+  var x = [];
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 0 ]);
+  test.identical( x, [] );
+  test.identical( got, exp );
+  test.is( got === matrix );
 
-  test.case = 'basic';
-
-  var x = [ 0, 1, 2, 3 ];
-  var m = _.Matrix.Make([ 2, 4 ]).copy
+  test.case = 'plane matrix, mul on Numbers';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
   ([
-    1, 2, 3, 4,
-    5, 6, 7, 8,
+     1,  4,
+     2,  5,
+     3,  6,
   ]);
-
-  m.mulRowWise( x );
-
-  var exp = [ 0, 1, 2, 3 ];
-  test.identical( x, exp );
-
-  var exp = _.Matrix.Make([ 2, 4 ]).copy
+  var x = 2;
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
   ([
-    0, 2, 6, 12,
-    0, 6, 14, 24,
+     2,  8,
+     4,  10,
+     6,  12,
   ]);
-  test.identical( m, exp );
+  test.identical( got, exp );
+  test.is( got === matrix );
 
-  /* */
+  test.case = 'plane matrix, mul on array of numbers';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  4,
+     2,  5,
+     3,  6,
+  ]);
+  var x = [ 1, 3 ];
+  var got = matrix.mulRowWise( x );
+  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+     1,  12,
+     2,  15,
+     3,  18,
+  ]);
+  test.identical( x, [ 1, 3 ] );
+  test.identical( got, exp );
+  test.is( got === matrix );
 
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( null ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( [ 1, 2 ], [ 1, 2 ] ) );
+
+  test.case = 'wrong type of multiplicator';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'wrong length of multiplicator';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.mulRowWise([ 1, 2, 3 ]) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.mulRowWise([ 2, 1 ]) );
 }
 
 //
@@ -35829,6 +39560,101 @@ function experiment( test )
 }
 
 experiment.experimental = 1;
+//
+// //
+//
+// function myPermutate( test )
+// {
+//
+//   /* */
+//
+//   test.case = 'permutateBackward2 don\'t fail';
+//
+//   var exp = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     3, 4,
+//     5, 6,
+//     7, 8,
+//     1, 2,
+//   ]);
+//
+//   var m = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     1, 2,
+//     3, 4,
+//     5, 6,
+//     7, 8
+//   ]);
+//
+//   var original = m.clone();
+//
+//   var permutates =
+//   [
+//     [ 1, 2, 3, 0 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   var permutatesExpected =
+//   [
+//     [ 1, 2, 3, 0 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   m.permutateForward2( permutates );
+//   test.identical( m, exp );
+//   test.identical( permutates, permutatesExpected );
+//
+//   m.permutateBackward2( permutates );
+//   test.identical( m, original );
+//   test.identical( permutates, permutatesExpected );
+//
+//   /* */
+//
+//   test.case = 'permutateForward2 don\'t fail';
+//
+//   var exp = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     7, 8,
+//     1, 2,
+//     3, 4,
+//     5, 6
+//   ]);
+//
+//   var m = _.Matrix.Make([ 4, 2 ]).copy
+//   ([
+//     1, 2,
+//     3, 4,
+//     5, 6,
+//     7, 8
+//   ]);
+//
+//   var original = m.clone();
+//
+//   var permutates =
+//   [
+//     [ 3, 0, 1, 2 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   var permutatesExpected =
+//   [
+//     [ 3, 0, 1, 2 ],
+//     [ 0, 1 ],
+//   ]
+//
+//   m.permutateForward2( permutates );
+//   test.identical( m, exp );
+//   test.identical( permutates, permutatesExpected );
+//
+//   m.permutateBackward2( permutates );
+//   test.identical( m, original );
+//   test.identical( permutates, permutatesExpected );
+//
+//   /* */
+//
+// }
+//
+// myPermutate.experimental = 1;
 
 // --
 // declare
@@ -35856,9 +39682,24 @@ let Self =
 
     matrixIs,
     constructorIsMatrix,
+    isCol,
+    isRow,
+    isSquare,
+    isHorizontal,
+    isVertical,
     isDiagonal,
+    isIdentity,
+    isScalar,
+    isZero,
     isUpperTriangle,
+    isLowerTriangle,
+    isOrthogonal,
+    isSingular,
     isSymmetric,
+    isSkewSymmetric,
+    isNilpotent,
+    isInvolutary,
+    isIdempotent,
     EquivalentSpace,
 
     // equaler
@@ -35871,8 +39712,17 @@ let Self =
 
     scalarGet,
     scalarSet,
+    hasIndex,
     eGet,
     eSet,
+    lineGet,
+    lineSet,
+    lineNdGet, /* aaa : add 4d cases */ /* Dmytro : added, extended by throwing test cases */
+    lineNdGetIterate,
+    rowGet,
+    rowSet,
+    colGet,
+    colSet,
 
     // maker
 
@@ -35973,6 +39823,9 @@ let Self =
 
     // utils
 
+    NrowOf,
+    NcolOf,
+    DimsOf,
     StridesFromDimensions,
     TempBorrow,
 
@@ -35985,14 +39838,11 @@ let Self =
     bufferNormalize,
     expand,
     vectorToMatrix,
-    accessors,
-    lineNdGet, /* qqq : add 4d cases */
-    lineNdGetIterate,
 
     /* iterators */
 
     scalarWhile,
-    scalarWhileCheckingFields, 
+    scalarWhileCheckingFields,
     scalarEach,
     scalarEachCheckingFields,
     layerEach,
@@ -36022,8 +39872,13 @@ let Self =
 
     addScalarWise,
     subScalarWise,
+    distributionRangeSummaryValueRowWise,
+    distributionRangeSummaryColWise,
     reduceToMeanRowWise,
+    reduceToMeanColWise,
+    reduceToMeanScalarWise,
     colRowWiseOperations,
+    minmaxColWise,
     mulColWise,
     mulRowWise,
     mulScalarWise,
@@ -36088,6 +39943,8 @@ let Self =
     // experiments
 
     experiment,
+    // permutateFails,
+    // myPermutate
 
   },
 

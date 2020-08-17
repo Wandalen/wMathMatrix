@@ -1,4 +1,4 @@
-# module::MathMatrix [![status](https://github.com/Wandalen/wMathMatrix/workflows/publish/badge.svg)](https://github.com/Wandalen/wMathMatrix/actions?query=workflow%3Apublish) [![experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
+# module::MathMatrix [![status](https://github.com/Wandalen/wMathMatrix/workflows/publish/badge.svg)](https://github.com/Wandalen/wMathMatrix/actions?query=workflow%3Apublish) [![stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/emersion/stability-badges#stable)
 
 Abstract implementation of matrix math. MathMatrix introduces class Matrix, which is a multidimensional structure which, in the most trivial case, is a 2D matrix. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. A Vector adapter is an implementation of the abstract interface, a kind of link that defines how to interpret data as the vector. An adapter is a special object to make algorithms more abstract and to use the same code for very different formats of vector specifying. Use module MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a particular or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container. You may use it to continuously store multidimensional data.
 
@@ -197,7 +197,7 @@ Unlike the previous example, strides in this example are specified explicitly, b
 
 The diagram shows how the buffer maps into the matrix. All scalars follow one by one. By default, `strides` are calculated so that all scalars go one after another. The option `inputRowMajor` specifies in which sequence row and column go.
 
-Alternatively, one of the [static routines](./MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
+Alternatively, one of the [static routines](doc/eng/tutorial/MatrixCreation.md) `_.Matrix.Make*` may be used to create a matrix.
 
 ### Non-standard strides
 
@@ -208,16 +208,16 @@ var matrix = new _.Matrix
 ({
   buffer : [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
   dims : [ 3, 2 ],
-  offset : 8,
-  strides : [ -2, -1 ],
+  strides : [ 3, 1 ],
+  offset : 1,
 });
 
 console.log( `matrix :\n${ matrix }` );
 /* log : matrix :
 Matrix.Array.3x2 ::
-  +9 +8
-  +7 +6
-  +5 +4
+  +1 +2
+  +4 +5
+  +7 +8
 */
 ```
 
@@ -384,7 +384,7 @@ Matrix.Array.4x3 ::
 
 ![Submatrices.png](doc/img/Submatrices.png)
 
-The diagram above shows how two submatrices `sub1` and` sub2` of the same matrix `matrix` can be used independently of each other. Matrices do not own data buffer but refer to it. The dotted lines show how the matrices are put in the buffer and the corresponding matrix. All matrices use the same buffer, so common scalars of submatrices have increased `20` times.
+The diagram above shows how two submatrices `sub1` and `sub2` of the same matrix `matrix` can be used independently of each other. Matrices do not own data buffer but refer to it. The dotted lines show how the matrices are put in the buffer and the corresponding matrix. All matrices use the same buffer, so common scalars of submatrices have increased `20` times.
 
 ### Multidimensional matrix
 
@@ -584,4 +584,3 @@ node sample/Sample.s
 ```
 npm add 'wmathmatrix@alpha'
 ```
-
