@@ -34096,8 +34096,8 @@ function distributionRangeSummaryRowWise( test )
   test.case = 'dims[ 1 ] === 0';
   var matrix = _.Matrix.Make([ 0, 2 ]);
   var exp = [];
-  var r = matrix.distributionRangeSummaryRowWise();
-  test.identical( r, exp );
+  var got = matrix.distributionRangeSummaryRowWise();
+  test.identical( got, exp );
 
   test.case = 'dims[ 1 ] === 0';
   var matrix = _.Matrix.Make([ 0, 2 ]);
@@ -34221,8 +34221,8 @@ function distributionRangeSummaryColWise( test )
       median : NaN,
     },
   ];
-  var r = matrix.distributionRangeSummaryColWise();
-  test.identical( r, exp );
+  var got = matrix.distributionRangeSummaryColWise();
+  test.identical( got, exp );
 
   test.case = 'dims[ 1 ] === 0';
   var matrix = _.Matrix.Make([ 0, 2 ]);
@@ -34313,6 +34313,90 @@ function distributionRangeSummaryColWise( test )
   var matrix = _.Matrix.Make( 2 )
   test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( null ) );
   test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryColWise( _.Matrix.Make( 2 ) ) );
+}
+
+//
+
+function reduceToSumColWise( test )
+{
+  test.case = 'dims[ 0 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = [];
+  var got = matrix.reduceToSumColWise();
+  test.identical( got, _.vectorAdapter.from( exp ) );
+
+  test.case = 'dims[ 0 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var dst = [];
+  var exp = [];
+  var got = matrix.reduceToSumColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, _.vectorAdapter.from( exp ) );
+  test.is( got._vectorBuffer === dst );
+
+  /* */
+
+  test.case = 'dims[ 1 ] === 0, without dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp = [ 0, 0 ];
+  var got = matrix.reduceToSumColWise();
+  test.identical( got, _.vectorAdapter.from( exp ) );
+
+  test.case = 'dims[ 1 ] === 0, with dst';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var dst = [];
+  var exp = [ 0, 0 ];
+  var got = matrix.reduceToSumColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, _.vectorAdapter.from( exp ) );
+  test.is( got._vectorBuffer === dst );
+
+  /* */
+
+  test.case = 'reduceToSumColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp = [ 12, 133, 44 ];
+  var got = matrix.reduceToSumColWise();
+  test.contains( got, _.vectorAdapter.from( exp ) );
+
+  test.case = 'reduceToSumColWise';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var dst = [];
+  var exp = [ 12, 133, 44 ];
+  var got = matrix.reduceToSumColWise( dst );
+  test.identical( dst, exp );
+  test.identical( got, _.vectorAdapter.from( exp ) );
+  test.is( got._vectorBuffer === dst );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'wrong type of dst';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToSumColWise( null ) );
+  test.shouldThrowErrorSync( () => matrix.reduceToSumColWise( _.Matrix.Make([ 1, 2 ]) ) );
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 );
+  test.shouldThrowErrorSync( () => matrix.reduceToSumColWise( [], [] ) );
+
+  test.case = 'matrix has more than two dimensions';
+  var matrix = _.Matrix.Make([ 2, 2, 3 ]);
+  test.shouldThrowErrorSync( () => matrix.reduceToSumColWise([ 2, 1 ]) );
 }
 
 //
@@ -34531,19 +34615,6 @@ function colRowWiseOperations( test )  /* qqq2 : split test routine appropriatel
     ]),
   });
   matrix2.bufferNormalize();
-
-  /* */
-
-  test.case = 'reduceToSumColWise';
-
-  var sum = matrix1.reduceToSumColWise();
-  test.identical( sum, _.vad.from([ 12, 133, 44 ]) );
-  var sum = matrix2.reduceToSumColWise();
-  test.identical( sum, _.vad.from([ 16, 32, 53 ]) );
-  var sum = empty1.reduceToSumColWise();
-  test.identical( sum, _.vad.from([]) );
-  var sum = empty2.reduceToSumColWise();
-  test.identical( sum, _.vad.from([ 0, 0 ]) );
 
   /* */
 
@@ -38992,6 +39063,7 @@ let Self =
     distributionRangeSummaryValueRowWise,
     distributionRangeSummaryRowWise,
     distributionRangeSummaryColWise,
+    reduceToSumColWise,
     reduceToMeanRowWise,
     reduceToMeanColWise,
     reduceToMeanScalarWise,
