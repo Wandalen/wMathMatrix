@@ -412,12 +412,16 @@ function PermutateRook_body( o )
   _.assert( arguments.length === 1 );
   _.assertRoutineOptions( PermutateRook_body, o );
 
-  let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  // Andrey: on non-square matrix max will be a problem. We need swaps only to diagonal end, so min correct here
+  // let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  let l = Math.min( o.m.dims[ 0 ], o.m.dims[ 1 ] );
   for( let i = 0 ; i < l ; i++ )
   {
     o.lineIndex = i;
     proto._PermutateLineRook.body.call( proto, o );
   }
+
+  delete o.lineIndex
 
   return o;
 }
@@ -437,6 +441,29 @@ let PermutateRook = _.routineFromPreAndBody( PermutateRook_pre, PermutateRook_bo
 
 //
 
+/**
+ * Method permutateRook makes permutation rows and cols matrix selects as pivot largest value in row or column for stabilization purpose.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   3, 2, 1,
+ *   2, 3, -4,
+ *   -5, 2, 3
+ * ]);
+ * var got = m.permutateRook();
+ * console.log( m );
+ * // Matrix.F32x.3x3 ::
+ * //   -5 +3 +2
+ * //   +2 -4 +3
+ * //   +3 +1 +2
+ * console.log( got.permutates );
+ * // [ [ 2, 1, 0 ], [ 0, 2, 1 ]
+ *
+ * @param { MapLike } o - Options map.
+ * @param { Matrix } o.x - Matrix of results. Permuted together with rows of src matrix.
+ * @return { Map } - Return map with result of permutation.
+ */
 function permutateRook( o )
 {
   let self = this;
@@ -480,8 +507,8 @@ let Extension =
   // _permutateDimension2,
   // permutateForward2,
   // permutateBackward2,
-  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
-  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
+  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */ /* Andrey: Covered. Added throwing cases with different length of permutation array and dims of the matrix */
+  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */ /* Andrey: Covered. Added throwing cases with different length of permutation array and dims of the matrix */
 
   _VectorPermutateDimension,
   VectorPermutateForward,
@@ -489,8 +516,8 @@ let Extension =
 
   _PermutateLineRook,
   _permutateLineRook,
-  PermutateRook, /* qqq : cover please */
-  permutateRook, /* qqq : cover please ( lightly ) */
+  PermutateRook, /* qqq : cover please */ /* Andrey: covered */
+  permutateRook, /* qqq : cover please ( lightly ) */ /* Andrey: covered */
 
   //
 
