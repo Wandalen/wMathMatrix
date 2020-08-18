@@ -34595,14 +34595,14 @@ function nullspace( test )
     +1, +2, +4,
     +1, +2, +4,
   ]);
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    0,    1,
-    1,    0,
-    -1/2, -1/4,
+    0,    1,    4,
+    1,    0,    4,
+    -1/2, -1/4, 4,
   ]);
   var got = m.nullspace( m );
-  test.equivalent( got.submatrix( [ 0, 2 ], [ 0, 1 ] ), exp );
+  test.equivalent( got, exp );
   test.is( got === m );
 
   /* */
@@ -34636,12 +34636,12 @@ function nullspace( test )
     +1, +2, +4,
   ]);
   var origin = m.clone();
-  var dst = _.Matrix.Make([ 3, 3 ]); // _.Matrix.Make([ 3, 2 ]) ??
-  var exp = _.Matrix.Make([ 3, 3 ]).copy // [ 3, 2 ]
+  var dst = _.Matrix.Make([ 3, 3 ]);
+  var exp = _.Matrix.Make([ 3, 3 ]).copy
   ([
-    0,    1,   0,                    // without last zero column
-    1,    0,   0,
-    -1/2, -1/4,   0
+    0,    1,    0,
+    1,    0,    0,
+    -1/2, -1/4, 0
   ]);
   var got = m.nullspace( dst );
   test.equivalent( got, exp );
@@ -34661,7 +34661,9 @@ function nullspace( test )
   var m = _.Matrix.Make([ 3, 3 ])
   test.shouldThrowErrorSync( () => m.nullspace( 5 ) );
 
-  //  test.case = 'wrong dst dims';
+  test.case = 'wrong dst dims';
+  var m = _.Matrix.Make([ 3, 3 ])
+  test.shouldThrowErrorSync( () => m.nullspace( _.Matrix.Make([ 3, 2 ]) ) );
 }
 
 //
