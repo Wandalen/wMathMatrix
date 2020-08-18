@@ -109,7 +109,7 @@ console.log( `dst :\n${ dst }` );
 
 The static routine `Mul` multiplies the matrix `matrix` by the vector `vector`. Because the first argument has a `null` value, a new container `dst` is created to adopt the result. The container is returned as the result of executing a routine.
 
-Alternatively, an instance of the class can be multiplied by a vector using the method `matrix1pplyTo`.
+Alternatively, an instance of the class can be multiplied by a vector using the method `matrixApplyTo`.
 
 ```js
 var matrix = _.Matrix.MakeSquare

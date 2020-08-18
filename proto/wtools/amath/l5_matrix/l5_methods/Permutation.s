@@ -13,22 +13,52 @@ let Self = _.Matrix;
 function _permutateDimension( d, current, expected )
 {
   let self = this;
+  let inv = [];
+
+  for( let i = 0 ; i < current.length ; i++ )
+  inv[ current[ i ] ] = i;
 
   _.assert( current.length <= expected.length );
   _.assert( expected.length === self.dims[ d ] );
 
   for( let p1 = 0 ; p1 < current.length ; p1++ )
   {
-    if( expected[ p1 ] === current[ p1 ] )
-    continue;
-    let p2 = current[ expected[ p1 ] ];
-    _.longSwapElements( current, p2, p1 );
-    self.linesSwap( d, p2, p1 );
+    let counter = current.length;
+    if( expected[ p1 ] !== current[ p1 ] )
+    {
+      let p2 = inv[ expected[ p1 ] ];
+      _.longSwapElements( current, p2, p1 );
+      _.longSwapElements( inv, current[ p2 ], current[ p1 ] );
+      self.linesSwap( d, p2, p1 );
+      counter -= 1;
+      _.assert( counter >= 0 );
+    }
   }
 
   _.assert( _.longIdentical( current, expected.slice( 0, current.length ) ) );
-
 }
+
+//
+
+// function _permutateDimension2( d, current, expected )
+// {
+//   let self = this;
+//
+//   _.assert( current.length <= expected.length );
+//   _.assert( expected.length === self.dims[ d ] );
+//
+//   for( let p1 = 0 ; p1 < current.length ; p1++ )
+//   {
+//     if( expected[ p1 ] === current[ p1 ] )
+//     continue;
+//     let p2 = _.longLeftIndex( current, expected[ p1 ], p1 );
+//     _.longSwapElements( current, p2, p1 );
+//     self.linesSwap( d, p2, p1 );
+//
+//   }
+//   _.assert( _.longIdentical( current, expected.slice( 0, current.length ) ), 'current:', current, 'expected:', expected  );
+//
+// }
 
 //
 
@@ -74,6 +104,25 @@ function permutateForward( permutates )
   return self;
 }
 
+// function permutateForward2( permutates )
+// {
+//   let self = this;
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( permutates.length === self.dims.length );
+//
+//   for( let d = 0 ; d < permutates.length ; d++ )
+//   {
+//     let current = _.longFromRange([ 0, self.dims[ d ] ]);
+//     let expected = permutates[ d ];
+//     if( expected === null )
+//     continue;
+//     self._permutateDimension2( d, current, expected )
+//   }
+//
+//   return self;
+// }
+
 //
 
 /**
@@ -118,6 +167,26 @@ function permutateBackward( permutates )
 
   return self;
 }
+
+// function permutateBackward2( permutates )
+// {
+//   let self = this;
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( permutates.length === self.dims.length );
+//
+//   for( let d = 0 ; d < permutates.length ; d++ )
+//   {
+//     let current = permutates[ d ];
+//     let expected = _.longFromRange([ 0, self.dims[ d ] ]);
+//     if( current === null )
+//     continue;
+//     current = current.slice();
+//     self._permutateDimension2( d, current, expected )
+//   }
+//
+//   return self;
+// }
 
 //
 
@@ -343,12 +412,16 @@ function PermutateRook_body( o )
   _.assert( arguments.length === 1 );
   _.assertRoutineOptions( PermutateRook_body, o );
 
-  let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  // Andrey: on non-square matrix max will be a problem. We need swaps only to diagonal end, so min correct here
+  // let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
+  let l = Math.min( o.m.dims[ 0 ], o.m.dims[ 1 ] );
   for( let i = 0 ; i < l ; i++ )
   {
     o.lineIndex = i;
     proto._PermutateLineRook.body.call( proto, o );
   }
+
+  delete o.lineIndex
 
   return o;
 }
@@ -368,6 +441,29 @@ let PermutateRook = _.routineFromPreAndBody( PermutateRook_pre, PermutateRook_bo
 
 //
 
+/**
+ * Method permutateRook makes permutation rows and cols matrix selects as pivot largest value in row or column for stabilization purpose.
+ *
+ * @example
+ * var m = _.Matrix.Make([ 3, 3 ]).copy
+ * ([
+ *   3, 2, 1,
+ *   2, 3, -4,
+ *   -5, 2, 3
+ * ]);
+ * var got = m.permutateRook();
+ * console.log( m );
+ * // Matrix.F32x.3x3 ::
+ * //   -5 +3 +2
+ * //   +2 -4 +3
+ * //   +3 +1 +2
+ * console.log( got.permutates );
+ * // [ [ 2, 1, 0 ], [ 0, 2, 1 ]
+ *
+ * @param { MapLike } o - Options map.
+ * @param { Matrix } o.x - Matrix of results. Permuted together with rows of src matrix.
+ * @return { Map } - Return map with result of permutation.
+ */
 function permutateRook( o )
 {
   let self = this;
@@ -408,8 +504,11 @@ let Extension =
   //
 
   _permutateDimension,
-  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
-  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */
+  // _permutateDimension2,
+  // permutateForward2,
+  // permutateBackward2,
+  permutateForward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */ /* Andrey: Covered. Added throwing cases with different length of permutation array and dims of the matrix */
+  permutateBackward, /* qqq : good coverage required. take into account cases with different length of permutation array and dims of the matrix */ /* Andrey: Covered. Added throwing cases with different length of permutation array and dims of the matrix */
 
   _VectorPermutateDimension,
   VectorPermutateForward,
@@ -417,8 +516,8 @@ let Extension =
 
   _PermutateLineRook,
   _permutateLineRook,
-  PermutateRook, /* qqq : cover please */
-  permutateRook, /* qqq : cover please ( lightly ) */
+  PermutateRook, /* qqq : cover please */ /* Andrey: covered */
+  permutateRook, /* qqq : cover please ( lightly ) */ /* Andrey: covered */
 
   //
 
