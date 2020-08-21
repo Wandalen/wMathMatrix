@@ -30948,22 +30948,22 @@ function permutateForwardBackward( test )
   var m = _.Matrix.Make([ 2, 3 ])
   test.shouldThrowErrorSync( () => m.permutateForward() );
   test.shouldThrowErrorSync( () => m.permutateBackward() );
-  test.shouldThrowErrorSync( () => m.permutateForward( [[ 1, 0 ], [ 0, 1, 2 ]], [ 1, 0 ] ) );
-  test.shouldThrowErrorSync( () => m.permutateBackward( [[ 1, 0 ], [ 0, 1, 2 ]], [ 1, 0 ] ) );
+  test.shouldThrowErrorSync( () => m.permutateForward( [ [ 1, 0 ], [ 0, 1, 2 ] ], [ 1, 0 ] ) );
+  test.shouldThrowErrorSync( () => m.permutateBackward( [ [ 1, 0 ], [ 0, 1, 2 ] ], [ 1, 0 ] ) );
 
   test.case = 'permutate.length don\'t equal dims.length';
   var m = _.Matrix.Make([ 2, 3 ])
-  test.shouldThrowErrorSync( () => m.permutateForward( [[ 1, 0 ], [ 0, 1, 2 ], [ 1, 0 ]] ) );
-  test.shouldThrowErrorSync( () => m.permutateBackward( [[ 1, 0 ], [ 0, 1, 2 ], [ 1, 0 ]] ) );
-  test.shouldThrowErrorSync( () => m.permutateForward( [[ 1, 0 ]]) );
-  test.shouldThrowErrorSync( () => m.permutateBackward( [[ 1, 0 ]]) );
+  test.shouldThrowErrorSync( () => m.permutateForward([ [ 1, 0 ], [ 0, 1, 2 ], [ 1, 0 ] ]) );
+  test.shouldThrowErrorSync( () => m.permutateBackward([ [ 1, 0 ], [ 0, 1, 2 ], [ 1, 0 ] ]) );
+  test.shouldThrowErrorSync( () => m.permutateForward([ [ 1, 0 ] ]) );
+  test.shouldThrowErrorSync( () => m.permutateBackward([ [ 1, 0 ] ]) );
 
   test.case = 'wrong permutate array';
   var m = _.Matrix.Make([ 2, 3 ])
-  test.shouldThrowErrorSync( () => m.permutateForward( [[ 1, 0, 2 ], [ 0, 1, 2 ]] ) );
-  test.shouldThrowErrorSync( () => m.permutateBackward( [[ 1, 0, 2 ], [ 0, 1, 2 ]] ) );
-  test.shouldThrowErrorSync( () => m.permutateForward( [[ 1, 1 ], [ 0, 1, 2 ]] ) );
-  test.shouldThrowErrorSync( () => m.permutateBackward( [[ 1, 1 ], [ 0, 1, 2 ]] ) );
+  test.shouldThrowErrorSync( () => m.permutateForward([ [ 1, 0, 2 ], [ 0, 1, 2 ] ]) );
+  test.shouldThrowErrorSync( () => m.permutateBackward([ [ 1, 0, 2 ], [ 0, 1, 2 ] ]) );
+  test.shouldThrowErrorSync( () => m.permutateForward([ [ 1, 1 ], [ 0, 1, 2 ] ]) );
+  test.shouldThrowErrorSync( () => m.permutateBackward([ [ 1, 1 ], [ 0, 1, 2 ] ]) );
 }
 
 //
@@ -31061,7 +31061,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31106,7 +31106,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31125,7 +31125,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31173,7 +31173,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31192,7 +31192,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31241,7 +31241,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31260,7 +31260,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31308,7 +31308,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31328,7 +31328,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31376,7 +31376,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31394,7 +31394,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31442,7 +31442,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31510,7 +31510,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31589,7 +31589,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 4, 4 ],
     inputRowMajor : 1,
   });
@@ -31657,7 +31657,7 @@ function _PermutateLineRookWithoutOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 4 ],
     inputRowMajor : 1,
   });
@@ -31682,7 +31682,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31731,7 +31731,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31750,7 +31750,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -31802,7 +31802,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32327,7 +32327,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32376,7 +32376,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32395,7 +32395,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32447,7 +32447,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32466,7 +32466,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32518,7 +32518,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32537,7 +32537,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32589,7 +32589,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32609,7 +32609,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32661,7 +32661,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32679,7 +32679,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var m = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32731,7 +32731,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32803,7 +32803,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 3 ],
     inputRowMajor : 1,
   });
@@ -32887,7 +32887,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 4, 4 ],
     inputRowMajor : 1,
   });
@@ -32959,7 +32959,7 @@ function _PermutateLineRookWithOptionX( test )
   ]);
   var exp = new _.Matrix
   ({
-    buffer : buffer,
+    buffer,
     dims : [ 3, 4 ],
     inputRowMajor : 1,
   });
@@ -41936,7 +41936,7 @@ function PolynomExactFor( test )
     E = ( n + n**2 ) * 0.5
   */
 
-  var f = function( x )
+  var f = ( x ) =>
   {
     var r = 0;
     for( var i = 0 ; i < x ; i++ )
@@ -41959,7 +41959,7 @@ function PolynomExactFor( test )
 
   test.case = 'PolynomExactFor for E( n*n )';
 
-  f = function( x )
+  var f = ( x ) =>
   {
     var r = 0;
     for( var i = 0 ; i < x ; i++ )
