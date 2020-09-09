@@ -42536,6 +42536,37 @@ function PolynomClosestFor( test )
 
 PolynomClosestFor.accuracy = [ _.accuracy * 1e+1, 1e-1 ];
 
+//
+
+function invariant( test )
+{
+  test.case = 'create invariant matrix';
+  var matrix = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2 ]),
+    dims : [ 3, Infinity ],
+    inputRowMajor : 0
+  });
+  test.identical( matrix.dims, [ 3, Infinity ] );
+  test.equivalent( matrix.eGet( 0 ), [ 0, 1, 2 ] );
+  test.equivalent( matrix.eGet( 1 ), [ 0, 1, 2 ] );
+
+  //
+
+  test.case = 'make invariant matrix from existing'
+  var matrix = new _.Matrix
+  ({
+    buffer : new F32x([ 0, 1, 2 ]),
+    inputRowMajor : 0
+  });
+  test.identical( matrix.dims, [ 3, 1 ] );
+  test.equivalent( matrix.eGet( 0 ), [ 0, 1, 2 ] );
+  test.shouldThrowErrorSync( () => matrix.eGet( 1 ) );
+  matrix.dims = [ 3, Infinity ];
+  test.identical( matrix.dims, [ 3, Infinity ] );
+  test.equivalent( matrix.eGet( 1 ), [ 0, 1, 2 ] );
+}
+
 // --
 // experiment
 // --
@@ -42992,6 +43023,8 @@ let Self =
 
     PolynomExactFor,
     PolynomClosestFor,
+
+    invariant,
 
     // experiments
 
