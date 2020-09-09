@@ -2726,7 +2726,7 @@ function _adjustValidate()
   _.assert( _.numbersAreInt( self.stridesEffective ) );
   _.assert( self.stridesEffective.length >= 2 );
 
-  _.assert( _.numbersAreInt( self.dims ) );
+  _.assert( _.numbersAreIntOrInfinite( self.dims ) );
   _.assert( _.numbersArePositive( self.dims ) );
 
   _.assert( _.intIs( self.length ) );
@@ -2758,7 +2758,7 @@ function _dimsSet( src )
   {
     _.assert( _.arrayIs( src ) || _.bufferTypedIs( src ) );
     _.assert( src.length >= 2 );
-    _.assert( _.numbersAreInt( src ) );
+    _.assert( _.numbersAreIntOrInfinite( src ) );
     _.assert( src[ 0 ] >= 0 );
     _.assert( src[ src.length-1 ] >= 0 );
     self._.dims = _.entityFreeze( src.slice() );
@@ -2768,7 +2768,7 @@ function _dimsSet( src )
     self._.dims = null;
   }
 
-  _.assert( self._.dims === null || _.numbersAreInt( self._.dims ) );
+  _.assert( self._.dims === null || _.numbersAreIntOrInfinite( self._.dims ) );
 
   return src;
 }
@@ -2942,8 +2942,7 @@ function DimsDeduceFrom( src, fallbackDims )
 
   if( src.dims )
   {
-    _.assert( _.intIs( src.dims[ 0 ] ) );
-    _.assert( _.intIs( src.dims[ 1 ] ) );
+    _.assert( _.numbersAreIntOrInfinite( src.dims ) );
     return src.dims;
   }
 
