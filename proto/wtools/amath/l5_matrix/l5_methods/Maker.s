@@ -123,7 +123,7 @@ function MakeSquare( buffer )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
-  _.assert( _.intIs( length ), 'MakeSquare expects square buffer' );
+  _.assert( _.numberIs( length ), 'MakeSquare expects square buffer' );
 
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
