@@ -2598,13 +2598,13 @@ let lookAt = ( function lookAt()
   return function( eye, target, up1 )
   {
 
-    debugger;
-    _.assert( 0, 'not tested' );
+    // debugger;
+    // _.assert( 0, 'not tested' );
 
     let self = this;
     let te = this.buffer;
 
-    debugger;
+    // debugger;
     // _.avector.sub( z, eye, target ).normalize(); /* Dmytro : normalize() is not the method of an instance, it is routine */
     _.avector.normalize( _.avector.sub( z, eye, target ) );
     // _.avector.subVectors( z, eye, target ).normalize();
@@ -2616,7 +2616,7 @@ let lookAt = ( function lookAt()
 
     }
 
-    debugger;
+    // debugger;
     _.avector._cross3( x, up1, z );
     let xmag = _.avector.mag( x );
 
