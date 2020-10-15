@@ -301,7 +301,7 @@ function PermutateBackward( vector, permutate )
 
 //
 
-function _PermutateLineRook_pre( routine, args )
+function _PermutateLineRook_head( routine, args )
 {
   return Self.PermutateRook.pre.call( Self, ... arguments );
 }
@@ -361,7 +361,7 @@ _PermutateLineRook_body.defaults =
 
 //
 
-let _PermutateLineRook = _.routineFromPreAndBody( _PermutateLineRook_pre, _PermutateLineRook_body );
+let _PermutateLineRook = _.routineUnite( _PermutateLineRook_head, _PermutateLineRook_body );
 
 //
 
@@ -379,7 +379,7 @@ _permutateLineRook.defaults =
 
 //
 
-function PermutateRook_pre( routine, args )
+function PermutateRook_head( routine, args )
 {
   let o1 = args[ 0 ];
   let o2 = o1;
@@ -437,7 +437,7 @@ PermutateRook_body.defaults =
   nColPermutations : 0,
 }
 
-let PermutateRook = _.routineFromPreAndBody( PermutateRook_pre, PermutateRook_body );
+let PermutateRook = _.routineUnite( PermutateRook_head, PermutateRook_body );
 
 //
 
