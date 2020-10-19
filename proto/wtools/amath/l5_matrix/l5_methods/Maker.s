@@ -2588,15 +2588,13 @@ function formOrthographic( horizontal, vertical, depth )
  * @module Tools/math/Matrix
  */
 
-let lookAt = ( function lookAt()
+let lookAt = function lookAt( eye, target, up1 )
 {
 
   let x = [ 0, 0, 0 ];
   let y = [ 0, 0, 0 ];
   let z = [ 0, 0, 0 ];
 
-  return function( eye, target, up1 )
-  {
 
     // debugger;
     // _.assert( 0, 'not tested' );
@@ -2638,9 +2636,7 @@ let lookAt = ( function lookAt()
     te[ 2 ] = x[ 2 ]; te[ 6 ] = y[ 2 ]; te[ 10 ] = z[ 2 ];
 
     return this;
-  }
-
-})();
+}
 
 // --
 // relations
