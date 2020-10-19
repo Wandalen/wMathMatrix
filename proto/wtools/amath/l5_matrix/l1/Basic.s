@@ -199,7 +199,7 @@ function _traverseAct( it ) /* zzz : deprecate */
   if( it.resetting === undefined )
   it.resetting = 1;
 
-  _.Copyable.prototype._traverseAct.pre.call( this, _traverseAct, [ it ] );
+  _.Copyable.prototype._traverseAct.head.call( this, _traverseAct, [ it ] );
 
   if( !it.dst )
   {
