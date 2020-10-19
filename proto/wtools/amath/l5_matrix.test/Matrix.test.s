@@ -41369,7 +41369,7 @@ function SolveGeneral( test )
       repermutatingSolution : 1,
       repermutatingTransformation : 0,
       onPermutate : _.Matrix._PermutateLineRook.body,
-      onPermutatePre : _.Matrix._PermutateLineRook.pre,
+      onPermutatePre : _.Matrix._PermutateLineRook.head,
       lineIndex : 1.00,
       npermutations : 2.00,
       nRowPermutations : 0.00,

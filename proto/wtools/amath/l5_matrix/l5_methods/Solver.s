@@ -50,7 +50,7 @@ function _Solve2_head( routine, args )
     if( o.onPermutate === null )
     o.onPermutate = this._PermutateLineRook.body;
     if( o.onPermutatePre === null )
-    o.onPermutatePre = this._PermutateLineRook.pre;
+    o.onPermutatePre = this._PermutateLineRook.head;
   }
 
   if( o.x === null )
@@ -172,7 +172,7 @@ function _Solver_functor( fop )
     oy : null,
     y : null,
   }
-  solve.pre = _Solve2_head;
+  solve.head = _Solve2_head;
   solve.body = method;
 
   let r =

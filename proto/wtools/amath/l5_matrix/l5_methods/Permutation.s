@@ -303,7 +303,7 @@ function PermutateBackward( vector, permutate )
 
 function _PermutateLineRook_head( routine, args )
 {
-  return Self.PermutateRook.pre.call( Self, ... arguments );
+  return Self.PermutateRook.head.call( Self, ... arguments );
 }
 
 //
