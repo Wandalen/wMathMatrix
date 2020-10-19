@@ -2588,23 +2588,21 @@ function formOrthographic( horizontal, vertical, depth )
  * @module Tools/math/Matrix
  */
 
-let lookAt = ( function lookAt()
+let lookAt = function lookAt( eye, target, up1 )
 {
 
   let x = [ 0, 0, 0 ];
   let y = [ 0, 0, 0 ];
   let z = [ 0, 0, 0 ];
 
-  return function( eye, target, up1 )
-  {
 
-    debugger;
-    _.assert( 0, 'not tested' );
+    // debugger;
+    // _.assert( 0, 'not tested' );
 
     let self = this;
     let te = this.buffer;
 
-    debugger;
+    // debugger;
     // _.avector.sub( z, eye, target ).normalize(); /* Dmytro : normalize() is not the method of an instance, it is routine */
     _.avector.normalize( _.avector.sub( z, eye, target ) );
     // _.avector.subVectors( z, eye, target ).normalize();
@@ -2616,7 +2614,7 @@ let lookAt = ( function lookAt()
 
     }
 
-    debugger;
+    // debugger;
     _.avector._cross3( x, up1, z );
     let xmag = _.avector.mag( x );
 
@@ -2638,9 +2636,7 @@ let lookAt = ( function lookAt()
     te[ 2 ] = x[ 2 ]; te[ 6 ] = y[ 2 ]; te[ 10 ] = z[ 2 ];
 
     return this;
-  }
-
-})();
+}
 
 // --
 // relations

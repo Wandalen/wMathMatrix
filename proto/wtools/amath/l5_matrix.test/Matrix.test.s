@@ -11176,6 +11176,129 @@ function MakeRowZeroed( test )
 
 //
 
+function lookAt( test )
+{
+  let matrix = _.Matrix.MakeIdentity4();
+
+  /* */
+
+  test.case = 'rotate left on X axis';
+  var target = [ 0, 0, 0 ];
+  var eye = [ -5, 0, 0 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +0, -0, +1, +0,
+    +0, +1, +0, +0,
+    -1, +0, +0, +0,
+    -0, -0, -0, +1
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate right on X axis';
+  var target = [ 0, 0, 0 ];
+  var eye = [ 5, 0, 0 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +0, +0, -1, +0,
+    +0, +1, +0, +0,
+    +1, +0, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Y axis';
+  var target = [ 0, 0, 0 ];
+  var eye = [ 0, -5, 0 ];
+  var up = [ 0, 0, 1 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    -1, +0, +0, +0,
+    +0, +0, +1, +0,
+    +0, +1, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate right on Y axis';
+  var target = [ 0, 0, 0 ];
+  var eye = [ 0, 5, 0 ];
+  var up = [ 0, 0, 1 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +1, +0, +0, +0,
+    +0, +0, -1, +0,
+    +0, +1, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Z axis';
+  var target = [ 0, 0, 0 ];
+  var eye = [ 0, 0, -5 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +1, +0, +0, +0,
+    +0, +1, +0, +0,
+    +0, +0, +1, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Z axis';
+  var target = [ 0, 0, 0 ];
+  var eye = [ 0, 0, 5 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    -1, +0, +0, +0,
+    +0, +1, +0, +0,
+    +0, +0, -1, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+}
+
+lookAt.description =
+`
+Checks rotation in both direction for each axis.
+Camera is in the center of 6 cubes.
+Second call of lookAt should return identical result as previous.
+`
+
+//
+
 function ConvertToClassSrcIsMatrix( test )
 {
   test.open( 'from classes links' );
@@ -42821,6 +42944,7 @@ let Self =
     MakeColZeroed,
     MakeRow,
     MakeRowZeroed,
+    lookAt,
 
     // constructor
 
