@@ -24,7 +24,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 // meta
 // --
 
-function _Solve2_pre( routine, args )
+function _Solve2_head( routine, args )
 {
   let self = this;
   let o;
@@ -154,7 +154,7 @@ function _Solver_functor( fop )
 
   _.routineOptions( _Solver_functor, fop );
   _.assert( _.routineIs( fop.method ) );
-  _.assert( _.routineIs( _Solve2_pre ) );
+  _.assert( _.routineIs( _Solve2_head ) );
   _.assert( _.mapIs( fop.method.defaults ) );
   _.assert( _.longHas( [ 'o', 'ox' ], fop.returning ) );
 
@@ -172,7 +172,7 @@ function _Solver_functor( fop )
     oy : null,
     y : null,
   }
-  solve.pre = _Solve2_pre;
+  solve.pre = _Solve2_head;
   solve.body = method;
 
   let r =
@@ -184,7 +184,7 @@ function _Solver_functor( fop )
 
   function solve()
   {
-    let o = this._Solve2_pre( solve, arguments );
+    let o = this._Solve2_head( solve, arguments );
 
     method.call( this, o );
 
@@ -2086,7 +2086,7 @@ let Statics = /* qqq : split static routines. ask how */
 
   // meta
 
-  _Solve2_pre,
+  _Solve2_head,
   _SolveRepermutate,
   _Solver_functor,
 
@@ -2150,7 +2150,7 @@ let Extension =
 
   // meta
 
-  _Solve2_pre,
+  _Solve2_head,
   _SolveRepermutate,
   _Solver_functor,
 

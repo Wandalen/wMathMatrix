@@ -974,7 +974,7 @@ function isIdempotent( accuracy )
 
 //
 
-function _EquivalentSpace_pre( routine, args )
+function _EquivalentSpace_head( routine, args )
 {
   let proto = this;
   let o = args[ 0 ];
@@ -1076,7 +1076,7 @@ EquivalentColumnSpace_body.defaults =
   dim : 0,
 }
 
-let EquivalentColumnSpace = _.routineFromPreAndBody( _EquivalentSpace_pre, EquivalentColumnSpace_body );
+let EquivalentColumnSpace = _.routineUnite( _EquivalentSpace_head, EquivalentColumnSpace_body );
 
 //
 
@@ -1094,7 +1094,7 @@ EquivalentRowSpace_body.defaults =
   dim : 1,
 }
 
-let EquivalentRowSpace = _.routineFromPreAndBody( _EquivalentSpace_pre, EquivalentRowSpace_body );
+let EquivalentRowSpace = _.routineUnite( _EquivalentSpace_head, EquivalentRowSpace_body );
 
 // --
 // relations
