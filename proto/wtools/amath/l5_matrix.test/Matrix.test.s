@@ -11182,6 +11182,7 @@ function lookAt( test )
 
   /* */
 
+  test.case = 'rotate left on X axis';
   var target = [ 0, 0, 0 ];
   var eye = [ -5, 0, 0 ];
   var up = [ 0, 1, 0 ];
@@ -11199,6 +11200,7 @@ function lookAt( test )
 
   /* */
 
+  test.case = 'rotate right on X axis';
   var target = [ 0, 0, 0 ];
   var eye = [ 5, 0, 0 ];
   var up = [ 0, 1, 0 ];
@@ -11216,6 +11218,7 @@ function lookAt( test )
 
   /* */
 
+  test.case = 'rotate left on Y axis';
   var target = [ 0, 0, 0 ];
   var eye = [ 0, -5, 0 ];
   var up = [ 0, 0, 1 ];
@@ -11233,6 +11236,7 @@ function lookAt( test )
 
   /* */
 
+  test.case = 'rotate right on Y axis';
   var target = [ 0, 0, 0 ];
   var eye = [ 0, 5, 0 ];
   var up = [ 0, 0, 1 ];
@@ -11250,6 +11254,7 @@ function lookAt( test )
 
   /* */
 
+  test.case = 'rotate left on Z axis';
   var target = [ 0, 0, 0 ];
   var eye = [ 0, 0, -5 ];
   var up = [ 0, 1, 0 ];
@@ -11267,6 +11272,7 @@ function lookAt( test )
 
   /* */
 
+  test.case = 'rotate left on Z axis';
   var target = [ 0, 0, 0 ];
   var eye = [ 0, 0, 5 ];
   var up = [ 0, 1, 0 ];
@@ -11283,6 +11289,13 @@ function lookAt( test )
   test.equivalent( matrix, expected );
 
 }
+
+lookAt.description =
+`
+Checks rotation in both direction for each axis.
+Camera is in the center of 6 cubes.
+Second call of lookAt should return identical result as previous.
+`
 
 //
 
