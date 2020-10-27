@@ -11180,11 +11180,13 @@ function lookAt( test )
 {
   let matrix = _.Matrix.MakeIdentity4();
 
+  test.open( 'eye in the origin' );
+  
   /* */
 
   test.case = 'rotate left on X axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ -5, 0, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ -5, 0, 0 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11201,8 +11203,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate right on X axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 5, 0, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 5, 0, 0 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11219,8 +11221,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate left on Y axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, -5, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, -5, 0 ];
   var up = [ 0, 0, 1 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11237,8 +11239,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate right on Y axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, 5, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, 5, 0 ];
   var up = [ 0, 0, 1 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11255,8 +11257,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate left on Z axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, 0, -5 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, 0, -5 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11273,8 +11275,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate left on Z axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, 0, 5 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, 0, 5 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11287,6 +11289,121 @@ function lookAt( test )
   test.equivalent( matrix, expected );
   matrix.lookAt( eye,target,up );
   test.equivalent( matrix, expected );
+  
+  test.close( 'eye in the origin' );
+  
+  
+  /* */
+  
+  test.open( 'eye moved on X axis' );
+
+  test.case = 'rotate left on X axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 5, 0, 0 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +0, -0, +1, +0,
+    +0, +1, +0, +0,
+    -1, +0, +0, +0,
+    -0, -0, -0, +1
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate right on X axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 15, 0, 0 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +0, +0, -1, +0,
+    +0, +1, +0, +0,
+    +1, +0, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Y axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, -5, 0 ];
+  var up = [ 0, 0, 1 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    -1, +0, +0, +0,
+    +0, +0, +1, +0,
+    +0, +1, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate right on Y axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, 5, 0 ];
+  var up = [ 0, 0, 1 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +1, +0, +0, +0,
+    +0, +0, -1, +0,
+    +0, +1, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Z axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, 0, -5 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +1, +0, +0, +0,
+    +0, +1, +0, +0,
+    +0, +0, +1, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Z axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, 0, 5 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    -1, +0, +0, +0,
+    +0, +1, +0, +0,
+    +0, +0, -1, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  
+  test.close( 'eye moved on X axis' )
 
 }
 
