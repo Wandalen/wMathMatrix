@@ -153,7 +153,7 @@ function qrDecompose( test )
     +0  , +5/den2, -5/den2,
   ]);
   test.equivalent( m, exp );
-  test.is( op.q === m );
+  test.true( op.q === m );
 
   test.description = 'dot';
   test.equivalent( m.colGet( 0 ).dot( m.colGet( 1 ) ), 0 );
@@ -175,7 +175,7 @@ function qrDecompose( test )
   ]);
   /* op.r.copy( exp ); */
   test.equivalent( op.r, exp );
-  test.is( op.r !== m );
+  test.true( op.r !== m );
 
   test.description = 'a = qr';
   var a = _.Matrix.Mul( null, [ op.q, op.r ] );
