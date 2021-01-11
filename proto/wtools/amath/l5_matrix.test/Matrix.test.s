@@ -11181,7 +11181,7 @@ function lookAt( test )
   let matrix = _.Matrix.MakeIdentity4();
 
   test.open( 'eye in the origin' );
-  
+
   /* */
 
   test.case = 'rotate left on X axis';
@@ -11289,12 +11289,12 @@ function lookAt( test )
   test.equivalent( matrix, expected );
   matrix.lookAt( eye,target,up );
   test.equivalent( matrix, expected );
-  
+
   test.close( 'eye in the origin' );
-  
-  
+
+
   /* */
-  
+
   test.open( 'eye moved on X axis' );
 
   test.case = 'rotate left on X axis';
@@ -11402,7 +11402,7 @@ function lookAt( test )
   test.equivalent( matrix, expected );
   matrix.lookAt( eye,target,up );
   test.equivalent( matrix, expected );
-  
+
   test.close( 'eye moved on X axis' )
 
 }
@@ -36802,6 +36802,79 @@ function distributionRangeSummaryColWise( test )
 
 //
 
+function distributionRangeSummaryScalarWise( test )
+{
+  var a = [ 1, 2, 3, 4, 5 ];
+
+  /* */
+
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  {
+    min : { value : NaN, index : -1, container : null },
+    max : { value : NaN, index : -1, container : null },
+    median : NaN,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'single element';
+  var matrix = _.Matrix.Make([ 1, 1 ]).copy([ 1 ]);
+  var exp =
+  {
+    min : { value : 1, index : [ 0, 0 ], container : matrix },
+    max : { value : 1, index : [ 0, 0 ], container : matrix },
+    median : 1,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'single row';
+  var matrix = _.Matrix.Make([ 1, a.length ]).copy( a );
+  var exp =
+  {
+    min : { value : 1, index : [ 0, 0 ], container : matrix },
+    max : { value : 5, index : [ 0, 4 ], container : matrix },
+    median : 3,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  test.case = '4x3';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  {
+    min : { value : 0, index : [ 0, 0 ], container : matrix },
+    max : { value : 111, index : [ 3, 1 ], container : matrix },
+    median : 55.5,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryScalarWise( [] ) );
+
+}
+
+//
+
 function reduceToSumRowWise( test )
 {
   test.case = 'dims[ 0 ] === 0, without dst';
@@ -43192,6 +43265,7 @@ let Self =
     distributionRangeSummaryValueRowWise,
     distributionRangeSummaryRowWise,
     distributionRangeSummaryColWise,
+    distributionRangeSummaryScalarWise,
     reduceToSumRowWise,
     reduceToSumColWise,
     reduceToMeanRowWise,
