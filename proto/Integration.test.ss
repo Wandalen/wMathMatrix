@@ -13,7 +13,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _testerGlobal_.wTools;
+let _ = _globals_.testing.wTools;
 let fileProvider = _.fileProvider;
 let path = fileProvider.path;
 
@@ -120,10 +120,10 @@ function eslint( test )
   let ready = new _.Consequence().take( null );
 
   // if( _.process.insideTestContainer() && process.platform !== 'linux' )
-  // return test.is( true );
+  // return test.true( true );
 
   if( process.platform !== 'linux' )
-  return test.is( true );
+  return test.true( true );
 
   let start = _.process.starter
   ({
@@ -134,6 +134,8 @@ function eslint( test )
     [
       '-c', '.eslintrc.yml',
       '--ext', '.js,.s,.ss',
+      '--ignore-pattern', '*.c',
+      '--ignore-pattern', '*.ts',
       '--ignore-pattern', '*.html',
       '--ignore-pattern', '*.txt',
       '--ignore-pattern', '*.png',
@@ -142,6 +144,10 @@ function eslint( test )
       '--ignore-pattern', '*.yaml',
       '--ignore-pattern', '*.md',
       '--ignore-pattern', '*.xml',
+      '--ignore-pattern', '*.css',
+      '--ignore-pattern', '_asset',
+      '--ignore-pattern', 'out',
+      '--ignore-pattern', '*.tgs',
       '--quiet'
     ],
     throwingExitCode : 0,
@@ -200,7 +206,7 @@ let Self =
   tests :
   {
     samples,
-    // eslint,
+    eslint,
   },
 
 }

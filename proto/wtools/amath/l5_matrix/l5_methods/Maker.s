@@ -122,7 +122,7 @@ function MakeSquare( buffer )
   _.assert( 0, 'Unexpected buffer type' );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.prototypeIs( this ) || _.constructorIs( this ) );
+  _.assert( _.workpiece.prototypeIs( this ) || _.constructorIs( this ) );
   _.assert( _.numberIs( length ), 'MakeSquare expects square buffer' );
 
   let dims = [ length, length ];
@@ -1017,7 +1017,7 @@ function ConvertToClass( cls, src )
   if( _.matrixIs( src ) )
   {
 
-    if( _.isSubClassOf( cls, src.Self ) )
+    if( _.class.isSubClassOf( cls, src.Self ) )
     {
       _.assert( src.Self === cls, 'not tested' );
       return src;

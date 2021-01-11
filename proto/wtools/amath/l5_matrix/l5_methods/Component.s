@@ -511,7 +511,7 @@ function submatrix()
     for( let s = 0 ; s < ranges.length ; s++ )
     {
       let range = ranges[ s ];
-      _.assert( _.rangeIsValid( range ), errMsg( range ) );
+      _.assert( _.intervalIsValid( range ), errMsg( range ) );
       _.assert( range[ 0 ] < self.dims[ s ], errMsg( range ) );
       _.assert( range[ 0 ] >= 0, errMsg( range ) );
       _.assert( range[ 1 ] < self.dims[ s ], errMsg( range ) );

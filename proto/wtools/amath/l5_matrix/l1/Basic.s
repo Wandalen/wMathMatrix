@@ -334,7 +334,7 @@ function _traverseAct( it ) /* zzz : deprecate */
 }
 
 _traverseAct.iterationDefaults = Object.create( _._cloner.iterationDefaults );
-_traverseAct.defaults = _.mapSupplementOwn( Object.create( _._cloner.defaults ), _traverseAct.iterationDefaults );
+_traverseAct.defaults = _.mapExtendDstNotOwn( Object.create( _._cloner.defaults ), _traverseAct.iterationDefaults );
 
 //
 

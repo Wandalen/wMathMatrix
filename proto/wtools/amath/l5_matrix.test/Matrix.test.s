@@ -340,59 +340,59 @@ function isCol( test )
 
   test.case = 'Empty';
   var matrix = _.Matrix.Make([ 0, 1 ]);
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   test.case = 'Filled';
   var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   test.case = 'From MakeCol from number';
   var matrix = _.Matrix.MakeCol( 2 );
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   test.case = 'From MakeCol from long';
   var matrix = _.Matrix.MakeCol([ 1, 2, 3 ]);
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   test.case = 'From FromVector';
   var array = [ 1, 2, 3, 4, 5, 6 ];
   var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
   var matrix = _.Matrix.FromVector( vector );
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 5, 1, 1, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
-  test.is( matrix.isCol() );
+  test.true( matrix.isCol() );
 
   /* */
 
   test.case = 'Empty';
   var matrix = _.Matrix.Make([ 0, 2 ]);
-  test.isNot( matrix.isCol() );
+  test.false( matrix.isCol() );
 
   test.case = 'Filled';
   var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isCol() );
+  test.false( matrix.isCol() );
 
   test.case = 'From MakeRow from number';
   var matrix = _.Matrix.MakeRow( 2 );
-  test.isNot( matrix.isCol() );
+  test.false( matrix.isCol() );
 
   test.case = 'From MakeRow from long';
   var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
-  test.isNot( matrix.isCol() );
+  test.false( matrix.isCol() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 1, 1, 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isCol() );
+  test.false( matrix.isCol() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
-  test.isNot( matrix.isCol() );
+  test.false( matrix.isCol() );
 
   /* */
 
@@ -414,59 +414,59 @@ function isRow( test )
 
   test.case = 'Empty';
   var matrix = _.Matrix.Make([ 1, 0 ]);
-  test.is( matrix.isRow() );
+  test.true( matrix.isRow() );
 
   test.case = 'Filled';
   var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.is( matrix.isRow() );
+  test.true( matrix.isRow() );
 
   test.case = 'From MakeRow from number';
   var matrix = _.Matrix.MakeRow( 2 );
-  test.is( matrix.isRow() );
+  test.true( matrix.isRow() );
 
   test.case = 'From MakeRow from long';
   var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
-  test.is( matrix.isRow() );
+  test.true( matrix.isRow() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 1, 5, 1, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.is( matrix.isRow() );
+  test.true( matrix.isRow() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
-  test.is( matrix.isRow() );
+  test.true( matrix.isRow() );
 
   /* */
 
   test.case = 'Empty';
   var matrix = _.Matrix.Make([ 2, 0 ]);
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   test.case = 'Filled';
   var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   test.case = 'From MakeCol from number';
   var matrix = _.Matrix.MakeCol( 2 );
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   test.case = 'From MakeCol from long';
   var matrix = _.Matrix.MakeCol([ 1, 2, 3 ]);
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   test.case = 'From FromVector';
   var array = [ 1, 2, 3, 4, 5, 6 ];
   var vector = _.vectorAdapter.fromLongLrangeAndStride( array, 1, 3, 2 );
   var matrix = _.Matrix.FromVector( vector );
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 1, 1, 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
-  test.isNot( matrix.isRow() );
+  test.false( matrix.isRow() );
 
   /* */
 
@@ -488,11 +488,11 @@ function isSquare( test )
 
   test.case = '0x0';
   var matrix = _.Matrix.Make([ 0, 0 ]);
-  test.is( matrix.isSquare() );
+  test.true( matrix.isSquare() );
 
   test.case = '1x1';
   var matrix = _.Matrix.Make([ 1, 1 ]).copy([ 1 ]);
-  test.is( matrix.isSquare() );
+  test.true( matrix.isSquare() );
 
   test.case = '2x2';
   var matrix = _.Matrix.Make([ 2, 2 ]).copy
@@ -500,45 +500,45 @@ function isSquare( test )
     1,  2,
     -3, 4
   ]);
-  test.is( matrix.isSquare() );
+  test.true( matrix.isSquare() );
 
   test.case = 'From MakeSquare from number';
   var matrix = _.Matrix.MakeSquare( 2 );
-  test.is( matrix.isSquare() );
+  test.true( matrix.isSquare() );
 
   test.case = 'From MakeSquare from long';
   var matrix = _.Matrix.MakeSquare([ 1, 2, 3, 4 ]);
-  test.is( matrix.isSquare() );
+  test.true( matrix.isSquare() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 2, 2, 1, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
-  test.is( matrix.isSquare() );
+  test.true( matrix.isSquare() );
 
   /* */
 
   test.case = '2x0';
   var matrix = _.Matrix.Make([ 2, 0 ]);
-  test.isNot( matrix.isSquare() );
+  test.false( matrix.isSquare() );
 
   test.case = '5x1';
   var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isSquare() );
+  test.false( matrix.isSquare() );
 
   test.case = 'From MakeCol from number';
   var matrix = _.Matrix.MakeCol( 2 );
-  test.isNot( matrix.isSquare() );
+  test.false( matrix.isSquare() );
 
   test.case = 'From MakeRow from long';
   var matrix = _.Matrix.MakeRow([ 1, 2, 3 ]);
-  test.isNot( matrix.isSquare() );
+  test.false( matrix.isSquare() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 1, 2, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
-  test.isNot( matrix.isSquare() );
+  test.false( matrix.isSquare() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
-  test.isNot( matrix.isSquare() );
+  test.false( matrix.isSquare() );
 
   /* */
 
@@ -560,49 +560,49 @@ function isHorizontal( test )
 
   test.case = '0x2';
   var matrix = _.Matrix.Make([ 0, 2 ]);
-  test.is( matrix.isHorizontal() );
+  test.true( matrix.isHorizontal() );
 
   test.case = '1x2';
   var matrix = _.Matrix.Make([ 1, 2 ]).copy([ 2, 2 ]);
-  test.is( matrix.isHorizontal() );
+  test.true( matrix.isHorizontal() );
 
   test.case = 'From MakeRow from number';
   var matrix = _.Matrix.MakeRow( 2 );
-  test.is( matrix.isHorizontal() );
+  test.true( matrix.isHorizontal() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
-  test.is( matrix.isHorizontal() );
+  test.true( matrix.isHorizontal() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 1, 2, 2, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
-  test.is( matrix.isHorizontal() );
+  test.true( matrix.isHorizontal() );
 
   /* */
 
   test.case = '2x0';
   var matrix = _.Matrix.Make([ 2, 0 ]);
-  test.isNot( matrix.isHorizontal() );
+  test.false( matrix.isHorizontal() );
 
   test.case = '5x1';
   var matrix = _.Matrix.Make([ 5, 1 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isHorizontal() );
+  test.false( matrix.isHorizontal() );
 
   test.case = 'From MakeCol from number';
   var matrix = _.Matrix.MakeCol( 2 );
-  test.isNot( matrix.isHorizontal() );
+  test.false( matrix.isHorizontal() );
 
   test.case = 'From MakeSquare from number';
   var matrix = _.Matrix.MakeSquare( 2 );
-  test.isNot( matrix.isHorizontal() );
+  test.false( matrix.isHorizontal() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 2, 1, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
-  test.isNot( matrix.isHorizontal() );
+  test.false( matrix.isHorizontal() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
-  test.isNot( matrix.isHorizontal() );
+  test.false( matrix.isHorizontal() );
 
   /* */
 
@@ -624,49 +624,49 @@ function isVertical( test )
 
   test.case = '2x0';
   var matrix = _.Matrix.Make([ 2, 0 ]);
-  test.is( matrix.isVertical() );
+  test.true( matrix.isVertical() );
 
   test.case = '2x1';
   var matrix = _.Matrix.Make([ 2, 1 ]).copy([ 2, 2 ]);
-  test.is( matrix.isVertical() );
+  test.true( matrix.isVertical() );
 
   test.case = 'From MakeCol from number';
   var matrix = _.Matrix.MakeCol( 2 );
-  test.is( matrix.isVertical() );
+  test.true( matrix.isVertical() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ Infinity, 1 ]).copy([ 1 ]);
-  test.is( matrix.isVertical() );
+  test.true( matrix.isVertical() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 2, 1, 2, 2 ]).copy([ 0, 1, 0, - 1, 0, 1, 0, - 1 ]);
-  test.is( matrix.isVertical() );
+  test.true( matrix.isVertical() );
 
   /* */
 
   test.case = '0x2';
   var matrix = _.Matrix.Make([ 0, 2 ]);
-  test.isNot( matrix.isVertical() );
+  test.false( matrix.isVertical() );
 
   test.case = '1x5';
   var matrix = _.Matrix.Make([ 1, 5 ]).copy([ 0, 1, 0, - 1, 2 ]);
-  test.isNot( matrix.isVertical() );
+  test.false( matrix.isVertical() );
 
   test.case = 'From MakeRow from number';
   var matrix = _.Matrix.MakeRow( 2 );
-  test.isNot( matrix.isVertical() );
+  test.false( matrix.isVertical() );
 
   test.case = 'From MakeSquare from number';
   var matrix = _.Matrix.MakeSquare( 2 );
-  test.isNot( matrix.isVertical() );
+  test.false( matrix.isVertical() );
 
   test.case = 'Multidimensional';
   var matrix = _.Matrix.Make([ 1, 2, 1, 3 ]).copy([ 0, 1, 0, - 1, 2, 3 ]);
-  test.isNot( matrix.isVertical() );
+  test.false( matrix.isVertical() );
 
   test.case = 'Dims with Infinity';
   var matrix = _.Matrix.Make([ 1, Infinity ]).copy([ 1 ]);
-  test.isNot( matrix.isVertical() );
+  test.false( matrix.isVertical() );
 
   /* */
 
@@ -924,7 +924,7 @@ function isIdentity( test )
     0,    0,   1, - 1,   0,   0,
     - 1,  0, - 1,   0,   0, - 1
   ]);
-  test.isNot( m1.isIdentity() );
+  test.false( m1.isIdentity() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -945,7 +945,7 @@ function isIdentity( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  1
   ]);
-  test.isNot( m1.isIdentity() );
+  test.false( m1.isIdentity() );
 
   /* */
 
@@ -957,7 +957,7 @@ function isIdentity( test )
     0,   0,   1, - 1,
     0,   0,   0,   1
   ]);
-  test.isNot( m1.isIdentity() );
+  test.false( m1.isIdentity() );
 
   /* */
 
@@ -969,7 +969,7 @@ function isIdentity( test )
     2,    0,   1,  0,
     -1, 3.4,  -1,  1
   ]);
-  test.isNot( m1.isIdentity() );
+  test.false( m1.isIdentity() );
 
   /* */
 
@@ -981,13 +981,13 @@ function isIdentity( test )
     0,  0,  1, 0,
     0,  0, -0, 1
   ]);
-  test.is( m1.isIdentity() );
+  test.true( m1.isIdentity() );
 
   /* */
 
   test.description = 'From makeIdentity';
   var m1 = _.Matrix.MakeIdentity( [ 2, 3 ] );
-  test.is( m1.isIdentity() );
+  test.true( m1.isIdentity() );
 
   /* */
 
@@ -999,7 +999,7 @@ function isIdentity( test )
     0,  0,
     0,  0
   ]);
-  test.is( m1.isIdentity() );
+  test.true( m1.isIdentity() );
 
   /* */
 
@@ -1013,7 +1013,7 @@ function isIdentity( test )
     0,  0,  0, 0, 1, 0,
     0,  0,  0, 0, 0, 1
   ]);
-  test.is( m1.isIdentity() );
+  test.true( m1.isIdentity() );
 
   /* */
 
@@ -1025,7 +1025,7 @@ function isIdentity( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.isNot( m1.isIdentity() );
+  test.false( m1.isIdentity() );
 
   /* */
 
@@ -1037,7 +1037,7 @@ function isIdentity( test )
     0,  0,      1, 0,
     0,  0-1e-8, -0, 1
   ]);
-  test.is( m1.isIdentity() );
+  test.true( m1.isIdentity() );
 
   /* */
 
@@ -1049,7 +1049,7 @@ function isIdentity( test )
     0,  0,      1, 0,
     0,  0-1e-3, -0, 1
   ]);
-  test.is( m1.isIdentity( 1e-2 ) );
+  test.true( m1.isIdentity( 1e-2 ) );
 
   /* */
 
@@ -1061,7 +1061,7 @@ function isIdentity( test )
     0,  0,      1, 0,
     0,  0-1e-3, -0, 1
   ]);
-  test.isNot( m1.isIdentity( 1e-7 ) );
+  test.false( m1.isIdentity( 1e-7 ) );
 
   /* */
 
@@ -1096,7 +1096,7 @@ function isScalar( test )
     0,    0,   1, - 1,   0,   0,
     - 1,  0, - 1,   0,   0, - 1
   ]);
-  test.isNot( m1.isScalar() );
+  test.false( m1.isScalar() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -1117,7 +1117,7 @@ function isScalar( test )
     0,   0,   5, - 1,
     - 1, 0,  - 1,  5
   ]);
-  test.isNot( m1.isScalar() );
+  test.false( m1.isScalar() );
 
   /* */
 
@@ -1129,7 +1129,7 @@ function isScalar( test )
     0,   0,   5,   0,
     0,   0,   0,   5
   ]);
-  test.isNot( m1.isScalar() );
+  test.false( m1.isScalar() );
 
   /* */
 
@@ -1141,7 +1141,7 @@ function isScalar( test )
     0,   0,   5, - 1,
     0,   0,   0,   5
   ]);
-  test.isNot( m1.isScalar() );
+  test.false( m1.isScalar() );
 
   /* */
 
@@ -1153,7 +1153,7 @@ function isScalar( test )
     2,    0,   5,  0,
     -1, 3.4,  -1,  5
   ]);
-  test.isNot( m1.isScalar() );
+  test.false( m1.isScalar() );
 
   /* */
 
@@ -1165,7 +1165,7 @@ function isScalar( test )
     0,  0,  5, 0,
     0,  0, -0, 5
   ]);
-  test.is( m1.isScalar() );
+  test.true( m1.isScalar() );
 
   /* */
 
@@ -1177,7 +1177,7 @@ function isScalar( test )
     0,  0,
     0,  0
   ]);
-  test.is( m1.isScalar() );
+  test.true( m1.isScalar() );
 
   /* */
 
@@ -1191,7 +1191,7 @@ function isScalar( test )
     0,  0,  0, 0, 7, 0,
     0,  0,  0, 0, 0, 7
   ]);
-  test.is( m1.isScalar() );
+  test.true( m1.isScalar() );
 
   /* */
 
@@ -1203,7 +1203,7 @@ function isScalar( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isScalar() );
+  test.true( m1.isScalar() );
 
   /* */
 
@@ -1215,7 +1215,7 @@ function isScalar( test )
     0,  0,      5, 0,
     0,  0-1e-8, -0, 5
   ]);
-  test.is( m1.isScalar() );
+  test.true( m1.isScalar() );
 
   /* */
 
@@ -1227,7 +1227,7 @@ function isScalar( test )
     0,  0,      5, 0,
     0,  0-1e-3, -0, 5
   ]);
-  test.is( m1.isScalar( 1e-2 ) );
+  test.true( m1.isScalar( 1e-2 ) );
 
   /* */
 
@@ -1239,7 +1239,7 @@ function isScalar( test )
     0,  0,      5, 0,
     0,  0-1e-3, -0, 5
   ]);
-  test.isNot( m1.isScalar( 1e-7 ) );
+  test.false( m1.isScalar( 1e-7 ) );
 
   /* */
 
@@ -1274,7 +1274,7 @@ function isZero( test )
     0,    0,   1, - 1,   0,   0,
     - 1,  0, - 1,   0,   0, - 1
   ]);
-  test.isNot( m1.isZero() );
+  test.false( m1.isZero() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -1295,7 +1295,7 @@ function isZero( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  1
   ]);
-  test.isNot( m1.isZero() );
+  test.false( m1.isZero() );
 
   /* */
 
@@ -1307,7 +1307,7 @@ function isZero( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  test.isNot( m1.isZero() );
+  test.false( m1.isZero() );
 
   /* */
 
@@ -1319,7 +1319,7 @@ function isZero( test )
     0,   0,   1, - 1,
     0,   0,   0,   1
   ]);
-  test.isNot( m1.isZero() );
+  test.false( m1.isZero() );
 
   /* */
 
@@ -1331,7 +1331,7 @@ function isZero( test )
     2,    0,   1,  0,
     -1, 3.4,  -1,  1
   ]);
-  test.isNot( m1.isZero() );
+  test.false( m1.isZero() );
 
   /* */
 
@@ -1343,13 +1343,13 @@ function isZero( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isZero() );
+  test.true( m1.isZero() );
 
   /* */
 
   test.description = 'From MakeZero';
   var m1 = _.Matrix.MakeZero( [ 2, 3 ] );
-  test.is( m1.isZero() );
+  test.true( m1.isZero() );
 
   /* */
 
@@ -1361,7 +1361,7 @@ function isZero( test )
     0,  0,
     0,  0
   ]);
-  test.is( m1.isZero() );
+  test.true( m1.isZero() );
 
   /* */
 
@@ -1375,7 +1375,7 @@ function isZero( test )
     0,  0,  0, 0, 0, 0,
     0,  0,  0, 0, 0, 0
   ]);
-  test.is( m1.isZero() );
+  test.true( m1.isZero() );
 
   /* */
 
@@ -1387,7 +1387,7 @@ function isZero( test )
     0,  0,      0, 0,
     0,  0-1e-8, -0, 0
   ]);
-  test.is( m1.isZero() );
+  test.true( m1.isZero() );
 
   /* */
 
@@ -1399,7 +1399,7 @@ function isZero( test )
     0,  0,      0, 0,
     0,  0-1e-3, -0, 0
   ]);
-  test.is( m1.isZero( 1e-2 ) );
+  test.true( m1.isZero( 1e-2 ) );
 
   /* */
 
@@ -1411,7 +1411,7 @@ function isZero( test )
     0,  0,      0, 0,
     0,  0-1e-3, -0, 0
   ]);
-  test.isNot( m1.isZero( 1e-7 ) );
+  test.false( m1.isZero( 1e-7 ) );
 
   /* */
 
@@ -1444,7 +1444,7 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,   0,   0,
     - 1,   0, - 1,   0,   0, - 1
   ]);
-  test.isNot( m1.isUpperTriangle() );
+  test.false( m1.isUpperTriangle() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -1465,7 +1465,7 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1477,7 +1477,7 @@ function isUpperTriangle( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1490,7 +1490,7 @@ function isUpperTriangle( test )
     0,  0, -0,
     0,  0, -0
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1501,7 +1501,7 @@ function isUpperTriangle( test )
     0, - 1, 0, 2, 0,
     0,  0,  1, 0, 3
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1515,7 +1515,7 @@ function isUpperTriangle( test )
     0,  0,  0, 0, 3, 7,
     0,  0,  0, 0, 0, - 1
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1527,7 +1527,7 @@ function isUpperTriangle( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1539,7 +1539,7 @@ function isUpperTriangle( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  test.isNot( m1.isUpperTriangle() );
+  test.false( m1.isUpperTriangle() );
 
   /* */
 
@@ -1551,7 +1551,7 @@ function isUpperTriangle( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  test.isNot( m1.isUpperTriangle() );
+  test.false( m1.isUpperTriangle() );
 
   /* */
 
@@ -1563,7 +1563,7 @@ function isUpperTriangle( test )
     2,    0,
     - 1, 3.4
   ]);
-  test.isNot( m1.isUpperTriangle() );
+  test.false( m1.isUpperTriangle() );
 
   /* */
 
@@ -1573,7 +1573,7 @@ function isUpperTriangle( test )
     0.5,  0, 0.5,  0,
     1,  - 1, 1,  - 1
   ]);
-  test.isNot( m1.isUpperTriangle() );
+  test.false( m1.isUpperTriangle() );
 
   /* */
 
@@ -1585,7 +1585,7 @@ function isUpperTriangle( test )
     0,  0,      0, 0,
     0,  0-1e-8, -0, 0
   ]);
-  test.is( m1.isUpperTriangle() );
+  test.true( m1.isUpperTriangle() );
 
   /* */
 
@@ -1597,7 +1597,7 @@ function isUpperTriangle( test )
     0,  0,      0, 0,
     0,  0-1e-3, -0, 0
   ]);
-  test.is( m1.isUpperTriangle( 1e-2 ) );
+  test.true( m1.isUpperTriangle( 1e-2 ) );
 
   /* */
 
@@ -1609,7 +1609,7 @@ function isUpperTriangle( test )
     0,  0,      0, 0,
     0,  0-1e-3, -0, 0
   ]);
-  test.isNot( m1.isUpperTriangle( 1e-7 ) );
+  test.false( m1.isUpperTriangle( 1e-7 ) );
 
   /* */
 
@@ -1644,7 +1644,7 @@ function isLowerTriangle( test )
     0,   0,   1, - 1,   0,   0,
     - 1,   0, - 1,   0,   0, - 1
   ]);
-  test.isNot( m1.isLowerTriangle() );
+  test.false( m1.isLowerTriangle() );
 
   var oldMatrix = _.Matrix.Make([ 4, 6 ]).copy
   ([
@@ -1665,7 +1665,7 @@ function isLowerTriangle( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1677,7 +1677,7 @@ function isLowerTriangle( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1690,7 +1690,7 @@ function isLowerTriangle( test )
     - 1, 3.4,  - 1,
     1,     4,  - 1
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1701,7 +1701,7 @@ function isLowerTriangle( test )
     1,  - 1,   0,  0,  0,
     2,    0,   1,  0,  0
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1713,7 +1713,7 @@ function isLowerTriangle( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  test.isNot( m1.isLowerTriangle() );
+  test.false( m1.isLowerTriangle() );
 
   /* */
 
@@ -1725,7 +1725,7 @@ function isLowerTriangle( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  test.isNot( m1.isLowerTriangle() );
+  test.false( m1.isLowerTriangle() );
 
   /* */
 
@@ -1737,7 +1737,7 @@ function isLowerTriangle( test )
     2,    0,
     - 1, 3.4
   ]);
-  test.isNot( m1.isLowerTriangle() );
+  test.false( m1.isLowerTriangle() );
 
   /* */
 
@@ -1747,7 +1747,7 @@ function isLowerTriangle( test )
     0.5,  5, 0.5,  5,
     0,  - 1, 0,  - 1
   ]);
-  test.isNot( m1.isLowerTriangle() );
+  test.false( m1.isLowerTriangle() );
 
   /* */
 
@@ -1761,7 +1761,7 @@ function isLowerTriangle( test )
     0,  6,  0,  0, 3, 0,
     7,  0,  0,  0, 0, - 1
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1773,7 +1773,7 @@ function isLowerTriangle( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1785,7 +1785,7 @@ function isLowerTriangle( test )
     0,  0,      0, 0,
     4,  5-1e-8, -0, 0
   ]);
-  test.is( m1.isLowerTriangle() );
+  test.true( m1.isLowerTriangle() );
 
   /* */
 
@@ -1797,7 +1797,7 @@ function isLowerTriangle( test )
     0,  0,      0, 0,
     4,  5-1e-3, -0, 0
   ]);
-  test.is( m1.isLowerTriangle( 1e-2 ) );
+  test.true( m1.isLowerTriangle( 1e-2 ) );
 
   /* */
 
@@ -1809,7 +1809,7 @@ function isLowerTriangle( test )
     0,  0,      0, 0,
     4,  5-1e-3, -0, 0
   ]);
-  test.isNot( m1.isLowerTriangle( 1e-7 ) );
+  test.false( m1.isLowerTriangle( 1e-7 ) );
 
   /* */
 
@@ -1844,7 +1844,7 @@ function isOrthogonal( test )
     0,   0,   1, - 1,
     - 1,   0, - 1,   0
   ]);
-  test.isNot( m1.isOrthogonal() );
+  test.false( m1.isOrthogonal() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -1865,7 +1865,7 @@ function isOrthogonal( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  test.isNot( m1.isOrthogonal() );
+  test.false( m1.isOrthogonal() );
 
 
   test.description = 'Matrix not orthogonal - not square';
@@ -1876,7 +1876,7 @@ function isOrthogonal( test )
     2,    0,
     - 1, 3.4
   ]);
-  test.isNot( m1.isOrthogonal() );
+  test.false( m1.isOrthogonal() );
 
   /* */
 
@@ -1887,7 +1887,7 @@ function isOrthogonal( test )
     1/3,  2/3,  2/3,
     2/3,  1/3, -2/3
   ]);
-  test.is( m1.isOrthogonal() );
+  test.true( m1.isOrthogonal() );
 
   /* */
 
@@ -1901,7 +1901,7 @@ function isOrthogonal( test )
     0, 0, 0, 0, 0, 1,
     0, 0, 0, 1, 0, 0
   ]);
-  test.is( m1.isOrthogonal() );
+  test.true( m1.isOrthogonal() );
 
   /* */
 
@@ -1913,7 +1913,7 @@ function isOrthogonal( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.isNot( m1.isOrthogonal() );
+  test.false( m1.isOrthogonal() );
 
   /* */
 
@@ -1925,7 +1925,7 @@ function isOrthogonal( test )
     0 +1e-8, 0 -1e-8, 1 +1e-8, 0 -1e-8,
     0 +1e-8, 0 -1e-8, 0 -1e-8, 1 +1e-8
   ]);
-  test.is( m1.isOrthogonal() );
+  test.true( m1.isOrthogonal() );
 
   /* */
 
@@ -1937,7 +1937,7 @@ function isOrthogonal( test )
     0 +1e-3, 0 -1e-3, 1 +1e-3, 0 -1e-3,
     0 +1e-3, 0 -1e-3, 0 -1e-3, 1 +1e-3
   ]);
-  test.is( m1.isOrthogonal( 1e-2 ) );
+  test.true( m1.isOrthogonal( 1e-2 ) );
 
   /* */
 
@@ -1949,7 +1949,7 @@ function isOrthogonal( test )
     0,       0, 0, 0,
     0,       0, 1, 0,
   ]);
-  test.isNot( m1.isOrthogonal( 1e-7 ) );
+  test.false( m1.isOrthogonal( 1e-7 ) );
 
   /* */
 
@@ -1984,7 +1984,7 @@ function isSingular( test )
     0,   0,   1, - 1,
     - 1, 0, - 1,   0
   ]);
-  test.is( m1.isSingular() );
+  test.true( m1.isSingular() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2005,7 +2005,7 @@ function isSingular( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isSingular() );
+  test.true( m1.isSingular() );
 
   /* */
 
@@ -2017,7 +2017,7 @@ function isSingular( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  test.is( m1.isSingular() );
+  test.true( m1.isSingular() );
 
   /* */
 
@@ -2029,7 +2029,7 @@ function isSingular( test )
     9,    7,    6,   12,
     4,   14,   15,    1
   ]);
-  test.is( m1.isSingular() );
+  test.true( m1.isSingular() );
 
   /* */
 
@@ -2043,7 +2043,7 @@ function isSingular( test )
     30,    5,    34,    12,    14,    16,
     4,    36,    29,    13,    18,    11
   ]);
-  test.is( m1.isSingular() );
+  test.true( m1.isSingular() );
 
   /* */
 
@@ -2055,7 +2055,7 @@ function isSingular( test )
     2,     0,
     -1,  3.4,
   ]);
-  test.isNot( m1.isSingular() );
+  test.false( m1.isSingular() );
 
   /* */
 
@@ -2066,7 +2066,7 @@ function isSingular( test )
     1, 2, 1,
     1, 1, 1
   ]);
-  test.isNot( m1.isSingular() );
+  test.false( m1.isSingular() );
 
   /* */
 
@@ -2080,7 +2080,7 @@ function isSingular( test )
     0, 0, 0, 0, 0, 1,
     0, 0, 0, 1, 0, 0
   ]);
-  test.isNot( m1.isSingular() );
+  test.false( m1.isSingular() );
 
   /* */
 
@@ -2115,7 +2115,7 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     - 1,   0, - 1, 0
   ]);
-  test.isNot( m1.isSymmetric() );
+  test.false( m1.isSymmetric() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2136,7 +2136,7 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  test.isNot( m1.isSymmetric() );
+  test.false( m1.isSymmetric() );
 
   /* */
 
@@ -2148,7 +2148,7 @@ function isSymmetric( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  test.isNot( m1.isSymmetric() );
+  test.false( m1.isSymmetric() );
 
   /* */
 
@@ -2161,7 +2161,7 @@ function isSymmetric( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  test.isNot( m1.isSymmetric() );
+  test.false( m1.isSymmetric() );
 
   /* */
 
@@ -2172,7 +2172,7 @@ function isSymmetric( test )
     0, - 1,   2,   0,
     3,   2,   1, - 1,
   ]);
-  test.isNot( m1.isSymmetric() );
+  test.false( m1.isSymmetric() );
 
   /* */
 
@@ -2184,7 +2184,7 @@ function isSymmetric( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  test.is( m1.isSymmetric() );
+  test.true( m1.isSymmetric() );
 
   /* */
 
@@ -2196,7 +2196,7 @@ function isSymmetric( test )
     8,  2,  1, 0,
     0.1,  8, -0, 2
   ]);
-  test.is( m1.isSymmetric() );
+  test.true( m1.isSymmetric() );
 
   /* */
 
@@ -2208,7 +2208,7 @@ function isSymmetric( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isSymmetric() );
+  test.true( m1.isSymmetric() );
 
   /* */
 
@@ -2220,7 +2220,7 @@ function isSymmetric( test )
     0,       0,      0, 0,
     4,       5-1e-8, -0, 0
   ]);
-  test.is( m1.isSymmetric() );
+  test.true( m1.isSymmetric() );
 
   /* */
 
@@ -2232,7 +2232,7 @@ function isSymmetric( test )
     0,  0,      0, 0,
     4,  5-1e-3, -0, 0
   ]);
-  test.is( m1.isSymmetric( 1e-2 ) );
+  test.true( m1.isSymmetric( 1e-2 ) );
 
   /* */
 
@@ -2244,7 +2244,7 @@ function isSymmetric( test )
     0,  0,      0, 0,
     4,  5-1e-3, -0, 0
   ]);
-  test.isNot( m1.isSymmetric( 1e-7 ) );
+  test.false( m1.isSymmetric( 1e-7 ) );
 
   /* */
 
@@ -2279,7 +2279,7 @@ function isSkewSymmetric( test )
     0,   0,   1, - 1,
     - 1,   0, - 1, 0
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2300,7 +2300,7 @@ function isSkewSymmetric( test )
     0,   0,   1, - 1,
     - 1, 0,  - 1,  0
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2312,7 +2312,7 @@ function isSkewSymmetric( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2325,7 +2325,7 @@ function isSkewSymmetric( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2336,7 +2336,7 @@ function isSkewSymmetric( test )
     0, - 1,   2,   0,
     3,   2,   1, - 1,
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2348,7 +2348,7 @@ function isSkewSymmetric( test )
     0,  0,  1, 0,
     0,  0, -0, 2
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2360,7 +2360,7 @@ function isSkewSymmetric( test )
     8,  2,  1, 0,
     0.1,  8, -0, 2
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2372,7 +2372,7 @@ function isSkewSymmetric( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.is( m1.isSkewSymmetric() );
+  test.true( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2384,7 +2384,7 @@ function isSkewSymmetric( test )
     8,    2,  3,  0,
     0.1, -8, -0,  0
   ]);
-  test.isNot( m1.isSkewSymmetric() );
+  test.false( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2396,7 +2396,7 @@ function isSkewSymmetric( test )
     8,   -2,  0,  0,
     0.1, -8, -0,  0
   ]);
-  test.is( m1.isSkewSymmetric() );
+  test.true( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2408,7 +2408,7 @@ function isSkewSymmetric( test )
     8,       -2,       0,  0,
     0.1,     -8-1e-8, -0,  0
   ]);
-  test.is( m1.isSkewSymmetric() );
+  test.true( m1.isSkewSymmetric() );
 
   /* */
 
@@ -2420,7 +2420,7 @@ function isSkewSymmetric( test )
     8,       -2,       0,  0,
     0.1,     -8-1e-3, -0,  0
   ]);
-  test.is( m1.isSkewSymmetric( 1e-2 ) );
+  test.true( m1.isSkewSymmetric( 1e-2 ) );
 
   /* */
 
@@ -2432,7 +2432,7 @@ function isSkewSymmetric( test )
     8,       -2,       0,  0,
     0.1,     -8-1e-3, -0,  0
   ]);
-  test.isNot( m1.isSkewSymmetric( 1e-7 ) );
+  test.false( m1.isSkewSymmetric( 1e-7 ) );
 
   /* */
 
@@ -2463,7 +2463,7 @@ function isNilpotent( test )
     0,   1,
     0,   0
   ]);
-  test.is( m1.isNilpotent() );
+  test.true( m1.isNilpotent() );
 
   /* */
 
@@ -2473,7 +2473,7 @@ function isNilpotent( test )
     6,   2,
     -18, -6
   ]);
-  test.is( m1.isNilpotent() );
+  test.true( m1.isNilpotent() );
 
   /* */
 
@@ -2483,7 +2483,7 @@ function isNilpotent( test )
     1,  0,
     0,  1
   ]);
-  test.isNot( m1.isNilpotent() );
+  test.false( m1.isNilpotent() );
 
 
   /* Andrey: Uncoment when finding eigenvalues for n > 3 were implement */
@@ -2496,7 +2496,7 @@ function isNilpotent( test )
   //   15, -9,  6,
   //   10, -6,  4
   // ]);
-  // test.is( m1.isNilpotent() );
+  // test.true( m1.isNilpotent() );
   //
   // /* */
   //
@@ -2508,7 +2508,7 @@ function isNilpotent( test )
   //   2,    0,   1,  0,
   //   - 1, 3.4, - 1, 2
   // ]);
-  // test.is( m1.isNilpotent() );
+  // test.true( m1.isNilpotent() );
   //
   // /* */
   //
@@ -2520,7 +2520,7 @@ function isNilpotent( test )
   //   0,   0,   1, - 1,
   //   0,   0,   0,  0.5
   // ]);
-  // test.is( m1.isNilpotent() );
+  // test.true( m1.isNilpotent() );
   //
   // /* */
   //
@@ -2531,7 +2531,7 @@ function isNilpotent( test )
   //   0, - 1,   2,   0,
   //   3,   2,   1, - 1,
   // ]);
-  // test.isNot( m1.isNilpotent() );
+  // test.false( m1.isNilpotent() );
   //
   // /* */
   //
@@ -2543,7 +2543,7 @@ function isNilpotent( test )
   //   0,  0,  0, 0,
   //   0,  0, -0, 0
   // ]);
-  // test.is( m1.isNilpotent() );
+  // test.true( m1.isNilpotent() );
   //
   // /* */
 
@@ -2578,7 +2578,7 @@ function isInvolutary( test )
     0,   0,   1, - 1,
     - 1,   0, - 1, 0
   ]);
-  test.isNot( m1.isInvolutary() );
+  test.false( m1.isInvolutary() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2598,7 +2598,7 @@ function isInvolutary( test )
     3,   5,   0,
     1,   2,  -1
   ]);
-  test.is( m1.isInvolutary() );
+  test.true( m1.isInvolutary() );
 
   /* */
 
@@ -2610,7 +2610,7 @@ function isInvolutary( test )
     0,   0,   1,  -1,
     -1,  0,  -1,   0
   ]);
-  test.isNot( m1.isInvolutary() );
+  test.false( m1.isInvolutary() );
 
   /* */
 
@@ -2622,7 +2622,7 @@ function isInvolutary( test )
     2,    0,   1,  0,
     - 1, 3.4, - 1, 2
   ]);
-  test.isNot( m1.isInvolutary() );
+  test.false( m1.isInvolutary() );
 
   /* */
 
@@ -2635,7 +2635,7 @@ function isInvolutary( test )
     0,   0,   1, - 1,
     0,   0,   0,  0.5
   ]);
-  test.isNot( m1.isInvolutary() );
+  test.false( m1.isInvolutary() );
 
   /* */
 
@@ -2646,7 +2646,7 @@ function isInvolutary( test )
     0, - 1,   2,   0,
     3,   2,   1, - 1,
   ]);
-  test.isNot( m1.isInvolutary() );
+  test.false( m1.isInvolutary() );
 
   /* */
 
@@ -2658,7 +2658,7 @@ function isInvolutary( test )
     0,  0,  1,  0,
     0,  0, -0,  1
   ]);
-  test.is( m1.isInvolutary() );
+  test.true( m1.isInvolutary() );
 
   /* */
 
@@ -2670,7 +2670,7 @@ function isInvolutary( test )
     0,  0,  0, 0,
     0,  0, -0, 0
   ]);
-  test.isNot( m1.isInvolutary() );
+  test.false( m1.isInvolutary() );
 
   /* */
 
@@ -2681,7 +2681,7 @@ function isInvolutary( test )
     3-1e-8,  5+1e-8,  0,
     1,       2,      -1
   ]);
-  test.is( m1.isInvolutary() );
+  test.true( m1.isInvolutary() );
 
   /* */
 
@@ -2692,7 +2692,7 @@ function isInvolutary( test )
     3,  5+1e-4,  0,
     1,  2,      -1
   ]);
-  test.is( m1.isInvolutary( 1e-2 ) );
+  test.true( m1.isInvolutary( 1e-2 ) );
 
   /* */
 
@@ -2703,7 +2703,7 @@ function isInvolutary( test )
     3,  5+1e-3, 0,
     1,  2,     -1
   ]);
-  test.isNot( m1.isInvolutary( 1e-7 ) );
+  test.false( m1.isInvolutary( 1e-7 ) );
 
   /* */
 
@@ -2735,7 +2735,7 @@ function isIdempotent( test )
     +0,   0,   1,  -1,
     -1,   0,  -1,   0
   ]);
-  test.isNot( m1.isIdempotent() );
+  test.false( m1.isIdempotent() );
 
   var oldMatrix = _.Matrix.Make([ 4, 4 ]).copy
   ([
@@ -2755,7 +2755,7 @@ function isIdempotent( test )
     -1, +3, +4,
     +1, -2, -3
   ]);
-  test.is( m1.isIdempotent() );
+  test.true( m1.isIdempotent() );
 
   /* */
 
@@ -2767,7 +2767,7 @@ function isIdempotent( test )
     +0,  +0,  +1,  -1,
     -1,  +0,  -1,  +0
   ]);
-  test.isNot( m1.isIdempotent() );
+  test.false( m1.isIdempotent() );
 
   /* */
 
@@ -2779,7 +2779,7 @@ function isIdempotent( test )
     +2,    0,    1,   0,
     -1,    3.4, -1,   2
   ]);
-  test.isNot( m1.isIdempotent() );
+  test.false( m1.isIdempotent() );
 
   /* */
 
@@ -2792,7 +2792,7 @@ function isIdempotent( test )
     0,   0,   1,  -1,
     0,   0,   0,   0.5
   ]);
-  test.isNot( m1.isIdempotent() );
+  test.false( m1.isIdempotent() );
 
   /* */
 
@@ -2803,7 +2803,7 @@ function isIdempotent( test )
     0,  -1,   2,   0,
     3,   2,   1,  -1,
   ]);
-  test.isNot( m1.isIdempotent() );
+  test.false( m1.isIdempotent() );
 
   /* */
 
@@ -2815,7 +2815,7 @@ function isIdempotent( test )
     0,  0,  1,  0,
     0,  0, -0,  1
   ]);
-  test.is( m1.isIdempotent() );
+  test.true( m1.isIdempotent() );
 
   /* */
 
@@ -2827,7 +2827,7 @@ function isIdempotent( test )
     +0, +0, +0, +0,
     +0, +0, -0, +0
   ]);
-  test.is( m1.isIdempotent() );
+  test.true( m1.isIdempotent() );
 
   /* */
 
@@ -2838,7 +2838,7 @@ function isIdempotent( test )
     -1-1e-8, +3+1e-8, +4,
     +1,      -2,      -3
   ]);
-  test.is( m1.isIdempotent() );
+  test.true( m1.isIdempotent() );
 
   /* */
 
@@ -2849,7 +2849,7 @@ function isIdempotent( test )
     -1,   +3+1e-3,  +4,
     +1,   -2,       -3
   ]);
-  test.is( m1.isIdempotent( 1e-2 ) );
+  test.true( m1.isIdempotent( 1e-2 ) );
 
   /* */
 
@@ -2860,7 +2860,7 @@ function isIdempotent( test )
     -1,  +3+1e-3, +4,
     +1,  -2,      -3
   ]);
-  test.isNot( m1.isIdempotent( 1e-5 ) );
+  test.false( m1.isIdempotent( 1e-5 ) );
 
   /* */
 
@@ -2892,14 +2892,14 @@ function EquivalentSpace( test )
   var m1 = _.Matrix.MakeSquare([]);
   var m2 = _.Matrix.MakeSquare([]);
 
-  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.is( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.true( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.true( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* */
 
@@ -2908,14 +2908,14 @@ function EquivalentSpace( test )
   var m1 = _.Matrix.MakeSquare([]);
   var m2 = _.Matrix.Make([ 0, 2 ]);
 
-  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.true( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* */
 
@@ -2924,14 +2924,14 @@ function EquivalentSpace( test )
   var m1 = _.Matrix.MakeSquare([]);
   var m2 = _.Matrix.Make([ 2, 0 ]);
 
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.is( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.true( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* */
 
@@ -2949,14 +2949,14 @@ function EquivalentSpace( test )
     14, 13,
   ]);
 
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* - */
 
@@ -2974,14 +2974,14 @@ function EquivalentSpace( test )
     5, 3,
   ]);
 
-  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.true( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* */
 
@@ -2999,14 +2999,14 @@ function EquivalentSpace( test )
     5, 0, 3,
   ]);
 
-  test.is( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.is( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.is( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.is( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.true( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.true( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.true( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* */
 
@@ -3025,14 +3025,14 @@ function EquivalentSpace( test )
     5, 3,
   ]);
 
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1, m2 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2, m1 ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
-  test.isNot( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentColumnSpace( m2.transpose( null ), m1.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1, m2 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2, m1 ) );
+  test.false( _.Matrix.EquivalentRowSpace( m1.transpose( null ), m2.transpose( null ) ) );
+  test.false( _.Matrix.EquivalentRowSpace( m2.transpose( null ), m1.transpose( null ) ) );
 
   /* - */
 
@@ -4185,7 +4185,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 2 ], 0 );
     var got = matrix.scalarSet( [ 1, 2 ], 0 );
     test.identical( got.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -4200,7 +4200,7 @@ function scalarSet( test )
     matrix.scalarSet([ 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2 ], 0 );
     test.identical( got.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 5, 8, 9 ]);
@@ -4216,7 +4216,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 2 ], 0 );
     var got = matrix.scalarSet( [ 1, 2 ], 0 );
     test.identical( got.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -4231,7 +4231,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2 ], 0 );
     test.identical( got.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.close( '2D matrix' );
 
@@ -4252,7 +4252,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
     test.identical( got.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
@@ -4267,7 +4267,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2, 0 ], 0 );
     test.identical( got.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
@@ -4282,7 +4282,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
     test.identical( got.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
@@ -4297,7 +4297,7 @@ function scalarSet( test )
     var got = matrix.scalarSet( [ 0, 0, 0 ], 0 );
     matrix.scalarSet( [ 0, 2, 0 ], 0 );
     test.identical( got.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.close( '3D matrix' );
 
@@ -4319,7 +4319,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
     test.identical( got.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
@@ -4335,7 +4335,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
     test.identical( got.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
@@ -4351,7 +4351,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
     test.identical( got.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
@@ -4367,7 +4367,7 @@ function scalarSet( test )
     matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
     test.identical( got.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.close( '4D matrix' );
   }
@@ -4427,9 +4427,9 @@ function hasIndex( test )
       dims : [ 0, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, empty buffer, 1x0 matrix`;
     var buffer = a.longMake( [] );
@@ -4439,9 +4439,9 @@ function hasIndex( test )
       dims : [ 1, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, empty buffer, 0x1 matrix`;
     var buffer = a.longMake( [] );
@@ -4451,9 +4451,9 @@ function hasIndex( test )
       dims : [ 0, 1 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, filled buffer, 0x0 matrix`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
@@ -4463,9 +4463,9 @@ function hasIndex( test )
       dims : [ 0, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, filled buffer, 1x0 matrix`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
@@ -4475,9 +4475,9 @@ function hasIndex( test )
       dims : [ 1, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, filled buffer, 0x1 matrix`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
@@ -4487,9 +4487,9 @@ function hasIndex( test )
       dims : [ 0, 1 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     /* */
 
@@ -4501,9 +4501,9 @@ function hasIndex( test )
       dims : [ 0, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 1x0 matrix`;
     var buffer = a.vadMake( [] );
@@ -4513,9 +4513,9 @@ function hasIndex( test )
       dims : [ 1, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, empty buffer, 0x1 matrix`;
     var buffer = a.vadMake( [] );
@@ -4525,9 +4525,9 @@ function hasIndex( test )
       dims : [ 0, 1 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 0x0 matrix`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
@@ -4537,9 +4537,9 @@ function hasIndex( test )
       dims : [ 0, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 1x0 matrix`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
@@ -4549,9 +4549,9 @@ function hasIndex( test )
       dims : [ 1, 0 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, filled buffer, 0x1 matrix`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5 ] );
@@ -4561,9 +4561,9 @@ function hasIndex( test )
       dims : [ 0, 1 ],
       inputRowMajor : 1,
     });
-    test.isNot( matrix.hasIndex( [ 0, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 0 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.close( 'empty matrix' );
 
@@ -4580,20 +4580,20 @@ function hasIndex( test )
       offset : 8,
       strides : [ -2, -1 ],
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 1 ] ) );
-    test.is( matrix.hasIndex( [ 1, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 2, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 2, 1 ] ) );
-    test.isNot( matrix.hasIndex( [ 2, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 1 ] ) );
+    test.true( matrix.hasIndex( [ 1, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.false( matrix.hasIndex( [ 2 ] ) );
+    test.false( matrix.hasIndex( [ 2, 0 ] ) );
+    test.false( matrix.hasIndex( [ 2, 1 ] ) );
+    test.false( matrix.hasIndex( [ 2, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -4604,19 +4604,19 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 1 ] ) );
-    test.is( matrix.hasIndex( [ 100 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2 ] ) );
-    test.is( matrix.hasIndex( [ 1, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 1 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.is( matrix.hasIndex( [ 100, 0 ] ) );
-    test.is( matrix.hasIndex( [ 100, 1 ] ) );
-    test.is( matrix.hasIndex( [ 100, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 1 ] ) );
+    test.true( matrix.hasIndex( [ 100 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2 ] ) );
+    test.true( matrix.hasIndex( [ 1, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 1 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 100, 0 ] ) );
+    test.true( matrix.hasIndex( [ 100, 1 ] ) );
+    test.true( matrix.hasIndex( [ 100, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -4627,14 +4627,14 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 0,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 1 ] ) );
-    test.is( matrix.hasIndex( [ 100 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.is( matrix.hasIndex( [ 100, 0 ] ) );
-    test.is( matrix.hasIndex( [ 100, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 1 ] ) );
+    test.true( matrix.hasIndex( [ 100 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 100, 0 ] ) );
+    test.true( matrix.hasIndex( [ 100, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -4645,20 +4645,20 @@ function hasIndex( test )
       offset : 8,
       strides : [ -2, -1 ],
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 1 ] ) );
-    test.is( matrix.hasIndex( [ 1, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 2, 0 ] ) );
-    test.isNot( matrix.hasIndex( [ 2, 1 ] ) );
-    test.isNot( matrix.hasIndex( [ 2, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 1 ] ) );
+    test.true( matrix.hasIndex( [ 1, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.false( matrix.hasIndex( [ 2 ] ) );
+    test.false( matrix.hasIndex( [ 2, 0 ] ) );
+    test.false( matrix.hasIndex( [ 2, 1 ] ) );
+    test.false( matrix.hasIndex( [ 2, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
@@ -4669,16 +4669,16 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2 ] ) );
-    test.is( matrix.hasIndex( [ 1, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 1 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.is( matrix.hasIndex( [ 100, 0 ] ) );
-    test.is( matrix.hasIndex( [ 100, 1 ] ) );
-    test.is( matrix.hasIndex( [ 100, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2 ] ) );
+    test.true( matrix.hasIndex( [ 1, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 1 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 100, 0 ] ) );
+    test.true( matrix.hasIndex( [ 100, 1 ] ) );
+    test.true( matrix.hasIndex( [ 100, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.close( '2D matrix' );
 
@@ -4696,17 +4696,17 @@ function hasIndex( test )
       strides : [ 1, 2, 1 ],
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
-    test.is( matrix.hasIndex( [ 1 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.is( matrix.hasIndex( [ 1, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 2, 4 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.true( matrix.hasIndex( [ 1 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 1, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2, 3 ] ) );
+    test.false( matrix.hasIndex( [ 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 3 ] ) );
+    test.false( matrix.hasIndex( [ 1, 2, 4 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
@@ -4717,17 +4717,17 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 3000 ] ) );
-    test.is( matrix.hasIndex( [ 2000 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 5, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 3000 ] ) );
+    test.true( matrix.hasIndex( [ 2000 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
+    test.false( matrix.hasIndex( [ 0, 5, 0 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
@@ -4739,17 +4739,17 @@ function hasIndex( test )
       strides : [ 1, 2, 1 ],
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
-    test.is( matrix.hasIndex( [ 1 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2 ] ) );
-    test.is( matrix.hasIndex( [ 1, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 1, 2, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 1, 2, 4 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.true( matrix.hasIndex( [ 1 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 1, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 1, 2, 3 ] ) );
+    test.false( matrix.hasIndex( [ 2 ] ) );
+    test.false( matrix.hasIndex( [ 1, 3 ] ) );
+    test.false( matrix.hasIndex( [ 1, 2, 4 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
@@ -4760,17 +4760,17 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 3 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 3000 ] ) );
-    test.is( matrix.hasIndex( [ 2000 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 5, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 3 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 3000 ] ) );
+    test.true( matrix.hasIndex( [ 2000 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2, 3000 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 3, 2000 ] ) );
+    test.false( matrix.hasIndex( [ 0, 5, 0 ] ) );
 
     test.close( '3D matrix' );
 
@@ -4787,17 +4787,17 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
-    test.isNot( matrix.hasIndex( [ 1 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
+    test.false( matrix.hasIndex( [ 1 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
     var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
@@ -4808,17 +4808,17 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 2, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 2, 2 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, regular dims values`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
@@ -4829,17 +4829,17 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
-    test.isNot( matrix.hasIndex( [ 1 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 0, 2, 1, 1 ] ) );
+    test.false( matrix.hasIndex( [ 1 ] ) );
+    test.false( matrix.hasIndex( [ 0, 3 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2, 2 ] ) );
+    test.false( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
 
     test.case = `buffer - vectorAdapter from ${ a.format }, dims with Infinity`;
     var buffer = a.vadMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
@@ -4850,17 +4850,17 @@ function hasIndex( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    test.is( matrix.hasIndex( [ 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2, 1 ] ) );
-    test.is( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
-    test.is( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 3 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 2, 2 ] ) );
-    test.isNot( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
+    test.true( matrix.hasIndex( [ 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2, 1 ] ) );
+    test.true( matrix.hasIndex( [ 0, 0, 0, 0 ] ) );
+    test.true( matrix.hasIndex( [ 2000, 2, 1, 2000 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 3 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 2, 2 ] ) );
+    test.false( matrix.hasIndex( [ 2000, 2, 2, 2000 ] ) );
 
     test.close( '4D matrix' );
   }
@@ -4975,7 +4975,7 @@ function eSet( test )
     matrix.eSet( 0, a.longMake([ 55, 55, 55 ]) );
     var got = matrix.eSet( 1, a.longMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, full replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -4990,7 +4990,7 @@ function eSet( test )
     matrix.eSet( 0, a.vadMake([ 55, 55, 55 ]) );
     var got = matrix.eSet( 1, a.vadMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     /* */
 
@@ -5007,7 +5007,7 @@ function eSet( test )
     matrix.eSet( 0, a.longMake([ 55, 55 ]) );
     var got = matrix.eSet( 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, partial replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5022,7 +5022,7 @@ function eSet( test )
     matrix.eSet( 0, a.vadMake([ 55, 55 ]) );
     var got = matrix.eSet( 1, a.vadMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
   }
 
   /* - */
@@ -5182,7 +5182,7 @@ function lineSet( test )
     matrix.lineSet( 0, 0, a.longMake([ 55, 55, 55 ]) );
     var got = matrix.lineSet( 0, 1, a.longMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, full replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5197,7 +5197,7 @@ function lineSet( test )
     matrix.lineSet( 0, 0, a.vadMake([ 55, 55, 55 ]) );
     var got = matrix.lineSet( 0, 1, a.vadMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     /* */
 
@@ -5214,7 +5214,7 @@ function lineSet( test )
     matrix.lineSet( 0, 0, a.longMake([ 55, 55 ]) );
     var got = matrix.lineSet( 0, 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, partial replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5229,7 +5229,7 @@ function lineSet( test )
     matrix.lineSet( 0, 0, a.vadMake([ 55, 55 ]) );
     var got = matrix.lineSet( 0, 1, a.vadMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.close( 'lineSet col' );
 
@@ -5250,7 +5250,7 @@ function lineSet( test )
     matrix.lineSet( 1, 0, a.longMake([ 55, 55 ]) );
     var got = matrix.lineSet( 1, 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, full replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5265,7 +5265,7 @@ function lineSet( test )
     matrix.lineSet( 1, 0, a.vadMake([ 55, 55 ]) );
     var got = matrix.lineSet( 1, 1, a.vadMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     /* */
 
@@ -5282,7 +5282,7 @@ function lineSet( test )
     matrix.lineSet( 1, 0, a.longMake([ 55 ]) );
     var got = matrix.lineSet( 1, 1, a.longMake([ 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, partial replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5297,7 +5297,7 @@ function lineSet( test )
     matrix.lineSet( 1, 0, a.vadMake([ 55 ]) );
     var got = matrix.lineSet( 1, 1, a.vadMake([ 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.close( 'lineSet row' );
 
@@ -5940,7 +5940,7 @@ function rowSet( test )
     matrix.rowSet( 0, a.longMake([ 55, 55 ]) );
     var got = matrix.rowSet( 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, full replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5955,7 +5955,7 @@ function rowSet( test )
     matrix.rowSet( 0, a.vadMake([ 55, 55 ]) );
     var got = matrix.rowSet( 1, a.vadMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     /* */
 
@@ -5972,7 +5972,7 @@ function rowSet( test )
     matrix.rowSet( 0, a.longMake([ 55 ]) );
     var got = matrix.rowSet( 1, a.longMake([ 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, partial replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -5987,7 +5987,7 @@ function rowSet( test )
     matrix.rowSet( 0, a.vadMake([ 55 ]) );
     var got = matrix.rowSet( 1, a.vadMake([ 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
   }
 
   /* - */
@@ -6106,7 +6106,7 @@ function colSet( test )
     matrix.colSet( 0, a.longMake([ 55, 55, 55 ]) );
     var got = matrix.colSet( 1, a.longMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, full replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -6121,7 +6121,7 @@ function colSet( test )
     matrix.colSet( 0, a.vadMake([ 55, 55, 55 ]) );
     var got = matrix.colSet( 1, a.vadMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     /* */
 
@@ -6138,7 +6138,7 @@ function colSet( test )
     matrix.colSet( 0, a.longMake([ 55, 55 ]) );
     var got = matrix.colSet( 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
-    test.is( got === matrix );
+    test.true( got === matrix );
 
     test.case = `buffer - vector ${ a.form }, partial replacing`;
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -6153,7 +6153,7 @@ function colSet( test )
     matrix.colSet( 0, a.vadMake([ 55, 55 ]) );
     var got = matrix.colSet( 1, a.vadMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp._vectorBuffer );
-    test.is( got === matrix );
+    test.true( got === matrix );
   }
 
   /* - */
@@ -8371,8 +8371,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - 1';
   var m = _.Matrix.Make( 1 ).copy( 5 );
@@ -8382,8 +8382,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - 2';
   var m = _.Matrix.Make( 2 ).copy( 5 );
@@ -8393,8 +8393,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - Infinity';
   var m = _.Matrix.Make( Infinity ).copy( 5 );
@@ -8404,8 +8404,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ Infinity, Infinity ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, Infinity ]';
   var m = _.Matrix.Make([ Infinity, Infinity ]).copy( 5 );
@@ -8415,8 +8415,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ Infinity, Infinity ] );
   test.identical( got.strides, [ 0, 0 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 0 ]';
   var m = _.Matrix.Make([ 0, 0 ]).copy( 5 );
@@ -8426,8 +8426,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 1, 1 ]';
   var m = _.Matrix.Make([ 1, 1 ]).copy( 5 );
@@ -8437,8 +8437,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 3, 2 ]';
   var m = _.Matrix.Make([ 3, 2 ]).copy( 5 );
@@ -8448,8 +8448,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 3, 2 ] );
   test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 0 ]';
   var m = _.Matrix.Make([ 2, 0 ]).copy( 5 );
@@ -8459,8 +8459,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 0 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 2 ]';
   var m = _.Matrix.Make([ 0, 2 ]).copy( 5 );
@@ -8470,8 +8470,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 2 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, 2 ]';
   var m = _.Matrix.Make([ 0, 0 ]).copy( 5 );
@@ -8481,8 +8481,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, Infinity ]';
   var m = _.Matrix.Make([ 0, 0 ]).copy( 5 );
@@ -8492,8 +8492,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( '2D' );
 
@@ -8509,8 +8509,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ Infinity, Infinity, Infinity ] );
   test.identical( got.strides, [ 0, 0, 1 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 0, 0 ]';
   var m = _.Matrix.Make([ 0, 0, 0 ]).copy( 5 );
@@ -8520,8 +8520,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 0, 0 ] );
   test.identical( got.strides, [ 1, 0, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 1, 1, 1 ]';
   var m = _.Matrix.Make([ 1, 1, 1 ]).copy( 5 );
@@ -8531,8 +8531,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 1, 1, 1 ] );
   test.identical( got.strides, [ 1, 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4 ]';
   var m = _.Matrix.Make([ 2, 3, 4 ]).copy( 5 );
@@ -8548,8 +8548,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, 4 ] );
   test.identical( got.strides, [ 1, 2, 6 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 3, 4 ]';
   var m = _.Matrix.Make([ 0, 3, 4 ]).copy( 5 );
@@ -8559,8 +8559,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 3, 4 ] );
   test.identical( got.strides, [ 1, 0, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 0, 4 ]';
   var m = _.Matrix.Make([ 2, 0, 4 ]).copy( 5 );
@@ -8570,8 +8570,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 0, 4 ] );
   test.identical( got.strides, [ 1, 2, 0 ] );
   test.identical( got.stridesEffective, [ 1, 2, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 0 ]';
   var m = _.Matrix.Make([ 2, 3, 0 ]).copy( 5 );
@@ -8581,8 +8581,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, 0 ] );
   test.identical( got.strides, [ 1, 2, 6 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, 3, 4 ]';
   var m = _.Matrix.Make([ Infinity, 3, 4 ]).copy( 5 );
@@ -8598,8 +8598,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ Infinity, 3, 4 ] );
   test.identical( got.strides, [ 0, 1, 3 ] );
   test.identical( got.stridesEffective, [ 0, 1, 3 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, Infinity, 4 ]';
   var m = _.Matrix.Make([ 2, Infinity, 4 ]).copy( 5 );
@@ -8615,8 +8615,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, Infinity, 4 ] );
   test.identical( got.strides, [ 1, 0, 2 ] );
   test.identical( got.stridesEffective, [ 1, 0, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, Infinity ]';
   var m = _.Matrix.Make([ 2, 3, Infinity ]).copy( 5 );
@@ -8630,8 +8630,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, Infinity ] );
   test.identical( got.strides, [ 1, 2, 6 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( '3D' );
 
@@ -8647,8 +8647,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ Infinity, Infinity, Infinity, Infinity ] );
   test.identical( got.strides, [ 0, 0, 1, 1 ] );
   test.identical( got.stridesEffective, [ 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 0, 0, 0 ]';
   var m = _.Matrix.Make([ 0, 0, 0, 0 ]).copy( 5 );
@@ -8658,8 +8658,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 0, 0, 0 ] );
   test.identical( got.strides, [ 1, 0, 0, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0, 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 1, 1, 1, 1 ]';
   var m = _.Matrix.Make([ 1, 1, 1, 1 ]).copy( 5 );
@@ -8669,8 +8669,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 1, 1, 1, 1 ] );
   test.identical( got.strides, [ 1, 1, 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4, 2 ]';
   var m = _.Matrix.Make([ 2, 3, 4, 2 ]).copy( 5 );
@@ -8684,8 +8684,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, 4, 2 ] );
   test.identical( got.strides, [ 1, 2, 6, 24 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6, 24 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 3, 4, 5 ]';
   var m = _.Matrix.Make([ 0, 3, 4, 5 ]).copy( 5 );
@@ -8695,8 +8695,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 0, 3, 4, 5 ] );
   test.identical( got.strides, [ 1, 0, 0, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0, 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 0, 4, 5 ]';
   var m = _.Matrix.Make([ 2, 0, 4, 5 ]).copy( 5 );
@@ -8706,8 +8706,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 0, 4, 5 ] );
   test.identical( got.strides, [ 1, 2, 0, 0 ] );
   test.identical( got.stridesEffective, [ 1, 2, 0, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 0, 5 ]';
   var m = _.Matrix.Make([ 2, 3, 0, 5 ]).copy( 5 );
@@ -8717,8 +8717,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, 0, 5 ] );
   test.identical( got.strides, [ 1, 2, 6, 0 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4, 0 ]';
   var m = _.Matrix.Make([ 2, 3, 4, 0 ]).copy( 5 );
@@ -8728,8 +8728,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, 4, 0 ] );
   test.identical( got.strides, [ 1, 2, 6, 24 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6, 24 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, 3, 4, 2 ]';
   var m = _.Matrix.Make([ Infinity, 3, 4, 2 ]).copy( 5 );
@@ -8743,8 +8743,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ Infinity, 3, 4, 2 ] );
   test.identical( got.strides, [ 0, 1, 3, 12 ] );
   test.identical( got.stridesEffective, [ 0, 1, 3, 12 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, Infinity, 4, 2 ]';
   var m = _.Matrix.Make([ 2, Infinity, 4, 2 ]).copy( 5 );
@@ -8758,8 +8758,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, Infinity, 4, 2 ] );
   test.identical( got.strides, [ 1, 0, 2, 8 ] );
   test.identical( got.stridesEffective, [ 1, 0, 2, 8 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, Infinity, 5 ]';
   var m = _.Matrix.Make([ 2, 3, Infinity, 5 ]).copy( 5 );
@@ -8776,8 +8776,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, Infinity, 5 ] );
   test.identical( got.strides, [ 1, 2, 6, 6 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6, 6 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4, Infinity ]';
   var m = _.Matrix.Make([ 2, 3, 4, Infinity ]).copy( 5 );
@@ -8791,8 +8791,8 @@ function MakeSimilarMIsMatrixWithoutDims( test )
   test.identical( got.dims, [ 2, 3, 4, Infinity ] );
   test.identical( got.strides, [ 1, 2, 6, 24 ] );
   test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( '4D' );
 }
@@ -8811,8 +8811,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - 1';
   var m = _.Matrix.Make( 1 ).copy( 5 );
@@ -8822,8 +8822,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - 2';
   var m = _.Matrix.Make( 2 ).copy( 5 );
@@ -8833,8 +8833,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - Infinity';
   var m = _.Matrix.Make( Infinity ).copy( 5 );
@@ -8844,8 +8844,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, Infinity ]';
   var m = _.Matrix.Make([ Infinity, Infinity ]).copy( 5 );
@@ -8855,8 +8855,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 0 ]';
   var m = _.Matrix.Make([ 0, 0 ]).copy( 5 );
@@ -8866,8 +8866,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 1, 1 ]';
   var m = _.Matrix.Make([ 1, 1 ]).copy( 5 );
@@ -8877,8 +8877,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 3, 2 ]';
   var m = _.Matrix.Make([ 3, 2 ]).copy( 5 );
@@ -8888,8 +8888,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 0 ]';
   var m = _.Matrix.Make([ 2, 0 ]).copy( 5 );
@@ -8899,8 +8899,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 2 ]';
   var m = _.Matrix.Make([ 0, 2 ]).copy( 5 );
@@ -8910,8 +8910,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, 2 ]';
   var m = _.Matrix.Make([ 0, 0 ]).copy( 5 );
@@ -8921,8 +8921,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, Infinity ]';
   var m = _.Matrix.Make([ 0, 0 ]).copy( 5 );
@@ -8932,8 +8932,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( '2D' );
 
@@ -8949,8 +8949,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 0, 0 ]';
   var m = _.Matrix.Make([ 0, 0, 0 ]).copy( 5 );
@@ -8960,8 +8960,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 1, 1, 1 ]';
   var m = _.Matrix.Make([ 1, 1, 1 ]).copy( 5 );
@@ -8971,8 +8971,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4 ]';
   var m = _.Matrix.Make([ 2, 3, 4 ]).copy( 5 );
@@ -8982,8 +8982,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 3, 4 ]';
   var m = _.Matrix.Make([ 0, 3, 4 ]).copy( 5 );
@@ -8993,8 +8993,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 0, 4 ]';
   var m = _.Matrix.Make([ 2, 0, 4 ]).copy( 5 );
@@ -9004,8 +9004,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 0 ]';
   var m = _.Matrix.Make([ 2, 3, 0 ]).copy( 5 );
@@ -9015,8 +9015,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, 3, 4 ]';
   var m = _.Matrix.Make([ Infinity, 3, 4 ]).copy( 5 );
@@ -9026,8 +9026,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, Infinity, 4 ]';
   var m = _.Matrix.Make([ 2, Infinity, 4 ]).copy( 5 );
@@ -9037,8 +9037,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, Infinity ]';
   var m = _.Matrix.Make([ 2, 3, Infinity ]).copy( 5 );
@@ -9048,8 +9048,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( '3D' );
 
@@ -9065,8 +9065,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 0, 0, 0 ]';
   var m = _.Matrix.Make([ 0, 0, 0, 0 ]).copy( 5 );
@@ -9076,8 +9076,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 1, 1, 1, 1 ]';
   var m = _.Matrix.Make([ 1, 1, 1, 1 ]).copy( 5 );
@@ -9087,8 +9087,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4, 2 ]';
   var m = _.Matrix.Make([ 2, 3, 4, 2 ]).copy( 5 );
@@ -9098,8 +9098,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 0, 3, 4, 5 ]';
   var m = _.Matrix.Make([ 0, 3, 4, 5 ]).copy( 5 );
@@ -9109,8 +9109,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 0, 4, 5 ]';
   var m = _.Matrix.Make([ 2, 0, 4, 5 ]).copy( 5 );
@@ -9120,8 +9120,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 0, 5 ]';
   var m = _.Matrix.Make([ 2, 3, 0, 5 ]).copy( 5 );
@@ -9131,8 +9131,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4, 0 ]';
   var m = _.Matrix.Make([ 2, 3, 4, 0 ]).copy( 5 );
@@ -9142,8 +9142,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ Infinity, 3, 4, 2 ]';
   var m = _.Matrix.Make([ Infinity, 3, 4, 2 ]).copy( 5 );
@@ -9153,8 +9153,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, Infinity, 4, 2 ]';
   var m = _.Matrix.Make([ 2, Infinity, 4, 2 ]).copy( 5 );
@@ -9164,8 +9164,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, Infinity, 5 ]';
   var m = _.Matrix.Make([ 2, 3, Infinity, 5 ]).copy( 5 );
@@ -9175,8 +9175,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims - [ 2, 3, 4, Infinity ]';
   var m = _.Matrix.Make([ 2, 3, 4, Infinity ]).copy( 5 );
@@ -9186,8 +9186,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( '4D' );
 
@@ -9203,8 +9203,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 0, 0 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims.length - 3';
   var m = new _.Matrix.Make([ 2, 2 ]).copy( 5 );
@@ -9218,8 +9218,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 3, 3, 2 ] );
   test.identical( got.strides, [ 1, 3, 9 ] );
   test.identical( got.stridesEffective, [ 1, 3, 9 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'dims.length - 4';
   var m = new _.Matrix.Make([ 2, 2 ]).copy( 5 );
@@ -9233,8 +9233,8 @@ function MakeSimilarMIsMatrixWithDims( test )
   test.identical( got.dims, [ 3, 3, 2, 2 ] );
   test.identical( got.strides, [ 1, 3, 9, 18 ] );
   test.identical( got.stridesEffective, [ 1, 3, 9, 18 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.close( 'different dims.length' );
 }
@@ -9256,8 +9256,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - Unroll';
   var m = new _.Matrix
@@ -9272,8 +9272,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - ArgumentsArray';
   var m = new _.Matrix
@@ -9288,8 +9288,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - BufferTyped, U8x';
   var m = new _.Matrix
@@ -9304,8 +9304,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - BufferTyped, I16x';
   var m = new _.Matrix
@@ -9320,8 +9320,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - BufferTyped, F32x';
   var m = new _.Matrix
@@ -9336,8 +9336,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - BufferTyped, F64x';
   var m = new _.Matrix
@@ -9352,8 +9352,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 
   test.case = 'buffer - BufferTyped, F64x';
   var m = new _.Matrix
@@ -9368,8 +9368,8 @@ function MakeSimilarDifferentBufferTypes( test )
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
-  test.is( got !== m );
-  test.is( got.buffer !== m.buffer );
+  test.true( got !== m );
+  test.true( got.buffer !== m.buffer );
 }
 
 //
@@ -9403,61 +9403,61 @@ function MakeSimilarWithVectors( test )
   var m = [ 1, 2, 3 ];
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, [ undefined, undefined ] );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - Unroll';
   var m = _.unrollMake([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, _.unrollMake([ undefined, undefined ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - ArgumentsArray';
   var m = _.argumentsArrayMake([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, _.longDescriptor.make([ 0, 0 ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - BufferTyped, U8x';
   var m = new U8x([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, new U8x([ 0, 0 ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - BufferTyped, I16x';
   var m = new I16x([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, new I16x([ 0, 0 ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - BufferTyped, F32x';
   var m = new F32x([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, new F32x([ 0, 0 ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - BufferTyped, F64x';
   var m = new F64x([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, new F64x([ 0, 0 ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - avector';
   var m = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got, _.longDescriptor.make([ 0, 0 ]) );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - VectorAdapter';
   var m = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got.toLong(), [ undefined, undefined ] );
-  test.is( got !== m );
+  test.true( got !== m );
 
   test.case = 'm - VectorAdapter, routine fromLongLrangeAndStride';
   var m = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 2, 2 );
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
   test.identical( got.toLong(), [ undefined, undefined ] );
-  test.is( got !== m );
+  test.true( got !== m );
 
   /* - */
 
@@ -9528,8 +9528,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - Array, dimension - 1';
   var buffer = [ 1, 2, 3 ];
@@ -9544,8 +9544,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9562,8 +9562,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - Unroll, dimension - 1';
   var buffer = _.unrollMake([ 1, 2, 3 ]);
@@ -9578,8 +9578,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9596,8 +9596,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - ArgumentsArray, dimension - 1';
   var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -9612,8 +9612,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9630,8 +9630,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, U8x, dimension - 1';
   var buffer = new U8x([ 1, 2, 3 ]);
@@ -9646,8 +9646,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9664,8 +9664,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, I16x, dimension - 1';
   var buffer = new I16x([ 1, 2, 3 ]);
@@ -9680,8 +9680,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9698,8 +9698,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, F32x, dimension - 1';
   var buffer = new F32x([ 1, 2, 3 ]);
@@ -9714,8 +9714,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9732,8 +9732,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, F64x, dimension - 1';
   var buffer = new F64x([ 1, 2, 3 ]);
@@ -9748,8 +9748,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9766,8 +9766,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - avector, dimension - 1';
   var buffer = _.avector.make([ 1, 2, 3 ]);
@@ -9782,8 +9782,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9800,8 +9800,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - VectorAdapter, dimension - 1';
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -9816,8 +9816,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - VectorAdapter, routine fromLongLrangeAndStride, dimension - 0';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -9832,8 +9832,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, [ 2, 6 ] );
   test.identical( got.stridesEffective, [ 2, 6 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - VectorAdapter, routine fromLongLrangeAndStride, dimension - 1';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -9848,8 +9848,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, [ 2, 2 ] );
   test.identical( got.stridesEffective, [ 2, 2 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -9871,8 +9871,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.case = 'o.buffer - matrix, dimension - 1';
   var buffer = _.Matrix.Make([ 1, 3 ]).copy([ 1, 2, 3 ]);
@@ -9887,8 +9887,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   /* - */
 
@@ -9907,8 +9907,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 0, 1 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.case = 'length - 0, dimension - 1';
   var buffer = _.Matrix.Make([ 1, 0 ]);
@@ -9923,8 +9923,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 0 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.case = 'length - 1, dimension - 0';
   var buffer = _.Matrix.Make([ 1, 1 ]);
@@ -9939,8 +9939,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.case = 'length - 1, dimension - 1';
   var buffer = _.Matrix.Make([ 1, 1 ]);
@@ -9955,8 +9955,8 @@ function MakeLineOptionZeroing0( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.close( 'different length of line' );
 }
@@ -10006,8 +10006,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - Array, dimension - 1';
   var buffer = [ 1, 2, 3 ];
@@ -10022,8 +10022,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10040,8 +10040,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - Unroll, dimension - 1';
   var buffer = _.unrollMake([ 1, 2, 3 ]);
@@ -10056,8 +10056,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10074,8 +10074,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - ArgumentsArray, dimension - 1';
   var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -10090,8 +10090,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10108,8 +10108,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, U8x, dimension - 1';
   var buffer = new U8x([ 1, 2, 3 ]);
@@ -10124,8 +10124,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10142,8 +10142,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, I16x, dimension - 1';
   var buffer = new I16x([ 1, 2, 3 ]);
@@ -10158,8 +10158,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10176,8 +10176,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, F32x, dimension - 1';
   var buffer = new F32x([ 1, 2, 3 ]);
@@ -10192,8 +10192,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10210,8 +10210,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - BufferTyped, F64x, dimension - 1';
   var buffer = new F64x([ 1, 2, 3 ]);
@@ -10226,8 +10226,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10244,8 +10244,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - avector, dimension - 1';
   var buffer = _.avector.make([ 1, 2, 3 ]);
@@ -10260,8 +10260,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10278,8 +10278,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - VectorAdapter, dimension - 1';
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -10294,8 +10294,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - VectorAdapter, routine fromLongLrangeAndStride, dimension - 0';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -10310,8 +10310,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - VectorAdapter, routine fromLongLrangeAndStride, dimension - 1';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -10326,8 +10326,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10349,8 +10349,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'o.buffer - matrix, dimension - 1';
   var buffer = _.Matrix.Make([ 1, 3 ]).copy([ 1, 2, 3 ]);
@@ -10365,8 +10365,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* - */
 
@@ -10385,8 +10385,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 0, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'length - 0, dimension - 1';
   var buffer = _.Matrix.Make([ 1, 0 ]);
@@ -10401,8 +10401,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 0 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'length - 1, dimension - 0';
   var buffer = _.Matrix.Make([ 1, 1 ]).copy( 2 );
@@ -10417,8 +10417,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'length - 1, dimension - 1';
   var buffer = _.Matrix.Make([ 1, 1 ]).copy( 2 );
@@ -10433,8 +10433,8 @@ function MakeLineOptionZeroing1( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.close( 'different length of line' );
 
@@ -10484,8 +10484,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - Unroll';
   var buffer = _.unrollMake([ 1, 2, 3 ]);
@@ -10495,8 +10495,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - ArgumentsArray';
   var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -10506,8 +10506,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, U8x';
   var buffer = new U8x([ 1, 2, 3 ]);
@@ -10517,8 +10517,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, I16x';
   var buffer = new I16x([ 1, 2, 3 ]);
@@ -10528,8 +10528,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F32x';
   var buffer = new F32x([ 1, 2, 3 ]);
@@ -10539,8 +10539,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F64x';
   var buffer = new F64x([ 1, 2, 3 ]);
@@ -10550,8 +10550,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - avector';
   var buffer = _.avector.make([ 1, 2, 3 ]);
@@ -10561,8 +10561,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter';
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -10572,8 +10572,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -10583,8 +10583,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, [ 2, 6 ] );
   test.identical( got.stridesEffective, [ 2, 6 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - matrix';
   var buffer = _.Matrix.Make([ 3, 1 ]).copy
@@ -10599,8 +10599,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, [ 1, 3 ] );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   /* */
 
@@ -10612,8 +10612,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 0, 1 ] );
   test.identical( got.strides, [ 1, 0 ] );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.case = 'length - 1';
   var buffer = _.Matrix.Make([ 1, 1 ]);
@@ -10623,8 +10623,8 @@ function MakeCol( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   /* - */
 
@@ -10664,8 +10664,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - Unroll';
   var buffer = _.unrollMake([ 1, 2, 3 ]);
@@ -10675,8 +10675,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - ArgumentsArray';
   var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -10686,8 +10686,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, U8x';
   var buffer = new U8x([ 1, 2, 3 ]);
@@ -10697,8 +10697,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, I16x';
   var buffer = new I16x([ 1, 2, 3 ]);
@@ -10708,8 +10708,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F32x';
   var buffer = new F32x([ 1, 2, 3 ]);
@@ -10719,8 +10719,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F64x';
   var buffer = new F64x([ 1, 2, 3 ]);
@@ -10730,8 +10730,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - avector';
   var buffer = _.avector.make([ 1, 2, 3 ]);
@@ -10741,8 +10741,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter';
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -10752,8 +10752,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -10763,8 +10763,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - matrix';
   var buffer = _.Matrix.Make([ 3, 1 ]).copy
@@ -10779,8 +10779,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -10792,8 +10792,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 0, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 0 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'length - 1';
   var buffer = _.Matrix.Make([ 1, 1 ]);
@@ -10803,8 +10803,8 @@ function MakeColZeroed( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* - */
 
@@ -10844,8 +10844,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - Unroll';
   var buffer = _.unrollMake([ 1, 2, 3 ]);
@@ -10855,8 +10855,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - ArgumentsArray';
   var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -10866,8 +10866,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, U8x';
   var buffer = new U8x([ 1, 2, 3 ]);
@@ -10877,8 +10877,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, I16x';
   var buffer = new I16x([ 1, 2, 3 ]);
@@ -10888,8 +10888,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F32x';
   var buffer = new F32x([ 1, 2, 3 ]);
@@ -10899,8 +10899,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F64x';
   var buffer = new F64x([ 1, 2, 3 ]);
@@ -10910,8 +10910,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - avector';
   var buffer = _.avector.make([ 1, 2, 3 ]);
@@ -10921,8 +10921,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter';
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -10932,8 +10932,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -10943,8 +10943,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, [ 2, 2 ] );
   test.identical( got.stridesEffective, [ 2, 2 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - matrix';
   var buffer = _.Matrix.Make([ 1, 3 ]).copy([ 1, 2, 3 ]);
@@ -10954,8 +10954,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   /* */
 
@@ -10967,8 +10967,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 0 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   test.case = 'length - 1';
   var buffer = _.Matrix.Make([ 1, 1 ]);
@@ -10978,8 +10978,8 @@ function MakeRow( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, [ 1, 1 ] );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got === buffer );
-  test.is( got.buffer === buffer.buffer );
+  test.true( got === buffer );
+  test.true( got.buffer === buffer.buffer );
 
   /* - */
 
@@ -11019,8 +11019,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - Unroll';
   var buffer = _.unrollMake([ 1, 2, 3 ]);
@@ -11030,8 +11030,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - ArgumentsArray';
   var buffer = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -11041,8 +11041,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, U8x';
   var buffer = new U8x([ 1, 2, 3 ]);
@@ -11052,8 +11052,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, I16x';
   var buffer = new I16x([ 1, 2, 3 ]);
@@ -11063,8 +11063,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F32x';
   var buffer = new F32x([ 1, 2, 3 ]);
@@ -11074,8 +11074,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - BufferTyped, F64x';
   var buffer = new F64x([ 1, 2, 3 ]);
@@ -11085,8 +11085,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - avector';
   var buffer = _.avector.make([ 1, 2, 3 ]);
@@ -11096,8 +11096,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter';
   var buffer = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -11107,8 +11107,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - VectorAdapter, routine fromLongLrangeAndStride';
   var buffer = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
@@ -11118,8 +11118,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'buffer - matrix';
   var buffer = _.Matrix.Make([ 1, 3 ]).copy([ 1, 2, 3 ]);
@@ -11129,8 +11129,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* */
 
@@ -11142,8 +11142,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 0 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   test.case = 'length - 1';
   var buffer = _.Matrix.Make([ 1, 1 ]).copy( 2 );
@@ -11153,8 +11153,8 @@ function MakeRowZeroed( test )
   test.identical( got.dims, [ 1, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
-  test.is( got !== buffer );
-  test.is( got.buffer !== buffer.buffer );
+  test.true( got !== buffer );
+  test.true( got.buffer !== buffer.buffer );
 
   /* - */
 
@@ -11433,7 +11433,7 @@ function ConvertToClassSrcIsMatrix( test )
     -1, -2, -3
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'cls - Array';
   var src = _.Matrix.Make([ 3, 1 ]).copy
@@ -11526,7 +11526,7 @@ function ConvertToClassSrcIsMatrix( test )
     -1, -2, -3
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'constructor - Array';
   var src = _.Matrix.Make([ 3, 1 ]).copy
@@ -11645,7 +11645,7 @@ function ConvertToClassSrcIsMatrix( test )
     -1, -2, -3
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'constructor - Array';
   var src = new _.Matrix
@@ -11776,49 +11776,49 @@ function ConvertToClassSrcIsNotMatrix( test )
   var got = _.Matrix.ConvertToClass( Array, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'cls - U8x';
   var src = [ 1, 2, 3 ];
   var got = _.Matrix.ConvertToClass( U8x, src );
   var exp = new U8x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - I16x';
   var src = [ 1, 2, 3 ];
   var got = _.Matrix.ConvertToClass( I16x, src );
   var exp = new I16x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - F32x';
   var src = [ 1, 2, 3 ];
   var got = _.Matrix.ConvertToClass( F32x, src );
   var exp = new F32x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - avector';
   var src = [ 1, 2, 3 ];
   var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - VectorAdapter';
   var src = [ 1, 2, 3 ];
   var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - VectorAdapter';
   var src = [ 1, 2, 3 ];
   var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.close( 'src is an Array' );
 
@@ -11842,49 +11842,49 @@ function ConvertToClassSrcIsNotMatrix( test )
   var got = _.Matrix.ConvertToClass( Array, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - U8x';
   var src = new F32x([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( U8x, src );
   var exp = new U8x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - I16x';
   var src = new F64x([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( I16x, src );
   var exp = new I16x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - F32x';
   var src = new I8x([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( F32x, src );
   var exp = new F32x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - avector';
   var src = new U16x([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - VectorAdapter';
   var src = new I32x([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
   var exp = new I32x([ 1, 2, 3 ]);
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - VectorAdapter';
   var src = new U32x([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
   var exp = new U32x([ 1, 2, 3 ]);
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.close( 'src is a BufferTyped' );
 
@@ -11908,49 +11908,49 @@ function ConvertToClassSrcIsNotMatrix( test )
   var got = _.Matrix.ConvertToClass( Array, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - U8x';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( U8x, src );
   var exp = new U8x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - I16x';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( I16x, src );
   var exp = new I16x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - F32x';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( F32x, src );
   var exp = new F32x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'constructor - avector';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'cls - VectorAdapter';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - VectorAdapter';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.close( 'src is an avector' );
 
@@ -11974,49 +11974,49 @@ function ConvertToClassSrcIsNotMatrix( test )
   var got = _.Matrix.ConvertToClass( Array, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - U8x';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( U8x, src );
   var exp = new U8x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - I16x';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( I16x, src );
   var exp = new I16x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - F32x';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( F32x, src );
   var exp = new F32x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - avector';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - VectorAdapter';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - VectorAdapter';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got.toLong(), exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.close( 'src is a VectorAdapter' );
 
@@ -12040,49 +12040,49 @@ function ConvertToClassSrcIsNotMatrix( test )
   var got = _.Matrix.ConvertToClass( Array, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - U8x';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.ConvertToClass( U8x, src );
   var exp = new U8x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - I16x';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.ConvertToClass( I16x, src );
   var exp = new I16x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - F32x';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.ConvertToClass( F32x, src );
   var exp = new F32x([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - avector';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.ConvertToClass( _.avector.make([]).constructor, src );
   var exp = _.longDescriptor.make([ 1, 2, 3 ]);
   test.identical( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'cls - VectorAdapter';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.ConvertToClass( _.VectorAdapter, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.case = 'constructor - VectorAdapter';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 0, 2, 0, 3, 0 ], 1, 3, 2 );
   var got = _.Matrix.ConvertToClass( _.vectorAdapter.from([]).constructor, src );
   var exp = [ 1, 2, 3 ];
   test.identical( got.toLong(), exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   test.close( 'src is a VectorAdapter with stride and offset' );
 
@@ -12131,7 +12131,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine makeFilling';
   var src = _.vectorAdapter.makeFilling( 3, 5 );
@@ -12143,7 +12143,7 @@ function FromVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine from';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -12155,7 +12155,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLong';
   var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
@@ -12167,7 +12167,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrange';
   var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
@@ -12179,7 +12179,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongWithStride';
   var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
@@ -12191,7 +12191,7 @@ function FromVector( test )
     4,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrangeAndStride';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
@@ -12203,7 +12203,7 @@ function FromVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromNumber, number';
   var src = _.vectorAdapter.fromNumber( 5, 3 );
@@ -12215,7 +12215,7 @@ function FromVector( test )
     5,
   ]);
   test.equivalent( got, exp ); /* xxx */
-  test.is( got.buffer !== src._vectorBuffer );
+  test.true( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, number';
   var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
@@ -12227,7 +12227,7 @@ function FromVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src._vectorBuffer );
+  test.true( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, Long';
   var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
@@ -12239,7 +12239,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.close( 'src is a VectorAdapter' );
 
@@ -12257,7 +12257,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'Unroll';
   var src = _.unrollMake([ 1, 2, 3 ]);
@@ -12269,7 +12269,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'ArgumentsArray';
   var src = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -12281,7 +12281,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, U8x';
   var src = new U8x([ 1, 2, 3 ]);
@@ -12293,7 +12293,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, I16x';
   var src = new I16x([ 1, 2, 3 ]);
@@ -12305,7 +12305,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F32x';
   var src = new F32x([ 1, 2, 3 ]);
@@ -12317,7 +12317,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F64x';
   var src = new F64x([ 1, 2, 3 ]);
@@ -12329,7 +12329,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'avector';
   var src = _.avector.make([ 1, 2, 3 ]);
@@ -12341,7 +12341,7 @@ function FromVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.close( 'src is a Long' );
 
@@ -13502,7 +13502,7 @@ function FromExperiment( test )
   test.case = 'imitation of use result.hasShape';
   var dims = [ 3, 2, Infinity ];
   var got = _.Matrix.From( null, dims );
-  test.is( got.hasShape( dims ) );
+  test.true( got.hasShape( dims ) );
   test.identical( got.dimsEffective, dims ); // analog of previous test check
 }
 
@@ -13611,7 +13611,7 @@ function FromSrcMatrix( test )
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeSquare';
   var src = _.Matrix.MakeSquare
@@ -13626,49 +13626,49 @@ function FromSrcMatrix( test )
     3, -4,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeZero';
   var src = _.Matrix.MakeZero([ 2, 2 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeZero([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity';
   var src = _.Matrix.MakeIdentity([ 2, 2 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeIdentity([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity2';
   var src = _.Matrix.MakeIdentity2();
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeIdentity2();
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity3';
   var src = _.Matrix.MakeIdentity3();
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeIdentity3();
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity4';
   var src = _.Matrix.MakeIdentity4();
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeIdentity4();
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeDiagonal';
   var src = _.Matrix.MakeDiagonal([ 1, -2, 3 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.MakeDiagonal([ 1, -2, 3 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeSimilar';
   var matrix = _.Matrix.Make([ 2, 2 ]).copy
@@ -13684,7 +13684,7 @@ function FromSrcMatrix( test )
     -3,  4
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method makeSimilar';
   var matrix = _.Matrix.Make([ 2, 2 ]).copy
@@ -13700,7 +13700,7 @@ function FromSrcMatrix( test )
     -3,  4
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeLine';
   var src = _.Matrix.MakeLine
@@ -13717,7 +13717,7 @@ function FromSrcMatrix( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeCol';
   var src = _.Matrix.MakeCol([ 1, -2, 3 ]);
@@ -13729,28 +13729,28 @@ function FromSrcMatrix( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeColZeroed';
   var src = _.Matrix.MakeColZeroed([ 1, -2, 3 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 3, 1 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeRow';
   var src = _.Matrix.MakeRow([ 1, -2, 3 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 1, 3 ]).copy([ 1, -2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeRowZeroed';
   var src = _.Matrix.MakeRowZeroed([ 1, -2, 3 ]);
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 1, 3 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromVector';
   var src = _.Matrix.FromVector([ 1, -2, 3 ]);
@@ -13762,7 +13762,7 @@ function FromSrcMatrix( test )
     3
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromScalar';
   var src = _.Matrix.FromScalar( 1, [ 2, 2 ] );
@@ -13773,7 +13773,7 @@ function FromSrcMatrix( test )
     1, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromScalarForReading';
   var src = _.Matrix.FromScalarForReading( 1, [ 2, 2 ] );
@@ -13784,14 +13784,14 @@ function FromSrcMatrix( test )
     1, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine From';
   var src = _.Matrix.From( null, [ 2, 2 ] );
   var got = _.Matrix.From( src );
   var exp = _.Matrix.Make([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromForReading';
   var src = _.Matrix.FromForReading( 1, [ 2, 2 ] );
@@ -13802,7 +13802,7 @@ function FromSrcMatrix( test )
     1, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromTransformations';
   var dst = _.Matrix.Make([ 4, 4 ]);
@@ -13819,7 +13819,7 @@ function FromSrcMatrix( test )
     0, 0, 0, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromTransformations';
   var matrix = _.Matrix.Make([ 4, 4 ]);
@@ -13836,7 +13836,7 @@ function FromSrcMatrix( test )
     0, 0, 0, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromQuat';
   var matrix = _.Matrix.MakeSquare
@@ -13857,7 +13857,7 @@ function FromSrcMatrix( test )
     0, 0, 0, 1,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromQuatWithScale';
   var matrix = _.Matrix.MakeSquare
@@ -13879,7 +13879,7 @@ function FromSrcMatrix( test )
 
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromAxisAndAngle';
   var matrix = _.Matrix.MakeSquare
@@ -13898,7 +13898,7 @@ function FromSrcMatrix( test )
     8.181,   15.927,  21.298,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromAxisAndAngleWithScale';
   var matrix = _.Matrix.MakeSquare
@@ -13917,7 +13917,7 @@ function FromSrcMatrix( test )
     4.605,   1.622,   4.262,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 }
 
 FromSrcMatrix.accuracy = 1e-3;
@@ -14358,7 +14358,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine makeFilling';
   var src = _.vectorAdapter.makeFilling( 3, 5 );
@@ -14370,7 +14370,7 @@ function FromSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine from';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -14382,7 +14382,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLong';
   var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
@@ -14394,7 +14394,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrange';
   var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
@@ -14406,7 +14406,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongWithStride';
   var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
@@ -14418,7 +14418,7 @@ function FromSrcVector( test )
     4,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrangeAndStride';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
@@ -14430,7 +14430,7 @@ function FromSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromNumber, number';
   var src = _.vectorAdapter.fromNumber( 5, 3 );
@@ -14442,7 +14442,7 @@ function FromSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src._vectorBuffer );
+  test.true( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, number';
   var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
@@ -14454,7 +14454,7 @@ function FromSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src._vectorBuffer );
+  test.true( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, Long';
   var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
@@ -14466,7 +14466,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.close( 'src is a VectorAdapter' );
 
@@ -14484,7 +14484,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'Unroll';
   var src = _.unrollMake([ 1, 2, 3 ]);
@@ -14496,7 +14496,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'ArgumentsArray';
   var src = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -14508,7 +14508,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, U8x';
   var src = new U8x([ 1, 2, 3 ]);
@@ -14520,7 +14520,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, I16x';
   var src = new I16x([ 1, 2, 3 ]);
@@ -14532,7 +14532,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F32x';
   var src = new F32x([ 1, 2, 3 ]);
@@ -14544,7 +14544,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F64x';
   var src = new F64x([ 1, 2, 3 ]);
@@ -14556,7 +14556,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'avector';
   var src = _.avector.make([ 1, 2, 3 ]);
@@ -14568,7 +14568,7 @@ function FromSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.close( 'src is a Long' );
 
@@ -14608,7 +14608,7 @@ function FromForReadingSrcMatrix( test )
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeSquare';
   var src = _.Matrix.MakeSquare
@@ -14623,49 +14623,49 @@ function FromForReadingSrcMatrix( test )
     3, -4,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeZero';
   var src = _.Matrix.MakeZero([ 2, 2 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.MakeZero([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity';
   var src = _.Matrix.MakeIdentity([ 2, 2 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.MakeIdentity([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity2';
   var src = _.Matrix.MakeIdentity2();
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.MakeIdentity2();
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity3';
   var src = _.Matrix.MakeIdentity3();
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.MakeIdentity3();
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeIdentity4';
   var src = _.Matrix.MakeIdentity4();
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.MakeIdentity4();
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeDiagonal';
   var src = _.Matrix.MakeDiagonal([ 1, -2, 3 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.MakeDiagonal([ 1, -2, 3 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeSimilar';
   var matrix = _.Matrix.Make([ 2, 2 ]).copy
@@ -14681,7 +14681,7 @@ function FromForReadingSrcMatrix( test )
     -3,  4
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method makeSimilar';
   var matrix = _.Matrix.Make([ 2, 2 ]).copy
@@ -14697,7 +14697,7 @@ function FromForReadingSrcMatrix( test )
     -3,  4
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeLine';
   var src = _.Matrix.MakeLine
@@ -14714,7 +14714,7 @@ function FromForReadingSrcMatrix( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeCol';
   var src = _.Matrix.MakeCol([ 1, -2, 3 ]);
@@ -14726,28 +14726,28 @@ function FromForReadingSrcMatrix( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeColZeroed';
   var src = _.Matrix.MakeColZeroed([ 1, -2, 3 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 3, 1 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeRow';
   var src = _.Matrix.MakeRow([ 1, -2, 3 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 1, 3 ]).copy([ 1, -2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine MakeRowZeroed';
   var src = _.Matrix.MakeRowZeroed([ 1, -2, 3 ]);
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 1, 3 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromVector';
   var src = _.Matrix.FromVector([ 1, -2, 3 ]);
@@ -14759,7 +14759,7 @@ function FromForReadingSrcMatrix( test )
     3
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromScalar';
   var src = _.Matrix.FromScalar( 1, [ 2, 2 ] );
@@ -14770,7 +14770,7 @@ function FromForReadingSrcMatrix( test )
     1, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromScalarForReading';
   var src = _.Matrix.FromScalarForReading( 1, [ 2, 2 ] );
@@ -14781,14 +14781,14 @@ function FromForReadingSrcMatrix( test )
     1, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine From';
   var src = _.Matrix.From( null, [ 2, 2 ] );
   var got = _.Matrix.FromForReading( src );
   var exp = _.Matrix.Make([ 2, 2 ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromForReading';
   var src = _.Matrix.FromForReading( 1, [ 2, 2 ] );
@@ -14799,7 +14799,7 @@ function FromForReadingSrcMatrix( test )
     1, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'routine FromTransformations';
   var dst = _.Matrix.Make([ 4, 4 ]);
@@ -14816,7 +14816,7 @@ function FromForReadingSrcMatrix( test )
     0, 0, 0, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromTransformations';
   var matrix = _.Matrix.Make([ 4, 4 ]);
@@ -14833,7 +14833,7 @@ function FromForReadingSrcMatrix( test )
     0, 0, 0, 1,
   ]);
   test.identical( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromQuat';
   var matrix = _.Matrix.MakeSquare
@@ -14854,7 +14854,7 @@ function FromForReadingSrcMatrix( test )
     0, 0, 0, 1,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromQuatWithScale';
   var matrix = _.Matrix.MakeSquare
@@ -14875,7 +14875,7 @@ function FromForReadingSrcMatrix( test )
     0.000,  0.000,  0.000,  1.000,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromAxisAndAngle';
   var matrix = _.Matrix.MakeSquare
@@ -14894,7 +14894,7 @@ function FromForReadingSrcMatrix( test )
     8.181,   15.927,  21.298,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   test.case = 'method fromAxisAndAngleWithScale';
   var matrix = _.Matrix.MakeSquare
@@ -14913,7 +14913,7 @@ function FromForReadingSrcMatrix( test )
     4.605,   1.622,   4.262,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 }
 
 FromForReadingSrcMatrix.accuracy = 1e-3;
@@ -15312,7 +15312,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine makeFilling';
   var src = _.vectorAdapter.makeFilling( 3, 5 );
@@ -15324,7 +15324,7 @@ function FromForReadingSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine from';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -15336,7 +15336,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLong';
   var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
@@ -15348,7 +15348,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrange';
   var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
@@ -15360,7 +15360,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongWithStride';
   var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
@@ -15372,7 +15372,7 @@ function FromForReadingSrcVector( test )
     4,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrangeAndStride';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
@@ -15384,7 +15384,7 @@ function FromForReadingSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromNumber, number';
   var src = _.vectorAdapter.fromNumber( 5, 3 );
@@ -15396,7 +15396,7 @@ function FromForReadingSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src._vectorBuffer );
+  test.true( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, number';
   var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
@@ -15408,7 +15408,7 @@ function FromForReadingSrcVector( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src._vectorBuffer );
+  test.true( got.buffer !== src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, Long';
   var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
@@ -15420,7 +15420,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.close( 'src is a VectorAdapter' );
 
@@ -15438,7 +15438,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'Unroll';
   var src = _.unrollMake([ 1, 2, 3 ]);
@@ -15450,7 +15450,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'ArgumentsArray';
   var src = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -15462,7 +15462,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, U8x';
   var src = new U8x([ 1, 2, 3 ]);
@@ -15474,7 +15474,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, I16x';
   var src = new I16x([ 1, 2, 3 ]);
@@ -15486,7 +15486,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F32x';
   var src = new F32x([ 1, 2, 3 ]);
@@ -15498,7 +15498,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F64x';
   var src = new F64x([ 1, 2, 3 ]);
@@ -15510,7 +15510,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'avector';
   var src = _.avector.make([ 1, 2, 3 ]);
@@ -15522,7 +15522,7 @@ function FromForReadingSrcVector( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.close( 'src is a Long' );
 
@@ -15572,7 +15572,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   /* */
 
@@ -15581,7 +15581,7 @@ function ColFrom( test )
   var got = _.Matrix.ColFrom( src );
   var exp = _.Matrix.MakeCol([ 5 ]);
   test.equivalent( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   /* - */
 
@@ -15597,7 +15597,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine makeFilling';
   var src = _.vectorAdapter.makeFilling( 3, 5 );
@@ -15609,7 +15609,7 @@ function ColFrom( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine from';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
@@ -15621,7 +15621,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLong';
   var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
@@ -15633,7 +15633,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrange';
   var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
@@ -15645,7 +15645,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongWithStride';
   var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
@@ -15657,7 +15657,7 @@ function ColFrom( test )
     4,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrangeAndStride';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
@@ -15669,7 +15669,7 @@ function ColFrom( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromNumber, number';
   var src = _.vectorAdapter.fromNumber( 5, 3 );
@@ -15681,7 +15681,7 @@ function ColFrom( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, number';
   var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
@@ -15693,7 +15693,7 @@ function ColFrom( test )
     5,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, Long';
   var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
@@ -15705,7 +15705,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.close( 'src is a VectorAdapter' );
 
@@ -15723,7 +15723,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'Unroll';
   var src = _.unrollMake([ 1, 2, 3 ]);
@@ -15735,7 +15735,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'ArgumentsArray';
   var src = _.argumentsArrayMake([ 1, 2, 3 ]);
@@ -15747,7 +15747,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src );
+  test.true( got.buffer !== src );
 
   test.case = 'BufferTyped, U8x';
   var src = new U8x([ 1, 2, 3 ]);
@@ -15759,7 +15759,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, I16x';
   var src = new I16x([ 1, 2, 3 ]);
@@ -15771,7 +15771,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F32x';
   var src = new F32x([ 1, 2, 3 ]);
@@ -15783,7 +15783,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F64x';
   var src = new F64x([ 1, 2, 3 ]);
@@ -15795,7 +15795,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'avector';
   var src = _.avector.make([ 1, 2, 3 ]);
@@ -15807,7 +15807,7 @@ function ColFrom( test )
     3,
   ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.close( 'src is a Long' );
 
@@ -15842,7 +15842,7 @@ function RowFrom( test )
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got === src );
+  test.true( got === src );
 
   /* */
 
@@ -15851,7 +15851,7 @@ function RowFrom( test )
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 5 ]);
   test.equivalent( got, exp );
-  test.is( got !== src );
+  test.true( got !== src );
 
   /* - */
 
@@ -15862,70 +15862,70 @@ function RowFrom( test )
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine makeFilling';
   var src = _.vectorAdapter.makeFilling( 3, 5 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 5, 5, 5 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine from';
   var src = _.vectorAdapter.from([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLong';
   var src = _.vectorAdapter.fromLong([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrange';
   var src = _.vectorAdapter.fromLongLrange( [ 0, 1, 2, 3, 4 ], 1, 3 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongWithStride';
   var src = _.vectorAdapter.fromLongWithStride( [ 0, 1, 2, 3, 4 ], 2 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 0, 2, 4 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromLongLrangeAndStride';
   var src = _.vectorAdapter.fromLongLrangeAndStride( [ 0, 1, 2, 3, 4, 5, 6 ], 1, 3, 2 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 3, 5 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromNumber, number';
   var src = _.vectorAdapter.fromNumber( 5, 3 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 5, 5, 5 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, number';
   var src = _.vectorAdapter.fromMaybeNumber( 5, 3 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 5, 5, 5 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.case = 'routine fromMaybeNumber, Long';
   var src = _.vectorAdapter.fromMaybeNumber( [ 1, 2, 3 ], 3 );
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src._vectorBuffer );
+  test.true( got.buffer === src._vectorBuffer );
 
   test.close( 'src is a VectorAdapter' );
 
@@ -15938,56 +15938,56 @@ function RowFrom( test )
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'Unroll';
   var src = _.unrollMake([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'ArgumentsArray';
   var src = _.argumentsArrayMake([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer !== src );
+  test.true( got.buffer !== src );
 
   test.case = 'BufferTyped, U8x';
   var src = new U8x([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, I16x';
   var src = new I16x([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F32x';
   var src = new F32x([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'BufferTyped, F64x';
   var src = new F64x([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.case = 'avector';
   var src = _.avector.make([ 1, 2, 3 ]);
   var got = _.Matrix.RowFrom( src );
   var exp = _.Matrix.MakeRow([ 1, 2, 3 ]);
   test.equivalent( got, exp );
-  test.is( got.buffer === src );
+  test.true( got.buffer === src );
 
   test.close( 'src is a Long' );
 
@@ -17233,7 +17233,7 @@ function make( test )
     test.identical( m.reduceToSumScalarWise(), 21 );
     test.identical( m.reduceToProductScalarWise(), 720 );
 
-    test.is( m.buffer instanceof F32x );
+    test.true( m.buffer instanceof F32x );
 
     /* */
 
@@ -17270,8 +17270,8 @@ function make( test )
       inputRowMajor : 1,
     });
 
-    test.is( m.buffer.length-( o.offset||0 ) === 9 );
-    test.is( m.buffer instanceof F32x );
+    test.true( m.buffer.length-( o.offset||0 ) === 9 );
+    test.true( m.buffer instanceof F32x );
 
     var exp = _.Matrix.Make([ 3, 3 ]).copy
     ([
@@ -17288,8 +17288,8 @@ function make( test )
     ]);
 
     test.identical( m, exp );
-    test.is( m.buffer.length === 9+( o.offset||0 ) );
-    test.is( m.buffer instanceof F32x );
+    test.true( m.buffer.length === 9+( o.offset||0 ) );
+    test.true( m.buffer instanceof F32x );
 
     m.copy
     ( new U32x([
@@ -17299,9 +17299,9 @@ function make( test )
     ]));
 
     test.identical( m, exp );
-    test.is( m.buffer.length === 9+( o.offset||0 ) );
-    test.is( m.offset === ( o.offset||0 ) );
-    test.is( m.buffer instanceof F32x );
+    test.true( m.buffer.length === 9+( o.offset||0 ) );
+    test.true( m.offset === ( o.offset||0 ) );
+    test.true( m.buffer instanceof F32x );
 
     m.copy
     ({
@@ -17316,9 +17316,9 @@ function make( test )
     });
 
     test.notIdentical( m, exp );
-    test.is( m.buffer.length === 9 );
-    test.is( m.offset === 0 );
-    test.is( m.buffer instanceof U32x );
+    test.true( m.buffer.length === 9 );
+    test.true( m.offset === 0 );
+    test.true( m.buffer instanceof U32x );
 
     /* */
 
@@ -17377,7 +17377,7 @@ function makeHelper( test )
   test.identical( m.strideInRow, 3 );
 
   test.identical( m.strides, [ 1, 3 ] );
-  // test.is( m.buffer instanceof F32x );
+  // test.true( m.buffer instanceof F32x );
 
   /* */
 
@@ -17426,7 +17426,7 @@ function makeHelper( test )
   test.identical( m.reduceToProductScalarWise(), 362880 );
   test.identical( m.determinant(), 0 );
 
-  // test.is( m.buffer instanceof F32x );
+  // test.true( m.buffer instanceof F32x );
   test.identical( m.strides, null );
 
   var buffer = new U32x
@@ -17437,7 +17437,7 @@ function makeHelper( test )
   ]);
   var m = _.Matrix.MakeSquare( buffer );
   test.identical( m.determinant(), 0 );
-  test.is( m.buffer instanceof U32x );
+  test.true( m.buffer instanceof U32x );
 
   /* */
 
@@ -17461,7 +17461,7 @@ function makeHelper( test )
   test.identical( m.strideOfRow, 1 );
   test.identical( m.strideInRow, 3 );
 
-  test.is( m.buffer instanceof F32x );
+  test.true( m.buffer instanceof F32x );
   test.identical( m.strides, null );
 
   /* */
@@ -17505,7 +17505,7 @@ function makeHelper( test )
   test.identical( m.reduceToProductScalarWise(), 0 );
   test.identical( m.determinant(), 6 );
 
-  test.is( m.buffer instanceof F32x );
+  test.true( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 3 ] );
 
   /* */
@@ -17549,7 +17549,7 @@ function makeHelper( test )
   test.identical( m.reduceToProductScalarWise(), 0 );
   test.identical( m.determinant(), 1 );
 
-  test.is( m.buffer instanceof F32x );
+  test.true( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 3 ] );
 
   /* */
@@ -17592,7 +17592,7 @@ function makeHelper( test )
   test.identical( m.reduceToSumScalarWise(), 2 );
   test.identical( m.reduceToProductScalarWise(), 0 );
 
-  test.is( m.buffer instanceof F32x );
+  test.true( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 2 ] );
 
   /* */
@@ -17635,7 +17635,7 @@ function makeHelper( test )
   test.identical( m.reduceToSumScalarWise(), 2 );
   test.identical( m.reduceToProductScalarWise(), 0 );
 
-  test.is( m.buffer instanceof F32x );
+  test.true( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 3 ] );
 
   /* */
@@ -17679,7 +17679,7 @@ function makeHelper( test )
   test.identical( m.reduceToProductScalarWise(), 0 );
   test.identical( m.determinant(), 0 );
 
-  test.is( m.buffer instanceof F32x );
+  test.true( m.buffer instanceof F32x );
   test.identical( m.strides, [ 1, 3 ] );
 
   /* */
@@ -17706,7 +17706,7 @@ function makeHelper( test )
     test.identical( m.reduceToSumScalarWise(), 0 );
     test.identical( m.reduceToProductScalarWise(), 1 );
     test.identical( m.determinant(), 0 );
-    // test.is( m.buffer instanceof F32x );
+    // test.true( m.buffer instanceof F32x );
 
     if( Config.debug )
     {
@@ -18130,7 +18130,7 @@ function constructTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 2, 1 ] );
 
-  test.is( m.buffer === buffer );
+  test.true( m.buffer === buffer );
 
   var exp = _.Matrix
   ({
@@ -18179,7 +18179,7 @@ function constructTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 1, 3 ] );
 
-  test.is( m.buffer === buffer );
+  test.true( m.buffer === buffer );
 
   var exp = _.Matrix
   ({
@@ -18452,7 +18452,7 @@ function constructWithoutDims( test )
   test.case = 'empty buffer, inputRowMajor : 1';
   var buffer = new F32x();
   var src = new _.Matrix({ buffer, inputRowMajor : 1 });
-  test.is( src.buffer === buffer );
+  test.true( src.buffer === buffer );
   test.identical( src.buffer, new F32x([]) );
   test.identical( src.dims, [ 0, 1 ] );
   test.identical( src.dimsEffective, [ 0, 1 ] );
@@ -18464,7 +18464,7 @@ function constructWithoutDims( test )
   test.case = 'empty buffer, inputRowMajor : 0';
   var buffer = new F32x();
   var src = new _.Matrix({ buffer, inputRowMajor : 0 });
-  test.is( src.buffer === buffer );
+  test.true( src.buffer === buffer );
   test.identical( src.buffer, new F32x([]) );
   // test.identical( src.dims, [ 1, 0 ] );
   // test.identical( src.dimsEffective, [ 1, 0 ] );
@@ -18478,7 +18478,7 @@ function constructWithoutDims( test )
   test.case = 'empty buffer, inputRowMajor : 1';
   var buffer = new F32x([ 1, 2, 3 ]);
   var src = new _.Matrix({ buffer, inputRowMajor : 1 });
-  test.is( src.buffer === buffer );
+  test.true( src.buffer === buffer );
   test.identical( src.buffer, new F32x([ 1, 2, 3 ]) );
   test.identical( src.dims, [ 3, 1 ] );
   test.identical( src.dimsEffective, [ 3, 1 ] );
@@ -18491,7 +18491,7 @@ function constructWithoutDims( test )
   test.case = 'empty buffer, inputRowMajor : 0';
   var buffer = new F32x([ 1, 2, 3 ]);
   var src = new _.Matrix({ buffer, inputRowMajor : 0 });
-  test.is( src.buffer === buffer );
+  test.true( src.buffer === buffer );
   test.identical( src.buffer, new F32x([ 1, 2, 3 ]) );
   test.identical( src.dims, [ 3, 1 ] );
   test.identical( src.dimsEffective, [ 3, 1 ] );
@@ -18847,8 +18847,8 @@ function clone( test )
 
   var b = a.clone();
   test.identical( a, b );
-  test.is( a.buffer !== b.buffer );
-  test.is( a.buffer === buffer );
+  test.true( a.buffer !== b.buffer );
+  test.true( a.buffer === buffer );
 
   test.identical( a.size, 24 );
   test.identical( a.sizeOfElementStride, 12 );
@@ -18920,7 +18920,7 @@ function cloneSerializing( test )
   var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
   b.copyDeserializing( cloned );
   test.identical( b, a );
-  test.is( a.buffer !== b.buffer );
+  test.true( a.buffer !== b.buffer );
 
   test.identical( a.buffer.length, 8 );
   test.identical( a.size, 12 );
@@ -19001,7 +19001,7 @@ function cloneSerializing( test )
   var b = new _.Matrix({ buffer : new F32x(), inputRowMajor : true });
   b.copyDeserializing( cloned );
   test.identical( b, a );
-  test.is( a.buffer !== b.buffer );
+  test.true( a.buffer !== b.buffer );
 
   test.identical( a.buffer.length, 8 );
   test.identical( a.size, 12 );
@@ -19080,7 +19080,7 @@ function copyTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 2, 1 ] );
 
-  test.is( m.buffer === buffer );
+  test.true( m.buffer === buffer );
 
   var exp = _.Matrix
   ({
@@ -19131,7 +19131,7 @@ function copyTransposing( test )
   test.identical( m.strides, null );
   test.identical( m.stridesEffective, [ 1, 3 ] );
 
-  test.is( m.buffer === buffer );
+  test.true( m.buffer === buffer );
 
   var exp = _.Matrix
   ({
@@ -19180,7 +19180,7 @@ function copyClone( test )
   m2 = m1.clone();
 
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19191,7 +19191,7 @@ function copyClone( test )
 
   test.identical( m2.dims, [ 0, 0 ] );
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19202,7 +19202,7 @@ function copyClone( test )
 
   test.identical( m2.dims, [ 3, 0 ] );
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19213,7 +19213,7 @@ function copyClone( test )
 
   test.identical( m2.dims, [ 0, 3 ] );
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19224,7 +19224,7 @@ function copyClone( test )
   m2.copy( m1 );
 
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19246,7 +19246,7 @@ function copyClone( test )
 
   test.identical( m2.dims, [ 0, 0 ] );
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19258,7 +19258,7 @@ function copyClone( test )
 
   test.identical( m2.dims, [ 3, 0 ] );
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19270,7 +19270,7 @@ function copyClone( test )
 
   test.identical( m2.dims, [ 0, 3 ] );
   test.identical( m1, m2 );
-  test.is( m1.buffer !== m2.buffer );
+  test.true( m1.buffer !== m2.buffer );
 
   /* */
 
@@ -19303,7 +19303,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - empty vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = a.vadMake([]);
@@ -19311,7 +19311,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - empty vector ${ a.format }, src - empty vector ${ a.format }`;
     var dst = a.vadMake([]);
@@ -19319,7 +19319,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19329,7 +19329,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([ 0, 0, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19337,7 +19337,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 0, 0, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - empty vector ${ a.format }`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19345,7 +19345,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 0, 0, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19355,7 +19355,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([ 2, 2, 2 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19363,7 +19363,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 2 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - vector ${ a.format }, dst.length === src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19371,7 +19371,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 2 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19381,7 +19381,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([ 2, 2, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19389,7 +19389,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - vector ${ a.format }, dst.length > src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19397,7 +19397,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is not a Matrix' );
 
@@ -19411,7 +19411,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.longMake([]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from empty vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.MakeCol( a.vadMake([]) );
@@ -19419,7 +19419,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from empty vector ${ a.format }, src - empty vector ${ a.format }`;
     var dst = _.Matrix.MakeCol( a.vadMake([]) );
@@ -19427,7 +19427,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19437,7 +19437,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.longMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
@@ -19445,7 +19445,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty vector ${ a.format }`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
@@ -19453,7 +19453,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19463,7 +19463,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.longMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
@@ -19471,7 +19471,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length === src.length`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
@@ -19479,7 +19479,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19489,7 +19489,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.longMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
@@ -19497,7 +19497,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
@@ -19505,7 +19505,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is a column Matrix' );
 
@@ -19519,7 +19519,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
@@ -19527,7 +19527,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty vector ${ a.format }`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
@@ -19535,7 +19535,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19545,7 +19545,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
@@ -19553,7 +19553,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length === src.length`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
@@ -19561,7 +19561,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19571,7 +19571,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
@@ -19579,7 +19579,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
@@ -19587,7 +19587,7 @@ function CopyToSrcIsNotMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is a column Matrix - second dimension is Infinity' );
 
@@ -19611,7 +19611,7 @@ function CopyToSrcIsNotMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
@@ -19629,7 +19629,7 @@ function CopyToSrcIsNotMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty vector ${ a.format }`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
@@ -19647,7 +19647,7 @@ function CopyToSrcIsNotMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19667,7 +19667,7 @@ function CopyToSrcIsNotMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
@@ -19685,7 +19685,7 @@ function CopyToSrcIsNotMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - vector ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
@@ -19703,7 +19703,7 @@ function CopyToSrcIsNotMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is a 2D Matrix' );
   }
@@ -19755,7 +19755,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - empty vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = a.vadMake([]);
@@ -19763,7 +19763,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - empty vector ${ a.format }, src - from empty vector ${ a.format }`;
     var dst = a.vadMake([]);
@@ -19771,7 +19771,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19781,7 +19781,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([ 0, 0, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19789,7 +19789,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 0, 0, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from empty vector ${ a.format }`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19797,7 +19797,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 0, 0, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19807,7 +19807,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([ 2, 2, 2 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from long ${ a.format }, dst.length === src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19815,7 +19815,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 2 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from vector ${ a.format }, dst.length === src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19823,7 +19823,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 2 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19833,7 +19833,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.longMake([ 2, 2, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from long ${ a.format }, dst.length > src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19841,7 +19841,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from vector ${ a.format }, dst.length > src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
@@ -19849,7 +19849,7 @@ function CopyToSrcIsMatrix( test )
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 0 ]);
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is not a Matrix' );
 
@@ -19873,7 +19873,7 @@ function CopyToSrcIsMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
@@ -19891,7 +19891,7 @@ function CopyToSrcIsMatrix( test )
       0, 0
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from empty vector ${ a.format }`;
     var dst = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
@@ -19909,7 +19909,7 @@ function CopyToSrcIsMatrix( test )
       0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19933,7 +19933,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims values > src.dims values`;
     var dst = _.Matrix.Make([ 3, 3 ]).copy( a.vadMake
@@ -19955,7 +19955,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims values > src.dims values`;
     var dst = _.Matrix.Make([ 3, 3 ]).copy( a.vadMake
@@ -19977,7 +19977,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -19999,7 +19999,7 @@ function CopyToSrcIsMatrix( test )
       3, 3, 3,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims values === src.dims values`;
     var dst = _.Matrix.Make([ 2, 3 ]).copy( a.vadMake
@@ -20019,7 +20019,7 @@ function CopyToSrcIsMatrix( test )
       3, 3, 3,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims values === src.dims values`;
     var dst = _.Matrix.Make([ 2, 3 ]).copy( a.vadMake
@@ -20039,7 +20039,7 @@ function CopyToSrcIsMatrix( test )
       3, 3, 3,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is a 2D Matrix' );
 
@@ -20065,7 +20065,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
@@ -20085,7 +20085,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from empty vector ${ a.format }`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
@@ -20105,7 +20105,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -20133,7 +20133,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims values > src.dims.values`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
@@ -20159,7 +20159,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims values > src.dims.values`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
@@ -20185,7 +20185,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -20207,7 +20207,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims and src.dims have Infinity`;
     var dst = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.vadMake
@@ -20227,7 +20227,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims has Infinity`;
     var dst = _.Matrix.Make([ 2, 3, Infinity ]).copy( a.vadMake
@@ -20247,7 +20247,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -20275,7 +20275,7 @@ function CopyToSrcIsMatrix( test )
       7, 7, 7,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims values === src.dims values`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
@@ -20301,7 +20301,7 @@ function CopyToSrcIsMatrix( test )
       7, 7, 7,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims values === src.dims values`;
     var dst = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
@@ -20327,7 +20327,7 @@ function CopyToSrcIsMatrix( test )
       7, 7, 7,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is a 3D Matrix' );
 
@@ -20349,7 +20349,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0, 0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
@@ -20365,7 +20365,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0, 0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from empty vector ${ a.format }`;
     var dst = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
@@ -20381,7 +20381,7 @@ function CopyToSrcIsMatrix( test )
       0, 0, 0, 0, 0, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -20403,7 +20403,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0, 5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims values > src.dims values`;
     var dst = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
@@ -20423,7 +20423,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0, 5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims values > src.dims.values`;
     var dst = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
@@ -20443,7 +20443,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0, 5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -20465,7 +20465,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims and src.dims have Infinity`;
     var dst = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy( a.vadMake
@@ -20485,7 +20485,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims has Infinity`;
     var dst = _.Matrix.Make([ 1, 3, 2, Infinity ]).copy
@@ -20504,7 +20504,7 @@ function CopyToSrcIsMatrix( test )
       5, 5, 0,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     /* */
 
@@ -20526,7 +20526,7 @@ function CopyToSrcIsMatrix( test )
       7, 7, 7, 7, 7, 7,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from long ${ a.format }, dst.dims values === src.dims values`;
     var dst = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
@@ -20546,7 +20546,7 @@ function CopyToSrcIsMatrix( test )
       7, 7, 7, 7, 7, 7,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - from vector ${ a.format }, dst.dims values === src.dims values`;
     var dst = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
@@ -20566,7 +20566,7 @@ function CopyToSrcIsMatrix( test )
       7, 7, 7, 7, 7, 7,
     ]));
     test.identical( got, exp );
-    test.is( got === dst );
+    test.true( got === dst );
 
     test.close( 'dst is a 4D Matrix' );
   }
@@ -20622,8 +20622,8 @@ function copy( test )
   test.identical( dst.stridesEffective, [ 1, 2 ] );
 
   test.identical( dst, src );
-  test.is( dst.buffer !== src.buffer );
-  test.is( src.buffer === b1 );
+  test.true( dst.buffer !== src.buffer );
+  test.true( src.buffer === b1 );
 
   test.identical( src.offset, 1 );
   test.identical( src.size, 24 );
@@ -20642,7 +20642,7 @@ function copy( test )
   test.identical( src.strideOfRow, 2 );
   test.identical( src.strideInRow, 4 );
 
-  test.is( dst.buffer === b2 );
+  test.true( dst.buffer === b2 );
 
   test.identical( dst.offset, 2 );
   test.identical( dst.size, 24 );
@@ -20699,9 +20699,9 @@ function copy( test )
 
   dst.copy( src );
   test.identical( dst, exp );
-  test.is( src.buffer === srcBuffer );
-  test.is( dst.buffer === dstBuffer );
-  test.is( src.buffer !== dst.buffer );
+  test.true( src.buffer === srcBuffer );
+  test.true( dst.buffer === dstBuffer );
+  test.true( src.buffer !== dst.buffer );
 
   /* */
 
@@ -20717,9 +20717,9 @@ function copy( test )
 
   dst.copy( src );
   test.identical( dst, exp );
-  test.is( src.buffer === srcBuffer );
-  test.is( dst.buffer === dstBuffer );
-  test.is( src.buffer !== dst.buffer );
+  test.true( src.buffer === srcBuffer );
+  test.true( dst.buffer === dstBuffer );
+  test.true( src.buffer !== dst.buffer );
 
   /* */
 
@@ -20744,16 +20744,16 @@ function copy( test )
   ]);
 
   test.identical( dst, exp );
-  test.is( src.buffer === srcBuffer );
-  test.is( dst.buffer === srcBuffer );
-  test.is( src === dst );
+  test.true( src.buffer === srcBuffer );
+  test.true( dst.buffer === srcBuffer );
+  test.true( src === dst );
 
   dst.copy( src );
 
   test.identical( dst, exp );
-  test.is( src.buffer === srcBuffer );
-  test.is( dst.buffer === srcBuffer );
-  test.is( src === dst );
+  test.true( src.buffer === srcBuffer );
+  test.true( dst.buffer === srcBuffer );
+  test.true( src === dst );
 
 
   /* */
@@ -20781,9 +20781,9 @@ function copy( test )
 
   dst.copy( src );
   test.identical( dst, exp );
-  test.is( src.buffer === srcBuffer );
-  test.is( dst.buffer === dstBuffer );
-  test.is( src.buffer !== dst.buffer );
+  test.true( src.buffer === srcBuffer );
+  test.true( dst.buffer === dstBuffer );
+  test.true( src.buffer !== dst.buffer );
 
   /* */
 
@@ -20806,7 +20806,7 @@ function copy( test )
   ]);
 
   test.identical( dst, exp );
-  test.is( dst.buffer === buffer );
+  test.true( dst.buffer === buffer );
 
   /* */
 
@@ -20845,10 +20845,10 @@ function copy( test )
   test.identical( dst.strides, null );
   test.identical( dst.stridesEffective, [ 1, 3 ] );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -20877,10 +20877,10 @@ function copy( test )
   test.identical( dst.strides, null );
   test.identical( dst.stridesEffective, [ 1, 3 ] );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -21004,11 +21004,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -21061,11 +21061,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -21118,11 +21118,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -21175,11 +21175,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   test.case = 'src : 1, dst : 1, with strides';
 
@@ -21232,11 +21232,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -21291,11 +21291,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* */
 
@@ -21350,11 +21350,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* - */
 
@@ -21409,11 +21409,11 @@ function copyInstanceInstance( test )
   test.identical( dst.stridesEffective, [ 1, 3 ] );
   test.identical( dst, src );
 
-  test.is( dst.buffer !== src.buffer );
-  test.is( dst.dims !== src.dims );
-  test.is( dst.dimsEffective !== src.dimsEffective );
-  test.is( dst.strides === null );
-  test.is( dst.stridesEffective !== src.stridesEffective );
+  test.true( dst.buffer !== src.buffer );
+  test.true( dst.dims !== src.dims );
+  test.true( dst.dimsEffective !== src.dimsEffective );
+  test.true( dst.strides === null );
+  test.true( dst.stridesEffective !== src.stridesEffective );
 
   /* - */
 
@@ -21805,7 +21805,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got === dstObject );
+  test.true( got === dstObject );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - null';
   var matrix = new _.Matrix
@@ -21830,7 +21830,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got === dstObject );
+  test.true( got === dstObject );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - null';
   var matrix = new _.Matrix
@@ -21855,7 +21855,7 @@ function bufferExportDstBufferNullFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got === dstObject );
+  test.true( got === dstObject );
 }
 
 //
@@ -22184,7 +22184,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got === dstObject );
+  test.true( got === dstObject );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - null';
   var matrix = new _.Matrix
@@ -22210,7 +22210,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     offset : 1
   };
   test.identical( got, exp );
-  test.is( got === dstObject );
+  test.true( got === dstObject );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - null';
   var matrix = new _.Matrix
@@ -22236,7 +22236,7 @@ function bufferExportDstBufferNullMatrixWithOffset( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got === dstObject );
+  test.true( got === dstObject );
 }
 
 //
@@ -22260,7 +22260,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, 2, -1, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22279,7 +22279,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22298,7 +22298,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22319,7 +22319,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, 2, -1, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22338,7 +22338,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22357,7 +22357,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22378,7 +22378,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, 2, -1, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22397,7 +22397,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22416,7 +22416,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22437,7 +22437,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, 2, -1, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22456,7 +22456,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22475,7 +22475,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
   });
   var exp = [ 1, -1, 2, 3 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22502,7 +22502,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
+  test.true( got.buffer === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - null';
   var matrix = new _.Matrix
@@ -22527,7 +22527,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
+  test.true( got.buffer === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - null';
   var matrix = new _.Matrix
@@ -22552,7 +22552,7 @@ function bufferExportDstBufferFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
+  test.true( got.buffer === dstBuffer );
 
   /* */
 
@@ -22580,8 +22580,8 @@ function bufferExportDstBufferFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
-  test.is( got === dstObject );
+  test.true( got.buffer === dstBuffer );
+  test.true( got === dstObject );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - null';
   var matrix = new _.Matrix
@@ -22607,8 +22607,8 @@ function bufferExportDstBufferFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
-  test.is( got === dstObject );
+  test.true( got.buffer === dstBuffer );
+  test.true( got === dstObject );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - null';
   var matrix = new _.Matrix
@@ -22634,8 +22634,8 @@ function bufferExportDstBufferFullUsedMatrix( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
-  test.is( got === dstObject );
+  test.true( got.buffer === dstBuffer );
+  test.true( got === dstObject );
 }
 
 //
@@ -22660,7 +22660,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = [ 1, 2, 3, 5 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22680,7 +22680,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22700,7 +22700,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 1, 2, 3, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22722,7 +22722,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = [ 1, 2, 3, 5 ];
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22742,7 +22742,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 0, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22762,7 +22762,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 1, 2, 3, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22784,7 +22784,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 1, 2, 3, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22804,7 +22804,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - array';
   var matrix = new _.Matrix
@@ -22824,7 +22824,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x( [ 1, 2, 3, 5 ] );
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22846,7 +22846,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 1, 2, 3, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 1, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22866,7 +22866,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 0, 1, -1, 2, 3, 4, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - 0, self.buffer - F64x';
   var matrix = new _.Matrix
@@ -22886,7 +22886,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
   });
   var exp = new F64x([ 1, 2, 3, 5 ]);
   test.identical( got, exp );
-  test.is( got === dstBuffer );
+  test.true( got === dstBuffer );
 
   /* */
 
@@ -22914,7 +22914,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
+  test.true( got.buffer === dstBuffer );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - null';
   var matrix = new _.Matrix
@@ -22940,7 +22940,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     offset : 1
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
+  test.true( got.buffer === dstBuffer );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - null';
   var matrix = new _.Matrix
@@ -22966,7 +22966,7 @@ function bufferExportDstBufferMatrixWithOffset( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
+  test.true( got.buffer === dstBuffer );
 
   /* */
 
@@ -22995,8 +22995,8 @@ function bufferExportDstBufferMatrixWithOffset( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
-  test.is( got === dstObject );
+  test.true( got.buffer === dstBuffer );
+  test.true( got === dstObject );
 
   test.case = 'restriding - 0, asFloat - 0, dstObject - null';
   var matrix = new _.Matrix
@@ -23023,8 +23023,8 @@ function bufferExportDstBufferMatrixWithOffset( test )
     offset : 1
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
-  test.is( got === dstObject );
+  test.true( got.buffer === dstBuffer );
+  test.true( got === dstObject );
 
   test.case = 'restriding - null, asFloat - 1, dstObject - null';
   var matrix = new _.Matrix
@@ -23051,8 +23051,8 @@ function bufferExportDstBufferMatrixWithOffset( test )
     offset : 0
   };
   test.identical( got, exp );
-  test.is( got.buffer === dstBuffer );
-  test.is( got === dstObject );
+  test.true( got.buffer === dstBuffer );
+  test.true( got === dstObject );
 }
 
 //
@@ -23086,7 +23086,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23105,7 +23105,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23124,7 +23124,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -23145,7 +23145,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -23164,7 +23164,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23183,7 +23183,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -23204,7 +23204,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 4 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
     var buffer = a.vadMake
@@ -23231,7 +23231,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims > dims, 4D';
     var buffer = a.vadMake
@@ -23258,7 +23258,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6, 12 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
 
@@ -23283,7 +23283,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23302,7 +23302,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23321,7 +23321,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 1' );
 
@@ -23346,7 +23346,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23365,7 +23365,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23384,7 +23384,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -23405,7 +23405,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -23424,7 +23424,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23443,7 +23443,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -23464,7 +23464,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 4 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
     var buffer = a.vadMake
@@ -23491,7 +23491,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims > dims, 4D';
     var buffer = a.vadMake
@@ -23518,7 +23518,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6, 12 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
 
@@ -23543,7 +23543,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23562,7 +23562,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23581,7 +23581,7 @@ function bufferImportOptionsReplacing1AndDims( test )
     test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 0' );
 
@@ -23671,7 +23671,7 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23689,7 +23689,7 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23707,7 +23707,7 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
 
@@ -23731,7 +23731,7 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23749,7 +23749,7 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23767,7 +23767,7 @@ function bufferImportOptionsReplacing1WithoutDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
 
@@ -23817,7 +23817,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23834,7 +23834,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23851,7 +23851,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -23870,7 +23870,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 2, 1 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -23887,7 +23887,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 3, 1, 3 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23904,7 +23904,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 3, 1, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
 
@@ -23927,7 +23927,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23944,7 +23944,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 2, 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -23961,7 +23961,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 2, 1, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 1' );
 
@@ -23984,7 +23984,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24001,7 +24001,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'same dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24018,7 +24018,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -24037,7 +24037,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
@@ -24054,7 +24054,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 3 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 3 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'o.dims < dims, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24071,7 +24071,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
 
@@ -24094,7 +24094,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24111,7 +24111,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 1, 2, 6 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'calculates new dimensions, 4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24128,7 +24128,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 3, 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'null in dims, inputRowMajor - 0' );
 
@@ -24157,7 +24157,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'offset saves, inputRowMajor - 0';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6 ]);
@@ -24180,7 +24180,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     /* */
 
@@ -24205,7 +24205,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 2, 1 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = 'offset sets to 0, inputRowMajor - 0';
     var buffer = a.vadMake([ 1, 2, 3, 4 ]);
@@ -24228,7 +24228,7 @@ function bufferImportOptionsReplacing0AndDims( test )
     test.identical( got.dimsEffective, [ 2, 2 ] );
     test.identical( got.strides, null );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing offset' );
 
@@ -24291,7 +24291,7 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24307,7 +24307,7 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24323,7 +24323,7 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 1' );
 
@@ -24345,7 +24345,7 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3 ] );
     test.identical( got.strides, [ 1, 2 ] );
     test.identical( got.stridesEffective, [ 1, 2 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '3D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24361,7 +24361,7 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     test.identical( got.dimsEffective, [ 2, 3, 2 ] );
     test.identical( got.strides, [ 1, 2, 6 ] );
     test.identical( got.stridesEffective, [ 1, 2, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.case = '4D';
     var buffer = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]);
@@ -24377,7 +24377,7 @@ function bufferImportOptionsReplacing0WithoutDims( test )
     test.identical( got.dimsEffective, [ 1, 3, 2, 2 ] );
     test.identical( got.strides, [ 1, 1, 3, 6 ] );
     test.identical( got.stridesEffective, [ 1, 1, 3, 6 ] );
-    test.is( got.buffer === m.buffer );
+    test.true( got.buffer === m.buffer );
 
     test.close( 'changing of dims length, inputRowMajor - 0' );
 
@@ -26053,12 +26053,12 @@ function TempBorrow( test )
   var t3 = _.Matrix.TempBorrow( m );
   var t3 = _.Matrix.TempBorrow( m.dims );
 
-  test.is( t1 === t2 );
-  test.is( t1 === t3 );
+  test.true( t1 === t2 );
+  test.true( t1 === t3 );
 
-  test.is( t1.buffer.constructor === F32x );
-  test.is( t2.buffer.constructor === F32x );
-  test.is( t3.buffer.constructor === F32x );
+  test.true( t1.buffer.constructor === F32x );
+  test.true( t2.buffer.constructor === F32x );
+  test.true( t3.buffer.constructor === F32x );
 
   /* */
 
@@ -26075,15 +26075,15 @@ function TempBorrow( test )
   var t4 = _.Matrix.TempBorrow( m );
   var t5 = _.Matrix.TempBorrow( m.dims );
 
-  test.is( t1 !== t2 );
-  test.is( t2 === t3 );
-  test.is( t2 === t4 );
-  test.is( t1 === t5 );
+  test.true( t1 !== t2 );
+  test.true( t2 === t3 );
+  test.true( t2 === t4 );
+  test.true( t1 === t5 );
 
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t3.buffer.constructor === I32x );
-  test.is( t4.buffer.constructor === I32x );
-  test.is( t5.buffer.constructor === F32x );
+  test.true( t2.buffer.constructor === I32x );
+  test.true( t3.buffer.constructor === I32x );
+  test.true( t4.buffer.constructor === I32x );
+  test.true( t5.buffer.constructor === F32x );
 
   /* */
 
@@ -26096,9 +26096,9 @@ function TempBorrow( test )
 
   test.identical( t1.dims, [ 4, 4 ] );
   test.identical( t2.dims, [ 4, 4 ] );
-  test.is( t1.buffer.constructor === I32x );
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t1 !== t2 );
+  test.true( t1.buffer.constructor === I32x );
+  test.true( t2.buffer.constructor === I32x );
+  test.true( t1 !== t2 );
 
   /* */
 
@@ -26112,9 +26112,9 @@ function TempBorrow( test )
 
   test.identical( t1.dims, [ 4, 4 ] );
   test.identical( t2.dims, [ 4, 4 ] );
-  test.is( t1.buffer.constructor === I32x );
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t1 !== t2 );
+  test.true( t1.buffer.constructor === I32x );
+  test.true( t2.buffer.constructor === I32x );
+  test.true( t1 !== t2 );
 
   /* */
 
@@ -26127,9 +26127,9 @@ function TempBorrow( test )
 
   test.identical( t1.dims, [ 3, 2 ] );
   test.identical( t2.dims, [ 3, 2 ] );
-  test.is( t1.buffer.constructor === I32x );
-  test.is( t2.buffer.constructor === I32x );
-  test.is( t1 !== t2 );
+  test.true( t1.buffer.constructor === I32x );
+  test.true( t2.buffer.constructor === I32x );
+  test.true( t1 !== t2 );
 
   /* */
 
@@ -26140,9 +26140,9 @@ function TempBorrow( test )
 
   test.identical( t1.dims, [ 4, 4 ] );
   test.identical( t2.dims, [ 4, 4 ] );
-  test.is( t1.buffer.constructor === F32x );
-  test.is( t2.buffer.constructor === F32x );
-  test.is( t1 !== t2 );
+  test.true( t1.buffer.constructor === F32x );
+  test.true( t2.buffer.constructor === F32x );
+  test.true( t1 !== t2 );
 
 }
 
@@ -26178,7 +26178,7 @@ function offset( test )
 
   console.log( `m\n${m.toStr()}` );
 
-  test.is( m.buffer instanceof Array );
+  test.true( m.buffer instanceof Array );
 
   /* */
 
@@ -26579,7 +26579,7 @@ function expand( test )
 
   m.expand([ null, null ]);
   test.identical( m, exp );
-  test.is( buffer === m.buffer );
+  test.true( buffer === m.buffer );
 
   /* */
 
@@ -27097,7 +27097,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '2d matrix, dims[ 0 ] - Infinity';
   var buffer = new I32x( 6 );
@@ -27123,7 +27123,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 3 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '2d matrix, dims[ 1 ] - Infinity';
   var buffer = new I32x( 6 );
@@ -27149,7 +27149,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 2 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -27177,7 +27177,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '3d matrix, dims[ 0 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27203,7 +27203,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 12 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '3d matrix, dims[ 1 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27229,7 +27229,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '3d matrix, dims[ 2 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27255,7 +27255,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -27283,7 +27283,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 0 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27309,7 +27309,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 1 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27335,7 +27335,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 12 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 2 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27361,7 +27361,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 3 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27387,7 +27387,7 @@ function scalarWhileCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.close( 'check fields' );
 
@@ -27802,7 +27802,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '2d matrix, dims[ 0 ] - Infinity';
   var buffer = new I32x( 6 );
@@ -27828,7 +27828,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 3 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '2d matrix, dims[ 1 ] - Infinity';
   var buffer = new I32x( 6 );
@@ -27854,7 +27854,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 2 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -27882,7 +27882,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '3d matrix, dims[ 0 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27908,7 +27908,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 12 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '3d matrix, dims[ 1 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27934,7 +27934,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '3d matrix, dims[ 2 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -27960,7 +27960,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -27988,7 +27988,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 0 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -28014,7 +28014,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 24 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 1 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -28040,7 +28040,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 12 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 2 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -28066,7 +28066,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.case = '4d matrix, dims[ 3 ] - Infinity';
   var buffer = new I32x( 24 );
@@ -28092,7 +28092,7 @@ function scalarEachCheckingFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   test.close( 'check fields' );
 
@@ -28451,7 +28451,7 @@ function layerEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 4 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28475,7 +28475,7 @@ function layerEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 12 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28779,7 +28779,7 @@ function lineEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 3 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28812,7 +28812,7 @@ function lineEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 2 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28845,7 +28845,7 @@ function lineEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28878,7 +28878,7 @@ function lineEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28911,7 +28911,7 @@ function lineEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 8 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 
   /* */
 
@@ -28944,7 +28944,7 @@ function lineEachCheckFields( test )
   };
   test.identical( got[ 0 ], exp );
   test.identical( got.length, 6 );
-  test.is( got[ 0 ] === got[ 1 ] );
+  test.true( got[ 0 ] === got[ 1 ] );
 }
 
 //
@@ -29245,7 +29245,7 @@ function partialAccessors( test ) /* qqq : split */
   var exp = _.Matrix.Make([ 0, 0 ]);
   var r = m.zero();
   test.identical( m, exp );
-  test.is( m === r );
+  test.true( m === r );
 
   /* */
 
@@ -29536,19 +29536,19 @@ function partialAccessors( test ) /* qqq : split */
   var r = m.diagonalSet( 0 );
   test.identical( m.dims, [ 0, 0 ] );
   test.identical( m.stridesEffective, [ 1, 0 ] );
-  test.is( m === r );
+  test.true( m === r );
 
   var m = _.Matrix.Make([ 0, 0 ]);
   var r = m.diagonalSet( _.Matrix.Make([ 0, 3 ]) );
   test.identical( m.dims, [ 0, 0 ] );
   test.identical( m.stridesEffective, [ 1, 0 ] );
-  test.is( m === r );
+  test.true( m === r );
 
   var m = _.Matrix.Make([ 0, 0 ]);
   var r = m.diagonalSet( _.Matrix.Make([ 3, 0 ]) );
   test.identical( m.dims, [ 0, 0 ] );
   test.identical( m.stridesEffective, [ 1, 0 ] );
-  test.is( m === r );
+  test.true( m === r );
 
   /* */
 
@@ -29600,13 +29600,13 @@ function partialAccessors( test ) /* qqq : split */
   var r = m.identity();
   test.identical( m.dims, [ 0, 3 ] );
   test.identical( m.stridesEffective, [ 1, 0 ] );
-  test.is( m === r );
+  test.true( m === r );
 
   var m = _.Matrix.MakeZero([ 3, 0 ]);
   var r = m.identity();
   test.identical( m.dims, [ 3, 0 ] );
   test.identical( m.stridesEffective, [ 1, 3 ] );
-  test.is( m === r );
+  test.true( m === r );
 
   /* */
 
@@ -30002,13 +30002,13 @@ function partialAccessors( test ) /* qqq : split */
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( 0 );
     test.identical( m.dims, [ 0, 3 ] );
-    test.is( m === r );
+    test.true( m === r );
 
     var m = _.Matrix.Make([ 3, 0 ]);
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( 0 );
     test.identical( m.dims, [ 3, 0 ] );
-    test.is( m === r );
+    test.true( m === r );
 
     /* */
 
@@ -30017,31 +30017,31 @@ function partialAccessors( test ) /* qqq : split */
     var m = _.Matrix.Make([ 0, 0 ]);
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( _.Matrix.Make([ 0, 0 ]) );
-    test.is( m === r );
+    test.true( m === r );
 
     var m = _.Matrix.Make([ 0, 0 ]);
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( _.Matrix.Make([ 0, 3 ]) );
-    test.is( m === r );
+    test.true( m === r );
 
     var m = _.Matrix.Make([ 0, 0 ]);
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( _.Matrix.Make([ 3, 0 ]) );
-    test.is( m === r );
+    test.true( m === r );
 
     /* */
 
     var m = _.Matrix.Make([ 0, 3 ]);
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( _.Matrix.Make([ 0, 3 ]) );
-    test.is( m === r );
+    test.true( m === r );
 
     /* */
 
     var m = _.Matrix.Make([ 3, 0 ]);
     var exp = _.Matrix.Make([ 0, 0 ]);
     var r = m[ rname ]( _.Matrix.Make([ 3, 0 ]) );
-    test.is( m === r );
+    test.true( m === r );
 
   }
 
@@ -30055,22 +30055,22 @@ function partialAccessors( test ) /* qqq : split */
   var m = _.Matrix.Make([ 0, 3 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
   var r = m.triangleLowerSet( _.Matrix.Make([ 0, 0 ]) );
-  test.is( m === r );
+  test.true( m === r );
 
   var m = _.Matrix.Make([ 0, 3 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
   var r = m.triangleLowerSet( _.Matrix.Make([ 3, 0 ]) );
-  test.is( m === r );
+  test.true( m === r );
 
   var m = _.Matrix.Make([ 3, 0 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
   var r = m.triangleUpperSet( _.Matrix.Make([ 0, 0 ]) );
-  test.is( m === r );
+  test.true( m === r );
 
   var m = _.Matrix.Make([ 3, 0 ]);
   var exp = _.Matrix.Make([ 0, 0 ]);
   var r = m.triangleUpperSet( _.Matrix.Make([ 0, 3 ]) );
-  test.is( m === r );
+  test.true( m === r );
 
   /* */
 
@@ -33304,7 +33304,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33321,7 +33321,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33346,7 +33346,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33373,7 +33373,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33400,7 +33400,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33427,7 +33427,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33454,7 +33454,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33481,7 +33481,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33508,7 +33508,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33535,7 +33535,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33562,7 +33562,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33593,7 +33593,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33624,7 +33624,7 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m });
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -33653,8 +33653,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, permutates });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.permutates === permutates );
+  test.true( got.m === m );
+  test.true( got.permutates === permutates );
 
   /* */
 
@@ -33691,8 +33691,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook( o );
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.permutates === permutates );
+  test.true( got.m === m );
+  test.true( got.permutates === permutates );
 
   /* - */
 
@@ -33710,8 +33710,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33745,8 +33745,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33784,8 +33784,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33823,8 +33823,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33862,8 +33862,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33901,8 +33901,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33940,8 +33940,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -33979,8 +33979,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -34026,8 +34026,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* */
 
@@ -34073,8 +34073,8 @@ function PermutateRook( test )
   };
   var got = _.Matrix.PermutateRook({ m, x });
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
+  test.true( got.m === m );
+  test.true( got.x === x );
 
   /* - */
 
@@ -34173,7 +34173,7 @@ function permutateRook( test )
   };
   var got = m.permutateRook();
   test.identical( got, exp );
-  test.is( got.m === m );
+  test.true( got.m === m );
 
   /* */
 
@@ -34220,9 +34220,9 @@ function permutateRook( test )
   };
   var got = m.permutateRook( o );
   test.identical( got, exp );
-  test.is( got.m === m );
-  test.is( got.x === x );
-  test.is( got.permutates === permutates );
+  test.true( got.m === m );
+  test.true( got.x === x );
+  test.true( got.permutates === permutates );
 
   /* */
 }
@@ -34955,7 +34955,7 @@ function subspace( test )
   console.log( '' );
 
   var subspace = matrix.subspace( 0, 1, 0, 1, 0, 1 );
-  test.is( matrix.buffer === subspace.buffer );
+  test.true( matrix.buffer === subspace.buffer );
   test.identical( subspace.dims, [ 3, 3, 3 ] );
   test.identical( subspace.stridesEffective, [ 1, 3, 9 ] );
 
@@ -35180,7 +35180,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( m, [ m, m ] );
   test.equivalent( mul, exp );
-  test.is( mul === m );
+  test.true( mul === m );
 
   test.case = 'mul itself 2 times';
   var m = matrix3B.clone();
@@ -35192,7 +35192,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( m, [ m, m, m ] );
   test.equivalent( mul, exp );
-  test.is( mul === m );
+  test.true( mul === m );
 
   test.case = 'mul itself 3 times';
   var m = matrix3B.clone();
@@ -35204,7 +35204,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( m, [ m, m, m, m ] );
   test.equivalent( mul, exp );
-  test.is( mul === m );
+  test.true( mul === m );
 
   test.case = 'mul 3 matrices with dst === src';
   var matrix3x4 = matrix3A.clone();
@@ -35217,7 +35217,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( matrix3x4, [ matrix3x4, matrix4x3, matrix4x3 ] );
   test.equivalent( mul, exp );
-  test.is( mul === matrix3x4 );
+  test.true( mul === matrix3x4 );
 
   test.case = 'mul 3 matrices with dst === src';
   var matrix3x4 = matrix3A.clone();
@@ -35230,7 +35230,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( matrix4x3, [ matrix3x4, matrix4x3, matrix4x3 ] );
   test.equivalent( mul, exp );
-  test.is( mul === matrix4x3 );
+  test.true( mul === matrix4x3 );
 
   test.case = 'mul 4 matrices with dst === src';
   var matrix3x4 = matrix3A.clone();
@@ -35243,7 +35243,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( matrix3x4, [ matrix3x4, matrix4x3, matrix4x3, matrix3x4 ] );
   test.equivalent( mul, exp );
-  test.is( mul === matrix3x4 );
+  test.true( mul === matrix3x4 );
 
   test.case = 'mul 4 matrices with dst === src';
   var matrix3x4 = matrix3A.clone();
@@ -35256,7 +35256,7 @@ function mul( test )
   ]);
   var mul = _.Matrix.Mul( matrix4x3, [ matrix3x4, matrix4x3, matrix4x3, matrix3x4 ] );
   test.equivalent( mul, exp );
-  test.is( mul === matrix4x3 );
+  test.true( mul === matrix4x3 );
 
   test.case = '_.Matrix array multiplication';
   var m = matrix3A.clone();
@@ -35264,7 +35264,7 @@ function mul( test )
   var exp = [ 22, 28, 39 ];
   var mul = _.Matrix.Mul( v, [ m, v ] );
   test.equivalent( mul, exp );
-  test.is( v === mul );
+  test.true( v === mul );
 
   test.case = '_.Matrix vector multiplication';
   var m = matrix3A.clone();
@@ -35272,7 +35272,7 @@ function mul( test )
   var exp = _.vad.from([ 22, 28, 39 ]);
   var mul = _.Matrix.Mul( v, [ m, v ] );
   test.equivalent( mul, exp );
-  test.is( v === mul );
+  test.true( v === mul );
 
   test.case = '_.Matrix array _.Matrix multiplication';
   var m = matrix3A.clone();
@@ -35281,7 +35281,7 @@ function mul( test )
   var exp = [ 8206, 10444, 14547 ];
   var mul = _.Matrix.Mul( v, [ m, v, row, m, v ] );
   test.equivalent( mul, exp );
-  test.is( v === mul );
+  test.true( v === mul );
 
   test.case = '_.Matrix array _.Matrix multiplication';
   var m = matrix3A.clone();
@@ -35290,7 +35290,7 @@ function mul( test )
   var exp = [ 82060, 104440, 145470 ];
   var mul = _.Matrix.Mul( v, [ m, v, row, m, v, [ 10 ] ] );
   test.equivalent( mul, exp );
-  test.is( v === mul );
+  test.true( v === mul );
 
   /* - */
 
@@ -35877,7 +35877,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( m1, m2 );
   test.equivalent( r, exp );
-  test.is( r === m1 );
+  test.true( r === m1 );
 
   /* */
 
@@ -35893,7 +35893,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( null, m1, m2 );
   test.equivalent( r, exp );
-  test.is( r !== m1 );
+  test.true( r !== m1 );
 
   /* */
 
@@ -35909,7 +35909,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( null, m1, m2, m3 );
   test.equivalent( r, exp );
-  test.is( r !== m1 );
+  test.true( r !== m1 );
 
   /* */
 
@@ -35925,7 +35925,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( m1, m2, m3 );
   test.equivalent( r, exp );
-  test.is( r === m1 );
+  test.true( r === m1 );
 
   /* */
 
@@ -35941,7 +35941,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( null, m1, 10 );
   test.equivalent( r, exp );
-  test.is( r !== m1 );
+  test.true( r !== m1 );
 
   /* */
 
@@ -35957,7 +35957,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( null, m5, 10 );
   test.equivalent( r, exp );
-  test.is( r !== m5 );
+  test.true( r !== m5 );
 
   var exp = _.Matrix.Make([ 2, 1 ]).copy
   ([
@@ -35967,7 +35967,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( null, m5, 10, v1 );
   test.equivalent( r, exp );
-  test.is( r !== m5 );
+  test.true( r !== m5 );
 
   var exp = _.Matrix.Make([ 2, 1 ]).copy
   ([
@@ -35977,7 +35977,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( null, m5, 10, v1, a1 );
   test.equivalent( r, exp );
-  test.is( r !== m5 );
+  test.true( r !== m5 );
 
   /* */
 
@@ -35993,7 +35993,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( m5, 10, v1 );
   test.equivalent( r, exp );
-  test.is( r === m5 );
+  test.true( r === m5 );
 
   remake();
 
@@ -36005,7 +36005,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( m5, 10, v1, a1 );
   test.equivalent( r, exp );
-  test.is( r === m5 );
+  test.true( r === m5 );
 
   remake();
 
@@ -36017,7 +36017,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( m5, 10, v1, a1, m4 );
   test.equivalent( r, exp );
-  test.is( r === m5 );
+  test.true( r === m5 );
 
   /* */
 
@@ -36033,7 +36033,7 @@ function addScalarWise( test )
 
   var r = _.Matrix.addScalarWise( m4, 10, v1, a1, m4 );
   test.equivalent( r, exp );
-  test.is( r === m4 );
+  test.true( r === m4 );
 
   /* */
 
@@ -36097,7 +36097,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( m1, m2 );
   test.equivalent( r, exp );
-  test.is( r === m1 );
+  test.true( r === m1 );
 
   /* */
 
@@ -36113,7 +36113,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( null, m1, m2 );
   test.equivalent( r, exp );
-  test.is( r !== m1 );
+  test.true( r !== m1 );
 
   /* */
 
@@ -36129,7 +36129,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( null, m1, m2, m3 );
   test.equivalent( r, exp );
-  test.is( r !== m1 );
+  test.true( r !== m1 );
 
   /* */
 
@@ -36145,7 +36145,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( m1, m2, m3 );
   test.equivalent( r, exp );
-  test.is( r === m1 );
+  test.true( r === m1 );
 
   /* */
 
@@ -36161,7 +36161,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( null, m1, 10 );
   test.equivalent( r, exp );
-  test.is( r !== m1 );
+  test.true( r !== m1 );
 
   /* */
 
@@ -36177,7 +36177,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( null, m5, 10 );
   test.equivalent( r, exp );
-  test.is( r !== m5 );
+  test.true( r !== m5 );
 
   var exp = _.Matrix.Make([ 2, 1 ]).copy
   ([
@@ -36187,7 +36187,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( null, m5, 10, v1 );
   test.equivalent( r, exp );
-  test.is( r !== m5 );
+  test.true( r !== m5 );
 
   var exp = _.Matrix.Make([ 2, 1 ]).copy
   ([
@@ -36197,7 +36197,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( null, m5, 10, v1, a1 );
   test.equivalent( r, exp );
-  test.is( r !== m5 );
+  test.true( r !== m5 );
 
   /* */
 
@@ -36213,7 +36213,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( m5, 10, v1 );
   test.equivalent( r, exp );
-  test.is( r === m5 );
+  test.true( r === m5 );
 
   remake();
 
@@ -36225,7 +36225,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( m5, 10, v1, a1 );
   test.equivalent( r, exp );
-  test.is( r === m5 );
+  test.true( r === m5 );
 
   remake();
 
@@ -36237,7 +36237,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( m5, 10, v1, a1, m4 );
   test.equivalent( r, exp );
-  test.is( r === m5 );
+  test.true( r === m5 );
 
   /* */
 
@@ -36253,7 +36253,7 @@ function subScalarWise( test )
 
   var r = _.Matrix.subScalarWise( m4, 10, v1, a1, m4 );
   test.equivalent( r, exp );
-  test.is( r === m4 );
+  test.true( r === m4 );
 }
 
 //
@@ -36266,7 +36266,7 @@ function mulRowWise( test )
   var got = matrix.mulRowWise( x );
   var exp = _.Matrix.Make([ 3, 0 ]);
   test.identical( got, exp );
-  test.is( got === matrix );
+  test.true( got === matrix );
 
   test.case = 'dims[ 1 ] === 0, mul on empty array';
   var matrix = _.Matrix.Make([ 3, 0 ]);
@@ -36275,7 +36275,7 @@ function mulRowWise( test )
   var exp = _.Matrix.Make([ 3, 0 ]);
   test.identical( x, [] );
   test.identical( got, exp );
-  test.is( got === matrix );
+  test.true( got === matrix );
 
   test.case = 'plane matrix, mul on Numbers';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
@@ -36293,7 +36293,7 @@ function mulRowWise( test )
     6,  12,
   ]);
   test.identical( got, exp );
-  test.is( got === matrix );
+  test.true( got === matrix );
 
   test.case = 'plane matrix, mul on array of numbers';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
@@ -36312,7 +36312,7 @@ function mulRowWise( test )
   ]);
   test.identical( x, [ 1, 3 ] );
   test.identical( got, exp );
-  test.is( got === matrix );
+  test.true( got === matrix );
 
   /* - */
 
@@ -36417,7 +36417,7 @@ function distributionRangeSummaryValueRowWise( test )
   var dst = [];
   var got = matrix.distributionRangeSummaryValueRowWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36449,7 +36449,7 @@ function distributionRangeSummaryValueRowWise( test )
   var dst = [];
   var got = matrix.distributionRangeSummaryValueRowWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36485,7 +36485,7 @@ function distributionRangeSummaryValueRowWise( test )
   var dst = [];
   var got = matrix.distributionRangeSummaryValueRowWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36517,7 +36517,7 @@ function distributionRangeSummaryValueRowWise( test )
   var dst = [];
   var got = matrix.distributionRangeSummaryValueRowWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -36574,7 +36574,7 @@ function distributionRangeSummaryRowWise( test )
   ];
   var got = matrix.distributionRangeSummaryRowWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36590,7 +36590,7 @@ function distributionRangeSummaryRowWise( test )
   var exp = [];
   var got = matrix.distributionRangeSummaryRowWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36654,7 +36654,7 @@ function distributionRangeSummaryRowWise( test )
   ];
   var got = matrix.distributionRangeSummaryRowWise( dst );
   test.contains( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -36687,7 +36687,7 @@ function distributionRangeSummaryColWise( test )
   var exp = [];
   var got = matrix.distributionRangeSummaryColWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36727,7 +36727,7 @@ function distributionRangeSummaryColWise( test )
   ];
   var got = matrix.distributionRangeSummaryColWise( dst );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -36783,7 +36783,7 @@ function distributionRangeSummaryColWise( test )
   ];
   var got = matrix.distributionRangeSummaryColWise( dst );
   test.contains( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -36817,7 +36817,7 @@ function reduceToSumRowWise( test )
   var got = matrix.reduceToSumRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -36834,7 +36834,7 @@ function reduceToSumRowWise( test )
   var got = matrix.reduceToSumRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -36863,7 +36863,7 @@ function reduceToSumRowWise( test )
   var got = matrix.reduceToSumRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* - */
 
@@ -36901,7 +36901,7 @@ function reduceToSumColWise( test )
   var got = matrix.reduceToSumColWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -36918,7 +36918,7 @@ function reduceToSumColWise( test )
   var got = matrix.reduceToSumColWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -36947,7 +36947,7 @@ function reduceToSumColWise( test )
   var got = matrix.reduceToSumColWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* - */
 
@@ -36976,7 +36976,7 @@ function reduceToMeanRowWise( test )
   var matrix = _.Matrix.Make([ 2, 0 ]);
   var got = matrix.reduceToMeanRowWise();
   test.identical( got, _.vad.from([ NaN, NaN ]) );
-  test.is( got !== matrix.buffer );
+  test.true( got !== matrix.buffer );
 
   test.case = 'dims[ 1 ] === 0, with dst';
   var matrix = _.Matrix.Make([ 2, 0 ]);
@@ -36984,7 +36984,7 @@ function reduceToMeanRowWise( test )
   var got = matrix.reduceToMeanRowWise( dst );
   test.identical( dst, [ NaN, NaN ] );
   test.identical( got, _.vad.from([ NaN, NaN ]) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   test.case = 'without dst';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
@@ -36995,7 +36995,7 @@ function reduceToMeanRowWise( test )
   ]);
   var got = matrix.reduceToMeanRowWise();
   test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-  test.is( got !== matrix.buffer );
+  test.true( got !== matrix.buffer );
 
   test.case = 'with dst';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
@@ -37008,7 +37008,7 @@ function reduceToMeanRowWise( test )
   var got = matrix.reduceToMeanRowWise( dst );
   test.identical( dst, [ 2.5, 3.5, 4.5 ] );
   test.identical( got, _.vad.from([ 2.5, 3.5, 4.5 ]) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* - */
 
@@ -37037,7 +37037,7 @@ function reduceToMeanColWise( test )
   var matrix = _.Matrix.Make([ 0, 2 ]);
   var got = matrix.reduceToMeanColWise();
   test.identical( got, _.vad.from([ NaN, NaN ]) );
-  test.is( got !== matrix.buffer );
+  test.true( got !== matrix.buffer );
 
   test.case = 'dims[ 0 ] === 0, with dst';
   var matrix = _.Matrix.Make([ 0, 2 ]);
@@ -37045,7 +37045,7 @@ function reduceToMeanColWise( test )
   var got = matrix.reduceToMeanColWise( dst );
   test.identical( dst, [ NaN, NaN ] );
   test.identical( got, _.vad.from([ NaN, NaN ]) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   test.case = 'without dst';
   var matrix = _.Matrix.Make([ 2, 3 ]).copy
@@ -37055,7 +37055,7 @@ function reduceToMeanColWise( test )
   ]);
   var got = matrix.reduceToMeanColWise();
   test.identical( got, _.vad.from([ 3, 3.5, 4 ]) );
-  test.is( got !== matrix.buffer );
+  test.true( got !== matrix.buffer );
 
   test.case = 'with dst';
   var matrix = _.Matrix.Make([ 2, 3 ]).copy
@@ -37067,7 +37067,7 @@ function reduceToMeanColWise( test )
   var got = matrix.reduceToMeanColWise( dst );
   test.identical( dst, [ 3, 3.5, 4 ] );
   test.identical( got, _.vad.from([ 3, 3.5, 4 ]) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* - */
 
@@ -37096,7 +37096,7 @@ function reduceToMeanScalarWise( test )
   var matrix = _.Matrix.Make([ 2, 0 ]);
   var got = matrix.reduceToMeanScalarWise();
   test.identical( got, NaN );
-  test.is( got !== matrix.buffer );
+  test.true( got !== matrix.buffer );
 
   test.case = 'without dst';
   var matrix = _.Matrix.Make([ 3, 2 ]).copy
@@ -37107,7 +37107,7 @@ function reduceToMeanScalarWise( test )
   ]);
   var got = matrix.reduceToMeanScalarWise();
   test.identical( got, 3.5 );
-  test.is( got !== matrix.buffer );
+  test.true( got !== matrix.buffer );
 
   /* - */
 
@@ -37153,7 +37153,7 @@ function reduceToMaxRowWise( test )
   var got = matrix.reduceToMaxRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -37170,7 +37170,7 @@ function reduceToMaxRowWise( test )
   var got = matrix.reduceToMaxRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -37243,7 +37243,7 @@ function reduceToMaxRowWise( test )
   var got = matrix.reduceToMaxRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -37281,7 +37281,7 @@ function reduceToMaxColWise( test )
   var got = matrix.reduceToMaxColWise( dst );
   test.identical( dst, exp );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -37306,7 +37306,7 @@ function reduceToMaxColWise( test )
   var got = matrix.reduceToMaxColWise( dst );
   test.identical( dst, exp );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* */
 
@@ -37369,7 +37369,7 @@ function reduceToMaxColWise( test )
   var got = matrix.reduceToMaxColWise( dst );
   test.identical( dst, exp );
   test.identical( got, exp );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -37407,7 +37407,7 @@ function reduceToMaxValueRowWise( test )
   var got = matrix.reduceToMaxValueRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -37424,7 +37424,7 @@ function reduceToMaxValueRowWise( test )
   var got = matrix.reduceToMaxValueRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -37453,7 +37453,7 @@ function reduceToMaxValueRowWise( test )
   var got = matrix.reduceToMaxValueRowWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* - */
 
@@ -37491,7 +37491,7 @@ function reduceToMaxValueColWise( test )
   var got = matrix.reduceToMaxValueColWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -37508,7 +37508,7 @@ function reduceToMaxValueColWise( test )
   var got = matrix.reduceToMaxValueColWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* */
 
@@ -37537,7 +37537,7 @@ function reduceToMaxValueColWise( test )
   var got = matrix.reduceToMaxValueColWise( dst );
   test.identical( dst, exp );
   test.identical( got, _.vectorAdapter.from( exp ) );
-  test.is( got._vectorBuffer === dst );
+  test.true( got._vectorBuffer === dst );
 
   /* - */
 
@@ -37588,7 +37588,7 @@ function minmaxColWise( test )
   };
   var got = matrix.minmaxColWise( dst );
   test.identical( got, exp );
-  test.is( got !== dst ); /* Dmytro : it's strange, maybe routine needs assertion */
+  test.true( got !== dst ); /* Dmytro : it's strange, maybe routine needs assertion */
 
   test.case = 'dims[ 0 ] === 0';
   var matrix = _.Matrix.Make([ 0, 2 ]);
@@ -38447,7 +38447,7 @@ function triangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38484,7 +38484,7 @@ function triangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38521,7 +38521,7 @@ function triangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38580,7 +38580,7 @@ function triangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 1, 1 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38638,7 +38638,7 @@ function triangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2, 3 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38701,7 +38701,7 @@ function triangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ -1, +2, +3, +2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
   }
 
 }
@@ -38748,7 +38748,7 @@ function TriangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38785,7 +38785,7 @@ function TriangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38822,7 +38822,7 @@ function TriangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38881,7 +38881,7 @@ function TriangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 1, 1 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -38939,7 +38939,7 @@ function TriangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2, 3 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39002,7 +39002,7 @@ function TriangulateGausian( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ -1, +2, +3, +2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
   }
 
 }
@@ -39049,7 +39049,7 @@ function triangulateGausianNormalizingNew( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39086,7 +39086,7 @@ function triangulateGausianNormalizingNew( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39123,7 +39123,7 @@ function triangulateGausianNormalizingNew( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39182,7 +39182,7 @@ function triangulateGausianNormalizingNew( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 1, 1 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39240,7 +39240,7 @@ function triangulateGausianNormalizingNew( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2, 3 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39303,7 +39303,7 @@ function triangulateGausianNormalizingNew( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ -1, +2, +3, +2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
   }
 
 }
@@ -39352,7 +39352,7 @@ function TriangulateGausianNormalizing( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39389,7 +39389,7 @@ function TriangulateGausianNormalizing( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39426,7 +39426,7 @@ function TriangulateGausianNormalizing( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39485,7 +39485,7 @@ function TriangulateGausianNormalizing( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 1, 1 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39543,7 +39543,7 @@ function TriangulateGausianNormalizing( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ 1, 2, 3 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
 
     /* */
 
@@ -39606,7 +39606,7 @@ function TriangulateGausianNormalizing( test )
     test.identical( triangulated.y, expected );
     var expected = op.containerMake([ -1, +2, +3, +2 ]);
     test.identical( triangulated.oy, expected );
-    test.is( y === triangulated.oy );
+    test.true( y === triangulated.oy );
   }
 
 }
@@ -40666,7 +40666,7 @@ function SolveSimple( test, rname )
     logger.log( 'm', m );
     logger.log( 'x', x );
 
-    test.is( x !== y );
+    test.true( x !== y );
     test.identical( x, [ -1, -2, +3 ] );
     test.identical( y, oy );
 
@@ -40692,7 +40692,7 @@ function SolveSimple( test, rname )
     logger.log( 'm', m );
     logger.log( 'x', x );
 
-    test.is( x !== y );
+    test.true( x !== y );
     test.identical( x, _.vad.from([ -1, -2, +3 ]) );
     test.identical( y, oy );
 
@@ -40718,7 +40718,7 @@ function SolveSimple( test, rname )
     logger.log( 'm', m );
     logger.log( 'x', x );
 
-    test.is( x !== y );
+    test.true( x !== y );
     test.identical( x, _.Matrix.MakeCol([ -1, -2, +3 ]) );
     test.identical( y, oy );
 
@@ -40745,8 +40745,8 @@ function SolveSimple( test, rname )
     logger.log( 'm', m );
     logger.log( 'x', x );
 
-    test.is( x !== y );
-    test.is( x === ox );
+    test.true( x !== y );
+    test.true( x === ox );
     test.identical( x, [ -1, -2, +3 ] );
     test.identical( y, oy );
 
@@ -40773,8 +40773,8 @@ function SolveSimple( test, rname )
     logger.log( 'm', m );
     logger.log( 'x', x );
 
-    test.is( x !== y );
-    test.is( x === ox );
+    test.true( x !== y );
+    test.true( x === ox );
     test.identical( x, _.vad.from([ -1, -2, +3 ]) );
     test.identical( y, oy );
 
@@ -40801,8 +40801,8 @@ function SolveSimple( test, rname )
     logger.log( 'm', m );
     logger.log( 'x', x );
 
-    test.is( x !== y );
-    test.is( x === ox );
+    test.true( x !== y );
+    test.true( x === ox );
     test.identical( x, _.Matrix.MakeCol([ -1, -2, +3 ]) );
     test.identical( y, oy );
 
@@ -40840,7 +40840,7 @@ function SolveSimple( test, rname )
       +3, -4,
     ]);
 
-    test.is( x !== y );
+    test.true( x !== y );
     test.identical( x, xEpxpected );
     test.identical( y, oy );
 
@@ -40864,7 +40864,7 @@ function SolveSimple( test, rname )
 
     var xEpxpected = _.Matrix.Make([ 0, 2 ]).copy([]);
 
-    test.is( x !== y );
+    test.true( x !== y );
     test.identical( x, xEpxpected );
     test.identical( y, oy );
 
@@ -40909,7 +40909,7 @@ function SolvePermutating( test )
     var oy = y.slice();
     var x = _.Matrix[ rname ]( null, m, y );
 
-    test.is( x !== y );
+    test.true( x !== y );
     test.identical( x, [ -0.5, +2.5, -0.5 ] );
     test.identical( y, oy );
 
@@ -40960,11 +40960,11 @@ function SolveAccuracyProblem( test )
     var o = { m }
     var x = _.Matrix[ rname ]( o );
 
-    test.is( x === null );
-    test.is( o.x === null );
-    test.is( o.ox === null );
-    test.is( o.y === null );
-    test.is( o.oy === null );
+    test.true( x === null );
+    test.true( o.x === null );
+    test.true( o.ox === null );
+    test.true( o.y === null );
+    test.true( o.oy === null );
 
     if( isLu )
     {
@@ -40992,14 +40992,14 @@ function SolveAccuracyProblem( test )
     // var x = _.Matrix[ rname ]( o );
     //
     // test.equivalent( x, [ 1 / 9, 0 ] );
-    // test.is( x !== null );
-    // test.is( o.x !== x );
+    // test.true( x !== null );
+    // test.true( o.x !== x );
     // test.equivalent( o.x, x );
-    // test.is( o.ox === x );
+    // test.true( o.ox === x );
     // test.equivalent( y, oy );
-    // test.is( o.y === y );
-    // test.is( o.y === o.oy );
-    // test.is( o.y !== x );
+    // test.true( o.y === y );
+    // test.true( o.y === o.oy );
+    // test.true( o.y !== x );
     //
     // if( isLu )
     // {
@@ -41448,10 +41448,10 @@ function SolveGeneral( test )
     var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
     test.equivalent( r, exp );
     test.equivalent( r.y, r.oy );
-    test.is( y === r.y );
-    test.is( y === r.oy );
-    test.is( y !== r.x );
-    test.is( y !== r.ox );
+    test.true( y === r.y );
+    test.true( y === r.oy );
+    test.true( y !== r.x );
+    test.true( y !== r.ox );
 
     check( om, y, r );
 
@@ -41505,10 +41505,10 @@ function SolveGeneral( test )
     var r = _.Matrix.SolveGeneral({ m, y, permutating : 1 });
     test.equivalent( r, exp );
     test.equivalent( r.y, r.oy );
-    test.is( y === r.y );
-    test.is( y === r.oy );
-    test.is( y !== r.x );
-    test.is( y !== r.ox );
+    test.true( y === r.y );
+    test.true( y === r.oy );
+    test.true( y !== r.x );
+    test.true( y !== r.ox );
 
     var nullspace = om.nullspace();
     test.identical( r.kernel, nullspace );
@@ -41557,10 +41557,10 @@ function SolveGeneral( test )
     var r = _.Matrix.SolveGeneral({ m, y, permutating : 0 });
     test.equivalent( r, exp );
     test.equivalent( r.y, r.oy );
-    test.is( y === r.y );
-    test.is( y === r.oy );
-    test.is( y !== r.x );
-    test.is( y !== r.ox );
+    test.true( y === r.y );
+    test.true( y === r.oy );
+    test.true( y !== r.x );
+    test.true( y !== r.ox );
 
     check( om, y, r );
 
@@ -41717,13 +41717,13 @@ function SolveGeneral( test )
   {
 
     test.equivalent( op.r.y, op.r.oy );
-    test.is( op.y === op.r.y );
-    test.is( op.y === op.r.oy );
-    test.is( op.r.oy === null || op.containerIs( op.r.oy ) );
+    test.true( op.y === op.r.y );
+    test.true( op.y === op.r.oy );
+    test.true( op.r.oy === null || op.containerIs( op.r.oy ) );
     if( !op.withoutY )
     {
-      test.is( op.y !== op.r.x );
-      test.is( op.y !== op.r.ox );
+      test.true( op.y !== op.r.x );
+      test.true( op.y !== op.r.ox );
     }
 
     check( op.om, op.y, op.r );
@@ -42047,7 +42047,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace( m );
   test.equivalent( got, exp );
-  test.is( got === m );
+  test.true( got === m );
 
   /* */
 
@@ -42068,7 +42068,7 @@ function nullspace( test )
   var got = m.nullspace( null );
   test.equivalent( got, exp );
   test.equivalent( m, origin );
-  test.is( got !== m );
+  test.true( got !== m );
 
   /* */
 
@@ -42090,7 +42090,7 @@ function nullspace( test )
   var got = m.nullspace( dst );
   test.equivalent( got, exp );
   test.equivalent( m, origin );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -42302,7 +42302,7 @@ function rref( test )
   ]);
   var got = m.rref( m );
   test.equivalent( got, exp );
-  test.is( got === m );
+  test.true( got === m );
 
   /* */
 
@@ -42323,7 +42323,7 @@ function rref( test )
   var got = m.rref( null );
   test.equivalent( got, exp );
   test.equivalent( m, origin );
-  test.is( got !== m );
+  test.true( got !== m );
 
   /* */
 
@@ -42345,7 +42345,7 @@ function rref( test )
   var got = m.rref( dst );
   test.equivalent( got, exp );
   test.equivalent( m, origin );
-  test.is( got === dst );
+  test.true( got === dst );
 
   /* - */
 
@@ -42383,7 +42383,7 @@ function eigen( test )
   var exp = _.Matrix.Make([ 0, 0 ]);
   op.vectors = m.eigenVectors();
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42405,7 +42405,7 @@ function eigen( test )
   ([ 1 ]);
   op.vectors = m.eigenVectors();
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42433,7 +42433,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors();
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42463,7 +42463,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors();
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42494,7 +42494,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors({ generalizating : op.generalizating });
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42523,7 +42523,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors({ generalizating : 0 });
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42552,7 +42552,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors({ generalizating : 1 });
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
@@ -42583,7 +42583,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors({ generalizating : 0 });
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
 
   /* */
 
@@ -42613,7 +42613,7 @@ function eigen( test )
   ]);
   op.vectors = m.eigenVectors({ generalizating : 1 });
   test.equivalent( op.vectors, exp );
-  test.is( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
+  test.true( _.Matrix.EquivalentColumnSpace( op.vectors, exp ) );
   check( op );
 
   /* */
