@@ -24543,6 +24543,8 @@ Matrix.F32x.2x3xInfinity ::
 function toStrStandard( test )
 {
 
+  /* */
+
   test.case = 'String( matrix )';
   var matrix = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -24555,6 +24557,8 @@ function toStrStandard( test )
   +1 +2 +3
   +4 +5 +6`;
   test.identical( got, exp );
+
+  /* */
 
   test.case = 'vad.toStr()';
   var matrix = _.Matrix.Make([ 2, 3 ]).copy
@@ -24569,6 +24573,8 @@ function toStrStandard( test )
   +4 +5 +6`;
   test.identical( got, exp );
 
+  /* */
+
   test.case = 'Object.prototype.toString';
   var matrix = _.Matrix.Make([ 2, 3 ]).copy
   ([
@@ -24578,6 +24584,11 @@ function toStrStandard( test )
   var got = Object.prototype.toString.call( matrix );
   var exp = '[object Matrix]';
   test.identical( got, exp );
+  var got = _.strType( matrix );
+  var exp = 'wMatrix';
+  test.identical( got, exp );
+
+  /* */
 
 }
 
