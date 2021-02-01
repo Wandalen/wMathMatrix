@@ -351,42 +351,48 @@ function _equalAre( it )
   it.continue = false;
 
   if( !_.matrixIs( it.srcEffective ) || !_.matrixIs( it.srcEffective2 ) )
-  {
-    it.result = false;
-    return;
-  }
+  return end( false );
+  // {
+    // it.result = false;
+    // return;
+  // }
 
   if( it.strictTyping )
   if( it.srcEffective.buffer.constructor !== it.srcEffective2.buffer.constructor )
-  {
-    it.result = false;
-    return it.result;
-  }
+  return end( false );
+  // {
+  //   it.result = false;
+  //   return it.result;
+  // }
 
   if( it.strictContainer )
   {
     if( !_.longIdentical( [ ... it.srcEffective.dims ], [ ... it.srcEffective2.dims ] )  )
-    {
-      it.result = false;
-      return it.result;
-    }
+    return end( false );
+    // {
+    //   it.result = false;
+    //   return it.result;
+    // }
   }
   else
   {
     if( !it.srcEffective.scalarsPerMatrix || !it.srcEffective2.scalarsPerMatrix )
     {
       if( it.srcEffective.scalarsPerMatrix || it.srcEffective2.scalarsPerMatrix )
-      return it.stop( false );
+      return end( false );
+      // return it.stop( false );
     }
     else if( it.srcEffective.dims.length < it.srcEffective2.dims.length )
     {
       if( !dimsCompare( it.srcEffective.dims, it.srcEffective2.dims ) )
-      return it.result;
+      return;
+      // return it.result;
     }
     else
     {
       if( !dimsCompare( it.srcEffective2.dims, it.srcEffective.dims ) )
-      return it.result;
+      return;
+      // return it.result;
     }
   }
 
@@ -398,7 +404,7 @@ function _equalAre( it )
   });
 
   _.assert( _.boolIs( it.result ) );
-  return it.result;
+  // return it.result;
 
   /* */
 
@@ -421,6 +427,11 @@ function _equalAre( it )
       }
     }
     return true;
+  }
+
+  function end( result )
+  {
+    it.result = result;
   }
 
 }

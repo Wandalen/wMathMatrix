@@ -577,7 +577,7 @@ Routine `Solve` found the solution of a system of linear equations specified by 
 
 ```
 npm install
-node sample/Sample.s
+node sample/trivial/Sample.s
 ```
 
 ## To add to your project
