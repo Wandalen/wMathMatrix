@@ -2588,54 +2588,43 @@ function formOrthographic( horizontal, vertical, depth )
  * @module Tools/math/Matrix
  */
 
-let lookAt = function lookAt( eye, target, up1 )
+function lookAt( eye, target, up1 )
 {
-
+  let self = this;
+  let te = self.buffer;
+  
   let x = [ 0, 0, 0 ];
   let y = [ 0, 0, 0 ];
-  let z = [ 0, 0, 0 ];
+  
+  let z = _.avector.sub( null, eye, target );
+  
+  _.avector.normalize( z );
+  
+  let zmag = _.avector.mag( z );
+  if( _.equivalent( zmag, 0 ) )
+  {
+    z[ 2 ] = 1;
+  }
 
-
-    // debugger;
-    // _.assert( 0, 'not tested' );
-
-    let self = this;
-    let te = this.buffer;
-
-    // debugger;
-    // _.avector.sub( z, eye, target ).normalize(); /* Dmytro : normalize() is not the method of an instance, it is routine */
-    _.avector.normalize( _.avector.sub( z, eye, target ) );
-    // _.avector.subVectors( z, eye, target ).normalize();
-
-    if ( _.avector.mag( z ) === 0 )
-    {
-
-      z[ 2 ] = 1;
-
-    }
-
-    // debugger;
+  _.avector._cross3( x, up1, z );
+  
+  let xmag = _.avector.mag( x );
+  if( _.equivalent( xmag, 0 ) )
+  {
+    z[ 0 ] += 0.0001;
     _.avector._cross3( x, up1, z );
-    let xmag = _.avector.mag( x );
+    xmag = _.avector.mag( x );
+  }
 
-    if ( xmag === 0 )
-    {
+  _.avector.mul( x, 1 / xmag );
 
-      z[ 0 ] += 0.0001;
-      _.avector._cross3( x, up1, z );
-      xmag = _.avector.mag( x );
+  _.avector._cross3( y, z, x );
+  
+  te[ 0 ] = x[ 0 ]; te[ 4 ] = y[ 0 ]; te[ 8 ] = z[ 0 ];
+  te[ 1 ] = x[ 1 ]; te[ 5 ] = y[ 1 ]; te[ 9 ] = z[ 1 ];
+  te[ 2 ] = x[ 2 ]; te[ 6 ] = y[ 2 ]; te[ 10 ] = z[ 2 ];
 
-    }
-
-    _.avector.mul( x, 1 / xmag );
-
-    _.avector._cross3( y, z, x );
-
-    te[ 0 ] = x[ 0 ]; te[ 4 ] = y[ 0 ]; te[ 8 ] = z[ 0 ];
-    te[ 1 ] = x[ 1 ]; te[ 5 ] = y[ 1 ]; te[ 9 ] = z[ 1 ];
-    te[ 2 ] = x[ 2 ]; te[ 6 ] = y[ 2 ]; te[ 10 ] = z[ 2 ];
-
-    return this;
+  return self;
 }
 
 // --
