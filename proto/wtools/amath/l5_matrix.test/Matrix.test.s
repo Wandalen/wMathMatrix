@@ -11180,11 +11180,13 @@ function lookAt( test )
 {
   let matrix = _.Matrix.MakeIdentity4();
 
+  test.open( 'eye in the origin' );
+
   /* */
 
   test.case = 'rotate left on X axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ -5, 0, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ -5, 0, 0 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11201,8 +11203,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate right on X axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 5, 0, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 5, 0, 0 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11219,8 +11221,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate left on Y axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, -5, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, -5, 0 ];
   var up = [ 0, 0, 1 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11237,8 +11239,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate right on Y axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, 5, 0 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, 5, 0 ];
   var up = [ 0, 0, 1 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11255,8 +11257,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate left on Z axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, 0, -5 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, 0, -5 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11273,8 +11275,8 @@ function lookAt( test )
   /* */
 
   test.case = 'rotate left on Z axis';
-  var target = [ 0, 0, 0 ];
-  var eye = [ 0, 0, 5 ];
+  var eye = [ 0, 0, 0 ];
+  var target = [ 0, 0, 5 ];
   var up = [ 0, 1, 0 ];
   var expected = _.Matrix.MakeIdentity4().copy
   ([
@@ -11287,6 +11289,121 @@ function lookAt( test )
   test.equivalent( matrix, expected );
   matrix.lookAt( eye,target,up );
   test.equivalent( matrix, expected );
+
+  test.close( 'eye in the origin' );
+
+
+  /* */
+
+  test.open( 'eye moved on X axis' );
+
+  test.case = 'rotate left on X axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 5, 0, 0 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +0, -0, +1, +0,
+    +0, +1, +0, +0,
+    -1, +0, +0, +0,
+    -0, -0, -0, +1
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate right on X axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 15, 0, 0 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +0, +0, -1, +0,
+    +0, +1, +0, +0,
+    +1, +0, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Y axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, -5, 0 ];
+  var up = [ 0, 0, 1 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    -1, +0, +0, +0,
+    +0, +0, +1, +0,
+    +0, +1, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate right on Y axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, 5, 0 ];
+  var up = [ 0, 0, 1 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +1, +0, +0, +0,
+    +0, +0, -1, +0,
+    +0, +1, +0, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Z axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, 0, -5 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    +1, +0, +0, +0,
+    +0, +1, +0, +0,
+    +0, +0, +1, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  /* */
+
+  test.case = 'rotate left on Z axis';
+  var eye = [ 10, 0, 0 ];
+  var target = [ 10, 0, 5 ];
+  var up = [ 0, 1, 0 ];
+  var expected = _.Matrix.MakeIdentity4().copy
+  ([
+    -1, +0, +0, +0,
+    +0, +1, +0, +0,
+    +0, +0, -1, +0,
+    +0, +0, +0, +1,
+  ])
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+  matrix.lookAt( eye,target,up );
+  test.equivalent( matrix, expected );
+
+  test.close( 'eye moved on X axis' )
 
 }
 
@@ -36696,6 +36813,79 @@ function distributionRangeSummaryColWise( test )
 
 //
 
+function distributionRangeSummaryScalarWise( test )
+{
+  var a = [ 1, 2, 3, 4, 5 ];
+
+  /* */
+
+  test.case = 'dims[ 0 ] === 0';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp =
+  {
+    min : { value : NaN, index : -1, container : null },
+    max : { value : NaN, index : -1, container : null },
+    median : NaN,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'single element';
+  var matrix = _.Matrix.Make([ 1, 1 ]).copy([ 1 ]);
+  var exp =
+  {
+    min : { value : 1, index : [ 0, 0 ], container : matrix },
+    max : { value : 1, index : [ 0, 0 ], container : matrix },
+    median : 1,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'single row';
+  var matrix = _.Matrix.Make([ 1, a.length ]).copy( a );
+  var exp =
+  {
+    min : { value : 1, index : [ 0, 0 ], container : matrix },
+    max : { value : 5, index : [ 0, 4 ], container : matrix },
+    median : 3,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  test.case = '4x3';
+  var matrix = _.Matrix.Make([ 4, 3 ]).copy
+  ([
+    0,  0,   0,
+    1,  2,   3,
+    10, 20,  30,
+    1,  111, 11,
+  ]);
+  var exp =
+  {
+    min : { value : 0, index : [ 0, 0 ], container : matrix },
+    max : { value : 111, index : [ 3, 1 ], container : matrix },
+    median : 55.5,
+  }
+  var got = matrix.distributionRangeSummaryScalarWise();
+  test.identical( got, exp );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'extra arguments';
+  var matrix = _.Matrix.Make( 2 )
+  test.shouldThrowErrorSync( () => matrix.distributionRangeSummaryScalarWise( [] ) );
+
+}
+
+//
+
 function reduceToSumRowWise( test )
 {
   test.case = 'dims[ 0 ] === 0, without dst';
@@ -42701,6 +42891,220 @@ function invariant( test )
   test.equivalent( matrix.eGet( 1 ), [ 0, 1, 2 ] );
 }
 
+//
+
+function positionGet( test )
+{
+  test.case = 'zeros';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+
+  test.case = 'x-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'y-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 1, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'z-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 1 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'xyz-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0.5, 1, 2 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'scale with position';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0.5, 1 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'position with 45 degree rotation on x';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 2, 3 ];
+  var quaternion = [ 0.92, 0.38, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'scale with 45 degree rotation on y';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 2, 3 ];
+  var quaternion = [ 0.92, 0, 0.38, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'scale with 45 degree rotation on z';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 2, 3 ];
+  var quaternion = [ 0.92, 0, 0, 0.38 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'scale with 45 degree rotation on xyz';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 1, 2, 3 ];
+  var quaternion = [ 0.73, 0.46, 0.19, 0.46 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+  test.case = 'position with 45 degree rotation on xyz and scale';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0.1, 0.5, 1 ];
+  var quaternion = [ 0.73, 0.46, 0.19, 0.46 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.positionGet();
+  test.equivalent( got, _.vad.fromLong( position ) )
+
+}
+
+//
+
+function scaleGet( test )
+{
+  test.case = 'zeros';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+
+  test.case = 'x-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 1, 0, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'y-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 1, 0 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'z-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0, 0, 1 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'xyz-axis';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 0.5, 1, 2 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'scale with position';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0.5, 1 ];
+  var quaternion = [ 0, 0, 0, 0 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'scale with 45 degree rotation on x';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0.92, 0.38, 0, 0 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'scale with 45 degree rotation on y';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0.92, 0, 0.38, 0 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'scale with 45 degree rotation on z';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0.92, 0, 0, 0.38 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'scale with 45 degree rotation on xyz';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0, 0, 0 ];
+  var quaternion = [ 0.73, 0.46, 0.19, 0.46 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+  test.case = 'scale with 45 degree rotation on xyz and position';
+  var dst = _.Matrix.Make([ 4, 4 ]);
+  var position = [ 0.1, 0.5, 1 ];
+  var quaternion = [ 0.73, 0.46, 0.19, 0.46 ];
+  var scale = [ 1, 2, 3 ];
+  var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
+  var got = src.scaleGet();
+  test.equivalent( got, _.vad.fromLong( scale ) )
+
+}
+
+scaleGet.accuracy = 10e-2;
+
 // --
 // experiment
 // --
@@ -43086,6 +43490,7 @@ let Self =
     distributionRangeSummaryValueRowWise,
     distributionRangeSummaryRowWise,
     distributionRangeSummaryColWise,
+    distributionRangeSummaryScalarWise,
     reduceToSumRowWise,
     reduceToSumColWise,
     reduceToMeanRowWise,
@@ -43160,6 +43565,11 @@ let Self =
     PolynomClosestFor,
 
     invariant,
+
+    //transfromation
+
+    positionGet,
+    scaleGet,
 
     // experiments
 
