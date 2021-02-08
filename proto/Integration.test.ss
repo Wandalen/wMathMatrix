@@ -55,10 +55,12 @@ function production( test )
     return;
   }
 
-  if( process.env.GITHUB_WORKFLOW === 'publish' )
+  /* delay to let npm get updated */
+  if( publishIs() )
   a.ready.delay( 60000 );
 
-  console.log( `Event : ${process.env.GITHUB_EVENT_NAME}` );
+  let eventName = process.env.GITHUB_EVENT_NAME ? process.env.GITHUB_EVENT_NAME : 'push';
+  console.log( `Event : ${eventName}` );
   console.log( `Env :\n${_.toStr( _.mapBut( process.env, { WTOOLS_BOT_TOKEN : null } ) )}` );
 
   /* */
@@ -95,10 +97,10 @@ function production( test )
   let isFork = mdlRepoParsed.user !== remotePathParsed.user || mdlRepoParsed.repo !== remotePathParsed.repo;
 
   let version;
-  if( !isFork )
-  version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha';
-  else
+  if( isFork )
   version = _.git.path.nativize( remotePath );
+  else
+  version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha';
 
   if( !version )
   throw _.err( 'Cannot obtain version to install' );
@@ -125,6 +127,28 @@ function production( test )
   /* */
 
   return a.ready;
+
+  /* */
+
+  function publishIs()
+  {
+    if( process.env.GITHUB_WORKFLOW === 'publish' )
+    return true;
+
+    if( process.env.CIRCLECI )
+    {
+      let lastCommitLog = a.shell
+      ({
+        currentPath : a.abs( __dirname, '..' ),
+        execPath : 'git log --format=%B -n 1',
+        sync : 1
+      });
+      let commitMsg = lastCommitLog.output;
+      return _.strBegins( commitMsg, 'version' );
+    }
+
+    return false;
+  }
 
   /* */
 
