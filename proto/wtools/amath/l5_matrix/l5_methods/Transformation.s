@@ -647,6 +647,41 @@ function scaleApply( src )
 
 }
 
+//
+
+function rotationGet()
+{
+  let self = this;
+
+  let dst = self.clone();
+
+  _.assert( self.dims[ 0 ] === 4 );
+  _.assert( self.dims[ 1 ] === 4 );
+  _.assert( arguments.length === 0 );
+
+  let ape = self.scalarsPerElement;
+  let l = self.length;
+  let scale = self.scaleGet();
+
+  for( let i = 0 ; i < ape ; i += 1 )
+  {
+    let c = dst.rowGet( i );
+    c = dst.vectorAdapter.fromLongLrange( c, 0, l-1 );
+
+    for( let j = 0; j < c.length; j++ )
+    {
+      let s = scale.eGet( j );
+      if( s === 0 )
+      continue;
+      c.eSet( j, c.eGet( j ) / s );
+    }
+  }
+
+  dst.colSet( 3, [ 0, 0, 0, 1 ] );
+
+  return dst;
+}
+
 // --
 // relations
 // --
@@ -678,6 +713,7 @@ let Extension =
   scaleSet,
   scaleAroundSet,
   scaleApply,
+  rotationGet,
 
   //
 
