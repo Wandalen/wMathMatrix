@@ -649,7 +649,7 @@ function scaleApply( src )
 
 //
 
-function rotationMatrixGet()
+function matrixRotationGet()
 {
   let self = this;
 
@@ -682,9 +682,42 @@ function rotationMatrixGet()
   return dst;
 }
 
+matrixRotationGet.shaderChunkName = 'matrixRotationGet';
+matrixRotationGet.shaderChunk =
+`
+mat4 matrixRotationGet ( mat4 matrixLocal )
+{
+  mat4 rotationMatrix = matrixLocal;
+
+  float sx = sqrt( matrixLocal[ 0 ][ 0 ]*matrixLocal[ 0 ][ 0 ] + matrixLocal[ 0 ][ 1 ]*matrixLocal[ 0 ][ 1 ] + matrixLocal[ 0 ][ 2 ]*matrixLocal[ 0 ][ 2 ] );
+  float sy = sqrt( matrixLocal[ 1 ][ 0 ]*matrixLocal[ 1 ][ 0 ] + matrixLocal[ 1 ][ 1 ]*matrixLocal[ 1 ][ 1 ] + matrixLocal[ 1 ][ 2 ]*matrixLocal[ 1 ][ 2 ] );
+  float sz = sqrt( matrixLocal[ 2 ][ 0 ]*matrixLocal[ 2 ][ 0 ] + matrixLocal[ 2 ][ 1 ]*matrixLocal[ 2 ][ 1 ] + matrixLocal[ 2 ][ 2 ]*matrixLocal[ 2 ][ 2 ] );
+
+  rotationMatrix[ 0 ][ 0 ] = rotationMatrix[ 0 ][ 0 ] / sx;
+  rotationMatrix[ 1 ][ 0 ] = rotationMatrix[ 1 ][ 0 ] / sy;
+  rotationMatrix[ 2 ][ 0 ] = rotationMatrix[ 2 ][ 0 ] / sz;
+
+  rotationMatrix[ 0 ][ 1 ] = rotationMatrix[ 0 ][ 1 ] / sx;
+  rotationMatrix[ 1 ][ 1 ] = rotationMatrix[ 1 ][ 1 ] / sy;
+  rotationMatrix[ 2 ][ 1 ] = rotationMatrix[ 2 ][ 1 ] / sz;
+
+  rotationMatrix[ 0 ][ 2 ] = rotationMatrix[ 0 ][ 2 ] / sx;
+  rotationMatrix[ 1 ][ 2 ] = rotationMatrix[ 1 ][ 2 ] / sy;
+  rotationMatrix[ 2 ][ 2 ] = rotationMatrix[ 2 ][ 2 ] / sz;
+
+  rotationMatrix[ 0 ][ 3 ] = rotationMatrix[ 0 ][ 3 ] / sx;
+  rotationMatrix[ 1 ][ 3 ] = rotationMatrix[ 1 ][ 3 ] / sy;
+  rotationMatrix[ 2 ][ 3 ] = rotationMatrix[ 2 ][ 3 ] / sz;
+
+  rotationMatrix[ 3 ] = vec4( 0.0, 0.0, 0.0, 1.0 );
+
+  return rotationMatrix;
+}
+`
+
 //
 
-function scalingMatrixGet()
+function matrixScalingGet()
 {
   let self = this;
 
@@ -699,9 +732,29 @@ function scalingMatrixGet()
   return dst;
 }
 
+matrixScalingGet.shaderChunkName = 'matrixScalingGet';
+matrixScalingGet.shaderChunk =
+`
+mat4 matrixScalingGet ( mat4 matrixLocal )
+{
+  mat4 scaleMatrix;
+
+  float sx = sqrt( matrixLocal[ 0 ][ 0 ]*matrixLocal[ 0 ][ 0 ] + matrixLocal[ 0 ][ 1 ]*matrixLocal[ 0 ][ 1 ] + matrixLocal[ 0 ][ 2 ]*matrixLocal[ 0 ][ 2 ] );
+  float sy = sqrt( matrixLocal[ 1 ][ 0 ]*matrixLocal[ 1 ][ 0 ] + matrixLocal[ 1 ][ 1 ]*matrixLocal[ 1 ][ 1 ] + matrixLocal[ 1 ][ 2 ]*matrixLocal[ 1 ][ 2 ] );
+  float sz = sqrt( matrixLocal[ 2 ][ 0 ]*matrixLocal[ 2 ][ 0 ] + matrixLocal[ 2 ][ 1 ]*matrixLocal[ 2 ][ 1 ] + matrixLocal[ 2 ][ 2 ]*matrixLocal[ 2 ][ 2 ] );
+
+  scaleMatrix[ 0 ] = vec4( sx, 0.0, 0.0, 0.0 );
+  scaleMatrix[ 1 ] = vec4( 0.0, sy, 0.0, 0.0 );
+  scaleMatrix[ 2 ] = vec4( 0.0, 0.0, sz, 0.0 );
+  scaleMatrix[ 3 ] = vec4( 0.0, 0.0, 0.0, 1.0 );
+
+  return scaleMatrix;
+}
+`
+
 //
 
-function translationMatrixGet()
+function matrixTranslationGet()
 {
   let self = this;
 
@@ -714,6 +767,55 @@ function translationMatrixGet()
   dst.positionSet( self.positionGet() )
   
   return dst;
+}
+
+matrixTranslationGet.shaderChunkName = 'matrixTranslationGet';
+matrixTranslationGet.shaderChunk =
+`
+mat4 matrixTranslationGet ( mat4 matrixLocal )
+{
+  mat4 translationMatrix;
+
+  translationMatrix[ 0 ] = vec4( 1.0, 0.0, 0.0, 0.0 );
+  translationMatrix[ 1 ] = vec4( 0.0, 1.0, 0.0, 0.0 );
+  translationMatrix[ 2 ] = vec4( 0.0, 0.0, 1.0, 0.0 );
+  translationMatrix[ 3 ] = matrixLocal[ 3 ];
+  translationMatrix[ 3 ][ 3 ] = 1.0;
+
+  return translationMatrix;
+}
+`
+
+//
+
+function injectChunks( routines )
+{
+
+  _global_.SRT = _global_.SRT || Object.create( null );
+  _global_.SRT.gl = _global_.SRT.gl || Object.create( null );
+  let Chunks = SRT.gl.Chunks = SRT.gl.Chunks || Object.create( null );
+
+  for( let r in routines )
+  {
+    let routine = routines[ r ];
+
+    if( !_.routineIs( routine ) )
+    continue;
+
+    if( !routine.shaderChunk )
+    continue;
+
+    _.assert( _.strIs( routine.shaderChunk ) );
+
+    let shaderChunk = '';
+    shaderChunk += '\n' + routine.shaderChunk + '\n';
+
+    let chunkName = routine.shaderChunkName || r;
+
+    Chunks[ chunkName ] = shaderChunk;
+
+  }
+
 }
 
 // --
@@ -748,9 +850,9 @@ let Extension =
   scaleAroundSet,
   scaleApply,
   
-  rotationMatrixGet,
-  scalingMatrixGet,
-  translationMatrixGet,
+  matrixRotationGet,
+  matrixScalingGet,
+  matrixTranslationGet,
 
   //
 
@@ -759,5 +861,6 @@ let Extension =
 }
 
 _.classExtend( Self, Extension );
+injectChunks( Extension );
 
 })();
