@@ -649,7 +649,7 @@ function scaleApply( src )
 
 //
 
-function rotationGet()
+function rotationMatrixGet()
 {
   let self = this;
 
@@ -679,6 +679,40 @@ function rotationGet()
 
   dst.colSet( 3, [ 0, 0, 0, 1 ] );
 
+  return dst;
+}
+
+//
+
+function scalingMatrixGet()
+{
+  let self = this;
+
+  let dst = self.MakeIdentity4();
+
+  _.assert( self.dims[ 0 ] === 4 );
+  _.assert( self.dims[ 1 ] === 4 );
+  _.assert( arguments.length === 0 );
+  
+  dst.scaleApply( self.scaleGet() );
+  
+  return dst;
+}
+
+//
+
+function translationMatrixGet()
+{
+  let self = this;
+
+  let dst = self.MakeIdentity4();
+
+  _.assert( self.dims[ 0 ] === 4 );
+  _.assert( self.dims[ 1 ] === 4 );
+  _.assert( arguments.length === 0 );
+  
+  dst.positionSet( self.positionGet() )
+  
   return dst;
 }
 
@@ -713,7 +747,10 @@ let Extension =
   scaleSet,
   scaleAroundSet,
   scaleApply,
-  rotationGet,
+  
+  rotationMatrixGet,
+  scalingMatrixGet,
+  translationMatrixGet,
 
   //
 
