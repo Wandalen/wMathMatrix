@@ -24724,7 +24724,7 @@ function toStrStandard( test )
   var exp = '[object Matrix]';
   test.identical( got, exp );
   var got = _.strType( matrix );
-  var exp = 'wMatrix';
+  var exp = 'wMatrix.partible';
   test.identical( got, exp );
 
   /* */
