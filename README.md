@@ -3,6 +3,7 @@
 Abstract implementation of matrix math. MathMatrix introduces class Matrix, which is a multidimensional structure which, in the most trivial case, is a 2D matrix. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. A Vector adapter is an implementation of the abstract interface, a kind of link that defines how to interpret data as the vector. An adapter is a special object to make algorithms more abstract and to use the same code for very different formats of vector specifying. Use module MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a particular or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container. You may use it to continuously store multidimensional data.
 
 
+
 ### Why?
 
 Because this implementation of linear algebra abstracts algorithms and data thanks smart data structures, minimizing the need to write extensive code and enabling building up more complex systems on top of it. The instance of the matrix does not own data buffer, but only information on how to interpret ( map ) the buffer into K-dimensional space. The matrix, as an advanced link, enables the zero-copy principle. The matrix can be used with either arithmetic purposes or to orchestrate multidimensional data.
