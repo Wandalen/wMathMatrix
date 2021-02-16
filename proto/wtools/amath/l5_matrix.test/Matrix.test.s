@@ -24726,7 +24726,13 @@ function toStrStandard( test )
   var got = _.strType( matrix );
   var exp = 'wMatrix.partible';
   test.identical( got, exp );
-
+  var got = _.strTypeWithTraits( matrix );
+  var exp = 'wMatrix.partible';
+  test.identical( got, exp );
+  var got = _.strTypeWithoutTraits( matrix );
+  var exp = 'wMatrix';
+  test.identical( got, exp );
+  
   /* */
 
 }
