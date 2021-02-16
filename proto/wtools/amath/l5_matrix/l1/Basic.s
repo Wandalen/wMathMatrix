@@ -532,10 +532,11 @@ function ExportStructure( o )
   /* */
 
   let dstIsInstance = o.dst instanceof Self;
+  let srcIsInstance = o.src instanceof Self;
 
-  if( dstIsInstance )
+  if( dstIsInstance && !srcIsInstance )
   {
-
+    
     if( _.vectorIs( o.src ) )
     {
       o.dst.bufferImport({ buffer : o.src });
@@ -548,8 +549,6 @@ function ExportStructure( o )
     }
 
   }
-
-  let srcIsInstance = o.src instanceof Self;
 
   _.assert( _.mapIs( o.src ) || o.src instanceof Self );
 

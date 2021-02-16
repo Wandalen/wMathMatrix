@@ -8153,10 +8153,10 @@ function MakeIdentity4( test )
   test.identical( got.length, 4 );
   test.identical( got.buffer, _.longDescriptor.make
   ([
-    1, 0, 0, 1,
-    0, 1, 0, 2,
-    0, 0, 1, 3,
-    0, 0, 0, 1,
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    1, 2, 3, 1 
   ]));
   test.true( got !== src );
   test.identical( got.dims, [ 4, 4 ] );
