@@ -4,6 +4,7 @@ Abstract implementation of matrix math. MathMatrix introduces class Matrix, whic
 
 
 
+
 ### Why?
 
 Because this implementation of linear algebra abstracts algorithms and data thanks smart data structures, minimizing the need to write extensive code and enabling building up more complex systems on top of it. The instance of the matrix does not own data buffer, but only information on how to interpret ( map ) the buffer into K-dimensional space. The matrix, as an advanced link, enables the zero-copy principle. The matrix can be used with either arithmetic purposes or to orchestrate multidimensional data.
