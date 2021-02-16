@@ -8141,6 +8141,28 @@ function MakeIdentity4( test )
   test.identical( got.strides, [ 1, 4 ] );
   test.identical( got.stridesEffective, [ 1, 4 ] );
 
+  test.case = 'src - Matrix';
+  var src = _.Matrix.MakeIdentity4().copy
+  ([
+    1, 0, 0, 1,
+    0, 1, 0, 2,
+    0, 0, 1, 3,
+    0, 0, 0, 1,
+  ])
+  var got = _.Matrix.MakeIdentity4( src );
+  test.identical( got.length, 4 );
+  test.identical( got.buffer, _.longDescriptor.make
+  ([
+    1, 0, 0, 1,
+    0, 1, 0, 2,
+    0, 0, 1, 3,
+    0, 0, 0, 1,
+  ]));
+  test.true( got !== src );
+  test.identical( got.dims, [ 4, 4 ] );
+  test.identical( got.strides, [ 1, 4 ] );
+  test.identical( got.stridesEffective, [ 1, 4 ] );
+
   /* - */
 
   if( !Config.debug )
