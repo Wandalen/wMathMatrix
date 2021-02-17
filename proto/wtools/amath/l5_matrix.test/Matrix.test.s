@@ -3194,8 +3194,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3214,8 +3214,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3234,8 +3234,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3254,8 +3254,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3274,8 +3274,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3347,8 +3347,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3476,8 +3476,8 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3526,10 +3526,10 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3547,10 +3547,10 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3568,10 +3568,10 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3592,10 +3592,10 @@ function compareMatrices( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 }
 
 //
@@ -3621,8 +3621,8 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3644,8 +3644,8 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3667,8 +3667,8 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3690,8 +3690,8 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3713,8 +3713,8 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3736,8 +3736,8 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), true );
   test.identical( _.contains( src1, src2 ), true );
   test.identical( _.contains( src2, src1 ), true );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
   test.equivalent( src1, src2 );
   test.equivalent( src2, src1 );
 
@@ -3760,10 +3760,10 @@ function compareMatrixAndVector( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3792,10 +3792,10 @@ function compareMatrixAndNot( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3815,10 +3815,10 @@ function compareMatrixAndNot( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3838,10 +3838,10 @@ function compareMatrixAndNot( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3861,10 +3861,10 @@ function compareMatrixAndNot( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3884,10 +3884,10 @@ function compareMatrixAndNot( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
@@ -3908,10 +3908,10 @@ function compareMatrixAndNot( test )
   test.identical( _.equivalent( src2, src1 ), false );
   test.identical( _.contains( src1, src2 ), false );
   test.identical( _.contains( src2, src1 ), false );
-  test.ni( src1, src2 );
-  test.ni( src2, src1 );
-  test.ne( src1, src2 );
-  test.ne( src2, src1 );
+  test.nil( src1, src2 );
+  test.nil( src2, src1 );
+  test.neq( src1, src2 );
+  test.neq( src2, src1 );
 
   /* */
 
