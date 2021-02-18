@@ -24724,10 +24724,10 @@ function toStrStandard( test )
   var exp = '[object Matrix]';
   test.identical( got, exp );
   var got = _.strType( matrix );
-  var exp = 'wMatrix.partible';
+  var exp = 'wMatrix.countable';
   test.identical( got, exp );
   var got = _.strTypeWithTraits( matrix );
-  var exp = 'wMatrix.partible';
+  var exp = 'wMatrix.countable';
   test.identical( got, exp );
   var got = _.strTypeWithoutTraits( matrix );
   var exp = 'wMatrix';
