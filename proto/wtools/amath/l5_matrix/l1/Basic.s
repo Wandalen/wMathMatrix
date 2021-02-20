@@ -343,10 +343,11 @@ function _equalAre( it )
 
   _.assert( arguments.length === 1, 'Expects exactly three arguments' );
   _.assert( _.routineIs( it.onNumbersAreEqual ) );
-  _.assert( _.lookIterationIs( it ) );
+  _.assert( _.looker.iterationIs( it ) );
 
-  if( _global_.debugger )
-  debugger;
+  // xxx : clean
+  // if( _global_.debugger )
+  // debugger;
 
   it.continue = false;
 
@@ -536,7 +537,7 @@ function ExportStructure( o )
 
   if( dstIsInstance && !srcIsInstance )
   {
-    
+
     if( _.vectorIs( o.src ) )
     {
       o.dst.bufferImport({ buffer : o.src });
