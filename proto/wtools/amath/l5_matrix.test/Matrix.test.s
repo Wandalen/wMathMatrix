@@ -4,6 +4,7 @@
 'use strict';
 
 /*
+local-tst wtools/amath/l3_vector.test/ n:1 && local-tst wtools/amath/l5_matrix.test/ n:1
 */
 
 if( typeof module !== 'undefined' )
@@ -8156,7 +8157,7 @@ function MakeIdentity4( test )
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
-    1, 2, 3, 1 
+    1, 2, 3, 1
   ]));
   test.true( got !== src );
   test.identical( got.dims, [ 4, 4 ] );
@@ -24732,7 +24733,7 @@ function toStrStandard( test )
   var got = _.strTypeWithoutTraits( matrix );
   var exp = 'wMatrix';
   test.identical( got, exp );
-  
+
   /* */
 
 }
@@ -43212,9 +43213,9 @@ function matrixScalingGet( test )
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var got = src.matrixScalingGet();
   test.equivalent( got, src )
-  
+
   /* */
-  
+
   test.case = 'scale';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 0, 0, 0 ];
@@ -43222,7 +43223,7 @@ function matrixScalingGet( test )
   var scale = [ 1, 2, 3 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 0,
     0, 2, 0, 0,
     0, 0, 3, 0,
@@ -43230,9 +43231,9 @@ function matrixScalingGet( test )
   ]);
   var got = src.matrixScalingGet();
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'position & scale';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
@@ -43240,7 +43241,7 @@ function matrixScalingGet( test )
   var scale = [ 1, 2, 3 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 0,
     0, 2, 0, 0,
     0, 0, 3, 0,
@@ -43248,9 +43249,9 @@ function matrixScalingGet( test )
   ]);
   var got = src.matrixScalingGet();
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'rotation & scale';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 0, 0, 0 ];
@@ -43258,7 +43259,7 @@ function matrixScalingGet( test )
   var scale = [ 1, 2, 3 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 0,
     0, 2, 0, 0,
     0, 0, 3, 0,
@@ -43266,9 +43267,9 @@ function matrixScalingGet( test )
   ]);
   var got = src.matrixScalingGet();
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'position & rotation & scale';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
@@ -43276,7 +43277,7 @@ function matrixScalingGet( test )
   var scale = [ 1, 2, 3 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 0,
     0, 2, 0, 0,
     0, 0, 3, 0,
@@ -43300,16 +43301,16 @@ function matrixTranslationGet( test )
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var got = src.matrixTranslationGet();
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
     0, 0, 0, 1,
   ]);
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'position';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
@@ -43317,7 +43318,7 @@ function matrixTranslationGet( test )
   var scale = [ 0, 0, 0 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 1,
     0, 1, 0, 2,
     0, 0, 1, 3,
@@ -43325,9 +43326,9 @@ function matrixTranslationGet( test )
   ]);
   var got = src.matrixTranslationGet();
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'position & scale';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
@@ -43335,7 +43336,7 @@ function matrixTranslationGet( test )
   var scale = [ 0.5, 0.5, 0.5 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 1,
     0, 1, 0, 2,
     0, 0, 1, 3,
@@ -43343,9 +43344,9 @@ function matrixTranslationGet( test )
   ]);
   var got = src.matrixTranslationGet();
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'position & rotation';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
@@ -43353,7 +43354,7 @@ function matrixTranslationGet( test )
   var scale = [ 0, 0, 0 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 1,
     0, 1, 0, 2,
     0, 0, 1, 3,
@@ -43361,9 +43362,9 @@ function matrixTranslationGet( test )
   ]);
   var got = src.matrixTranslationGet();
   test.equivalent( got, expected )
-  
+
   /* */
-  
+
   test.case = 'position & rotation & scale';
   var dst = _.Matrix.Make([ 4, 4 ]);
   var position = [ 1, 2, 3 ];
@@ -43371,7 +43372,7 @@ function matrixTranslationGet( test )
   var scale = [ 0.5, 0.5, 0.5 ];
   var src = _.Matrix.FromTransformations( dst, position, quaternion, scale );
   var expected = _.Matrix.MakeIdentity4().copy
-  ([ 
+  ([
     1, 0, 0, 1,
     0, 1, 0, 2,
     0, 0, 1, 3,
@@ -43858,7 +43859,7 @@ let Self =
 
     positionGet,
     scaleGet,
-    
+
     matrixRotationGet,
     matrixScalingGet,
     matrixTranslationGet,
