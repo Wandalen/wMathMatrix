@@ -529,7 +529,7 @@ function MakeSimilar( m, dims )
     result = m.MakeSimilar( dims[ 0 ] );
 
   }
-  else _.assert( 0, 'unexpected type of container', _.strType( m ) );
+  else _.assert( 0, 'unexpected type of container', _.entity.strType( m ) );
 
   return result;
 }
@@ -1145,7 +1145,7 @@ function FromVector( src )
       inputRowMajor : 1,
     });
   }
-  else _.assert( 0, 'cant convert', _.strType( src ), 'to Matrix' );
+  else _.assert( 0, 'cant convert', _.entity.strType( src ), 'to Matrix' );
 
   return result;
 }
@@ -1197,7 +1197,7 @@ function FromScalar( scalar, dims ) /* aaa2 : can accept scalar without dims! */
     dims = dims.toLong();
     // dims = _.arrayFrom( dims.toLong() );
     else
-    _.assert( 0, `Expects vector {-dims-}, but got ${_.strType( dims )}` );
+    _.assert( 0, `Expects vector {-dims-}, but got ${_.entity.strType( dims )}` );
   }
 
   // debugger;
@@ -1502,7 +1502,7 @@ function ColFrom( src )
       dimension : 0,
     });
   }
-  else _.assert( 0, `Can't convert ${ _.strType( src ) } to Matrix` );
+  else _.assert( 0, `Can't convert ${ _.entity.strType( src ) } to Matrix` );
 }
 
 //
@@ -1566,7 +1566,7 @@ function RowFrom( src )
       dimension : 1,
     });
   }
-  else _.assert( 0, `Can't convert ${ _.strType( src ) } to Matrix` );
+  else _.assert( 0, `Can't convert ${ _.entity.strType( src ) } to Matrix` );
 }
 
 // --

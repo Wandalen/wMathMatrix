@@ -1122,7 +1122,7 @@ function CopyTo( dst, src ) /* aaa3 : cover please. should work even if src.leng
       for( let s = 0 ; s < src.length ; s += 1 )
       dst.scalarSet( [ s, 0 ], src.eGet( s ) );
     }
-    else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
+    else _.assert( 0, 'Unknown type of {-dst-}', _.entity.strType( dst ) );
 
     return odst;
   }
@@ -1156,7 +1156,7 @@ function CopyTo( dst, src ) /* aaa3 : cover please. should work even if src.leng
     //     dst[ it.indexLogical ] = it.buffer[ it.offset[ 0 ] ];
     //   });
     // }
-    else _.assert( 0, 'Unknown type of {-dst-}', _.strType( dst ) );
+    else _.assert( 0, 'Unknown type of {-dst-}', _.entity.strType( dst ) );
 
   }
 
@@ -1278,11 +1278,11 @@ function ExportString( o )
   function geometryExport()
   {
 
-    o.dst += `\n${tab2}dims : ${_.toStr( o.src.dimsEffective || o.src.dims )}`;
-    o.dst += `\n${tab2}strides : ${_.toStr( o.src.stridesEffective || o.src.strides )}`;
-    o.dst += `\n${tab2}offset : ${_.toStr( o.src.offset || 0 )}`;
+    o.dst += `\n${tab2}dims : ${_.entity.exportString( o.src.dimsEffective || o.src.dims )}`;
+    o.dst += `\n${tab2}strides : ${_.entity.exportString( o.src.stridesEffective || o.src.strides )}`;
+    o.dst += `\n${tab2}offset : ${_.entity.exportString( o.src.offset || 0 )}`;
     if( o.src.occupiedRange )
-    o.dst += `\n${tab2}occupiedRange : ${_.toStr( o.src.occupiedRange )}`;
+    o.dst += `\n${tab2}occupiedRange : ${_.entity.exportString( o.src.occupiedRange )}`;
     if( o.src.buffer )
     o.dst += `\n${tab2}buffer.length : ${o.src.buffer.length}`;
 
@@ -1485,7 +1485,7 @@ dimsExportString.defaults =
 function headExportString()
 {
   let self = this;
-  return `Matrix.${_.strType( self.buffer )}.${self.dimsExportString()}`;
+  return `Matrix.${_.entity.strType( self.buffer )}.${self.dimsExportString()}`;
 }
 
 //
@@ -1827,7 +1827,7 @@ toStr.defaults =
   usingSign : 1,
 }
 
-toStr.defaults.__proto__ = _.toStr.defaults;
+toStr.defaults.__proto__ = _.entity.exportString.defaults;
 
 //
 

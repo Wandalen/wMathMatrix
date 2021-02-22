@@ -16086,7 +16086,7 @@ function make( test )
       ]),
     });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 8 );
@@ -16136,7 +16136,7 @@ function make( test )
       ]),
     });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 8 );
@@ -16187,7 +16187,7 @@ function make( test )
       ]),
     });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 12 );
@@ -16238,7 +16238,7 @@ function make( test )
       ]),
     });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 12 );
@@ -16278,7 +16278,7 @@ function make( test )
 
     var m = new _.Matrix({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0, dims : [ 1, 0 ] });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 0 );
     test.identical( m.sizeOfElement, 4 );
@@ -16311,7 +16311,7 @@ function make( test )
 
     var m = new _.Matrix({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0 });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 0 );
     test.identical( m.sizeOfElement, 0 );
@@ -16423,11 +16423,11 @@ function make( test )
       inputRowMajor : 0,
       dims : [ 3, 0 ],
     });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
 
     var m = _.Matrix.Make([ 3, 0 ]);
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
     test.identical( m.strides, [ 1, 3 ] );
     test.identical( m.stridesEffective, [ 1, 3 ] );
@@ -16435,19 +16435,19 @@ function make( test )
     test.description = 'change by empty buffer of empty matrix with long column, non transposing';
 
     m.buffer = new I32x();
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
 
     test.description = 'change by empty buffer of empty matrix with long column, non transposing, with copy';
 
     m.copy({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0 });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
 
     test.description = 'change buffer of empty matrix with long column, non transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 1 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 12 );
@@ -16484,7 +16484,7 @@ function make( test )
     test.description = 'change buffer of not empty matrix with long column, non transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 12 );
@@ -16586,7 +16586,7 @@ function make( test )
       dims : [ 3, 0 ],
     });
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
     /* */
@@ -16600,7 +16600,7 @@ function make( test )
       dims : [ 3, 0 ],
     });
     m.buffer = new I32x();
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColTransposing( m, 1 );
 
     /* */
@@ -16608,7 +16608,7 @@ function make( test )
     test.description = 'change by empty buffer of empty matrix with long column, transposing, by copy';
 
     m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 1 });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
     /* */
@@ -16616,7 +16616,7 @@ function make( test )
     test.description = 'change buffer of empty matrix with long column, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 1 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 12 );
@@ -16653,7 +16653,7 @@ function make( test )
     test.description = 'change buffer of empty matrix with long column, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 12 );
@@ -16756,7 +16756,7 @@ function make( test )
       inputRowMajor : 1,
       dims : [ 0, 3 ],
     });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m );
 
     /* */
@@ -16771,17 +16771,17 @@ function make( test )
     });
 
     m.buffer = new I32x();
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m, 1 );
 
     m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 1 });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m );
 
     test.description = 'change by non empty buffer of empty matrix with long row, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 1, 3 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
     test.identical( m.sizeOfElement, 4 );
@@ -16818,7 +16818,7 @@ function make( test )
     test.description = 'change by non empty buffer of non empty matrix with long row, transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 2, 3 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 8 );
@@ -16909,11 +16909,11 @@ function make( test )
       inputRowMajor : 0,
       dims : [ 0, 3 ],
     });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
     var m = _.Matrix.Make([ 0, 3 ]);
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
     test.identical( m.strides, [ 1, 0 ] );
     test.identical( m.stridesEffective, [ 1, 0 ] );
@@ -16924,19 +16924,19 @@ function make( test )
 
     var m = _.Matrix.Make([ 0, 3 ]);
     m.buffer = new I32x();
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
     test.description = 'change by empty buffer of empty matrix with long row, non transposing, by copy';
 
     m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 0 });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
     test.description = 'change by non empty buffer of empty matrix with long row, non transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 1, 3 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.buffer, o.arrayMake([ 1, 2, 3 ]) );
     test.identical( m.dims, [ 1, 3 ] );
@@ -16979,7 +16979,7 @@ function make( test )
     test.description = 'change by non empty buffer of non empty matrix with long row, non transposing';
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 8 );
@@ -17023,7 +17023,7 @@ function make( test )
       offset : o.offset,
       inputRowMajor : 0,
     });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
 
     test.identical( m.scalarsPerMatrix, 3 );
@@ -17095,7 +17095,7 @@ function make( test )
       inputRowMajor : 0,
       offset : o.offset,
     });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.scalarsPerMatrix, 0 );
     test.identical( m.size, 0 );
@@ -17115,7 +17115,7 @@ function make( test )
     test.identical( m.reduceToProductScalarWise(), 1 );
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 12 );
@@ -17160,7 +17160,7 @@ function make( test )
       inputRowMajor : 1,
       offset : o.offset,
     });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 0 );
     test.identical( m.sizeOfElement, 12 );
@@ -17177,7 +17177,7 @@ function make( test )
     test.identical( m.strideInRow, 1 );
 
     m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 12 );
@@ -17221,7 +17221,7 @@ function make( test )
       4, 5, 6,
     ]);
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
     test.identical( m.sizeOfElement, 8 );
@@ -17383,7 +17383,7 @@ function makeHelper( test )
 
   var m = _.Matrix.Make([ 3, 2 ]);
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   // test.identical( m.size, 24 );
   // test.identical( m.sizeOfElement, 12 );
@@ -17414,7 +17414,7 @@ function makeHelper( test )
   ];
   var m = _.Matrix.MakeSquare( buffer );
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   // test.identical( m.size, 36 );
   // test.identical( m.sizeOfElement, 12 );
@@ -17468,7 +17468,7 @@ function makeHelper( test )
 
   var m = _.Matrix.MakeSquare( 3 );
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   test.identical( m.size, 36 );
   test.identical( m.sizeOfElement, 12 );
@@ -17493,7 +17493,7 @@ function makeHelper( test )
 
   var m = _.Matrix.MakeDiagonal([ 1, 2, 3 ]);
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   test.identical( m.size, 36 );
   test.identical( m.sizeOfElement, 12 );
@@ -17537,7 +17537,7 @@ function makeHelper( test )
 
   m = _.Matrix.MakeIdentity( 3 );
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   test.identical( m.size, 36 );
   test.identical( m.sizeOfElement, 12 );
@@ -17581,7 +17581,7 @@ function makeHelper( test )
 
   m = _.Matrix.MakeIdentity([ 2, 3 ]);
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   test.identical( m.size, 24 );
   test.identical( m.sizeOfElement, 8 );
@@ -17624,7 +17624,7 @@ function makeHelper( test )
 
   m = _.Matrix.MakeIdentity([ 3, 2 ]);
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   test.identical( m.size, 24 );
   test.identical( m.sizeOfElement, 12 );
@@ -17667,7 +17667,7 @@ function makeHelper( test )
 
   m = _.Matrix.MakeZero( 3 );
 
-  logger.log( 'm\n' + _.toStr( m ) );
+  logger.log( 'm\n' + _.entity.exportString( m ) );
 
   test.identical( m.size, 36 );
   test.identical( m.sizeOfElement, 12 );
@@ -17710,7 +17710,7 @@ function makeHelper( test )
   function checkNull( m )
   {
 
-    logger.log( 'm\n' + _.toStr( m ) );
+    logger.log( 'm\n' + _.entity.exportString( m ) );
 
     // test.identical( m.size, 0 );
     // test.identical( m.sizeOfElement, 0 );
@@ -18075,7 +18075,7 @@ function bufferSetLarger( test )
   test.identical( m.stridesEffective, [ 1, 0 ] );
 
   m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 0 });
-  logger.log( `m\n ${_.toStr( m )}` );
+  logger.log( `m\n ${_.entity.exportString( m )}` );
 
   test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
   test.identical( m.dims, [ 0, 3 ] );
@@ -18103,7 +18103,7 @@ function bufferSetLarger( test )
   test.identical( m.stridesEffective, [ 0, 1 ] );
 
   m.copy({ buffer : new F32x([ 1, 2, 3, 4, 5, 6 ]), inputRowMajor : 0 });
-  logger.log( `m\n ${_.toStr( m )}` );
+  logger.log( `m\n ${_.entity.exportString( m )}` );
 
   test.identical( m.buffer, new F32x([ 1, 2, 3, 4, 5, 6 ]) );
   test.identical( m.dims, [ 0, 3 ] );
@@ -24724,13 +24724,13 @@ function toStrStandard( test )
   var got = Object.prototype.toString.call( matrix );
   var exp = '[object Matrix]';
   test.identical( got, exp );
-  var got = _.strType( matrix );
+  var got = _.entity.strType( matrix );
   var exp = 'wMatrix.countable';
   test.identical( got, exp );
-  var got = _.strTypeWithTraits( matrix );
+  var got = _.entity.strTypeWithTraits( matrix );
   var exp = 'wMatrix.countable';
   test.identical( got, exp );
-  var got = _.strTypeWithoutTraits( matrix );
+  var got = _.entity.strTypeWithoutTraits( matrix );
   var exp = 'wMatrix';
   test.identical( got, exp );
 
@@ -39856,7 +39856,7 @@ function triangulateGausianPermutating( test )
   // logger.log( 'm', m );
   // logger.log( 'x', x );
   // logger.log( 'y', y );
-  // logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
+  // logger.log( 'permutates', _.entity.exportString( permutates, { levels : 2 } ) );
 
   var em = _.Matrix.Make([ 3, 4 ]).copy
   ([
@@ -39878,7 +39878,7 @@ function triangulateGausianPermutating( test )
   // logger.log( 'm', m );
   // logger.log( 'x', x );
   // logger.log( 'y', y );
-  // logger.log( 'permutates', _.toStr( permutates, { levels : 2 } ) );
+  // logger.log( 'permutates', _.entity.exportString( permutates, { levels : 2 } ) );
 
   var em = _.Matrix.Make([ 3, 4 ]).copy
   ([
@@ -39987,7 +39987,7 @@ function triangulateGausianPermutating( test )
   logger.log( 'm', m );
   logger.log( 'x', x );
   logger.log( 'y', y );
-  logger.log( 'permutates', _.toStr( triangulated2.permutates, { levels : 2 } ) );
+  logger.log( 'permutates', _.entity.exportString( triangulated2.permutates, { levels : 2 } ) );
 
   logger.log( 'om', om );
   logger.log( 'x3', x3 );
@@ -43384,12 +43384,12 @@ function matrixTranslationGet( test )
 
 //
 
-function strEntityShortMatrix( test )
+function exportStringShortFineMatrix( test )
 {
   test.case = 'string representation of matrix';
   var matrix = _.Matrix.Make([ 5, 3 ]);
   var expected = '{- wMatrix.countable with 3 elements -}';
-  var got = _.strEntityShort( matrix )
+  var got = _.entity.exportStringShortFine( matrix )
   test.equivalent( got, expected );
 }
 
@@ -43866,7 +43866,7 @@ let Self =
 
     //
 
-    strEntityShortMatrix,
+    exportStringShortFineMatrix,
 
     // experiments
 
