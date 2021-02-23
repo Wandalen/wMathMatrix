@@ -37,7 +37,7 @@ let Self = _.Matrix;
  * console.log( got );
  * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { MapLike|Function } o - Options map or callback.
+ * @param { Aux|Function } o - Options map or callback.
  * @param { Function } o.onScalar - Callback.
  * Callback {-o.onScalar-} executes on map `it` with next fields : matrix, buffer, args, indexNd,
  * strides, offset, indexLogical.
@@ -313,7 +313,7 @@ scalarWhile.defaults =
  * console.log( got );
  * // log : [ 0, 1, 4, 9, 16, 25, 36, 49, 64 ]
  *
- * @param { MapLike|Function } o - Options map or callback.
+ * @param { Aux|Function } o - Options map or callback.
  * @param { Function } o.onScalar - Callback.
  * @param { Array|Undefined } o.args - An array of arguments.
  * @returns { Matrix } - Returns the original matrix.
@@ -735,7 +735,7 @@ function scalarEach( o )
  * console.log( got );
  * // log : [ [ 0, 0 ], [ 1, 1 ] ]
  *
- * @param { MapLike|Function } o - Options map or callback.
+ * @param { Aux|Function } o - Options map or callback.
  * @param { Function } o.onMatrix - Callback.
  * @param { Array|Undefined } o.args - An array of arguments.
  * @returns { Matrix } - Returns the original matrix.

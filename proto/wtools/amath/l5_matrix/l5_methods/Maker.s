@@ -604,13 +604,13 @@ function makeSimilar( dims )
  * // +2
  * // +3
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @param { Long|VectorAdapter|Matrix|Number } o.buffer - Source buffer.
  * @param { Number } o.dimension - The index of dimension : 0 - column, 1 - row.
  * @param { BoolLike } o.zeroing - Enables initializing of the buffer.
  * @returns { Matrix } - Returns a row matrix or a column matrix.
  * @throws { Error } If arguments.length is not 1.
- * @throws { Error } If options map {-o-} is not a MapLike.
+ * @throws { Error } If options map {-o-} is not a Aux.
  * @throws { Error } If options map {-o-} has extra options.
  * @throws { Error } If {-o.buffer-} has not valid type.
  * @throws { Error } If {-o.buffer-} is a Matrix and the o.buffer.dims[ o.dimension ] is not 1.

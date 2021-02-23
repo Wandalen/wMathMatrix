@@ -48,11 +48,11 @@ function wMatrix( o )
  * console.log( matrix.inputRowMajor );
  * // log : 1
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @returns { Matrix } - Returns original instance of Matrix with changed options.
  * @method init
  * @throws { Error } If arguments.length is more then one.
- * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} is not a Aux.
  * @throws { Error } If {-o-} has extra options.
  * @class Matrix
  * @namespace wTools
@@ -490,13 +490,13 @@ function _longGet()
  * //   strides: [ 2, 1 ]
  * // }
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @param { Matrix } o.src - Source matrix.
- * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
+ * @param { Aux|ObjectLike|Matrix } o.dst - Destination container.
  * @param { String } o.how - Format of structure, it should have value 'object' to prevent exception.
- * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
+ * @returns { Aux|ObjectLike|Matrix } - Returns destination container with data from current matrix.
  * @throws { Error } If arguments.length is not equal to one.
- * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} is not a Aux.
  * @throws { Error } If {-o-} has extra options.
  * @throws { Error } If {-o.src-} and {-o.dst-} are instance of Matrix and have different dimensions.
  * @static
@@ -742,13 +742,13 @@ ExportStructure.defaults =
  * //   strides: [ 2, 1 ]
  * // }
  *
- * @param { MapLike } o - Options map.
- * @param { MapLike|ObjectLike|Matrix } o.dst - Destination container.
+ * @param { Aux } o - Options map.
+ * @param { Aux|ObjectLike|Matrix } o.dst - Destination container.
  * @param { String } o.how - Format of structure, it should have value 'object' to prevent exception.
- * @returns { MapLike|ObjectLike|Matrix } - Returns destination container with data from current matrix.
+ * @returns { Aux|ObjectLike|Matrix } - Returns destination container with data from current matrix.
  * @method exportStructure
  * @throws { Error } If arguments are not provided.
- * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} is not a Aux.
  * @throws { Error } If {-o-} has extra options.
  * @class Matrix
  * @namespace wTools
@@ -1451,11 +1451,11 @@ exportString.defaults =
  * console.log( got );
  * // log : dims of matrix : 3x4
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @param { String } o.dst - Destination string, the result of conversion appends to it.
  * @returns { String } - Returns value whether are dimensions of two matrices the same.
  * @method dimsExportString
- * @throws { Error } If {-o-} is not a MapLike.
+ * @throws { Error } If {-o-} is not a Aux.
  * @throws { Error } If {-o-} has extra options.
  * @class Matrix
  * @namespace wTools

@@ -460,7 +460,7 @@ let PermutateRook = _.routineUnite( PermutateRook_head, PermutateRook_body );
  * console.log( got.permutates );
  * // [ [ 2, 1, 0 ], [ 0, 2, 1 ]
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @param { Matrix } o.x - Matrix of results. Permuted together with rows of src matrix.
  * @return { Map } - Return map with result of permutation.
  */

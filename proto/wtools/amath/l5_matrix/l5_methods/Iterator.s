@@ -192,7 +192,7 @@ function scalarWiseWithAssign( onScalar, args )
  * Method ScalarWiseHomogeneous() executes the reducer callback {-onScalar-} on each scalar of the current matrix.
  * The call context of callback is current matrix.
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @param { Function } o.onScalar - Callback that executes on each scalar of matrices.
  * @param { Function } o.onScalarsBegin - Callback that executes before iteration.
  * @param { Function } o.onScalarsBegin - Callback that executes after iteration.
@@ -208,7 +208,7 @@ function scalarWiseWithAssign( onScalar, args )
  * @returns { Matrix } - Returns matrix with homogeneous values.
  * @throws { Error } If arguments.length is not 1.
  * @throws { Error } If routine calls by instance of Matrix.
- * @throws { Error } If options map {-o-} is not MapLike.
+ * @throws { Error } If options map {-o-} is not Aux.
  * @throws { Error } If options map {-o-} has extra options.
  * @throws { Error } If {-o.args-} contains not instance of Matrix.
  * @throws { Error } If any of {-o.args-} element contains scalar, which is not a Number.
@@ -505,14 +505,14 @@ function scalarWiseZip( onScalar, dst, srcs )
  * console.log( dst );
  * // log : [ 1, 1, 1, 1 ]
  *
- * @param { MapLike } o - Options map.
+ * @param { Aux } o - Options map.
  * @param { * } o.dst - Destination instance, a part of field `args`.
  * @param { Matrix } o.dstContainer - Destination matrix.
  * @param { Long } o.srcs - Container with source matrices.
  * @param { Function } o.onScalar - Callback that executes for each scalar of matrix {-o.dstContainer-}.
  * Callback accepts options map with next fields : `key`, `args`, `dstContainer`, `dstElement`, `srcContainers`, `srcElements`.
  * @returns { Matrix } - Returns matrix {-o.dstContainer-}.
- * @throws { Error } If options map {-o-} is not MapLike.
+ * @throws { Error } If options map {-o-} is not Aux.
  * @throws { Error } If options map {-o-} has extra options.
  * @throws { Error } If {-o.dst-} has undefined value.
  * @throws { Error } If {-o.dstContainer-} is not a Matrix.
