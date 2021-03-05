@@ -1178,7 +1178,7 @@ function _determinantWithPermutation()
   /* */
 
   // _.eachPermutation({ onEach : onPermutation, container : l });
-  _._eachPermutation({ onEach : onPermutation, sets : l });
+  _.eachPermutation_({ onEach : onPermutation, sets : l });
 
   return result;
 

@@ -3040,6 +3040,432 @@ function EquivalentSpace( test )
 }
 
 // --
+// export
+// --
+
+function exportStringShortFineMatrix( test )
+{
+  test.case = 'string representation of matrix';
+  var matrix = _.Matrix.Make([ 5, 3 ]);
+  var expected = '{- wMatrix.countable with 3 elements -}';
+  var got = _.entity.exportStringShort( matrix )
+  test.equivalent( got, expected );
+}
+
+//
+
+function toStr( test )
+{
+
+  test.case = 'empty matrix, 2D';
+  var matrix = _.Matrix.Make([ 0, 0 ]);
+  var exp = 'Matrix.F32x.0x0 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, two rows';
+  var matrix = _.Matrix.Make([ 2, 0 ]);
+  var exp = 'Matrix.F32x.2x0 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, two columns';
+  var matrix = _.Matrix.Make([ 0, 2 ]);
+  var exp = 'Matrix.F32x.0x2 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'a row 1x3';
+  var matrix = _.Matrix.Make([ 1, 3 ]);
+  var exp =
+  `Matrix.F32x.1x3 ::
+  +0 +0 +0`;
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'a columt 1x3';
+  var matrix = _.Matrix.Make([ 3, 1 ]);
+  var exp =
+`
+Matrix.F32x.3x1 ::
+  +0
+  +0
+  +0
+`;
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2x3';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var exp =
+`
+Matrix.F32x.2x3 ::
+  +1 +2 +3
+  +4 +5 +6
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '3x2';
+  var matrix = _.Matrix.Make([ 3, 2 ]).copy
+  ([
+    1, 2,
+    3, 4,
+    5, 6,
+  ]);
+  var exp =
+`
+Matrix.F32x.3x2 ::
+  +1 +2
+  +3 +4
+  +5 +6
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2xInfinity';
+  var matrix = _.Matrix.Make([ 2, Infinity ]).copy
+  ([
+    0,
+    1,
+  ]);
+  var exp =
+`
+Matrix.F32x.2xInfinity ::
+  +0 ...
+  +1 ...
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = 'Infinityx2';
+  var matrix = _.Matrix.Make([ Infinity, 2 ]).copy([ 0, 1 ]);
+  var exp =
+`
+Matrix.F32x.Infinityx2 ::
+  +0 +1
+  ... ...
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* - */
+
+  test.case = 'empty matrix, 3d';
+  var matrix = _.Matrix.Make([ 0, 0, 0 ]);
+  var exp = 'Matrix.F32x.0x0x0 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, 4d';
+  var matrix = _.Matrix.Make([ 0, 0, 0, 0 ]);
+  var exp = 'Matrix.F32x.0x0x0x0 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, 4d';
+  var matrix = _.Matrix.Make([ 0, 0, 0, 1 ]);
+  var exp = 'Matrix.F32x.0x0x0x1 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  test.case = 'empty matrix, 4d';
+  var matrix = _.Matrix.Make([ 0, 0, 1, 0 ]);
+  var exp = 'Matrix.F32x.0x0x1x0 ::\n';
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '2x3x4';
+  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+  var exp =
+`Matrix.F32x.2x3x4 ::
+  Layer 0
+    +1 +2 +3
+    +4 +5 +6
+  Layer 1
+    +7 +8 +9
+    +10 +11 +12
+  Layer 2
+    +13 +14 +15
+    +16 +17 +18
+  Layer 3
+    +19 +20 +21
+    +22 +23 +24`
+  var got = matrix.toStr();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '1x1x2x3x4';
+  var matrix = _.Matrix.Make([ 1, 1, 2, 3, 4 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ]);
+  var exp =
+`
+Matrix.F32x.1x1x2x3x4 ::
+  Layer 0 0 0
+    +1
+  Layer 1 0 0
+    +2
+  Layer 0 1 0
+    +3
+  Layer 1 1 0
+    +4
+  Layer 0 2 0
+    +5
+  Layer 1 2 0
+    +6
+  Layer 0 0 1
+    +7
+  Layer 1 0 1
+    +8
+  Layer 0 1 1
+    +9
+  Layer 1 1 1
+    +10
+  Layer 0 2 1
+    +11
+  Layer 1 2 1
+    +12
+  Layer 0 0 2
+    +13
+  Layer 1 0 2
+    +14
+  Layer 0 1 2
+    +15
+  Layer 1 1 2
+    +16
+  Layer 0 2 2
+    +17
+  Layer 1 2 2
+    +18
+  Layer 0 0 3
+    +19
+  Layer 1 0 3
+    +20
+  Layer 0 1 3
+    +21
+  Layer 1 1 3
+    +22
+  Layer 0 2 3
+    +23
+  Layer 1 2 3
+    +24
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+  test.case = '2x3xInfinity';
+  var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var exp =
+`
+Matrix.F32x.2x3xInfinity ::
+  Layer
+    +1 +2 +3
+    +4 +5 +6
+`
+  var got = matrix.toStr();
+  test.equivalent( got, exp );
+
+  /* */
+
+}
+
+//
+
+function toStrStandard( test )
+{
+
+  /* */
+
+  test.case = 'String( matrix )';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var got = String( matrix );
+  var exp =
+  `Matrix.F32x.2x3 ::
+  +1 +2 +3
+  +4 +5 +6`;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'vad.toStr()';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var got = matrix.toStr();
+  var exp =
+  `Matrix.F32x.2x3 ::
+  +1 +2 +3
+  +4 +5 +6`;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'Object.prototype.toString';
+  var matrix = _.Matrix.Make([ 2, 3 ]).copy
+  ([
+    1, 2, 3,
+    4, 5, 6,
+  ]);
+  var got = Object.prototype.toString.call( matrix );
+  var exp = '[object Matrix]';
+  test.identical( got, exp );
+  var got = _.entity.strType( matrix );
+  var exp = 'wMatrix.countable';
+  test.identical( got, exp );
+  var got = _.entity.strTypeWithTraits( matrix );
+  var exp = 'wMatrix.countable';
+  test.identical( got, exp );
+  var got = _.entity.strTypeWithoutTraits( matrix );
+  var exp = 'wMatrix';
+  test.identical( got, exp );
+
+  /* */
+
+}
+
+//
+
+function toLong( test )
+{
+
+  /* */
+
+  test.case = 'smaller buffer, explicit strides';
+
+  var buffer = new I32x([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]);
+  var m = new _.Matrix
+  ({
+    buffer,
+    dims : [ 3, 2 ],
+    strides : [ 1, 4 ],
+  });
+
+  test.identical( m.dims, [ 3, 2 ] );
+  test.identical( m.dimsEffective, [ 3, 2 ] );
+  test.identical( m.strides, [ 1, 4 ] );
+  test.identical( m.stridesEffective, [ 1, 4 ] );
+  test.identical( m.toLong(), new I32x([ 1, 2, 3, 5, 6, 7 ]) );
+
+  /* */
+
+  test.case = '2x3x4';
+  var matrix = _.Matrix
+  ({
+    dims : [ 2, 3, 4 ],
+    inputRowMajor : 0,
+    buffer :
+    [
+      1, 2, 3,
+      4, 5, 6,
+      7, 8, 9,
+      10, 11, 12,
+      13, 14, 15,
+      16, 17, 18,
+      19, 20, 21,
+      22, 23, 24,
+    ]
+  });
+  var exp =
+  [
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
+    10, 11, 12,
+    13, 14, 15,
+    16, 17, 18,
+    19, 20, 21,
+    22, 23, 24,
+  ];
+  var got = matrix.toLong();
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'dims : [ 6, 2 ], overlap';
+  var m = new _.Matrix
+  ({
+    buffer : new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]),
+    offset : 1,
+    strides : [ 1, 4 ],
+    dims : [ 6, 2 ],
+  });
+
+  test.identical( m.offset, 1 );
+  test.identical( m.dims, [ 6, 2 ] );
+  test.identical( m.dimsEffective, [ 6, 2 ] );
+  test.identical( m.strides, [ 1, 4 ] );
+  test.identical( m.stridesEffective, [ 1, 4 ] );
+  test.identical( m.toLong(), new I32x([ 1, 2, 3, 4, 5, 6, 5, 6, 7, 8, 9, 10 ]) );
+  logger.log( m.toStr() );
+
+  /* */
+
+}
+
+//
+
+function log()
+{
+  let logger = new _.LoggerToString();
+
+  test.case = 'several';
+  var exp = '.';
+  var v1 = _.vectorAdapter.from([ 1, 2, 3 ]);
+  var m1 = _.Matrix.MakeIdentity( 2 );
+  logger.log( m1, v1, 3 );
+  test.identical( logger.text, exp );
+
+}
+
+// --
 // equaler
 // --
 
@@ -24419,419 +24845,6 @@ function bufferImportOptionsReplacing0WithoutDims( test )
   }
 }
 
-//
-
-function toStr( test )
-{
-
-  test.case = 'empty matrix, 2D';
-  var matrix = _.Matrix.Make([ 0, 0 ]);
-  var exp = 'Matrix.F32x.0x0 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  test.case = 'empty matrix, two rows';
-  var matrix = _.Matrix.Make([ 2, 0 ]);
-  var exp = 'Matrix.F32x.2x0 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  test.case = 'empty matrix, two columns';
-  var matrix = _.Matrix.Make([ 0, 2 ]);
-  var exp = 'Matrix.F32x.0x2 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = 'a row 1x3';
-  var matrix = _.Matrix.Make([ 1, 3 ]);
-  var exp =
-  `Matrix.F32x.1x3 ::
-  +0 +0 +0`;
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  test.case = 'a columt 1x3';
-  var matrix = _.Matrix.Make([ 3, 1 ]);
-  var exp =
-`
-Matrix.F32x.3x1 ::
-  +0
-  +0
-  +0
-`;
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '2x3';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  var exp =
-`
-Matrix.F32x.2x3 ::
-  +1 +2 +3
-  +4 +5 +6
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '3x2';
-  var matrix = _.Matrix.Make([ 3, 2 ]).copy
-  ([
-    1, 2,
-    3, 4,
-    5, 6,
-  ]);
-  var exp =
-`
-Matrix.F32x.3x2 ::
-  +1 +2
-  +3 +4
-  +5 +6
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '2xInfinity';
-  var matrix = _.Matrix.Make([ 2, Infinity ]).copy
-  ([
-    0,
-    1,
-  ]);
-  var exp =
-`
-Matrix.F32x.2xInfinity ::
-  +0 ...
-  +1 ...
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = 'Infinityx2';
-  var matrix = _.Matrix.Make([ Infinity, 2 ]).copy([ 0, 1 ]);
-  var exp =
-`
-Matrix.F32x.Infinityx2 ::
-  +0 +1
-  ... ...
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* - */
-
-  test.case = 'empty matrix, 3d';
-  var matrix = _.Matrix.Make([ 0, 0, 0 ]);
-  var exp = 'Matrix.F32x.0x0x0 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  test.case = 'empty matrix, 4d';
-  var matrix = _.Matrix.Make([ 0, 0, 0, 0 ]);
-  var exp = 'Matrix.F32x.0x0x0x0 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  test.case = 'empty matrix, 4d';
-  var matrix = _.Matrix.Make([ 0, 0, 0, 1 ]);
-  var exp = 'Matrix.F32x.0x0x0x1 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  test.case = 'empty matrix, 4d';
-  var matrix = _.Matrix.Make([ 0, 0, 1, 0 ]);
-  var exp = 'Matrix.F32x.0x0x1x0 ::\n';
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '2x3x4';
-  var matrix = _.Matrix.Make([ 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-  var exp =
-`Matrix.F32x.2x3x4 ::
-  Layer 0
-    +1 +2 +3
-    +4 +5 +6
-  Layer 1
-    +7 +8 +9
-    +10 +11 +12
-  Layer 2
-    +13 +14 +15
-    +16 +17 +18
-  Layer 3
-    +19 +20 +21
-    +22 +23 +24`
-  var got = matrix.toStr();
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = '1x1x2x3x4';
-  var matrix = _.Matrix.Make([ 1, 1, 2, 3, 4 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ]);
-  var exp =
-`
-Matrix.F32x.1x1x2x3x4 ::
-  Layer 0 0 0
-    +1
-  Layer 1 0 0
-    +2
-  Layer 0 1 0
-    +3
-  Layer 1 1 0
-    +4
-  Layer 0 2 0
-    +5
-  Layer 1 2 0
-    +6
-  Layer 0 0 1
-    +7
-  Layer 1 0 1
-    +8
-  Layer 0 1 1
-    +9
-  Layer 1 1 1
-    +10
-  Layer 0 2 1
-    +11
-  Layer 1 2 1
-    +12
-  Layer 0 0 2
-    +13
-  Layer 1 0 2
-    +14
-  Layer 0 1 2
-    +15
-  Layer 1 1 2
-    +16
-  Layer 0 2 2
-    +17
-  Layer 1 2 2
-    +18
-  Layer 0 0 3
-    +19
-  Layer 1 0 3
-    +20
-  Layer 0 1 3
-    +21
-  Layer 1 1 3
-    +22
-  Layer 0 2 3
-    +23
-  Layer 1 2 3
-    +24
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-  test.case = '2x3xInfinity';
-  var matrix = _.Matrix.Make([ 2, 3, Infinity ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  var exp =
-`
-Matrix.F32x.2x3xInfinity ::
-  Layer
-    +1 +2 +3
-    +4 +5 +6
-`
-  var got = matrix.toStr();
-  test.equivalent( got, exp );
-
-  /* */
-
-}
-
-//
-
-function toStrStandard( test )
-{
-
-  /* */
-
-  test.case = 'String( matrix )';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  var got = String( matrix );
-  var exp =
-  `Matrix.F32x.2x3 ::
-  +1 +2 +3
-  +4 +5 +6`;
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = 'vad.toStr()';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  var got = matrix.toStr();
-  var exp =
-  `Matrix.F32x.2x3 ::
-  +1 +2 +3
-  +4 +5 +6`;
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = 'Object.prototype.toString';
-  var matrix = _.Matrix.Make([ 2, 3 ]).copy
-  ([
-    1, 2, 3,
-    4, 5, 6,
-  ]);
-  var got = Object.prototype.toString.call( matrix );
-  var exp = '[object Matrix]';
-  test.identical( got, exp );
-  var got = _.entity.strType( matrix );
-  var exp = 'wMatrix.countable';
-  test.identical( got, exp );
-  var got = _.entity.strTypeWithTraits( matrix );
-  var exp = 'wMatrix.countable';
-  test.identical( got, exp );
-  var got = _.entity.strTypeWithoutTraits( matrix );
-  var exp = 'wMatrix';
-  test.identical( got, exp );
-
-  /* */
-
-}
-
-//
-
-function toLong( test )
-{
-
-  /* */
-
-  test.case = 'smaller buffer, explicit strides';
-
-  var buffer = new I32x([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]);
-  var m = new _.Matrix
-  ({
-    buffer,
-    dims : [ 3, 2 ],
-    strides : [ 1, 4 ],
-  });
-
-  test.identical( m.dims, [ 3, 2 ] );
-  test.identical( m.dimsEffective, [ 3, 2 ] );
-  test.identical( m.strides, [ 1, 4 ] );
-  test.identical( m.stridesEffective, [ 1, 4 ] );
-  test.identical( m.toLong(), new I32x([ 1, 2, 3, 5, 6, 7 ]) );
-
-  /* */
-
-  test.case = '2x3x4';
-  var matrix = _.Matrix
-  ({
-    dims : [ 2, 3, 4 ],
-    inputRowMajor : 0,
-    buffer :
-    [
-      1, 2, 3,
-      4, 5, 6,
-      7, 8, 9,
-      10, 11, 12,
-      13, 14, 15,
-      16, 17, 18,
-      19, 20, 21,
-      22, 23, 24,
-    ]
-  });
-  var exp =
-  [
-    1, 2, 3,
-    4, 5, 6,
-    7, 8, 9,
-    10, 11, 12,
-    13, 14, 15,
-    16, 17, 18,
-    19, 20, 21,
-    22, 23, 24,
-  ];
-  var got = matrix.toLong();
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = 'dims : [ 6, 2 ], overlap';
-  var m = new _.Matrix
-  ({
-    buffer : new I32x([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]),
-    offset : 1,
-    strides : [ 1, 4 ],
-    dims : [ 6, 2 ],
-  });
-
-  test.identical( m.offset, 1 );
-  test.identical( m.dims, [ 6, 2 ] );
-  test.identical( m.dimsEffective, [ 6, 2 ] );
-  test.identical( m.strides, [ 1, 4 ] );
-  test.identical( m.stridesEffective, [ 1, 4 ] );
-  test.identical( m.toLong(), new I32x([ 1, 2, 3, 4, 5, 6, 5, 6, 7, 8, 9, 10 ]) );
-  logger.log( m.toStr() );
-
-  /* */
-
-}
-
-//
-
-function log()
-{
-  let logger = new _.LoggerToString();
-
-  test.case = 'several';
-  var exp = '.';
-  var v1 = _.vectorAdapter.from([ 1, 2, 3 ]);
-  var m1 = _.Matrix.MakeIdentity( 2 );
-  logger.log( m1, v1, 3 );
-  test.identical( logger.text, exp );
-
-}
-
 // --
 // setting
 // --
@@ -43382,18 +43395,6 @@ function matrixTranslationGet( test )
   test.equivalent( got, expected )
 }
 
-//
-
-function exportStringShortFineMatrix( test )
-{
-  test.case = 'string representation of matrix';
-  var matrix = _.Matrix.Make([ 5, 3 ]);
-  var expected = '{- wMatrix.countable with 3 elements -}';
-  var got = _.entity.exportStringShort( matrix )
-  test.equivalent( got, expected );
-}
-
-
 // --
 // experiment
 // --
@@ -43601,6 +43602,15 @@ let Self =
     isIdempotent,
     EquivalentSpace,
 
+    // export
+
+    exportStringShortFineMatrix,
+    toStr,
+    toStrStandard,
+    toLong, /* qqq : extend, please */
+    // log, /* zzz : implement later */
+    // zzz : storage of options is requried for logging
+
     // equaler
 
     compareMatrices,
@@ -43707,12 +43717,6 @@ let Self =
     bufferImportOptionsReplacing1WithoutDims,
     bufferImportOptionsReplacing0AndDims,
     bufferImportOptionsReplacing0WithoutDims,
-
-    toStr,
-    toStrStandard,
-    toLong, /* qqq : extend, please */
-    // log, /* zzz : implement later */
-    // zzz : storage of options is requried for logging
 
     // setting
 
@@ -43863,10 +43867,6 @@ let Self =
     matrixRotationGet,
     matrixScalingGet,
     matrixTranslationGet,
-
-    //
-
-    exportStringShortFineMatrix,
 
     // experiments
 

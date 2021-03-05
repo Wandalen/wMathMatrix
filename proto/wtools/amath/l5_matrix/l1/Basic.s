@@ -351,7 +351,7 @@ function _equalAre( it )
 
   it.continue = false;
 
-  if( !_.matrixIs( it.srcEffective ) || !_.matrixIs( it.srcEffective2 ) )
+  if( !_.matrixIs( it./*srcEffective*/src ) || !_.matrixIs( it./*srcEffective2*/src2 ) )
   return end( false );
   // {
     // it.result = false;
@@ -359,7 +359,7 @@ function _equalAre( it )
   // }
 
   if( it.strictTyping )
-  if( it.srcEffective.buffer.constructor !== it.srcEffective2.buffer.constructor )
+  if( it./*srcEffective*/src.buffer.constructor !== it./*srcEffective2*/src2.buffer.constructor )
   return end( false );
   // {
   //   it.result = false;
@@ -368,7 +368,7 @@ function _equalAre( it )
 
   if( it.strictContainer )
   {
-    if( !_.longIdentical( [ ... it.srcEffective.dims ], [ ... it.srcEffective2.dims ] )  )
+    if( !_.longIdentical( [ ... it./*srcEffective*/src.dims ], [ ... it./*srcEffective2*/src2.dims ] )  )
     return end( false );
     // {
     //   it.result = false;
@@ -377,30 +377,30 @@ function _equalAre( it )
   }
   else
   {
-    if( !it.srcEffective.scalarsPerMatrix || !it.srcEffective2.scalarsPerMatrix )
+    if( !it./*srcEffective*/src.scalarsPerMatrix || !it./*srcEffective2*/src2.scalarsPerMatrix )
     {
-      if( it.srcEffective.scalarsPerMatrix || it.srcEffective2.scalarsPerMatrix )
+      if( it./*srcEffective*/src.scalarsPerMatrix || it./*srcEffective2*/src2.scalarsPerMatrix )
       return end( false );
       // return it.stop( false );
     }
-    else if( it.srcEffective.dims.length < it.srcEffective2.dims.length )
+    else if( it./*srcEffective*/src.dims.length < it./*srcEffective2*/src2.dims.length )
     {
-      if( !dimsCompare( it.srcEffective.dims, it.srcEffective2.dims ) )
+      if( !dimsCompare( it./*srcEffective*/src.dims, it./*srcEffective2*/src2.dims ) )
       return;
       // return it.result;
     }
     else
     {
-      if( !dimsCompare( it.srcEffective2.dims, it.srcEffective.dims ) )
+      if( !dimsCompare( it./*srcEffective2*/src2.dims, it./*srcEffective*/src.dims ) )
       return;
       // return it.result;
     }
   }
 
-  it.result = it.srcEffective.scalarWhile( function( it2 )
+  it.result = it./*srcEffective*/src.scalarWhile( function( it2 )
   {
     let scalar = it2.buffer[ it2.offset[ 0 ] ];
-    let scalar2 = it.srcEffective2.scalarGet( it2.indexNd );
+    let scalar2 = it./*srcEffective2*/src2.scalarGet( it2.indexNd );
     return it.onNumbersAreEqual( scalar, scalar2 );
   });
 
@@ -447,14 +447,14 @@ function _equalSecondCoerce( it )
   if( it.strictContainer )
   return;
 
-  if( _.longIs( it.srcEffective ) || _.vectorAdapterIs( it.srcEffective ) )
+  if( _.longIs( it./*srcEffective*/src ) || _.vectorAdapterIs( it./*srcEffective*/src ) )
   {
-    it.srcEffective = _.Matrix.FromVector( it.srcEffective );
+    it./*srcEffective*/src = _.Matrix.FromVector( it./*srcEffective*/src );
   }
 
-  if( _.longIs( it.srcEffective2 ) || _.vectorAdapterIs( it.srcEffective2 ) )
+  if( _.longIs( it./*srcEffective2*/src2 ) || _.vectorAdapterIs( it./*srcEffective2*/src2 ) )
   {
-    it.srcEffective2 = _.Matrix.FromVector( it.srcEffective2 );
+    it./*srcEffective2*/src2 = _.Matrix.FromVector( it./*srcEffective2*/src2 );
   }
 
 }
@@ -1422,6 +1422,7 @@ ExportString.defaults =
   usingSign : 1,
   withHead : 1,
   verbosity : 9,
+  it : null,
 }
 
 //
@@ -1437,7 +1438,8 @@ function exportString( o )
 
 exportString.defaults =
 {
-  ... _.mapBut( ExportString.defaults, [ 'src' ] )
+  ... _.mapBut( ExportString.defaults, [ 'src' ] ),
+  it : null,
 }
 
 //
