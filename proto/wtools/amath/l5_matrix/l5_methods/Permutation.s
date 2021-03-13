@@ -361,7 +361,7 @@ _PermutateLineRook_body.defaults =
 
 //
 
-let _PermutateLineRook = _.routineUnite( _PermutateLineRook_head, _PermutateLineRook_body );
+let _PermutateLineRook = _.routine.uniteCloning_( _PermutateLineRook_head, _PermutateLineRook_body );
 
 //
 
@@ -437,7 +437,7 @@ PermutateRook_body.defaults =
   nColPermutations : 0,
 }
 
-let PermutateRook = _.routineUnite( PermutateRook_head, PermutateRook_body );
+let PermutateRook = _.routine.uniteCloning_( PermutateRook_head, PermutateRook_body );
 
 //
 

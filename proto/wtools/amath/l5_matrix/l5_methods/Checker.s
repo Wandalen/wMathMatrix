@@ -1076,7 +1076,7 @@ EquivalentColumnSpace_body.defaults =
   dim : 0,
 }
 
-let EquivalentColumnSpace = _.routineUnite( _EquivalentSpace_head, EquivalentColumnSpace_body );
+let EquivalentColumnSpace = _.routine.uniteCloning_( _EquivalentSpace_head, EquivalentColumnSpace_body );
 
 //
 
@@ -1094,7 +1094,7 @@ EquivalentRowSpace_body.defaults =
   dim : 1,
 }
 
-let EquivalentRowSpace = _.routineUnite( _EquivalentSpace_head, EquivalentRowSpace_body );
+let EquivalentRowSpace = _.routine.uniteCloning_( _EquivalentSpace_head, EquivalentRowSpace_body );
 
 // --
 // relations

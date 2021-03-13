@@ -4,7 +4,7 @@
 'use strict';
 
 /*
-local-tst wtools/amath/l3_vector.test/ n:1 && local-tst wtools/amath/l5_matrix.test/ n:1
+tst.local wtools/amath/l3_vector.test/ n:1 && tst.local wtools/amath/l5_matrix.test/ n:1
 */
 
 if( typeof module !== 'undefined' )
