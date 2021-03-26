@@ -16,7 +16,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools.withDefaultLong.Fx;
+const _ = _global_.wTools.withDefaultLong.Fx;
 // var vectorAdapter = _.vectorAdapter;
 // var vec = _.vectorAdapter.fromLong;
 // var fvec = function( src ){ return _.vectorAdapter.fromLong( new Fx( src ) ) }
@@ -1001,7 +1001,7 @@ qrDecompose.accuracy = [ _.accuracy*10, 1e-1 ];
 // declare
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Tools/Math/Svd',
@@ -1025,7 +1025,7 @@ let Self =
 
 //
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 _global_.wTester.test( Self.name );
 

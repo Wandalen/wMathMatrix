@@ -4,7 +4,7 @@
 
 //
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 // let vector = _.vectorAdapter;
 let operations = _.vectorAdapter.operations;
 
@@ -15,8 +15,8 @@ let _arraySlice = Array.prototype.slice;
 let _sqrt = Math.sqrt;
 let _sqr = _.math.sqr;
 
-let Parent = null;
-let Self = _.Matrix;
+const Parent = null;
+const Self = _.Matrix;
 let Proto = Object.create( null );
 let Statics = Proto.Statics = Object.create( null );
 

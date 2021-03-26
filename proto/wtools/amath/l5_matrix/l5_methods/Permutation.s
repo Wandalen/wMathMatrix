@@ -2,9 +2,9 @@
 
 'use strict';
 
-let _ = _global_.wTools;
-let Parent = null;
-let Self = _.Matrix;
+const _ = _global_.wTools;
+const Parent = null;
+const Self = _.Matrix;
 
 // --
 // implementation
@@ -315,7 +315,7 @@ function _PermutateLineRook_body( o )
   _.assert( arguments.length === 1 );
   _.assert( o.lineIndex >= 0 );
   _.assert( o.x === null || _.matrixIs( o.x ) );
-  _.assertMapHasAll( o, _PermutateLineRook.defaults );
+  _.map.assertHasAll( o, _PermutateLineRook.defaults );
 
   let row1 = o.m.rowGet( o.lineIndex ).review( o.lineIndex );
   let col1 = o.m.colGet( o.lineIndex ).review( o.lineIndex );
@@ -374,7 +374,7 @@ function _permutateLineRook( o )
 
 _permutateLineRook.defaults =
 {
-  ... _.mapBut( _PermutateLineRook.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, _PermutateLineRook.defaults, [ 'm' ] ),
 }
 
 //
@@ -474,7 +474,7 @@ function permutateRook( o )
 
 permutateRook.defaults =
 {
-  ... _.mapBut( PermutateRook.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, PermutateRook.defaults, [ 'm' ] ),
 }
 
 // --

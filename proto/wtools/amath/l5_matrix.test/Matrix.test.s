@@ -18,7 +18,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools.withDefaultLong.Fx;
+const _ = _global_.wTools.withDefaultLong.Fx;
 function fvec( src ){ return _.vectorAdapter.fromLong( new F32x( src ) ) }
 function ivec( src ){ return _.vectorAdapter.fromLong( new I32x( src ) ) }
 var sqr = _.math.sqr;
@@ -3043,12 +3043,12 @@ function EquivalentSpace( test )
 // export
 // --
 
-function exportStringShortFineMatrix( test )
+function exportStringShallowFineMatrix( test )
 {
   test.case = 'string representation of matrix';
   var matrix = _.Matrix.Make([ 5, 3 ]);
   var expected = '{- wMatrix.countable with 3 elements -}';
-  var got = _.entity.exportStringShort( matrix )
+  var got = _.entity.exportStringShallow( matrix )
   test.equivalent( got, expected );
 }
 
@@ -43560,7 +43560,7 @@ experiment.experimental = 1;
 // declare
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Tools.Math.Matrix',
@@ -43604,7 +43604,7 @@ let Self =
 
     // export
 
-    exportStringShortFineMatrix,
+    exportStringShallowFineMatrix,
     toStr,
     toStrStandard,
     toLong, /* qqq : extend, please */
@@ -43880,7 +43880,7 @@ let Self =
 
 //
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 _global_.wTester.test( Self.name );
 

@@ -2,9 +2,9 @@
 
 'use strict';
 
-let _ = _global_.wTools;
-let Parent = null;
-let Self = _.Matrix;
+const _ = _global_.wTools;
+const Parent = null;
+const Self = _.Matrix;
 
 // --
 // partial accessors

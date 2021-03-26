@@ -3,9 +3,9 @@
 
 'use strict';
 
-let _ = _global_.wTools;
-let Parent = null;
-let Self = _.Matrix;
+const _ = _global_.wTools;
+const Parent = null;
+const Self = _.Matrix;
 
 _.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
@@ -208,7 +208,7 @@ function characteristicPolynomial( dst )
 function _Eigen( o )
 {
 
-  _.assertMapHasAll( o, _Eigen.defaults );
+  _.map.assertHasAll( o, _Eigen.defaults );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.matrixIs( o.m ) );
 
@@ -315,7 +315,7 @@ function eigenVals( o )
 
 eigenVals.defaults =
 {
-  ... _.mapBut( _Eigen.defaults, [ 'm', 'eigenSpace' ] ),
+  ... _.mapBut_( null, _Eigen.defaults, [ 'm', 'eigenSpace' ] ),
 }
 
 //
@@ -336,7 +336,7 @@ function eigenVectors( o )
 
 eigenVectors.defaults =
 {
-  ... _.mapBut( _Eigen.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, _Eigen.defaults, [ 'm' ] ),
 }
 
 // --

@@ -2,7 +2,7 @@
 
 'use strict';
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 _.matrix = _.matrix || Object.create( null );
 
 // --

@@ -2,7 +2,7 @@
 
 'use strict';
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -14,8 +14,8 @@ let sqrt = Math.sqrt;
 let sqr = _.math.sqr;
 let longSlice = Array.prototype.slice;
 
-let Parent = null;
-let Self = _.Matrix;
+const Parent = null;
+const Self = _.Matrix;
 
 _.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
@@ -1000,7 +1000,7 @@ function _EquivalentSpace( o )
 {
   let proto = this;
 
-  _.assertMapHasAll( o, _EquivalentSpace.defaults );
+  _.map.assertHasAll( o, _EquivalentSpace.defaults );
 
   let dim2 = o.dim + 1 === 2 ? 0 : 1;
 

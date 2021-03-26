@@ -2,7 +2,7 @@
 
 'use strict';
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -14,8 +14,8 @@ let sqrt = Math.sqrt;
 let sqr = _.math.sqr;
 let longSlice = Array.prototype.slice;
 
-let Parent = null;
-let Self = _.Matrix;
+const Parent = null;
+const Self = _.Matrix;
 
 _.assert( _.objectIs( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
@@ -115,7 +115,7 @@ function _SolveRepermutate( o )
   if( !o.permutating )
   return o;
 
-  _.assertMapHasAll( o, _SolveRepermutate.defaults );
+  _.map.assertHasAll( o, _SolveRepermutate.defaults );
 
   if( o.repermutatingSolution )
   if( o.x )
@@ -220,7 +220,7 @@ function _TriangulateGausian( o )
 
   _.assert( arguments.length === 1 );
   _.assert( !o.x || o.m.dims[ 1 ] <= this.NrowOf( o.x ) );
-  _.assertMapHasAll( o, _TriangulateGausian.defaults );
+  _.map.assertHasAll( o, _TriangulateGausian.defaults );
   _.assert( _.matrixIs( o.m ) );
   _.assert( o.x === null || _.matrixIs( o.x ) );
 
@@ -547,7 +547,7 @@ function _TriangulateLu( o )
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
 
-  _.assertMapHasAll( o, _TriangulateLu.defaults );
+  _.map.assertHasAll( o, _TriangulateLu.defaults );
 
   if( o.permutating )
   o.onPermutatePre( o.onPermutate, [ o ] );
@@ -685,7 +685,7 @@ function triangulateLu( o )
 
 triangulateLu.defaults =
 {
-  ... _.mapBut( TriangulateLu.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, TriangulateLu.defaults, [ 'm' ] ),
 }
 
 //
@@ -735,7 +735,7 @@ function triangulateLuNormalizing( o )
 
 triangulateLuNormalizing.defaults =
 {
-  ... _.mapBut( TriangulateLuNormalizing.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, TriangulateLuNormalizing.defaults, [ 'm' ] ),
 }
 
 //
@@ -786,7 +786,7 @@ function triangulateLuPermutating( o )
 
 triangulateLuPermutating.defaults =
 {
-  ... _.mapBut( TriangulateLuPermutating.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, TriangulateLuPermutating.defaults, [ 'm' ] ),
 }
 
 //
@@ -810,7 +810,7 @@ function triangulateLuNormalizingPermutating( o )
 
 triangulateLuNormalizingPermutating.defaults =
 {
-  ... _.mapBut( TriangulateLuNormalizingPermutating.defaults, [ 'm' ] ),
+  ... _.mapBut_( null, TriangulateLuNormalizingPermutating.defaults, [ 'm' ] ),
 }
 
 // --
@@ -855,7 +855,7 @@ triangulateLuNormalizingPermutating.defaults =
 function _SolveTriangleLower( o )
 {
 
-  _.assertMapHasAll( o, _SolveTriangleLower.defaults );
+  _.map.assertHasAll( o, _SolveTriangleLower.defaults );
 
   if( o.normalized )
   {
@@ -1018,7 +1018,7 @@ function _SolveTriangleUpper( o )
 {
   let proto = this;
 
-  _.assertMapHasAll( o, _SolveTriangleUpper.defaults );
+  _.map.assertHasAll( o, _SolveTriangleUpper.defaults );
 
   if( o.normalized )
   {
@@ -1154,7 +1154,7 @@ function _SolveWithGausian( o )
   if( o.x )
   o.x = proto.From( o.x );
 
-  _.assertMapHasAll( o, _SolveWithGausian.defaults );
+  _.map.assertHasAll( o, _SolveWithGausian.defaults );
   _.assert( _.matrixIs( o.m ) );
   _.assert( o.x === null || _.matrixIs( o.x ) );
 
@@ -1285,7 +1285,7 @@ function _SolveWithGaussJordan( o )
   let nrow = o.m.nrow;
   let ncol = Math.min( o.m.ncol, nrow );
 
-  _.assertMapHasAll( o, _SolveWithGaussJordan.defaults );
+  _.map.assertHasAll( o, _SolveWithGaussJordan.defaults );
 
   if( o.x )
   o.x = proto.From( o.x );
@@ -1603,7 +1603,7 @@ function _SolveWithTriangles( o )
   if( o.x )
   o.x = this.From( o.x );
 
-  _.assertMapHasAll( o, _SolveWithTriangles.defaults );
+  _.map.assertHasAll( o, _SolveWithTriangles.defaults );
   _.assert( _.matrixIs( o.m ) );
   _.assert( _.matrixIs( o.x ) || o.x === null ); /* yyy */
 
@@ -1825,7 +1825,7 @@ function _SolveGeneralRepermutate( o )
   return o;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assertMapHasAll( o, _SolveGeneralRepermutate.defaults );
+  _.map.assertHasAll( o, _SolveGeneralRepermutate.defaults );
 
   /* permutate backward */
 
@@ -1870,7 +1870,7 @@ function _SolveGeneral( o )
   let proto = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assertMapHasAll( o, _SolveGeneral.defaults );
+  _.map.assertHasAll( o, _SolveGeneral.defaults );
 
   /* alloc */
 

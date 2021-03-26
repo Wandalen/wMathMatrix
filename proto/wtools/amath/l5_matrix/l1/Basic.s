@@ -4,7 +4,7 @@
 
 //
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 let abs = Math.abs;
 let min = Math.min;
 let max = Math.max;
@@ -21,8 +21,8 @@ _.assert( !!_.all );
  * @module Tools/math/Matrix
  */
 
-let Parent = null;
-let Self = wMatrix;
+const Parent = null;
+const Self = wMatrix;
 function wMatrix( o )
 {
   return _.workpiece.construct( Self, this, arguments );
@@ -556,7 +556,7 @@ function ExportStructure( o )
   if( !srcIsInstance )
   {
     if( Config.debug )
-    _.assertMapHasOnly( o.src, this.FieldsOfInputGroups );
+    _.map.assertHasOnly( o.src, this.FieldsOfInputGroups );
   }
 
   if( dstIsInstance )
@@ -768,7 +768,7 @@ function exportStructure( o )
 
 exportStructure.defaults =
 {
-  ... _.mapBut( ExportStructure.defaults, [ 'src' ] ),
+  ... _.mapBut_( null, ExportStructure.defaults, [ 'src' ] ),
 }
 
 //
@@ -1016,7 +1016,7 @@ function clone( extending )
 
   if( extending )
   {
-    // let src = _.mapOnly( self, self.Self.FieldsOfCopyableGroups );
+    // let src = _.mapOnly_( null, self, self.Self.FieldsOfCopyableGroups );
     // _.mapExtend( src, extending );
     let src = self.exportStructure();
     if( extending )
@@ -1438,7 +1438,7 @@ function exportString( o )
 
 exportString.defaults =
 {
-  ... _.mapBut( ExportString.defaults, [ 'src' ] ),
+  ... _.mapBut_( null, ExportString.defaults, [ 'src' ] ),
   it : null,
 }
 
@@ -1816,7 +1816,7 @@ function toStr( o )
   let o2 =
   {
     src : self,
-    ... _.mapOnly( o, self.ExportString.defaults ),
+    ... _.mapOnly_( null, o, self.ExportString.defaults ),
   }
 
   return self.ExportString( o2 );
@@ -2923,7 +2923,7 @@ function DimsDeduceInitial( o )
 
   _.assert( arguments.length === 1 );
   _.assert( _.longIs( o.buffer ), 'Expects buffer' );
-  _.assertMapHasAll( o, DimsDeduceInitial.defaults );
+  _.map.assertHasAll( o, DimsDeduceInitial.defaults );
 
   if( o.buffer.length - o.offset > 0 )
   {
