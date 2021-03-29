@@ -5,11 +5,11 @@
 //
 
 const _ = _global_.wTools;
-let abs = Math.abs;
-let min = Math.min;
-let max = Math.max;
-let sqrt = Math.sqrt;
-let sqr = _.math.sqr;
+const abs = Math.abs;
+const min = Math.min;
+const max = Math.max;
+const sqrt = Math.sqrt;
+const sqr = _.math.sqr;
 
 _.assert( _.objectIs( _.vectorAdapter ), 'wMatrix requires vector module' );
 _.assert( !!_.all );

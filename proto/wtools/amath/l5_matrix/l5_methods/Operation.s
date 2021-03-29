@@ -3,15 +3,15 @@
 'use strict';
 
 const _ = _global_.wTools;
-let abs = Math.abs;
-let min = Math.min;
-let max = Math.max;
-let pow = Math.pow;
-let pi = Math.PI;
-let sin = Math.sin;
-let cos = Math.cos;
-let sqrt = Math.sqrt;
-let sqr = _.math.sqr;
+const abs = Math.abs;
+const min = Math.min;
+const max = Math.max;
+const pow = Math.pow;
+const pi = Math.PI;
+const sin = Math.sin;
+const cos = Math.cos;
+const sqrt = Math.sqrt;
+const sqr = _.math.sqr;
 
 const Parent = null;
 const Self = _.Matrix;
