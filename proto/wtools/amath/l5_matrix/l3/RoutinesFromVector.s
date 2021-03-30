@@ -9,11 +9,11 @@ const _ = _global_.wTools;
 let operations = _.vectorAdapter.operations;
 
 let _abs = Math.abs;
-let _min = Math.min;
-let _max = Math.max;
+const _min = Math.min;
+const _max = Math.max;
 let _arraySlice = Array.prototype.slice;
 let _sqrt = Math.sqrt;
-let _sqr = _.math.sqr;
+const _sqr = _.math.sqr;
 
 const Parent = null;
 const Self = _.Matrix;
