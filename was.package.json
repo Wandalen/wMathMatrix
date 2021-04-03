@@ -10,7 +10,7 @@
     { "name" : "Pablo Garcimartin", "email" : "pablogarcimartinruiz@gmail.com" }
   ],
   "license" : "MIT",
-  "main" : "/pro/module/wMathMatrix/proto/node_modules/wmathmatrix",
+  "main" : "proto/node_modules/wmathmatrix",
   "files" : [ "proto/wtools/amath/l5_matrix", "proto/wtools/Tools.s", "out", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-1", "docgen" : "wdocgen proto" },
   "repository" :
