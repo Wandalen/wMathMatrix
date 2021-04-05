@@ -89,8 +89,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wMathMatrix/proto/wtools/amath/l5_matrix/module/full/Include.s
-    - /pro/module/wMathMatrix/proto/node_modules/wmathmatrix
+    - proto/wtools/amath/l5_matrix/module/full/Include.s
+    - proto/node_modules/wmathmatrix
 reflector:
   reflect.proto:
     inherit: predefined.*
