@@ -10,7 +10,7 @@ tst.local wtools/amath/l3_vector.test/ n:1 && tst.local wtools/amath/l5_matrix.t
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../node_modules/Tools' );
+  const _ = require( '../../../node_modules/Tools' );
   _.include( 'wTesting' );
   require( '../l5_matrix/module/full/Include.s' );
 

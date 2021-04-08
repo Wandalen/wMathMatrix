@@ -1,4 +1,4 @@
-let _ = require( 'wmathmatrix' );
+const _ = require( 'wmathmatrix' );
 
 var matrix = new _.Matrix
 ({
