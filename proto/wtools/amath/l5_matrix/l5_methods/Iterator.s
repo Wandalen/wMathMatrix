@@ -229,7 +229,7 @@ function ScalarWiseHomogeneous( o )
   let proto = this;
   let newDst = false;
 
-  _.routineOptions( ScalarWiseHomogeneous, o );
+  _.routine.options_( ScalarWiseHomogeneous, o );
 
   if( o.dst !== undefined && o.dst !== _.nothing )
   {
@@ -249,7 +249,7 @@ function ScalarWiseHomogeneous( o )
     let src = o.args[ s ];
     if( src instanceof Self )
     if( dims )
-    _.assert( _.longIdentical( src.dims, dims ) )
+    _.assert( _.long.identical( src.dims, dims ) )
     else
     dims = src.dims; /* Dmytro : if add assertion `_.assert( src.dims.length === 2 );`, then assertion for o.dims and fsrc won't be needed */
   }
@@ -321,10 +321,10 @@ function ScalarWiseHomogeneous( o )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( o.dst instanceof Self || o.reducing );
   _.assert( !o.dst || o.dst.dims.length === 2, 'not implemented' );
-  _.assert( !o.dst || _.longIdentical( o.dst.dims, dims ) );
+  _.assert( !o.dst || _.long.identical( o.dst.dims, dims ) );
   _.assert( fsrc instanceof Self ); /* Dmytro : it is extra assertion, see cycle above that checks each instance in o.srcs container */
   _.assert( fsrc.dims.length === 2, 'not implemented' ); /* Dmytro : it is extra assertion, the next assertion should check length because o.dst.dims.length is 2 */
-  _.assert( _.longIdentical( fsrc.dims, dims ) );
+  _.assert( _.long.identical( fsrc.dims, dims ) );
 
   /* */
 
@@ -531,7 +531,7 @@ function ScalarWiseZip( o )
 {
   let result;
 
-  _.routineOptions( ScalarWiseZip, o )
+  _.routine.options_( ScalarWiseZip, o )
   _.assert( _.definedIs( o.dst ) );
   _.assert( o.dstContainer instanceof Self );
   _.assert( _.definedIs( o.srcs ) );

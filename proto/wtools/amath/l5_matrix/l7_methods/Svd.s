@@ -29,7 +29,7 @@ function gramSchmidtDecompose( o )
   let self = this;
   let l = self.ncol;
 
-  o = _.routineOptions( gramSchmidtDecompose, arguments );
+  o = _.routine.options_( gramSchmidtDecompose, arguments );
 
   if( l === 0 )
   return self;
@@ -112,7 +112,7 @@ function qrDecompose( o )
   let self = this;
   let l = self.ncol;
 
-  o = _.routineOptions( qrDecompose, arguments );
+  o = _.routine.options_( qrDecompose, arguments );
 
   o.q = self;
   if( o.r === null )

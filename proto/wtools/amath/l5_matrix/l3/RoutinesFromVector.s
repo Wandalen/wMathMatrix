@@ -177,7 +177,7 @@ function declareScalarWiseReducingRoutine( routine , rname )
 
   _.assert( !op.returningBoolean );
 
-  if( _.longIdentical( op.takingArguments, [ 1, 1 ] ) )
+  if( _.long.identical( op.takingArguments, [ 1, 1 ] ) )
   return;
 
   // debugger;
@@ -299,7 +299,7 @@ function declareScalarWiseHomogeneousRoutine( routine, name )
   if( !dop.onScalar )
   return;
 
-  // if( _.longIdentical( dop.input, [ 'vw|s', 's' ] ) )
+  // if( _.long.identical( dop.input, [ 'vw|s', 's' ] ) )
   // return;
 
   if( dop.input === 'vw|s s' )

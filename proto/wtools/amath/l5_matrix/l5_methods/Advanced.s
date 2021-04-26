@@ -27,7 +27,7 @@ _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s
 function _LinearModel( o )
 {
 
-  _.routineOptions( PolynomExactFor, o );
+  _.routine.options_( PolynomExactFor, o );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( o.order >= 1 );
 
@@ -149,7 +149,7 @@ _LinearModel.defaults =
 function PolynomExactFor( o )
 {
 
-  _.routineOptions( PolynomExactFor, o );
+  _.routine.options_( PolynomExactFor, o );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( o.points )
@@ -202,7 +202,7 @@ PolynomExactFor.defaults.__proto__ = _LinearModel.defaults;
 function PolynomClosestFor( o )
 {
 
-  _.routineOptions( PolynomExactFor, o );
+  _.routine.options_( PolynomExactFor, o );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   let model = this._LinearModel( o );

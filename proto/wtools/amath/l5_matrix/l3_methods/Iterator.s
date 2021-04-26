@@ -66,7 +66,7 @@ function scalarWhile( o )
   o.args = [];
 
   _.assert( arguments.length === 1 );
-  _.routineOptions( scalarWhile, o );
+  _.routine.options_( scalarWhile, o );
   _.assert( _.arrayIs( o.args ) );
   _.assert( o.onScalar.length === 1 );
 
@@ -261,7 +261,7 @@ scalarWhile.defaults =
 //   o = { onScalar : o }
 //
 //   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.routineOptions( scalarWhile, o );
+//   _.routine.options_( scalarWhile, o );
 //   _.assert( _.routineIs( o.onScalar ) );
 //
 //   let dims = self.dimsEffective;

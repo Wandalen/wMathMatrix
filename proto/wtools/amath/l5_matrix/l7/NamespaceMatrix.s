@@ -13,7 +13,7 @@ function fromLibrary( o )
 
   if( !_.mapIs( o ) )
   o = { name : arguments[ 0 ] };
-  _.routineOptions( fromLibrary, o );
+  _.routine.options_( fromLibrary, o );
 
   let nameToMatrix =
   {
@@ -52,7 +52,7 @@ let Extension =
 
 }
 
-_.mapSupplement( _.matrix, Extension );
+_.props.supplement( _.matrix, Extension );
 
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = _;

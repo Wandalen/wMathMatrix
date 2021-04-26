@@ -43,7 +43,7 @@ function _Solve2_head( routine, args )
     o.y = args[ 2 ];
   }
 
-  _.routineOptions( routine, o );
+  _.routine.options_( routine, o );
 
   if( o.permutating )
   {
@@ -152,7 +152,7 @@ function _Solver_functor( fop )
   if( _.routineIs( arguments[ 0 ] ) )
   fop = { method : arguments[ 0 ] };
 
-  _.routineOptions( _Solver_functor, fop );
+  _.routine.options_( _Solver_functor, fop );
   _.assert( _.routineIs( fop.method ) );
   _.assert( _.routineIs( _Solve2_head ) );
   _.assert( _.mapIs( fop.method.defaults ) );

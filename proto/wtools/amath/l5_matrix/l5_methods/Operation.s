@@ -1034,8 +1034,8 @@ function minmaxColWise()
   let minmax = self.distributionRangeSummaryValueColWise();
   let result = Object.create( null );
 
-  result.min = self.longType.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.longType.longMakeUndefined( self.buffer, minmax.length );
+  result.min = self.longType.long.makeUndefined( self.buffer, minmax.length );
+  result.max = self.longType.long.makeUndefined( self.buffer, minmax.length );
 
   for( let i = 0 ; i < minmax.length ; i += 1 )
   {
@@ -1082,8 +1082,8 @@ function minmaxRowWise()
   let minmax = self.distributionRangeSummaryValueRowWise();
   let result = Object.create( null );
 
-  result.min = self.longType.longMakeUndefined( self.buffer, minmax.length );
-  result.max = self.longType.longMakeUndefined( self.buffer, minmax.length );
+  result.min = self.longType.long.makeUndefined( self.buffer, minmax.length );
+  result.max = self.longType.long.makeUndefined( self.buffer, minmax.length );
 
   for( let i = 0 ; i < minmax.length ; i += 1 )
   {
@@ -1136,7 +1136,7 @@ function determinantWithPermutation( o ) /* qqq : determinant is already documen
 {
   let self = this;
   let l = self.dims[ 0 ];
-  o = _.routineOptions( determinantWithPermutation, arguments );
+  o = _.routine.options_( determinantWithPermutation, arguments );
 
   if( l === 0 )
   return 0;
@@ -1392,7 +1392,7 @@ function determinantWithLu( o ) /* qqq : determinant is alread documented, pleas
 {
   let self = this;
   let l = self.dims[ 0 ];
-  o = _.routineOptions( determinantWithLu, arguments );
+  o = _.routine.options_( determinantWithLu, arguments );
 
   if( l === 0 )
   return 0;
@@ -1448,7 +1448,7 @@ function determinantWithBareiss( o ) /* qqq : determinant is alread documented, 
 {
   let self = this;
   let l = self.dims[ 0 ];
-  o = _.routineOptions( determinantWithBareiss, arguments );
+  o = _.routine.options_( determinantWithBareiss, arguments );
 
   if( l === 0 )
   return 0;
@@ -1544,7 +1544,7 @@ function determinant( o )
 {
   let self = this;
   let l = self.dims[ 0 ];
-  o = _.routineOptions( determinant, arguments );
+  o = _.routine.options_( determinant, arguments );
 
   if( l === 0 )
   return 0;

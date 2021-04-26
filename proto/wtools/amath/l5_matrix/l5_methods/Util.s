@@ -21,7 +21,7 @@ function _TempBorrow( src, dims, index )
   if( !src )
   {
 
-    bufferConstructor = this.longType.longDescriptor.type;
+    bufferConstructor = this.longType./*longDescriptor*/defaultLong.type;
     if( !dims )
     dims = src;
 
@@ -469,7 +469,7 @@ function ContextsForTesting( o )
 {
   if( _.routineIs( arguments[ 0 ] ) )
   o = { onEach : arguments[ 0 ] };
-  _.routineOptions( ContextsForTesting, o );
+  _.routine.options_( ContextsForTesting, o );
 
   if( o.formats === null )
   o.formats = [ 'Matrix', 'Vad', 'Long' ];

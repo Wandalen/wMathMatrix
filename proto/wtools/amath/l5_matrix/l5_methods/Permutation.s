@@ -35,7 +35,7 @@ function _permutateDimension( d, current, expected )
     }
   }
 
-  _.assert( _.longIdentical( current, expected.slice( 0, current.length ) ) );
+  _.assert( _.long.identical( current, expected.slice( 0, current.length ) ) );
 }
 
 //
@@ -56,7 +56,7 @@ function _permutateDimension( d, current, expected )
 //     self.linesSwap( d, p2, p1 );
 //
 //   }
-//   _.assert( _.longIdentical( current, expected.slice( 0, current.length ) ), 'current:', current, 'expected:', expected  );
+//   _.assert( _.long.identical( current, expected.slice( 0, current.length ) ), 'current:', current, 'expected:', expected  );
 //
 // }
 
@@ -204,7 +204,7 @@ function _VectorPermutateDimension( v, current, expected )
   }
 
   _.assert( expected.length === v.length );
-  _.assert( _.longIdentical( current, expected ) );
+  _.assert( _.long.identical( current, expected ) );
 
 }
 
@@ -361,7 +361,7 @@ _PermutateLineRook_body.defaults =
 
 //
 
-let _PermutateLineRook = _.routine.uniteCloning_( _PermutateLineRook_head, _PermutateLineRook_body );
+let _PermutateLineRook = _.routine.uniteCloning_replaceByUnite( _PermutateLineRook_head, _PermutateLineRook_body );
 
 //
 
@@ -384,7 +384,7 @@ function PermutateRook_head( routine, args )
   let o1 = args[ 0 ];
   let o2 = o1;
 
-  _.mapSupplement( o2, routine.defaults );
+  _.props.supplement( o2, routine.defaults );
   // _.assert( o2.y === undefined );
   _.assert( o2.x === null || _.matrixIs( o2.x ) );
 
@@ -410,7 +410,7 @@ function PermutateRook_body( o )
   let proto = Self;
 
   _.assert( arguments.length === 1 );
-  _.assertRoutineOptions( PermutateRook_body, o );
+  _.routine.assertOptions( PermutateRook_body, o );
 
   // Andrey: on non-square matrix max will be a problem. We need swaps only to diagonal end, so min correct here
   // let l = Math.max( o.m.dims[ 0 ], o.m.dims[ 1 ] );
@@ -437,7 +437,7 @@ PermutateRook_body.defaults =
   nColPermutations : 0,
 }
 
-let PermutateRook = _.routine.uniteCloning_( PermutateRook_head, PermutateRook_body );
+let PermutateRook = _.routine.uniteCloning_replaceByUnite( PermutateRook_head, PermutateRook_body );
 
 //
 
@@ -467,7 +467,7 @@ let PermutateRook = _.routine.uniteCloning_( PermutateRook_head, PermutateRook_b
 function permutateRook( o )
 {
   let self = this;
-  o = _.routineOptions( permutateRook, o );
+  o = _.routine.options_( permutateRook, o );
   o.m = self;
   return self.PermutateRook( o );
 }

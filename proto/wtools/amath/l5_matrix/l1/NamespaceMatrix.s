@@ -16,7 +16,7 @@ function dimsExportString( o )
   if( !_.mapIs( arguments[ 0 ] ) )
   o = { src : arguments[ 0 ] }
 
-  o = _.routineOptions( dimsExportString, o );
+  o = _.routine.options_( dimsExportString, o );
 
   if( !_.matrix.like( o.src ) )
   return '{- not matrix-like! -}'
@@ -60,7 +60,7 @@ let Extension =
 
 }
 
-_.mapSupplement( _.matrix, Extension );
+_.props.supplement( _.matrix, Extension );
 
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = _;

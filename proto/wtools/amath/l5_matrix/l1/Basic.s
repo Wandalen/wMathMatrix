@@ -239,7 +239,7 @@ function _traverseAct( it ) /* zzz : deprecate */
 
   if( src.dims )
   {
-    _.assert( it.resetting || !dst.dims || _.longIdentical( dst.dims , src.dims ) );
+    _.assert( it.resetting || !dst.dims || _.long.identical( dst.dims , src.dims ) );
   }
 
   if( dstIsInstance )
@@ -268,14 +268,14 @@ function _traverseAct( it ) /* zzz : deprecate */
     }
     else if( src.buffer && !dst.buffer && src.scalarsPerMatrix !== undefined )
     {
-      dst.buffer = self.longType.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
+      dst.buffer = self.longType.long.makeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst._.stridesEffective = dst.StridesFromDimensions( src.dims, !!dst.inputRowMajor );
     }
     else if( src.buffer && dst.scalarsPerMatrix !== src.scalarsPerMatrix )
     {
-      dst.buffer = self.longType.longMakeUndefined( src.buffer , src.scalarsPerMatrix );
+      dst.buffer = self.longType.long.makeUndefined( src.buffer , src.scalarsPerMatrix );
       dst.offset = 0;
       dst.strides = null;
       dst._.stridesEffective = dst.StridesFromDimensions( src.dims, !!dst.inputRowMajor );
@@ -292,14 +292,14 @@ function _traverseAct( it ) /* zzz : deprecate */
     if( dstIsInstance )
     dst._dimsSet( src.dims );
     else
-    dst.dims = self.longType.longMake( src.dims, src.dims );
+    dst.dims = self.longType.long.make( src.dims, src.dims );
   }
 
   it.copyingAggregates = 0;
   dst = _.Copyable.prototype._traverseAct( it );
 
   if( srcIsInstance )
-  _.assert( _.longIdentical( dst.dims , src.dims ) );
+  _.assert( _.long.identical( dst.dims , src.dims ) );
 
   if( dstIsInstance )
   {
@@ -368,7 +368,7 @@ function _equalAre( it )
 
   if( it.strictContainer )
   {
-    if( !_.longIdentical( [ ... it.src.dims ], [ ... it.src2.dims ] )  )
+    if( !_.long.identical( [ ... it.src.dims ], [ ... it.src2.dims ] )  )
     return end( false );
     // {
     //   it.result = false;
@@ -509,7 +509,7 @@ function _longGet()
 function ExportStructure( o )
 {
 
-  o = _.routineOptions( ExportStructure, arguments );
+  o = _.routine.options_( ExportStructure, arguments );
 
   _.assert( _.longHas( [ 'object', 'structure' ], o.how ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -570,7 +570,7 @@ function ExportStructure( o )
 
       if( o.src.scalarsPerMatrix !== o.dst.scalarsPerMatrix )
       {
-        o.dst._.buffer = this.longType.longMakeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
+        o.dst._.buffer = this.longType.long.makeUndefined( o.src.buffer , o.src.scalarsPerMatrix );
         o.dst._.offset = 0;
         o.dst._.strides = null;
         o.dst._.occupiedRange = null;
@@ -673,7 +673,7 @@ function ExportStructure( o )
     if( o.restriding )
     {
       let extract = o.src._exportNormalized();
-      _.mapExtend( o.dst, extract );
+      _.props.extend( o.dst, extract );
     }
     else
     {
@@ -705,7 +705,7 @@ function ExportStructure( o )
     if( dims )
     {
       o.dst._dimsSet( dims );
-      // o.dst._.dims = o.dst.longType.longMake( dims );
+      // o.dst._.dims = o.dst.longType.long.make( dims );
       return dims;
     }
     else
@@ -759,7 +759,7 @@ function exportStructure( o )
 {
   let self = this;
 
-  o = _.routineOptions( exportStructure, arguments );
+  o = _.routine.options_( exportStructure, arguments );
 
   o.src = self;
 
@@ -808,7 +808,7 @@ function _exportNormalized()
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  result.buffer = self.longType.longMakeUndefined( self.buffer, self.scalarsPerMatrix );
+  result.buffer = self.longType.long.makeUndefined( self.buffer, self.scalarsPerMatrix );
   result.offset = 0;
   result.strides = self.StridesFromDimensions( self.dims, 0 );
 
@@ -1017,10 +1017,10 @@ function clone( extending )
   if( extending )
   {
     // let src = _.mapOnly_( null, self, self.Self.FieldsOfCopyableGroups );
-    // _.mapExtend( src, extending );
+    // _.props.extend( src, extending );
     let src = self.exportStructure();
     if( extending )
-    _.mapExtend( src, extending );
+    _.props.extend( src, extending );
     let dst = new self.constructor( src );
     _.assert( dst !== self && dst !== src );
     return dst;
@@ -1253,7 +1253,7 @@ function ExportString( o )
 {
 
   o = o || Object.create( null );
-  _.routineOptions( ExportString, o );
+  _.routine.options_( ExportString, o );
   _.assert( _.longHas( [ 'nice', 'geometry' ], o.how ) );
   _.assert( _.strIs( o.dst ) );
   _.assert( _.strIs( o.tab ) );
@@ -1430,7 +1430,7 @@ ExportString.defaults =
 function exportString( o )
 {
   let self = this;
-  o = _.routineOptions( exportString, arguments );
+  o = _.routine.options_( exportString, arguments );
   o.src = self;
   let result = self.ExportString( o );
   return result;
@@ -1467,7 +1467,7 @@ exportString.defaults =
 function dimsExportString( o )
 {
   let self = this;
-  o = _.routineOptions( dimsExportString, arguments );
+  o = _.routine.options_( dimsExportString, arguments );
 
   o.dst += self.dims[ 0 ]; /* xxx : use _.math.dimsExportString */
 
@@ -1528,7 +1528,7 @@ function bufferExport( o )
   if( !_.mapIs( o ) )
   o = { dstBuffer : o };
 
-  _.routineOptions( bufferExport, o );
+  _.routine.options_( bufferExport, o );
 
   if( o.restriding === null )
   o.restriding = self.buffer.length >= scalarsPerMatrix*2;
@@ -1542,24 +1542,24 @@ function bufferExport( o )
       if( self.buffer instanceof F64x )
       {
         if( o.restriding )
-        o.dstBuffer = self.longType.longMakeUndefined( self.buffer, scalarsPerMatrix );
+        o.dstBuffer = self.longType.long.makeUndefined( self.buffer, scalarsPerMatrix );
         else
-        o.dstBuffer = self.longType.longMake( F64x, self.buffer );
+        o.dstBuffer = self.longType.long.make( F64x, self.buffer );
       }
       else
       {
         if( o.restriding )
-        o.dstBuffer = self.longType.longMakeUndefined( F32x, scalarsPerMatrix );
+        o.dstBuffer = self.longType.long.makeUndefined( F32x, scalarsPerMatrix );
         else
-        o.dstBuffer = self.longType.longMake( F32x, self.buffer );
+        o.dstBuffer = self.longType.long.make( F32x, self.buffer );
       }
     }
     else
     {
       if( o.restriding )
-      o.dstBuffer = self.longType.longMakeUndefined( self.buffer, scalarsPerMatrix );
+      o.dstBuffer = self.longType.long.makeUndefined( self.buffer, scalarsPerMatrix );
       else
-      o.dstBuffer = self.longType.longMake( self.buffer );
+      o.dstBuffer = self.longType.long.make( self.buffer );
     }
   }
 
@@ -1637,7 +1637,7 @@ function bufferImport( o )
   let hasNull;
   let index;
 
-  _.routineOptions( bufferImport, arguments );
+  _.routine.options_( bufferImport, arguments );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.vectorIs( o.buffer ) );
 
@@ -1690,7 +1690,7 @@ function bufferImport( o )
       _.assert( self.buffer.length >= _.avector.reduceToProduct( o.dims ) );
     }
 
-    if( !_.longIdentical( self.dims, o.dims ) )
+    if( !_.long.identical( self.dims, o.dims ) )
     {
       self._dimsSet( o.dims );
       move();
@@ -1811,7 +1811,7 @@ function toStr( o )
   let result = '';
 
   o = o || Object.create( null );
-  _.routineOptions( toStr, o );
+  _.routine.options_( toStr, o );
 
   let o2 =
   {
@@ -1857,7 +1857,7 @@ toStr.defaults.__proto__ = _.entity.exportString.defaults;
 function toLong( o )
 {
   let self = this;
-  o = _.routineOptions( toLong, o );
+  o = _.routine.options_( toLong, o );
   let result = self.bufferExport({ restriding : o.restriding });
   return result;
 }
@@ -1873,7 +1873,7 @@ function toVad( o )
 {
   let self = this;
   let result;
-  o = _.routineOptions( toVad, o );
+  o = _.routine.options_( toVad, o );
 
   if( o.restriding )
   {
@@ -2506,7 +2506,7 @@ function bufferSet( src )
   return;
 
   if( _.numberIs( src ) )
-  src = self.longType.longMake([ src ]);
+  src = self.longType.long.make([ src ]);
 
   _.assert( _.longIs( src ) || src === null );
 
@@ -2658,7 +2658,7 @@ function _adjustAct()
   if( self.buffer === null )
   {
     let lengthFlat = self.ScalarsPerMatrixForDimensions( self.dims );
-    self.buffer = self.longType.longMake( lengthFlat );
+    self.buffer = self.longType.long.make( lengthFlat );
   }
 
   self._.dimsEffective = self.DimsEffectiveFrom( self.dims );
@@ -3204,7 +3204,7 @@ function ShapesAreSame( ins1, ins2 )
   let dims1 = this.DimsOf( ins1 );
   let dims2 = this.DimsOf( ins2 );
 
-  return _.longIdentical( dims1, dims2 );
+  return _.long.identical( dims1, dims2 );
 }
 
 //
@@ -3242,7 +3242,7 @@ function hasShape( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.longIs( src ) );
 
-  return _.longIdentical( self.dimsEffective, src );
+  return _.long.identical( self.dimsEffective, src );
 }
 
 // --
@@ -3643,8 +3643,8 @@ _.Matrix = Self;
 _.assert( !!_.vectorAdapter );
 _.assert( !!_.vectorAdapter.longType );
 
-_.assert( _.objectIs( _.withDefaultLong ) );
-_.assert( _.objectIs( _.withDefaultLong.Fx ) );
+_.assert( _.objectIs( _.withLong ) );
+_.assert( _.objectIs( _.withLong.Fx ) );
 _.assert( _.routineIs( Self.prototype[ Symbol.for( 'equalAre' ) ] ) );
 
 _.assert( Self.prototype.vectorAdapter.longType === Self.vectorAdapter.longType );

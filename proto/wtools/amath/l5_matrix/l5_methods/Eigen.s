@@ -303,7 +303,7 @@ function eigenVals( o )
   let self = this;
   o = o || Object.create( null );
 
-  _.routineOptions( eigenVals, o );
+  _.routine.options_( eigenVals, o );
 
   o.m = self;
   o.eigenSpace = false;
@@ -325,7 +325,7 @@ function eigenVectors( o )
   let self = this;
   o = o || Object.create( null );
 
-  _.routineOptions( eigenVectors, o );
+  _.routine.options_( eigenVectors, o );
 
   o.m = self;
 

@@ -232,7 +232,7 @@ function isDiagonal( accuracy )
     for( let j = 0; j < ncol; j++ )
     {
       // if( j !== i && self.scalarGet( [ i, j ]) !== 0 )
-      let isElementEqualToZero = _.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy );
+      let isElementEqualToZero = _.number.equivalent( self.scalarGet([ i, j ]), 0, accuracy );
       if( j !== i && !isElementEqualToZero )
       return false
     }
@@ -292,10 +292,10 @@ function isIdentity( accuracy )
   {
     for( let j = 0; j < ncol; j++ )
     {
-      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+      if( j !== i && !_.number.equivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
       return false
 
-      if( j === i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 1, accuracy ) )
+      if( j === i && !_.number.equivalent( self.scalarGet([ i, j ]), 1, accuracy ) )
       return false
     }
   }
@@ -356,10 +356,10 @@ function isScalar( accuracy )
   {
     for( let j = 0; j < ncol; j++ )
     {
-      if( j !== i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+      if( j !== i && !_.number.equivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
       return false
 
-      if( j === i && !_.numbersAreEquivalent( self.scalarGet([ i, j ]), firstElem, accuracy ) )
+      if( j === i && !_.number.equivalent( self.scalarGet([ i, j ]), firstElem, accuracy ) )
       return false
     }
   }
@@ -416,7 +416,7 @@ function isZero( accuracy )
 
   for( let i = 0; i < nrow; i++ )
   for( let j = 0; j < ncol; j++ )
-  if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+  if( !_.number.equivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
   return false;
 
   return true;
@@ -473,7 +473,7 @@ function isUpperTriangle( accuracy )
   {
     let colIndex = min( i, ncol )
     for( let j = 0; j < colIndex; j++ )
-    if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+    if( !_.number.equivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
     return false;
   }
 
@@ -530,7 +530,7 @@ function isLowerTriangle( accuracy )
   for( let i = 0; i < nrow; i++ )
   {
     for( let j = i + 1; j < ncol; j++ )
-    if( !_.numbersAreEquivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
+    if( !_.number.equivalent( self.scalarGet([ i, j ]), 0, accuracy ) )
     return false;
   }
 
@@ -593,10 +593,10 @@ function isOrthogonal( accuracy )
   for( let j = i; j < ncol; j++ )
   {
     let dot = self.colGet( i ).dot( self.colGet( j ) )
-    if( i === j && !_.numbersAreEquivalent( dot, 1, accuracy ) )
+    if( i === j && !_.number.equivalent( dot, 1, accuracy ) )
     return false
 
-    if( i !== j && !_.numbersAreEquivalent( dot, 0, accuracy ) )
+    if( i !== j && !_.number.equivalent( dot, 0, accuracy ) )
     return false
   }
 
@@ -662,7 +662,7 @@ function isSingular()
   // let det = self.determinant()
   let det = self._determinantWithBareiss()
 
-  return _.numbersAreEquivalent( det, 0, accuracy );
+  return _.number.equivalent( det, 0, accuracy );
 }
 
 //
@@ -722,7 +722,7 @@ function isSymmetric( accuracy )
     for( let j = 0; j < i; j++ )
     {
       let dif = self.scalarGet([ i, j ]) - self.scalarGet([ j, i ]);
-      if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
+      if( !_.number.equivalent( dif, 0, accuracy ) )
       return false;
     }
   }
@@ -787,7 +787,7 @@ function isSkewSymmetric( accuracy )
     for( let j = 0; j <= i; j++ )
     {
       let dif = self.scalarGet([ i, j ]) + self.scalarGet([ j, i ]);
-      if( !_.numbersAreEquivalent( dif, 0, accuracy ) )
+      if( !_.number.equivalent( dif, 0, accuracy ) )
       return false;
     }
   }
@@ -851,7 +851,7 @@ function isNilpotent( accuracy )
   let l = eigenVals.length;
   for( let i = 0; i < l; i++ )
   {
-    if( !_.numbersAreEquivalent( eigenVals[ i ], 0, accuracy ) )
+    if( !_.number.equivalent( eigenVals[ i ], 0, accuracy ) )
     return false;
   }
 
@@ -980,9 +980,9 @@ function _EquivalentSpace_head( routine, args )
   let o = args[ 0 ];
 
   if( !_.mapIs( o ) )
-  o = { m1 : args[ 0 ], m2 : args[ 1 ] }
+  o = { m1 : args[ 0 ], m2 : ( args.length > 1 ? args[ 1 ] : null ) }
 
-  o = _.routineOptions( routine, o );
+  o = _.routine.options_( routine, o );
 
   if( o.m1 )
   o.m1 = proto.From( o.m1 );
@@ -1076,7 +1076,7 @@ EquivalentColumnSpace_body.defaults =
   dim : 0,
 }
 
-let EquivalentColumnSpace = _.routine.uniteCloning_( _EquivalentSpace_head, EquivalentColumnSpace_body );
+let EquivalentColumnSpace = _.routine.uniteCloning_replaceByUnite( _EquivalentSpace_head, EquivalentColumnSpace_body );
 
 //
 
@@ -1094,7 +1094,7 @@ EquivalentRowSpace_body.defaults =
   dim : 1,
 }
 
-let EquivalentRowSpace = _.routine.uniteCloning_( _EquivalentSpace_head, EquivalentRowSpace_body );
+let EquivalentRowSpace = _.routine.uniteCloning_replaceByUnite( _EquivalentSpace_head, EquivalentRowSpace_body );
 
 // --
 // relations

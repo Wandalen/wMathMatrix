@@ -50,7 +50,7 @@ function dimsExportString( o )
   if( _.longIs( arguments[ 0 ] ) )
   o = { dims : arguments[ 0 ] };
 
-  o = _.routineOptions( dimsExportString, o );
+  o = _.routine.options_( dimsExportString, o );
   _.assert( _.longIs( o.dims ) );
 
   o.dst += o.dims[ 0 ];
@@ -78,7 +78,7 @@ let ToolsExtension =
   constructorIsMatrix,
 }
 
-_.mapSupplement( _, ToolsExtension );
+_.props.supplement( _, ToolsExtension );
 
 //
 
@@ -90,7 +90,7 @@ let MathExtension =
   dimsExportString,
 }
 
-_.mapSupplement( _.math, MathExtension );
+_.props.supplement( _.math, MathExtension );
 
 //
 
@@ -101,7 +101,7 @@ let MatrixExtension =
   isConstructor : constructorIsMatrix,
 }
 
-_.mapSupplement( _.matrix, MatrixExtension );
+_.props.supplement( _.matrix, MatrixExtension );
 
 //
 

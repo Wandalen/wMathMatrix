@@ -57,15 +57,15 @@ function Make( dims )
     if( _.numberIs( dims ) )
     dims = [ dims, dims ];
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = _.array.from( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let buffer = proto.longType.longMake( lengthFlat );
+  let buffer = proto.longType.long.make( lengthFlat );
   let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
@@ -132,7 +132,7 @@ function MakeSquare( buffer )
   if( _.numberIs( buffer ) )
   {
     inputRowMajor = 0;
-    buffer = this.longType.longMake( scalarsPerMatrix );
+    buffer = this.longType.long.make( scalarsPerMatrix );
   }
 
   let result = new proto.constructor
@@ -180,9 +180,9 @@ function MakeZero( dims )
     if( _.numberIs( dims ) )
     dims = [ dims, dims ];
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = _.array.from( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -237,9 +237,9 @@ function MakeIdentity( dims )
     if( _.numberIs( dims ) )
     dims = [ dims, dims ];
     else if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = _.array.from( dims.toLong() );
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
@@ -492,7 +492,7 @@ function MakeSimilar( m, dims )
   else if( dims instanceof proto.Self )
   dims = proto.DimsOf( dims );
   else if( _.vectorAdapterIs( dims ) )
-  dims = _.arrayFrom( dims.toLong() );
+  dims = _.array.from( dims.toLong() );
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.assert( _.longIs( dims ) );
@@ -503,7 +503,7 @@ function MakeSimilar( m, dims )
   {
 
     let scalarsPerMatrix = Self.ScalarsPerMatrixForDimensions( dims );
-    let buffer = proto.longType.longMake( m.buffer, scalarsPerMatrix );
+    let buffer = proto.longType.long.make( m.buffer, scalarsPerMatrix );
     let strides = proto.StridesFromDimensions( dims, 0 );
 
     result = new m.constructor
@@ -519,7 +519,7 @@ function MakeSimilar( m, dims )
   {
 
     _.assert( dims.length === 2 && dims[ 1 ] === 1 );
-    result = proto.longType.longMakeUndefined( m, dims[ 0 ] );
+    result = proto.longType.long.makeUndefined( m, dims[ 0 ] );
 
   }
   else if( _.vectorAdapterIs( m ) )
@@ -625,7 +625,7 @@ function MakeLine( o )
 {
   let proto = this.Self.prototype;
 
-  _.routineOptions( MakeLine, o );
+  _.routine.options_( MakeLine, o );
   _.assert( _.matrixIs( o.buffer ) || _.vectorIs( o.buffer ) || _.numberIs( o.buffer ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( o.times >= 0 );
@@ -669,18 +669,18 @@ function MakeLine( o )
   {
     if( _.numberIs( o.buffer ) )
     {
-      o.buffer = this.longType.longMake( length * o.times );
+      o.buffer = this.longType.long.make( length * o.times );
     }
     else if( _.argumentsArrayIs( o.buffer ) )
     {
       if( o.times === 1 )
       {
-        o.buffer = proto.longType.longMake( o.buffer );
+        o.buffer = proto.longType.long.make( o.buffer );
       }
       else
       {
         _.assert( 0, 'not tested' ); /* qqq2 : cover */
-        let buffer = proto.longType.longMakeUndefined( length * o.times );
+        let buffer = proto.longType.long.makeUndefined( length * o.times );
         o.buffer = _.longDuplicate
         ({
           dst : buffer,
@@ -1122,7 +1122,7 @@ function FromVector( src )
     let buffer = src._vectorBuffer; /* Dmytro : duplicates buffer which is maiden by fromNumber */
     if( src.length > src._vectorBuffer.length )
     {
-      buffer = _.longMakeUndefined( buffer, src.length );
+      buffer = _.long.makeUndefined( buffer, src.length );
       buffer = _.longFill( buffer, src._vectorBuffer );
     }
 
@@ -1192,17 +1192,17 @@ function FromScalar( scalar, dims ) /* aaa2 : can accept scalar without dims! */
   if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
     dims = dims.toLong();
-    // dims = _.arrayFrom( dims.toLong() );
+    // dims = _.array.from( dims.toLong() );
     else
     _.assert( 0, `Expects vector {-dims-}, but got ${_.entity.strType( dims )}` );
   }
 
   // debugger;
   // let buffer = this.longType.longFrom( _.dup( scalar, this.ScalarsPerMatrixForDimensions( dims ) ) );
-  let buffer = this.longType.longMakeUndefined( this.ScalarsPerMatrixForDimensions( dims ) );
+  let buffer = this.longType.long.makeUndefined( this.ScalarsPerMatrixForDimensions( dims ) );
   _.longFill( buffer, scalar );
   // let strides = this.StridesFromDimensions( dims, 0 );
 
@@ -1262,14 +1262,14 @@ function FromScalarForReading( scalar, dims )
   if( !_.arrayIs( dims ) && !_.bufferTypedIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
     dims = dims.toLong();
     else
     _.assert( 0, 'Expects vector {-dims-}' );
   }
 
-  let buffer = this.longType.longMake( 1 );
+  let buffer = this.longType.long.make( 1 );
   buffer[ 0 ] = scalar;
 
   let result = new this.Self
@@ -1335,9 +1335,9 @@ function From( src, dims )
   if( !_.arrayIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = _.array.from( dims.toLong() );
     else if( dims !== undefined )
     _.assert( 0, 'Expects vector {-dims-} or undefined' );
   }
@@ -1361,7 +1361,7 @@ function From( src, dims )
     result = this.FromVector( src );
   }
 
-  _.assert( !dims || _.longIdentical( result.dims, dims ) );
+  _.assert( !dims || _.long.identical( result.dims, dims ) );
 
   return result;
 }
@@ -1413,9 +1413,9 @@ function FromForReading( src, dims )
   if( !_.arrayIs( dims ) )
   {
     if( _.argumentsArrayIs( dims ) || _.bufferTypedIs( dims ) )
-    dims = _.arrayMake( dims );
+    dims = _.array.make( dims );
     else if( _.vectorAdapterIs( dims ) )
-    dims = _.arrayFrom( dims.toLong() );
+    dims = _.array.from( dims.toLong() );
     else if( dims !== undefined )
     _.assert( 0, 'Expects vector {-dims-} or undefined' );
   }
@@ -1434,7 +1434,7 @@ function FromForReading( src, dims )
     result = this.FromVector( src );
   }
 
-  _.assert( !dims || _.longIdentical( result.dims, dims ) );
+  _.assert( !dims || _.long.identical( result.dims, dims ) );
 
   return result;
 }
@@ -1492,7 +1492,7 @@ function ColFrom( src )
   }
   else if( _.numberIs( src ) )
   {
-    let buffer = this.longType.longMake( 1 );
+    let buffer = this.longType.long.make( 1 );
     buffer[ 0 ] = src;
 
     return this.MakeLine
@@ -1556,7 +1556,7 @@ function RowFrom( src )
   }
   else if( _.numberIs( src ) )
   {
-    let buffer = this.longType.longMake( 1 );
+    let buffer = this.longType.long.make( 1 );
     buffer[ 0 ] = src;
 
     return this.MakeLine
