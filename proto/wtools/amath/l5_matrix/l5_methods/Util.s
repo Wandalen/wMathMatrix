@@ -21,7 +21,7 @@ function _TempBorrow( src, dims, index )
   if( !src )
   {
 
-    bufferConstructor = this.longType./*longDescriptor*/defaultLong.type;
+    bufferConstructor = this.longType.defaultLong.InstanceConstructor;
     if( !dims )
     dims = src;
 
