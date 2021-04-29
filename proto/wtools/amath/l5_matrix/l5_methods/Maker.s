@@ -17,7 +17,7 @@ const longSlice = Array.prototype.slice;
 const Parent = null;
 const Self = _.Matrix;
 
-_.assert( _.objectIs( _.vectorAdapter ) );
+_.assert( _.object.isBasic( _.vectorAdapter ) );
 _.assert( _.routineIs( Self ), 'wMatrix is not defined, please include wMatrix.s first' );
 
 // --

@@ -48,7 +48,7 @@ function declareElementsZipRoutine( routine, rname )
   {
     let self = this;
 
-    _.assert( _.objectIs( self.vad ) );
+    _.assert( _.object.isBasic( self.vad ) );
     let routine2 = _.routineJoin( self.vad, routine );
 
     let args = _.longSlice( arguments );
@@ -80,7 +80,7 @@ function declareColWiseCollectingRoutine( routine, rname )
   {
     let self = this;
 
-    _.assert( _.objectIs( self.vad ) );
+    _.assert( _.object.isBasic( self.vad ) );
     // let routine2 = _.routineJoin( self.vad, routine );
     let result = self._lineEachCollecting
     ({
@@ -120,7 +120,7 @@ function declareRowWiseCollectingRoutine( routine , rname )
   {
     let self = this;
 
-    _.assert( _.objectIs( self.vad ) );
+    _.assert( _.object.isBasic( self.vad ) );
     // let routine2 = _.routineJoin( self.vectorAdapter, routine );
     let result = self._lineEachCollecting
     ({
@@ -203,7 +203,7 @@ function declareScalarWiseReducingRoutine( routine , rname )
     return result;
   }
 
-  _.assert( _.objectIs( handleScalar.defaults ) );
+  _.assert( _.object.isBasic( handleScalar.defaults ) );
   _.assert( _.routineIs( onScalarsBegin0 ) );
   _.assert( _.routineIs( onScalarsEnd0 ) );
   _.assert( _.routineIs( onVectorsBegin0 ) );
@@ -242,7 +242,7 @@ function declareScalarWiseHomogeneousWithScalarRoutines( routine, rname )
   let name = rname;
 
   _.assert( !Proto[ name ] );
-  _.assert( _.objectIs( op ) );
+  _.assert( _.object.isBasic( op ) );
   _.assert( _.routineIs( onScalar ) );
 
   /* */
@@ -317,7 +317,7 @@ function declareScalarWiseHomogeneousRoutine( routine, name )
 
   _.assert( _.routineIs( onScalar0 ) );
   _.assert( _.routineIs( onScalar1 ) );
-  _.assert( _.objectIs( onScalar0.defaults ) );
+  _.assert( _.object.isBasic( onScalar0.defaults ) );
   _.assert( !onScalar1.defaults );
   _.assert( !Statics[ routineName ] );
   _.assert( !Proto[ routineName ] );

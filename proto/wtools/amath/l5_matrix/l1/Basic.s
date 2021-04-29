@@ -11,7 +11,7 @@ const max = Math.max;
 const sqrt = Math.sqrt;
 const sqr = _.math.sqr;
 
-_.assert( _.objectIs( _.vectorAdapter ), 'wMatrix requires vector module' );
+_.assert( _.object.isBasic( _.vectorAdapter ), 'wMatrix requires vector module' );
 _.assert( !!_.all );
 
 /**
@@ -467,7 +467,7 @@ function _longGet()
   if( _.routineIs( self ) )
   self = self.prototype;
   let result = self.vectorAdapter.longType;
-  _.assert( _.objectIs( result ) );
+  _.assert( _.object.isBasic( result ) );
   return result;
 }
 
@@ -3643,8 +3643,8 @@ _.Matrix = Self;
 _.assert( !!_.vectorAdapter );
 _.assert( !!_.vectorAdapter.longType );
 
-_.assert( _.objectIs( _.withLong ) );
-_.assert( _.objectIs( _.withLong.Fx ) );
+_.assert( _.object.isBasic( _.withLong ) );
+_.assert( _.object.isBasic( _.withLong.Fx ) );
 _.assert( _.routineIs( Self.prototype[ Symbol.for( 'equalAre' ) ] ) );
 
 _.assert( Self.prototype.vectorAdapter.longType === Self.vectorAdapter.longType );

@@ -16,7 +16,7 @@ const sqr = _.math.sqr;
 const Parent = null;
 const Self = _.Matrix;
 
-_.assert( _.objectIs( _.vectorAdapter ) );
+_.assert( _.object.isBasic( _.vectorAdapter ) );
 
 // --
 // add
