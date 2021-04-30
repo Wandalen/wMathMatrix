@@ -1178,7 +1178,7 @@ function _determinantWithPermutation()
   /* */
 
   // _.eachPermutation({ onEach : onPermutation, container : l });
-  _.eachPermutation_({ onEach : onPermutation, sets : l });
+  _.permutation.eachPermutation({ onEach : onPermutation, sets : l });
 
   return result;
 
@@ -1205,7 +1205,7 @@ function _determinantWithPermutation()
 
   function signEval( permutation )
   {
-    let counter = _.swapsCount( permutation );
+    let counter = _.permutation.swapsCount( permutation );
     return counter % 2;
   }
 
