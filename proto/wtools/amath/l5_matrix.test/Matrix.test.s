@@ -3048,7 +3048,7 @@ function exportStringShallowFineMatrix( test )
   test.case = 'string representation of matrix';
   var matrix = _.Matrix.Make([ 5, 3 ]);
   var expected = '{- wMatrix.countable with 3 elements -}';
-  var got = _.entity.exportStringShallow( matrix )
+  var got = _.entity.exportStringDiagnosticShallow( matrix )
   test.equivalent( got, expected );
 }
 
