@@ -134,7 +134,7 @@ function matrixIs( test )
   test.identical( got, false );
 
   test.case = 'check empty Map';
-  var got = _.matrixIs( new Map( [] ) );
+  var got = _.matrixIs( new HashMap( [] ) );
   test.identical( got, false );
 
   test.case = 'check empty BufferRaw';
@@ -276,7 +276,7 @@ function constructorIsMatrix( test )
   test.identical( got, false );
 
   test.case = 'check empty Map';
-  var got = _.constructorIsMatrix( new Map( [] ) );
+  var got = _.constructorIsMatrix( new HashMap( [] ) );
   test.identical( got, false );
 
   test.case = 'check empty BufferRaw';
