@@ -480,8 +480,8 @@ function ContextsForTesting( o )
   if( !o.dups )
   o.dups = [ 1 ];
 
-  o.formats = _.arrayAs( o.formats );
-  o.dups = _.arrayAs( o.dups );
+  o.formats = _.array.as( o.formats );
+  o.dups = _.array.as( o.dups );
 
   _.assert( _.longHasAll( o.formats, [ 'Matrix', 'Vad', 'Long' ] ) );
   _.assert( _.longIs( o.dups ) );
