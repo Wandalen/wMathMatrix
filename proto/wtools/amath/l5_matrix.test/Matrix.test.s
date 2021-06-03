@@ -16469,7 +16469,7 @@ function make( test )
   let context = this;
 
   var o = Object.create( null );
-  o.array.make = function arrayMake( src )
+  o.arrayMake = function arrayMake( src )
   {
     if( arguments.length === 0 )
     src = [];
@@ -16505,7 +16505,7 @@ function make( test )
       inputRowMajor : 1,
       dims : [ 2, 3 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1, 2, 3,
         4, 5, 6,
@@ -16555,7 +16555,7 @@ function make( test )
       inputRowMajor : 0,
       dims : [ 2, 3 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1, 2, 3,
         4, 5, 6,
@@ -16605,7 +16605,7 @@ function make( test )
       inputRowMajor : 1,
       dims : [ 3, 1 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1,
         2,
@@ -16656,7 +16656,7 @@ function make( test )
       inputRowMajor : 0,
       dims : [ 3, 1 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1,
         2,
@@ -16702,7 +16702,7 @@ function make( test )
 
     test.case = 'construct empty matrix with dims defined';
 
-    var m = new _.Matrix({ buffer : o.array.make(), offset : o.offset, inputRowMajor : 0, dims : [ 1, 0 ] });
+    var m = new _.Matrix({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0, dims : [ 1, 0 ] });
 
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
@@ -16735,7 +16735,7 @@ function make( test )
 
     test.case = 'construct empty matrix, inputRowMajor : 0';
 
-    var m = new _.Matrix({ buffer : o.array.make(), offset : o.offset, inputRowMajor : 0 });
+    var m = new _.Matrix({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0 });
 
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
@@ -16844,7 +16844,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 0,
       dims : [ 3, 0 ],
@@ -16866,13 +16866,13 @@ function make( test )
 
     test.description = 'change by empty buffer of empty matrix with long column, non transposing, with copy';
 
-    m.copy({ buffer : o.array.make(), offset : o.offset, inputRowMajor : 0 });
+    m.copy({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
 
     test.description = 'change buffer of empty matrix with long column, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 1 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 1 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
@@ -16909,7 +16909,7 @@ function make( test )
 
     test.description = 'change buffer of not empty matrix with long column, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17006,7 +17006,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 1,
       dims : [ 3, 0 ],
@@ -17033,7 +17033,7 @@ function make( test )
 
     test.description = 'change by empty buffer of empty matrix with long column, transposing, by copy';
 
-    m.copy({ buffer : o.array.make([]), offset : o.offset, inputRowMajor : 1 });
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 1 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
@@ -17041,7 +17041,7 @@ function make( test )
 
     test.description = 'change buffer of empty matrix with long column, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 1 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 1 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
@@ -17078,7 +17078,7 @@ function make( test )
 
     test.description = 'change buffer of empty matrix with long column, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17177,7 +17177,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 1,
       dims : [ 0, 3 ],
@@ -17191,7 +17191,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       inputRowMajor : 1,
       dims : [ 0, 3 ],
     });
@@ -17200,13 +17200,13 @@ function make( test )
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m, 1 );
 
-    m.copy({ buffer : o.array.make([]), offset : o.offset, inputRowMajor : 1 });
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 1 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m );
 
     test.description = 'change by non empty buffer of empty matrix with long row, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 1, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 1, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
@@ -17243,7 +17243,7 @@ function make( test )
 
     test.description = 'change by non empty buffer of non empty matrix with long row, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 2, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 2, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17330,7 +17330,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 0,
       dims : [ 0, 3 ],
@@ -17355,16 +17355,16 @@ function make( test )
 
     test.description = 'change by empty buffer of empty matrix with long row, non transposing, by copy';
 
-    m.copy({ buffer : o.array.make([]), offset : o.offset, inputRowMajor : 0 });
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 0 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
     test.description = 'change by non empty buffer of empty matrix with long row, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 1, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 1, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
-    test.identical( m.buffer, o.array.make([ 1, 2, 3 ]) );
+    test.identical( m.buffer, o.arrayMake([ 1, 2, 3 ]) );
     test.identical( m.dims, [ 1, 3 ] );
     test.identical( m.dimsEffective, [ 1, 3 ] );
     test.identical( m.strides, null );
@@ -17404,7 +17404,7 @@ function make( test )
 
     test.description = 'change by non empty buffer of non empty matrix with long row, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17445,7 +17445,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make([ 1, 2, 3 ]),
+      buffer : o.arrayMake([ 1, 2, 3 ]),
       offset : o.offset,
       inputRowMajor : 0,
     });
@@ -17516,7 +17516,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       dims : [ 3, 0 ],
       inputRowMajor : 0,
       offset : o.offset,
@@ -17540,7 +17540,7 @@ function make( test )
     test.identical( m.reduceToSumScalarWise(), 0 );
     test.identical( m.reduceToProductScalarWise(), 1 );
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17581,7 +17581,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       dims : [ 3, 0 ],
       inputRowMajor : 1,
       offset : o.offset,
@@ -17602,7 +17602,7 @@ function make( test )
     test.identical( m.strideOfRow, 0 );
     test.identical( m.strideInRow, 1 );
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
