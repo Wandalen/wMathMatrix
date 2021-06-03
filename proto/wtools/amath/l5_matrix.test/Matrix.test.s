@@ -35429,7 +35429,7 @@ function MulBasic( test )
   ]);
   console.log( matrix.toStr() );
   var got = _.Matrix.Mul( null, [ matrix, 2 ] );
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  var exp = _.Matrix.MakeZero([ 3, 2 ]).copy
   ([
     +2,  8,
     -4, -10,
@@ -35544,7 +35544,7 @@ function MulBasic( test )
   test.case = 'vector mul scalar';
   var vector = new F32x([ 1, 2, 3 ]);
   var got = _.Matrix.Mul( null, [ vector, 2 ] );
-  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  var exp = _.Matrix.MakeZero([ 3, 1 ]).copy
   ([
     2,
     4,
@@ -35573,7 +35573,7 @@ function MulBasic( test )
 
   test.case = 'scalar mul scalar';
   var got = _.Matrix.Mul( null, [ 2, 3 ] );
-  var exp = _.Matrix.Make([ 1, 1 ]).copy
+  var exp = _.Matrix.MakeZero([ 1, 1 ]).copy
   ([ 6 ]);
   test.identical( got, exp );
 }
