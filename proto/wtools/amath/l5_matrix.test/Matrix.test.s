@@ -42040,7 +42040,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 1 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 2, 1 ] ) );
 
   /* */
 
@@ -42058,7 +42058,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 2 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 2, 2 ] ) );
 
   /* */
 
@@ -42089,7 +42089,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 3, 1 ] ) );
 
   /* */
 
@@ -42121,7 +42121,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 3, 1 ] ) );
 
   /* */
 
@@ -42140,7 +42140,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 2 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 3, 2 ] ) );
 
   /* */
 
