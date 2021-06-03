@@ -188,7 +188,7 @@ function MakeZero( dims )
   }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let buffer = proto.longType.longMakeZeroed( lengthFlat );
+  let buffer = proto.longType.long.makeZeroed( lengthFlat );
   let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
