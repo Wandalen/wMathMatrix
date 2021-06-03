@@ -5,12 +5,13 @@
 const _ = _global_.wTools;
 const abs = Math.abs;
 const min = Math.min;
+debugger;
 const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
 const sqr = _.math.sqr;
 const longSlice = Array.prototype.slice;
 
