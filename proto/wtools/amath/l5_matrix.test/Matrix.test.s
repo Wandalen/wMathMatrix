@@ -9863,7 +9863,7 @@ function MakeSimilarWithVectors( test )
   test.case = 'm - ArgumentsArray';
   var m = _.argumentsArray.make([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
-  test.identical( got, _.long.default.make([ 0, 0 ]) );
+  test.identical( got, _.argumentsArray.make([ undefined, undefined ]) );
   test.true( got !== m );
 
   test.case = 'm - BufferTyped, U8x';
