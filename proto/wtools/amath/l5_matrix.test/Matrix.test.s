@@ -9733,7 +9733,7 @@ function MakeSimilarDifferentBufferTypes( test )
   });
   var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3, 4 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3, 4 ]) );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );

@@ -673,6 +673,7 @@ function MakeLine( o )
     }
     else if( _.argumentsArrayIs( o.buffer ) )
     {
+      debugger;
       if( o.times === 1 )
       {
         o.buffer = proto.longType.long.make( o.buffer );
