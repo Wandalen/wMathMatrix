@@ -663,7 +663,7 @@ function MakeLine( o )
 
   if( o.zeroing )
   {
-    o.buffer = this.longType.longMakeZeroed( length );
+    o.buffer = this.longType.long.makeZeroed( length );
   }
   else
   {
