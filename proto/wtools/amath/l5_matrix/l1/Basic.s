@@ -197,7 +197,8 @@ function _traverseAct( it ) /* zzz : deprecate */
   let self = this;
 
   if( it.resetting === undefined )
-  it.resetting = 1;
+  it.resetting = true;
+  // it.resetting = 1;
 
   _.Copyable.prototype._traverseAct.head.call( this, _traverseAct, [ it ] );
 
