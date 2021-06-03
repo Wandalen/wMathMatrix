@@ -10041,7 +10041,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -10057,7 +10057,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
