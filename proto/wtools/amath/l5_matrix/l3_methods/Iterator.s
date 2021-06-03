@@ -5,7 +5,6 @@
 const _ = _global_.wTools;
 const abs = Math.abs;
 const min = Math.min;
-debugger;
 const $1 = Math.$2;
 // const $1 = Math.$2;
 // const $1 = Math.$2;
@@ -562,9 +561,6 @@ function scalarEach( o )
 //   _.assert( _.arrayIs( args ) );
 //   _.assert( onScalar.length === 1 );
 //
-//   // if( _global_.debugger )
-//   // debugger;
-//
 //   if( dims.length === 2 )
 //   {
 //     iterate2();
@@ -703,7 +699,6 @@ function scalarEach( o )
 //           it.offset[ 0 ] += it.strides[ 0 ];
 //           indexLogical += 1;
 //         }
-//         // debugger;
 //         it.offset[ 1 ] += it.strides[ 1 ];
 //         it.offset[ 0 ] = it.offset[ 1 ]; /* aaa2 : not finished! finish please */
 //       }

@@ -41214,7 +41214,6 @@ function SolveGeneral( test )
     abstractCheck( op );
 
     // test.close( `permutating:${op.permutating}, format:${op.format}, withoutY:${op.withoutY}, dup:${op.dup}` );
-    // debugger; return;
 
     /* */
 
@@ -43428,11 +43427,9 @@ function experiment( test )
 
   var om = m.clone();
   var m2 = m.clone();
-  // debugger;
   // m2.triangulateLu();
   // console.log( m );
   // console.log( m2 );
-  // debugger;
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
