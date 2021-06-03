@@ -246,7 +246,7 @@ function MakeIdentity( dims )
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesFromDimensions( dims, 0 );
-  let buffer = proto.longType.longMakeZeroed( lengthFlat );
+  let buffer = proto.longType.long.makeZeroed( lengthFlat );
   let result = new proto.Self
   ({
     buffer,
