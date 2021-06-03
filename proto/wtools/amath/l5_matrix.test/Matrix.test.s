@@ -25787,9 +25787,6 @@ function NcolOf( test )
 
 function DimsOf( test )
 {
-
-  /* */
-
   test.case = 'scalar';
   var src = 5;
   var exp = [ 1, 1 ];
@@ -25804,13 +25801,14 @@ function DimsOf( test )
     test.open( `long, ${a.format}` );
 
     test.case = 'empty';
-    var src = a.long.make([]);
+    debugger;
+    var src = a.longMake([]);
     var exp = [ 0, 1 ];
     var got = _.Matrix.DimsOf( src )
     test.identical( got, exp );
 
     test.case = 'filled';
-    var src = a.long.make([ 0, 1, 2, 3, 4, 5 ]);
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
     var exp = [ 6, 1 ];
     var got = _.Matrix.DimsOf( src )
     test.identical( got, exp );
@@ -25844,7 +25842,7 @@ function DimsOf( test )
   function act1( a )
   {
     test.case = `matrix with buffer - long ${a.format}, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25857,7 +25855,7 @@ function DimsOf( test )
     test.identical( got, exp );
 
     test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25924,14 +25922,13 @@ function DimsOf( test )
   var got = _.Matrix.DimsOf( matrix )
   test.identical( got, exp );
 
-  /* */
+  /* - */
 
   if( !Config.debug )
   return;
 
   test.case = 'Passed null';
   test.shouldThrowErrorSync( () => _.Matrix.DimsOf( null ) );
-
 }
 
 //
