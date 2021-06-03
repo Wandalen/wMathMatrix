@@ -10951,7 +10951,7 @@ function MakeCol( test )
   var buffer = _.argumentsArray.make([ 1, 2, 3 ]);
   var got = _.Matrix.MakeCol( buffer );
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
