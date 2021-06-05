@@ -188,7 +188,7 @@ function MakeZero( dims )
   }
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
-  let buffer = proto.longType.longMakeZeroed( lengthFlat );
+  let buffer = proto.longType.long.makeZeroed( lengthFlat );
   let strides = proto.StridesFromDimensions( dims, 0 );
   let result = new proto.Self
   ({
@@ -246,7 +246,7 @@ function MakeIdentity( dims )
 
   let lengthFlat = proto.ScalarsPerMatrixForDimensions( dims );
   let strides = proto.StridesFromDimensions( dims, 0 );
-  let buffer = proto.longType.longMakeZeroed( lengthFlat );
+  let buffer = proto.longType.long.makeZeroed( lengthFlat );
   let result = new proto.Self
   ({
     buffer,
@@ -420,7 +420,7 @@ function MakeDiagonal( diagonal )
   let length = diagonal.length;
   let dims = [ length, length ];
   let scalarsPerMatrix = this.ScalarsPerMatrixForDimensions( dims );
-  let buffer = this.longType.longMakeZeroed( scalarsPerMatrix );
+  let buffer = this.longType.long.makeZeroed( scalarsPerMatrix );
   let result = new this.Self
   ({
     buffer,
@@ -663,7 +663,7 @@ function MakeLine( o )
 
   if( o.zeroing )
   {
-    o.buffer = this.longType.longMakeZeroed( length );
+    o.buffer = this.longType.long.makeZeroed( length );
   }
   else
   {
@@ -673,6 +673,7 @@ function MakeLine( o )
     }
     else if( _.argumentsArrayIs( o.buffer ) )
     {
+      debugger;
       if( o.times === 1 )
       {
         o.buffer = proto.longType.long.make( o.buffer );
@@ -2592,14 +2593,14 @@ function lookAt( eye, target, up1 )
 {
   let self = this;
   let te = self.buffer;
-  
+
   let x = [ 0, 0, 0 ];
   let y = [ 0, 0, 0 ];
-  
+
   let z = _.avector.sub( null, eye, target );
-  
+
   _.avector.normalize( z );
-  
+
   let zmag = _.avector.mag( z );
   if( _.equivalent( zmag, 0 ) )
   {
@@ -2607,7 +2608,7 @@ function lookAt( eye, target, up1 )
   }
 
   _.avector._cross3( x, up1, z );
-  
+
   let xmag = _.avector.mag( x );
   if( _.equivalent( xmag, 0 ) )
   {
@@ -2619,7 +2620,7 @@ function lookAt( eye, target, up1 )
   _.avector.mul( x, 1 / xmag );
 
   _.avector._cross3( y, z, x );
-  
+
   te[ 0 ] = x[ 0 ]; te[ 4 ] = y[ 0 ]; te[ 8 ] = z[ 0 ];
   te[ 1 ] = x[ 1 ]; te[ 5 ] = y[ 1 ]; te[ 9 ] = z[ 1 ];
   te[ 2 ] = x[ 2 ]; te[ 6 ] = y[ 2 ]; te[ 10 ] = z[ 2 ];

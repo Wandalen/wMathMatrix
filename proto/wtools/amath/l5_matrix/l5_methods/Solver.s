@@ -43,7 +43,8 @@ function _Solve2_head( routine, args )
     o.y = args[ 2 ];
   }
 
-  _.routine.options_( routine, o );
+  _.routine.optionsWithoutUndefined( routine, o ); /* qqq : for Dmytro : investigate, maybe, it can be improved */
+  // _.routine.options_( routine, o );
 
   if( o.permutating )
   {

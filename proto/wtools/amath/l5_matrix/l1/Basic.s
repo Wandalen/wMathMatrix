@@ -197,7 +197,8 @@ function _traverseAct( it ) /* zzz : deprecate */
   let self = this;
 
   if( it.resetting === undefined )
-  it.resetting = 1;
+  it.resetting = true;
+  // it.resetting = 1;
 
   _.Copyable.prototype._traverseAct.head.call( this, _traverseAct, [ it ] );
 
@@ -1005,13 +1006,10 @@ function clone( extending )
 
   _.assert( arguments.length === 0 || arguments.length === 1, 'Expects no arguments' );
 
-  // debugger;
   // _global_.debugger = 1;
   // let dst = _.Copyable.prototype.clone.call( self );
   // _.assert( dst.buffer === self.buffer );
-  // debugger;
 
-  // debugger;
   // _global_.debugger = 1;
 
   if( extending )
@@ -1857,7 +1855,10 @@ toStr.defaults.__proto__ = _.entity.exportString.defaults;
 function toLong( o )
 {
   let self = this;
+  if( arguments.length === 0 )
+  o = Object.create( null );
   o = _.routine.options_( toLong, o );
+
   let result = self.bufferExport({ restriding : o.restriding });
   return result;
 }
@@ -1865,13 +1866,16 @@ function toLong( o )
 toLong.defaults =
 {
   restriding : 1,
-}
+};
 
 //
 
 function toVad( o )
 {
   let self = this;
+  if( arguments.length === 0 )
+  o = Object.create( null );
+
   let result;
   o = _.routine.options_( toVad, o );
 
@@ -1882,8 +1886,6 @@ function toVad( o )
   else
   {
     _.assert( self.ncol <= 1 || self.nrow <= 1 );
-    if( self.ncol > 1 )
-    debugger;
     if( self.ncol <= 1 )
     result = self.vad.fromLongLrangeAndStride( self.buffer, self.offset, self.scalarsPerMatrix, self.stridesEffective[ 0 ] );
     else
@@ -1896,7 +1898,7 @@ function toVad( o )
 toVad.defaults =
 {
   restriding : 0,
-}
+};
 
 // --
 // size in bytes
@@ -2297,7 +2299,6 @@ function StridesEffectiveFrom( dims, strides, inputRowMajor )
   _.assert( dims[ dims.length-1 ] >= 0 );
   _.assert( arguments.length === 2 || arguments.length === 3 );
 
-  // debugger;
   if( strides )
   {
     // result = strides.slice(); /* yyy */
@@ -2346,7 +2347,6 @@ function StridesFromDimensions( dims, rowMajor )
   _.assert( dims[ 0 ] >= 0 );
   _.assert( dims[ dims.length-1 ] >= 0 );
 
-  // debugger;
   // let strides = new Array( dims ); /* yyy */
   let strides = [ ... dims ];
 
@@ -2638,7 +2638,6 @@ function _adjustAct()
 
   if( _.numberIs( self.strides ) )
   {
-    debugger;
     let strides = [ 1, 1 ];
     strides[ strides.length-1 ] = self.strides;
     self.strides = self.StridesRoll( strides );

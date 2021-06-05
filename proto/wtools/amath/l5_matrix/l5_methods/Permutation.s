@@ -464,10 +464,15 @@ let PermutateRook = _.routine.uniteCloning_replaceByUnite( PermutateRook_head, P
  * @param { Matrix } o.x - Matrix of results. Permuted together with rows of src matrix.
  * @return { Map } - Return map with result of permutation.
  */
+
 function permutateRook( o )
 {
   let self = this;
+
+  if( arguments.length === 0 )
+  o = Object.create( null );
   o = _.routine.options_( permutateRook, o );
+
   o.m = self;
   return self.PermutateRook( o );
 }

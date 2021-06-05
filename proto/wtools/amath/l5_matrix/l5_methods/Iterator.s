@@ -6,11 +6,11 @@ const _ = _global_.wTools;
 const abs = Math.abs;
 const min = Math.min;
 const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
-const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
+// const $1 = Math.$2;
 const sqr = _.math.sqr;
 const longSlice = Array.prototype.slice;
 
@@ -52,8 +52,6 @@ function scalarWiseReduceWithFlatVector( onVector )
 
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( self.strideOfElement === self.scalarsPerElement );
-
-  debugger;
 
   result = onVector( self.asVector() );
 
@@ -263,8 +261,6 @@ function ScalarWiseHomogeneous( o )
   o.onVectorsBegin = function handleVectorsBeing()
   {
 
-    debugger;
-
     op = Object.create( null );
     op.key = -1;
     op.args = null;
@@ -278,8 +274,6 @@ function ScalarWiseHomogeneous( o )
     return op;
   }
 
-  if( o.onScalarsBegin )
-  debugger;
   if( !o.onScalarsBegin )
   o.onScalarsBegin = function handleScalarsBeing( op )
   {
@@ -620,7 +614,6 @@ function elementEach( onElement )
   let self = this;
   let args = _.longSlice( arguments, 1 );
 
-  debugger;
   _.assert( 0, 'not tested' );
 
   args.unshift( null );

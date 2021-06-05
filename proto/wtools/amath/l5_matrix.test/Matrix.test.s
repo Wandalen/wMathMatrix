@@ -4357,7 +4357,7 @@ function scalarGet( test )
     test.open( '2D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4365,14 +4365,14 @@ function scalarGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     test.identical( matrix.scalarGet([ 0, 0 ]), 2 );
     test.identical( matrix.scalarGet([ 0, 2 ]), 4 );
     test.identical( matrix.scalarGet([ 1, 2 ]), 7 );
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4380,7 +4380,7 @@ function scalarGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     test.identical( matrix.scalarGet([ 0, 0 ]), 2 );
     test.identical( matrix.scalarGet([ 0, 2 ]), 4 );
     test.identical( matrix.buffer, exp );
@@ -4421,7 +4421,7 @@ function scalarGet( test )
     test.open( '3D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4429,7 +4429,7 @@ function scalarGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     test.identical( matrix.scalarGet([ 0, 0, 0 ]), 2 );
     test.identical( matrix.scalarGet([ 1, 2, 0 ]), 7 );
     test.identical( matrix.scalarGet([ 0, 0, 1 ]), 8 );
@@ -4437,7 +4437,7 @@ function scalarGet( test )
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4445,7 +4445,7 @@ function scalarGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     test.identical( matrix.scalarGet([ 0, 0, 0 ]), 2 );
     test.identical( matrix.scalarGet([ 0, 2, 0 ]), 4 );
     test.identical( matrix.buffer, exp );
@@ -4487,7 +4487,7 @@ function scalarGet( test )
     test.open( '4D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4495,7 +4495,7 @@ function scalarGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     test.identical( matrix.scalarGet([ 0, 0, 0, 0 ]), 2 );
     test.identical( matrix.scalarGet([ 0, 2, 0, 0 ]), 4 );
     test.identical( matrix.scalarGet([ 0, 2, 1, 0 ]), 7 );
@@ -4504,7 +4504,7 @@ function scalarGet( test )
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4512,7 +4512,7 @@ function scalarGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     test.identical( matrix.scalarGet([ 0, 0, 0, 0 ]), 2 );
     test.identical( matrix.scalarGet([ 0, 2, 0, 0 ]), 4 );
     test.identical( matrix.scalarGet([ 0, 0, 1, 0 ]), 5 );
@@ -4599,7 +4599,7 @@ function scalarSet( test )
     test.open( '2D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4607,7 +4607,7 @@ function scalarSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 0, 3, 0, 5, 6, 0, 8, 9 ]);
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 0, 8, 9 ]);
     matrix.scalarSet( [ 0, 0 ], 0 );
     matrix.scalarSet( [ 0, 2 ], 0 );
     var got = matrix.scalarSet( [ 1, 2 ], 0 );
@@ -4615,7 +4615,7 @@ function scalarSet( test )
     test.true( got === matrix );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4623,7 +4623,7 @@ function scalarSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 0, 3, 0, 5, 6, 7, 8, 9 ]);
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9 ]);
     matrix.scalarSet([ 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2 ], 0 );
     test.identical( got.buffer, exp );
@@ -4667,7 +4667,7 @@ function scalarSet( test )
     test.open( '3D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4675,14 +4675,14 @@ function scalarSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    var exp = a.longMake([ 1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15 ]);
     matrix.scalarSet( [ 0, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 1, 2, 1 ], 0 );
     test.identical( got.buffer, exp );
     test.true( got === matrix );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4690,7 +4690,7 @@ function scalarSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 0, 3, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var exp = a.longMake([ 1, 0, 3, 0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     matrix.scalarSet( [ 0, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2, 0 ], 0 );
     test.identical( got.buffer, exp );
@@ -4733,7 +4733,7 @@ function scalarSet( test )
     test.open( '4D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4741,7 +4741,7 @@ function scalarSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 0, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 0, 14, 15 ]);
+    var exp = a.longMake([ 1, 0, 3, 4, 5, 6, 0, 8, 9, 10, 11, 12, 0, 14, 15 ]);
     matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
     matrix.scalarSet( [ 0, 2, 1, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 2, 1, 1 ], 0 );
@@ -4749,7 +4749,7 @@ function scalarSet( test )
     test.true( got === matrix );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4757,7 +4757,7 @@ function scalarSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 0, 3, 0, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    var exp = a.longMake([ 1, 0, 3, 0, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
     matrix.scalarSet( [ 0, 0, 0, 0 ], 0 );
     matrix.scalarSet( [ 0, 2, 0, 0 ], 0 );
     var got = matrix.scalarSet( [ 0, 0, 1, 0 ], 0 );
@@ -4847,7 +4847,7 @@ function hasIndex( test )
     test.open( 'empty matrix' );
 
     test.case = `buffer - long ${ a.format }, empty buffer, 0x0 matrix`;
-    var buffer = a.long.make( [] );
+    var buffer = a.longMake( [] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4859,7 +4859,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, empty buffer, 1x0 matrix`;
-    var buffer = a.long.make( [] );
+    var buffer = a.longMake( [] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4871,7 +4871,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, empty buffer, 0x1 matrix`;
-    var buffer = a.long.make( [] );
+    var buffer = a.longMake( [] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4883,7 +4883,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, filled buffer, 0x0 matrix`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4895,7 +4895,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, filled buffer, 1x0 matrix`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4907,7 +4907,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 1, 0 ] ) );
 
     test.case = `buffer - long ${ a.format }, filled buffer, 0x1 matrix`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -4999,7 +4999,7 @@ function hasIndex( test )
     test.open( '2D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5023,7 +5023,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5046,7 +5046,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 0, 3 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5114,7 +5114,7 @@ function hasIndex( test )
     test.open( '3D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5136,7 +5136,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 1, 2, 4 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5206,7 +5206,7 @@ function hasIndex( test )
     test.open( '4D matrix' );
 
     test.case = `buffer - long ${ a.format }, regular dims values`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5227,7 +5227,7 @@ function hasIndex( test )
     test.false( matrix.hasIndex( [ 0, 2, 1, 2 ] ) );
 
     test.case = `buffer - long ${ a.format }, dims with Infinity`;
-    var buffer = a.long.make( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
+    var buffer = a.longMake( [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] );
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5325,7 +5325,7 @@ function eGet( test )
   function act( a )
   {
     test.case = `buffer - long ${ a.format }`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5333,9 +5333,9 @@ function eGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 5 ]) ) );
-    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.long.make([ 3, 6 ]) ) );
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - vector ${ a.form }`;
@@ -5348,8 +5348,8 @@ function eGet( test )
       inputRowMajor : 1,
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 5 ]) ) );
-    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.long.make([ 3, 6 ]) ) );
+    test.identical( matrix.eGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.eGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp._vectorBuffer );
   }
 
@@ -5390,7 +5390,7 @@ function eSet( test )
   function act( a )
   {
     test.case = `buffer - long ${ a.format }, full replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5398,9 +5398,9 @@ function eSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
-    matrix.eSet( 0, a.long.make([ 55, 55, 55 ]) );
-    var got = matrix.eSet( 1, a.long.make([ 77, 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.eSet( 0, a.longMake([ 55, 55, 55 ]) );
+    var got = matrix.eSet( 1, a.longMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -5422,7 +5422,7 @@ function eSet( test )
     /* */
 
     test.case = `buffer - long ${ a.format }, partial replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5430,9 +5430,9 @@ function eSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
-    matrix.eSet( 0, a.long.make([ 55, 55 ]) );
-    var got = matrix.eSet( 1, a.long.make([ 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.eSet( 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.eSet( 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -5493,7 +5493,7 @@ function lineGet( test )
     test.open( 'lineGet col' );
 
     test.case = `buffer - long ${ a.format }`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5501,9 +5501,9 @@ function lineGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 5 ]) ) );
-    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.long.make([ 3, 6 ]) ) );
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - vector ${ a.form }`;
@@ -5516,8 +5516,8 @@ function lineGet( test )
       inputRowMajor : 1,
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 5 ]) ) );
-    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.long.make([ 3, 6 ]) ) );
+    test.identical( matrix.lineGet( 0, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.lineGet( 0, 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp._vectorBuffer );
 
     test.close( 'lineGet col' );
@@ -5527,7 +5527,7 @@ function lineGet( test )
     test.open( 'lineGet row' );
 
     test.case = `buffer - long ${ a.format }`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5535,9 +5535,9 @@ function lineGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 3, 4 ]) ) );
-    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.long.make([ 5, 6, 7 ]) ) );
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - vector ${ a.form }`;
@@ -5550,8 +5550,8 @@ function lineGet( test )
       inputRowMajor : 1,
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 3, 4 ]) ) );
-    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.long.make([ 5, 6, 7 ]) ) );
+    test.identical( matrix.lineGet( 1, 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.lineGet( 1, 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
     test.identical( matrix.buffer, exp._vectorBuffer );
 
     test.close( 'lineGet row' );
@@ -5597,7 +5597,7 @@ function lineSet( test )
     test.open( 'lineSet col' );
 
     test.case = `buffer - long ${ a.format }, full replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5605,9 +5605,9 @@ function lineSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
-    matrix.lineSet( 0, 0, a.long.make([ 55, 55, 55 ]) );
-    var got = matrix.lineSet( 0, 1, a.long.make([ 77, 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.lineSet( 0, 0, a.longMake([ 55, 55, 55 ]) );
+    var got = matrix.lineSet( 0, 1, a.longMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -5629,7 +5629,7 @@ function lineSet( test )
     /* */
 
     test.case = `buffer - long ${ a.format }, partial replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5637,9 +5637,9 @@ function lineSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
-    matrix.lineSet( 0, 0, a.long.make([ 55, 55 ]) );
-    var got = matrix.lineSet( 0, 1, a.long.make([ 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.lineSet( 0, 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.lineSet( 0, 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -5665,7 +5665,7 @@ function lineSet( test )
     test.open( 'lineSet row' );
 
     test.case = `buffer - long ${ a.format }, full replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5673,9 +5673,9 @@ function lineSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
-    matrix.lineSet( 1, 0, a.long.make([ 55, 55 ]) );
-    var got = matrix.lineSet( 1, 1, a.long.make([ 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.lineSet( 1, 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.lineSet( 1, 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -5697,7 +5697,7 @@ function lineSet( test )
     /* */
 
     test.case = `buffer - long ${ a.format }, partial replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -5705,9 +5705,9 @@ function lineSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
-    matrix.lineSet( 1, 0, a.long.make([ 55 ]) );
-    var got = matrix.lineSet( 1, 1, a.long.make([ 77 ]) );
+    var exp = a.longMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.lineSet( 1, 0, a.longMake([ 55 ]) );
+    var got = matrix.lineSet( 1, 1, a.longMake([ 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -6290,7 +6290,7 @@ function rowGet( test )
   function act( a )
   {
     test.case = `buffer - long ${ a.format }`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -6298,9 +6298,9 @@ function rowGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 3, 4 ]) ) );
-    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.long.make([ 5, 6, 7 ]) ) );
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - vector ${ a.form }`;
@@ -6313,8 +6313,8 @@ function rowGet( test )
       inputRowMajor : 1,
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 3, 4 ]) ) );
-    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.long.make([ 5, 6, 7 ]) ) );
+    test.identical( matrix.rowGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 3, 4 ]) ) );
+    test.identical( matrix.rowGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 5, 6, 7 ]) ) );
     test.identical( matrix.buffer, exp._vectorBuffer );
   }
 
@@ -6355,7 +6355,7 @@ function rowSet( test )
   function act( a )
   {
     test.case = `buffer - long ${ a.format }, full replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -6363,9 +6363,9 @@ function rowSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
-    matrix.rowSet( 0, a.long.make([ 55, 55 ]) );
-    var got = matrix.rowSet( 1, a.long.make([ 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 55, 77, 77, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.rowSet( 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -6387,7 +6387,7 @@ function rowSet( test )
     /* */
 
     test.case = `buffer - long ${ a.format }, partial replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -6395,9 +6395,9 @@ function rowSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
-    matrix.rowSet( 0, a.long.make([ 55 ]) );
-    var got = matrix.rowSet( 1, a.long.make([ 77 ]) );
+    var exp = a.longMake([ 1, 55, 0, 77, 0, 6, 7, 8, 9 ]);
+    matrix.rowSet( 0, a.longMake([ 55 ]) );
+    var got = matrix.rowSet( 1, a.longMake([ 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -6456,7 +6456,7 @@ function colGet( test )
   function act( a )
   {
     test.case = `buffer - long ${ a.format }`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -6464,9 +6464,9 @@ function colGet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.colGet( 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 5 ]) ) );
-    test.identical( matrix.colGet( 1 ), _.vectorAdapter.fromLong( a.long.make([ 3, 6 ]) ) );
+    var exp = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    test.identical( matrix.colGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.colGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp );
 
     test.case = `buffer - vector ${ a.form }`;
@@ -6479,8 +6479,8 @@ function colGet( test )
       inputRowMajor : 1,
     });
     var exp = a.vadMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
-    test.identical( matrix.colGet( 0 ), _.vectorAdapter.fromLong( a.long.make([ 2, 5 ]) ) );
-    test.identical( matrix.colGet( 1 ), _.vectorAdapter.fromLong( a.long.make([ 3, 6 ]) ) );
+    test.identical( matrix.colGet( 0 ), _.vectorAdapter.fromLong( a.longMake([ 2, 5 ]) ) );
+    test.identical( matrix.colGet( 1 ), _.vectorAdapter.fromLong( a.longMake([ 3, 6 ]) ) );
     test.identical( matrix.buffer, exp._vectorBuffer );
   }
 
@@ -6521,7 +6521,7 @@ function colSet( test )
   function act( a )
   {
     test.case = `buffer - long ${ a.format }, full replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -6529,9 +6529,9 @@ function colSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
-    matrix.colSet( 0, a.long.make([ 55, 55, 55 ]) );
-    var got = matrix.colSet( 1, a.long.make([ 77, 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 55, 77, 8, 9 ]);
+    matrix.colSet( 0, a.longMake([ 55, 55, 55 ]) );
+    var got = matrix.colSet( 1, a.longMake([ 77, 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -6553,7 +6553,7 @@ function colSet( test )
     /* */
 
     test.case = `buffer - long ${ a.format }, partial replacing`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -6561,9 +6561,9 @@ function colSet( test )
       offset : 1,
       inputRowMajor : 1,
     });
-    var exp = a.long.make([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
-    matrix.colSet( 0, a.long.make([ 55, 55 ]) );
-    var got = matrix.colSet( 1, a.long.make([ 77, 77 ]) );
+    var exp = a.longMake([ 1, 55, 77, 55, 77, 0, 0, 8, 9 ]);
+    matrix.colSet( 0, a.longMake([ 55, 55 ]) );
+    var got = matrix.colSet( 1, a.longMake([ 77, 77 ]) );
     test.identical( matrix.buffer, exp );
     test.true( got === matrix );
 
@@ -9733,7 +9733,7 @@ function MakeSimilarDifferentBufferTypes( test )
   });
   var got = _.Matrix.MakeSimilar( m, [ 2, 2 ] );
   test.identical( got.length, 2 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3, 4 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3, 4 ]) );
   test.identical( got.dims, [ 2, 2 ] );
   test.identical( got.strides, [ 1, 2 ] );
   test.identical( got.stridesEffective, [ 1, 2 ] );
@@ -9863,7 +9863,7 @@ function MakeSimilarWithVectors( test )
   test.case = 'm - ArgumentsArray';
   var m = _.argumentsArray.make([ 1, 2, 3 ]);
   var got = _.Matrix.MakeSimilar( m, [ 2, 1 ] );
-  test.identical( got, _.long.default.make([ 0, 0 ]) );
+  test.identical( got, _.argumentsArray.make([ undefined, undefined ]) );
   test.true( got !== m );
 
   test.case = 'm - BufferTyped, U8x';
@@ -10041,7 +10041,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -10057,7 +10057,7 @@ function MakeLineOptionZeroing0( test )
     zeroing : 0,
   });
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -10951,7 +10951,7 @@ function MakeCol( test )
   var buffer = _.argumentsArray.make([ 1, 2, 3 ]);
   var got = _.Matrix.MakeCol( buffer );
   test.identical( got.length, 1 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 3, 1 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 3 ] );
@@ -11311,7 +11311,7 @@ function MakeRow( test )
   var buffer = _.argumentsArray.make([ 1, 2, 3 ]);
   var got = _.Matrix.MakeRow( buffer );
   test.identical( got.length, 3 );
-  test.identical( got.buffer, _.long.default.make([ 1, 2, 3 ]) );
+  test.identical( got.buffer, _.argumentsArray.make([ 1, 2, 3 ]) );
   test.identical( got.dims, [ 1, 3 ] );
   test.identical( got.strides, null );
   test.identical( got.stridesEffective, [ 1, 1 ] );
@@ -16469,7 +16469,7 @@ function make( test )
   let context = this;
 
   var o = Object.create( null );
-  o.array.make = function arrayMake( src )
+  o.arrayMake = function arrayMake( src )
   {
     if( arguments.length === 0 )
     src = [];
@@ -16505,7 +16505,7 @@ function make( test )
       inputRowMajor : 1,
       dims : [ 2, 3 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1, 2, 3,
         4, 5, 6,
@@ -16555,7 +16555,7 @@ function make( test )
       inputRowMajor : 0,
       dims : [ 2, 3 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1, 2, 3,
         4, 5, 6,
@@ -16605,7 +16605,7 @@ function make( test )
       inputRowMajor : 1,
       dims : [ 3, 1 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1,
         2,
@@ -16656,7 +16656,7 @@ function make( test )
       inputRowMajor : 0,
       dims : [ 3, 1 ],
       offset : o.offset,
-      buffer : o.array.make
+      buffer : o.arrayMake
       ([
         1,
         2,
@@ -16702,7 +16702,7 @@ function make( test )
 
     test.case = 'construct empty matrix with dims defined';
 
-    var m = new _.Matrix({ buffer : o.array.make(), offset : o.offset, inputRowMajor : 0, dims : [ 1, 0 ] });
+    var m = new _.Matrix({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0, dims : [ 1, 0 ] });
 
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
@@ -16735,7 +16735,7 @@ function make( test )
 
     test.case = 'construct empty matrix, inputRowMajor : 0';
 
-    var m = new _.Matrix({ buffer : o.array.make(), offset : o.offset, inputRowMajor : 0 });
+    var m = new _.Matrix({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0 });
 
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
@@ -16844,7 +16844,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 0,
       dims : [ 3, 0 ],
@@ -16866,13 +16866,13 @@ function make( test )
 
     test.description = 'change by empty buffer of empty matrix with long column, non transposing, with copy';
 
-    m.copy({ buffer : o.array.make(), offset : o.offset, inputRowMajor : 0 });
+    m.copy({ buffer : o.arrayMake(), offset : o.offset, inputRowMajor : 0 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColNonTransposing( m );
 
     test.description = 'change buffer of empty matrix with long column, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 1 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 1 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
@@ -16909,7 +16909,7 @@ function make( test )
 
     test.description = 'change buffer of not empty matrix with long column, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17006,7 +17006,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 1,
       dims : [ 3, 0 ],
@@ -17033,7 +17033,7 @@ function make( test )
 
     test.description = 'change by empty buffer of empty matrix with long column, transposing, by copy';
 
-    m.copy({ buffer : o.array.make([]), offset : o.offset, inputRowMajor : 1 });
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 1 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongColTransposing( m );
 
@@ -17041,7 +17041,7 @@ function make( test )
 
     test.description = 'change buffer of empty matrix with long column, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 1 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 1 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
@@ -17078,7 +17078,7 @@ function make( test )
 
     test.description = 'change buffer of empty matrix with long column, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17177,7 +17177,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 1,
       dims : [ 0, 3 ],
@@ -17191,7 +17191,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       inputRowMajor : 1,
       dims : [ 0, 3 ],
     });
@@ -17200,13 +17200,13 @@ function make( test )
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m, 1 );
 
-    m.copy({ buffer : o.array.make([]), offset : o.offset, inputRowMajor : 1 });
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 1 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowTransposing( m );
 
     test.description = 'change by non empty buffer of empty matrix with long row, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 1, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 1, dims : [ 1, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 12 );
@@ -17243,7 +17243,7 @@ function make( test )
 
     test.description = 'change by non empty buffer of non empty matrix with long row, transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 2, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 2, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17330,7 +17330,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       offset : o.offset,
       inputRowMajor : 0,
       dims : [ 0, 3 ],
@@ -17355,16 +17355,16 @@ function make( test )
 
     test.description = 'change by empty buffer of empty matrix with long row, non transposing, by copy';
 
-    m.copy({ buffer : o.array.make([]), offset : o.offset, inputRowMajor : 0 });
+    m.copy({ buffer : o.arrayMake([]), offset : o.offset, inputRowMajor : 0 });
     logger.log( 'm\n' + _.entity.exportString( m ) );
     checkEmptyMatrixWithLongRowNonTransposing( m );
 
     test.description = 'change by non empty buffer of empty matrix with long row, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 1, 3 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3 ]), offset : o.offset, inputRowMajor : 0, dims : [ 1, 3 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
-    test.identical( m.buffer, o.array.make([ 1, 2, 3 ]) );
+    test.identical( m.buffer, o.arrayMake([ 1, 2, 3 ]) );
     test.identical( m.dims, [ 1, 3 ] );
     test.identical( m.dimsEffective, [ 1, 3 ] );
     test.identical( m.strides, null );
@@ -17404,7 +17404,7 @@ function make( test )
 
     test.description = 'change by non empty buffer of non empty matrix with long row, non transposing';
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 2, 3 ] });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17445,7 +17445,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make([ 1, 2, 3 ]),
+      buffer : o.arrayMake([ 1, 2, 3 ]),
       offset : o.offset,
       inputRowMajor : 0,
     });
@@ -17516,7 +17516,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       dims : [ 3, 0 ],
       inputRowMajor : 0,
       offset : o.offset,
@@ -17540,7 +17540,7 @@ function make( test )
     test.identical( m.reduceToSumScalarWise(), 0 );
     test.identical( m.reduceToProductScalarWise(), 1 );
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 0, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -17581,7 +17581,7 @@ function make( test )
 
     var m = new _.Matrix
     ({
-      buffer : o.array.make(),
+      buffer : o.arrayMake(),
       dims : [ 3, 0 ],
       inputRowMajor : 1,
       offset : o.offset,
@@ -17602,7 +17602,7 @@ function make( test )
     test.identical( m.strideOfRow, 0 );
     test.identical( m.strideInRow, 1 );
 
-    m.copy({ buffer : o.array.make([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
+    m.copy({ buffer : o.arrayMake([ 1, 2, 3, 4, 5, 6 ]), offset : o.offset, inputRowMajor : 1, dims : [ 3, 2 ] /* yyy */ });
     logger.log( 'm\n' + _.entity.exportString( m ) );
 
     test.identical( m.size, 24 );
@@ -19747,16 +19747,16 @@ function CopyToSrcIsNotMatrix( test )
     test.open( 'dst is not a Matrix' );
 
     test.case = `dst - empty long ${ a.format }, src - empty long ${ a.format }`;
-    var dst = a.long.make([]);
-    var src = a.long.make([]);
+    var dst = a.longMake([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([]);
+    var exp = a.longMake([]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - empty vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = a.vadMake([]);
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([]);
     test.identical( got, exp );
@@ -19773,16 +19773,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - long ${ a.format }, src - empty long ${ a.format }`;
-    var dst = a.long.make([ 1, 0, -1 ]);
-    var src = a.long.make([]);
+    var dst = a.longMake([ 1, 0, -1 ]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([ 0, 0, 0 ]);
+    var exp = a.longMake([ 0, 0, 0 ]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = a.vadMake([ 1, 0, -1 ]);
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 0, 0, 0 ]);
     test.identical( got, exp );
@@ -19799,16 +19799,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - long ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
-    var dst = a.long.make([ 1, 0, -1 ]);
-    var src = a.long.make([ 2, 2, 2 ]);
+    var dst = a.longMake([ 1, 0, -1 ]);
+    var src = a.longMake([ 2, 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([ 2, 2, 2 ]);
+    var exp = a.longMake([ 2, 2, 2 ]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
-    var src = a.long.make([ 2, 2, 2 ]);
+    var src = a.longMake([ 2, 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 2 ]);
     test.identical( got, exp );
@@ -19825,16 +19825,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - long ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
-    var dst = a.long.make([ 1, 0, -1 ]);
-    var src = a.long.make([ 2, 2 ]);
+    var dst = a.longMake([ 1, 0, -1 ]);
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([ 2, 2, 0 ]);
+    var exp = a.longMake([ 2, 2, 0 ]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
-    var src = a.long.make([ 2, 2 ]);
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 0 ]);
     test.identical( got, exp );
@@ -19855,16 +19855,16 @@ function CopyToSrcIsNotMatrix( test )
     test.open( 'dst is a column Matrix' );
 
     test.case = `dst - matrix from empty long ${ a.format }, src - empty long ${ a.format }`;
-    var dst = _.Matrix.MakeCol( a.long.make([]) );
-    var src = a.long.make([]);
+    var dst = _.Matrix.MakeCol( a.longMake([]) );
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.MakeCol( a.long.make([]) );
+    var exp = _.Matrix.MakeCol( a.longMake([]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from empty vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.MakeCol( a.vadMake([]) );
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([]) );
     test.identical( got, exp );
@@ -19881,16 +19881,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - matrix from long ${ a.format }, src - empty long ${ a.format }`;
-    var dst = _.Matrix.MakeCol( a.long.make([ 1, 0, -1 ]) );
-    var src = a.long.make([]);
+    var dst = _.Matrix.MakeCol( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.MakeCol( a.long.make([ 0, 0, 0 ]) );
+    var exp = _.Matrix.MakeCol( a.longMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
@@ -19907,16 +19907,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - matrix from long ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
-    var dst = _.Matrix.MakeCol( a.long.make([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2, 2 ]);
+    var dst = _.Matrix.MakeCol( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.MakeCol( a.long.make([ 2, 2, 2 ]) );
+    var exp = _.Matrix.MakeCol( a.longMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2, 2 ]);
+    var src = a.longMake([ 2, 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
@@ -19933,16 +19933,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - matrix from long ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
-    var dst = _.Matrix.MakeCol( a.long.make([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2 ]);
+    var dst = _.Matrix.MakeCol( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.MakeCol( a.long.make([ 2, 2, 0 ]) );
+    var exp = _.Matrix.MakeCol( a.longMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.MakeCol( a.vadMake([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2 ]);
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.MakeCol( a.vadMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
@@ -19963,16 +19963,16 @@ function CopyToSrcIsNotMatrix( test )
     test.open( 'dst is a column Matrix - second dimension is Infinity' );
 
     test.case = `dst - matrix from long ${ a.format }, src - empty long ${ a.format }`;
-    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.long.make([ 1, 0, -1 ]) );
-    var src = a.long.make([]);
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.long.make([ 0, 0, 0 ]) );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - empty long ${ a.format }`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 0, 0, 0 ]) );
     test.identical( got, exp );
@@ -19989,16 +19989,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - matrix from long ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
-    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.long.make([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2, 2 ]);
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.long.make([ 2, 2, 2 ]) );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length === src.length`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2, 2 ]);
+    var src = a.longMake([ 2, 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 2 ]) );
     test.identical( got, exp );
@@ -20015,16 +20015,16 @@ function CopyToSrcIsNotMatrix( test )
     /* */
 
     test.case = `dst - matrix from long ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
-    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.long.make([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2 ]);
+    var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 1, 0, -1 ]) );
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.long.make([ 2, 2, 0 ]) );
+    var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.longMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - matrix from vector ${ a.format }, src - long ${ a.format }, dst.length > src.length`;
     var dst = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 1, 0, -1 ]) );
-    var src = a.long.make([ 2, 2 ]);
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, Infinity ]).copy( a.vadMake([ 2, 2, 0 ]) );
     test.identical( got, exp );
@@ -20051,7 +20051,7 @@ function CopyToSrcIsNotMatrix( test )
       2, 1,
       3, -1
     ]));
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, 2 ]).copy( a.longMake
     ([
@@ -20069,7 +20069,7 @@ function CopyToSrcIsNotMatrix( test )
       2, 1,
       3, -1
     ]));
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
     ([
@@ -20107,7 +20107,7 @@ function CopyToSrcIsNotMatrix( test )
       2, 1,
       3, -1
     ]));
-    var src = a.long.make([ 2, 2 ]);
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, 2 ]).copy( a.longMake
     ([
@@ -20125,7 +20125,7 @@ function CopyToSrcIsNotMatrix( test )
       2, 1,
       3, -1
     ]));
-    var src = a.long.make([ 2, 2 ]);
+    var src = a.longMake([ 2, 2 ]);
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
     ([
@@ -20199,16 +20199,16 @@ function CopyToSrcIsMatrix( test )
     test.open( 'dst is not a Matrix' );
 
     test.case = `dst - empty long ${ a.format }, src - from empty long ${ a.format }`;
-    var dst = a.long.make([]);
-    var src = _.Matrix.MakeCol( a.long.make([]) );
+    var dst = a.longMake([]);
+    var src = _.Matrix.MakeCol( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([]);
+    var exp = a.longMake([]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - empty vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = a.vadMake([]);
-    var src = _.Matrix.MakeCol( a.long.make([]) );
+    var src = _.Matrix.MakeCol( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([]);
     test.identical( got, exp );
@@ -20225,16 +20225,16 @@ function CopyToSrcIsMatrix( test )
     /* */
 
     test.case = `dst - long ${ a.format }, src - from empty long ${ a.format }`;
-    var dst = a.long.make([ 1, 0, -1 ]);
-    var src = _.Matrix.MakeCol( a.long.make([]) );
+    var dst = a.longMake([ 1, 0, -1 ]);
+    var src = _.Matrix.MakeCol( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([ 0, 0, 0 ]);
+    var exp = a.longMake([ 0, 0, 0 ]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from empty long ${ a.format }`;
     var dst = a.vadMake([ 1, 0, -1 ]);
-    var src = _.Matrix.MakeCol( a.long.make([]) );
+    var src = _.Matrix.MakeCol( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 0, 0, 0 ]);
     test.identical( got, exp );
@@ -20251,16 +20251,16 @@ function CopyToSrcIsMatrix( test )
     /* */
 
     test.case = `dst - long ${ a.format }, src - from long ${ a.format }, dst.length === src.length`;
-    var dst = a.long.make([ 1, 0, -1 ]);
-    var src = _.Matrix.MakeCol( a.long.make([ 2, 2, 2 ]) );
+    var dst = a.longMake([ 1, 0, -1 ]);
+    var src = _.Matrix.MakeCol( a.longMake([ 2, 2, 2 ]) );
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([ 2, 2, 2 ]);
+    var exp = a.longMake([ 2, 2, 2 ]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from long ${ a.format }, dst.length === src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
-    var src = _.Matrix.MakeCol( a.long.make([ 2, 2, 2 ]) );
+    var src = _.Matrix.MakeCol( a.longMake([ 2, 2, 2 ]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 2 ]);
     test.identical( got, exp );
@@ -20277,16 +20277,16 @@ function CopyToSrcIsMatrix( test )
     /* */
 
     test.case = `dst - long ${ a.format }, src - from long ${ a.format }, dst.length > src.length`;
-    var dst = a.long.make([ 1, 0, -1 ]);
-    var src = _.Matrix.MakeCol( a.long.make([ 2, 2 ]) );
+    var dst = a.longMake([ 1, 0, -1 ]);
+    var src = _.Matrix.MakeCol( a.longMake([ 2, 2 ]) );
     var got = _.Matrix.CopyTo( dst, src );
-    var exp = a.long.make([ 2, 2, 0 ]);
+    var exp = a.longMake([ 2, 2, 0 ]);
     test.identical( got, exp );
     test.true( got === dst );
 
     test.case = `dst - vector ${ a.format }, src - from long ${ a.format }, dst.length > src.length`;
     var dst = a.vadMake([ 1, 0, -1 ]);
-    var src = _.Matrix.MakeCol( a.long.make([ 2, 2 ]) );
+    var src = _.Matrix.MakeCol( a.longMake([ 2, 2 ]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = a.vadMake([ 2, 2, 0 ]);
     test.identical( got, exp );
@@ -20313,7 +20313,7 @@ function CopyToSrcIsMatrix( test )
       2, 1,
       3, -1
     ]));
-    var src = _.Matrix.MakeCol( a.long.make([]) );
+    var src = _.Matrix.MakeCol( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, 2 ]).copy( a.longMake
     ([
@@ -20331,7 +20331,7 @@ function CopyToSrcIsMatrix( test )
       2, 1,
       3, -1
     ]));
-    var src = _.Matrix.MakeCol( a.long.make([]) );
+    var src = _.Matrix.MakeCol( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 3, 2 ]).copy( a.vadMake
     ([
@@ -20504,7 +20504,7 @@ function CopyToSrcIsMatrix( test )
       3, -1, 3,
       4, 1, 4,
     ]));
-    var src = _.Matrix.Make([ 0, 0, 0 ]).copy( a.long.make([]) );
+    var src = _.Matrix.Make([ 0, 0, 0 ]).copy( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 2, 3, 2 ]).copy( a.longMake
     ([
@@ -20524,7 +20524,7 @@ function CopyToSrcIsMatrix( test )
       3, -1, 3,
       4, 1, 4,
     ]));
-    var src = _.Matrix.Make([ 0, 0, 0 ]).copy( a.long.make([]) );
+    var src = _.Matrix.Make([ 0, 0, 0 ]).copy( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 2, 3, 2 ]).copy( a.vadMake
     ([
@@ -20790,7 +20790,7 @@ function CopyToSrcIsMatrix( test )
       1, 0, 1, 2, 1, 2,
       3, -1, 3, 4, 1, 4,
     ]));
-    var src = _.Matrix.Make([ 0, 0, 0, 0 ]).copy( a.long.make([]) );
+    var src = _.Matrix.Make([ 0, 0, 0, 0 ]).copy( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.longMake
     ([
@@ -20806,7 +20806,7 @@ function CopyToSrcIsMatrix( test )
       1, 0, 1, 2, 1, 2,
       3, -1, 3, 4, 1, 4,
     ]));
-    var src = _.Matrix.Make([ 0, 0, 0, 0 ]).copy( a.long.make([]) );
+    var src = _.Matrix.Make([ 0, 0, 0, 0 ]).copy( a.longMake([]) );
     var got = _.Matrix.CopyTo( dst, src );
     var exp = _.Matrix.Make([ 1, 3, 2, 2 ]).copy( a.vadMake
     ([
@@ -25366,13 +25366,13 @@ function bufferSetFromVectorAdapter( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.dimsEffective, [ 3, 2 ] );
 
-    var exp = a.long.make( [ 1, 4, 7, 2, 5, 8 ] );
+    var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ] );
     var got = m.toLong();
     test.identical( got, exp );
 
     var exp = new _.Matrix
     ({
-      buffer : a.long.make([ 1, 4, 7, 2, 5, 8 ]),
+      buffer : a.longMake([ 1, 4, 7, 2, 5, 8 ]),
       dims : [ 3, 2 ],
       inputRowMajor : 0,
     });
@@ -25405,13 +25405,13 @@ function bufferSetFromVectorAdapter( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.dimsEffective, [ 3, 2 ] );
 
-    var exp = a.long.make( [ 1, 4, 7, 2, 5, 8 ] );
+    var exp = a.longMake( [ 1, 4, 7, 2, 5, 8 ] );
     var got = m.toLong();
     test.identical( got, exp );
 
     var exp = new _.Matrix
     ({
-      buffer : a.long.make([ 1, 4, 7, 2, 5, 8 ]),
+      buffer : a.longMake([ 1, 4, 7, 2, 5, 8 ]),
       dims : [ 3, 2 ],
       inputRowMajor : 0,
     });
@@ -25443,13 +25443,13 @@ function bufferSetFromVectorAdapter( test )
     test.identical( m.dims, [ 3, 2 ] );
     test.identical( m.dimsEffective, [ 3, 2 ] );
 
-    var exp = a.long.make( [ 1, 2, 3, 4, 5, 6 ] );
+    var exp = a.longMake( [ 1, 2, 3, 4, 5, 6 ] );
     var got = m.toLong();
     test.identical( got, exp );
 
     var exp = new _.Matrix
     ({
-      buffer : a.long.make([ 1, 2, 3, 4, 5, 6 ]),
+      buffer : a.longMake([ 1, 2, 3, 4, 5, 6 ]),
       dims : [ 3, 2 ],
       inputRowMajor : 0,
     });
@@ -25518,13 +25518,13 @@ function NrowOf( test )
     test.open( `long, ${a.format}` );
 
     test.case = 'empty';
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var exp = 0;
     var got = _.Matrix.NrowOf( src )
     test.identical( got, exp );
 
     test.case = 'filled';
-    var src = a.long.make([ 0, 1, 2, 3, 4, 5 ]);
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
     var exp = 6;
     var got = _.Matrix.NrowOf( src )
     test.identical( got, exp );
@@ -25558,7 +25558,7 @@ function NrowOf( test )
   function act1( a )
   {
     test.case = `matrix with buffer - long ${a.format}, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25571,7 +25571,7 @@ function NrowOf( test )
     test.identical( got, exp );
 
     test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25661,13 +25661,13 @@ function NcolOf( test )
     test.open( `long, ${a.format}` );
 
     test.case = 'empty';
-    var src = a.long.make([]);
+    var src = a.longMake([]);
     var exp = 1;
     var got = _.Matrix.NcolOf( src )
     test.identical( got, exp );
 
     test.case = 'filled';
-    var src = a.long.make([ 0, 1, 2, 3, 4, 5 ]);
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
     var exp = 1;
     var got = _.Matrix.NcolOf( src )
     test.identical( got, exp );
@@ -25701,7 +25701,7 @@ function NcolOf( test )
   function act1( a )
   {
     test.case = `matrix with buffer - long ${a.format}, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25714,7 +25714,7 @@ function NcolOf( test )
     test.identical( got, exp );
 
     test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25787,9 +25787,6 @@ function NcolOf( test )
 
 function DimsOf( test )
 {
-
-  /* */
-
   test.case = 'scalar';
   var src = 5;
   var exp = [ 1, 1 ];
@@ -25804,13 +25801,14 @@ function DimsOf( test )
     test.open( `long, ${a.format}` );
 
     test.case = 'empty';
-    var src = a.long.make([]);
+    debugger;
+    var src = a.longMake([]);
     var exp = [ 0, 1 ];
     var got = _.Matrix.DimsOf( src )
     test.identical( got, exp );
 
     test.case = 'filled';
-    var src = a.long.make([ 0, 1, 2, 3, 4, 5 ]);
+    var src = a.longMake([ 0, 1, 2, 3, 4, 5 ]);
     var exp = [ 6, 1 ];
     var got = _.Matrix.DimsOf( src )
     test.identical( got, exp );
@@ -25844,7 +25842,7 @@ function DimsOf( test )
   function act1( a )
   {
     test.case = `matrix with buffer - long ${a.format}, regular dims values`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25857,7 +25855,7 @@ function DimsOf( test )
     test.identical( got, exp );
 
     test.case = `matrix with buffer - long ${a.format}, dims with Infinity`;
-    var buffer = a.long.make([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
+    var buffer = a.longMake([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]);
     var matrix = new _.Matrix
     ({
       buffer,
@@ -25924,14 +25922,13 @@ function DimsOf( test )
   var got = _.Matrix.DimsOf( matrix )
   test.identical( got, exp );
 
-  /* */
+  /* - */
 
   if( !Config.debug )
   return;
 
   test.case = 'Passed null';
   test.shouldThrowErrorSync( () => _.Matrix.DimsOf( null ) );
-
 }
 
 //
@@ -35429,7 +35426,7 @@ function MulBasic( test )
   ]);
   console.log( matrix.toStr() );
   var got = _.Matrix.Mul( null, [ matrix, 2 ] );
-  var exp = _.Matrix.Make([ 3, 2 ]).copy
+  var exp = _.Matrix.MakeZero([ 3, 2 ]).copy
   ([
     +2,  8,
     -4, -10,
@@ -35544,7 +35541,7 @@ function MulBasic( test )
   test.case = 'vector mul scalar';
   var vector = new F32x([ 1, 2, 3 ]);
   var got = _.Matrix.Mul( null, [ vector, 2 ] );
-  var exp = _.Matrix.Make([ 3, 1 ]).copy
+  var exp = _.Matrix.MakeZero([ 3, 1 ]).copy
   ([
     2,
     4,
@@ -35573,7 +35570,7 @@ function MulBasic( test )
 
   test.case = 'scalar mul scalar';
   var got = _.Matrix.Mul( null, [ 2, 3 ] );
-  var exp = _.Matrix.Make([ 1, 1 ]).copy
+  var exp = _.Matrix.MakeZero([ 1, 1 ]).copy
   ([ 6 ]);
   test.identical( got, exp );
 }
@@ -41214,7 +41211,6 @@ function SolveGeneral( test )
     abstractCheck( op );
 
     // test.close( `permutating:${op.permutating}, format:${op.format}, withoutY:${op.withoutY}, dup:${op.dup}` );
-    // debugger; return;
 
     /* */
 
@@ -42041,7 +42037,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 1 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 2, 1 ] ) );
 
   /* */
 
@@ -42059,7 +42055,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 2, 2 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 2, 2 ] ) );
 
   /* */
 
@@ -42090,7 +42086,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 3, 1 ] ) );
 
   /* */
 
@@ -42122,7 +42118,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 1 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 3, 1 ] ) );
 
   /* */
 
@@ -42141,7 +42137,7 @@ function nullspace( test )
   ]);
   var got = m.nullspace();
   test.equivalent( got, exp );
-  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.MakeZero( [ 3, 2 ] ) );
+  test.identical( _.Matrix.Mul( null, [ m, got ] ), _.Matrix.Make( [ 3, 2 ] ) );
 
   /* */
 
@@ -43428,11 +43424,9 @@ function experiment( test )
 
   var om = m.clone();
   var m2 = m.clone();
-  // debugger;
   // m2.triangulateLu();
   // console.log( m );
   // console.log( m2 );
-  // debugger;
 
   var m = _.Matrix.Make([ 3, 3 ]).copy
   ([
