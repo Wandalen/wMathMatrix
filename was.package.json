@@ -11,7 +11,7 @@
   ],
   "license" : "MIT",
   "main" : "proto/node_modules/wmathmatrix",
-  "files" : [ "proto/wtools/amath/l5_matrix", "out", "proto/node_modules" ],
+  "files" : [ "proto/wtools/amath/l5_matrix", "out", "proto/node_modules", "proto/node_modules/Tools", "proto/node_modules/wmathmatrix" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-1", "docgen" : "wdocgen proto" },
   "repository" :
   {
