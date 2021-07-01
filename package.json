@@ -1,35 +1,55 @@
 {
-  "name" : "wmathmatrix",
-  "version" : "0.3.367",
-  "engine" : "node >= 10.0.0",
-  "description" : "Abstract implementation of matrix math. MathMatrix introduces class Matrix, which is a multidimensional structure which, in the most trivial case, is a 2D matrix. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. A Vector adapter is an implementation of the abstract interface, a kind of link that defines how to interpret data as the vector. An adapter is a special object to make algorithms more abstract and to use the same code for very different formats of vector specifying. Use module MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a particular or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container. You may use it to continuously store multidimensional data.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "contributors" :
-  [
-    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
-    { "name" : "Pablo Garcimartin", "email" : "pablogarcimartinruiz@gmail.com" }
+  "name": "wmathmatrix",
+  "version": "0.3.368",
+  "engine": "node >= 10.0.0",
+  "description": "Abstract implementation of matrix math. MathMatrix introduces class Matrix, which is a multidimensional structure which, in the most trivial case, is a 2D matrix. A matrix of specific form could also be classified as a vector. MathMatrix heavily relly on MathVector, which introduces VectorAdapter. A Vector adapter is an implementation of the abstract interface, a kind of link that defines how to interpret data as the vector. An adapter is a special object to make algorithms more abstract and to use the same code for very different formats of vector specifying. Use module MathMatrix for arithmetic operations with matrices, to triangulate, permutate or transform matrix, to get a particular or the general solution of a system of linear equations, to get LU, QR decomposition, for SVD or PCA. Also, Matrix is a convenient and efficient data container. You may use it to continuously store multidimensional data.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@01.school"
+    },
+    {
+      "name": "Pablo Garcimartin",
+      "email": "pablogarcimartinruiz@gmail.com"
+    }
   ],
-  "license" : "MIT",
-  "main" : "proto/node_modules/wmathmatrix",
-  "files" : [ "proto/wtools/amath/l5_matrix", "out", "proto/node_modules", "proto/node_modules/Tools", "proto/node_modules/wmathmatrix" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-1", "docgen" : "wdocgen proto" },
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/Wandalen/wMathMatrix.git"
+  "license": "MIT",
+  "main": "proto/node_modules/wmathmatrix",
+  "files": [
+    "proto/wtools/amath/l5_matrix",
+    "out",
+    "proto/node_modules",
+    "proto/node_modules/Tools",
+    "proto/node_modules/wmathmatrix"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-1",
+    "docgen": "wdocgen proto"
   },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wMathMatrix/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wMathMatrix.git"
   },
-  "dependencies" :
-  {
-    "wTools" : "gamma",
-    "wCopyable" : "gamma",
-    "wmathscalar" : "gamma",
-    "wmathvector" : "gamma",
-    "wentitybasic" : "gamma"
+  "bugs": {
+    "url": "https://github.com/Wandalen/wMathMatrix/issues"
   },
-  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "gamma" },
-  "keywords" : [ "wTools", "math", "matrix", "matrix math", "convolution" ]
+  "dependencies": {
+    "wTools": "gamma",
+    "wmathvector": "gamma",
+    "wmathscalar": "gamma",
+    "wentitybasic": "gamma",
+    "wCopyable": "gamma"
+  },
+  "devDependencies": {
+    "wTesting": "gamma",
+    "eslint": "7.1.0"
+  },
+  "keywords": [
+    "wTools",
+    "math",
+    "matrix",
+    "matrix math",
+    "convolution"
+  ]
 }
