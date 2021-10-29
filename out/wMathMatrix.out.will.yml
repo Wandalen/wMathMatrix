@@ -3,8 +3,8 @@ root:
   - wMathMatrix.out
 consistency:
   ../will.yml: &ref_0
-    hash: e3ac239b8b4385f45a31acf0ccdced4e
-    size: 7758
+    hash: 7c3cc917586f39f38277b188ab582e62
+    size: 7617
 module:
   wMathMatrix.out:
     about:
@@ -435,9 +435,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -773,12 +770,6 @@ module:
           - 'step::doc.export'
         criterion:
           content: doc
-          export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
           export: 1
       export:
         steps:
@@ -1156,9 +1147,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -1495,12 +1483,6 @@ module:
         criterion:
           content: doc
           export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
-          export: 1
       export:
         steps:
           - 'build::proto.export'
@@ -1558,5 +1540,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: e3ac239b8b4385f45a31acf0ccdced4e
-        size: 7758
+        hash: 7c3cc917586f39f38277b188ab582e62
+        size: 7617
