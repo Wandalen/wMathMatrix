@@ -3,8 +3,8 @@ root:
   - wMathMatrix.out
 consistency:
   ../will.yml: &ref_0
-    hash: 7c3cc917586f39f38277b188ab582e62
-    size: 7617
+    hash: 0403f3feb1fd9bc95abd30ea96f57c61
+    size: 7625
 module:
   wMathMatrix.out:
     about:
@@ -1540,5 +1540,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 7c3cc917586f39f38277b188ab582e62
-        size: 7617
+        hash: 0403f3feb1fd9bc95abd30ea96f57c61
+        size: 7625
